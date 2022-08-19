@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.student.service.StudentMapper">
+	
+	<select id="studentInfoSelect" resultType="com.project.portal.student.service.StudentVO">
+		select i.student_id,i.student_name,i.student_birth,i.student_phone
+		        ,i.student_email,i.student_postal_code,i.student_addr,i.student_gender
+		        ,i.student_daddr,i.parents_name,i.parents_phone,i.parents_rel,i.student_img
+		        ,s.depart_name,s.student_grade,s.student_status,s.student_admission_date,s.student_division
+		from student_pri_info i
+		join (select *
+				from student_study_info i
+				join department d
+				on i.department_code = d.depart_code) s
+		on i.student_id = s.student_id
+		where i.student_id = #{studentId}
+	</select>
+</mapper>

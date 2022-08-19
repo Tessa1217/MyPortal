@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.tempcourse.service.TempcourseMapper">
+	
+	
+	<select id="tempcourseList" resultType="com.project.portal.tempcourse.service.TempcourseVO">
+	
+	select *
+			from temp_course
+	</select>
+	
+	
+	<select id="tempcourseListCount" resultType="int">
+		select count(*)
+		from temp_course
+		<if test="keyword != null and keyword != ''">
+			where ${type} = #{keyword}
+			</if>
+	</select>
+	
+	<select id="getTemp" resultType="com.project.portal.tempcourse.service.TempcourseVO">
+		select *
+		from temp_course
+		where course_name = #{courseName}
+	</select>
+	
+	<insert id="tempInsert">
+	<selectKey
+	
+	resultType="string" keyProperty="courseCode" order="BEFORE">
+	select SUBSTR(CONCAT(c.college_code, d.depart_code), 1, 4)||LPAD(TO_CHAR(seq_en.nextval), 4, '0') from
+	college c join department d
+	on c.college_code = d.college_code where d.depart_code = #{departCode}
+	</selectKey>
+	
+		insert into temp_course(
+			course_name,
+			course_code,
+			course_sortation,
+			course_credit,
+			report_assigned_score,
+			att_assigned_score,
+			midterm_assigned_score,
+			final_assigned_score,
+			course_limit,
+			textbook_reference,
+			course_summary,
+			course_notes,
+			depart_code,
+			course_year,
+			course_semester,
+			professor_id
+			
+		)
+		values(
+			#{courseName},
+			#{courseCode},
+			#{courseSortation},
+			#{courseCredit},
+			#{reportAssignedScore},
+			#{attAssignedScore},
+			#{midtermAssignedScore},
+			#{finalAssignedScore},
+			#{courseLimit},
+			#{textbookReference},
+			#{courseSummary},
+			#{courseNotes},
+			#{departCode},
+			#{courseYear},
+			#{courseSemester},
+			#{professorId}
+		)
+		
+	</insert>
+	
+	<insert id="tempweekInsert">
+	
+	insert into temp_course_weekly(
+			week_num,
+			week_content,
+			week_code,
+			course_code
+		)
+		values
+			(<foreach collection="list" item="item" separator=",">
+			
+			#{item.weekNum},
+			#{item.weekContent},
+			#{item.courseCode}||LPAD(TO_CHAR(#{item.weekNum}), 2, '0'),
+			#{item.courseCode}
+		
+	</foreach>)
+	</insert>
+</mapper>

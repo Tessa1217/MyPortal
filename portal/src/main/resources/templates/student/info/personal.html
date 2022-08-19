@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/student_layout}">
+<head>
+<meta charset="UTF-8">
+<title>내 정보 조회</title>
+</head>
+<body>
+	<th:block layout:fragment="studentContent">
+	<div id="main">
+		<div>
+			<h2>내 정보 조회</h2>
+		</div>
+		<div class="card">
+			<p>개인 정보</p> 
+			<button>수정</button> 
+			<table class="table">
+				<tr th:each="info : ${studentInfoSelect}">
+					<th>전공학과</th><td th:text="${info.departName}"></td><th>학번</th><td th:text="${info.studentId}"></td>
+				</tr>
+				<tr th:each="info : ${studentInfoSelect}">
+					<th>이름</th><td th:text="${info.studentName}"></td><th>성별</th><td th:text="${info.studentGender}"></td>
+				</tr>
+				<tr>
+					<th>학년</th><td></td><th>생년월일</th><td></td>
+				</tr>
+				<tr>
+					<th>학적상태</th><td></td><th>입학학부</th><td></td>
+				</tr>
+				<tr>
+					<th>입학일자</th><td></td><th>입학구분</th><td></td>
+				</tr>
+				<tr>
+					<th>연락처</th><td></td><th>이메일</th><td></td>
+				</tr>
+				<tr>
+					<th>우편번호</th><td></td><th>주소</th><td></td>
+				</tr>
+			</table>
+			<p>보호자 정보</p>
+			<table class="table">
+				<tr>
+					<th>보호자 성명</th><td></td>
+				</tr>
+				<tr>
+					<th>연락처</th><td></td>
+				</tr>
+				<tr>
+					<th>관계</th><td></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	</th:block>
+</body>
+</html>

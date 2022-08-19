@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.lecture.service.ProfessorLectureMapper">
+	<resultMap id="lectureMap" type="LectureVO">
+		<id column="lecture_code" property="lectureCode"/>
+		<result column="week_code" property="weekCode"/>
+		<result column="lecture_reg_date" property="lectureRegDate"/>
+		<result column="lecture_start_date" property="lectureStartDate"/>
+		<result column="lecture_end_date" property="lectureEndDate"/>
+		<result column="lecture_att_time" property="lectureAttTime"/>
+		<result column="lecture_content" property="lectureContent"/>
+		<result column="video_code" property="videoCode"/>
+		<result column="lecture_title" property="lectureTitle"/>
+		<association property="lectureFile" javaType="VideoVO">
+			<result column="video_name" property="videoName"/>
+			<result column="video_stored_name" property="videoStoredName"/>
+		</association>
+	</resultMap>
+	<select id="getLectureList" resultMap="lectureMap">
+		SELECT L.*, V.video_name, V.video_file_path
+			FROM lecture L JOIN video V
+			ON L.video_code = V.video_code
+			WHERE L.week_code IN (SELECT week_code
+														FROM course_weekly
+														WHERE course_code = #{courseCode})
+			ORDER BY L.week_code
+	</select>
+	<insert id="uploadVideo" parameterType="VideoVO">
+		INSERT INTO video (
+											video_code,
+											video_file_path,
+											professor_id,
+											video_name,
+											video_stored_name,
+											video_play_time,
+											video_reg_date,
+											video_extension
+											)
+											VALUES (
+															'V'||LPAD(TO_CHAR(video_seq.NEXTVAL), 5, '0'),
+															#{videoFilePath},
+															#{professorId},
+															#{videoName},
+															#{videoStoredName},
+															#{videoPlayTime},
+															SYSDATE,
+															#{videoExtension}
+															)
+		<selectKey keyProperty="videoCode" resultType="String" order="AFTER">
+			SELECT video_code
+			FROM video
+			WHERE video_stored_name = #{videoStoredName}
+		</selectKey>
+	</insert>
+	<insert id="insertLecture" parameterType="LectureVO">
+		INSERT INTO lecture VALUES (
+																SUBSTR(#{weekCode}, 3, 2)||'L'||LPAD(TO_CHAR(lecture_seq.NEXTVAL), 7, '0'),
+																#{weekCode},
+																SYSDATE,
+																#{lectureStartDate},
+																#{lectureEndDate},
+																#{lectureAttTime},
+																#{lectureContent},
+																#{videoCode},
+																#{lectureTitle})
+	</insert>
+</mapper>

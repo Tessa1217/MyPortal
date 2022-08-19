@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+			<div class="card">
+			<div class="card-header">
+			<h1>강의 등록하기</h1>
+			</div>
+			<div class="card-body">
+			<form name="lectureFrm" th:action="@{/professor/insertLecture}" method="POST" enctype="multipart/form-data">
+				<table class="table">
+					<tr>
+						<th>강의명</th>
+						<td><input type="text" name="lectureTitle"></td>
+					</tr>
+					<tr>
+						<th>강의주차</th>
+						<td><select name="weekCode">
+							<option value="">주차</option>
+							<th:block th:each="week : ${courseInfo.weekPlans}">
+							<option th:value="${week.weekCode}">[[${week.weekNum}]]</option>
+							</th:block>
+						</select></td>
+					</tr>
+					<tr>
+						<th>강의 시작일</th>
+						<td><input type="date" name="lectureStartDate"></td>
+					</tr>
+					<tr>
+						<th>강의 마감일</th>
+						<td><input type="date" name="lectureEndDate"></td>
+					</tr>
+					<tr>
+						<th>출석 인정 시간</th>
+						<td><input type="number" name="lectureAttTime"> 분</td>
+					</tr>
+					<tr>
+						<th>영상 업로드</th>
+						<td><input type="file" th:onchange="getDuration" name="file">
+						<input type="hidden" name="videoPlayTime">
+						<button type="button" class="btn btn-primary">기본 정보 불러오기</button></td>
+					</tr>
+					<tr>
+						<th>참고사항</th>
+						<td><input type="text" name="lectureContent"></td>
+					</tr>
+				</table>
+				<div align="center">
+					<button type="submit" class="btn btn-danger">등록하기</button>
+					<button id="check" type="button" class="btn btn-primary">취소</button>
+				</div>
+			</form>
+			</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				getDuration();
+			})
+			
+			// 비디오 업로드 시 비디오 재생시간 구하기
+			function getDuration() {
+				$(document).on("change", $("input[type=file]"), function() {
+					// 업로드한 파일 
+					let file = document.querySelector("input[type=file]").files[0];
+					// 비디오 태그 생성
+					let video = document.createElement("video");
+					// 파일 리더기 생성
+					let reader = new FileReader();
+					// 파일은 ArrayBuffer 형식으로 읽음
+					reader.readAsArrayBuffer(file);
+					// onload되면 실행
+					reader.onload = (e) => {
+						let buffer = e.target.result;
+						// URL 생성 위해 BLOB 형태로 만들기
+						let videoBlob = new Blob([new Uint8Array(buffer)], {type: 'video/mp4'});
+						let url = window.URL.createObjectURL(videoBlob);
+						video.src = url;
+						video.addEventListener('loadedmetadata', function() {
+							let duration = video.duration;
+							document.querySelector("input[type=hidden]").value = duration;
+						})
+					}	
+				})
+			}
+		</script>
+	</th:block>
+</body>
+</html>

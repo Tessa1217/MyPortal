@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="configFragment">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+			rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+		<link rel="stylesheet" th:href="@{/vendors/iconly/bold.css}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+		<link rel="stylesheet"
+			th:href="@{/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+		<link rel="stylesheet"
+			th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+		<link rel="stylesheet" th:href="@{/css/app.css}">
+		<link rel="shortcut icon" th:href="@{/images/favicon.svg}"
+			type="image/x-icon">
+		<script src="https://code.jquery.com/jquery-3.6.0.js"
+			integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.tiny.cloud/1/jtc4u45zkzi9mkisva1p3wkn3ldqnv8p7lj7kj65a13dy4jc/tinymce/6/tinymce.min.js" 
+		referrerpolicy="origin"></script>
+</body>
+</html>

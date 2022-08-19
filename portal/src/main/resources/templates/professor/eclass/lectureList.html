@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+		<div class="page-title">
+			<h3>강의 영상 자료 리스트</h3>
+		</div>
+		<div class="card">
+		<div class="card-body">
+			<table class="table table-striped dataTable-table" id="lectureTable">
+				<thead>
+					<tr>
+						<th>강의 주차</th>
+						<th>강의 제목</th>
+						<th>강의 시작일</th>
+						<th>강의 마감일</th>
+						<th>강의 출석 인정 시간</th>
+						<th>강의 영상</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lec : ${lectureList}">
+						<td th:text="${lec.weekCode}"></td>
+						<td th:text="${lec.lectureTitle}"></td>
+						<td th:text="${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')}"></td>
+						<td th:text="${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}"></td>
+						<td th:text="${lec.lectureAttTime}"></td>
+						<td><a th:href="${lec.lectureFile.videoStoredName}" th:onclick="fileDownload"
+							th:download="${lec.lectureFile.videoName}">[[${lec.lectureFile.videoName}]]</a></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			<script th:inline="javascript">
+				$(function() {
+					dataTable();
+					fileDownload();
+				})
+				function dataTable() {
+					let lectureTable = $("#lectureTable");
+					let dataTable = new simpleDatatables.DataTable(lectureTable);
+				}
+				
+				function fileDownload() {
+					console.log("HI");
+				}
+			</script>
+	</th:block>
+</body>
+</html>

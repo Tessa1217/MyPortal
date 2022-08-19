@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/professor_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="professorContent">
+	<div id="main">
+		<div>
+			<h2>강의 계획서 조회</h2>
+		</div>
+			<form name="serachFrm">
+				개설연도:<input type="number" name="pageNum" value="courseYear">
+				개설학기:<input type="number" name="pageNum" value="courseSemester">
+				
+				<button class="btn rounded-pill btn-primary" type="button">검색</button>
+			</form>
+			<table>
+				<thead>
+					<tr>
+						<th>년도</th>
+						<th>학기</th>
+						<th>이수단위</th>
+						<th>이수구분</th>
+						<th>강의명</th>
+						<th>제출여부</th>
+						<th>승인여부</th>
+					</tr>
+				</thead>
+				<tbody>
+				 	
+					<tr th:each="item:${tempcourseList}" var="vo">
+							<td th:text="${item.courseYear}"></td>
+							<td th:text="${item.courseSemester}"></td>
+							<td th:text="${item.courseCredit}"></td>
+							<td th:text="${item.courseSortation}"></td>
+							<td th:text="${item.courseName}"></td>
+							<td th:text="${item.submitYes}"></td>
+							<td th:text="${item.backReason}"></td>
+						</tr>
+						
+				</tbody>
+			</table>
+		</div>
+		<script th:inline="javascript">
+		function goPage(pageNum){
+			searchFrm.pageNum.value = pageNum;
+			searchFrm.submit();
+		}
+		</script>
+	</th:block>
+</body>
+</html>

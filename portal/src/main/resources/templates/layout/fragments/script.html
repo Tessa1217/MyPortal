@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:fragment="scriptFragment">
+	<script th:src="@{/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/vendors/apexcharts/apexcharts.js}"></script>
+    <script th:src="@{/js/pages/dashboard.js}"></script>
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/vendors/simple-datatables/simple-datatables.js}"></script>
+</th:block>
+</body>
+</html>

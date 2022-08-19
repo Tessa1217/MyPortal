@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/student-eclass_layout}">
+<head>
+<style>
+	.lecture-card {
+		border: 1px solid #eee;
+		border-radius: 10px;
+		margin: 2%;
+	}
+	
+	.learnInfo .learnBtn {
+		display: inline;
+	}
+	
+	.learnBtn {
+		width: 15%;
+		line-height: 100%;
+	}
+	
+	.goLearnBtn {
+		font-size: 1.5em;
+	}
+	
+</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="studentEclassContent">
+		<div id="main">
+			<div class="page-title">
+				<h3>내 강의 시청하기</h3>
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<h4>강의 리스트</h4>
+					<div class="card-body lecture-card row" th:each="lec : ${lectureList}">
+						<div class="learnInfo col-10">
+						<h4 th:text="|${#strings.substring(lec.weekCode, 8, 10)}주차 강의|"></h4>
+						<p th:text="|학습 인정 기간: ${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')} 
+						~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></p>
+						</div>
+						<div class="learnBtn col-2">
+							<button class="goLearnBtn btn btn-primary btn-lg" type="button">학습하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

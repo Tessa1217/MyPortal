@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.exam.service.StudentExamMapper">
+	
+	<select id="getExamInfo" resultType="com.project.portal.exam.service.ExamVO">
+		SELECT w.week_num, e.exam_code, e.exam_start_date, e.exam_end_date, e.exam_duration,
+		e.exam_total_question
+		FROM exam e join course_weekly w
+		on e.week_code = w.week_code
+		WHERE w.course_code = #{courseCode}
+	</select>
+	<resultMap id="courseExamMap" type="com.project.portal.exam.service.CourseExamVO">
+		<id column="exam_question_num" property="examQuestionNum"/>
+		<result column="exam_question_point" property="examQuestionPoint"/>
+		<result column="exam_code" property="examCode"/>
+		<result column="question_code" property="questionCode"/>
+		<collection property="examQuestion" ofType="QuestionVO">
+			<id column="question_code" property="questionCode"/>
+			<result column="question_content" property="questionContent"/>
+			<result column="question_answer" property="questionAnswer"/>
+			<collection property="optionList" ofType="com.project.portal.exam.service.QuestionOptionVO">
+			<result column="question_option_num" property="questionOptionNum"/>
+			<result column="question_option_content" property="questionOptionContent"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="getStudentExam" resultMap="courseExamMap">
+		SELECT e.exam_question_num, 
+		e.exam_code,
+		e.exam_question_point, 
+		q.question_code, 
+		q.question_content, 
+		q.question_answer,
+		o.question_option_num,
+		o.question_option_content
+		FROM course_exam e join question q
+		on e.question_code = q.question_code
+		JOIN question_option o
+		on q.question_code = o.question_code
+		WHERE e.exam_code = #{examCode}
+	</select>
+</mapper>
+
+

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="studentEclassContent">
+		<div id="main">
+			<div>
+				<h2>Student Exam list</h2>
+			</div>
+			<div class="card">
+				<div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>시험</th>
+								<th>주차</th>
+								<th>시험 시작일</th>
+								<th>시험 마감일</th>
+								<th>시험 응시 가능 시간</th>
+								<th>시험 문항 수</th>
+								<th>점수</th>
+								<th>시험 응시</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="exam : ${examList}">
+								<td th:if="${#strings.startsWith(exam.examCode, 'M')}">중간</td>
+								<td th:if="${#strings.startsWith(exam.examCode, 'F')}">기말</td>
+								<td th:text="${exam.weekCode}"></td>
+								<td th:text="${#dates.format(exam.examStartDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${exam.examDuration}"></td>
+								<td th:text="${exam.examTotalQuestion}"></td>
+								<td></td>
+								<td th:if="${#dates.createNow().before(exam.examEndDate)}"><button type="button" class="btn rounded-pill btn-danger" th:onclick="'location.href=\'' + @{/student/examTake} + '\''">응시하기</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>
+
+
+
+
+
+
+

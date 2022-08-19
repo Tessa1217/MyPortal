@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block th:replace="/layout/fragments/config :: configFragment"></th:block>
+<style>
+.offPage {
+	display: none;
+}
+
+.horizontal-title {
+	display: inline-block;
+	height: 60px;
+	width: 100%;
+	background-color: #435ebe; 
+	line-height: 60px;
+}
+
+.horizontal-title a {
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+		<div id="app">
+			<div class="horizontal-title page-title">
+				<span><a href="#">강의 시청하기</a></span>
+				<span><a href="#">강의 이름 넣기</a></span>
+			</div>
+			<div class="row">
+				<th:block
+					th:replace="/layout/fragments/videoComponent :: videoFragment">
+				</th:block>
+				<th:block
+					th:replace="/layout/fragments/boardComponent :: boardFragment">
+				</th:block>
+			</div>
+		</div>
+	<th:block th:replace="/layout/fragments/script :: scriptFragment"></th:block>
+</body>
+</html>

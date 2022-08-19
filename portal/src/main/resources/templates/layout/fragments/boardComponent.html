@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="boardFragment">
+		<div class="card col-4">
+			<div class="list-group list-group-horizontal-sm mb-1 text-center"
+				role="tablist">
+				<button
+					class="pageTab list-group-item list-group-item-action active">Note</button>
+				<button class="pageTab list-group-item list-group-item-action">QnA</button>
+			</div>
+			<div class="tab">
+
+				<div>
+					<h4>나의 강의 노트</h4>
+				</div>
+				<div>
+					<form method="POST">
+					<textarea id="note"></textarea>
+					<div>
+						<button id="takeNote" class="btn btn-primary" type="button">노트 작성</button>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="tab offPage">
+				<div class="qna">
+				<div>
+					<h4>강의 질문하기</h4>
+				</div>
+				<div align="center">
+					<button class="askQnA btn rounded-pill btn-primary">질문하기</button>
+				</div>
+				</div>
+				<div class="qna offPage">
+					<div>
+						<h4>질문하기</h4>
+					</div>
+					<div>
+					<form>
+						<p><label for="lectureQuestionTitle">질문 제목:</label></p>
+						<p><input type="text" name="lectureQuestionTitle"></p>
+						<p><label for="lectureQuestionContent">질문 내용:</label></p>
+						<p><textarea name="lectureQuestionContent"></textarea></p>
+						<input type="hidden" name="lectureQuestionRegDate">
+						<input type="hidden" name="studentId">
+					</form>
+					<div align="center">
+						<button class="btn btn-danger" type="button" onclick="insertQuestion">확인</button>
+						<button class="askQnA btn btn-primary" type="button">취소</button>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				createEditor();
+				transPage();
+				askQnAs();
+			})
+
+			// 에디터 생성하기
+			function createEditor() {
+				tinymce
+						.init({
+							selector : 'textarea#note',
+							height : 300,
+							plugins : [ 'advlist', 'autolink', 'lists', 'link',
+									'image', 'charmap', 'preview', 'anchor',
+									'searchreplace', 'visualblocks', 'code',
+									'fullscreen', 'insertdatetime', 'media',
+									'table', 'help', 'wordcount' ],
+							toolbar : 'undo redo | blocks | '
+									+ 'bold italic backcolor | alignleft aligncenter '
+									+ 'alignright alignjustify | bullist numlist outdent indent | '
+									+ 'removeformat | help',
+							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+						});
+			}
+
+			// 페이지 바꾸기
+			function transPage() {
+				$(".pageTab").on("click", function() {
+					$(".pageTab").toggleClass("active");
+					$(".tab").toggleClass("offPage");
+				})
+			}
+			
+			// 질문하기 페이지
+			function askQnAs() {
+				$(".askQnA").on("click", function() {
+					$(".qna").toggleClass("offPage");
+				})
+			}
+		</script>
+	</th:block>
+</body>
+</html>

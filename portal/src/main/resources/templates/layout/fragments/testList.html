@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="testListFragment">
+		<div class="col-6">
+			<div>
+				<p class="col-6">
+					<input type="text" name="courseCode" value="SSPY0001"> <input
+						type="number" name="courseYear" placeholder="년도"> <input
+						type="number" name="courseSemester" placeholder="학기">
+				</p>
+				<button class="btn btn-sm btn-primary" type="button"
+					th:onclick="searchTest()">이전 시험 검색</button>
+			</div>
+			<table id="testList" class="table">
+				<thead>
+					<tr>
+						<th>년도</th>
+						<th>학기</th>
+						<th>강의명</th>
+						<th>시험종류</th>
+						<th>시험지 보기</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="exam : ${examList}">
+						<td th:text="${exam.courseYear}"></td>
+						<td th:text="${exam.courseSemester}"></td>
+						<td th:text="${exam.courseName}"></td>
+						<td th:if="${#strings.startsWith(exam.examCode, 'M')}">중간고사</td>
+						<td th:if="${#strings.startsWith(exam.examCode, 'F')}">기말고사</td>
+						<td><button
+								class="examShow btn btn-sm rounded-pill btn-primary"
+								type="button" th:data-examcode="${exam.examCode}">시험지
+								보기</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="testQuestions" class="col-6">
+			<div id="scrollPage">
+				<div id="noTest" class="card">
+					<div class="card-body">
+						<h1>시험지를 선택해주세요!</h1>
+					</div>
+				</div>
+				<th:block th:each="ce : ${courseExam}">
+					<div class="card question offPage"
+						th:data-examcode="${ce.examCode}">
+						<div>
+							<input type="checkbox">
+						</div>
+						<div th:class="${ce.examCode}" class="card-header">
+							<p th:text="${ce.examQuestion.questionContent}"></p>
+							<th:block th:each="option : ${ce.examQuestion.optionList}">
+								<p
+									th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></p>
+							</th:block>
+						</div>
+					</div>
+				</th:block>
+			</div>
+			<div>
+				<button id="saveButton" type="button" class="btn btn-primary offPage">문제
+					담기</button>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+		$(function() {
+			// searchTest(); 	
+			// makeTestPaper(); 
+			showTestPaper();
+			
+			
+			// 담아온 문제들 중 사용자가 원하는 시험지의 문제들만 보이게 출력
+			function showTestPaper() {
+				$(".examShow").on("click", function(e) {
+				let code = $(e.target).data('examcode');
+				let questions = $(".question");
+				$(questions).each((idx, val) => {
+					$(val).addClass("offPage");
+				})
+				$("#noTest").addClass("offPage");
+				$("#scrollPage").addClass("scroll");
+				$("#saveButton").removeClass("offPage");
+				$(questions).each((idx, val) => {
+					if ($(val).data('examcode') == code) {
+						$(val).removeClass('offPage');
+					}
+				})
+			})
+			}
+		})
+			//테스트 불러오기 검색 조건
+/* 			function searchTest() {
+				let course = {
+						courseCode : $("input[name=courseCode]").val(),
+						courseYear : $("input[name=courseYear]").val() ? $("input[name=courseYear]").val() : 0,
+						courseSemester : $("input[name=courseSemester]").val() ? $("input[name=courseSemester]").val() : 0
+				}
+				$.ajax({
+					url : '/professor/examRegister',
+					method : 'POST',
+					data : course
+				})
+					.then(result => {
+						makeTable(result.examInfo);
+						console.log(result.courseExam);
+						getQuestions(result.courseExam);
+					})
+			} */
+			
+			// 교수가 찾는 시험 목록
+/* 			function makeTable(examList) {
+				$(examList).each(function(idx, val) {
+					let tr = $("<tr/>").append(
+						$("<td/>").text(val.courseYear),
+						$("<td/>").text(val.courseSemester),
+						$("<td/>").text(val.courseName),
+						$("<td/>").text(val.examCode),
+						$("<td/>").append($("<button/>").text("시험지 보기").addClass('btn btn-sm btn-primary'))
+					);
+					$("#testList tbody").append(tr);
+				})				
+			} */
+			
+		</script>
+	</th:block>
+</body>
+</html>
