@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<th:block th:replace="/layout/fragments/config :: configFragment"></th:block>
+<th:block th:replace="/layout/fragments/configurations/config :: configFragment"></th:block>
 <style>
 .offPage {
 	display: none;
@@ -33,13 +33,13 @@
 			</div>
 			<div class="row">
 				<th:block
-					th:replace="/layout/fragments/videoComponent :: videoFragment">
+					th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">
 				</th:block>
 				<th:block
-					th:replace="/layout/fragments/boardComponent :: boardFragment">
+					th:replace="/layout/fragments/student-eclass/boardComponent :: boardFragment">
 				</th:block>
 			</div>
 		</div>
-	<th:block th:replace="/layout/fragments/script :: scriptFragment"></th:block>
+	<th:block th:replace="/layout/fragments/configurations/script :: scriptFragment"></th:block>
 </body>
 </html>

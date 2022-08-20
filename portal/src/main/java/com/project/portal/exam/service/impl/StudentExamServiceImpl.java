@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
+import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamMapper;
 import com.project.portal.exam.service.StudentExamService;
@@ -18,15 +19,18 @@ public class StudentExamServiceImpl implements StudentExamService {
 	StudentExamMapper mapper;
 
 	@Override
-	public List<ExamVO> getExamInfo(CourseVO vo) {
-		return mapper.getExamInfo(vo);
-	}
-
-	@Override
 	public List<CourseExamVO> getStudentExam(ExamVO vo) {
 		return mapper.getStudentExam(vo);
 	}
-	
-	
 
+	@Override
+	public List<ExamScoreVO> getExamScore(List<ExamScoreVO> vo) {
+		return mapper.getExamScore(vo);
+	}
+
+	@Override
+	public List<ExamScoreVO> getExamInfo(int studentId, CourseVO vo) {
+		return mapper.getExamInfo(studentId, vo);
+	}
+	
 }

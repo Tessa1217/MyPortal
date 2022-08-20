@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
+import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamService;
 
@@ -19,15 +20,20 @@ public class StudentExamController {
 	StudentExamService service;
 	
 	@RequestMapping("/student/exam")
-	public String studentExamInfo(CourseVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
-		model.addAttribute("examList", service.getExamInfo(vo));
+	public String studentExamInfo(CourseVO course, Model model) {
+		course.setCourseCode("SSPY0001");
+		// 학번 (원래는 세션값으로 들어옴)
+		int studentId = 22000001;
+		List<ExamScoreVO> examList = service.getExamInfo(studentId, course);
+		System.out.println(examList);
+		System.out.println(examList.size());
+		model.addAttribute("examList", examList);
 		return "student/eclass/examList";
 	}
 	
 	@RequestMapping("/student/examTake")
 	public String studentExamTake(ExamVO vo, Model model) {
-		vo.setExamCode("MSSPY0001222");
+		System.out.println(vo);
 		List<CourseExamVO> studentExam = service.getStudentExam(vo);
 		System.out.println(studentExam);
 		model.addAttribute("studentExam", studentExam);

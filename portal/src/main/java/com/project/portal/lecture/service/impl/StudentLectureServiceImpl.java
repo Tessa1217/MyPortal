@@ -14,9 +14,15 @@ import com.project.portal.lecture.service.StudentLectureService;
 public class StudentLectureServiceImpl implements StudentLectureService {
 	
 	@Autowired StudentLectureMapper mapper;
+	
 	@Override
 	public List<LectureVO> getLectureList(CourseVO vo) {
 		return mapper.getLectureList(vo);
+	}
+	
+	@Override
+	public LectureVO getLecture(LectureVO vo) {
+		return mapper.getLecture(vo);
 	}
 
 }

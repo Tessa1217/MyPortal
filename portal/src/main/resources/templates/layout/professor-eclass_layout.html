@@ -4,14 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<th:block th:replace="/layout/fragments/config :: configFragment"></th:block>
+<th:block th:replace="/layout/fragments/configurations/config :: configFragment"></th:block>
 </head>
 <body>
 	<div id="app">
 		<th:block
-			th:replace="/layout/fragments/professorEclassHeader :: professorEclassHeaderFragment"></th:block>
+			th:replace="/layout/fragments/headers/professorEclassHeader :: professorEclassHeaderFragment"></th:block>
 		<th:block layout:fragment="professorEclassContent"></th:block>
 	</div>
-	<th:block th:replace="/layout/fragments/script :: scriptFragment"></th:block>
+	<th:block th:replace="/layout/fragments/configurations/script :: scriptFragment"></th:block>
 </body>
 </html>
