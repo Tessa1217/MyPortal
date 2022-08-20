@@ -10,5 +10,6 @@ import com.project.portal.course.service.CourseVO;
 public interface StudentLectureMapper {
 	
 	List<LectureVO> getLectureList(CourseVO vo);
+	LectureVO getLecture(LectureVO vo);
 
 }

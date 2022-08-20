@@ -10,4 +10,28 @@
 												FROM course_weekly
 												WHERE course_code = #{courseCode})
 	</select>
+	<resultMap id="lectureMap" type="LectureVO">
+		<id column="lecture_code" property="lectureCode"/>
+		<result column="video_code" property="videoCode"/>
+		<association property="lectureFile" javaType="VideoVO">
+			<result column="video_file_path" property="videoFilePath"/>
+			<result column="video_name" property="videoName"/>
+			<result column="video_play_time" property="videoPlayTime"/>
+			<result column="video_extension" property="videoExtension"/>
+			<result column="video_stored_name" property="videoStoredName"/>
+		</association>
+	</resultMap>
+	<select id="getLecture" resultMap="lectureMap">
+		SELECT 
+				L.LECTURE_CODE, 
+				L.VIDEO_CODE, 
+				V.VIDEO_FILE_PATH,
+				V.VIDEO_NAME,
+				V.VIDEO_PLAY_TIME,
+				V.VIDEO_EXTENSION,
+				V.VIDEO_STORED_NAME
+		FROM LECTURE L JOIN VIDEO V
+		ON L.VIDEO_CODE = V.VIDEO_CODE
+		WHERE L.WEEK_CODE = #{weekCode}
+	</select>
 </mapper>

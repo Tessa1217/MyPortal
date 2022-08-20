@@ -29,21 +29,41 @@
 						</thead>
 						<tbody>
 							<tr th:each="exam : ${examList}">
-								<td th:if="${#strings.startsWith(exam.examCode, 'M')}">중간</td>
-								<td th:if="${#strings.startsWith(exam.examCode, 'F')}">기말</td>
-								<td th:text="${exam.weekCode}"></td>
-								<td th:text="${#dates.format(exam.examStartDate, 'yyyy-MM-dd')}"></td>
-								<td th:text="${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}"></td>
-								<td th:text="${exam.examDuration}"></td>
-								<td th:text="${exam.examTotalQuestion}"></td>
-								<td></td>
-								<td th:if="${#dates.createNow().before(exam.examEndDate)}"><button type="button" class="btn rounded-pill btn-danger" th:onclick="'location.href=\'' + @{/student/examTake} + '\''">응시하기</button></td>
+								<td th:if="${#strings.startsWith(exam.studentExam.examCode, 'M')}">중간</td>
+								<td th:if="${#strings.startsWith(exam.studentExam.examCode, 'F')}">기말</td>
+								<td th:text="|${#strings.substring(exam.studentExam.weekCode, 8, 10)}주차|"></td>
+								<td th:text="${#dates.format(exam.studentExam.examStartDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${#dates.format(exam.studentExam.examEndDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${exam.studentExam.examDuration}"></td>
+								<td th:text="${exam.studentExam.examTotalQuestion}"></td>
+								<th:block th:if="${exam.examTake == 'SUB'}">
+									<td th:text="${exam.examScore}"></td>
+									<td>시험 마감</td>
+								</th:block>
+								<th:block th:if="${exam.examTake == 'UNSUB'}">
+									<td th:if="${exam.examScore == 0}">미응시</td>
+									<td th:unless="${exam.examScore == 0}" th:text="${exam.examScore}"></td>
+									<td><button type="button" th:data-exam-code="${exam.studentExam.examCode}"
+									class="examBtn btn rounded-pill btn-danger" 
+								th:onclick="takeExam()">
+								응시하기</button></td>
+								</th:block>		
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			
+			function takeExam() {
+				$(document).on("click", ".examBtn", function(e) {
+					let examCode = $(e.target).data("exam-code");
+					let examDuration = $($($(e.target).parent()).siblings()[4]).text();
+					location.href="examTake?examCode=" + examCode + "&examDuration" + examDuration;
+				})
+			}
+		</script>
 	</th:block>
 </body>
 </html>

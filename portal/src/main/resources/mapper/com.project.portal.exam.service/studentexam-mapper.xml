@@ -2,13 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.exam.service.StudentExamMapper">
-	
-	<select id="getExamInfo" resultType="com.project.portal.exam.service.ExamVO">
-		SELECT w.week_num, e.exam_code, e.exam_start_date, e.exam_end_date, e.exam_duration,
-		e.exam_total_question
-		FROM exam e join course_weekly w
-		on e.week_code = w.week_code
-		WHERE w.course_code = #{courseCode}
+	<resultMap id="studentExamMap" type="ExamScoreVO">
+		<result column="student_id" property="studentId"/>
+		<result column="exam_code" property="examCode"/>
+		<result column="exam_take" property="examTake"/>
+		<association property="studentExam" javaType="ExamVO">
+			<id column="exam_code" property="examCode"/>
+			<result column="week_code" property="weekCode"/>
+			<result column="exam_reg_date" property="examRegDate"/>
+			<result column="exam_start_date" property="examStartDate"/>
+			<result column="exam_end_date" property="examEndDate"/>
+			<result column="exam_duration" property="examDuration"/>
+			<result column="exam_total_question" property="examTotalQuestion"/>
+			<result column="exam_total_score" property="examTotalScore"/>
+		</association>
+	</resultMap>
+	<select id="getExamInfo" resultMap="studentExamMap">
+		SELECT e.*, s.exam_code, s.student_id, s.exam_take
+		FROM exam e join exam_score s
+		on e.exam_code = s.exam_code
+		WHERE e.week_code IN (SELECT week_code
+													FROM course_weekly
+													WHERE course_code = #{course.courseCode})
+		AND s.student_id = #{studentId}
 	</select>
 	<resultMap id="courseExamMap" type="com.project.portal.exam.service.CourseExamVO">
 		<id column="exam_question_num" property="examQuestionNum"/>
@@ -27,18 +43,32 @@
 	</resultMap>
 	<select id="getStudentExam" resultMap="courseExamMap">
 		SELECT e.exam_question_num, 
-		e.exam_code,
-		e.exam_question_point, 
-		q.question_code, 
-		q.question_content, 
-		q.question_answer,
-		o.question_option_num,
-		o.question_option_content
+						e.exam_code,
+						e.exam_question_point, 
+						q.question_code, 
+						q.question_content, 
+						q.question_answer,
+						o.question_option_num,
+						o.question_option_content
 		FROM course_exam e join question q
-		on e.question_code = q.question_code
+						on e.question_code = q.question_code
 		JOIN question_option o
-		on q.question_code = o.question_code
+						on q.question_code = o.question_code
 		WHERE e.exam_code = #{examCode}
+	</select>
+	<select id="getExamScore" resultType="ExamScoreVO">
+		SELECT *
+			FROM exam_score
+			WHERE exam_code IN 
+			<foreach item="exam" collection="list"
+			open="(" separator="," close=")">
+				#{exam.examCode}
+			</foreach>
+			AND student_id IN
+			<foreach item="exam" collection="list"
+			open="(" separator="," close=")">
+				#{exam.studentId}
+			</foreach>
 	</select>
 </mapper>
 

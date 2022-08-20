@@ -43,12 +43,27 @@
 						~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></p>
 						</div>
 						<div class="learnBtn col-2">
-							<button class="goLearnBtn btn btn-primary btn-lg" type="button">학습하기</button>
+							<button th:data-week-code="${lec.weekCode}" 
+							class="goLearnBtn btn btn-primary btn-lg" 
+							type="button">학습하기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			$(function() {
+				goToLecture();
+			})
+			
+			// 해당 강의 학습하러 가기
+			function goToLecture() {
+				$(document).on("click", ".goLearnBtn", function(e) {
+					let weekcode = $(e.target).data("week-code");
+ 					location.href="watchLecture?weekCode=" + weekcode;
+				})
+			}
+		</script>
 	</th:block>
 </body>
 </html>

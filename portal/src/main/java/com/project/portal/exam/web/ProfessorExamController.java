@@ -40,7 +40,7 @@ public class ProfessorExamController {
 		
 	}
 	
-	@RequestMapping("/professor/examRegister")
+	@RequestMapping("/professor/examInsert")
 	public String examInsert(CourseVO vo, Model model) {
 		vo.setCourseCode("SSPY0001");
 		// 주차 정보
@@ -56,7 +56,7 @@ public class ProfessorExamController {
 		return "professor/eclass/examInsert";
 	}
 	
-	@PostMapping("/professor/examRegister")
+	@PostMapping("/professor/examInsert")
 	@ResponseBody
 	public HashMap<String, Object> getExamList(CourseVO vo, RedirectAttributes re) {
 		HashMap<String, Object> map = new HashMap<String, Object>();

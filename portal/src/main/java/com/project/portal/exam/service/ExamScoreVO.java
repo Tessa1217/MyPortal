@@ -4,9 +4,10 @@ import lombok.Data;
 
 @Data
 public class ExamScoreVO {
-	
+	private ExamVO studentExam;
 	private int studentId;
 	private String examCode;
 	private int examScore;
+	private String examTake;
 
 }
