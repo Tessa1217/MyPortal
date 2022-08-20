@@ -10,4 +10,5 @@ public class CourseExamVO {
 	private String questionCode;
 	private String examComplete;
 	private QuestionVO examQuestion;
+	private StudentExamVO studentAnswer;
 }

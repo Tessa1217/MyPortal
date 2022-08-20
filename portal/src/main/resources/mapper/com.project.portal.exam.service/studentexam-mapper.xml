@@ -6,6 +6,7 @@
 		<result column="student_id" property="studentId"/>
 		<result column="exam_code" property="examCode"/>
 		<result column="exam_take" property="examTake"/>
+		<result column="exam_score" property="examScore" />
 		<association property="studentExam" javaType="ExamVO">
 			<id column="exam_code" property="examCode"/>
 			<result column="week_code" property="weekCode"/>
@@ -18,7 +19,7 @@
 		</association>
 	</resultMap>
 	<select id="getExamInfo" resultMap="studentExamMap">
-		SELECT e.*, s.exam_code, s.student_id, s.exam_take
+		SELECT e.*, s.exam_code, s.exam_score, s.student_id, s.exam_take
 		FROM exam e join exam_score s
 		on e.exam_code = s.exam_code
 		WHERE e.week_code IN (SELECT week_code
@@ -40,6 +41,12 @@
 			<result column="question_option_content" property="questionOptionContent"/>
 			</collection>
 		</collection>
+		<collection property="studentAnswer" ofType="StudentExamVO">
+			<result column="exam_code" property="examCode"/>
+			<result column="exam_question_num" property="examQuestionNum"/>
+			<result column="student_question_num" property="studentQuestionNum"/>
+			<result column="student_right_option" property="studentRightOption"/>
+		</collection>
 	</resultMap>
 	<select id="getStudentExam" resultMap="courseExamMap">
 		SELECT e.exam_question_num, 
@@ -56,20 +63,30 @@
 						on q.question_code = o.question_code
 		WHERE e.exam_code = #{examCode}
 	</select>
-	<select id="getExamScore" resultType="ExamScoreVO">
-		SELECT *
-			FROM exam_score
-			WHERE exam_code IN 
-			<foreach item="exam" collection="list"
-			open="(" separator="," close=")">
-				#{exam.examCode}
-			</foreach>
-			AND student_id IN
-			<foreach item="exam" collection="list"
-			open="(" separator="," close=")">
-				#{exam.studentId}
-			</foreach>
-	</select>
+	 	
+	<insert id="insertExamResult">
+	<foreach collection="list" item="answer" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
+		INTO student_exam
+					(exam_question_num,
+					student_question_num,
+					student_question_answer,
+					student_right_option,
+					student_id)
+					VALUES 
+					(
+					#{answer.examQuestionNum},
+					#{answer.studentQuestionNum},
+					#{answer.studentQuestionAnswer},
+					#{answer.studentRightOption},
+					#{answer.studentId}
+					)
+	</foreach>
+	</insert>
+	<update id="updateExamScore">
+		UPDATE exam_score SET exam_score = #{examScore},
+													exam_take = #{examTake}
+		WHERE student_id = #{studentId} AND exam_code = #{examCode}
+	</update>
 </mapper>
 
 

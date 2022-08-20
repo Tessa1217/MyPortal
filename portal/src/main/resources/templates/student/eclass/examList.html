@@ -34,11 +34,11 @@
 								<td th:text="|${#strings.substring(exam.studentExam.weekCode, 8, 10)}주차|"></td>
 								<td th:text="${#dates.format(exam.studentExam.examStartDate, 'yyyy-MM-dd')}"></td>
 								<td th:text="${#dates.format(exam.studentExam.examEndDate, 'yyyy-MM-dd')}"></td>
-								<td th:text="${exam.studentExam.examDuration}"></td>
+								<td th:text="${exam.studentExam.examDuration}/60"></td>
 								<td th:text="${exam.studentExam.examTotalQuestion}"></td>
 								<th:block th:if="${exam.examTake == 'SUB'}">
 									<td th:text="${exam.examScore}"></td>
-									<td>시험 마감</td>
+									<td><button class="resultBtn btn rounded-pill btn-primary" type="button" th:onclick="viewExamResult()">시험 결과 보기</button></td>
 								</th:block>
 								<th:block th:if="${exam.examTake == 'UNSUB'}">
 									<td th:if="${exam.examScore == 0}">미응시</td>
@@ -59,8 +59,15 @@
 			function takeExam() {
 				$(document).on("click", ".examBtn", function(e) {
 					let examCode = $(e.target).data("exam-code");
-					let examDuration = $($($(e.target).parent()).siblings()[4]).text();
-					location.href="examTake?examCode=" + examCode + "&examDuration" + examDuration;
+					let examDuration = $($($(e.target).parent()).siblings()[4]).text() * 60;
+					location.href="examTake?examCode=" + examCode + "&examDuration=" + examDuration;
+				})
+			}
+			
+			function viewExamResult() {
+				$(document).on("click", ".resultBtn", function(e) {
+					let examCode = $(e.target).data("exam-code");
+					location.href="examResult?examCode=" + examCode;
 				})
 			}
 		</script>
