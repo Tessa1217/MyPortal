@@ -1,5 +1,7 @@
 package com.project.portal.mycourse.web;
 
+import java.util.List;
+
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class myCourseController {
 	@RequestMapping("student/courseList")
 	public String getstuMyCourse(MyCourseVO vo, Model model) {
 		
+		//List<MyCourseVO> mycourseList = service.getstuMyCourse(vo);
+		//System.out.println(mycourseList);
+		model.addAttribute("mycourseList", service.getstuMyCourse(vo));
 		
 		return "student/courseList";
 	}
