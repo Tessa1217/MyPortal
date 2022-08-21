@@ -1,18 +1,157 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student_layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/student_layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
 </head>
+
 <body>
-	<th:block layout:fragment="studentContent">
-	<div id="main">
-		<div>
-			<h2>Student register Page</h2>
-		</div>
-	</div>
-	</th:block>
+  <th:block layout:fragment="studentContent">
+    <div id="main">
+      <div>
+        <h2>수강 신청</h2>
+      </div>
+      <div>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>학번</th>
+              <th>성명</th>
+              <th>학년</th>
+              <th>대학</th>
+              <th>전공</th>
+              <th>신청 가능학점</th>
+              <th>교양 신청 가능학점</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>20221234</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <select name="collegeCode">
+        <option value='' selected>-- 단과 (선택) --</option>
+        <option value="HU">인문 대학</option>
+        <option value="SS">사회과학 대학</option>
+        <option value="NS">자연과학 대학</option>
+        <option value="SF">소프트웨어 대학</option>
+      </select>
+
+      <select name="departmentCode">
+        <option value='' selected>-- 학과 (선택) --</option>
+        <option value="PSYC">심리학과</option>
+        <option value="ELEG">전기공학과</option>
+        <option value="BIOL">생물학과</option>
+        <option value="CHEM">화학과</option>
+        <option value="JAPA">일어일문학</option>
+        <option value="PHYS">물리학과</option>
+        <option value="ENGL">영어영문학과</option>
+      </select>
+      <button>조 회</button>
+      <div>
+        <h4>개설강좌 LIST</h4>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>과목 코드</th>
+              <th>학년</th>
+              <th>이수 구분</th>
+              <th>강의명</th>
+              <th>학점</th>
+              <th>담당 교수</th>
+              <th>수강 인원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4>수강꾸러미 내역/수강신청 LIST</h4>
+        <input type="text" placeholder="과목 코드">
+        <button>신 청</button>
+        <input type="text" placeholder="자동입력 방지코드">
+        <button>확 인</button>
+      </div>
+      <div>
+        <br>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>과목 코드</th>
+              <th>학년</th>
+              <th>이수 구분</th>
+              <th>강의명</th>
+              <th>학점</th>
+              <th>담당 교수</th>
+              <th>수강 인원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <div>
+        <h4 style="display: inline;">신청과목 LIST</h4>
+          <h6 style="display: inline;">신청학점:</h6>
+          <h6 style="display: inline;">전공학점:</h6>
+          <h6 style="display: inline;">교양학점:</h6>
+          <table border="1">
+            <thead>
+            <tr>
+              <th>과목 코드</th>
+              <th>학년</th>
+              <th>이수 구분</th>
+              <th>강의명</th>
+              <th>학점</th>
+              <th>담당 교수</th>
+              <th>삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+          </table>
+      </div>
+    </div>
+  </th:block>
 </body>
+
 </html>
