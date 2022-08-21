@@ -8,10 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
+import com.project.portal.exam.service.ExamResultVO;
 import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamService;
@@ -27,7 +27,7 @@ public class StudentExamController {
 	public String studentExamInfo(CourseVO course, Model model) {
 		course.setCourseCode("SSPY0001");
 		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000001;
+		int studentId = 22000004;
 		List<ExamScoreVO> examList = service.getExamInfo(studentId, course);
 		model.addAttribute("examList", examList);
 		System.out.println(examList);
@@ -59,8 +59,12 @@ public class StudentExamController {
 	}
 	
 	@RequestMapping("/student/examResult")
-	public String examResult(ExamVO vo) {
-		return "student/eclass/examResult";
+	public String examResult(ExamVO vo, Model model) {
+		// 학번 (원래는 세션값으로 들어옴)
+		int studentId = 22000004;
+		List<ExamResultVO> studentExam = service.getExamResult(studentId, vo);
+		model.addAttribute("studentExam", studentExam);
+		return "student/eclass/studentExamResult";
 	}
 
 }

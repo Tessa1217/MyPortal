@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.exam.service.StudentExamMapper">
+	
 	<resultMap id="studentExamMap" type="ExamScoreVO">
 		<result column="student_id" property="studentId"/>
 		<result column="exam_code" property="examCode"/>
@@ -18,6 +19,7 @@
 			<result column="exam_total_score" property="examTotalScore"/>
 		</association>
 	</resultMap>
+	
 	<select id="getExamInfo" resultMap="studentExamMap">
 		SELECT e.*, s.exam_code, s.exam_score, s.student_id, s.exam_take
 		FROM exam e join exam_score s
@@ -27,7 +29,8 @@
 													WHERE course_code = #{course.courseCode})
 		AND s.student_id = #{studentId}
 	</select>
-	<resultMap id="courseExamMap" type="com.project.portal.exam.service.CourseExamVO">
+	
+	<resultMap id="courseExamMap" type="CourseExamVO">
 		<id column="exam_question_num" property="examQuestionNum"/>
 		<result column="exam_question_point" property="examQuestionPoint"/>
 		<result column="exam_code" property="examCode"/>
@@ -48,6 +51,7 @@
 			<result column="student_right_option" property="studentRightOption"/>
 		</collection>
 	</resultMap>
+	
 	<select id="getStudentExam" resultMap="courseExamMap">
 		SELECT e.exam_question_num, 
 						e.exam_code,
@@ -63,7 +67,31 @@
 						on q.question_code = o.question_code
 		WHERE e.exam_code = #{examCode}
 	</select>
-	 	
+	
+	<resultMap id="studentResultMap" type="ExamResultVO">
+		<id property="examQuestionNum" column="exam_question_num"/>
+		<result property="examCode" column="exam_code"/>
+		<result property="examQuestionPoint" column="exam_question_point"/>
+		<result property="questionCode" column="question_code"/>
+		<result property="questionContent" column="question_content"/>
+		<result property="questionAnswer" column="question_answer"/>
+		<result property="studentQuestionNum" column="student_question_num"/>
+		<result property="studentQuestionAnswer" column="student_question_answer"/>
+		<result property="studentRightOption" column="student_right_option"/>
+		<result property="studentId" column="student_id"/>
+		<collection property="optionList" ofType="QuestionOptionVO">
+			<result property="questionOptionNum" column="question_option_num"/>
+			<result property="questionOptionContent" column="question_option_content"/>
+		</collection>
+	</resultMap>	
+	
+	<select id="getExamResult" resultMap="studentResultMap">
+		SELECT *
+			FROM result_v
+			WHERE student_id = #{studentId}
+			AND exam_code = #{exam.examCode}
+	</select>
+	
 	<insert id="insertExamResult">
 	<foreach collection="list" item="answer" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
 		INTO student_exam
@@ -82,11 +110,13 @@
 					)
 	</foreach>
 	</insert>
+	
 	<update id="updateExamScore">
 		UPDATE exam_score SET exam_score = #{examScore},
 													exam_take = #{examTake}
 		WHERE student_id = #{studentId} AND exam_code = #{examCode}
 	</update>
+	
 </mapper>
 
 

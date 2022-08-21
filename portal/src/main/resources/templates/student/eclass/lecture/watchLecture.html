@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/no-nav_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<th:block th:replace="/layout/fragments/configurations/config :: configFragment"></th:block>
 <style>
 .offPage {
 	display: none;
@@ -26,6 +27,7 @@
 </style>
 </head>
 <body>
+	<th:block layout:fragment="bodyContent">
 		<div id="app">
 			<div class="horizontal-title page-title">
 				<span><a href="#">강의 시청하기</a></span>
@@ -40,6 +42,6 @@
 				</th:block>
 			</div>
 		</div>
-	<th:block th:replace="/layout/fragments/configurations/script :: scriptFragment"></th:block>
+	</th:block>
 </body>
 </html>

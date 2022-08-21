@@ -3,27 +3,6 @@
 			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			layout:decorate="~{layout/student-eclass_layout}">
 <head>
-<style>
-	.lecture-card {
-		border: 1px solid #eee;
-		border-radius: 10px;
-		margin: 2%;
-	}
-	
-	.learnInfo .learnBtn {
-		display: inline;
-	}
-	
-	.learnBtn {
-		width: 15%;
-		line-height: 100%;
-	}
-	
-	.goLearnBtn {
-		font-size: 1.5em;
-	}
-	
-</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -31,11 +10,11 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h3>내 강의 시청하기</h3>
+				<h2><i class="fa-solid fa-video"></i> 내 강의 시청하기</h2>
 			</div>
 			<div class="card">
 				<div class="card-header">
-					<h4>강의 리스트</h4>
+					<h4 class="btnContainer">전체 강의 리스트</h4>
 					<div class="card-body lecture-card row" th:each="lec : ${lectureList}">
 						<div class="learnInfo col-10">
 						<h4 th:text="|${#strings.substring(lec.weekCode, 8, 10)}주차 강의|"></h4>

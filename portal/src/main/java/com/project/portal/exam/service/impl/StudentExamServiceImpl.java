@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
+import com.project.portal.exam.service.ExamResultVO;
 import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamMapper;
@@ -43,6 +43,11 @@ public class StudentExamServiceImpl implements StudentExamService {
 	@Override
 	public void updateExamScore(ExamScoreVO vo) {
 		mapper.updateExamScore(vo);
+	}
+
+	@Override
+	public List<ExamResultVO> getExamResult(int studentId, ExamVO vo) {
+		return mapper.getExamResult(studentId, vo);
 	}
 	
 	

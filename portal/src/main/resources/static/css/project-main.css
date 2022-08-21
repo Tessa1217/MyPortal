@@ -1,0 +1,43 @@
+.page-title {
+	margin-left: 1%;
+	margin-top: 1%;
+	margin-bottom: 3%;
+}
+
+.studentExamContainer {
+	padding: 3%;
+}
+
+.bold {
+		font-weight: bold;
+		font-size: large;
+}
+
+.omrCard {
+	padding: 3%;
+}
+	
+.btnContainer {
+	text-align: center;
+	margin: 2%;
+}
+
+
+.lecture-card {
+	border: 1px solid #eee;
+	border-radius: 10px;
+	margin: 2%;
+}
+	
+.learnInfo .learnBtn {
+	display: inline;
+}
+	
+.learnBtn {
+	width: 15%;
+	line-height: 100%;
+}
+	
+.goLearnBtn {
+	font-size: 1.25em;
+}

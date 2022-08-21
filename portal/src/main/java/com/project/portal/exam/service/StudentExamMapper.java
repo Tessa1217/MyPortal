@@ -13,6 +13,7 @@ public interface StudentExamMapper {
 	List<ExamScoreVO> getExamInfo(@Param("studentId") int studentId, @Param("course")CourseVO vo);
 	List<CourseExamVO> getStudentExam(ExamVO vo);
 	List<ExamScoreVO> getExamScore(List<ExamScoreVO> vo);
+	List<ExamResultVO> getExamResult(@Param("studentId") int studentId, @Param("exam")ExamVO vo);
 	void insertExamResult(List<StudentExamVO> vo);
 	void updateExamScore(ExamScoreVO vo);
 

@@ -19,5 +19,6 @@ public class ExamVO {
 	private int examDuration;
 	private int examTotalQuestion;
 	private int examTotalScore;
+	private String examSubmit;
 
 }

@@ -9,11 +9,11 @@
 <body>
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
-			<div>
-				<h2>Student Exam list</h2>
+			<div class="page-title">
+				<h2><i class="fa-solid fa-list-check"></i> 내 강의 시험 보기</h2>
 			</div>
 			<div class="card">
-				<div>
+				<div class="card-body">
 					<table class="table">
 						<thead>
 							<tr>
@@ -38,7 +38,9 @@
 								<td th:text="${exam.studentExam.examTotalQuestion}"></td>
 								<th:block th:if="${exam.examTake == 'SUB'}">
 									<td th:text="${exam.examScore}"></td>
-									<td><button class="resultBtn btn rounded-pill btn-primary" type="button" th:onclick="viewExamResult()">시험 결과 보기</button></td>
+									<td><button class="resultBtn btn rounded-pill btn-primary" type="button" 
+									th:data-exam-code="${exam.studentExam.examCode}"
+									th:onclick="viewExamResult()">시험 결과 보기</button></td>
 								</th:block>
 								<th:block th:if="${exam.examTake == 'UNSUB'}">
 									<td th:if="${exam.examScore == 0}">미응시</td>

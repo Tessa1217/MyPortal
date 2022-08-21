@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/no-nav_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.bold {
+	font-weight: bold;
+	font-size: large;
+}
+
+#omrCard {
+	padding: 3%;
+}
+
+.btnContainer {
+	text-align: center;
+	margin: 2%;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="bodyContent">
+		<div class="studentExamContainer">
+			<div class="page-title">
+				<h2>
+					<i class="fa-solid fa-rectangle-list"></i> 내 시험 결과
+				</h2>
+			</div>
+			<div id="testMain">
+				<div class="col-12">
+					<div class="col-3 col-lg-2 card"
+						style="text-align: center; position: fixed; top: 5%; left: 81%;">
+						<h3 align="center" class="card-header">OMR</h3>
+						<div class="omrCard">
+							<table class="table card-body">
+								<tr th:each="r : ${studentExam}">
+									<th th:text="${r.studentQuestionNum}"></th>
+									<th:block th:each="option : ${r.optionList}">
+										<th:block th:if="${r.studentRightOption != 0}">
+											<td
+												th:if="${r.studentQuestionAnswer == option.questionOptionNum}"
+												class="text-primary bold"><i
+												th:class="|fa-solid fa-${option.questionOptionNum}|"></i></td>
+											<td
+												th:unless="${r.studentQuestionAnswer == option.questionOptionNum}">
+												<i th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
+											</td>
+										</th:block>
+										<th:block th:if="${r.studentRightOption == 0}">
+											<td
+												th:if="${r.studentQuestionAnswer == option.questionOptionNum}"
+												class="text-primary"><i
+												th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
+											</td>
+											<td th:if="${r.questionAnswer == option.questionOptionNum}"
+												class="text-danger bold"><i
+												th:class="|fa-solid fa-${option.questionOptionNum}|"></i></td>
+											<td
+												th:if="${r.questionAnswer != option.questionOptionNum &&
+											r.studentQuestionAnswer != option.questionOptionNum}">
+												<i th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
+											</td>
+										</th:block>
+									</th:block>
+								</tr>
+							</table>
+							<div class="btnContainer">
+								<button type="button" class="btn btn-primary"
+									th:onclick="|location.href='@{/student/exam}'|">돌아가기</button>
+							</div>
+						</div>
+					</div>
+					<div class="mainContainer col-9" style="float: left;"
+						th:data-length="${#lists.size(studentExam)}">
+						<th:block th:each="r, idx : ${studentExam}">
+							<div th:class="|page-${idx.index}|">
+								<div class="exam card">
+									<p class="card-header"
+										th:text="|${r.studentQuestionNum}. ${r.questionContent} (${r.examQuestionPoint}점)|">
+									<div class="testContainer card-body">
+										<th:block th:each="option : ${r.optionList}">
+											<th:block th:if="${r.studentRightOption != 0}">
+												<div
+													th:if="${option.questionOptionNum == r.studentQuestionAnswer}">
+													<input type="radio" checked disabled> <span
+														class="text-primary bold"
+														th:text="| ${option.questionOptionContent}|"></span>
+												</div>
+												<div
+													th:unless="${option.questionOptionNum == r.studentQuestionAnswer}">
+													<input type="radio" disabled> <span
+														th:text="| ${option.questionOptionContent}|"></span>
+												</div>
+											</th:block>
+											<th:block th:if="${r.studentRightOption == 0}">
+												<div th:if="${option.questionOptionNum == r.questionAnswer}">
+													<input type="radio" disabled> <span
+														th:text="| ${option.questionOptionContent}|"
+														class="bold text-danger"></span>
+												</div>
+												<div
+													th:if="${option.questionOptionNum == r.studentQuestionAnswer}">
+													<input type="radio" checked disabled> <span
+														th:text="| ${option.questionOptionContent}|"
+														class="text-primary"></span>
+												</div>
+												<div
+													th:if="${option.questionOptionNum != r.questionAnswer && option.questionOptionNum != r.studentQuestionAnswer}">
+													<input type="radio" disabled> <span
+														th:text="| ${option.questionOptionContent}|"></span>
+												</div>
+											</th:block>
+										</th:block>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

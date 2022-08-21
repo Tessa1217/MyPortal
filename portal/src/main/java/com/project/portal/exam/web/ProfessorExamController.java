@@ -24,20 +24,17 @@ public class ProfessorExamController {
 	@Autowired CourseServiceImpl courseService;
 	@Autowired ProfessorExamServiceImpl examService;
 	
-	@RequestMapping("/professor/examCheck")
-	public String examCheck() {
-		return "professor/eclass/examCheck";
-	}
-	
 	@RequestMapping("/professor/studentExamScore")
 	public String studentExamScore() {
 		return "professor/eclass/studentExamResult";
 	}
 	
 	@RequestMapping("/professor/courseExamList")
-	public String courseExamList() {
+	public String courseExamList(CourseVO vo, Model model) {
+		vo.setCourseCode("SSPY0001");
+		List<ExamVO> examList = examService.getExamInfoList(vo);
+		model.addAttribute("examList", examList);
 		return "professor/eclass/courseExamList";
-		
 	}
 	
 	@RequestMapping("/professor/examInsert")
