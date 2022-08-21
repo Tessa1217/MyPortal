@@ -12,6 +12,8 @@
 			<id column="week_code" property="weekCode"/>
 			<result column="week_num" property="weekNum"/>
 			<result column="week_content" property="weekContent"/>
+			<result column="week_start_date" property="weekStartDate"/>
+			<result column="week_end_date" property="weekEndDate"/>
 		</collection>
 	</resultMap>
 	<select id="getWeeklyInfo" resultMap="courseWeekMap">

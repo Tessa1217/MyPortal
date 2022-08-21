@@ -41,3 +41,57 @@
 .goLearnBtn {
 	font-size: 1.25em;
 }
+
+.right {
+	margin-top: 3%;
+	text-align: right;	
+}
+
+.center {
+	text-align: center;
+}
+
+input[name="tabs"] {
+	display: none;
+}
+
+.tabmenu {
+	display: inline-block;
+	width: 15%;
+	height: 50px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background: rgba();
+	font-size: small;
+	color: #435ebe;
+	font-weight: bold;
+	text-align: center;
+	line-height: 50px;
+}
+
+.tabmenu:hover {
+	background: #435ebe;
+	color: #fff;
+	cursor: pointer;
+}
+
+input[name="tabs"] + .tabmenu {
+	border-top: 1px solid #435ebe;
+	border-left: 1px solid #435ebe;
+	border-right: 1px solid #435ebe;
+	border-bottom: 1px solid #ffffff;
+}
+
+.col-md-4 {
+	text-align: left;
+	font-weight: bold;
+	color: #25396f;
+}
+
+.inputBox {
+	padding: 3% 10% 3% 10%;
+}
+
+.paging {
+	height: 700px;
+}

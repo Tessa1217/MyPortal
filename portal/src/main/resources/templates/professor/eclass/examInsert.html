@@ -6,160 +6,192 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.offPage {
-		display:none;
-	}
-	.scroll {
-		overflow: scroll;
-		height: 700px;
-	}
-	.card {
-		padding: 3%;
-	}
+.offPage {
+	display: none;
+}
+
+.scroll {
+	overflow: scroll;
+	height: 600px;
+}
+
+.card {
+	padding: 3%;
+}
 </style>
 </head>
 <body>
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
-		<div class="paging">
-			<div class="row">
-				<div>
-					<h2>시험 생성하기</h2>
-					<div align="right">
-				<button class="btn btn-md btn-primary"
-				type="button" id="tempSaveBtn" th:onclick="">임시저장</button>
-				</div>
-				</div>
-				<div class="card">
-				<div class="card-header">
-					<h4>시험 기본 정보</h4>
+			<div>
+				<div class="row">
+					<div class="page-title">
+						<h2>시험 생성하기</h2>
 					</div>
-					<div class="card-body">
-					<form name="frm">
-					<table>
-						<tr>
-							<th>시험 종류</th>
-							<td><select name="examCode">
-								<option value="">시험 종류를 선택해주세요.</option>
-								<option value="M">중간</option>
-								<option value="F">기말</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th>시험 주차</th>
-							<td><select name="weekCode">
-									<option value="">주차를 선택해주세요.</option>
-								<th:block th:each="week : ${courseInfo.weekPlans}">
-									<option th:value="${week.weekCode}">[[${week.weekNum}]]주차</option>
-								</th:block>
-							</select></td>
-						</tr>
-						<tr>
-							<th>시험 시작일</th>
-							<td><input type="date" name="examStartDate"></td>
-						</tr>
-						<tr>
-							<th>시험 마감일</th>
-							<td><input type="date" name="examEndDate"></td>
-						</tr>
-						<tr>
-							<th>시험 응시 시간</th>
-							<td><input type="number" name="examDuration" value=0></td>
-						</tr>
-						<tr>
-							<th>시험 총 문항수</th>
-							<td><input type="number" name="examTotalQuestion" value=0></td>
-						</tr>
-						<tr>
-							<th>시험 총 배점</th>
-							<td><input type="number" name="examTotalScore" value=0></td>
-						</tr>
-					</table>
-					</form>
+					<div class="right">
+						<input id="tab1" type="radio" name="tabs" checked> <label
+							for="tab1" class="tabmenu">시험 기본 정보</label> <input id="tab2"
+							type="radio" name="tabs"> <label for="tab2"
+							class="tabmenu">시험지 정보 불러오기</label> <input id="tab3" type="radio"
+							name="tabs"> <label for="tab3" class="tabmenu">시험
+							문제 생성하기</label>
+					</div>
+					<div class="card paging">
+						<div class="card-header">
+							<h4>시험 기본 정보</h4>
+						</div>
+						<div class="card-body" align="center">
+							<form id="examInfoForm" class="form form-horizontal">
+								<div class="form-body">
+									<div class="row inputBox">
+										<div class="col-md-4">
+											<label>강의 코드</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" readonly name="courseCode"
+											th:value="${courseInfo.courseCode}">
+										</div>
+										<div class="col-md-4">
+											<label>강의 년도</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseYear"
+											th:value="${courseInfo.courseYear}">
+										</div>
+										<div class="col-md-4">
+											<label>강의 학기</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseSemester"
+											th:value="${courseInfo.courseSemester}">
+										</div>
+										<div class="col-md-4">
+											<label>시험 종류</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<select class="form-select" name="examCode">
+												<option value="">시험 종류를 선택해주세요.</option>
+												<option value="M">중간</option>
+												<option value="F">기말</option>
+										</select>
+										</div>
+										<div class="col-md-4">
+											<label>시험 주차</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<select class="form-select" name="weekCode">
+												<option value="">주차를 선택해주세요.</option>
+												<th:block th:each="week : ${courseInfo.weekPlans}">
+													<option th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
+													th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
+													th:value="${week.weekCode}">[[${week.weekNum}]]주차</option>
+												</th:block>
+										</select>
+										</div>
+										<div class="col-md-4">
+											<label>시험 시작일</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input class="form-control" type="date" name="examStartDate" required>
+										</div>
+										<div class="col-md-4">
+											<label>시험 마감일</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<input class="form-control" type="date" name="examEndDate" required>
+										</div>
+										<div class="col-md-4">
+											<label>시험 응시 시간</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<input class="form-control" type="number" name="examDuration" required value=0>
+										</div>
+										<div class="col-md-4">
+											<label>시험 총 문항수</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<input class="form-control" type="number" name="examTotalQuestion" required value=0>
+										</div>
+										<div class="col-md-4">
+											<label>시험 총 배점</label>
+										</div>
+										<div class="col-md-8 form-group">
+										<input class="form-control" type="number" name="examTotalScore" required value=0>
+										</div>
+									</div>
+								</div>
+								 <div class="col-sm-12 d-flex justify-content-end">
+                    <button type="button" th:onclick="saveExamInfo" class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
+                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+                </div>
+							</form>
+						</div>
+					</div>
 				</div>
+			</div>
+			<div class="card paging offPage">
+				<div class="row">
+					<th:block
+						th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
+					</th:block>
 				</div>
 			</div>
-			</div>
-			<div class="paging offPage">
-			<div class="row">
-			<th:block th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
-			</th:block>
-			</div>
-			</div>
-			<div class="paging offPage">
-				<th:block th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
+			<div class="card paging offPage">
+				<th:block
+					th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
 				</th:block>
 			</div>
-			</div>
-			<script th:inline="javascript">
+		</div>
+		<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
-				saveTestInfo(); 
+				saveExamInfo(); 
+				enterDate(); 
 			})
 			
 			// 탭 형식으로 보이기
 			function showPage() {
-			let icons = $("#pagingNum button");
+			let icons = $("input[name=tabs]");
 			$(icons).each((index, val) => {
 				$(val).on("click", function(e) {
-					let page = $(".paging");
-					$(page).each((idx, val) => {
-						$(val).addClass('offPage');
-					})
-					$(page[index]).removeClass('offPage');
+					if ($(val).is(":checked")) {
+						let page = $(".paging");
+						$(page).each((idx, val) => {
+							$(val).addClass('offPage');
+						})
+						$(page[index]).removeClass("offPage");
+					}
 				})
 			})
 			}
 			
-			// 시험지 정보 저장(임시 저장 또는 저장)
-			function saveTestInfo() {
-				$("#tempSaveBtn").click(function() {
+			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
+			function enterDate() {
+				$(document).on("change", "select[name=weekCode]", function(e) {
+					let startDate = $($(e.target).children(":selected")).data("start");
+					let endDate = $($(e.target).children(":selected")).data("end");
+					$("input[name=examStartDate]").val(startDate);
+					$("input[name=examEndDate]").val(endDate);
+				})
+			}
+			
+			// 시험 정보 저장
+			function saveExamInfo() {
+				$(".saveBtn").click(function() {
 					$.ajax({
 						type : 'POST',
-						url : 'generateTestPaper',
-						dataType : 'JSON',
-						data : $("form[name=frm]").serialize()
+						url : 'examInsert',
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+						data : $("#examInfoForm").serialize(),
+						success : function(result) {
+							console.log(result);
+						}
 					})
-						.then(function(result) {
-							Swal.fire({
-								icon: 'success',
-								title : '임시저장이 완료되었습니다.',
-								showConfirmButton: true
-							})
-						})
-				});
+				})
 			}
+			
 			</script>
-			<div id="pagingNum" align="center">
-<button type="button" th:onclick="showPage"><i class="the-icon">
-<svg class="svg-inline--fa fa-circle fa-w-16 fa-fw select-all" 
-aria-hidden="true" focusable="false" data-prefix="fas" 
-data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" 
-viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" 
-d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-</path></svg>
-</i></button>
-
-<button type="button" th:onclick="showPage"><i class="the-icon">
-<svg class="svg-inline--fa fa-circle fa-w-16 fa-fw select-all" 
-aria-hidden="true" focusable="false" data-prefix="fas" 
-data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" 
-viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" 
-d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-</path></svg>
-</i></button>
-
-<button type="button" th:onclick="showPage">
-<i class="the-icon">
-<svg class="svg-inline--fa fa-circle fa-w-16 fa-fw select-all" 
-aria-hidden="true" focusable="false" data-prefix="fas" 
-data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" 
-viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" 
-d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-</path></svg>
-</i></button>
-</div>
 	</th:block>
 </body>
 </html>

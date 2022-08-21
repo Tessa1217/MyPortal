@@ -32,4 +32,9 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 		return mapper.getCourseExam(list);
 	}
 
+	@Override
+	public void insertExam(CourseVO course, ExamVO exam) {
+		mapper.insertExam(course, exam);	
+	}
+
 }

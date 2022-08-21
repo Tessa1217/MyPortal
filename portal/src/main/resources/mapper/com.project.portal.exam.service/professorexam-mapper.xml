@@ -53,5 +53,30 @@
 			e.exam_code = #{item.examCode}
 		</foreach>
 	</select>
+	
+	<insert id="insertExam">
+		INSERT INTO exam (
+											exam_code,
+											week_code,
+											exam_reg_date,
+											exam_start_date,
+											exam_end_date,
+											exam_duration,
+											exam_total_question,
+											exam_total_score,
+											exam_submit
+											)
+			VALUES (
+							#{exam.examCode}||#{course.courseCode}||SUBSTR(#{course.courseYear}, 3, 2)||#{course.courseSemester},
+							#{exam.weekCode},
+							SYSDATE,
+							#{exam.examStartDate},
+							#{exam.examEndDate},
+							#{exam.examDuration} * 60,
+							#{exam.examTotalQuestion},
+							#{exam.examTotalScore},
+							DEFAULT
+							)
+	</insert>
 
 </mapper>

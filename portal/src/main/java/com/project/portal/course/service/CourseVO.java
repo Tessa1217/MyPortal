@@ -25,7 +25,7 @@ public class CourseVO {
 	private int attAssignedScore;
 	private String surveyCode;
 	private char departCode;
-	// 二쇱감 怨꾪쉷 由ъ뒪�듃
+	// 주차 계획 정보
 	private List<CourseWeeklyVO> weekPlans;
 
 }

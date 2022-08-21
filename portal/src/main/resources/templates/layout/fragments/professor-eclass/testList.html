@@ -3,18 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.searchContainer .col-sm-3 {
+		display: inline-block;
+	}
+</style>
 </head>
 <body>
 	<th:block th:fragment="testListFragment">
 		<div class="col-6">
 			<div>
-				<p class="col-6">
-					<input type="text" name="courseCode" value="SSPY0001"> <input
-						type="number" name="courseYear" placeholder="년도"> <input
-						type="number" name="courseSemester" placeholder="학기">
-				</p>
-				<button class="btn btn-sm btn-primary" type="button"
-					th:onclick="searchTest()">이전 시험 검색</button>
+				<form>
+				<div class="row">	
+						<div class="page-title">
+							<h4>이전 강의 시험지 검색</h4>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>강의 이름:</label>
+								<input type="text" name="courseCode" class="form-control round"
+								th:value="${courseInfo.courseName}">							
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+							<label>강의 년도:</label>
+								<input type="text" name="courseYear" class="form-control round">							
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label>강의 학기:</label>
+								<input type="text" name="courseSemester" class="form-control round">							
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<br/>
+							<button class="btn btn-md btn-primary" type="button"
+							th:onclick="searchTest()">검색</button>
+						</div>
+				</div>
+				</form>
 			</div>
 			<table id="testList" class="table">
 				<thead>
@@ -45,14 +74,14 @@
 			<div id="scrollPage">
 				<div id="noTest" class="card">
 					<div class="card-body">
-						<h1>시험지를 선택해주세요!</h1>
+						<h1>선택된 시험지가 없습니다.</h1>
 					</div>
 				</div>
 				<th:block th:each="ce : ${courseExam}">
 					<div class="card question offPage"
 						th:data-examcode="${ce.examCode}">
 						<div>
-							<input type="checkbox">
+							<input class="form-check-input" type="checkbox">
 						</div>
 						<div th:class="${ce.examCode}" class="card-header">
 							<p th:text="${ce.examQuestion.questionContent}"></p>
