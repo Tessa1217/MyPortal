@@ -12,5 +12,7 @@ public interface StudentMapper {
 	public List<StudentVO> studentList(Criteria cri);
 
 	public StudentVO studentInfoSelect(StudentVO vo);
+	
+	public StudentVO studentInfoUpdate(StudentVO vo);
 
 }

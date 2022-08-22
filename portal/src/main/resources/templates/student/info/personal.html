@@ -35,7 +35,7 @@
 		</div>
 		<div class="card">
 			<p style="float:left;">개인 정보</p> 
-			<button class="btn btn-primary buttonmod" style="float : right;" >수정</button> 
+			<button class="btn btn-primary buttonmod" onclick="studentInfoUpdate()">수정</button> 
 			<table class="table table2">
 				<tr>
 					<th>전공학과</th><td th:text="${studentInfoSelect.departName}"></td><th>학번</th><td th:text="${studentInfoSelect.studentId}"></td>
@@ -64,8 +64,10 @@
 				</tr>
 				<tr>
 					<th>연락처</th>
-					<td><input type ="text" class="form-control" name="studentPhone"
-					th:value="${studentInfoSelect.studentPhone}"></td><th>이메일</th><td><input type ="text" class="form-control" name="studentEmail"
+					<td><input type ="text" class="form-control" name="studentPhoneUpdate" id="studentPhoneUpdate"
+					th:value="${studentInfoSelect.studentPhone}"></td>
+					<th>이메일</th>
+					<td><input type ="text" class="form-control" name="studentEmailUpdate" id="studentEmailUpdate"
 					th:value="${studentInfoSelect.studentEmail}"></td>
 				</tr>
 			</table>
@@ -77,18 +79,25 @@
 			<p>보호자 정보</p>
 			<table class="table">
 				<tr>
-					<th>보호자 성명</th><td><input type ="text" class="form-control" name="parentsName"
+					<th>보호자 성명</th><td><input type ="text" class="form-control" name="parentsNameUpdate" id="parentsNameUpdate"
 					th:value="${studentInfoSelect.parentsName}"></td>
 				</tr>
 				<tr>
-					<th>연락처</th><td><input type ="text" class="form-control" name="parentsName"
+					<th>연락처</th><td><input type ="text" class="form-control" name="parentsPhoneUpdate" id="parentsPhoneUpdate"
 					th:value="${studentInfoSelect.parentsPhone}"></td>
 				</tr>
 				<tr>
 					<th>관계</th>
-					<td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
+					<td>
+						<select name="parentsRelUpdate" id ="parentsRelUpdate" th:value="${studentInfoSelect.parentsRel}">
+							<option th:selected="${studentInfoSelect.parentsRel}=='P01'">부</option>	
+							<option th:selected="${studentInfoSelect.parentsRel}=='P02'">모</option>	
+							<option th:selected="${studentInfoSelect.parentsRel}=='ETC'">기타</option>	
+						</select>
+					</td>
+					<!-- <td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
 					<td th:if="${studentInfoSelect.parentsRel =='P02'}">모</td>
-					<td th:if="${studentInfoSelect.parentsRel =='ETC'}">기타</td>
+					<td th:if="${studentInfoSelect.parentsRel =='ETC'}">기타</td> -->
 				</tr>
 			</table>
 		</div>
@@ -146,5 +155,28 @@
 			</div> -->
 	</div>
 	</th:block>
+	<script>
+	function studentInfoUpdate(){
+		   $.ajax({
+		      url:"/student/studentInfoUpdate",
+		      method:"post",
+		      dataType : "json",
+		      data: {
+		         "studentPhone" : $("#studentPhoneUpdate").val(),
+		         "studentEmail" : $("#studentEmailUpdate").val(),
+		         "parentsName" : $("#parentsNameUpdate").val(),
+		         "parentsPhone" : $("#parentsPhoneUpdate").val(),
+		         "parentsRel" : $("#parentsRelUpdate").val(),
+		      },
+		      dataType : "json",
+		      success:function(result){
+//		          toastr.info("글수정완료");
+//		          $("#boardTable").load(location.href+"#boardTable");
+		         location.reload();
+//		         $("#boardUpdateModal").modal("hide");
+		      }
+		   });
+		}	
+	</script>
 </body>
 </html>
