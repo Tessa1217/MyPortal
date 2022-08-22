@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.studynotice.service.StudyNoticeMapper">
+	
+	<select id="selectStudyNoticeList" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+		select * from course_notice
+		where course_code = 'SSPY0001'
+	</select>
+	
+	<select id="selectDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+		select * from course_notice
+		where course_code = 'SSPY0001' and course_notice_no = #{courseNoticeNo}
+	
+	</select>
+	
+</mapper>

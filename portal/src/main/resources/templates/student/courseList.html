@@ -23,24 +23,24 @@
 	<!-- 수강중인 강의 리스트가 있는 경우 -->
 	<div th:unless="${mycourseList.isEmpty()}">
 		<div th:each="mycourse : ${mycourseList}">
-
 	  <div class="col-6">
-          <div class="card">
+          <div class="card" th:onclick="|location.href='@{/student/eclass/{courseCode}(courseCode=${mycourse.courseCode})}'|">
             <div class="card-body">
               <h5 class="card-title">강의명 : </h5>
               <p th:text="${mycourse.courseName}"></p>
               <h5 class="card-title">교수명 : </h5>
               <p th:text="${mycourse.professorName}"></p>
-              <a href="#" class="btn btn-primary">이동</a>
             </div>
           </div>
         </div>
         </div>
-		
-		
+	</div>
+	</div>
+	
+	<script th:inline="javascript">
 
-	</div>
-	</div>
+	</script>
+
 	</th:block>
 </body>
 </html>

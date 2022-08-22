@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/student-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block layout:fragment="studentEclassContent">
+<div id="main">
+	<h1>공지사항 상세보기</h1>
+	<hr>
+	<table class="table">
+		<tbody>
+		<tr>
+			<td>제목</td>
+			<td th:text="${selectDetailStudyNotice.courseNoticeTitle}"></td>
+			<td>글번호</td>
+			<td th:text="${selectDetailStudyNotice.courseNoticeNo}"></td>
+		</tr>
+		
+		<tr>
+			<td>조회수</td>
+			<td th:text="${selectDetailStudyNotice.courseNoticeHit}"></td>
+			<td>등록일</td>
+			<td th:text="${#dates.format(selectDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+		</tr>
+		
+		<tr>
+			<td>첨부파일</td>
+			<td colspan="3"></td>
+		</tr>
+		
+		<tr>
+			<td>내용</td>
+			<td colspan="3" th:text="${selectDetailStudyNotice.courseNoticeContent}"></td>
+		</tr>
+		</tbody>
+	</table>
+	
+	<button type="button" class="btn btn-primary" id="AllList">목록</button>
+</div>
+
+	<script th:inline="javascript">
+		$('#AllList').click(function() {
+			location.href ="/student/eclass/eclassnotice"
+		})
+	
+	</script>
+</th:block>
+</body>
+</html>

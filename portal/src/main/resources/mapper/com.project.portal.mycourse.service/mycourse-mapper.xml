@@ -4,7 +4,7 @@
 	namespace="com.project.portal.mycourse.service.MyCourseMapper">
 	
 	<select id="getstuMyCourse" resultType="com.project.portal.mycourse.service.MyCourseVO">
-		select c.course_name , p.professor_name
+		select c.course_name , p.professor_name ,c.course_code
 from my_course m join course c
     ON m.course_code = c.course_code
     join  professor p

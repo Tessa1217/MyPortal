@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/student-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+	table {
+  border-collapse: collapse;
+  border: 0;
+}	
+th {
+ border: 1px solid #aaa;
+  background-clip: padding-box;
+  scroll-snap-align: start;
+  text-align : center;
+  background-color : skyblue;
+}
+
+td {
+  border: 1px solid #aaa;
+  background-clip: padding-box;
+  scroll-snap-align: start;
+  text-align : center;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="studentEclassContent">
+	<div id="main">
+		<h2>강의 공지사항</h2>
+		<hr>
+		<form action="/student/eclass/eclassnotice/boardNo">
+		<select>
+			<option value="num">번호</option>
+			<option value="title">제목</option>
+			<option value="registerdate">등록일자</option>
+		</select>
+		<input type="text">
+		<button type="button" id="search" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		</form>
+		
+		
+		
+		<table border="1" class="table">
+			<thead>
+			<tr>
+				<th width = "100px">번호</th>
+				<th width = "300px">제목</th>
+				<th width = "100px">등록일자</th>
+				<th width = "100px">조회수</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="studyNoticeList : ${studyNoticeList}">
+				<td th:text="${studyNoticeList.courseNoticeNo}"></td>
+				<td>
+				<a th:text="${studyNoticeList.courseNoticeTitle}" th:href="|/student/eclass/eclassnotice/${studyNoticeList.courseNoticeNo}|"></a>
+				</td>
+				<td th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+				<td th:text="${studyNoticeList.courseNoticeHit}"></td>
+			</tr>
+			</tbody>
+		</table>
+		</div>
+		
+		
+		<script th:inline="javascript">
+		
+		</script>
+		
+		
+		
+	</th:block>
+</body>
+</html>
