@@ -130,24 +130,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="card paging offPage">
-				<div class="row">
-					<th:block
-						th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
-					</th:block>
-				</div>
-			</div>
-			<div class="card paging offPage">
-				<th:block
-					th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
-				</th:block>
-			</div>
+			
 	</div>
 	<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
-				saveExamInfo(); 
+				saveTempInfo(); 
 				enterDate(); 
 			})
 			
