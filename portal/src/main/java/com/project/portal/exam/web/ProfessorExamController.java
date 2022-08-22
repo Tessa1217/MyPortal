@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,8 +37,14 @@ public class ProfessorExamController {
 		return "professor/eclass/courseExamList";
 	}
 	
-	@RequestMapping("/professor/examInsert")
-	public String examInsert(CourseVO vo, Model model) {
+	@RequestMapping("/professor/examInsert/{examCode}")
+	public String examInsert(@PathVariable String examCode, ExamVO exam, CourseVO vo, Model model) {
+		
+		// 기존 시험 정보
+		exam.setExamCode(examCode);
+		exam = examService.getExam(exam);
+		model.addAttribute("exam", exam);
+		System.out.println(exam);
 		vo.setCourseCode("SSPY0001");
 		// 주차 정보
 		vo = courseService.getWeeklyInfo(vo);
@@ -47,6 +55,23 @@ public class ProfessorExamController {
 		// 시험지 정보
 		List<CourseExamVO> courseExamInfo = examService.getCourseExam(examList);
 		model.addAttribute("courseExam", courseExamInfo);
+		model.addAttribute("command", "2");
+		return "professor/eclass/examInsert";
+	}
+	
+	@GetMapping("/professor/examInsert")
+	public String newExamInsert(CourseVO vo, Model model) {
+		vo.setCourseCode("SSPY0001");
+		// 주차 정보
+		vo = courseService.getWeeklyInfo(vo);
+		model.addAttribute("courseInfo", vo);
+		// 시험 정보
+		List<ExamInfoVO> examList = examService.getExamList(vo);
+		model.addAttribute("examList", examList);
+		// 시험지 정보
+		List<CourseExamVO> courseExamInfo = examService.getCourseExam(examList);
+		model.addAttribute("courseExam", courseExamInfo);
+		model.addAttribute("command", "1");
 		return "professor/eclass/examInsert";
 	}
 	

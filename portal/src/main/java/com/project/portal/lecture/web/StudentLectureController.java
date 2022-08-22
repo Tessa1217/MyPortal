@@ -27,10 +27,7 @@ public class StudentLectureController {
 	@RequestMapping("student/watchLecture")
 	public String watchLecture(LectureVO vo, Model model) {
 		vo = service.getLecture(vo);
-//		MultipartFile video = new MultipartFile();
 		model.addAttribute("lecture", vo);
-//		model.addAttribute("video", video);
-//		System.out.println(video.length());
 		return "student/eclass/lecture/watchLecture";
 	}
 }

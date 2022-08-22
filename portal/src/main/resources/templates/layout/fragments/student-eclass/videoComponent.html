@@ -8,17 +8,23 @@
 	<th:block th:fragment="videoFragment">
 	<div class="card col-8">
 		<div class="card-body">
-			<video id="video" controls th:src="${video}" type="video/mp4">
+			<video id="video" height="100%" width="100%" 
+			th:src="@{/video/download/{videoCode}(videoCode=${lecture.videoCode})}" 
+			controls>
 			</video>
+			<button type="button" th:onclick="getTime()">TIME</button>
 		</div>
 	</div>
 	<script th:inline="javascript">
-		$(function() {
-			play();
-		})
-		function play() {
-			$("#video").play();
-		}
+	$(function() {
+			console.log(document.querySelector("video").currentTime);
+			getTime();
+	})
+	
+	function getTime() {
+		console.log(document.querySelector('video').currentTime);
+	}
+
 	</script>
 	</th:block>
 </body>
