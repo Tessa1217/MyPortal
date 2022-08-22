@@ -33,16 +33,26 @@ public class StudentController {
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
-	public String Student(StudentVO vo, Model model, Criteria cri) {
+	public String StudentList(StudentVO vo, Model model, Criteria cri) {
 		model.addAttribute("studentList", service.studentList(cri));
 		return "admin/info/studentList";
 	}
 	//학생 개인 조회(학생)
 	@RequestMapping("/student/studentInfoSelect")
-	public String Student(StudentVO vo, Model model) {
+	public String StudentInfoSelect(StudentVO vo, Model model) {
 		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
 		return "student/info/personal";
 	}
+	//학생 정보 수정(학생)
+	@RequestMapping("/student/studentInfoUpdate")
+	public String StudentInfoUpdate(StudentVO vo, Model model) {
+		model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
+		return "student/info/personal";
+	}
+	
+	
+	
+	
 	//////// 외부에서 이미지 가져오기
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody

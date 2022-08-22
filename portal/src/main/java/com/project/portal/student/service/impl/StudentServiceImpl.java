@@ -27,4 +27,10 @@ public class StudentServiceImpl implements StudentService {
 		return mapper.studentInfoSelect(vo);
 	}
 
+	@Override
+	public StudentVO studentInfoUpdate(StudentVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.studentInfoUpdate(vo);
+	}
+
 }
