@@ -59,7 +59,7 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
-	public void tempweekInsert(List<TempcourseweekVO> voo) {
+	public void tempweekInsert(TempcourseweekVO voo) {
 		// TODO Auto-generated method stub
 		mapper.tempweekInsert(voo);
 	}

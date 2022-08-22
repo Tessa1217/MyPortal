@@ -26,14 +26,11 @@
 	</select>
 	
 	<insert id="tempInsert">
-	<selectKey
-	
-	resultType="string" keyProperty="courseCode" order="BEFORE">
-	select SUBSTR(CONCAT(c.college_code, d.depart_code), 1, 4)||LPAD(TO_CHAR(seq_en.nextval), 4, '0') from
-	college c join department d
-	on c.college_code = d.college_code where d.depart_code = #{departCode}
-	</selectKey>
-	
+	<!-- <selectKey resultType="string" keyProperty="courseCode" order="BEFORE">
+		select SUBSTR(CONCAT(c.college_code, d.depart_code), 1, 4)||LPAD(TO_CHAR(seq_en.nextval), 4, '0') from
+		college c join department d
+		on c.college_code = d.college_code where d.depart_code = #{departCode}
+	</selectKey> -->
 		insert into temp_course(
 			course_name,
 			course_code,
@@ -83,13 +80,15 @@
 			course_code
 		)
 		values
-			(<foreach collection="list" item="item" separator=",">
+			(
+<!-- 			<foreach collection="list" item="item" separator=","> -->
 			
-			#{item.weekNum},
-			#{item.weekContent},
-			#{item.courseCode}||LPAD(TO_CHAR(#{item.weekNum}), 2, '0'),
-			#{item.courseCode}
+			#{weekNum},
+			#{weekContent},
+			#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
+			#{courseCode}
 		
-	</foreach>)
+<!-- 	</foreach> -->
+	)
 	</insert>
 </mapper>

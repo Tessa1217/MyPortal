@@ -1,6 +1,8 @@
 package com.project.portal.tempcourse.web;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +24,14 @@ public class TempcourseController {
 	@Autowired
 	TempcourseService service;
 	
-	//단건조회(상세보기)
+	//단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp") 
 	public String tempcourse(TempcourseVO vo, Model model) {
 		model.addAttribute("tempcourse", service.getTemp(vo));
 		return "professor/course/getTemp";
 	}
 	
-	//목록
+	//목록(GET)
 	@RequestMapping("/professor/tempcourseList")
 	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri) {
 		
@@ -41,26 +43,39 @@ public class TempcourseController {
 		System.out.println(tempcourseList);
 		return "professor/course/tempcourseList";
 	}
-	//주차별
 	
-	//등록
+	
+	//등록페이지
 	@RequestMapping("/professor/tempInsert")
 	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo) {
+		List<TempcourseweekVO> list = new ArrayList<TempcourseweekVO>();
+		for(int i=1; i<=14; i++) {
+			TempcourseweekVO tempcourseweekVO = new TempcourseweekVO();
+			tempcourseweekVO.setWeekNum(i);
+			list.add(tempcourseweekVO);
 		
-		
-		
+		}
+		model.addAttribute("tempweekInsert", list);
 		
 		return "professor/course/tempInsert";
 	}
-	//등록 처리
+	//등록 처리(POST)
+
 	@RequestMapping("/tempInsertProc")
-	public String tempInsertProc(TempcourseVO vo, List<TempcourseweekVO> voo) {
+	public String tempInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
+		int i = 1;
 		
-		System.out.println(vo);
+		for(String weekContent : voo.getWeekContent().split(",")) {
+			voo.setWeekNum(i);
+			voo.setWeekContent(weekContent);
+			voo.setWeekCode("HUEN000803");
+			service.tempweekInsert(voo);
+			i++;
+		}
+		
 		service.tempInsert(vo);
 		
-		
-		return "professor/course/tempInsert";
+		return "redirect:tempcourseList";
 	}
 	
 	

@@ -30,24 +30,24 @@ public class TempcourseTest {
 		mapper.tempInsert(vo);
 	}
 	
-	@Test
-	public void test1() {
-		
-		List<TempcourseweekVO> list = new ArrayList<TempcourseweekVO>();
-		TempcourseweekVO vo = new TempcourseweekVO();
-		
-		vo.setCourseCode("HUEN0008");
-		vo.setWeekContent(null);
-		vo.setWeekNum(1);
-		
-		
-		
-		list.add(vo);
-		
-		
-		mapper.tempweekInsert(list);
-		
-	}
+//	@Test
+//	public void test1() {
+//		
+//		List<TempcourseweekVO> list = new ArrayList<TempcourseweekVO>();
+//		TempcourseweekVO vo = new TempcourseweekVO();
+//		
+//		vo.setCourseCode("HUEN0008");
+//		vo.setWeekContent(null);
+//		vo.setWeekNum(1);
+//		
+//		
+//		
+//		list.add(vo);
+//		
+//		
+//		mapper.tempweekInsert(list);
+//		
+//	}
 	
 	
 }

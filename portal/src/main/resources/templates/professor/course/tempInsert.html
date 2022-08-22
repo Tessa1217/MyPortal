@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -29,133 +29,158 @@
 						<h2>강의 계획서 등록</h2>
 					</div>
 					<div class="right">
-						<input id="tab2" type="radio" name="tabs" checked>
-						<label for="tab2" class="tabmenu">계획서 불러오기</label>
-						<input id="tab3" type="radio" name="tabs">
-						<label for="tab3" class="tabmenu">제출</label>
+						<input id="tab2" type="radio" name="tabs" checked> <label
+							for="tab2" class="tabmenu">계획서 불러오기</label> <input id="tab3"
+							type="radio" name="tabs"> <label for="tab3"
+							class="tabmenu">제출</label>
 					</div>
 					<div class="card paging">
 						<div class="card-header">
 							<h1>강의 계획서</h1>
 						</div>
 						<div class="card-body">
-							<form id="tempInfoForm" class="form form-horizontal" th:action="@{/tempInsertProc}">
+							<form id="tempInfoForm" class="form form-horizontal"
+								th:action="@{/tempInsertProc}" method="POST">
 								<div class="form-body">
 									<div class="row inputBox">
-									<div class="col-md-4">
+										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
-									<div class="col-md-8 form-group">
-										<input type="text" class="form-control" name="courseName">
-									</div>
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" name="courseName">
+										</div>
 										<div class="col-md-4">
 											<label>강의 코드</label>
 										</div>
-									<div class="col-md-8 form-group">
-										<input type="text" class="form-control" name="courseCode"
-										>
-									</div>
-									<div class="col-md-4">
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" name="courseCode">
+										</div>
+										<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="courseYear"
-											>
+											<input type="number" class="form-control" name="courseYear">
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="courseSemester"
-											>
+											<input type="number" class="form-control"
+												name="courseSemester">
 										</div>
-									<div class="col-md-4">
+										<div class="col-md-4">
 											<label>이수 구분</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="courseSortation"
-											>
+											<select class="form-control" name="courseSortation" required>
+												<option value="" disabled selected>선택하십시오</option>
+												<option value="L01">교양필수</option>
+												<option value="L02">교양</option>
+												<option value="M01">전공필수</option>
+												<option value="M02">전공</option>
+											</select>
 										</div>
 										<div class="col-md-4">
 											<label>이수 단위</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="courseCredit"
-											>
+											<select class="form-control" name="courseCredit" required>
+												<option value="" disable selected>선택하십시오</option>
+												<option value=1>1학점</option>
+												<option value=2>2학점</option>
+												<option value=3>3학점</option>
+												<option value=4>4학점</option>
+												<option value=5>5학점</option>
+											</select>
 										</div>
 										<div class="col-md-4">
 											<label>과제 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="reportAssignedScore"
-											>
+											<input type="number" class="form-control"
+												name="reportAssignedScore">
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="attAssignedScore"
-											>
+											<input type="number" class="form-control"
+												name="attAssignedScore">
 										</div>
 										<div class="col-md-4">
 											<label>중간고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="midtermAssignedScore"
-											>
+											<input type="number" class="form-control"
+												name="midtermAssignedScore">
 										</div>
 										<div class="col-md-4">
 											<label>기말고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="finalAssignedScore"
-											>
+											<input type="number" class="form-control"
+												name="finalAssignedScore">
 										</div>
 										<div class="col-md-4">
 											<label>수강 인원</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" name="courseLimit"
-											>
+												min='0' max='200'>
 										</div>
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="textbookReference"
-											>
+											<input type="text" class="form-control"
+												name="textbookReference">
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="courseSummary"
-											>
+											<input type="text" class="form-control" name="courseSummary">
 										</div>
 										<div class="col-md-4">
 											<label>강의 참고사항</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="courseNotes"
-											>
+											<input type="text" class="form-control" name="courseNotes">
 										</div>
-										
+										<h4>주차별 강의</h4>
+										<table>
+											<thead>
+											<tr>
+												<th>주차</th>
+												<th>내용</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="item:${tempweekInsert}" >
+													<td th:text=${item.weekNum}></td>
+													<td><input name="weekContent"></td>
+												</tr>
+											</tbody>
+										</table>
+
 									</div>
 								</div>
-								 <div class="col-sm-12 d-flex justify-content-end">
-								 <button type="submit" class="btn btn-danger">제출</button>
-                    <button type="button" th:onclick="saveTempInfo" class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
-                    
-                    <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="history.back()">취소</button>
-                </div>
+								<div class="col-sm-12 d-flex justify-content-end">
+									<button type="submit" class="btn btn-danger">제출</button>
+									<button type="button" th:onclick="saveTempInfo"
+										class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
+
+									<button type="button" class="btn btn-light-secondary me-1 mb-1"
+										onclick="history.back()">취소</button>
+								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-	</div>
-	<script th:inline="javascript">
+
+		</div>
+		<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
@@ -190,7 +215,7 @@
 				})
 			} 
 			
-			// 시험 정보 저장
+			// 강의계획서 정보 저장
 			function saveTempInfo() {
 				$(".saveBtn").click(function() {
 					$.ajax({

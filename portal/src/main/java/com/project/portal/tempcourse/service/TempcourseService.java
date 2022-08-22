@@ -2,6 +2,7 @@ package com.project.portal.tempcourse.service;
 
 import java.util.List;
 
+
 import com.project.portal.common.Criteria;
 
 public interface TempcourseService {
@@ -12,6 +13,6 @@ public interface TempcourseService {
 	public int tempcourseListCount(Criteria cri);
 	public List<TempcourseweekVO> tempcourseweekList(Criteria cri);
 	public void tempInsert(TempcourseVO vo);
-	public void tempweekInsert(List<TempcourseweekVO> voo);
+	public void tempweekInsert(TempcourseweekVO voo);
 	
 }
