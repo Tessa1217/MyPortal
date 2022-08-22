@@ -14,6 +14,6 @@
 				join department d
 				on i.department_code = d.depart_code) s
 		on i.student_id = s.student_id
-		where i.student_id = #{studentId}
+		where i.student_id = 22000001
 	</select>
 </mapper>

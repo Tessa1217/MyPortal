@@ -14,40 +14,52 @@
 		</div>
 		<div class="card">
 			<p>개인 정보</p> 
-			<button>수정</button> 
+			<button class="btn btn-primary">수정</button> 
 			<table class="table">
-				<tr th:each="info : ${studentInfoSelect}">
-					<th>전공학과</th><td th:text="${info.departName}"></td><th>학번</th><td th:text="${info.studentId}"></td>
-				</tr>
-				<tr th:each="info : ${studentInfoSelect}">
-					<th>이름</th><td th:text="${info.studentName}"></td><th>성별</th><td th:text="${info.studentGender}"></td>
+				<tr>
+					<th>전공학과</th><td th:text="${studentInfoSelect.departName}"></td><th>학번</th><td th:text="${studentInfoSelect.studentId}"></td>
 				</tr>
 				<tr>
-					<th>학년</th><td></td><th>생년월일</th><td></td>
+					<th>이름</th><td th:text="${studentInfoSelect.studentName}"></td><th>성별</th><td th:text="${studentInfoSelect.studentGender}"></td>
 				</tr>
 				<tr>
-					<th>학적상태</th><td></td><th>입학학부</th><td></td>
+					<th>학년</th><td th:text="${studentInfoSelect.studentGrade}"></td><th>생년월일</th><td th:text="${#dates.format(studentInfoSelect.studentBirth, 'yyyy-MM-dd')}"></td>
 				</tr>
 				<tr>
-					<th>입학일자</th><td></td><th>입학구분</th><td></td>
+					<th>학적상태</th>
+					<td th:if="${studentInfoSelect.studentStatus =='AS00'}">재학</td>
+					<td th:if="${studentInfoSelect.studentStatus =='AS01'}">휴학</td>
+					<td th:if="${studentInfoSelect.studentStatus =='AS02'}">졸업</td>
+					<th>입학학부</th><td th:text="${studentInfoSelect.departName}"></td>
 				</tr>
 				<tr>
-					<th>연락처</th><td></td><th>이메일</th><td></td>
+					<th>입학일자</th><td th:text="${#dates.format(studentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
+					<th>입학구분</th>
+					<td th:if="${studentInfoSelect.studentDivision =='AD00'}">신입학</td>
+					<td th:if="${studentInfoSelect.studentDivision =='AD01'}">편입학</td>
 				</tr>
 				<tr>
-					<th>우편번호</th><td></td><th>주소</th><td></td>
+					<th>연락처</th><td th:text="${studentInfoSelect.studentPhone}"></td><th>이메일</th><td th:text="${studentInfoSelect.studentEmail}"></td>
+				</tr>
+				<tr>
+					<th>우편번호</th><td th:text="${studentInfoSelect.studentPostalCode}"></td><th>주소</th><td th:text="${studentInfoSelect.studentAddr}"></td>
 				</tr>
 			</table>
+			<img src="/images\faces//${studentInfoSelect.studentImg}" class ="faceImg">
+			<img src="/images\faces//1.jpg" class ="faceImg">
 			<p>보호자 정보</p>
 			<table class="table">
 				<tr>
-					<th>보호자 성명</th><td></td>
+					<th>보호자 성명</th><td th:text="${studentInfoSelect.parentsName}"></td>
 				</tr>
 				<tr>
-					<th>연락처</th><td></td>
+					<th>연락처</th><td th:text="${studentInfoSelect.parentsPhone}"></td>
 				</tr>
 				<tr>
-					<th>관계</th><td></td>
+					<th>관계</th>
+					<td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
+					<td th:if="${studentInfoSelect.parentsRel =='P02'}">모</td>
+					<td th:if="${studentInfoSelect.parentsRel =='ETC'}">기타</td>
 				</tr>
 			</table>
 		</div>

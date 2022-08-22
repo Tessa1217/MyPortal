@@ -11,8 +11,8 @@ public class StudentVO {
 	private char departCode;
 	private String departName;
 	private int studentGrade;
-	private char studentStatus;
-	private char studentDivision;
+	private String studentStatus;
+	private String studentDivision;
 	private Date studentAdmissionDate;
 	private Date studentGraduationDate;
 	
@@ -26,7 +26,7 @@ public class StudentVO {
 	private String studentPhone;
 	private String studentEmail;
 	private String parentsName;
-	private char parentsRel;
+	private String parentsRel;
 	private String parentsPhone;
 	private String studentImg;
 	
