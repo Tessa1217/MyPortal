@@ -9,7 +9,7 @@
 <body>
 	<th:block layout:fragment="bodyContent">
 		<div class="studentExamContainer">
-			<input id="studentId" type="hidden" value="22000004"> <input
+			<input id="studentId" type="hidden" value="22000005"> <input
 				id="examCode" type="hidden" th:value="${examInfo.examCode}">
 			<div class="page-title">
 				<h2>시험</h2>
@@ -147,11 +147,24 @@
 						totalScore += answer.studentRightOption;
 					})
 					
+					// 학생 시험
+					let examScore = {
+						studentId : document.querySelector("#studentId").value,
+						examCode : document.querySelector("#examCode").value,
+						examScore : totalScore,
+						examTake : 'SUB'
+					}
+					
+					let data = {
+						answer : answerList,
+						score : examScore
+					}
+
 					$.ajax({
 						method : 'POST',
 						url : 'examTake',
 						contentType : 'application/json; charset=utf-8',
-						data : JSON.stringify(answerList),
+						data : JSON.stringify(data),
 						success : function(result) {
 							console.log(result);
 							window.location.href="/student/exam";

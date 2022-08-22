@@ -4,15 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamResultVO;
 import com.project.portal.exam.service.ExamScoreVO;
+import com.project.portal.exam.service.ExamTakeVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamMapper;
 import com.project.portal.exam.service.StudentExamService;
-import com.project.portal.exam.service.StudentExamVO;
 
 @Service
 public class StudentExamServiceImpl implements StudentExamService {
@@ -35,14 +36,11 @@ public class StudentExamServiceImpl implements StudentExamService {
 		return mapper.getExamInfo(studentId, vo);
 	}
 
+	@Transactional
 	@Override
-	public void insertExamResult(List<StudentExamVO> vo) {
-		mapper.insertExamResult(vo);
-	}
-
-	@Override
-	public void updateExamScore(ExamScoreVO vo) {
-		mapper.updateExamScore(vo);
+	public void insertExamResult(ExamTakeVO vo) {
+		mapper.insertExamResult(vo.getAnswer());
+		mapper.updateExamScore(vo.getScore());
 	}
 
 	@Override

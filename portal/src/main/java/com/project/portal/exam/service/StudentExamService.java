@@ -8,10 +8,9 @@ import com.project.portal.course.service.CourseVO;
 
 public interface StudentExamService {
 	
-	List<ExamScoreVO> getExamInfo(@Param("studentId") int studentId, @Param("course")CourseVO vo);
+	List<ExamScoreVO> getExamInfo(int studentId, CourseVO vo);
 	List<CourseExamVO> getStudentExam(ExamVO vo);
 	List<ExamScoreVO> getExamScore(List<ExamScoreVO> vo);
-	List<ExamResultVO> getExamResult(@Param("studentId") int studentId, @Param("exam")ExamVO vo);
-	void insertExamResult(List<StudentExamVO> vo);
-	void updateExamScore(ExamScoreVO vo);
+	List<ExamResultVO> getExamResult(int studentId, ExamVO vo);
+	void insertExamResult(ExamTakeVO vo);	
 }

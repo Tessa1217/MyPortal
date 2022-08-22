@@ -16,5 +16,4 @@ public class VideoVO {
 	private double videoPlayTime;
 	private String videoExtension;
 	
-
 }

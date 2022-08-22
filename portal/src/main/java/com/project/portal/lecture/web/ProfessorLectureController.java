@@ -71,6 +71,7 @@ public class ProfessorLectureController {
 		
 		// 비디오 실제 파일 업로드
 		File fileUpload = new File(video.getVideoFilePath());
+		// 부모 디렉토리 생성하는 부분
 		fileUpload.getParentFile().mkdirs();
 		file.transferTo(fileUpload);
 		

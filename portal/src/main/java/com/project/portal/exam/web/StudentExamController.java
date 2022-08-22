@@ -13,9 +13,9 @@ import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamResultVO;
 import com.project.portal.exam.service.ExamScoreVO;
+import com.project.portal.exam.service.ExamTakeVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.StudentExamService;
-import com.project.portal.exam.service.StudentExamVO;
 
 @Controller
 public class StudentExamController {
@@ -27,7 +27,7 @@ public class StudentExamController {
 	public String studentExamInfo(CourseVO course, Model model) {
 		course.setCourseCode("SSPY0001");
 		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000004;
+		int studentId = 22000005;
 		List<ExamScoreVO> examList = service.getExamInfo(studentId, course);
 		model.addAttribute("examList", examList);
 		System.out.println(examList);
@@ -43,25 +43,15 @@ public class StudentExamController {
 	}
 	
 	@PostMapping("/student/examTake")
-	public String studentExamTaken(@RequestBody List<StudentExamVO> answerList) {
-		int score = 0;
-		for (StudentExamVO s : answerList) {
-			score += s.getStudentRightOption();
-		}
-		ExamScoreVO studentScore = new ExamScoreVO();
-		studentScore.setExamScore(score);
-		studentScore.setExamCode(answerList.get(0).getExamCode());
-		studentScore.setStudentId(answerList.get(0).getStudentId());
-		studentScore.setExamTake("SUB");
-		service.insertExamResult(answerList);
-		service.updateExamScore(studentScore);
+	public String studentExamTaken(@RequestBody ExamTakeVO vo) {
+		service.insertExamResult(vo);
 		return "redirect:/student/exam";
 	}
 	
 	@RequestMapping("/student/examResult")
 	public String examResult(ExamVO vo, Model model) {
 		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000004;
+		int studentId = 22000005;
 		List<ExamResultVO> studentExam = service.getExamResult(studentId, vo);
 		model.addAttribute("studentExam", studentExam);
 		return "student/eclass/studentExamResult";

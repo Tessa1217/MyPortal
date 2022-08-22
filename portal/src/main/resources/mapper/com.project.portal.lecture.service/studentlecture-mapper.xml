@@ -34,4 +34,39 @@
 		ON L.VIDEO_CODE = V.VIDEO_CODE
 		WHERE L.WEEK_CODE = #{weekCode}
 	</select>
+	<select id="getLectureRecord" resultType="StudentLectureVO">
+		SELECT *
+			FROM student_lecture
+			WHERE student_id = #{studentId}
+			AND lecture_code = #{lectureCode}
+	</select>
+	<insert id="insertLectureRecord" parameterType="StudentLectureVO">
+		INSERT INTO student_lecture (
+																watch_code,
+																watch_start_date,
+																watch_accum_time,
+																lecture_code,
+																student_id,
+																att_option	
+																)
+												VALUES (
+																'W'||#{studentId}||#{lectureCode},
+																SYSDATE,
+																#{watchAccumTime},
+																#{lectureCode},
+																#{studentId},
+																DEFAULT
+																)
+	</insert>
+	<update id="updateLectureRecord" statementType="CALLABLE">
+		<selectKey resultType="string" keyProperty="watchCode" order="BEFORE">
+			SELECT watch_code 
+				FROM student_lecture
+				WHERE student_id = #{studentId}
+				AND lecture_code = #{lectureCode}
+		</selectKey>
+		{
+			CALL SL_U_PRCD(#{watchAccumTime}, #{lectureAttTime}, #{watchCode})
+		}
+	</update>
 </mapper>

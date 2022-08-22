@@ -8,5 +8,7 @@ public interface StudentLectureService {
 	
 	List<LectureVO> getLectureList(CourseVO vo);
 	LectureVO getLecture(LectureVO vo);
+	void insertLectureRecord(StudentLectureVO vo);
+	void updateLectureRecord(StudentLectureVO vo);
 
 }
