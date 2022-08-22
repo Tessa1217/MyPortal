@@ -11,7 +11,7 @@ public interface ProfessorExamService {
 	List<ExamVO> getExamInfoList(CourseVO vo);
 	List<ExamInfoVO> getExamList(CourseVO vo);
 	List<CourseExamVO> getCourseExam(List<ExamInfoVO> list);
-	void insertExam(@Param("course") CourseVO course, 
-			@Param("exam") ExamVO exam);
+	void insertExam(CourseVO course, ExamVO exam);
 	ExamVO getExam(ExamVO vo);
+	List<ExamScoreVO> getExamScore(CourseVO vo);
 }

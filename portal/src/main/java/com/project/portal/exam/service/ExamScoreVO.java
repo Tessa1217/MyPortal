@@ -9,5 +9,4 @@ public class ExamScoreVO {
 	private String examCode;
 	private int examScore;
 	private String examTake;
-
 }

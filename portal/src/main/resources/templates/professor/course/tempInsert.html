@@ -19,6 +19,7 @@
 	padding: 3%;
 	
 }
+
 </style>
 </head>
 <body>
@@ -37,7 +38,7 @@
 					</div>
 					<div class="card paging">
 						<div class="card-header">
-							<h1>강의 계획서</h1>
+							<h3>강의 계획서</h3>
 						</div>
 						<div class="card-body">
 							<form id="tempInfoForm" class="form form-horizontal"
@@ -52,7 +53,7 @@
 										<div class="col-md-8 form-group">
 											<input type="text" class="form-control" name="courseName">
 										</div>
-										
+										<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
@@ -66,6 +67,8 @@
 											<input type="number" class="form-control"
 												name="courseSemester">
 										</div>
+										</div>
+										<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>이수 구분</label>
 										</div>
@@ -91,6 +94,8 @@
 												<option value=5>5학점</option>
 											</select>
 										</div>
+										</div>
+										<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>과제 배점</label>
 										</div>
@@ -105,6 +110,8 @@
 											<input type="number" class="form-control"
 												name="attAssignedScore">
 										</div>
+										</div>
+										<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>중간고사 배점</label>
 										</div>
@@ -118,6 +125,7 @@
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control"
 												name="finalAssignedScore">
+										</div>
 										</div>
 										<div class="col-md-4">
 											<label>수강 인원</label>
@@ -145,6 +153,10 @@
 										<div class="col-md-8 form-group">
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
+										<div class="col-sm-12" align="right">
+											<button type="submit" class="btn btn-primary">제출하기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
 										<!-- <h4>주차별 강의</h4>
 										<table>
 											<thead>
@@ -162,15 +174,9 @@
 										</table> -->
 
 									</div>
+									
 								</div>
-								<div class="col-sm-12 d-flex justify-content-end">
-									<button type="submit" class="btn btn-primary">저장하기</button>
-									<!-- <button type="button" th:onclick="saveTempInfo"
-										class="saveBtn btn btn-primary me-1 mb-1"></button> -->
-
-									<button type="button" class="btn btn-light-secondary me-1 mb-1"
-										onclick="history.back()">취소</button>
-								</div>
+								
 							</form>
 						</div>
 					</div>

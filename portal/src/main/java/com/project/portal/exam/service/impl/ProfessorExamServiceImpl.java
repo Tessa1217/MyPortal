@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamInfoVO;
+import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.ProfessorExamMapper;
 import com.project.portal.exam.service.ProfessorExamService;
@@ -40,6 +41,11 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 	@Override
 	public ExamVO getExam(ExamVO vo) {
 		return mapper.getExam(vo);
+	}
+
+	@Override
+	public List<ExamScoreVO> getExamScore(CourseVO vo) {
+		return mapper.getExamScore(vo);
 	}
 
 }

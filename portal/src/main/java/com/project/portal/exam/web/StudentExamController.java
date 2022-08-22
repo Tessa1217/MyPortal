@@ -23,38 +23,38 @@ public class StudentExamController {
 	@Autowired
 	StudentExamService service;
 	
-	@RequestMapping("/student/exam")
+	@RequestMapping("/student/eclass/examList")
 	public String studentExamInfo(CourseVO course, Model model) {
 		course.setCourseCode("SSPY0001");
 		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000005;
+		int studentId = 22000009;
 		List<ExamScoreVO> examList = service.getExamInfo(studentId, course);
 		model.addAttribute("examList", examList);
 		System.out.println(examList);
-		return "student/eclass/examList";
+		return "student/eclass/exam/examList";
 	}
 	
-	@RequestMapping("/student/examTake")
+	@RequestMapping("/student/eclass/examTake")
 	public String studentExamTake(ExamVO vo, Model model) {
 		List<CourseExamVO> studentExam = service.getStudentExam(vo);
 		model.addAttribute("examInfo", vo);
 		model.addAttribute("studentExam", studentExam);
-		return "student/eclass/examTake";
+		return "student/eclass/exam/examTake";
 	}
 	
-	@PostMapping("/student/examTake")
+	@PostMapping("/student/eclass/examTake")
 	public String studentExamTaken(@RequestBody ExamTakeVO vo) {
 		service.insertExamResult(vo);
-		return "redirect:/student/exam";
+		return "redirect:/student/eclass/examList";
 	}
 	
-	@RequestMapping("/student/examResult")
+	@RequestMapping("/student/eclass/examResult")
 	public String examResult(ExamVO vo, Model model) {
 		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000005;
+		int studentId = 22000009;
 		List<ExamResultVO> studentExam = service.getExamResult(studentId, vo);
 		model.addAttribute("studentExam", studentExam);
-		return "student/eclass/studentExamResult";
+		return "student/eclass/exam/studentExamResult";
 	}
 
 }

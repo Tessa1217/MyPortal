@@ -84,5 +84,12 @@
 			FROM exam
 			WHERE exam_code = #{examCode}
 	</select>
-
+	<select id="getExamScore" resultType="ExamScoreVO">
+		SELECT *
+			FROM exam_score
+			WHERE exam_code IN (SELECT exam_code
+													FROM exam
+													WHERE course_code = #{courseCode})
+			ORDER BY exam_code
+	</select>
 </mapper>

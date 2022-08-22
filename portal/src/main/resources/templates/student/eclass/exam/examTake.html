@@ -9,7 +9,7 @@
 <body>
 	<th:block layout:fragment="bodyContent">
 		<div class="studentExamContainer">
-			<input id="studentId" type="hidden" value="22000005"> <input
+			<input id="studentId" type="hidden" value="22000009"> <input
 				id="examCode" type="hidden" th:value="${examInfo.examCode}">
 			<div class="page-title">
 				<h2>시험</h2>
@@ -39,25 +39,42 @@
 						</div>
 					</div>
 					<div class="col-9" style="float: left;">
-						<div th:each="examPaper, index: ${studentExam}"
-							th:data-q-num="${examPaper.examQuestionNum}" class="exam card">
-							<p class="card-header"
-								th:text="|${index.index + 1}. ${examPaper.examQuestion.questionContent} (${examPaper.examQuestionPoint}점)|"></p>
-							<input type="hidden"
-								th:value="${examPaper.examQuestion.questionAnswer}"
-								th:data-point="${examPaper.examQuestionPoint}">
-							<div class="testContainer card-body">
-								<th:block th:each="option: ${examPaper.examQuestion.optionList}">
-									<input type="radio" 
-										th:name="${examPaper.examQuestionNum}"
-										th:data-num="${index.index + 1}"
-										th:data-point="${examPaper.examQuestionPoint}"
+					<div 
+					th:each="i : ${#numbers.sequence(0, (#lists.size(studentExam)/5) - 1)}"
+					th:id="|testPage-${i}|"
+					class="questionContainer hidePage">
+						<th:block
+							th:each="idx : ${#numbers.sequence(0 + i * 5, 4 + i * 5)}">
+							<div th:with="r = ${studentExam[idx]}" 
+							th:data-q-num="${r.examQuestionNum}" 
+							class="exam card">
+								<p class="card-header"
+								th:text="|${idx + 1}. ${r.examQuestion.questionContent}
+								(${r.examQuestionPoint}점)|"></p>
+								<input type="hidden"
+								th:value="${r.examQuestion.questionAnswer}"
+								th:data-point="${r.examQuestionPoint}">
+								<div class="testContainer card-body">
+									<th:block th:each="option : ${r.examQuestion.optionList}">
+										<input type="radio"
+										th:name="${r.examQuestionNum}"
+										th:data-num="${idx + 1}"
+										th:data-point="${r.examQuestionPoint}"
 										th:data-value="${option.questionOptionNum}"
-										th:text="| ${option.questionOptionContent}|" />
-								</th:block>
+										th:text="| ${option.questionOptionContent}|"/>
+									</th:block>
+								</div>
 							</div>
-
+						</th:block>
+						<div class="pageBtnContainer">
+								<th:block th:if="${i} != 0">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
+								</th:block>
+								<th:block th:if="${i != (#lists.size(studentExam)/5 - 1)}">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
+								</th:block>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -71,6 +88,8 @@
 				examTimer();
 				examTimeOut();
 				submitTest();
+				$("#testPage-0").removeClass("hidePage");
+				movePage();
 				
 				// OMR 마킹
 				function omrMarking() {
@@ -119,6 +138,7 @@
 						clearInterval(examTimer);
 						$("#submitBtn").trigger("click");
 					}, totalTime);
+					$("#submitBtn").trigger("click");
 				}
 			
 			})
@@ -162,12 +182,11 @@
 
 					$.ajax({
 						method : 'POST',
-						url : 'examTake',
+						url : /*[[@{/student/eclass/examTake}]]*/'',
 						contentType : 'application/json; charset=utf-8',
 						data : JSON.stringify(data),
 						success : function(result) {
-							console.log(result);
-							window.location.href="/student/exam";
+							window.location.href = /*[[@{/student/eclass/examList}]]*/'';
 						}
 					})
 				});

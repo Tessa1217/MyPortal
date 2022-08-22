@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.dataTables_paginate {
+		text-align: center;
+	}
+	.paginate_button {
+		background: #435ebe;
+		padding: 2% 4% 2% 4%;
+		border-radius: 10px;
+		margin-right: 2%;
+		cursor: pointer;
+	}
+	
+	.bg-primary {
+		color: white;
+	}
+	
+	.paginate_button a {
+		text-decoration: none;
+		color: white;	
+	}
+	select[name="scoreTable_length"] {
+		width: 100%;
+	}
+	
+	#scoreTable_wrapper {
+		width: 100%;
+	}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+			<div class="page-title">
+				<h2>수강생 시험 성적 조회</h2>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<table class="table center" id="scoreTable">
+						<thead class="bg-primary">
+							<tr>
+								<th>학번</th>
+								<th>시험</th>
+								<th>응시여부</th>
+								<th>성적</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				//dataTable();
+			})
+
+			// 데이터 테이블 생성
+			$(document).ready(function () {
+				let scoreTable = $("#scoreTable");
+				let table = $(scoreTable).DataTable({
+					ajax: {
+						method : 'POST',
+						url : /*@{/professor/eclass/examScore}*/'',
+						dataType : 'json'
+					},
+					pagingType : 'simple',
+					ordering : false,
+					language: {
+				        paginate: {
+				            previous: '<span><i class="fa-solid fa-angle-left"></i></span>',
+				            next: '<span><i class="fa-solid fa-angle-right"></i></span>'
+				        },
+				    },
+					columns: [
+						{'data' : 'studentId'},
+						{'data' : 'examCode',
+							"render" : function(data) {
+								if (data.startsWith('M')) {
+									data = '중간';
+								} else if (data.startsWith('F')) {
+									data = '기말';
+								}
+								return data;
+							}},
+						{'data' : 'examTake',
+							"render" : function(data, type, row) {
+								if (data == 'SUB') {
+									data = '응시'
+								} else if (data == 'UNSUB') {
+									data = '미응시'
+								}
+								return data;
+							}},
+						{'data' : 'examScore'}
+					]
+				})
+			})
+		</script>
+	</th:block>
+</body>
+</html>

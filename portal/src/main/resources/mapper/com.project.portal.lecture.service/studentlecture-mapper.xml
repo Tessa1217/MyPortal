@@ -66,7 +66,7 @@
 				AND lecture_code = #{lectureCode}
 		</selectKey>
 		{
-			CALL SL_U_PRCD(#{watchAccumTime}, #{lectureAttTime}, #{watchCode})
+			CALL SL_U_PRCD(#{watchCode}, #{lectureAttTime})
 		}
 	</update>
 </mapper>

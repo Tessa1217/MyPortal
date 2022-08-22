@@ -16,5 +16,6 @@ public interface ProfessorExamMapper {
 	void insertExam(@Param("course") CourseVO course, 
 			@Param("exam") ExamVO exam);
 	ExamVO getExam(ExamVO vo);
+	List<ExamScoreVO> getExamScore(CourseVO vo);
 
 }

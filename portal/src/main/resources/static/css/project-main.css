@@ -95,3 +95,25 @@ input[name="tabs"] + .tabmenu {
 .paging {
 	height: 700px;
 }
+
+.prevBtn {
+	float: left;
+}
+
+.nextBtn {
+	float: right;
+}
+
+.prevBtn, .nextBtn {
+	margin-bottom: 8%;
+	width: 80px;
+}
+
+.prevBtn i, .nextBtn i {
+	font-size: x-large;
+}
+
+.hidePage {
+	display: none;
+}
+

@@ -40,25 +40,25 @@ public class ProfessorLectureController {
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	
-	@RequestMapping("professor/lectureList")
+	@RequestMapping("professor/eclass/lectureList")
 	public String lectureList(Model model, CourseVO vo) {
 		vo.setCourseCode("SSPY0001");
 		List<LectureVO> lectureList = service.getLectureList(vo);
 		model.addAttribute("lectureList", lectureList);
-		return "professor/eclass/lectureList";
+		return "professor/eclass/lecture/lectureList";
 	}
 	
-	@RequestMapping("professor/insertLecture")
+	@RequestMapping("professor/eclass/insertLecture")
 	public String insertLecture(CourseVO vo, Model model) {
 		vo.setCourseCode("SSPY0001");
 		// 주차 정보
 		vo = courseService.getWeeklyInfo(vo);
 		System.out.println(vo);
 		model.addAttribute("courseInfo", vo);
-		return "professor/eclass/insertLecture";
+		return "professor/eclass/lecture/insertLecture";
 	}
 	
-	@PostMapping("professor/insertLecture")
+	@PostMapping("professor/eclass/insertLecture")
 	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video) throws IllegalStateException, IOException {
 		
 		// 비디오 테이블에 등록하기
@@ -80,7 +80,7 @@ public class ProfessorLectureController {
 		System.out.println(lecture);
 		service.insertLecture(lecture);
 		
-		return "redirect:/professor/lectureList";
+		return "redirect:/professor/eclass/lectureList";
 	}
 	
 	@GetMapping("/video/download/{videoCode}")

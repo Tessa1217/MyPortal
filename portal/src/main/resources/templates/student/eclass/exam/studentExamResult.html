@@ -5,21 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-.bold {
-	font-weight: bold;
-	font-size: large;
-}
-
-#omrCard {
-	padding: 3%;
-}
-
-.btnContainer {
-	text-align: center;
-	margin: 2%;
-}
-</style>
 </head>
 <body>
 	<th:block layout:fragment="bodyContent">
@@ -69,15 +54,17 @@
 							</table>
 							<div class="btnContainer">
 								<button type="button" class="btn btn-primary"
-									th:onclick="|location.href='@{/student/exam}'|">돌아가기</button>
+									th:onclick="|location.href='@{/student/eclass/examList}'|">돌아가기</button>
 							</div>
 						</div>
 					</div>
-					<div class="mainContainer col-9" style="float: left;"
-						th:data-length="${#lists.size(studentExam)}">
-						<th:block th:each="r, idx : ${studentExam}">
-							<div th:class="|page-${idx.index}|">
-								<div class="exam card">
+					<div class="mainContainer col-9" style="float: left;">
+						<div
+							th:each="i : ${#numbers.sequence(0, (#lists.size(studentExam)/5) - 1)}"
+							th:id="|testPage-${i}|" class="questionContainer hidePage">
+							<th:block
+								th:each="idx : ${#numbers.sequence(0 + i * 5, 4 + i * 5)}">
+								<div th:with="r = ${studentExam[idx]}" class="exam card">
 									<p class="card-header"
 										th:text="|${r.studentQuestionNum}. ${r.questionContent} (${r.examQuestionPoint}점)|">
 									<div class="testContainer card-body">
@@ -116,12 +103,27 @@
 										</th:block>
 									</div>
 								</div>
+							</th:block>
+							<div class="pageBtnContainer">
+								<th:block th:if="${i} != 0">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
+								</th:block>
+								<th:block th:if="${i != (#lists.size(studentExam)/5 - 1)}">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
+								</th:block>
 							</div>
-						</th:block>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			$(function() {
+				// 첫번째 페이지만 열기
+				$("#testPage-0").removeClass("hidePage");
+				movePage();
+			})
+		</script>
 	</th:block>
 </body>
 </html>
