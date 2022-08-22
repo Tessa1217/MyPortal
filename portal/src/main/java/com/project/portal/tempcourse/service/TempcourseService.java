@@ -4,10 +4,12 @@ import java.util.List;
 
 
 import com.project.portal.common.Criteria;
+import com.project.portal.professor.service.ProfessorVO;
 
 public interface TempcourseService {
 
-
+	
+	ProfessorVO getInfo(ProfessorVO pvo);
 	public TempcourseVO getTemp(TempcourseVO vo);
 	public List<TempcourseVO> tempcourseList(Criteria cri);
 	public int tempcourseListCount(Criteria cri);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseMapper;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
@@ -62,6 +63,14 @@ public class TempcourseServiceImpl implements TempcourseService{
 	public void tempweekInsert(TempcourseweekVO voo) {
 		// TODO Auto-generated method stub
 		mapper.tempweekInsert(voo);
+	}
+
+
+
+	@Override
+	public ProfessorVO getInfo(ProfessorVO pvo) {
+		// TODO Auto-generated method stub
+		return mapper.getInfo(pvo);
 	}
 
 

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ProfessorVO {
 	private int professorId;
-	private char departCode;
+	private String departCode;
 	private String professorName;
 	private Date professorBirth;
 	private String professorAddr;

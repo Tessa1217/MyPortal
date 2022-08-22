@@ -17,6 +17,7 @@
 
 .card {
 	padding: 3%;
+	
 }
 </style>
 </head>
@@ -30,7 +31,7 @@
 					</div>
 					<div class="right">
 						<input id="tab2" type="radio" name="tabs" checked> <label
-							for="tab2" class="tabmenu">계획서 불러오기</label> <input id="tab3"
+							for="tab2" class="tabmenu">주차 계획서</label> <input id="tab3"
 							type="radio" name="tabs"> <label for="tab3"
 							class="tabmenu">제출</label>
 					</div>
@@ -43,18 +44,15 @@
 								th:action="@{/tempInsertProc}" method="POST">
 								<div class="form-body">
 									<div class="row inputBox">
+									<input type="hidden" name="departCode" th:value="${departInsert.departCode}">
+									<input type="hidden" name="professorId" th:value="${departInsert.professorId}">
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="text" class="form-control" name="courseName">
 										</div>
-										<div class="col-md-4">
-											<label>강의 코드</label>
-										</div>
-										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="courseCode">
-										</div>
+										
 										<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
@@ -147,7 +145,7 @@
 										<div class="col-md-8 form-group">
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
-										<h4>주차별 강의</h4>
+										<!-- <h4>주차별 강의</h4>
 										<table>
 											<thead>
 											<tr>
@@ -157,18 +155,18 @@
 											</thead>
 											<tbody>
 												<tr th:each="item:${tempweekInsert}" >
-													<td th:text=${item.weekNum}></td>
+													<td th:text="${item.weekNum}"><input type="hidden" name="weekNum" th:value="${item.weekNum}"></td>
 													<td><input name="weekContent"></td>
 												</tr>
 											</tbody>
-										</table>
+										</table> -->
 
 									</div>
 								</div>
 								<div class="col-sm-12 d-flex justify-content-end">
-									<button type="submit" class="btn btn-danger">제출</button>
-									<button type="button" th:onclick="saveTempInfo"
-										class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
+									<button type="submit" class="btn btn-primary">저장하기</button>
+									<!-- <button type="button" th:onclick="saveTempInfo"
+										class="saveBtn btn btn-primary me-1 mb-1"></button> -->
 
 									<button type="button" class="btn btn-light-secondary me-1 mb-1"
 										onclick="history.back()">취소</button>
@@ -176,9 +174,16 @@
 							</form>
 						</div>
 					</div>
+					
+					<div class="row">
+					<div class="card paging">
+						<div class="card-body">
+							<h2>텟그트</h2>
+						</div>
+					</div>
+					</div>
 				</div>
 			</div>
-
 		</div>
 		<script th:inline="javascript">
 			
