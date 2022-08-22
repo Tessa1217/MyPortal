@@ -42,28 +42,23 @@ public class StudentController {
 		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
 		return "student/info/personal";
 	}
-	////////
+	//////// 외부에서 이미지 가져오기
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String fileName) {
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) throws UnsupportedEncodingException {
 		Resource resource = new FileSystemResource("c:\\faces\\" + fileName);
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		String resourceName = resource.getFilename();
+//		String resourceName = resource.getFilename();
 		
 		HttpHeaders headers = new HttpHeaders();
 		
-		try {
-			String downloadName = null;
-			if(userAgent.contains("Trident")) {
-				logger.info("IE browser");
-			}
-			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
-		} catch (UnsupportedEncodingException e) {
-			// TODO: handle exception
-			e.printStackTrace();
+		String downloadName = null;
+		if(userAgent.contains("Trident")) {
+			logger.info("IE browser");
 		}
+		headers.add("Content-Disposition", "attachment; filename=" + downloadName);
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 		
 	}
