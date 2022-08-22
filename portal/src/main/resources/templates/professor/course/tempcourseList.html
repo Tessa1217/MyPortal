@@ -55,6 +55,12 @@
 		</div>
 		<script th:inline="javascript">
 		
+		$(function() {
+			goPage(pageNum);
+			tempInsert();
+			
+		})
+		
 		function goPage(pageNum){
 			searchFrm.pageNum.value = pageNum;
 			searchFrm.submit();

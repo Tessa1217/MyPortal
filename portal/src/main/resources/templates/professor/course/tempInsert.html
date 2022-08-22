@@ -1,8 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/professor_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.offPage {
+	display: none;
+}
+
+.scroll {
+	overflow: scroll;
+	height: 600px;
+}
+
+.card {
+	padding: 3%;
+}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
@@ -31,77 +47,77 @@
 										</div>
 									<div class="col-md-8 form-group">
 										<input type="text" class="form-control" readonly name="courseCode"
-										th:value="${courseInfo.courseCode">
+										th:value="${tempInfo.courseCode">
 									</div>
 									<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="courseYear"
-											th:value="${courseInfo.courseYear}">
+											th:value="${tempInfo.courseYear}">
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="courseSemester"
-											th:value="${courseInfo.courseSemester}">
+											th:value="${tempInfo.courseSemester}">
 										</div>
 									<div class="col-md-4">
 											<label>이수 구분</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="courseSortation"
-											th:value="${courseInfo.courseSortation}">
+											th:value="${tempInfo.courseSortation}">
 										</div>
 										<div class="col-md-4">
 											<label>이수 단위</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="courseCredit"
-											th:value="${courseInfo.courseCredit}">
+											th:value="${tempInfo.courseCredit}">
 										</div>
 										<div class="col-md-4">
 											<label>과제 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="reportAssignedScore"
-											th:value="${courseInfo.reportAssignedScore}">
+											th:value="${tempInfo.reportAssignedScore}">
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="attAssignedScore"
-											th:value="${courseInfo.attAssignedScore}">
+											th:value="${tempInfo.attAssignedScore}">
 										</div>
 										<div class="col-md-4">
 											<label>중간고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="midtermAssignedScore"
-											th:value="${courseInfo.midtermAssignedScore}">
+											th:value="${tempInfo.midtermAssignedScore}">
 										</div>
 										<div class="col-md-4">
 											<label>기말고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="finalAssignedScore"
-											th:value="${courseInfo.finalAssignedScore}">
+											th:value="${tempInfo.finalAssignedScore}">
 										</div>
 										<div class="col-md-4">
 											<label>수강 인원</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control" readonly name="courseLimit"
-											th:value="${courseInfo.courseLimit}">
+											th:value="${tempInfo.courseLimit}">
 										</div>
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="text" class="form-control" readonly name="textbookReference"
-											th:value="${courseInfo.textbookReference}">
+											th:value="${tempInfo.textbookReference}">
 										</div>
 									</div>
 								</div>
@@ -146,13 +162,13 @@
 			}
 			
 			// 시험 정보 저장
-			function saveExamInfo() {
+			function saveTempInfo() {
 				$(".saveBtn").click(function() {
 					$.ajax({
 						type : 'POST',
-						url : 'examInsert',
+						url : 'tempInsert',
 						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-						data : $("#examInfoForm").serialize(),
+						data : $("#tempInfoForm").serialize(),
 						success : function(result) {
 							console.log(result);
 						}

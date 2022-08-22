@@ -44,7 +44,8 @@ public class TempcourseController {
 	
 	//등록
 	@RequestMapping("/professor/tempInsert")
-	public String tempInsert() {
+	public String tempInsert(TempcourseVO vo, Model model) {
+		model.addAttribute("tempInfo", vo);
 		
 		return "professor/course/tempInsert";
 	}
