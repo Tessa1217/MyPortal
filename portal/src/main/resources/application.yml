@@ -4,12 +4,14 @@ server:
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@portal_high?TNS_ADMIN=/Users/tessa/Wallet_portal
+    url: jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
     username: ADMIN
     password: finalProject@1234
   servlet:
     multipart:
-      location: /Users/tessa/temp
+      location: C:////portal
+      max-file-size: 20MB
+      max-request-size: 20MB
   thymeleaf:
     check-template-location: true
     prefix: classpath:/templates/
