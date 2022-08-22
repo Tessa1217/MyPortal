@@ -121,10 +121,26 @@
 										</div>
 									</div>
 								</div>
+								 <div class="col-sm-12 d-flex justify-content-end">
+                    <button type="button" th:onclick="saveTempInfo" class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
+                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+                </div>
 							</form>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="card paging offPage">
+				<div class="row">
+					<th:block
+						th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
+					</th:block>
+				</div>
+			</div>
+			<div class="card paging offPage">
+				<th:block
+					th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
+				</th:block>
 			</div>
 	</div>
 	<script th:inline="javascript">
