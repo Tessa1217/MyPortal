@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.project.portal.common.Criteria;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
+import com.project.portal.tempcourse.service.TempcourseweekVO;
 
 @Controller
 public class TempcourseController {
@@ -44,19 +45,20 @@ public class TempcourseController {
 	
 	//등록
 	@RequestMapping("/professor/tempInsert")
-	public String tempInsert(TempcourseVO vo, Model model) {
+	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo) {
 		
 		
-		model.addAttribute("tempInfo", vo);
+		
 		
 		return "professor/course/tempInsert";
 	}
 	//등록 처리
 	@RequestMapping("/tempInsertProc")
-	public String tempInsertProc(TempcourseVO vo) {
-		logger.debug(vo.toString());
+	public String tempInsertProc(TempcourseVO vo, List<TempcourseweekVO> voo) {
+		
 		System.out.println(vo);
 		service.tempInsert(vo);
+		
 		
 		return "professor/course/tempInsert";
 	}

@@ -39,91 +39,114 @@
 							<h1>강의 계획서</h1>
 						</div>
 						<div class="card-body">
-							<form id="tempInfoForm" class="form form-horizontal">
+							<form id="tempInfoForm" class="form form-horizontal" th:action="">
 								<div class="form-body">
 									<div class="row inputBox">
+									<div class="col-md-4">
+											<label>강의명</label>
+										</div>
+									<div class="col-md-8 form-group">
+										<input type="text" class="form-control" name="courseName">
+									</div>
 										<div class="col-md-4">
 											<label>강의 코드</label>
 										</div>
 									<div class="col-md-8 form-group">
-										<input type="text" class="form-control" readonly name="courseCode"
-										th:value="${tempInfo.courseCode}">
+										<input type="text" class="form-control" name="courseCode"
+										>
 									</div>
 									<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="courseYear"
-											th:value="${tempInfo.courseYear}">
+											<input type="number" class="form-control" name="courseYear"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="courseSemester"
-											th:value="${tempInfo.courseSemester}">
+											<input type="number" class="form-control" name="courseSemester"
+											>
 										</div>
 									<div class="col-md-4">
 											<label>이수 구분</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="courseSortation"
-											th:value="${tempInfo.courseSortation}">
+											<input type="number" class="form-control" name="courseSortation"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>이수 단위</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="courseCredit"
-											th:value="${tempInfo.courseCredit}">
+											<input type="number" class="form-control" name="courseCredit"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>과제 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="reportAssignedScore"
-											th:value="${tempInfo.reportAssignedScore}">
+											<input type="number" class="form-control" name="reportAssignedScore"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="attAssignedScore"
-											th:value="${tempInfo.attAssignedScore}">
+											<input type="number" class="form-control" name="attAssignedScore"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>중간고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="midtermAssignedScore"
-											th:value="${tempInfo.midtermAssignedScore}">
+											<input type="number" class="form-control" name="midtermAssignedScore"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>기말고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="finalAssignedScore"
-											th:value="${tempInfo.finalAssignedScore}">
+											<input type="number" class="form-control" name="finalAssignedScore"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>수강 인원</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" readonly name="courseLimit"
-											th:value="${tempInfo.courseLimit}">
+											<input type="number" class="form-control" name="courseLimit"
+											>
 										</div>
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" readonly name="textbookReference"
-											th:value="${tempInfo.textbookReference}">
+											<input type="text" class="form-control" name="textbookReference"
+											>
 										</div>
+										<div class="col-md-4">
+											<label>강의 개요</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" name="courseSummary"
+											>
+										</div>
+										<div class="col-md-4">
+											<label>강의 참고사항</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" name="courseNotes"
+											>
+										</div>
+										
 									</div>
 								</div>
 								 <div class="col-sm-12 d-flex justify-content-end">
+								 <button type="submit" class="btn btn-danger">제출</button>
                     <button type="button" th:onclick="saveTempInfo" class="saveBtn btn btn-primary me-1 mb-1">저장하기</button>
-                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+                    
+                    <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="history.back()">취소</button>
                 </div>
 							</form>
 						</div>
@@ -137,7 +160,8 @@
 			$(function() {
 				showPage();
 				saveTempInfo(); 
-				enterDate(); 
+				enterDate();
+				
 			})
 			
 			// 탭 형식으로 보이기
@@ -157,14 +181,14 @@
 			}
 			
 			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
-			function enterDate() {
+		 	function enterDate() {
 				$(document).on("change", "select[name=weekCode]", function(e) {
 					let startDate = $($(e.target).children(":selected")).data("start");
 					let endDate = $($(e.target).children(":selected")).data("end");
 					$("input[name=examStartDate]").val(startDate);
 					$("input[name=examEndDate]").val(endDate);
 				})
-			}
+			} 
 			
 			// 시험 정보 저장
 			function saveTempInfo() {
@@ -180,6 +204,7 @@
 					})
 				})
 			}
+			
 			
 			</script>
 	</th:block>
