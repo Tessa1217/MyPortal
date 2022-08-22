@@ -5,6 +5,162 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<th:block layout:fragment="professorContent">
+		<div id="main">
+			<div>
+				<div class="row">
+					<div class="page-title">
+						<h2>강의 계획서 등록</h2>
+					</div>
+					<div class="right">
+						<input id="tab2" type="radio" name="tabs" checked>
+						<label for="tab2" class="tabmenu">계획서 불러오기</label>
+						<input id="tab3" type="radio" name="tabs">
+						<label for="tab3" class="tabmenu">제출</label>
+					</div>
+					<div class="card paging">
+						<div class="card-header">
+							<h1>강의 계획서</h1>
+						</div>
+						<div class="card-body">
+							<form id="tempInfoForm" class="form form-horizontal">
+								<div class="form-body">
+									<div class="row inputBox">
+										<div class="col-md-4">
+											<label>강의 코드</label>
+										</div>
+									<div class="col-md-8 form-group">
+										<input type="text" class="form-control" readonly name="courseCode"
+										th:value="${courseInfo.courseCode">
+									</div>
+									<div class="col-md-4">
+											<label>강의 년도</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseYear"
+											th:value="${courseInfo.courseYear}">
+										</div>
+										<div class="col-md-4">
+											<label>강의 학기</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseSemester"
+											th:value="${courseInfo.courseSemester}">
+										</div>
+									<div class="col-md-4">
+											<label>이수 구분</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseSortation"
+											th:value="${courseInfo.courseSortation}">
+										</div>
+										<div class="col-md-4">
+											<label>이수 단위</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseCredit"
+											th:value="${courseInfo.courseCredit}">
+										</div>
+										<div class="col-md-4">
+											<label>과제 배점</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="reportAssignedScore"
+											th:value="${courseInfo.reportAssignedScore}">
+										</div>
+										<div class="col-md-4">
+											<label>출결 배점</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="attAssignedScore"
+											th:value="${courseInfo.attAssignedScore}">
+										</div>
+										<div class="col-md-4">
+											<label>중간고사 배점</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="midtermAssignedScore"
+											th:value="${courseInfo.midtermAssignedScore}">
+										</div>
+										<div class="col-md-4">
+											<label>기말고사 배점</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="finalAssignedScore"
+											th:value="${courseInfo.finalAssignedScore}">
+										</div>
+										<div class="col-md-4">
+											<label>수강 인원</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="number" class="form-control" readonly name="courseLimit"
+											th:value="${courseInfo.courseLimit}">
+										</div>
+										<div class="col-md-4">
+											<label>교재 및 참고문헌</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input type="text" class="form-control" readonly name="textbookReference"
+											th:value="${courseInfo.textbookReference}">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	<script th:inline="javascript">
+			
+			$(function() {
+				showPage();
+				saveExamInfo(); 
+				enterDate(); 
+			})
+			
+			// 탭 형식으로 보이기
+			function showPage() {
+			let icons = $("input[name=tabs]");
+			$(icons).each((index, val) => {
+				$(val).on("click", function(e) {
+					if ($(val).is(":checked")) {
+						let page = $(".paging");
+						$(page).each((idx, val) => {
+							$(val).addClass('offPage');
+						})
+						$(page[index]).removeClass("offPage");
+					}
+				})
+			})
+			}
+			
+			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
+			function enterDate() {
+				$(document).on("change", "select[name=weekCode]", function(e) {
+					let startDate = $($(e.target).children(":selected")).data("start");
+					let endDate = $($(e.target).children(":selected")).data("end");
+					$("input[name=examStartDate]").val(startDate);
+					$("input[name=examEndDate]").val(endDate);
+				})
+			}
+			
+			// 시험 정보 저장
+			function saveExamInfo() {
+				$(".saveBtn").click(function() {
+					$.ajax({
+						type : 'POST',
+						url : 'examInsert',
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+						data : $("#examInfoForm").serialize(),
+						success : function(result) {
+							console.log(result);
+						}
+					})
+				})
+			}
+			
+			</script>
+	</th:block>
 </body>
 </html>

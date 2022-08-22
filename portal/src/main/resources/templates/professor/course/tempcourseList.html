@@ -12,11 +12,12 @@
 		<div>
 			<h2>강의 계획서 조회</h2>
 		</div>
-			<form name="serachFrm">
-				개설연도:<input type="number" name="pageNum" value="courseYear">
-				개설학기:<input type="number" name="pageNum" value="courseSemester">
-				
+			<form name="searchFrm">
+				개설연도:<input type="number" name="courseYear" value="courseYear">
+				개설학기:<input type="number" name="courseSemester" value="courseSemester">
+				<div class="input-group">
 				<button class="btn rounded-pill btn-primary" type="button">검색</button>
+				</div>
 			</form>
 			<table>
 				<thead>
@@ -31,24 +32,35 @@
 					</tr>
 				</thead>
 				<tbody>
-				 	<!-- 가나다 -->
+				 	
 					<tr th:each="item:${tempcourseList}" var="vo">
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<td th:text="${item.courseCredit}"></td>
-							<td th:text="${item.courseSortation}"></td>
+							<!-- <td th:text="${item.courseSortation}"></td> -->
+							<td th:if="${item.courseSortation == 'L01'}">교양필수</td>
+							<td th:if="${item.courseSortation == 'L02'}">교양</td>
+							<td th:if="${item.courseSortation == 'M01'}">전공필수</td>
+							<td th:if="${item.courseSortation == 'M02'}">전공</td>
 							<td th:text="${item.courseName}"></td>
-							<td th:text="${item.submitYes}"></td>
-							<td th:text="${item.backReason}"></td>
+							<td th:if="${item.submitYes == 'SUB'}">제출</td>
+							<td th:if="${item.submitYes == 'UNSUB'}">미제출</td>
+							<td th:if="${item.backReason == 'A00'}">승인</td>
+							<td th:if="${item.backReason == 'A01'}">심사대기</td>
 						</tr>
 						
 				</tbody>
 			</table>
+			<button onclick="tempInsert()">등록</button>
 		</div>
 		<script th:inline="javascript">
+		
 		function goPage(pageNum){
 			searchFrm.pageNum.value = pageNum;
 			searchFrm.submit();
+		}
+		function tempInsert(){
+			location.href="tempInsert";
 		}
 		</script>
 	</th:block>
