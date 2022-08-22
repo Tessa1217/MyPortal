@@ -54,7 +54,19 @@
 		</selectKey>
 	</insert>
 	<insert id="insertLecture" parameterType="LectureVO">
-		INSERT INTO lecture VALUES (
+		INSERT INTO lecture (
+												lecture_code,
+												week_code,
+												lecture_reg_date,
+												lecture_start_date,
+												lecture_end_date,
+												lecture_att_time,
+												lecture_content,
+												video_code,
+												lecture_title,
+												course_code
+												)
+												VALUES (
 																SUBSTR(#{weekCode}, 3, 2)||'L'||LPAD(TO_CHAR(lecture_seq.NEXTVAL), 7, '0'),
 																#{weekCode},
 																SYSDATE,
@@ -63,6 +75,12 @@
 																#{lectureAttTime},
 																#{lectureContent},
 																#{videoCode},
-																#{lectureTitle})
+																#{lectureTitle},
+																#{courseCode})
 	</insert>
+	<select id="getVideo" resultType="VideoVO">
+		SELECT * 
+			FROM video
+			WHERE video_code = #{videoCode}
+	</select>
 </mapper>

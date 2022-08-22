@@ -78,5 +78,11 @@
 							DEFAULT
 							)
 	</insert>
+	
+	<select id="getExam" resultType="ExamVO">
+		SELECT *
+			FROM exam
+			WHERE exam_code = #{examCode}
+	</select>
 
 </mapper>

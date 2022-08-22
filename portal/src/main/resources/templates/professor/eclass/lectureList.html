@@ -14,7 +14,7 @@
 		</div>
 		<div class="card">
 		<div class="card-body">
-			<table class="table table-striped dataTable-table" id="lectureTable">
+			<table class="table table-striped dataTable-table center" id="lectureTable">
 				<thead>
 					<tr>
 						<th>강의 주차</th>
@@ -27,13 +27,12 @@
 				</thead>
 				<tbody>
 					<tr th:each="lec : ${lectureList}">
-						<td th:text="${lec.weekCode}"></td>
+						<td th:text="${#strings.substring(lec.weekCode, 8, 10)}"></td>
 						<td th:text="${lec.lectureTitle}"></td>
 						<td th:text="${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')}"></td>
 						<td th:text="${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}"></td>
 						<td th:text="${lec.lectureAttTime}"></td>
-						<td><a th:href="${lec.lectureFile.videoStoredName}" th:onclick="fileDownload"
-							th:download="${lec.lectureFile.videoName}">[[${lec.lectureFile.videoName}]]</a></td>
+						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -43,16 +42,14 @@
 			<script th:inline="javascript">
 				$(function() {
 					dataTable();
-					fileDownload();
 				})
+				
+				// 데이터 테이블 생성
 				function dataTable() {
 					let lectureTable = $("#lectureTable");
 					let dataTable = new simpleDatatables.DataTable(lectureTable);
 				}
-				
-				function fileDownload() {
-					console.log("HI");
-				}
+		
 			</script>
 	</th:block>
 </body>

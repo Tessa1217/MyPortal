@@ -32,4 +32,9 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 		
 	}
 
+	@Override
+	public VideoVO getVideo(String videoCode) {
+		return mapper.getVideo(videoCode);
+	}
+
 }
