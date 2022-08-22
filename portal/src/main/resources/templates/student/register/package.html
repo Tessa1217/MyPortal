@@ -32,13 +32,13 @@
 		<option value="ENGL">영어영문학과</option>
 	</select>
 
-	<select name="">
+	<!-- <select name="">
 		<option value='' selected>-- 학년 (선택) --</option>
 		<option value="1">1학년</option>
 		<option value="2">2학년</option>
 		<option value="3">3학년</option>
 		<option value="4">4학년</option>
-	</select>
+	</select> -->
 
 	<button class="btn rounded-pill btn-primary" type="button">검색</button>
 	</div>
@@ -49,19 +49,23 @@
 		<thead>
 			<tr>
 				<th>과목 코드</th>
-				<th>학년</th>
 				<th>이수 구분</th>
 				<th>강의명</th>
 				<th>학점</th>
 				<th>담당 교수</th>
 				<th>수강 인원</th>
-				<th>전체 담기</th>
+				<th>담기</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="item:${PackageList}" var="vo">
+			<tr th:each="item:${coursePackage}">
 				<td th:text="${item.courseCode}"></td>
-				
+				<td th:text="${item.courseSortation}"></td>
+				<td th:text="${item.courseName}"></td>
+				<td th:text="${item.courseCredit}"></td>
+				<td th:text="${item.professorId}"></td>
+				<td th:text="${item.courseLimit}"></td>
+				<td><button type="button" class="btn rounded-pill btn-primary" th:onclick="in">담기</button></td>
 			</tr>
 		</tbody>
 	</table>
@@ -73,7 +77,6 @@
 				<thead>
 					<tr>
 						<th>과목 코드</th>
-						<th>학년</th>
 						<th>이수 구분</th>
 						<th>강의 명</th>
 						<th>학점</th>
@@ -81,6 +84,11 @@
 						<th>전체 삭제</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr th:each="">
+			
+					</tr>
+				</tbody>
 			</table>
 	</div>
 	<br>

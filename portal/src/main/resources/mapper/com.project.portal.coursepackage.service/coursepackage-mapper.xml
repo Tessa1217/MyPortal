@@ -3,9 +3,8 @@
 <mapper
 	namespace="com.project.portal.coursepackage.service.CoursePackageMapper">
 	
-	<select id="coursePackage" resultType="CoursePackageVO">
+	<select id="coursePackage" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
 		SELECT course_code, course_name, course_sortation, course_credit, course_limit, professor_id
 		FROM course
-		
 	</select>
 </mapper>
