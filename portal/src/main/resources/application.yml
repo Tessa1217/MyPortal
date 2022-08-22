@@ -7,6 +7,8 @@ spring:
     url: jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
     username: ADMIN
     password: finalProject@1234
+    hikari:
+      maximum-pool-size: 5
   servlet:
     multipart:
       location: C:////portal
