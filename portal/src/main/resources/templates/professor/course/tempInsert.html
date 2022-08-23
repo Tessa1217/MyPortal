@@ -172,26 +172,28 @@
 						<div class="card-body">
 							<form th:action="@{/tempweekInsertProc}" method="POST">
 							<h2>주차별 강의</h2>
-							 
-										<table>
-											<thead>
+							 	<select name="courseCode">
+							 		<option th:each="item:${tempcourseList}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
+							 	</select>
+							 	<button type="button" onclick="tableAdd()">주차 추가</button>
+								<div>
+									<table>
+										<thead>
 											<tr>
 												<th>주차</th>
 												<th>내용</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="item:${tempweekInsert}" >
-													<td th:text="${item.weekNum}"><input type="hidden" name="weekNum" th:value="${item.weekNum}"></td>
-													<td><input name="weekContent"></td>
-												</tr>
-											</tbody>
-										</table> 
-										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-primary">제출하기</button>
-											<button type="reset" class="btn btn-secondary">취소</button>
-										</div>
-										</form>
+											</tr>
+										</thead>
+										<tbody id="tbody">
+											
+										</tbody>
+									</table>
+								</div> 
+								<div class="col-sm-12" align="right">
+									<button type="submit" class="btn btn-primary">제출하기</button>
+									<button type="reset" class="btn btn-secondary">취소</button>
+								</div>
+							</form>
 						</div>
 					</div>
 					</div>
@@ -247,7 +249,12 @@
 					})
 				})
 			}
-			
+			//주차 추가
+			let row = 1;
+			function tableAdd(){
+				$("#tbody").append('<tr><td>'+ row +'</td><td>'+'<input name="weekContent">'+'</td></tr>');
+				row++;
+			}
 			
 			</script>
 	</th:block>

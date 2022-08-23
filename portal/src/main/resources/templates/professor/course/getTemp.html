@@ -164,29 +164,28 @@
 					<div class="row">
 						<div class="card paging">
 							<div class="card-body">
-								 <!--  <form th:action="" method="GET">
+								 
 							<h2>주차별 강의</h2>
-							 
-										<table>
+							<table class="table">
 											<thead>
 											<tr>
 												<th>주차</th>
 												<th>내용</th>
 												</tr>
-											</thead>
-											<tbody>
-												 
-												<tr th:each="item:${tempcourseweek}">
-												<td th:text="${item.weekNum"><input type="hidden" th:value="${item.weekNum}"></td>
-												<td><input th:value="${item.weekContent}"></td>
-												</tr>
-											</tbody>
-										</table> 
+											
+											 	<tr th:each="items:${tempcourseweek}">
+												<td th:text="${items.weekNum"></td>
+												<td th:text="${items.weekContent}"></td>
+												</tr> 
+												<!-- <input type="hidden" th:value="${item.weekNum}"> -->
+											
+										</thead>
+										</table>
 										<div class="col-sm-12" align="right">
 											<button type="submit" class="btn btn-primary">제출하기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
-										</form>   -->
+										
 							</div>
 						</div>
 					</div>

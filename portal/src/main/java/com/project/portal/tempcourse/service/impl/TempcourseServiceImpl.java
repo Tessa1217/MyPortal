@@ -71,7 +71,7 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
-	public TempcourseweekVO getTempweek(String no) {
+	public List<TempcourseweekVO> getTempweek(String no) {
 		// TODO Auto-generated method stub
 		return mapper.getTempweek(no);
 	}

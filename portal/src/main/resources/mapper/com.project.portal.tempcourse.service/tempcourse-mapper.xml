@@ -41,7 +41,7 @@
 	
 	<select id="getTempweek" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
 		
-		select * from temp_course_weekly where course_code = #{courseCode}
+		select week_num, week_content from temp_course_weekly where course_code = #{courseCode}
 	
 	
 	</select>
@@ -111,7 +111,7 @@
 		#{weekNum},
 		#{weekContent},
 		<!-- #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'), -->
-		#{weekCode},
+		#{weekCode}, 
 		#{courseCode}
 
 		<!-- </foreach> -->
