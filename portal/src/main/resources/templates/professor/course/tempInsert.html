@@ -31,10 +31,10 @@
 						<h2>강의 계획서 등록</h2>
 					</div>
 					<div class="right">
-						<input id="tab2" type="radio" name="tabs" checked> <label
-							for="tab2" class="tabmenu">주차 계획서</label> <input id="tab3"
-							type="radio" name="tabs"> <label for="tab3"
-							class="tabmenu">제출</label>
+						<input id="tab1" type="radio" name="tabs" checked> <label
+							for="tab1" class="tabmenu">기본 정보</label> <input id="tab2"
+							type="radio" name="tabs"> <label for="tab2"
+							class="tabmenu">주차 계획</label>
 					</div>
 					<div class="card paging">
 						<div class="card-header">
@@ -157,7 +157,22 @@
 											<button type="submit" class="btn btn-primary">제출하기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
-										<!-- <h4>주차별 강의</h4>
+										
+
+									</div>
+									
+								</div>
+								
+							</form>
+						</div>
+					</div>
+					
+					<div class="row">
+					<div class="card paging">
+						<div class="card-body">
+							<form th:action="@{/tempweekInsertProc}" method="POST">
+							<h2>주차별 강의</h2>
+							 
 										<table>
 											<thead>
 											<tr>
@@ -171,20 +186,12 @@
 													<td><input name="weekContent"></td>
 												</tr>
 											</tbody>
-										</table> -->
-
-									</div>
-									
-								</div>
-								
-							</form>
-						</div>
-					</div>
-					
-					<div class="row">
-					<div class="card paging">
-						<div class="card-body">
-							<h2>텟그트</h2>
+										</table> 
+										<div class="col-sm-12" align="right">
+											<button type="submit" class="btn btn-primary">제출하기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
+										</form>
 						</div>
 					</div>
 					</div>

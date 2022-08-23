@@ -26,11 +26,6 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 
-	@Override
-	public TempcourseVO getTemp(TempcourseVO vo) {
-		// TODO Auto-generated method stub
-		return mapper.getTemp(vo);
-	}
 
 	
 
@@ -73,6 +68,19 @@ public class TempcourseServiceImpl implements TempcourseService{
 		return mapper.getInfo(pvo);
 	}
 
+
+
+	@Override
+	public TempcourseweekVO getTempweek(String no) {
+		// TODO Auto-generated method stub
+		return mapper.getTempweek(no);
+	}
+
+	@Override
+	public TempcourseVO getTemp(String no) {
+		// TODO Auto-generated method stub
+		return mapper.getTemp(no);
+	}
 
 
 	

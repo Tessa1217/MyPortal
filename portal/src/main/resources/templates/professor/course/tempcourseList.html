@@ -13,11 +13,11 @@
 			<h2>강의 계획서 조회</h2>
 		</div>
 		<div class="card-body">
-			<form name="searchFrm">
+			<form id="searchFrm" action="" method="post">
 				개설연도:<input type="number" name="courseYear" >
 				개설학기:<input type="number" name="courseSemester">
 				<div class="input-group">
-				<button class="btn rounded-pill btn-primary" type="button">검색</button>
+				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 				</div>
 			</form>
 			<table class="table">
@@ -43,7 +43,9 @@
 							<td th:if="${item.courseSortation == 'L02'}">교양</td>
 							<td th:if="${item.courseSortation == 'M01'}">전공필수</td>
 							<td th:if="${item.courseSortation == 'M02'}">전공</td>
-							<td th:text="${item.courseName}"></td>
+							<td>
+							<a th:text="${item.courseName}" th:href="|/professor/getTemp/${item.courseCode}|"></a>
+							</td>
 							<td th:if="${item.submitYes == 'SUB'}">제출</td>
 							<td th:if="${item.submitYes == 'UNSUB'}">미제출</td>
 							<td th:if="${item.backReason == 'A00'}">승인</td>
@@ -62,7 +64,7 @@
 		$(function() {
 			goPage(pageNum);
 			tempInsert();
-			
+			getTemp();
 		})
 		
 		function goPage(pageNum){
@@ -71,6 +73,9 @@
 		}
 		function tempInsert(){
 			location.href="tempInsert";
+		}
+		function getTemp(){
+			location.href="getTemp";
 		}
 		</script>
 	</th:block>

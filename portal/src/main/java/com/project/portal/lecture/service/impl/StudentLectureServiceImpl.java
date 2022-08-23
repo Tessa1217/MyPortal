@@ -41,4 +41,9 @@ public class StudentLectureServiceImpl implements StudentLectureService {
 		mapper.updateLectureRecord(vo);	
 	}
 
+	@Override
+	public StudentLectureVO getLectureRecord(StudentLectureVO vo) {
+		return mapper.getLectureRecord(vo);
+	}
+
 }

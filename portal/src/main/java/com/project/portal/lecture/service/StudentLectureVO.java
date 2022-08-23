@@ -15,7 +15,7 @@ public class StudentLectureVO {
 	private Date watchEndDate;
 	private double watchAccumTime;
 	private String lectureCode;
-	private String studentId;
+	private int studentId;
 	private String attOption;
 	private int lectureAttTime;
 	// insert/update 나누는 커맨드

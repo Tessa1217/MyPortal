@@ -8,4 +8,10 @@ import com.project.portal.course.service.CourseVO;
 public interface CoursePackageService {
 
 	public List<CoursePackageVO> coursePackage(CoursePackageVO vo);
+	
+	public CoursePackageVO coursePackageInsert(CoursePackageVO vo);
+	
+	public List<CoursePackageVO> coursePackageList(CoursePackageVO vo);
+	
+	
 }
