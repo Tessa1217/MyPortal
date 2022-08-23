@@ -1,107 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/admin_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin_layout}">
 <head>
 <meta charset="UTF-8">
 <title>학생 정보 조회/수정</title>
 
 <style>
-
 #main {
 	display: block;
 }
 
 .buttonmod {
-	width : 80px;
+	width: 80px;
 	/* float : right; */
-	
 }
-.card .table2{
-	width : 60%;
-	float : ;
+
+.card .table2 {
+	width: 60%;
+	float:;
 }
-.card .faceImg{
-	width : 20%;
-	float : left;
+
+.card .faceImg {
+	width: 20%;
+	float: left;
 }
 </style>
 
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
-	<div id="main">
-		<div>
-			<h2>내 정보 조회/수정</h2>
-		</div>
-		<div class="card">
-			<p style="float:left;">개인 정보</p> 
-			<button class="btn btn-primary buttonmod" id="mod">수정</button> 
-			<table class="table table2">
-				<tr>
-					<th>전공학과</th><td th:text="${adminStudentInfoSelect.departName}"></td><th>학번</th><td th:text="${adminStudentInfoSelect.studentId}"></td>
-				</tr>
-				<tr>
-					<th>이름</th><td th:text="${adminStudentInfoSelect.studentName}"></td><th>성별</th><td th:text="${adminStudentInfoSelect.studentGender}"></td>
-				</tr>
-				<tr>
-					<th>학년</th><td th:text="${adminStudentInfoSelect.studentGrade}"></td><th>생년월일</th><td th:text="${#dates.format(adminStudentInfoSelect.studentBirth, 'yyyy-MM-dd')}"></td>
-				</tr>
-				<tr>
-					<th>학적상태</th>
-					<td>
-						<select name="studentStatusUpdate" id ="studentStatusUpdate" th:value="${adminStudentInfoSelect.parentsRel}">
-							<option th:selected="${adminStudentInfoSelect.studentStatus}=='AS00'" th:value="AS00" th:text="재학"></option>	
-							<option th:selected="${adminStudentInfoSelect.studentStatus}=='AS01'" th:value="AS01" th:text="휴학"></option>	
-							<option th:selected="${adminStudentInfoSelect.studentStatus}=='AS02'" th:value="AS02" th:text="졸업"></option>	
-						</select>
-					</td>
-					<!-- 
+		<div id="main">
+			<div>
+				<h2>내 정보 조회/수정</h2>
+			</div>
+			<div class="card">
+				<p style="float: left;">개인 정보</p>
+				<button class="btn btn-primary buttonmod" id="mod">수정</button>
+				<table class="table table2">
+					<tr>
+						<th>전공학과</th>
+						<td th:text="${adminStudentInfoSelect.departName}"></td>
+						<th>학번</th>
+						<td th:text="${adminStudentInfoSelect.studentId}"></td>
+					</tr>
+					<tr>
+						<th>이름</th>
+						<td th:text="${adminStudentInfoSelect.studentName}"></td>
+						<th>성별</th>
+						<td th:text="${adminStudentInfoSelect.studentGender}"></td>
+					</tr>
+					<tr>
+						<th>학년</th>
+						<td th:text="${adminStudentInfoSelect.studentGrade}"></td>
+						<th>생년월일</th>
+						<td
+							th:text="${#dates.format(adminStudentInfoSelect.studentBirth, 'yyyy-MM-dd')}"></td>
+					</tr>
+					<tr>
+						<th>학적상태</th>
+						<td><select name="studentStatusUpdate"
+							id="studentStatusUpdate"
+							th:value="${adminStudentInfoSelect.parentsRel}">
+								<option
+									th:selected="${adminStudentInfoSelect.studentStatus}=='AS00'"
+									th:value="AS00" th:text="재학"></option>
+								<option
+									th:selected="${adminStudentInfoSelect.studentStatus}=='AS01'"
+									th:value="AS01" th:text="휴학"></option>
+								<option
+									th:selected="${adminStudentInfoSelect.studentStatus}=='AS02'"
+									th:value="AS02" th:text="졸업"></option>
+						</select></td>
+						<!-- 
 					<td th:if="${adminStudentInfoSelect.studentStatus =='AS00'}">재학</td>
 					<td th:if="${adminStudentInfoSelect.studentStatus =='AS01'}">휴학</td>
 					<td th:if="${adminStudentInfoSelect.studentStatus =='AS02'}">졸업</td> 
 					-->
-					<th>입학학부</th><td th:text="${adminStudentInfoSelect.departName}"></td>
-				</tr>
-				<tr>
-					<th>입학일자</th><td th:text="${#dates.format(adminStudentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
-					<th>입학구분</th>
-					<td th:if="${adminStudentInfoSelect.studentDivision =='AD00'}">신입학</td>
-					<td th:if="${adminStudentInfoSelect.studentDivision =='AD01'}">편입학</td>
-				</tr>
-				<tr>
-					<th>우편번호</th><td th:text="${adminStudentInfoSelect.studentPostalCode}"></td><th>주소</th><td th:text="${adminStudentInfoSelect.studentAddr}"></td>
-				</tr>
-				<tr>
-					<th>연락처</th><td th:text="${adminStudentInfoSelect.studentPhone}"></td>
-					<th>이메일</th><td th:text="${adminStudentInfoSelect.studentEmail}"></td>
-				</tr>
-			</table>
-			<table>
-			<tr>
-			<td><img th:src="|/download/2.jpg|" class ="faceImg"></td>
-			</tr>			
-			</table>
-			<p>보호자 정보</p>
-			<table class="table">
-				<tr>
-					<th>보호자 성명</th><td th:text="${adminStudentInfoSelect.parentsName}"></td>
-				</tr>
-				<tr>
-					<th>연락처</th><td th:text="${adminStudentInfoSelect.parentsPhone}"></td>
-				</tr>
-				<tr>
-					<th>관계</th>
-					<td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
-					<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
-					<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td>
-					<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
+						<th>입학학부</th>
+						<td th:text="${adminStudentInfoSelect.departName}"></td>
+					</tr>
+					<tr>
+						<th>입학일자</th>
+						<td
+							th:text="${#dates.format(adminStudentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
+						<th>입학구분</th>
+						<td th:if="${adminStudentInfoSelect.studentDivision =='AD00'}">신입학</td>
+						<td th:if="${adminStudentInfoSelect.studentDivision =='AD01'}">편입학</td>
+					</tr>
+					<tr>
+						<th>우편번호</th>
+						<td th:text="${adminStudentInfoSelect.studentPostalCode}"></td>
+						<th>주소</th>
+						<td th:text="${adminStudentInfoSelect.studentAddr}"></td>
+					</tr>
+					<tr>
+						<th>연락처</th>
+						<td th:text="${adminStudentInfoSelect.studentPhone}"></td>
+						<th>이메일</th>
+						<td th:text="${adminStudentInfoSelect.studentEmail}"></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td><img th:src="|/download/2.jpg|" class="faceImg"></td>
+					</tr>
+				</table>
+				<p>보호자 정보</p>
+				<table class="table">
+					<tr>
+						<th>보호자 성명</th>
+						<td th:text="${adminStudentInfoSelect.parentsName}"></td>
+					</tr>
+					<tr>
+						<th>연락처</th>
+						<td th:text="${adminStudentInfoSelect.parentsPhone}"></td>
+					</tr>
+					<tr>
+						<th>관계</th>
+						<td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
+						<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
+						<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td>
+						<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
 					<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
 					<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
-				</tr>
-			</table>
-		</div>
-		<!-- <div class="modal fade" id="studentInfoModModal" tabindex="-1"
+					</tr>
+				</table>
+			</div>
+			<!-- <div class="modal fade" id="studentInfoModModal" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -153,36 +179,37 @@
 					</div>
 				</div>
 			</div> -->
-	</div>
-	<script th:inline="javascript">
-	 /*<![CDATA[*/
-		$(function(){
-			$("#mod").on("click", studentInfoUpdate)
-			
-			function studentInfoUpdate(){
-				   $.ajax({
-				      url:"/admin/studentInfoUpdate",
-				      method:"post",
-				      dataType : "json",
-				      data: {
-				         "studentStatus" : $("#studentStatusUpdate").val(),
-				      },
-				      dataType : "json",
-				      success:function(result){		       
-				         location.reload();
-				      }
-				   });
-				}
+		</div>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(function() {
+				$("#mod").on("click", confirmModal)
 				
-		});
-	 	/* function confirmModal() {
-	 		if (window.confrim("변경 내용을 저장하시겠습니까?")) {
-	 			studentInfoUpdate();
-	 		} 
-	 	} */
-		
-		   /*]]>*/
-	</script>
+				function confirmModal() {
+					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+						studentInfoUpdate();
+					}
+				}
+
+				function studentInfoUpdate() {
+					$.ajax({
+						url : "/admin/studentInfoUpdate",
+						method : "post",
+						dataType : "json",
+						data : {
+							"studentStatus" : $("#studentStatusUpdate").val(),
+						},
+						dataType : "json",
+						success : function(result) {
+							location.reload();
+						}
+					});
+				}
+
+			});
+
+			/*]]>*/
+		</script>
 	</th:block>
 
 </body>
