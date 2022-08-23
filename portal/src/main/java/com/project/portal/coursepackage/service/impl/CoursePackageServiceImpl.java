@@ -22,6 +22,21 @@ public class CoursePackageServiceImpl implements CoursePackageService {
 		return mapper.coursePackage(vo);
 	}
 
+	@Override
+	public CoursePackageVO coursePackageInsert(CoursePackageVO vo) {
+		// TODO Auto-generated method stub
+		 mapper.coursePackageInsert(vo);
+		return mapper.coursePackageOne(vo);
+	}
+
+	@Override
+	public List<CoursePackageVO> coursePackageList(CoursePackageVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.coursePackageList(vo);
+	}
+
+	
+
 	
 	
 	
