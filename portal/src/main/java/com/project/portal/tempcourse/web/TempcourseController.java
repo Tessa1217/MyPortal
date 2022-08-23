@@ -104,15 +104,16 @@ public class TempcourseController {
 		System.out.println(voo);
 		
 		
-		return "redirect:tempcourseList";
+		return "redirect:professor/tempcourseList";
 	}
 	
 	@PostMapping("/tempweekInsertProc")
 	public String tempweekInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
 		
+		
 		service.tempweekInsert(voo);
 		
-		return "redirect:tempcourseList";
+		return "redirect:professor/tempcourseList";
 	}
 	
 }

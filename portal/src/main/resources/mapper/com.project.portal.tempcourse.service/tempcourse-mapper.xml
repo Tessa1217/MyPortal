@@ -85,14 +85,14 @@
 		)
 		values
 			(
-<!-- 			<foreach collection="list" item="item" separator=","> -->
+ 			 <foreach collection="list" item="item" separator=",">  
 			
-			#{weekNum},
-			#{weekContent},
-			#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
-			#{courseCode}
+			#{list.weekNum},
+			#{list.weekContent},
+			#{list.courseCode}||LPAD(TO_CHAR(#{list.weekNum}), 2, '0'),
+			#{list.courseCode}
 		
-<!-- 	</foreach> -->
+  	</foreach>  
 	)
 	</insert>
 </mapper>
