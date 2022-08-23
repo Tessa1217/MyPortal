@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/admin_layout}">
+<head>
+<meta charset="UTF-8">
+<title>학생 리스트</title>
+</head>
+<body>
+	<th:block layout:fragment="adminContent">
+	<div id="main">
+		<div>
+			<h2>학생 정보 조회</h2>
+		</div>
+		<div class="card">
+			<div>
+            	<label for="departName">학과</label>
+                <input type="text" id="departName" name="depart_name">
+            	<label for="studentName">이름</label>
+                <input type="text" id="studentName" name="student_name">
+                <button class="btn btn-primary">검색</button>
+            </div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>학번</th>
+						<th>이름</th>
+						<th>학과</th>
+						<th>학년</th>
+						<th>성별</th>
+						<th>생년월일</th>
+						<th>연락처</th>
+						<th>상세보기</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="list : ${studentList}">
+						<td th:text=${list.studentId}></td>
+						<td th:text=${list.studentName}></td>
+						<td th:text=${list.departName}></td>
+						<td th:text=${list.studentGrade}></td>
+						<td th:if="${list.studentGender} == 'M'">남</td>
+						<td th:if="${list.studentGender} == 'W'">여</td>
+						<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
+						<td th:text=${list.studentPhone}></td>
+						<td><button class="btn btn-primary btn-sm" id="adminStudentSelect">상세보기</button></td>
+					</tr>
+				</tbody>
+			</table>		
+		
+		</div>
+		</div>
+	</th:block>
+</body>
+</html>
