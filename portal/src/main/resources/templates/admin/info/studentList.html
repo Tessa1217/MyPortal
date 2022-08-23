@@ -43,8 +43,8 @@
 							<td th:if="${list.studentGender} == 'W'">여</td>
 							<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
 							<td th:text=${list.studentPhone}></td>
-							<td><button class="btn btn-primary btn-sm"
-									id="adminStudentSelect">상세보기</button></td>
+							<td><button type="button" class="btn btn-primary btn-sm adminStudentSelect"
+									th:onclick="sId(${list.studentId})">상세보기</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -52,7 +52,16 @@
 			</div>
 		</div>
 		<script th:inline="javascript">
-			
+			/* $('#adminStudentSelect').on('click', function(){
+				var thisRow = $(this).closest('tr');
+				
+				var sId = thisRow.find('td:eq(0)').text();
+				
+				alert(sId);
+			}) */
+			function sId(studentId){
+				alert(studentId);
+			}
 		</script>
 	</th:block>
 </body>
