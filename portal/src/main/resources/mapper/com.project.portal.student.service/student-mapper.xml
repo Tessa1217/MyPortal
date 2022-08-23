@@ -53,4 +53,11 @@
 		where student_id = 22000001
 		<!-- where student_id = #{studentId} -->
 	</update>
+	
+	<update id="adminStudentInfoUpdate" parameterType="com.project.portal.student.service.StudentVO">
+		UPDATE student_study_info 
+		SET student_status = #{studentStatus}
+		where student_id = 22000001
+		<!-- where student_id = #{studentId} -->
+	</update>
 </mapper>

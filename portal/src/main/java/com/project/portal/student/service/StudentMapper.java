@@ -17,4 +17,6 @@ public interface StudentMapper {
 
 	public StudentVO adminStudentInfoSelect(StudentVO vo);
 
+	public int adminStudentInfoUpdate(StudentVO vo);
+
 }

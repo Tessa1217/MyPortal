@@ -14,4 +14,6 @@ public interface StudentService {
 
 	public StudentVO adminStudentInfoSelect(StudentVO vo);
 
+	public StudentVO adminStudentInfoUpdate(StudentVO vo);
+
 }
