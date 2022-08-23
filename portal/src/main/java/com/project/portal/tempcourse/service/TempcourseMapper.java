@@ -11,7 +11,8 @@ import com.project.portal.professor.service.ProfessorVO;
 public interface TempcourseMapper {
 
 	ProfessorVO getInfo(ProfessorVO pvo);
-	public TempcourseVO getTemp(TempcourseVO vo);
+	public TempcourseVO getTemp(String no);
+	public TempcourseweekVO getTempweek(String no);
 	public List<TempcourseVO> tempcourseList(Criteria cri);
 	public int tempcourseListCount(Criteria cri);
 	public List<TempcourseweekVO> tempcourseweekList(Criteria cri);

@@ -1,10 +1,250 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.offPage {
+	display: none;
+}
+
+.scroll {
+	overflow: scroll;
+	height: 600px;
+}
+
+.card {
+	padding: 3%;
+}
+</style>
 </head>
 <body>
-	
+	<th:block layout:fragment="professorContent">
+		<div id="main">
+			<div>
+				<div class="row">
+					<div class="page-title">
+						<h2>강의 계획서 상세보기</h2>
+					</div>
+					<div class="right">
+						<input id="tab1" type="radio" name="tabs" checked> <label
+							for="tab1" class="tabmenu">기본 정보</label> <input id="tab2"
+							type="radio" name="tabs"> <label for="tab2"
+							class="tabmenu">주차 계획</label>
+					</div>
+					<div class="card paging">
+						<div class="card-header">
+							<h3>강의 계획서</h3>
+						</div>
+						<div class="card-body">
+							<form id="tempInfoForm" class="form form-horizontal">
+								<div class="form-body">
+									<div class="row inputBox">
+										<!-- <input type="hidden" name="departCode" th:value="${departInsert.departCode}">
+									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
+										<div class="col-md-4">
+											<label>강의명</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseName}"
+												class="form-control">
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>강의 년도</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.courseYear}"
+													class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>강의 학기</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input type="number" class="form-control"
+													th:value="${tempcourse.courseSemester}">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>이수 구분</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.courseSortation}"
+													class="form-control" >
+												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
+												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
+												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td>
+											</div>
+											<div class="col-md-4">
+												<label>이수 단위</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.courseCredit}"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>과제 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.reportAssignedScore}"
+													class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>출결 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.attAssignedScore}"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>중간고사 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.midtermAssignedScore}"
+													class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>기말고사 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.finalAssignedScore}"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<label>수강 인원</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseLimit}"
+												class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>교재 및 참고문헌</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.textbookReference}"
+												class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>강의 개요</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseSummary}"
+												class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>강의 참고사항</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseNotes}"
+												class="form-control">
+										</div>
+										<div class="col-sm-12" align="right">
+											<button type="submit" class="btn btn-primary">제출하기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
+
+
+									</div>
+
+								</div>
+
+							</form>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="card paging">
+							<div class="card-body">
+								 <!--  <form th:action="" method="GET">
+							<h2>주차별 강의</h2>
+							 
+										<table>
+											<thead>
+											<tr>
+												<th>주차</th>
+												<th>내용</th>
+												</tr>
+											</thead>
+											<tbody>
+												 
+												<tr th:each="item:${tempcourseweek}">
+												<td th:text="${item.weekNum"><input type="hidden" th:value="${item.weekNum}"></td>
+												<td><input th:value="${item.weekContent}"></td>
+												</tr>
+											</tbody>
+										</table> 
+										<div class="col-sm-12" align="right">
+											<button type="submit" class="btn btn-primary">제출하기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
+										</form>   -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			
+			$(function() {
+				showPage();
+				saveTempInfo(); 
+				enterDate();
+				
+			})
+			
+			// 탭 형식으로 보이기
+			function showPage() {
+			let icons = $("input[name=tabs]");
+			$(icons).each((index, val) => {
+				$(val).on("click", function(e) {
+					if ($(val).is(":checked")) {
+						let page = $(".paging");
+						$(page).each((idx, val) => {
+							$(val).addClass('offPage');
+						})
+						$(page[index]).removeClass("offPage");
+					}
+				})
+			})
+			}
+			
+			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
+		 	function enterDate() {
+				$(document).on("change", "select[name=weekCode]", function(e) {
+					let startDate = $($(e.target).children(":selected")).data("start");
+					let endDate = $($(e.target).children(":selected")).data("end");
+					$("input[name=examStartDate]").val(startDate);
+					$("input[name=examEndDate]").val(endDate);
+				})
+			} 
+			
+			// 강의계획서 정보 저장
+			function saveTempInfo() {
+				$(".saveBtn").click(function() {
+					$.ajax({
+						type : 'POST',
+						url : 'tempInsert',
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+						data : $("#tempInfoForm").serialize(),
+						success : function(result) {
+							console.log(result);
+						}
+					})
+				})
+			}
+			
+			
+			</script>
+	</th:block>
 </body>
 </html>

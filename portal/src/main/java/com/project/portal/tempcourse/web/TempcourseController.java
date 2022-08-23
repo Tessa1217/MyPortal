@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,11 +27,30 @@ public class TempcourseController {
 	TempcourseServiceImpl service;
 	
 	//단건조회(상세보기)(GET)
-	@RequestMapping("/professor/getTemp") 
-	public String tempcourse(TempcourseVO vo, Model model) {
-		model.addAttribute("tempcourse", service.getTemp(vo));
+	@RequestMapping("/professor/getTemp/{courseCode}") 
+	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model,TempcourseweekVO voo ) {
+		vo = service.getTemp(courseCode);
+//		voo = service.getTempweek(courseCode);
+		
+		
+//		model.addAttribute("tempcourseweek", service.getTemp(courseCode));
+//		System.out.println(voo);
+		model.addAttribute("tempcourse", service.getTemp(courseCode));
+		System.out.println(vo);
 		return "professor/course/getTemp";
 	}
+	
+//	//단건조회 주차별(상세보기)(GET)
+//	@RequestMapping("/professor/getTemp/{courseCode}") 
+//	public String tempcourseweek(@PathVariable String courseCode, Model model, TempcourseweekVO voo, TempcourseVO vo) {
+//		
+//		voo = service.getTempweek(courseCode);
+//		
+//		
+//		model.addAttribute("tempcourseweek", service.getTemp(courseCode));
+//		System.out.println(voo);
+//		return "professor/course/getTemp";
+//	}
 	
 	//목록(GET)
 	@RequestMapping("/professor/tempcourseList")
@@ -88,30 +108,32 @@ public class TempcourseController {
 	public String tempInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
 		
 		service.tempInsert(vo);
-//		
-//		int i = 1;
-//		
-//		for(String weekContent : voo.getWeekContent().split(",")) {
-//			voo.setWeekNum(i);
-//			voo.setWeekContent(weekContent);
-//			voo.setWeekCode("HUEN000803");
-//			
-//			service.tempweekInsert(voo);
-//			i++;
-//		}
+		
+		
 		
 		System.out.println(vo);
 		System.out.println(voo);
 		
 		
-		return "redirect:professor/tempcourseList";
+		return "redirect:professor/tempInsert";
 	}
 	
 	@PostMapping("/tempweekInsertProc")
 	public String tempweekInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
 		
-		
+		System.out.println(voo);
 		service.tempweekInsert(voo);
+		
+		int i = 1;
+		
+		for(String weekContent : voo.getWeekContent().split(",")) {
+			voo.setWeekNum(i);
+			voo.setWeekContent(weekContent);
+			voo.setWeekCode("HUEN000803");
+			
+			service.tempweekInsert(voo);
+			i++;
+		}
 		
 		return "redirect:professor/tempcourseList";
 	}
