@@ -9,6 +9,7 @@ import com.project.portal.mycourse.service.MyCourseMainVO;
 import com.project.portal.mycourse.service.MyCourseMapper;
 import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
+import com.project.portal.mycourse.service.myCourseDetailVO;
 
 
 @Service
@@ -27,6 +28,18 @@ public class MyCourseServiceImpl implements MyCourseService {
 	public MyCourseMainVO getstuMyCoursePage(String courseCode) {
 		// TODO Auto-generated method stub
 		return mapper.getstuMyCoursePage(courseCode);
+	}
+
+	@Override
+	public myCourseDetailVO getstuMyCourseDetail(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.getstuMyCourseDetail(courseCode);
+	}
+
+	@Override
+	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.getstuMyCourseWeekDetail(courseCode);
 	}
 
 

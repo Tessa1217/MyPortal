@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.myquestion.service.myQuestionMapper">
+	
+	<select id="getStuMyQuestion" resultType="com.project.portal.myquestion.service.myQuestionVO">
+		SELECT Q.LECTURE_QUESTION_NUM,
+		       Q.LECTURE_QUESTION_TITLE,
+		       Q.LECTURE_QUESTION_REG_DATE,
+		       W.WEEK_NUM
+		       
+		FROM LECTURE_QUESTION
+		       Q JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
+		WHERE Q.STUDENT_ID = #{studentId}
+		ORDER BY 1 ASC
+	</select>
+	
+	<select id="getStuMyQuestionAnsCheck" resultType="com.project.portal.myquestion.service.myQuestionVO">
+		SELECT Q.LECTURE_QUESTION_NUM,
+		       A.LECTURE_ANSWER_REG_DATE
+		FROM LECTURE_QUESTION
+		       Q JOIN LECTURE_ANSWER A ON Q.LECTURE_QUESTION_NUM = A.LECTURE_QUESTION_NUM
+		WHERE Q.STUDENT_ID = #{studentId}
+		ORDER BY 1 ASC
+	
+	</select>
+	
+</mapper>

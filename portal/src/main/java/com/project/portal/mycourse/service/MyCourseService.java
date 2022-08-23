@@ -7,5 +7,12 @@ public interface MyCourseService {
 	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo);
 	
 	// 수강강의 페이지 이동
-		public MyCourseMainVO getstuMyCoursePage(String courseCode);
+	public MyCourseMainVO getstuMyCoursePage(String courseCode);
+	
+	// 수강강의 계획서 조회
+	public myCourseDetailVO getstuMyCourseDetail(String courseCode);
+	
+	// 수강강의 주차계획 조회
+	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
+
 }

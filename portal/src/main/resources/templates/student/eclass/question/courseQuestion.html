@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/student-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<th:block layout:fragment="studentEclassContent">
+
+	<div id="main">
+		<h2>질문 목록</h2>
+		<br>
+		<select>
+			<option value="1">1주차</option>
+			<option value="2">2주차</option>
+			<option value="3">3주차</option>
+			<option value="4">4주차</option>
+			<option value="5">5주차</option>
+			<option value="6">6주차</option>
+			<option value="7">7주차</option>
+			<option value="8">8주차</option>
+			<option value="9">9주차</option>
+			<option value="10">10주차</option>
+			<option value="11">11주차</option>
+			<option value="12">12주차</option>
+			<option value="13">13주차</option>
+			<option value="14">14주차</option>
+			<option value="15">15주차</option>
+		</select>
+		
+		<button type="button">검색</button>
+		
+		<br>
+		<br>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>질문 등록일</th>
+					<th>주차</th>
+					<th>답변 여부</th>
+					<th>상세보기</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="courseQuestion : ${courseQuestion}">
+					<td th:text="${courseQuestion.lectureQuestionNum}"></td>
+					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
+					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
+					<td th:text="${courseQuestion.weekNum}"></td>
+					<td th:if="${courseQuestion.lectureAnswerRegDate} == null">X</td>
+					<td th:unless="${courseQuestion.lectureAnswerRegDate} == null">O</td>
+					<td> <!-- th:if="${courseQuestion.lectureAnswerRegDate} == null" -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseQuestionDetail">상세보기</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	
+	<!-- 모달창 -->
+	 <div class="modal fade" id="courseQuestionDetail" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <label class="modal-title" id="staticBackdropLabel">질문 상세조회</label>
+                </div>
+                <div class="modal-body">
+                        <div class="container my-auto">
+                            <div class="row">
+                                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                                    <div class="card-body">
+                                    	<table class="table">
+                                    			<tr>
+                                    				<td>제목</td>
+                                    				<td></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>주차</td>
+                                    				<td></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>질문 내용</td>
+                                    				<td></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>질문 답변일</td>
+                                    				<td></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>답변 내용</td>
+                                    				<td></td>
+                                    			</tr>
+                                    	</table>
+                                    
+                                   
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+                                확인
+                            </button>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+</th:block>
+
+
+
+</body>
+</html>
