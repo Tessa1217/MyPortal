@@ -18,21 +18,24 @@ public class StudentLectureController {
 	
 	@Autowired StudentLectureServiceImpl service;
 	
-	@RequestMapping("student/lectureList")
-	public String lectureList(CourseVO vo, Model model) {
+	@RequestMapping("student/eclass/lectureList")
+	public String lectureList(CourseVO vo, StudentLectureVO slecture, Model model) {
 		vo.setCourseCode("SSPY0001");
+		slecture.setStudentId(22000001);
+		model.addAttribute("record", service.getLectureRecord(slecture));
 		model.addAttribute("lectureList", service.getLectureList(vo));
+		
 		return "student/eclass/lecture/lectureList";
 	}
 	
-	@RequestMapping("student/watchLecture")
+	@RequestMapping("student/eclass/watchLecture")
 	public String watchLecture(LectureVO vo, Model model) {
 		vo = service.getLecture(vo);
 		model.addAttribute("lecture", vo);
 		return "student/eclass/lecture/watchLecture";
 	}
 	
-	@PostMapping("student/watchLecture")
+	@PostMapping("student/eclass/watchLecture")
 	@ResponseBody
 	public String watchRecord(@RequestBody StudentLectureVO vo) {
 		if (vo.getCmd().equals("insert")) {
