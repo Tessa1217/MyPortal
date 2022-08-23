@@ -29,14 +29,14 @@ public class TempcourseController {
 	@RequestMapping("/professor/getTemp/{courseCode}")
 	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo) {
 		vo = service.getTemp(courseCode);
-		
+		System.out.println(vo.getCourseCode());
+		TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
+		System.out.println(tempcourseTest);
 		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(voo.getCourseCode());
-	
-	
-//		System.out.println(voo);
+		System.out.println(tempcourseweekList);
+
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-		System.out.println(vo);
 		return "professor/course/getTemp";
 	}
 
