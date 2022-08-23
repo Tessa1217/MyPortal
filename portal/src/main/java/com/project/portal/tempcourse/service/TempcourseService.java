@@ -11,7 +11,7 @@ public interface TempcourseService {
 	
 	ProfessorVO getInfo(ProfessorVO pvo);
 	public TempcourseVO getTemp(String no);
-	public TempcourseweekVO getTempweek(String no);
+	public List<TempcourseweekVO> getTempweek(String no);
 	public List<TempcourseVO> tempcourseList(Criteria cri);
 	public int tempcourseListCount(Criteria cri);
 	public List<TempcourseweekVO> tempcourseweekList(Criteria cri);
