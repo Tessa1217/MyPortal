@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
-	<div id="main">
-		<div>
-			<h2>수강 꾸러미 신청</h2>
-		</div>
-		<div>
-	<select name="collegeCode">
-		<option value='' selected>-- 단과 (선택) --</option>
-		<option value="HU">인문 대학</option>
-		<option value="SS">사회과학 대학</option>
-		<option value="NS">자연과학 대학</option>
-		<option value="SF">소프트웨어 대학</option>
-	</select>
+		<div id="main">
+			<div>
+				<h2>수강 꾸러미 신청</h2>
+			</div>
+			<div>
+				<select name="collegeCode">
+					<option value='' selected>-- 단과 (선택) --</option>
+					<option value="HU">인문 대학</option>
+					<option value="SS">사회과학 대학</option>
+					<option value="NS">자연과학 대학</option>
+					<option value="SF">소프트웨어 대학</option>
+				</select> <select name="departmentCode">
+					<option value='' selected>-- 학과 (선택) --</option>
+					<option value="PSYC">심리학과</option>
+					<option value="ELEG">전기공학과</option>
+					<option value="BIOL">생물학과</option>
+					<option value="CHEM">화학과</option>
+					<option value="JAPA">일어일문학</option>
+					<option value="PHYS">물리학과</option>
+					<option value="ENGL">영어영문학과</option>
+				</select>
 
-	<select name="departmentCode">
-		<option value='' selected>-- 학과 (선택) --</option>
-		<option value="PSYC">심리학과</option>
-		<option value="ELEG">전기공학과</option>
-		<option value="BIOL">생물학과</option>
-		<option value="CHEM">화학과</option>
-		<option value="JAPA">일어일문학</option>
-		<option value="PHYS">물리학과</option>
-		<option value="ENGL">영어영문학과</option>
-	</select>
-
-	<!-- <select name="">
+				<!-- <select name="">
 		<option value='' selected>-- 학년 (선택) --</option>
 		<option value="1">1학년</option>
 		<option value="2">2학년</option>
@@ -40,63 +38,97 @@
 		<option value="4">4학년</option>
 	</select> -->
 
-	<button class="btn rounded-pill btn-primary" type="button">검색</button>
-	</div>
-	<br>
-	<div>
-	<h4>개설강좌 LIST</h4>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>과목 코드</th>
-				<th>이수 구분</th>
-				<th>강의명</th>
-				<th>학점</th>
-				<th>담당 교수</th>
-				<th>수강 인원</th>
-				<th>담기</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="item:${coursePackage}">
-				<td th:text="${item.courseCode}"></td>
-				<td th:text="${item.courseSortation}"></td>
-				<td th:text="${item.courseName}"></td>
-				<td th:text="${item.courseCredit}"></td>
-				<td th:text="${item.professorId}"></td>
-				<td th:text="${item.courseLimit}"></td>
-				<td><button type="button" class="btn rounded-pill btn-primary" th:onclick="in">담기</button></td>
-			</tr>
-		</tbody>
-	</table>
-	</div>
-	<br>
-	<div>
-		<h4>수강꾸러미 LIST</h4>
-			<table border="1">
-				<thead>
-					<tr>
-						<th>과목 코드</th>
-						<th>이수 구분</th>
-						<th>강의 명</th>
-						<th>학점</th>
-						<th>담당 교수</th>
-						<th>전체 삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="">
-			
-					</tr>
-				</tbody>
-			</table>
-	</div>
-	<br>
-	<div>
-		<h6>수강신청 가능 학점:</h6>
-		<h6>교양신청 가능 학점:</h6>
-	</div>
-</div>
+				<button class="btn rounded-pill btn-primary" type="button">검색</button>
+			</div>
+			<br>
+			<div>
+				<h4>개설강좌 LIST</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>과목 코드</th>
+							<th>이수 구분</th>
+							<th>강의명</th>
+							<th>학점</th>
+							<th>담당 교수</th>
+							<th>수강 인원</th>
+							<th>담기</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item:${coursePackage}">
+							<td th:text="${item.courseCode}" id="coureCodeInsert"></td>
+							<td th:text="${item.courseSortation}"></td>
+							<td th:text="${item.courseName}"></td>
+							<td th:text="${item.courseCredit}"></td>
+							<td th:text="${item.professorId}"></td>
+							<td th:text="${item.courseLimit}"></td>
+							<td><button type="button" class="btn btn-primary buttonInsert" th:data-code="${item.courseCode}">담기</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br>
+			<div>
+				<h4>수강꾸러미 LIST</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>과목 코드</th>
+							<th>이수 구분</th>
+							<th>강의 명</th>
+							<th>학점</th>
+							<th>담당 교수</th>
+							<th>전체 삭제</th>
+						</tr>
+					</thead>
+					<tbody id="pBody">
+						<tr th:each="item:${coursePackageList}">
+						<td th:text="${item.courseCode}"></td>
+						<td th:text="${item.courseSortation}"></td>
+						<td th:text="${item.courseName}"></td>
+						<td th:text="${item.courseCredit}"></td>
+						<td th:text="${item.professorId}"></td>
+						<td><button class="btn btn-primary buttonDelete">삭제</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br>
+			<div>
+				<h6>수강신청 가능 학점:</h6>
+				<h6>교양신청 가능 학점:</h6>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function(){
+				$(".buttonInsert").on("click", coursePackageInsert)
+				function coursePackageInsert(){
+				let code = $(this).data("code")
+					$.ajax({
+						url:"/student/coursePackageInsert",
+						method:"post",
+						dataType:"json",
+						data:{
+							"courseCode" : code
+						},
+						dataType:"json",
+						success:function(item){
+							//location.reload();
+							let content=`<tr>
+								<td>${item.courseCode}</td>
+								<td>${item.courseSortation}</td>
+								<td>${item.courseName}</td>
+								<td>${item.courseCredit}</td>
+								<td>${item.professorId}</td>
+								<td><button class="btn btn-primary buttonDelete">삭제</button></td>
+								</tr>`
+						$("#pBody").append(content)	
+						}
+					});
+				}
+			})
+		</script>
 	</th:block>
 </body>
 </html>

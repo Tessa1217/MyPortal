@@ -10,4 +10,10 @@ import com.project.portal.course.service.CourseVO;
 public interface CoursePackageMapper {
 
 	List<CoursePackageVO> coursePackage(CoursePackageVO vo);
+	
+	public int coursePackageInsert(CoursePackageVO vo);
+	
+	public List<CoursePackageVO> coursePackageList(CoursePackageVO vo);
+	
+	public CoursePackageVO coursePackageOne(CoursePackageVO vo);
 }

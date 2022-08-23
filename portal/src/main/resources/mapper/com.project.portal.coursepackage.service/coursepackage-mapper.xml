@@ -3,8 +3,40 @@
 <mapper
 	namespace="com.project.portal.coursepackage.service.CoursePackageMapper">
 	
+	<!--강의목록LIST-->
 	<select id="coursePackage" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
 		SELECT course_code, course_name, course_sortation, course_credit, course_limit, professor_id
 		FROM course
 	</select>
+	
+	<insert id="coursePackageInsert" parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
+		INSERT INTO course_package
+			(
+			course_code, student_id
+			)
+			VALUES
+			(
+			#{courseCode},
+			#{studentId}	
+			)
+	</insert>
+	
+	<!--단건조회-->
+	<select id="coursePackageList" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
+		select c.course_code, c.course_name, c.course_sortation, c.course_credit, c.professor_id, p.course_code
+		from course c
+		inner join course_package p
+		on c.course_code = p.course_code
+		where student_id = #{studentId}
+	</select>
+	
+	<!--학번이 있어야 찾음-->
+	<select id="coursePackageOne" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
+		select c.course_code, c.course_name, c.course_sortation, c.course_credit, c.professor_id, p.course_code
+		from course c
+		inner join course_package p
+		on c.course_code = p.course_code
+		where p.student_id = #{studentId} and c.course_code = #{courseCode}
+	</select>
+	
 </mapper>
