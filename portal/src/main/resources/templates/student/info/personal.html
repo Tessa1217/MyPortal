@@ -4,7 +4,7 @@
 			layout:decorate="~{layout/student_layout}">
 <head>
 <meta charset="UTF-8">
-<title>내 정보 조회</title>
+<title>내 정보 조회/수정</title>
 
 <style>
 
@@ -26,16 +26,17 @@
 	float : left;
 }
 </style>
+
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
 	<div id="main">
 		<div>
-			<h2>내 정보 조회</h2>
+			<h2>내 정보 조회/수정</h2>
 		</div>
 		<div class="card">
 			<p style="float:left;">개인 정보</p> 
-			<button class="btn btn-primary buttonmod" onclick="studentInfoUpdate()">수정</button> 
+			<button class="btn btn-primary buttonmod" id="mod">수정</button> 
 			<table class="table table2">
 				<tr>
 					<th>전공학과</th><td th:text="${studentInfoSelect.departName}"></td><th>학번</th><td th:text="${studentInfoSelect.studentId}"></td>
@@ -90,9 +91,9 @@
 					<th>관계</th>
 					<td>
 						<select name="parentsRelUpdate" id ="parentsRelUpdate" th:value="${studentInfoSelect.parentsRel}">
-							<option th:selected="${studentInfoSelect.parentsRel}=='P01'">부</option>	
-							<option th:selected="${studentInfoSelect.parentsRel}=='P02'">모</option>	
-							<option th:selected="${studentInfoSelect.parentsRel}=='ETC'">기타</option>	
+							<option th:selected="${studentInfoSelect.parentsRel}=='P01'" th:value="P01" th:text="부"></option>	
+							<option th:selected="${studentInfoSelect.parentsRel}=='P02'" th:value="P02" th:text="모"></option>	
+							<option th:selected="${studentInfoSelect.parentsRel}=='ETC'" th:value="ETC" th:text="기타"></option>	
 						</select>
 					</td>
 					<!-- <td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
@@ -154,29 +155,43 @@
 				</div>
 			</div> -->
 	</div>
-	</th:block>
-	<script>
-	function studentInfoUpdate(){
-		   $.ajax({
-		      url:"/student/studentInfoUpdate",
-		      method:"post",
-		      dataType : "json",
-		      data: {
-		         "studentPhone" : $("#studentPhoneUpdate").val(),
-		         "studentEmail" : $("#studentEmailUpdate").val(),
-		         "parentsName" : $("#parentsNameUpdate").val(),
-		         "parentsPhone" : $("#parentsPhoneUpdate").val(),
-		         "parentsRel" : $("#parentsRelUpdate").val(),
-		      },
-		      dataType : "json",
-		      success:function(result){
-//		          toastr.info("글수정완료");
-//		          $("#boardTable").load(location.href+"#boardTable");
-		         location.reload();
-//		         $("#boardUpdateModal").modal("hide");
-		      }
-		   });
-		}	
+	<script th:inline="javascript">
+	 /*<![CDATA[*/
+		$(function(){
+			$("#mod").on("click", studentInfoUpdate)
+			
+			function studentInfoUpdate(){
+				   $.ajax({
+				      url:"/student/studentInfoUpdate",
+				      method:"post",
+				      dataType : "json",
+				      data: {
+				         "studentPhone" : $("#studentPhoneUpdate").val(),
+				         "studentEmail" : $("#studentEmailUpdate").val(),
+				         "parentsName" : $("#parentsNameUpdate").val(),
+				         "parentsPhone" : $("#parentsPhoneUpdate").val(),
+				         "parentsRel" : $("#parentsRelUpdate").val(),
+				      },
+				      dataType : "json",
+				      success:function(result){
+	//			          toastr.info("글수정완료");
+	//			          $("#boardTable").load(location.href+"#boardTable");
+				         location.reload();
+	//			         $("#boardUpdateModal").modal("hide");
+				      }
+				   });
+				}
+				
+		});
+	 	/* function confirmModal() {
+	 		if (window.confrim("변경 내용을 저장하시겠습니까?")) {
+	 			studentInfoUpdate();
+	 		} 
+	 	} */
+		
+		   /*]]>*/
 	</script>
+	</th:block>
+
 </body>
 </html>

@@ -43,17 +43,25 @@ public class StudentController {
 		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
 		return "student/info/personal";
 	}
+	
+	//학생 상세조회(관리자)
+		@RequestMapping("/admin/adminStudentInfoSelect")
+		public String AdminStudentInfoSelect(StudentVO vo, Model model) {
+			model.addAttribute("adminStudentInfoSelect", service.adminStudentInfoSelect(vo));
+			return "admin/info/studentPersonal";
+		}
 	//학생 정보 수정(학생)
 	@RequestMapping("/student/studentInfoUpdate")
-	public String StudentInfoUpdate(StudentVO vo, Model model) {
-		model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
-		return "student/info/personal";
+	@ResponseBody
+	public StudentVO StudentInfoUpdate(StudentVO vo, Model model) {
+		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
+		return service.studentInfoUpdate(vo);
 	}
 	
 	
 	
 	
-	//////// 외부에서 이미지 가져오기
+	//////// 정보조회 외부에서 이미지 가져오기
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @PathVariable String fileName) throws UnsupportedEncodingException {

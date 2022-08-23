@@ -18,11 +18,39 @@
 		where i.student_id = 22000001
 	</select>
 	
+	<select id="adminStudentInfoSelect" resultType="com.project.portal.student.service.StudentVO">
+		select i.student_id,i.student_name,i.student_birth,i.student_phone
+		        ,i.student_email,i.student_postal_code,i.student_addr,i.student_gender
+		        ,i.student_daddr,i.parents_name,i.parents_phone,i.parents_rel,i.student_img
+		        ,s.depart_name,s.student_grade,s.student_status,s.student_admission_date,s.student_division
+		from student_pri_info i
+		join (select *
+				from student_study_info i
+				join department d
+				on i.department_code = d.depart_code) s
+		on i.student_id = s.student_id
+		<!-- where student_id = #{studentId} -->
+		where i.student_id = 22000001
+	</select>
+	
+	<select id="studentList" resultType="com.project.portal.student.service.StudentVO">
+		select i.student_id,i.student_name,i.student_phone,i.student_gender
+		        ,s.depart_name,s.student_grade, i.student_birth
+		from student_pri_info i
+		join (select *
+				from student_study_info i
+				join department d
+				on i.department_code = d.depart_code) s
+		on i.student_id = s.student_id
+		order by student_id asc
+	</select>
+	
+	
 	<update id="studentInfoUpdate" parameterType="com.project.portal.student.service.StudentVO">
 		UPDATE student_pri_info 
-		SET student_phone = #{studentPhone}, student_email = #{studentEmail}, parents_name = #{parentsName}'
+		SET student_phone = #{studentPhone}, student_email = #{studentEmail}, parents_name = #{parentsName}
 		        , parents_phone = #{parentsPhone}, parents_rel = #{parentsRel}
-		where i.student_id = 22000001
+		where student_id = 22000001
 		<!-- where student_id = #{studentId} -->
 	</update>
 </mapper>

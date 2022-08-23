@@ -13,6 +13,8 @@ public interface StudentMapper {
 
 	public StudentVO studentInfoSelect(StudentVO vo);
 	
-	public StudentVO studentInfoUpdate(StudentVO vo);
+	public int studentInfoUpdate(StudentVO vo);
+
+	public StudentVO adminStudentInfoSelect(StudentVO vo);
 
 }
