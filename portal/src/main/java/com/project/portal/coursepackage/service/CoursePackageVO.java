@@ -11,7 +11,7 @@ public class CoursePackageVO {
 	private char courseSortation;
 	private int courseCredit;
 	private int courseLimit;
-	private String professorId;
+	private String professorName;
 	private int studentId;
 		
 }

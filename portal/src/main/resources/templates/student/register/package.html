@@ -57,13 +57,15 @@
 					</thead>
 					<tbody>
 						<tr th:each="item:${coursePackage}">
-							<td th:text="${item.courseCode}" id="coureCodeInsert"></td>
+							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseSortation}"></td>
 							<td th:text="${item.courseName}"></td>
 							<td th:text="${item.courseCredit}"></td>
-							<td th:text="${item.professorId}"></td>
+							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.courseLimit}"></td>
-							<td><button type="button" class="btn btn-primary buttonInsert" th:data-code="${item.courseCode}">담기</button></td>
+							<td><button type="button"
+									class="btn btn-primary buttonInsert"
+									th:data-code="${item.courseCode}">담기</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -84,12 +86,14 @@
 					</thead>
 					<tbody id="pBody">
 						<tr th:each="item:${coursePackageList}">
-						<td th:text="${item.courseCode}"></td>
-						<td th:text="${item.courseSortation}"></td>
-						<td th:text="${item.courseName}"></td>
-						<td th:text="${item.courseCredit}"></td>
-						<td th:text="${item.professorId}"></td>
-						<td><button class="btn btn-primary buttonDelete">삭제</button></td>
+							<td th:text="${item.courseCode}"></td>
+							<td th:text="${item.courseSortation}"></td>
+							<td th:text="${item.courseName}"></td>
+							<td th:text="${item.courseCredit}"></td>
+							<td th:text="${item.professorName}"></td>
+							<td><button type="button"
+									class="btn btn-primary buttonDelete"
+									th:data-code="${item.courseCode}">삭제</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -120,12 +124,32 @@
 								<td>${item.courseSortation}</td>
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
-								<td>${item.professorId}</td>
-								<td><button class="btn btn-primary buttonDelete">삭제</button></td>
+								<td>${item.professorName}</td>
+								<td><button class="btn btn-primary buttonDelete" data-code="${item.courseCode}">삭제</button></td>
 								</tr>`
 						$("#pBody").append(content)	
 						}
 					});
+				}
+			})
+			
+			$(function(){
+				$(".buttonDelete").on("click", coursePackageDelete)
+				function coursePackageDelete(){
+					let code = $(this).data("code")
+					let tr = $(this).closest("tr");
+						$.ajax({
+							url:"/student/coursePackageDelete",
+							method:"post",
+							dataType:"json",
+							data:{
+								"courseCode" : code
+							},
+							dataType:"json",
+							success:function(item){
+									tr.remove()	
+							}
+						});
 				}
 			})
 		</script>

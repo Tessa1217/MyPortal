@@ -16,4 +16,7 @@ public interface CoursePackageMapper {
 	public List<CoursePackageVO> coursePackageList(CoursePackageVO vo);
 	
 	public CoursePackageVO coursePackageOne(CoursePackageVO vo);
+	
+	public int coursePackageDelete(CoursePackageVO vo);
+	
 }
