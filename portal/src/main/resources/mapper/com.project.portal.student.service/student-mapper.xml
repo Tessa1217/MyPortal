@@ -29,19 +29,22 @@
 				join department d
 				on i.department_code = d.depart_code) s
 		on i.student_id = s.student_id
-		<!-- where student_id = #{studentId} -->
-		where i.student_id = 22000001
+		where i.student_id = #{studentId}
+		<!-- where i.student_id = 22000001 -->
 	</select>
 	
 	<select id="studentList" resultType="com.project.portal.student.service.StudentVO">
 		select i.student_id,i.student_name,i.student_phone,i.student_gender
-		        ,s.depart_name,s.student_grade, i.student_birth
+		        ,s.depart_name,s.student_grade, i.student_birth, s.student_status
 		from student_pri_info i
 		join (select *
 				from student_study_info i
 				join department d
 				on i.department_code = d.depart_code) s
 		on i.student_id = s.student_id
+		<where>
+		
+		</where>
 		order by student_id asc
 	</select>
 	

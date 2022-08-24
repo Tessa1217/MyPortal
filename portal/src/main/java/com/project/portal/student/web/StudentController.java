@@ -46,7 +46,7 @@ public class StudentController {
 	
 	//학생 상세조회(관리자)
 		@RequestMapping("/admin/adminStudentInfoSelect")
-		public String AdminStudentInfoSelect(/*@PathVariable int studentId,*/ StudentVO vo, Model model) {
+		public String AdminStudentInfoSelect(StudentVO vo, Model model) {
 			model.addAttribute("adminStudentInfoSelect", service.adminStudentInfoSelect(vo));
 			return "admin/info/studentPersonal";
 		}
@@ -62,6 +62,7 @@ public class StudentController {
 		@ResponseBody
 		public StudentVO AdminStudentInfoUpdate(StudentVO vo, Model model) {
 			//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
+			
 			return service.adminStudentInfoUpdate(vo);
 		}
 	

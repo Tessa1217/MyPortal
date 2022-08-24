@@ -30,4 +30,5 @@ public class StudentVO {
 	private String parentsPhone;
 	private String studentImg;
 	
+	
 }

@@ -13,13 +13,13 @@
 				<h2>학생 정보 조회</h2>
 			</div>
 			<div class="card">
-				<div>
-					<label for="departName">학과</label> <input type="text"
-						id="departName" name="depart_name"> <label
-						for="studentName">이름</label> <input type="text" id="studentName"
-						name="student_name">
-					<button class="btn btn-primary">검색</button>
-				</div>
+				<form name="frm_search" action="/admin/studentList" method="post">
+					<label for="departName">학과</label> 
+					<input type="text" id="departName" name="depart_name"> 
+					<label for="studentName">이름</label> 
+					<input type="text" id="studentName" name="student_name">
+					<button class="btn btn-primary adminStudentSearch">검색</button>
+				</form>
 				<table class="table">
 					<thead>
 						<tr>
@@ -27,6 +27,7 @@
 							<th>이름</th>
 							<th>학과</th>
 							<th>학년</th>
+							<th>상태</th>
 							<th>성별</th>
 							<th>생년월일</th>
 							<th>연락처</th>
@@ -39,29 +40,35 @@
 							<td th:text=${list.studentName}></td>
 							<td th:text=${list.departName}></td>
 							<td th:text=${list.studentGrade}></td>
+							<td th:if="${list.studentStatus} == 'AS00'">재학</td>
+							<td th:if="${list.studentStatus} == 'AS01'">휴학</td>
+							<td th:if="${list.studentStatus} == 'AS02'">졸업</td>
 							<td th:if="${list.studentGender} == 'M'">남</td>
 							<td th:if="${list.studentGender} == 'W'">여</td>
 							<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
 							<td th:text=${list.studentPhone}></td>
-							<td><button type="button" class="btn btn-primary btn-sm adminStudentSelect"
-									th:onclick="sId(${list.studentId})">상세보기</button></td>
+							<td>
+								
+								 <button type="button" class="btn btn-primary btn-sm adminStudentSelect"
+									th:data-code="${list.studentId}">상세보기</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
-
+					<form name="frm_select" action="/admin/adminStudentInfoSelect" method="post">
+						<input type="hidden" name="studentId" id="studentId" />
+					</form>
 			</div>
 		</div>
 		<script th:inline="javascript">
-			/* $('#adminStudentSelect').on('click', function(){
-				var thisRow = $(this).closest('tr');
-				
-				var sId = thisRow.find('td:eq(0)').text();
-				
-				alert(sId);
-			}) */
-			function sId(studentId){
-				alert(studentId);
-			}
+		$(function(){
+			 $(".adminStudentSelect").on("click", function(){
+				var sId = $(this).data("code") 
+				frm_select.studentId.value = sId
+				frm_select.submit()
+			 })
+			
+		});
 		</script>
 	</th:block>
 </body>
