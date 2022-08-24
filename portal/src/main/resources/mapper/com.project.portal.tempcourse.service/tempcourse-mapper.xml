@@ -18,6 +18,9 @@
 		from temp_course
 	</select>
 
+	<select id="tempcourseweekList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
+		select * from temp_course_weekly
+	</select>
 
 	<select id="tempcourseListCount" resultType="int">
 		select count(*)

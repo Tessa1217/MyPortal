@@ -69,9 +69,13 @@ public class TempcourseController {
 	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo) {
 		pvo.setProfessorId(220002);
 		pvo = service.getInfo(pvo);
+		voo.setWeekCode("HUEN000804");
+		
 		List<TempcourseVO> list = service.tempcourseList(null);
-
+//		List<TempcourseweekVO> list2 = service.tempcourseweekList(null);
+		
 		model.addAttribute("tempcourseList", list);
+//		model.addAttribute("tempcourseWList", list2);
 		model.addAttribute("departInsert", pvo);
 
 		return "professor/course/tempInsert";

@@ -154,7 +154,7 @@
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-primary">제출하기</button>
+											<button type="submit" class="btn btn-danger">제출하기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 										
@@ -175,9 +175,9 @@
 							 	<select name="courseCode">
 							 		<option th:each="item:${tempcourseList}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
-							 	<button type="button" onclick="tableAdd()">주차 추가</button>
+							 <!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
 								<div>
-									<table>
+									<table class="table">
 										<thead>
 											<tr>
 												<th>주차</th>
@@ -186,11 +186,20 @@
 										</thead>
 										<tbody id="tbody">
 											
+											<th:block th:each="num : ${#numbers.sequence(1,15)}">
+											<tr>
+												<td th:text="${num}">
+												
+												</td>
+												<td>
+												<input name="weekContent" class="col-sm-8">
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div> 
 								<div class="col-sm-12" align="right">
-									<button type="submit" class="btn btn-primary">제출하기</button>
+									<button type="submit" class="btn btn-danger">제출하기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
 							</form>
