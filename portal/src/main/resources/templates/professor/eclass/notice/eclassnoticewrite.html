@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+	table {
+  border-collapse: collapse;
+  border: 0;
+}	
+th {
+ border: 1px solid #aaa;
+  background-clip: padding-box;
+  scroll-snap-align: start;
+  text-align : center;
+  background-color : skyblue;
+}
+
+td {
+  border: 1px solid #aaa;
+  background-clip: padding-box;
+  scroll-snap-align: start;
+  text-align : center;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="professorEclassContent">
+	<div id="main">
+		<h2>강의 공지사항 등록</h2>
+		<hr>
+      <div class="starter-template">
+           <form class="form-horizontal" th:action="@{/professor/eclass/eclassnoticeinsert}" method="post">
+                <div class="form-group">
+                    <label style="float: left" for="title" class="col-sm-2 control-label">제목</label>
+                        <div class="col-sm-10" style="margin-top: 10px;">
+                            <input type="text" class="form-control" id="title" name="courseNoticeTitle" placeholder="제목"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="float: left" for="writer" class="col-sm-2 control-label">작성자</label>
+                        <div class="col-sm-10" style="margin-top: 10px;">
+                 
+                            <input type="text" class="form-control" id="writer" name="writer" th:value="${StudyNoticeRegisterPage.professorName}" readonly/>
+                    </div>
+                </div>
+                
+                 <div class="form-group">
+               <label style="float: left" for="content" class="col-sm-2 control-label">첨부파일</label>
+               <div class="col-sm-10">
+                  <input type="file" name="file">
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label style="float: left" for="content" class="col-sm-2 control-label">내용</label>
+               <div class="col-sm-10">
+                  <textarea class="form-control" id="content" name="courseNoticeContent" placeholder="내용을 입력해 주세요."></textarea>
+               </div>
+            </div>
+            
+            
+
+            <div class="btn_wrap text-center">
+            <button type="submit" class="btn btn-primary waves-effect waves-light">등록 하기</button>
+               <a th:href="@{/professor/eclass/eclassnotice}" class="btn btn-secondary">목록</a>
+               
+            </div>
+           </form>
+      </div>
+	</div>
+		
+		
+		<script th:inline="javascript">
+		
+		</script>
+		
+		
+		
+	</th:block>
+</body>
+</html>

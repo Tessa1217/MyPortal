@@ -4,14 +4,63 @@
 	namespace="com.project.portal.studynotice.service.StudyNoticeMapper">
 	
 	<select id="selectStudyNoticeList" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
-		select * from course_notice
-		where course_code = 'SSPY0001'
+		SELECT *
+		  FROM COURSE_NOTICE
+		 WHERE COURSE_CODE = #{courseCode}
 	</select>
 	
 	<select id="selectDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
-		select * from course_notice
-		where course_code = 'SSPY0001' and course_notice_no = #{courseNoticeNo}
+		SELECT *
+		  FROM COURSE_NOTICE
+		 WHERE COURSE_CODE = #{courseCode} 
+		   AND COURSE_NOTICE_NO = #{courseNoticeNo}
 	
 	</select>
+	
+	<select id="selectProStudyNoticeList" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+		SELECT * 
+		 FROM COURSE_NOTICE
+		WHERE COURSE_CODE = #{courseCode}
+		
+			<if test="search != null and search !=''">
+				AND ${searchType} like '%'|| #{search} || '%'
+			</if>
+	</select>
+	
+	<select id="selectProDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+		SELECT *
+		  FROM COURSE_NOTICE
+		 WHERE COURSE_CODE = #{courseCode} 
+		   AND COURSE_NOTICE_NO = #{courseNoticeNo}
+	</select>
+	
+	<select id="insertStudyNoticePage" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+	 	select p.professor_name
+ 		  from 
+ 		  course c join professor p on c.professor_id = p.professor_id
+ 			where course_code = #{courseCode}
+	
+	</select>
+	
+	<insert id="insertStudyNotice" parameterType="StudyNoticeVO">
+		INSERT INTO course_notice (COURSE_NOTICE_NO,
+									COURSE_CODE,
+									COURSE_NOTICE_TITLE,
+									COURSE_NOTICE_CONTENT,
+									COURSE_NOTICE_REG_DATE,
+									COURSE_NOTICE_UPDATE_DATE,
+									COURSE_NOTICE_ATTACHED_FILE,
+									COURSE_NOTICE_HIT)
+									VALUES (
+										COURSE_NOTICE_SEQ.nextval,
+										#{courseCode},
+										#{courseNoticeTitle},
+										#{courseNoticeContent},
+										SYSDATE,
+										#{courseNoticeUpdateDate},
+										#{courseNoticeAttachedFile},
+										0
+									)					
+	</insert>
 	
 </mapper>

@@ -48,9 +48,33 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	}
 
 	@Override
-	public StudyNoticeVO selectDetailStudyNotice(String No) {
+	public StudyNoticeVO selectDetailStudyNotice(StudyNoticeVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.selectDetailStudyNotice(No);
+		return mapper.selectDetailStudyNotice(vo);
+	}
+
+	@Override
+	public List<StudyNoticeVO> selectProStudyNoticeList(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectProStudyNoticeList(vo);
+	}
+
+	@Override
+	public StudyNoticeVO selectProDetailStudyNotice(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectProDetailStudyNotice(vo);
+	}
+
+	@Override
+	public StudyNoticeVO insertStudyNotice(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.insertStudyNotice(vo);
+	}
+
+	@Override
+	public StudyNoticeVO insertStudyNoticePage(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.insertStudyNoticePage(vo);
 	}
 
 
