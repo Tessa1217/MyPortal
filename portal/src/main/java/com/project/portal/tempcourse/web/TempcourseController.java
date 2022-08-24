@@ -32,7 +32,7 @@ public class TempcourseController {
 		System.out.println(vo.getCourseCode());
 		TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
 		System.out.println(tempcourseTest);
-		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(voo.getCourseCode());
+		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 		System.out.println(tempcourseweekList);
 
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));

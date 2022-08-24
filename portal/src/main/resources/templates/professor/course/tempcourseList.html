@@ -13,9 +13,9 @@
 			<h2>강의 계획서 조회</h2>
 		</div>
 		<div class="card-body">
-			<form id="searchFrm" action="" method="post">
-				개설연도:<input type="number" name="courseYear" >
-				개설학기:<input type="number" name="courseSemester">
+			<form id="searchForm" class="form-horizontal" onsubmit="return false;" autocomplete="off">
+				개설연도:<input type="number" name="courseYear" value="courseYear">
+				개설학기:<input type="number" name="courseSemester" value="courseSemester">
 				<div class="input-group">
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 				</div>
@@ -61,22 +61,23 @@
 		</div>
 		<script th:inline="javascript">
 		
-		$(function() {
+		/* $(function() {
 			goPage(pageNum);
 			tempInsert();
 			getTemp();
-		})
+		}) */
 		
-		function goPage(pageNum){
+		/* function goPage(pageNum){
 			searchFrm.pageNum.value = pageNum;
 			searchFrm.submit();
-		}
+		} */
 		function tempInsert(){
 			location.href="tempInsert";
 		}
 		function getTemp(){
 			location.href="getTemp";
 		}
+		
 		</script>
 	</th:block>
 </body>
