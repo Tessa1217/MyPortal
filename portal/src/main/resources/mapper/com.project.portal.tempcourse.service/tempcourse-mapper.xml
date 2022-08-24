@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.tempcourse.service.TempcourseMapper">
-
+<sql id="criteria">
+		<where>
+		<if test="cri.keyword != null and cri.keyword != ''">
+			 ${cri.type} = ${cri.keyword}
+		</if>
+		</where>
+</sql>
 	<select id="getInfo" resultType="ProfessorVO">
 		select depart_code, professor_id
 		from professor where professor_id = #{professorId}
@@ -16,6 +22,11 @@
 
 		select *
 		from temp_course
+		 <!-- where course_code =#{courseCode} -->
+		
+		<include refid="criteria"></include>
+		
+		
 	</select>
 
 	<select id="tempcourseweekList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
@@ -25,9 +36,8 @@
 	<select id="tempcourseListCount" resultType="int">
 		select count(*)
 		from temp_course
-		<if test="keyword != null and keyword != ''">
-			where #{type} = #{keyword}
-		</if>
+		
+	<include refid="criteria"></include>
 	</select>
 
 	<select id="getTemp"

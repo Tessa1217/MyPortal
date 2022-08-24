@@ -19,9 +19,9 @@ public class TempcourseServiceImpl implements TempcourseService{
 	TempcourseMapper mapper;
 	
 	@Override
-	public List<TempcourseVO> tempcourseList(Criteria cri) {
+	public List<TempcourseVO> tempcourseList(TempcourseVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.tempcourseList(cri);
+		return mapper.tempcourseList(vo,cri);
 	}
 
 
@@ -31,17 +31,17 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
-	public List<TempcourseweekVO> tempcourseweekList(Criteria cri) {
+	public List<TempcourseweekVO> tempcourseweekList(TempcourseVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.tempcourseweekList(cri);
+		return mapper.tempcourseweekList(vo, cri);
 	}
 
 
 
 	@Override
-	public int tempcourseListCount(Criteria cri) {
+	public int tempcourseListCount(TempcourseVO vo,Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.tempcourseListCount(cri);
+		return mapper.tempcourseListCount(vo,cri);
 	}
 
 

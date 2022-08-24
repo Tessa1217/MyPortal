@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorVO;
@@ -56,8 +57,8 @@ public class TempcourseController {
 	@RequestMapping("/professor/tempcourseList")
 	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri) {
 
-		List<TempcourseVO> tempcourseList = service.tempcourseList(cri);
-		int total = service.tempcourseListCount(cri);
+		List<TempcourseVO> tempcourseList = service.tempcourseList(vo,cri);
+		int total = service.tempcourseListCount(vo,cri);
 
 		model.addAttribute("tempcourseList", tempcourseList);
 		System.out.println(tempcourseList);
@@ -71,7 +72,7 @@ public class TempcourseController {
 		pvo = service.getInfo(pvo);
 		voo.setWeekCode("HUEN000804");
 		
-		List<TempcourseVO> list = service.tempcourseList(null);
+		List<TempcourseVO> list = service.tempcourseList(null,null);
 //		List<TempcourseweekVO> list2 = service.tempcourseweekList(null);
 		
 		model.addAttribute("tempcourseList", list);
@@ -125,5 +126,17 @@ public class TempcourseController {
 
 		return "redirect:professor/tempcourseList";
 	}
+	
+//	@RequestMapping("/tempUpdate")
+//	@ResponseBody
+//	public TempcourseVO tempUpdate(TempcourseVO vo, Model model) {
+//		
+//		
+//		
+//		
+//		return;
+//		
+//	}
+	
 
 }

@@ -27,4 +27,5 @@ public class TempcourseVO {
 	private String departCode;
 	private String courseNotes;
 	
+	
 }

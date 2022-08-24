@@ -1,5 +1,8 @@
 package com.project.portal.common;
 
+import lombok.Data;
+
+@Data
 public class Criteria {
 	
 	// Criteria
@@ -7,6 +10,7 @@ public class Criteria {
 	private int amount;
 	private String type;
 	private String keyword;
+	
 	
 	// 초기값 지정
 	public Criteria() {

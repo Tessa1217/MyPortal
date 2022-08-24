@@ -13,12 +13,14 @@
 			<h2>강의 계획서 조회</h2>
 		</div>
 		<div class="card-body">
-			<form id="searchForm" class="form-horizontal" onsubmit="return false;" autocomplete="off">
-				개설연도:<input type="number" name="courseYear" value="courseYear">
-				개설학기:<input type="number" name="courseSemester" value="courseSemester">
-				<div class="input-group">
+			<form name="searchForm" class="form-horizontal">
+			<select id="type" name="type">
+				<option value="course_year">개설연도:</option>
+				<option value="course_semester">개설학기:</option>
+				</select>
+				<input type="number" name="keyword" id="keyword">
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				</div>
+				
 			</form>
 			<table class="table">
 				<thead>
@@ -30,6 +32,7 @@
 						<th>강의명</th>
 						<th>제출여부</th>
 						<th>승인여부</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -50,6 +53,7 @@
 							<td th:if="${item.submitYes == 'UNSUB'}">미제출</td>
 							<td th:if="${item.backReason == 'A00'}">승인</td>
 							<td th:if="${item.backReason == 'A01'}">심사대기</td>
+							
 						</tr>
 						
 				</tbody>
