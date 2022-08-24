@@ -8,7 +8,7 @@ import lombok.Data;
 public class StudentVO {
 	// 학업 정보
 	private int studentId;
-	private char departCode;
+	private String departCode;
 	private String departName;
 	private int studentGrade;
 	private String studentStatus;

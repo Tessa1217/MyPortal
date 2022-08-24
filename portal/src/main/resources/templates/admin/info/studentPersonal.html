@@ -37,6 +37,7 @@
 			<div class="card">
 				<p style="float: left;">개인 정보</p>
 				<button class="btn btn-primary buttonmod" id="mod">수정</button>
+				<button class="btn btn-primary buttonmod" id="back">목록</button>
 				<table class="table table2">
 					<tr>
 						<th>전공학과</th>
@@ -103,7 +104,7 @@
 				</table>
 				<table>
 					<tr>
-						<td><img th:src="|/download/2.jpg|" class="faceImg"></td>
+						<td><img th:src="|/download/${adminStudentInfoSelect.studentImg}|" class="faceImg"></td>
 					</tr>
 				</table>
 				<p>보호자 정보</p>
@@ -206,6 +207,14 @@
 					});
 				}
 
+			});
+			
+			$(function() {
+				$("#back").on("click", backList)
+				
+				function backList() {
+					location.href = "/admin/studentList"
+				}
 			});
 
 			/*]]>*/

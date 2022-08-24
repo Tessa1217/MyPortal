@@ -92,7 +92,7 @@
 				</table>
 				<table>
 					<tr>
-						<td><img th:src="|/download/2.jpg|" class="faceImg"></td>
+						<td><img th:src="|/download/${studentInfoSelect.studentImg}|" class="faceImg"></td>
 					</tr>
 				</table>
 				<p>보호자 정보</p>
@@ -203,7 +203,7 @@
 						},
 						dataType : "json",
 						success : function(result) {
-							location.reload();
+							
 						}
 					});
 				}
