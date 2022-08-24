@@ -14,5 +14,7 @@ public interface StudentLectureMapper {
 	StudentLectureVO getLectureRecord(StudentLectureVO vo);
 	void insertLectureRecord(StudentLectureVO vo);
 	void updateLectureRecord(StudentLectureVO vo);
+	void insertStudentNote(StudentNoteVO vo);
+	List<StudentNoteVO> getNoteList(StudentNoteVO vo);
 }
 

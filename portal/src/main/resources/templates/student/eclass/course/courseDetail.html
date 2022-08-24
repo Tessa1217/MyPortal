@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -9,69 +9,74 @@
 <body>
 
 
-<th:block layout:fragment="studentEclassContent">
+	<th:block layout:fragment="studentEclassContent">
 
-	<div id="main">
-		<h2>강의 계획서</h2>	
-		<hr>
-		
-		<table class="table">
-			<tr>
-				<td>강의명</td>
-				<td th:text="${courseDetail.courseName}"></td>
-				<td>이수구분</td>
-				<td th:text="${courseDetail.courseSortation}"></td>
-			</tr>
-			
-			<tr>
-				<td>강의코드</td>
-				<td th:text="${courseDetail.courseCode}"></td>
-				<td>학과</td>
-				<td th:text="${courseDetail.departName}"></td>
-			</tr>
-			
-			<tr>
-				<td>학점</td>
-				<td th:text="${courseDetail.courseCredit}"></td>
-				<td>교수명</td>
-				<td th:text="${courseDetail.professorName}"></td>
-			</tr>
-			
-			<tr>
-				<td>Email</td>
-				<td colspan="3" th:text="${courseDetail.professorEmail}"></td>
-			</tr>
-		</table>
+		<div id="main">
+			<h2>강의 계획서</h2>
+			<hr>
+			<div class="card">
+				<div class="card-body">
+					<table class="table">
+						<tr>
+							<td>강의명</td>
+							<td th:text="${courseDetail.courseName}"></td>
+							<td>이수구분</td>
+							<td th:text="${courseDetail.courseSortation}"></td>
+						</tr>
 
-	
-		<br>
-		<h2>세부내용</h2>
-		
-		<table class="table">
-			<tr>
-				<td th:text="${courseDetail.courseSummary}">세부내용입니다.</td>
-			</tr>
-		</table>
-		<br>
-		
-		
-		<h2>주별계획</h2>
-		<table class="table" >
-			<thead>
-				<tr>
-					<th width="300px">주차</th>
-					<th width="600px">강의 범위 및 내용</th>
-				</tr>
-				
-				<tr th:each="courseWeekDetail : ${courseWeekDetail}">
-					<td th:text="${courseWeekDetail.weekNum}"></td>
-					<td th:text="${courseWeekDetail.weekContent}"></td>
-				</tr>
-			</thead>
-		</table>
+						<tr>
+							<td>강의코드</td>
+							<td th:text="${courseDetail.courseCode}"></td>
+							<td>학과</td>
+							<td th:text="${courseDetail.departName}"></td>
+						</tr>
 
-	</div>
-	
-</th:block>
+						<tr>
+							<td>학점</td>
+							<td th:text="${courseDetail.courseCredit}"></td>
+							<td>교수명</td>
+							<td th:text="${courseDetail.professorName}"></td>
+						</tr>
+
+						<tr>
+							<td>Email</td>
+							<td colspan="3" th:text="${courseDetail.professorEmail}"></td>
+						</tr>
+					</table>
+				</div>
+
+				<br>
+				<h2 class="card-header">세부내용</h2>
+				<div class="card-body">
+					<table class="table">
+						<tr>
+							<td th:text="${courseDetail.courseSummary}">세부내용입니다.</td>
+						</tr>
+					</table>
+				</div>
+				<br>
+
+				<div class="card-header">
+					<h2>주별계획</h2>
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="300px">주차</th>
+								<th width="600px">강의 범위 및 내용</th>
+							</tr>
+
+							<tr th:each="courseWeekDetail : ${courseWeekDetail}">
+								<td th:text="${courseWeekDetail.weekNum}"></td>
+								<td th:text="${courseWeekDetail.weekContent}"></td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
 </body>
 </html>

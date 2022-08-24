@@ -11,6 +11,7 @@ import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.StudentLectureMapper;
 import com.project.portal.lecture.service.StudentLectureService;
 import com.project.portal.lecture.service.StudentLectureVO;
+import com.project.portal.lecture.service.StudentNoteVO;
 
 @Service
 public class StudentLectureServiceImpl implements StudentLectureService {
@@ -44,6 +45,15 @@ public class StudentLectureServiceImpl implements StudentLectureService {
 	@Override
 	public StudentLectureVO getLectureRecord(StudentLectureVO vo) {
 		return mapper.getLectureRecord(vo);
+	}
+	
+	@Transactional
+	@Override
+	public List<StudentNoteVO> insertStudentNote(StudentNoteVO vo) {
+		if (vo.getNoteContent() != null) {
+			mapper.insertStudentNote(vo);
+		}
+		return mapper.getNoteList(vo);
 	}
 
 }

@@ -10,31 +10,17 @@
 	display: none;
 }
 
-.horizontal-title {
-	display: inline-block;
-	height: 60px;
-	width: 100%;
-	background-color: #435ebe; 
-	line-height: 60px;
-}
-
-.horizontal-title a {
-	font-weight: bold;
-	color: white;
-	text-decoration: none;
-}
-
 </style>
 </head>
 <body>
 	<th:block layout:fragment="bodyContent">
 		<div id="app">
-			<div class="horizontal-title page-title">
-				<span><a th:href="@{/student/lectureList}">강의 홈</a></span>
+			<div class="horizontal-title">
+				<span><a th:href="@{/student/eclass/lectureList}">강의 홈</a></span>
 				<span><a href="#">[[${lecture.lectureTitle}]]</a></span>
 				<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/student/lectureList}'|">나가기</button>
 			</div>
-			<div class="row">
+			<div class="row lecture-box">
 			<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
 			<!-- 세션 값으로 변경 -->
 			<input type="hidden" name="studentId" value=22000001>

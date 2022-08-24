@@ -14,19 +14,32 @@
 				<button class="pageTab list-group-item list-group-item-action">QnA</button>
 			</div>
 			<div class="tab">
-
 				<div>
 					<h4>나의 강의 노트</h4>
 				</div>
-				<div>
-					<form method="POST">
-					<textarea id="note"></textarea>
+				<div class="board-content-box">
+					<th:block th:each="note, idx : ${noteList}">
+						<div th:utext="${note.noteContent}"
+						class="card notecard">
+						</div>
+						<hr th:if="|${idx} lt ${#lists.size(noteList)} - 1|"/>
+					</th:block>
+					</div>
+					<div class="board-form-box">
+					<form id="noteFrm" method="POST">
+						<input type="hidden" name="noteMake" th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+						<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
+						<input type="hidden" name="studentId" value="22000001"/>
+						<input type="hidden" name="noteContent" value=''/>
+						<textarea id="note"></textarea>
 					<div>
-						<button id="takeNote" class="btn btn-primary" type="button">노트 작성</button>
+						<button id="takeNote" 
+						class="btn btn-primary" type="button"
+						th:onclick="insertNote">노트 작성</button>
 					</div>
 					</form>
 				</div>
-			</div>
+				</div>
 			<div class="tab offPage">
 				<div class="qna">
 				<div>
@@ -56,12 +69,13 @@
 					</div>
 				</div>
 			</div>
-		</div>
+			</div>
 		<script th:inline="javascript">
 			$(function() {
 				createEditor();
 				transPage();
 				askQnAs();
+				insertNote();
 			})
 
 			// 에디터 생성하기
@@ -79,9 +93,39 @@
 									+ 'bold italic backcolor | alignleft aligncenter '
 									+ 'alignright alignjustify | bullist numlist outdent indent | '
 									+ 'removeformat | help',
-							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+							setup(editor) {
+								editor.on('change', () => {
+									console.log(tinyMCE.activeEditor.getContent());
+									$("input[name=noteContent]").val(tinyMCE.activeEditor.getContent());
+								})
+							}
 						});
 			}
+			
+			// 노트 등록하기
+			function insertNote() {
+				$(document).on("click", "#takeNote", function() {
+					let data = $("#noteFrm").serialize();
+					$.ajax({
+						method : 'POST',
+						url : /*[[@{/student/eclass/insertNote}]]*/'',
+						dataType : 'json',
+						data : data
+					})
+						.done(function(result) {
+							$("#note").val('');
+							$(result).each((idx, val) => {
+								let div = $("<div/>")
+								.addClass("card notecard")
+								.append($("<div/>").html(val.noteContent));
+								$(".board-content-box").append(div);
+							})
+						})
+				})
+				
+			}
+			
 
 			// 페이지 바꾸기
 			function transPage() {

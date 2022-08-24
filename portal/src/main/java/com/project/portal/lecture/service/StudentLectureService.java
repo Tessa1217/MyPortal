@@ -11,5 +11,6 @@ public interface StudentLectureService {
 	StudentLectureVO getLectureRecord(StudentLectureVO vo);
 	void insertLectureRecord(StudentLectureVO vo);
 	void updateLectureRecord(StudentLectureVO vo);
+	List<StudentNoteVO> insertStudentNote(StudentNoteVO vo);
 
 }

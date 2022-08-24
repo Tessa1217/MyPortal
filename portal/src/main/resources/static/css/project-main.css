@@ -4,6 +4,11 @@
 	margin-bottom: 3%;
 }
 
+.lecture-title {
+	height: 80px;
+	background: #435ebe;
+}
+
 .studentExamContainer {
 	padding: 3%;
 }
@@ -117,3 +122,46 @@ input[name="tabs"] + .tabmenu {
 	display: none;
 }
 
+.lecture-box {
+	height: 95vh;
+}
+
+.horizontal-title {
+	display: inline-block;
+	padding-left: 1%;
+	height: 60px;
+	width: 100%;
+	background-color: #435ebe; 
+	line-height: 60px;
+}
+
+.horizontal-title span {
+	margin: 0% 1% 0% 1%;
+}
+
+.horizontal-title a {
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+.offPage {
+	display: none;
+}
+
+.notecard {
+	height: 100px;
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+	
+.board-content-box {
+	overflow: scroll;
+	height: 40vh;
+	margin-bottom: 2%;
+}

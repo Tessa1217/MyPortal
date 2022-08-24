@@ -1,5 +1,7 @@
 package com.project.portal.lecture.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.StudentLectureVO;
+import com.project.portal.lecture.service.StudentNoteVO;
 import com.project.portal.lecture.service.impl.StudentLectureServiceImpl;
 
 @Controller
@@ -29,9 +32,13 @@ public class StudentLectureController {
 	}
 	
 	@RequestMapping("student/eclass/watchLecture")
-	public String watchLecture(LectureVO vo, Model model) {
+	public String watchLecture(LectureVO vo, StudentNoteVO note, Model model) {
 		vo = service.getLecture(vo);
+		note.setLectureCode(vo.getLectureCode());
+		note.setStudentId(22000001);
+		List<StudentNoteVO> lectureNote = service.insertStudentNote(note);
 		model.addAttribute("lecture", vo);
+		model.addAttribute("noteList", lectureNote);
 		return "student/eclass/lecture/watchLecture";
 	}
 	
@@ -39,13 +46,19 @@ public class StudentLectureController {
 	@ResponseBody
 	public String watchRecord(@RequestBody StudentLectureVO vo) {
 		if (vo.getCmd().equals("insert")) {
-			System.out.println(vo);
 			service.insertLectureRecord(vo);
 		} 
 		if (vo.getCmd().equals("update")) {
-			System.out.println("update");
 			service.updateLectureRecord(vo);
 		}
 		return "success";
+	}
+	
+	@PostMapping("student/eclass/insertNote")
+	@ResponseBody
+	public List<StudentNoteVO> insertLectureNote(StudentNoteVO vo) {
+		System.out.println(vo);
+		List<StudentNoteVO> noteList = service.insertStudentNote(vo);
+		return noteList;
 	}
 }

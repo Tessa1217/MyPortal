@@ -13,6 +13,7 @@
 	<resultMap id="lectureMap" type="LectureVO">
 		<id column="lecture_code" property="lectureCode"/>
 		<result column="video_code" property="videoCode"/>
+		<result column="lecture_title" property="lectureTitle"/>
 		<association property="lectureFile" javaType="VideoVO">
 			<result column="video_file_path" property="videoFilePath"/>
 			<result column="video_name" property="videoName"/>
@@ -24,6 +25,7 @@
 	<select id="getLecture" resultMap="lectureMap">
 		SELECT 
 				L.LECTURE_CODE, 
+				L.LECTURE_TITLE,
 				L.VIDEO_CODE, 
 				V.VIDEO_FILE_PATH,
 				V.VIDEO_NAME,
@@ -69,4 +71,25 @@
 			CALL SL_U_PRCD(#{watchCode}, #{lectureAttTime})
 		}
 	</update>
+	<insert id="insertStudentNote">
+		INSERT INTO student_note (
+															note_code,
+															note_content,
+															note_make,
+															lecture_code,
+															student_id)
+							VALUES (
+											'N'||LPAD(TO_CHAR(note_seq.NEXTVAL), 14, '0'),
+											#{noteContent},
+											#{noteMake},
+											#{lectureCode},
+											#{studentId})
+	</insert>
+	<select id="getNoteList" resultType="StudentNoteVO">
+		SELECT *
+			FROM student_note
+			WHERE student_id = #{studentId}
+			AND lecture_code = #{lectureCode}
+			ORDER BY 1
+	</select>
 </mapper>
