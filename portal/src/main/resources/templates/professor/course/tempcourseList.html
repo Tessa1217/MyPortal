@@ -15,8 +15,8 @@
 		<div class="card-body">
 			<form name="searchForm" class="form-horizontal">
 			<select id="type" name="type">
-				<option value="course_year">개설연도:</option>
-				<option value="course_semester">개설학기:</option>
+				<option value="course_year">개설연도</option>
+				<option value="course_semester">개설학기</option>
 				</select>
 				<input type="number" name="keyword" id="keyword">
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
@@ -32,6 +32,7 @@
 						<th>강의명</th>
 						<th>제출여부</th>
 						<th>승인여부</th>
+						<!-- <th>상세보기</th> -->
 						
 					</tr>
 				</thead>
@@ -53,7 +54,8 @@
 							<td th:if="${item.submitYes == 'UNSUB'}">미제출</td>
 							<td th:if="${item.backReason == 'A00'}">승인</td>
 							<td th:if="${item.backReason == 'A01'}">심사대기</td>
-							
+							<td th:if="${item.backReason == null}">비승인</td>
+							<!-- <td><button id="button1" name="button1" th:data-code="${item.courseCode}">상세보기</button></td> -->
 						</tr>
 						
 				</tbody>
@@ -81,7 +83,14 @@
 		function getTemp(){
 			location.href="getTemp";
 		}
-		
+		/* $(function(){
+			$("#button1").on("click", tempInfo)
+			function tempInfo(){
+				var code = $(this).data("code")
+				alert(code);
+				location.href="getTemp/${code}";
+			}
+		}) */
 		</script>
 	</th:block>
 </body>

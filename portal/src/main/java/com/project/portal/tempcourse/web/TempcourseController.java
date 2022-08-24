@@ -67,12 +67,14 @@ public class TempcourseController {
 
 	// 등록페이지
 	@RequestMapping("/professor/tempInsert")
-	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo) {
+	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri) {
 		pvo.setProfessorId(220002);
 		pvo = service.getInfo(pvo);
 		voo.setWeekCode("HUEN000804");
+//		vo.setProfessorId(0);
+//		vo.setCourseCode(null);
 		
-		List<TempcourseVO> list = service.tempcourseList(null,null);
+		List<TempcourseVO> list = service.tempcourseList(vo,cri);
 //		List<TempcourseweekVO> list2 = service.tempcourseweekList(null);
 		
 		model.addAttribute("tempcourseList", list);
