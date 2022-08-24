@@ -41,7 +41,7 @@
 	
 	<select id="getTempweek" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
 		
-		select week_num, week_content from temp_course_weekly where course_code = #{courseCode}
+		select week_num, week_content, course_code from temp_course_weekly where course_code = #{courseCode}
 	
 	
 	</select>
