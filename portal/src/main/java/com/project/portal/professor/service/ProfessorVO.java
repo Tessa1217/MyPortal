@@ -17,4 +17,5 @@ public class ProfessorVO {
 	private String professorPhone;
 	private String professorEmail;
 	private String professorImg;
+	private Date registerDate;
 }

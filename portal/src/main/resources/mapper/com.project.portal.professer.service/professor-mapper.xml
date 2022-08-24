@@ -11,4 +11,12 @@
 		on p.depart_code = d.depart_code
 		where p.professor_id = 220001
 	</select>
+	
+	<select id="professorList" resultType="com.project.portal.professor.service.ProfessorVO">
+		select *
+		from professor p
+		join department d
+		on p.depart_code = d.depart_code
+		order by professor_id asc
+	</select>
 </mapper>
