@@ -73,7 +73,7 @@
 			<br>
 			<div>
 				<h4>수강꾸러미 LIST</h4>
-				<table class="table">
+				<table class="table" id="listTable">
 					<thead>
 						<tr>
 							<th>과목 코드</th>
@@ -81,7 +81,8 @@
 							<th>강의 명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
-							<th>전체 삭제</th>
+							<th><button type="button"
+									class="btn btn-primary buttonAllDelete">전체 삭제</button></th>
 						</tr>
 					</thead>
 					<tbody id="pBody">
@@ -125,7 +126,7 @@
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
-								<td><button class="btn btn-primary buttonDelete" data-code="${item.courseCode}">삭제</button></td>
+								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">삭제</button></td>
 								</tr>`
 						$("#pBody").append(content)	
 						}
@@ -134,7 +135,7 @@
 			})
 			
 			$(function(){
-				$(".buttonDelete").on("click", coursePackageDelete)
+				$("#pBody").on("click",".buttonDelete",coursePackageDelete)
 				function coursePackageDelete(){
 					let code = $(this).data("code")
 					let tr = $(this).closest("tr");
@@ -152,6 +153,7 @@
 						});
 				}
 			})
+			
 		</script>
 	</th:block>
 </body>

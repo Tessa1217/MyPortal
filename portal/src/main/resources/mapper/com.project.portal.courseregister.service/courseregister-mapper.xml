@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.project.portal.courseregister.service.RegisterMapeer">
-	
-	<select id="registerList" resultType="CourseVO">
-		SELECT course_code, course_name, course_sortation, course_credit, course_limit, professor_id
-		FROM course
-		
+	namespace="com.project.portal.courseregister.service.RegisterMapper">
+
+	<select id="registerList"
+		resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT a.course_code, a.course_name, a.course_sortation,
+		a.course_credit, a.course_limit, b.professor_name
+		FROM course a
+		INNER JOIN professor b
+		ON a.professor_id = b.professor_id
 	</select>
+
+	<select id="studentInfo"
+		resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT a.student_id, b.student_name, a.student_grade,
+		c.college_code, a.department_code, d.college_name, c.depart_name
+		FROM
+		STUDENT_STUDY_INFO a
+		INNER JOIN STUDENT_PRI_INFO b
+		ON a.student_id =
+		b.student_id
+		INNER JOIN DEPARTMENT c
+		ON a.department_code =
+		c.depart_code
+		INNER JOIN college d
+		ON c.college_code = d.college_code
+		WHERE a.student_id = #{studentId}
+	</select>
+	
+	<!-- <insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
+		INSERT INTO 
+	</insert> -->
 </mapper>

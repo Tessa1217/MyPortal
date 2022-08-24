@@ -13,5 +13,6 @@ public class CoursePackageVO {
 	private int courseLimit;
 	private String professorName;
 	private int studentId;
-		
+	private String collegeCode;
+	private String departmentCode;	
 }

@@ -41,6 +41,12 @@ public class CoursePackageServiceImpl implements CoursePackageService {
 		return mapper.coursePackageDelete(vo);
 	}
 
+	@Override
+	public int coursePackageAllDelete(CoursePackageVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.coursePackageAllDelete(vo);
+	}
+
 	
 
 	

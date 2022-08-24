@@ -20,7 +20,7 @@ public class CoursePackageController {
 	// 강의 LIST 조회
 	@RequestMapping("/student/coursePackage")
 	public String coursePackage(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000007);
+		vo.setStudentId(22000001);
 		List<CoursePackageVO> coursePackage = service.coursePackage(vo);
 		model.addAttribute("coursePackage", coursePackage);
 
@@ -34,16 +34,24 @@ public class CoursePackageController {
 	@RequestMapping("/student/coursePackageInsert")
 	@ResponseBody
 	public CoursePackageVO CoursePackageInsert(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000007);
+		vo.setStudentId(22000001);
 		return service.coursePackageInsert(vo);
 	}
 
-	// 수강꾸러미 삭제
+	// 수강꾸러미 선택 삭제
 	@RequestMapping("/student/coursePackageDelete")
 	@ResponseBody
 	public int CoursePackageDelete(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000007);
+		vo.setStudentId(22000001);
 		return service.coursePackageDelete(vo);
 
+	}
+	
+	// 수강꾸러미 전체 삭제
+	@RequestMapping("/student/coursePackageAllDelete")
+	@ResponseBody
+	public int CoursePackageAllDelete(Model model, CoursePackageVO vo) {
+		vo.setStudentId(22000001);
+		return service.coursePackageAllDelete(vo);
 	}
 }

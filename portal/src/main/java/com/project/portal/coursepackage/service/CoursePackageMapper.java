@@ -19,4 +19,6 @@ public interface CoursePackageMapper {
 	
 	public int coursePackageDelete(CoursePackageVO vo);
 	
+	public int coursePackageAllDelete(CoursePackageVO vo);
+	
 }
