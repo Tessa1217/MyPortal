@@ -7,6 +7,9 @@
 		SELECT *
 		  FROM COURSE_NOTICE
 		 WHERE COURSE_CODE = #{courseCode}
+		 <if test="search != null and search !=''">
+				AND ${searchType} like '%'|| #{search} || '%'
+			</if>
 	</select>
 	
 	<select id="selectDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">

@@ -13,7 +13,8 @@
 	<div id="main">
 		<h2>질문 목록</h2>
 		<br>
-		<select>
+		<form name="frmsearch">
+		<select id="searchType"  name="searchType">
 			<option value="1">1주차</option>
 			<option value="2">2주차</option>
 			<option value="3">3주차</option>
@@ -31,7 +32,10 @@
 			<option value="15">15주차</option>
 		</select>
 		
-		<button type="button">검색</button>
+		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
+		
+		</form>
 		
 		<br>
 		<br>
@@ -124,12 +128,12 @@
             </div>
         </div>
     </div>
-	
-	
-	
-	
-</th:block>
+    
+    	<script th:inline="javascript"> 	
+		</script>
 
+</th:block>
+	
 
 
 </body>

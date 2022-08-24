@@ -32,14 +32,15 @@ td {
 	<div id="main">
 		<h2>강의 공지사항</h2>
 		<hr>
-		<form action="/student/eclass/eclassnotice/boardNo">
-		<select>
-			<option value="num">번호</option>
-			<option value="title">제목</option>
-			<option value="registerdate">등록일자</option>
+		<form name="frmsearch">
+		<select id="searchType" name="searchType">
+			<option value="course_Notice_No" >번호</option>
+			<option value="course_Notice_Title">제목</option>
+			<option value="course_Notice_Content">내용</option>
 		</select>
-		<input type="text" >
-		<button type="button" id="search" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<input type="text" name="search" id="search">
+		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
 		</form>
 		
 		
@@ -68,7 +69,8 @@ td {
 		
 		
 		<script th:inline="javascript">
-		
+		frmsearch.searchType.value = [[${search.searchType}]]
+		frmsearch.search.value = [[${search.search}]]
 		</script>
 		
 		

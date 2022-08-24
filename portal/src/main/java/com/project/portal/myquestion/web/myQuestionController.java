@@ -20,7 +20,7 @@ public class myQuestionController {
 	@Autowired
 	myQuestionService service;
 	
-	// 질문 목록
+	// 학생 질문 목록
 	@RequestMapping("/student/eclass/courseQuestion")
 	public String getStuMyQuestion(myQuestionVO vo, Model model) {
 	
@@ -30,5 +30,13 @@ public class myQuestionController {
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo.getStudentId()));
 		return "student/eclass/question/courseQuestion";
+	}
+	
+	
+	// 교수 질문 목록 조회
+	@RequestMapping("/professor/eclass/courseQuestion")
+	public String getProfMyQuestion(myQuestionVO vo, Model model) {
+		
+		return "professor/eclass/question/courseQuestion";
 	}
 }

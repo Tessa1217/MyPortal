@@ -22,7 +22,7 @@ public class StudyNoticeController {
 	
 	// 학생 강의 공지사항 조회
 	@RequestMapping("/student/eclass/eclassnotice")
-	public String selectStudyNoticeList(StudyNoticeVO vo, Model model) {
+	public String selectStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model) {
 		
 		vo.setCourseCode("SSPY0001");
 		//List<StudyNoticeVO> studyNoticeList = service.selectStudyNoticeList(vo);

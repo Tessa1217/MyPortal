@@ -9,6 +9,8 @@ public interface myQuestionMapper {
 	// 학생 질문 리스트 조회
 	public List<myQuestionVO> getStuMyQuestion(String studentId);
 	
+	// 교수 질문 조회
+	public List<myQuestionVO> getProfMyQuestion(String courseCode);
 	
 	
 	

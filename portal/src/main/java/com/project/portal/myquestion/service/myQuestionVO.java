@@ -21,6 +21,7 @@ public class myQuestionVO {
 	private String lectureAnswerContent; // 답변 내용 
 	private String studentId; // 학번
 	private String weekNum;// 주차
+	private String searchType; // 검색타입
 	
 	
 }

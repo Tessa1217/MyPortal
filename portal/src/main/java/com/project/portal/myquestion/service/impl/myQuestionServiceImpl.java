@@ -20,5 +20,10 @@ public class myQuestionServiceImpl implements myQuestionService {
 		// TODO Auto-generated method stub
 		return mapper.getStuMyQuestion(studentId);
 	}
+	@Override
+	public List<myQuestionVO> getProfMyQuestion(String courseCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

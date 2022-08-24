@@ -40,7 +40,7 @@ td {
 		</select>
 		<input type="text" name="search" id="search">
 		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
-		<button type="reset">리셋</button>
+		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
 		</form>
 		
 		
@@ -67,9 +67,9 @@ td {
 		</table>
 		
 		<button type="button" id="write" class="saveBtn btn btn-primary me-1 mb-1" >글쓰기</button>
+		
 		</div>
 		
-		[[${studyNoticeVO}]]
 		<script th:inline="javascript">
 		//글쓰기 이동
 		$('#write').click(function() {
