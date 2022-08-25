@@ -83,23 +83,22 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
-	
 
 
 
-	
 
 
-
-	
-
-
-
-	
-
+	@Override
+	public int updateTemp(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		
+		return mapper.updateTemp(vo);
+	}
 
 
 	
+
+
 
 	
 	

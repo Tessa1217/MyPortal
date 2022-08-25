@@ -130,4 +130,22 @@
 		<!-- </foreach> -->
 		)
 	</insert>
+	
+	<update id="updateTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
+		update  temp_course
+		   set  course_name = #{courseName}, 
+				course_year = #{courseYear}, 
+				course_sortation = #{courseSortation},
+				course_semester = #{courseSemester}, 
+				course_credit = #{courseCredit},
+				report_assigned_score = #{reportAssignedScore}, 
+				midterm_assigned_score= #{midtermAssignedScore},
+				final_assigned_score = #{finalAssignedScore}, 
+				course_limit = #{courseLimit},
+				textbook_reference = #{textbookReference}, 
+				course_summary = #{courseSummary},
+				course_notes = #{courseNotes}
+		 where  course_code = #{courseCode}
+		
+	</update>
 </mapper>

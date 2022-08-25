@@ -19,4 +19,5 @@ public interface TempcourseMapper {
 	public List<TempcourseweekVO> tempcourseweekList(TempcourseVO vo, Criteria cri);
 	public void tempInsert(TempcourseVO vo);
 	public void tempweekInsert(TempcourseweekVO voo);
+	public int updateTemp(TempcourseVO vo);
 }

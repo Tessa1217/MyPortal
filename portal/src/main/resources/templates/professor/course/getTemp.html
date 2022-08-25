@@ -49,14 +49,14 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<input th:value="${tempcourse.courseName}"
-												class="form-control">
+												class="form-control" id="courseName" name="courseName">
 										</div>
 										<div class="col-md-6 col-12">
 											<div class="col-md-4">
 												<label>강의 년도</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseYear}"
+												<input th:value="${tempcourse.courseYear}" id="courseYear" name="courseYear"
 													class="form-control">
 											</div>
 											<div class="col-md-4">
@@ -64,7 +64,7 @@
 											</div>
 											<div class="col-md-8 form-group">
 												<input type="number" class="form-control"
-													th:value="${tempcourse.courseSemester}">
+													th:value="${tempcourse.courseSemester}" id="courseSemester" name="courseSemester">
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -72,7 +72,7 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseSortation}"
+												<input th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control" >
 												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
 												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
@@ -83,7 +83,7 @@
 												<label>이수 단위</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseCredit}"
+												<input th:value="${tempcourse.courseCredit}" id="courseCredit" name="courseCredit"
 													class="form-control">
 											</div>
 										</div>
@@ -92,14 +92,14 @@
 												<label>과제 배점</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.reportAssignedScore}"
+												<input th:value="${tempcourse.reportAssignedScore}" id="reportAssignedScore" name="reportAssignedScore"
 													class="form-control">
 											</div>
 											<div class="col-md-4">
 												<label>출결 배점</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.attAssignedScore}"
+												<input th:value="${tempcourse.attAssignedScore}" id="attAssignedScore" name="attAssignedScore"
 													class="form-control">
 											</div>
 										</div>
@@ -108,14 +108,14 @@
 												<label>중간고사 배점</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.midtermAssignedScore}"
+												<input th:value="${tempcourse.midtermAssignedScore}" id="midtermAssignedScore" name="midtermAssignedScore"
 													class="form-control">
 											</div>
 											<div class="col-md-4">
 												<label>기말고사 배점</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.finalAssignedScore}"
+												<input th:value="${tempcourse.finalAssignedScore}" id="finalAssignedScore" name="finalAssignedScore"
 													class="form-control">
 											</div>
 										</div>
@@ -123,32 +123,32 @@
 											<label>수강 인원</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input th:value="${tempcourse.courseLimit}"
+											<input th:value="${tempcourse.courseLimit}" id="courseLimit" name="courseLimit"
 												class="form-control">
 										</div>
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input th:value="${tempcourse.textbookReference}"
+											<input th:value="${tempcourse.textbookReference}" id="textbookReference" name="textbookReference"
 												class="form-control">
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input th:value="${tempcourse.courseSummary}"
+											<input th:value="${tempcourse.courseSummary}" id="courseSummary" name="courseSummary"
 												class="form-control">
 										</div>
 										<div class="col-md-4">
 											<label>강의 참고사항</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input th:value="${tempcourse.courseNotes}"
+											<input th:value="${tempcourse.courseNotes}" id="courseNotes" name="courseNotes"
 												class="form-control">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-primary">수정하기</button>
+											<button type="button" class="btn btn-primary" id="mod">수정하기</button>[[${tempcourse.courseCode}]]
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -182,7 +182,7 @@
 										</thead>
 										</table>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-primary">수정하기</button>
+											<button type="submit" class="btn btn-primary" >수정하기</button>
 											
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
@@ -242,6 +242,45 @@
 					})
 				})
 			}
+			
+			//강의계획서 정보 수정
+			$(function() {
+				$("#mod").on("click", confirmModal)
+
+				function confirmModal() {
+					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+						updateTemp();
+					}
+				}
+				function updateTemp() {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateTemp`,
+						method : "post",
+						dataType : "json",
+						data : {
+							"courseName" : $("#courseName").val(),
+							"courseYear" : $("#courseYear").val(),
+							"courseSemester" : $("#courseSemester").val(),
+							"courseSortation" : $("#courseSortation").val(),
+							"courseCredit" : $("#courseCredit").val(),
+							"reportAssignedScore" : $("#reportAssignedScore").val(),
+							"attAssignedScore" : $("#attAssignedScore").val(),
+							"midtermAssignedScore" : $("#midtermAssignedScore").val(),
+							"finalAssignedScore" : $("#finalAssignedScore").val(),
+							"courseLimit" : $("#courseLimit").val(),
+							"textbookReference" : $("#textbookReference").val(),
+							"courseSummary" : $("#courseSummary").val(),
+							"courseNotes" : $("#courseNotes").val(),
+							
+						},
+						dataType : "json",
+						success : function(result) {
+							
+						}
+					});
+				}
+			});
 			
 			
 			</script>

@@ -129,16 +129,18 @@ public class TempcourseController {
 		return "redirect:professor/tempcourseList";
 	}
 	
-//	@RequestMapping("/tempUpdate")
-//	@ResponseBody
-//	public TempcourseVO tempUpdate(TempcourseVO vo, Model model) {
-//		
-//		
-//		
-//		
-//		return;
-//		
-//	}
+	
+	@RequestMapping("professor/getTemp/{courseCode}/updateTemp")
+	@ResponseBody
+	public int tempUpdate(@PathVariable String courseCode, TempcourseVO vo, Model model) {
+		
+		vo.setCourseCode(courseCode);
+		System.out.println(vo);
+		
+		return service.updateTemp(vo);
+		
+	}
+	
 	
 
 }
