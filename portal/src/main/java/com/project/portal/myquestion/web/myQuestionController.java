@@ -7,9 +7,12 @@ import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.mycourse.web.myCourseController;
+import com.project.portal.myquestion.service.myQuestionAnswerVO;
 import com.project.portal.myquestion.service.myQuestionService;
 import com.project.portal.myquestion.service.myQuestionVO;
 
@@ -29,6 +32,7 @@ public class myQuestionController {
 		System.out.println(myQuestionList);
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo.getStudentId()));
+		//model.addAttribute("courseQuestionCheck", service.getStuMyQuestionCheck(vo.getStudentId()));
 		return "student/eclass/question/courseQuestion";
 	}
 	
@@ -36,7 +40,34 @@ public class myQuestionController {
 	// 교수 질문 목록 조회
 	@RequestMapping("/professor/eclass/courseQuestion")
 	public String getProfMyQuestion(myQuestionVO vo, Model model) {
-		
+		vo.setCourseCode("SSPY0001");
+		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo.getCourseCode()));
 		return "professor/eclass/question/courseQuestion";
+	}
+	
+	// 학생 질문 상세조회
+	@PostMapping("/student/eclass/courseQuestionDetail")
+	@ResponseBody
+	public myQuestionVO getStuMyQuestionDetail(myQuestionVO vo, Model model) {
+		vo = service.getStuMyQuestionDetail(vo.getLectureQuestionNum());
+		System.out.println(vo);
+		return vo;
+	}
+	
+	// 교수 질문 상세조회
+	@PostMapping("/professor/eclass/courseQuestionDetail")
+	@ResponseBody
+	public myQuestionVO getProfMyQuestionDetail(myQuestionVO vo, Model model) {
+		vo = service.getProfMyQuestionDetail(vo.getLectureQuestionNum());
+		System.out.println(vo);
+		return vo;
+	}
+	
+	// 교수 답변 등록
+	@PostMapping("/professor/eclass/courseQuestionInsert")
+	@ResponseBody
+	public String insertProfMyQuestion(myQuestionAnswerVO vo, Model model) {
+		
+		return "";
 	}
 }

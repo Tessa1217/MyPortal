@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.portal.myquestion.service.myQuestionAnswerVO;
 import com.project.portal.myquestion.service.myQuestionMapper;
 import com.project.portal.myquestion.service.myQuestionService;
 import com.project.portal.myquestion.service.myQuestionVO;
@@ -23,7 +24,29 @@ public class myQuestionServiceImpl implements myQuestionService {
 	@Override
 	public List<myQuestionVO> getProfMyQuestion(String courseCode) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.getProfMyQuestion(courseCode);
+				
+	}
+	@Override
+	public myQuestionVO getStuMyQuestionDetail(String questionNum) {
+		// TODO Auto-generated method stub
+		return mapper.getStuMyQuestionDetail(questionNum);
+	}
+	@Override
+	public myQuestionVO getStuMyQuestionCheck(String studentId) {
+		// TODO Auto-generated method stub
+		return mapper.getStuMyQuestionCheck(studentId);
+	}
+	@Override
+	public myQuestionVO getProfMyQuestionDetail(String questionNum) {
+		// TODO Auto-generated method stub
+		return mapper.getProfMyQuestionDetail(questionNum);
+	}
+	@Override
+	public myQuestionAnswerVO insertProfMyQuestion(String questionNum) {
+		// TODO Auto-generated method stub
+		return mapper.insertProfMyQuestion(questionNum);
+		
 	}
 
 }

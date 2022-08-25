@@ -6,8 +6,8 @@ import lombok.Data;
 public class Criteria {
 	
 	// Criteria
-	private int pageNum;
-	private int amount;
+	private int pageNum; // 페이지 번호
+	private int amount; // 한 페이지당 출력할 개수
 	private String type;
 	private String keyword;
 	

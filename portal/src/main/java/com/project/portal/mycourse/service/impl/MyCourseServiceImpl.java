@@ -11,6 +11,7 @@ import com.project.portal.mycourse.service.MyCourseMapper;
 import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
+import com.project.portal.mycourse.service.myProfCourseVO;
 
 
 @Service
@@ -51,6 +52,18 @@ public class MyCourseServiceImpl implements MyCourseService {
 	public MyCourseVO studentCreditSum(MyCourseVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.studentCreditSum(vo);
+	}
+
+	@Override
+	public List<myProfCourseVO> getProfMyCourse(myProfCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getProfMyCourse(vo);
+	}
+
+	@Override
+	public MyCourseMainVO getProfMyCoursePage(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.getProfMyCoursePage(courseCode);
 	}
 
 

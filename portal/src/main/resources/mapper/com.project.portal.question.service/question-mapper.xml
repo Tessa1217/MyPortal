@@ -15,6 +15,23 @@
 		ORDER BY 1 ASC
 	</select>
 	
+	<select id="getStuMyQuestionDetail" resultType="com.project.portal.myquestion.service.myQuestionVO">
+		SELECT Q.LECTURE_QUESTION_TITLE,
+			   W.WEEK_NUM,
+			   Q.LECTURE_QUESTION_CONTENT,
+			   A.LECTURE_ANSWER_REG_DATE,
+			   A.LECTURE_ANSWER_CONTENT,
+			   Q.LECTURE_QUESTION_NUM,
+			   Q.LECTURE_QUESTION_REG_DATE
+        FROM LECTURE_QUESTION Q JOIN LECTURE_ANSWER A
+          ON Q.LECTURE_QUESTION_NUM = A.LECTURE_QUESTION_NUM
+        JOIN COURSE_WEEKLY W
+          ON Q.WEEK_CODE = W.WEEK_CODE
+        WHERE Q.LECTURE_QUESTION_NUM = #{lectureQuestionNum}
+	
+	
+	</select>
+	
 	<select id="getStuMyQuestionAnsCheck" resultType="com.project.portal.myquestion.service.myQuestionVO">
 		SELECT Q.LECTURE_QUESTION_NUM,
 		       A.LECTURE_ANSWER_REG_DATE
@@ -25,4 +42,46 @@
 	
 	</select>
 	
+	<select id="getProfMyQuestion" resultType="com.project.portal.myquestion.service.myQuestionVO">
+		SELECT L.LECTURE_QUESTION_NUM,
+		       L.LECTURE_QUESTION_TITLE,
+		       S.STUDENT_NAME,
+		       W.COURSE_CODE,
+		       W.WEEK_NUM,
+		       L.LECTURE_QUESTION_REG_DATE
+		FROM LECTURE_QUESTION L 
+		  JOIN STUDENT_PRI_INFO S
+		    ON L.STUDENT_ID = S.STUDENT_ID
+          JOIN COURSE_WEEKLY W 
+            ON L.WEEK_CODE = W.WEEK_CODE
+       WHERE W.COURSE_CODE = #{courseCode}
+	</select>
+	
+	
+	<select id="getProfMyQuestionDetail" resultType="com.project.portal.myquestion.service.myQuestionVO">
+		SELECT Q.LECTURE_QUESTION_TITLE,
+		       W.WEEK_CODE,
+		       W.WEEK_NUM,
+		       Q.LECTURE_QUESTION_CONTENT,
+		       Q.LECTURE_QUESTION_REG_DATE
+          FROM LECTURE_QUESTION Q JOIN COURSE_WEEKLY W
+            ON Q.WEEK_CODE = W.WEEK_CODE
+         WHERE LECTURE_QUESTION_NUM = #{lectureQuestionNum}
+	</select>
+	
+	<insert id="insertProfMyQuestion" parameterType="myQuestionAnswerVO">
+		INSERT INTO course_notice ( lecture_answer_num,
+									lecture_question_num,
+									lecture_answer_content,
+									lecture_answer_reg_date,
+									lecture_answer_mod_date
+									)
+									VALUES (
+										LECTURE_ANSWER_SEQ.nextval,
+										#{lectureQuestionNum},
+										#{lectureAnswerContent},
+										SYSDATE,
+										null)
+									)					
+	</insert>
 </mapper>

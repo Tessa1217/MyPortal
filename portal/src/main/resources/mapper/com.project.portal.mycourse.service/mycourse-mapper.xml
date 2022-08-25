@@ -2,51 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.mycourse.service.MyCourseMapper">
-	
-	<select id="getstuMyCourse" resultType="com.project.portal.mycourse.service.MyCourseVO">
-		SELECT C.COURSE_NAME, 
-		       P.PROFESSOR_NAME,
-		       C.COURSE_CODE
-		  FROM MY_COURSE M 
-		  JOIN COURSE C   ON M.COURSE_CODE = C.COURSE_CODE
-	      JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
-		 WHERE M.STUDENT_ID = #{studentId}
-	</select>
-	
-	<select id="getstuMyCourseDetail" resultType="com.project.portal.mycourse.service.myCourseDetailVO">
+
+	<select id="getstuMyCourse"
+		resultType="com.project.portal.mycourse.service.MyCourseVO">
 		SELECT C.COURSE_NAME,
-			   C.COURSE_SORTATION,
-			   C.COURSE_CODE,
-			   D.DEPART_NAME,
-			   P.PROFESSOR_NAME,
-			   C.COURSE_CREDIT,
-			   P.PROFESSOR_EMAIL,
-			   C.COURSE_SUMMARY
-		FROM COURSE C 
+		P.PROFESSOR_NAME,
+		C.COURSE_CODE
+		FROM MY_COURSE M
+		JOIN COURSE C ON M.COURSE_CODE = C.COURSE_CODE
 		JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
-		JOIN DEPARTMENT D ON D.DEPART_CODE = P.DEPART_CODE
+		WHERE M.STUDENT_ID = #{studentId}
+	</select>
+
+	<select id="getstuMyCourseDetail"
+		resultType="com.project.portal.mycourse.service.myCourseDetailVO">
+		SELECT C.COURSE_NAME,
+		C.COURSE_SORTATION,
+		C.COURSE_CODE,
+		D.DEPART_NAME,
+		P.PROFESSOR_NAME,
+		C.COURSE_CREDIT,
+		P.PROFESSOR_EMAIL,
+		C.COURSE_SUMMARY
+		FROM COURSE C
+		JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
+		JOIN DEPARTMENT D ON
+		D.DEPART_CODE = P.DEPART_CODE
 		WHERE C.COURSE_CODE = #{courseCode}
 	</select>
-	
-	<select id="getstuMyCourseWeekDetail" resultType="com.project.portal.mycourse.service.myCourseDetailVO">
+
+	<select id="getstuMyCourseWeekDetail"
+		resultType="com.project.portal.mycourse.service.myCourseDetailVO">
 		SELECT WEEK_NUM,
-		       WEEK_CONTENT
+		WEEK_CONTENT
 		FROM COURSE_WEEKLY
 		WHERE COURSE_CODE = #{courseCode}
 	</select>
-	
-	<select id="studentStudyList" resultType="com.project.portal.mycourse.service.MyCourseVO">
-		select * 
+
+	<select id="getProfMyCourse"
+		resultType="com.project.portal.mycourse.service.myProfCourseVO">
+		SELECT P.PROFESSOR_NAME,
+		C.COURSE_NAME,
+		C.COURSE_CODE
+		FROM PROFESSOR P JOIN COURSE C
+		ON P.PROFESSOR_ID = C.PROFESSOR_ID
+		WHERE P.PROFESSOR_ID = #{professorId}
+
+	</select>
+
+	<select id="studentStudyList"
+		resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select *
 		from s_g_vu
 		where student_id = 22000001
 	</select>
-	<select id="studentCreditSum" resultType="com.project.portal.mycourse.service.MyCourseVO">
-		select sum(semester_credit2) 
+	<select id="studentCreditSum"
+		resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select sum(semester_credit2)
 		from s_g_vu
 		where student_id = 22000001
 	</select>
-	
-	
-	
-	
+
+
+
+
 </mapper>

@@ -58,10 +58,12 @@
 					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
 					<td th:text="${courseQuestion.weekNum}"></td>
-					<td th:if="${courseQuestion.lectureAnswerRegDate} == null">X</td>
-					<td th:unless="${courseQuestion.lectureAnswerRegDate} == null">O</td>
-					<td> <!-- th:if="${courseQuestion.lectureAnswerRegDate} == null" -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseQuestionDetail">상세보기</button>
+					<td></td>
+					<!-- <td  th:if="${courseQuestion.lectureAnswerRegDate} != null">O</td>
+					<td th:unless="${courseQuestion.lectureAnswerRegDate} != null">X</td> -->
+		
+					<td th:if="${courseQuestion.lectureAnswerRegDate} == null"> 
+					<button type="button" class="btn btn-primary courseQuestion" th:data-code="${courseQuestion.lectureQuestionNum}">상세보기</button>
 					</td>
 				</tr>
 			</tbody>
@@ -87,32 +89,29 @@
                                     	<table class="table">
                                     			<tr>
                                     				<td>제목</td>
-                                    				<td></td>
+                                    				<td id="title"></td>
                                     			</tr>
                                     			
                                     			<tr>
                                     				<td>주차</td>
-                                    				<td></td>
+                                    				<td id="week"></td>
                                     			</tr>
                                     			
                                     			<tr>
                                     				<td>질문 내용</td>
-                                    				<td></td>
+                                    				<td id="questioncontent"></td>
                                     			</tr>
                                     			
                                     			<tr>
                                     				<td>질문 답변일</td>
-                                    				<td></td>
+                                    				<td id="answerdate"></td>
                                     			</tr>
                                     			
                                     			<tr>
                                     				<td>답변 내용</td>
-                                    				<td></td>
+                                    				<td id="answercontent"></td>
                                     			</tr>
                                     	</table>
-                                    
-                                   
-
                                     </div>
                                 </div>
                             </div>
@@ -122,14 +121,60 @@
                             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
                                 확인
                             </button>
+                            <button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
                         </div>
-                    
                 </div>
             </div>
         </div>
     </div>
     
     	<script th:inline="javascript"> 	
+    	
+    	$(function () {
+    		courseQuestionDetail();
+    		modalOff();
+    	})
+    	// 질문 상세조회
+    	function courseQuestionDetail () {
+     		
+     		
+    		$(".courseQuestion").on("click", function() {
+    			let lectureQuestionNum = ($(this).data("code"));
+				console.log(lectureQuestionNum);
+    			$(console.log(this));
+				console.log($(this).data("code"));
+         		//console.log(lectureQuestionNum)
+    			$.ajax({
+    	                type : "POST",  // 요청 타입
+    	                url : "/student/eclass/courseQuestionDetail",      // 컨트롤러에서 대기중인 URL 주소이다.
+    	                data :  
+    	                	{lectureQuestionNum : lectureQuestionNum},
+    	                dataType : "json",
+    	                success : function(data){ // 비동기통신의 성공일경우 success 콜백
+    	                   console.log(data);
+    	                   $("#title").text(data.lectureQuestionTitle)
+    	                   $("#week").text(data.weekNum)
+    	                   $("#questioncontent").text(data.lectureQuestionTitle)
+    	                   $("#answerdate").text(data.lectureAnswerRegDate)
+    	                   $("#answercontent").text(data.lectureAnswerContent)
+    	                   $('#courseQuestionDetail').modal('show');
+
+    	                },
+    	                error : function(reject){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+    	                    alert("통신 실패.");
+    	                }
+    	            }); 
+    	        });	
+    		}
+    	
+    	// 모달창 끄기 버튼
+		function modalOff() {
+			$("#closeModal").on("click", function() {
+				$('#courseQuestionDetail').modal('hide');
+			})
+		}
+    	
 		</script>
 
 </th:block>

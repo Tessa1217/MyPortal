@@ -12,11 +12,189 @@
 
 	<div id="main">
 		<h2>질문 목록</h2>
-		<hr>
+		<br>
+		<form name="frmsearch">
+		<select id="searchType"  name="searchType">
+			<option value="1">1주차</option>
+			<option value="2">2주차</option>
+			<option value="3">3주차</option>
+			<option value="4">4주차</option>
+			<option value="5">5주차</option>
+			<option value="6">6주차</option>
+			<option value="7">7주차</option>
+			<option value="8">8주차</option>
+			<option value="9">9주차</option>
+			<option value="10">10주차</option>
+			<option value="11">11주차</option>
+			<option value="12">12주차</option>
+			<option value="13">13주차</option>
+			<option value="14">14주차</option>
+			<option value="15">15주차</option>
+		</select>
+		
+		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
+		
+		</form>
+		
+		<br>
+		<br>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>주차</th>
+					<th>답변 여부</th>
+					<th>답변 하기</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="courseProfQuestion : ${courseProfQuestion}">
+					<td th:text="${courseProfQuestion.lectureQuestionNum}"></td>
+					<td th:text="${courseProfQuestion.lectureQuestionTitle}"></td>
+					<td th:text="${courseProfQuestion.studentName}"></td>
+					<td th:text="${courseProfQuestion.weekNum}"></td>
+					<td th:if="${courseProfQuestion.lectureAnswerRegDate} == null">
+					<td>
+					<button type="button" class="btn btn-primary courseProfQuestion" 
+					th:data-code="${courseProfQuestion.lectureQuestionNum}">답변하기</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	
+		<!-- 모달창 -->
+	 <div class="modal fade" id="courseQuestionDetail" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <label class="modal-title" id="staticBackdropLabel">질문 답변</label>
+                </div>
+                <div class="modal-body">
+                        <div class="container my-auto">
+                            <div class="row">
+                                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                                    <div class="card-body">
+                                    <form action="/professor/eclass/courseQuestionInsert">
+                                    	<table class="table">
+                                    			<tr>
+                                    				<td>제목</td>
+                                    				<td id="title"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>주차</td>
+                                    				<td id="week"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>질문 내용</td>
+                                    				<td id="questioncontent"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>질문 등록일</td>
+                                    				<td id="answerregdate"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td>답변 내용</td>
+                                    				<td id="answercontent"><textarea class="form-control" name="answercontent"></textarea></td>
+                                    			</tr>
+                                    	</table>
+                                    	 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" onclick="insertAnswer()">
+                                				답변 등록
+                            			</button>
+                                    </form>
+                                   
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container modal-footer">
+                           
+                            <button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
     
-    	<script th:inline="javascript"> 	
-		</script>
+    <script th:inline="javascript">
+    	
+    $(function () {
+		courseQuestionDetail();
+		modalOff();
+	})
+	// 질문 상세조회
+	function courseQuestionDetail () {
+    	$(".courseProfQuestion").on("click", function() {
+    		let lectureQuestionNum = ($(this).data("code"));
+    		console.log(lectureQuestionNum);
+    		
+    		$.ajax({
+    			type : "POST",  // 요청 타입
+                url : "/professor/eclass/courseQuestionDetail",      // 컨트롤러에서 대기중인 URL 주소이다.
+                data :  
+                	{lectureQuestionNum : lectureQuestionNum},
+                dataType : "json",
+                success : function(data){ // 비동기통신의 성공일경우 success 콜백
+                	console.log(data);
+                	 $("#title").text(data.lectureQuestionTitle)
+	                 $("#week").text(data.weekNum)
+	                 $("#questioncontent").text(data.lectureQuestionTitle)
+	                 $("#answerregdate").text(data.lectureQuestionRegDate)
+               },
+               error : function(reject) {
+            	   alert("통신 실패");
+               }
+                
+    		})
+    		$('#courseQuestionDetail').modal('show');
+    		
+    	})
+    	
+   	}
+    	
+ 
+    
+    
+ // 모달창 끄기 버튼
+	function modalOff() {
+		$("#closeModal").on("click", function() {
+			$('#courseQuestionDetail').modal('hide');
+		})
+	}
+ 
+ 
+ // 답변 등록
+ 	function insertAnswer() {
+ 		let lectureQuestionNum = ($(this).data("code")); // 질문 번호
+ 		console.log(lectureQuestionNum);
+ 		
+ 		/* $.ajax({
+			type : "POST",  // 요청 타입
+            url : "/professor/eclass/courseQuestionInsert",
+            success : function(data) {
+            	console.log(data);
+            }
+ 		}) */
+ 		
+ 	}
+    </script>
 
 </th:block>
 	

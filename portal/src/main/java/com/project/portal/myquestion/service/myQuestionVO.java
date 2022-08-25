@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class myQuestionVO {
-	
+	private String courseCode; // 강의코드
 	private String lectureQuestionNum; // 질문번호
 	private String lectureQuestionTitle; // 질문제목
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -22,6 +22,7 @@ public class myQuestionVO {
 	private String studentId; // 학번
 	private String weekNum;// 주차
 	private String searchType; // 검색타입
+	private String studentName; // 학생이름(질문작성자)
 	
 	
 }
