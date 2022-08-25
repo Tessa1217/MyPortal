@@ -96,6 +96,30 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
+
+
+
+
+
+	@Override
+	public int updateweekTemp(TempcourseweekVO voo) {
+		// TODO Auto-generated method stub
+		return mapper.updateweekTemp(voo);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int submitTemp(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.submitTemp(vo);
+	}
+
+
 	
 
 

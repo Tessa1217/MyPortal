@@ -111,15 +111,20 @@
 
 	<insert id="tempweekInsert">
 
-		<!-- insert into temp_course_weekly(
+		 insert into temp_course_weekly(
 		week_num,
 		week_content,
 		week_code,
 		course_code
 		)
 		values
-		( -->
-		<foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
+		( 
+		#{weekNum},
+		#{weekContent},
+		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
+		#{courseCode}
+		)
+		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
 		into temp_course_weekly
 		(
 		week_num,
@@ -134,7 +139,7 @@
 		#{item.courseCode}||LPAD(TO_CHAR(#{item.weekNum}), 2, '0'),
 		#{item.courseCode}
 		)
-		</foreach>
+		</foreach> -->
 	</insert>
 	
 	<update id="updateTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
@@ -154,4 +159,19 @@
 		 where  course_code = #{courseCode}
 		
 	</update>
+	
+	<update id="updateweekTemp" parameterType="com.project.portal.tempcourse.service.TempcourseweekVO">
+		 update  temp_course_weekly
+			set	week_content = #{weekContent}
+			where course_code = #{courseCode}
+			
+	
+	</update>
+	
+	 <update id="submitTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
+	
+		update temp_course
+		set submit_yes = #{SUB}, back_reason = #{A01}
+		where course_code = #{courseCode}
+	</update> 
 </mapper>

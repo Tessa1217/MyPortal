@@ -72,19 +72,19 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<!-- <input th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+												 <input th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control" >
 												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
 												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
 												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> -->
-												<select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> 
+												<!-- <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control"  onchange="typeFn();">
 												<option th:value="${tempcourse.courseSortation == 'L01'}" value="L01">교양필수</option>
 												<option th:value="${tempcourse.courseSortation == 'L02'}" value="L02">교양</option>
 												<option th:value="${tempcourse.courseSortation == 'M01'}" value="M01">전공필수</option>
 												<option th:value="${tempcourse.courseSortation == 'M02'}" value="M02">전공</option>
-												</select>
+												</select> -->
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
@@ -173,23 +173,48 @@
 							<div class="card-body">
 								 
 							<h2>주차별 강의</h2>
-							<table class="table">
+							 <table class="table">
 											<thead>
 											<tr>
 												<th>주차</th>
 												<th>내용</th>
 												</tr>
-											
 											 	<tr th:each="items:${tempcourseweek}">
-												<td th:text="${items.weekNum}"></td>
-												<td th:text="${items.weekContent}"></td>
+												 <td th:text="${items.weekNum}"></td>
+												<!-- <td th:text="${items.weekContent}"></td> -->
+												<td>
+												<input th:value="${items.weekContent}" id="weekContent" name="weekContent" class="form-control" >
+												</td>
 												</tr> 
 												<!-- <input type="hidden" th:value="${item.weekNum}"> -->
 											
 										</thead>
-										</table>
+										</table> 
+									<!--	<table class="table">
+										<thead>
+											<tr>
+												<th>주차</th>
+												<th>내용</th>
+											</tr>
+										</thead>
+										 <tbody id="tbody">
+											
+											<th:block th:each="num : ${#numbers.sequence(1,15)}">
+											<th:block th:each="items:${tempcourseweek}">
+											<tr>
+												<td th:text="${num}">
+												<td th:text="${items.weekNum}"></td>
+												
+												</td>
+												<td>
+												<input name="weekContent" class="col-sm-8">
+												<input th:value="${items.weekContent}" id="weekContent" name="weekContent" class="form-control" >
+												</td>
+											</tr>
+										</tbody> -->
+									</table>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-primary" >수정하기</button>
+											<button type="button" class="btn btn-primary" id="modd">수정하기</button>
 											
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
@@ -287,6 +312,37 @@
 						}
 					});
 				}
+				
+			 	 
+				
+				
+			});
+			
+			$(function() {
+				$("#modd").on("click", confirmModal)
+
+				function confirmModal() {
+					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+						updateweekTemp();
+					}
+				}
+				function updateweekTemp() {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
+						method : "post",
+						dataType : "json",
+						data : {
+							"weekContent" : $("#weekContent").val(),
+						
+							
+						},
+						dataType : "json",
+						success : function(result) {
+							
+						}
+					});
+				}  
 			});
 			
 			

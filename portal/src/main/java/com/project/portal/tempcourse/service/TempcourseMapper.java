@@ -20,4 +20,6 @@ public interface TempcourseMapper {
 	public void tempInsert(TempcourseVO vo);
 	public void tempweekInsert(TempcourseweekVO voo);
 	public int updateTemp(TempcourseVO vo);
+	public int updateweekTemp(TempcourseweekVO voo);
+	public int submitTemp(TempcourseVO vo);
 }

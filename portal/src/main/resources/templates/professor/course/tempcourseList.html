@@ -32,7 +32,7 @@
 						<th>강의명</th>
 						<th>제출여부</th>
 						<th>승인여부</th>
-						<!-- <th>상세보기</th> -->
+						<th>제출하기</th>
 						
 					</tr>
 				</thead>
@@ -55,7 +55,7 @@
 							<td th:if="${item.backReason == 'A00'}">승인</td>
 							<td th:if="${item.backReason == 'A01'}">심사대기</td>
 							<td th:if="${item.backReason == null}">비승인</td>
-							<!-- <td><button id="button1" name="button1" th:data-code="${item.courseCode}">상세보기</button></td> -->
+							<td><button id="moddd" name="button1" class="btn btn-danger" >제출하기</button></td>
 						</tr>
 						
 				</tbody>
@@ -91,6 +91,8 @@
 				location.href="getTemp/${code}";
 			}
 		}) */
+		
+		
 		</script>
 	</th:block>
 </body>

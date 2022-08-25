@@ -61,6 +61,7 @@ public class TempcourseController {
 		int total = service.tempcourseListCount(vo,cri);
 
 		model.addAttribute("tempcourseList", tempcourseList);
+		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		System.out.println(tempcourseList);
 		return "professor/course/tempcourseList";
 	}
@@ -141,6 +142,39 @@ public class TempcourseController {
 		
 	}
 	
+	@RequestMapping("professor/getTemp/{courseCode}/updateweekTemp")
+	@ResponseBody
+	public int tempweekUpdate(@PathVariable String courseCode, TempcourseweekVO voo, Model model) {
+		
+		voo.setCourseCode(courseCode);
+		System.out.println(voo);
+		System.out.println(voo.getCourseCode());
+		int i = 1;
+
+		for (String weekContent : voo.getWeekContent().split(",")) {
+			voo.setWeekNum(i);
+			voo.setWeekContent(weekContent);
+			
+			
+			service.tempweekInsert(voo);
+			i++;
+		}
+		
+		return service.updateweekTemp(voo);		
+	}
+	
+	@RequestMapping("/submitTemp")
+	@ResponseBody
+	public int submitTemp(@PathVariable String courseCode, TempcourseVO vo, Model model) {
+		
+		vo.setCourseCode(courseCode);
+		System.out.println(vo);
+		System.out.println(vo.getSubmitYes());
+		System.out.println(vo.getBackReason());
+		
+		return service.submitTemp(vo);
+		
+	}
 	
 
 }
