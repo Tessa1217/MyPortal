@@ -48,4 +48,14 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 		return mapper.getExamScore(vo);
 	}
 
+	@Override
+	public void updateExam(ExamVO vo) {
+		mapper.updateExam(vo);
+	}
+
+	@Override
+	public void deleteExam(ExamVO vo) {
+		mapper.deleteExam(vo);
+	}
+
 }

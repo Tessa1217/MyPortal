@@ -64,7 +64,8 @@
 											exam_duration,
 											exam_total_question,
 											exam_total_score,
-											exam_submit
+											exam_submit,
+											course_code
 											)
 			VALUES (
 							#{exam.examCode}||#{course.courseCode}||SUBSTR(#{course.courseYear}, 3, 2)||#{course.courseSemester},
@@ -75,8 +76,14 @@
 							#{exam.examDuration} * 60,
 							#{exam.examTotalQuestion},
 							#{exam.examTotalScore},
-							DEFAULT
+							DEFAULT,
+							#{course.courseCode}
 							)
+		<selectKey keyProperty="exam.examCode" resultType="String" order="AFTER">
+			SELECT exam_code 
+				FROM exam
+				WHERE week_code = #{exam.weekCode}
+		</selectKey>
 	</insert>
 	
 	<select id="getExam" resultType="ExamVO">
@@ -92,4 +99,18 @@
 													WHERE course_code = #{courseCode})
 			ORDER BY exam_code
 	</select>
+	<update id="updateExam">
+		UPDATE exam
+			SET week_code = #{weekCode},
+			exam_start_date = #{examStartDate},
+			exam_end_date = #{examEndDate},
+			exam_duration = #{examDuration} * 60,
+			exam_total_question = #{examTotalQuestion},
+			exam_total_score = #{examTotalScore}
+		WHERE exam_code = #{examCode}
+	</update>
+	<delete id="deleteExam">
+		DELETE FROM exam
+			WHERE exam_code = #{examCode}
+	</delete>
 </mapper>

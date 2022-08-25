@@ -8,63 +8,103 @@
 	<th:block th:fragment="makeTestFragment">
 		<h1>시험지</h1>
 		<div align="right">
-		<button type="button" th:onclick="tempSavePaper" class="btn btn-primary btn-md">임시저장</button>
-		<button type="button" th:onclick="insertTestPaper" class="btn btn-primary btn-md">시험지 생성하기</button>
+			<button type="button" th:onclick="tempSavePaper"
+				class="btn btn-primary btn-md">임시저장</button>
+			<button type="button" th:onclick="insertTestPaper"
+				class="btn btn-primary btn-md">시험지 생성하기</button>
 		</div>
 		<div id="testPaperGenerated" class="card">
-			<div id="defaultPaper" class="card-body">
+			<div th:if="${exam.examTotalQuestion} == 0" id="defaultPaper"
+				class="card-body">
 				<p>시험 문항 수를 선택해주세요.</p>
 			</div>
+			<th:block th:unless="${exam.examTotalQuestion == 0}">
+				<div
+					th:each="idx : ${#numbers.sequence(0, (exam.examTotalQuestion/5 - 1))}"
+					th:id="|testPage-${idx}|" class="questionContainer hidePage">
+					<th:block
+						th:each="i : ${#numbers.sequence(0 + idx * 5, 4 + idx * 5)}">
+						<div class="card questionBox">
+
+							<button class="card-body btn btn-outline-primary addQuestionBtn"
+								type="button" onclick="addQuestions">+</button>
+						</div>
+						
+					</th:block>
+				</div>
+				<div class="pageBtnContainer">
+								<th:block th:if="${idx} != 0">
+									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
+								</th:block>
+								<th:block th:if="${idx != (exam.examTotalQuestion/5 - 1)}">
+									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
+								</th:block>
+						</div>
+			</th:block>
 		</div>
 		<div class="modal fade" id="addQuestionModal" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">문제를 입력해주세요.</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
+			role="dialog" aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">문제를 입력해주세요.</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<input id="whichModal" hidden=""> <label
+									for="questionContent">Question:</label><input type="text"
+									id="questionContent">
+							</div>
+							<th:block th:each="num : ${#numbers.sequence(1, 4)}">
 								<div class="form-group">
-									<input id="whichModal" hidden=""> <label
-										for="questionContent">Question:</label><input type="text"
-										id="questionContent">
+									<label th:for="|option${num}|">[[${num}]]</label> <input
+										type="text" th:id="|option${num}|"> <input
+										type="radio" th:id="${num}" name="answer">
 								</div>
-								<th:block th:each="num : ${#numbers.sequence(1, 4)}">
-									<div class="form-group">
-										<label th:for="|option${num}|">[[${num}]]</label> <input
-											type="text" th:id="|option${num}|"> <input
-											type="radio" th:id="${num}" name="answer">
-									</div>
-								</th:block>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-							<button id="submitModal" type="button" class="btn btn-primary">Submit</button>
-						</div>
+							</th:block>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="closeModal" type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button id="submitModal" type="button" class="btn btn-primary">Submit</button>
 					</div>
 				</div>
 			</div>
-		
+		</div>
+
 		<script th:inline="javascript">
 		$(function() {
-			generatePaper();
+			//generatePaper();
 			saveQuestionToPaper();
 			insertTestPaper(); 
 			addQuestions();
 			modalOff();
+			$("#testPage-0").removeClass("hidePage");
+			movePage();
 		})
 		
 		// 시험지 문항수만큼 생성하기
-		function generatePaper() {
-			$("input[name=examTotalQuestion]").on("change", function() {
+/* 		function generatePaper() {
+			$("#defaultPaper").siblings().remove();
+			if ($("input[name=examTotalQuestion]").val() == '0') {
+				let div = $("<div/>").text("시험 문항을 입력해주세요.").appendTo($("#testPaperGenerated"));
+			} else {
+				$("#defaultPaper").addClass("offPage");
+				for (let i = 1; i <= $("input[name=examTotalQuestion]").val(); i++) {
+					let div = $("<div/>").addClass("card questionBox")
+					.html(`<button class="card-body btn btn-outline-primary addQuestionBtn"
+							type="button" onclick="addQuestions">+</button>`)
+					.appendTo($("#testPaperGenerated"));
+				}
+			}
+			/* $(document).on("ready", function() {
 				$("#defaultPaper").siblings().remove();
 				if ($("input[name=examTotalQuestion]").val() == '0') {
 					let div = $("<div/>").text("시험 문항을 입력해주세요.").appendTo($("#testPaperGenerated"));
@@ -76,9 +116,9 @@
 								type="button" onclick="addQuestions">+</button>`)
 						.appendTo($("#testPaperGenerated"));
 					}
-				}
-			})
-		}
+				} */
+			/* } */
+
 		
 		// 문제 담기
 		function saveQuestionToPaper() {

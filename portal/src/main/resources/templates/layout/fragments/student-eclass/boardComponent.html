@@ -7,79 +7,115 @@
 <body>
 	<th:block th:fragment="boardFragment">
 		<div class="card col-4">
-			<div class="list-group list-group-horizontal-sm mb-1 text-center"
+			<div class="list-group list-group-horizontal-sm sm-1 text-center"
 				role="tablist">
 				<button
 					class="pageTab list-group-item list-group-item-action active">Note</button>
 				<button class="pageTab list-group-item list-group-item-action">QnA</button>
 			</div>
 			<div class="tab">
-				<div>
-					<h4>나의 강의 노트</h4>
+				<div class="tab-title">
+					<h4>
+						<i class="fa-regular fa-note-sticky"></i> 나의 강의 노트
+					</h4>
 				</div>
 				<div class="board-content-box">
-					<th:block th:each="note, idx : ${noteList}">
-						<div th:utext="${note.noteContent}"
-						class="card notecard">
-						</div>
-						<hr th:if="|${idx} lt ${#lists.size(noteList)} - 1|"/>
-					</th:block>
+					<div th:each="note, idx : ${noteList}" class="card">
+						<div th:utext="${note.noteContent}" class="notecard"></div>
 					</div>
-					<div class="board-form-box">
+				</div>
+				<div class="board-form-box">
 					<form id="noteFrm" method="POST">
-						<input type="hidden" name="noteMake" th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-						<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
-						<input type="hidden" name="studentId" value="22000001"/>
-						<input type="hidden" name="noteContent" value=''/>
+						<input type="hidden" name="noteMake"
+							th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+						<input type="hidden" name="lectureCode"
+							th:value="${lecture.lectureCode}"> <input type="hidden"
+							name="studentId" value="22000001" /> <input type="hidden"
+							name="noteContent" value='' />
 						<textarea id="note"></textarea>
-					<div>
-						<button id="takeNote" 
-						class="btn btn-primary" type="button"
-						th:onclick="insertNote">노트 작성</button>
-					</div>
+						<div class="right">
+							<button id="takeNote" class="btn btn-primary" type="button"
+								th:onclick="insertNote">노트 작성</button>
+						</div>
 					</form>
 				</div>
-				</div>
+			</div>
 			<div class="tab offPage">
 				<div class="qna">
-				<div>
-					<h4>강의 질문하기</h4>
-				</div>
-				<div align="center">
-					<button class="askQnA btn rounded-pill btn-primary">질문하기</button>
-				</div>
+					<div class="tab-title">
+						<h4>
+							<i class="fa-regular fa-comment"></i> 강의 질문하기
+						</h4>
+					</div>
+					<div class="board-question-box">
+						<div th:each="question : ${questionList}" class="card">
+							<p class="card-header" th:text="${question.lectureQuestionTitle}"></p>
+							<div class="card-body" th:utext="${question.lectureQuestionContent}"></div>
+						</div>
+					</div>
+					<div align="center">
+						<button class="askQnA btn rounded-pill btn-primary">질문하기</button>
+					</div>
 				</div>
 				<div class="qna offPage">
-					<div>
-						<h4>질문하기</h4>
+					<div class="tab-title">
+						<h4>
+							<i class="fa-regular fa-circle-question"></i> 질문하기
+						</h4>
 					</div>
 					<div>
-					<form>
-						<p><label for="lectureQuestionTitle">질문 제목:</label></p>
-						<p><input type="text" name="lectureQuestionTitle"></p>
-						<p><label for="lectureQuestionContent">질문 내용:</label></p>
-						<p><textarea name="lectureQuestionContent"></textarea></p>
-						<input type="hidden" name="lectureQuestionRegDate">
-						<input type="hidden" name="studentId">
-					</form>
-					<div align="center">
-						<button class="btn btn-danger" type="button" onclick="insertQuestion">확인</button>
-						<button class="askQnA btn btn-primary" type="button">취소</button>
-					</div>
+						<form id="questionFrm" class="form form-vertical">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="lectureQuestionTitle">질문 제목</label> <input
+												type="text" class="form-control" name="lectureQuestionTitle">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="lectureQuestionContent">질문 제목</label>
+											<textarea id="question"></textarea>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="lectureQuestionRegDate">등록일</label> <input
+												type="date" disabled class="form-control"
+												name="lectureQuestionRegDate"
+												th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+										</div>
+										<input type="hidden" th:value="${lecture.weekCode}" name="weekCode"/>
+										<input type="hidden" name="lectureQuestionContent">
+										<input type="hidden" th:value="${lecture.lectureCode}" name="lectureCode"> 
+										<input type="hidden" name="studentId" value=22000001>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div align="center">
+							<button id="questionBtn" class="btn btn-danger" type="button"
+								th:onclick="insertQuestion">확인</button>
+							<button class="askQnA btn btn-primary" type="button">취소</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			</div>
+		</div>
 		<script th:inline="javascript">
 			$(function() {
-				createEditor();
+				createNoteEditor();
+				createQuestionEditor(); 
 				transPage();
 				askQnAs();
 				insertNote();
+				insertQuestion();
+				detailNote();
 			})
 
 			// 에디터 생성하기
-			function createEditor() {
+			function createNoteEditor() {
 				tinymce
 						.init({
 							selector : 'textarea#note',
@@ -96,11 +132,33 @@
 							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
 							setup(editor) {
 								editor.on('change', () => {
-									console.log(tinyMCE.activeEditor.getContent());
 									$("input[name=noteContent]").val(tinyMCE.activeEditor.getContent());
 								})
 							}
 						});
+			}
+			
+			function createQuestionEditor() {
+				tinymce
+				.init({
+					selector : 'textarea#question',
+					height : 300,
+					plugins : [ 'advlist', 'autolink', 'lists', 'link',
+							'image', 'charmap', 'preview', 'anchor',
+							'searchreplace', 'visualblocks', 'code',
+							'fullscreen', 'insertdatetime', 'media',
+							'table', 'help', 'wordcount' ],
+					toolbar : 'undo redo | blocks | '
+							+ 'bold italic backcolor | alignleft aligncenter '
+							+ 'alignright alignjustify | bullist numlist outdent indent | '
+							+ 'removeformat | help',
+					content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+					setup(editor) {
+						editor.on('change', () => {
+							$("input[name=lectureQuestionContent]").val(tinyMCE.activeEditor.getContent());
+						})
+					}
+				});
 			}
 			
 			// 노트 등록하기
@@ -114,16 +172,45 @@
 						data : data
 					})
 						.done(function(result) {
-							$("#note").val('');
-							$(result).each((idx, val) => {
-								let div = $("<div/>")
-								.addClass("card notecard")
-								.append($("<div/>").html(val.noteContent));
-								$(".board-content-box").append(div);
-							})
+							
+							tinyMCE.activeEditor.setContent('');
+							
+							let parentDiv = $(".board-content-box");
+							let div = $("<div/>")
+							.addClass("card")
+							.append($("<div/>").addClass("notecard").html(result.noteContent));
+							$(parentDiv).append(div);
+						})
+				})	
+			}
+			
+			function detailNote() {
+				$(".notecard").on("click", function(e) {
+					$(this).toggleClass("notecard-visible");
+				})
+			}
+			
+			//  질문 등록하기
+			function insertQuestion() {
+				$(document).on("click", "#questionBtn", function() {
+					let data = $("#questionFrm").serialize();
+					$.ajax({
+						method : 'POST',
+						url : /*[[@{/student/eclass/insertQuestion}]]*/'',
+						dataType : 'json',
+						data : data
+					})
+						.done(function(result) {
+							tinyMCE.activeEditor.setContent('');
+							let parentDiv = $(".board-question-box");
+							let div = $("<div/>")
+							.addClass("card")
+							.append(
+									[$("<p/>").text(result.lectureQuestionTitle).addClass("card-header"),
+									$("<div/>").addClass("card-body")
+							.html(result.lectureQuestionContent)]);
 						})
 				})
-				
 			}
 			
 

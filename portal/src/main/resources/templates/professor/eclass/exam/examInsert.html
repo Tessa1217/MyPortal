@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -29,11 +30,12 @@
 						<h2>시험 생성하기</h2>
 					</div>
 					<div class="right">
-						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu">시험 기본 정보</label> <input id="tab2"
-							type="radio" name="tabs"> <label for="tab2"
-							class="tabmenu">시험지 정보 불러오기</label> <input id="tab3" type="radio"
-							name="tabs"> <label for="tab3" class="tabmenu">시험
+							<input id="tab1" type="radio" name="tabs" checked> 
+							<label for="tab1" class="tabmenu">시험 기본 정보</label> 
+							<input id="tab2" type="radio" name="tabs"> 
+							<label for="tab2" class="tabmenu offPage">시험지 정보 불러오기</label> 
+							<input id="tab3" type="radio" name="tabs"> 
+							<label for="tab3" class="tabmenu offPage">시험
 							문제 생성하기</label>
 					</div>
 				
@@ -69,6 +71,7 @@
 				showPage();
 				saveExamInfo(); 
 				enterDate(); 
+				changeToUpdatePage();
 			})
 			
 			// 탭 형식으로 보이기
@@ -106,10 +109,14 @@
 						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
 						data : $("#examInfoForm").serialize(),
 						success : function(result) {
-							console.log(result);
+							location.href=`/professor/eclass/examInsert/` + result.examCode;
 						}
 					})
 				})
+			}
+			
+			// 시험 정보 변경 탭 열기
+			function changeToUpdatePage() {
 			}
 			
 			</script>

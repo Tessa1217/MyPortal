@@ -1,12 +1,15 @@
 package com.project.portal.lecture.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.lecture.service.LectureQuestionVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.StudentLectureMapper;
 import com.project.portal.lecture.service.StudentLectureService;
@@ -49,11 +52,28 @@ public class StudentLectureServiceImpl implements StudentLectureService {
 	
 	@Transactional
 	@Override
-	public List<StudentNoteVO> insertStudentNote(StudentNoteVO vo) {
-		if (vo.getNoteContent() != null) {
-			mapper.insertStudentNote(vo);
-		}
-		return mapper.getNoteList(vo);
+	public StudentNoteVO insertStudentNote(StudentNoteVO vo) {
+		System.out.println(vo);
+		mapper.insertStudentNote(vo);
+		System.out.println(vo);
+		return mapper.getNote(vo);
+	}
+
+	@Transactional
+	@Override
+	public Map<String, Object> getList(LectureVO vo, int studentId) {
+		List<StudentNoteVO> noteList = mapper.getNoteList(vo, studentId);
+		List<LectureQuestionVO> questionList = mapper.getQuestionList(vo, studentId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noteList", noteList);
+		map.put("questionList", questionList);
+		return map;
+	}
+
+	@Override
+	public LectureQuestionVO insertLectureQuestion(LectureQuestionVO vo) {
+		mapper.insertLectureQuestion(vo);
+		return mapper.getQuestion(vo);
 	}
 
 }

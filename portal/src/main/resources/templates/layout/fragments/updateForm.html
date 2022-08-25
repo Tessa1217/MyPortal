@@ -5,19 +5,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<th:block th:fragment="testInfoFragment">
-		<div class="card-header">
-			<h4>시험 기본 정보</h4>
-		</div>
-		<div class="card-body" align="center">
-			<form id="examInfoForm" class="form form-horizontal">
-				<div class="form-body">
-					<div class="row inputBox">
+	<div id="update-container" class="row inputBox">
 						<div class="col-md-4">
 							<label>시험 종류</label>
 						</div>
 						<div class="col-md-8 form-group">
-							<input type="hidden" name="examCode" th:value="${exam.examCode}">
+						<input type="hidden" name="examCode" th:value="${exam.examCode}">
 							<select class="form-select" disabled>
 								<option value="">시험 종류를 선택해주세요.</option>
 								<option
@@ -82,68 +75,5 @@
 								required th:value="${exam.examTotalScore}">
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12 d-flex justify-content-end">
-					<button type="button" id="deleteBtn" th:onclick="deleteExam"
-						class="btn btn-danger me-1 mb-1">삭제하기</button>
-					<button type="button" th:onclick="updateExam" id="updateBtn"
-						class=" btn btn-primary me-1 mb-1">변경하기</button>
-					<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
-				</div>
-			</form>
-		</div>
-		<script th:inline="javascript">
-			$(function() {
-				openTabs();
-				deleteExam();
-				updateExam();
-			})
-
-			function openTabs() {
-				$("label[for=tab2]").removeClass("offPage");
-				$("label[for=tab3]").removeClass("offPage");
-			}
-
-			function updateExam() {
-				$(document).on("click", "#updateBtn", function() {
-					console.log("update");
-					$.ajax({
-						method : 'POST',
-						url : `/professor/eclass/examSubmit`,
-						data : $("#examInfoForm").serialize()
-					}) 
-						.done(function(fragment) {
-							$(".inputBox").replaceWith(fragment);
-							Swal.fire({
-								icon : 'success',
-								text : '변경이 완료되었습니다.'
-							})
-						})
-				})
-			}
-
-			function deleteExam() {
-				$(document).on("click", "#deleteBtn", function() {
-					$.ajax({
-						method : 'DELETE',
-						url : `/professor/eclass/examSubmit`,
-						data : $("#examInfoForm").serialize()
-					}) 
-						.done(function(result) {
-							if (result == 'success') {
-								Swal.fire({
-									icon : 'success',
-									text : '삭제가 완료되었습니다.'
-								}).then((result) => {
-									if (result.isConfirmed) {
-										location.href=`/professor/eclass/examList`
-									}
-								})
-							}
-						})
-				})
-			}
-		</script>
-	</th:block>
 </body>
 </html>

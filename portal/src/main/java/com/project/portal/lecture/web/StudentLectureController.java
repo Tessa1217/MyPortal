@@ -1,6 +1,6 @@
 package com.project.portal.lecture.web;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.lecture.service.LectureQuestionVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.StudentLectureVO;
 import com.project.portal.lecture.service.StudentNoteVO;
@@ -32,13 +33,14 @@ public class StudentLectureController {
 	}
 	
 	@RequestMapping("student/eclass/watchLecture")
-	public String watchLecture(LectureVO vo, StudentNoteVO note, Model model) {
+	public String watchLecture(LectureVO vo, StudentNoteVO note, Map<String, Object> map, Model model) {
 		vo = service.getLecture(vo);
 		note.setLectureCode(vo.getLectureCode());
 		note.setStudentId(22000001);
-		List<StudentNoteVO> lectureNote = service.insertStudentNote(note);
+		map = service.getList(vo, note.getStudentId());
 		model.addAttribute("lecture", vo);
-		model.addAttribute("noteList", lectureNote);
+		model.addAttribute("noteList", map.get("noteList"));
+		model.addAttribute("questionList", map.get("questionList"));
 		return "student/eclass/lecture/watchLecture";
 	}
 	
@@ -56,9 +58,16 @@ public class StudentLectureController {
 	
 	@PostMapping("student/eclass/insertNote")
 	@ResponseBody
-	public List<StudentNoteVO> insertLectureNote(StudentNoteVO vo) {
+	public StudentNoteVO insertLectureNote(StudentNoteVO vo) {
+		vo = service.insertStudentNote(vo);
+		return vo;
+	}
+	
+	@PostMapping("student/eclass/insertQuestion")
+	@ResponseBody
+	public LectureQuestionVO insertLectureQuestion(LectureQuestionVO vo) {
 		System.out.println(vo);
-		List<StudentNoteVO> noteList = service.insertStudentNote(vo);
-		return noteList;
+		vo = service.insertLectureQuestion(vo);
+		return vo;
 	}
 }

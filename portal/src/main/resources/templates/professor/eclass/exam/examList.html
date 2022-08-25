@@ -41,14 +41,14 @@
 							<!-- 수정 필요, location.href 안 먹음 -->
 							<button type="button" 
 							class="btn btn-primary rounded-pill"
-							th:onclick="|location.href='@{/professor/examCheck/{examCode}(examCode=${e.examCode})}'|">
+							th:onclick="|location.href='@{/professor/eclass/examCheck/{examCode}(examCode=${e.examCode})}'|">
 							등록 완료
 							</button>
 							</td>
 							<td th:if="${e.examSubmit} == 'UNSUB'">
 							<button type="button" 
 							class="btn btn-danger rounded-pill"
-							th:onclick="|location.href='@{/professor/examInsert/{examCode}(examCode=${e.examCode})}'|">
+							th:onclick="|location.href='@{/professor/eclass/examInsert/{examCode}(examCode=${e.examCode})}'|">
 							작성 중
 							</button>
 							</td>

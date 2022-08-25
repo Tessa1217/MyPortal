@@ -12,6 +12,8 @@ public interface ProfessorExamService {
 	List<ExamInfoVO> getExamList(CourseVO vo);
 	List<CourseExamVO> getCourseExam(List<ExamInfoVO> list);
 	void insertExam(CourseVO course, ExamVO exam);
+	void deleteExam(ExamVO vo);
 	ExamVO getExam(ExamVO vo);
+	void updateExam(ExamVO vo);
 	List<ExamScoreVO> getExamScore(CourseVO vo);
 }
