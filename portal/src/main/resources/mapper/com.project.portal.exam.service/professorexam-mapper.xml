@@ -48,10 +48,7 @@
 		on e.question_code = q.question_code
 		JOIN question_option o
 		on q.question_code = o.question_code
-		WHERE 
-		<foreach collection="list" item="item" separator="OR">
-			e.exam_code = #{item.examCode}
-		</foreach>
+		WHERE e.exam_code = #{examCode}
 	</select>
 	
 	<insert id="insertExam">

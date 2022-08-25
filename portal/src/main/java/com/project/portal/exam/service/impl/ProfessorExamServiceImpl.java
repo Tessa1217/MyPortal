@@ -29,8 +29,8 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 	}
 
 	@Override
-	public List<CourseExamVO> getCourseExam(List<ExamInfoVO> list) {
-		return mapper.getCourseExam(list);
+	public List<CourseExamVO> getCourseExam(ExamInfoVO vo) {
+		return mapper.getCourseExam(vo);
 	}
 
 	@Override

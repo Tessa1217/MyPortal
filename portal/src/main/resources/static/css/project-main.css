@@ -182,3 +182,8 @@ input[name="tabs"] + .tabmenu {
 .tab-title {
 	margin: 4%;
 }	
+
+.scroll {
+	overflow: scroll;
+	height: 600px;
+}

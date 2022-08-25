@@ -10,7 +10,7 @@ public interface ProfessorExamService {
 	
 	List<ExamVO> getExamInfoList(CourseVO vo);
 	List<ExamInfoVO> getExamList(CourseVO vo);
-	List<CourseExamVO> getCourseExam(List<ExamInfoVO> list);
+	List<CourseExamVO> getCourseExam(ExamInfoVO vo);
 	void insertExam(CourseVO course, ExamVO exam);
 	void deleteExam(ExamVO vo);
 	ExamVO getExam(ExamVO vo);

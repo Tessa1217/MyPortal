@@ -2,9 +2,12 @@ package com.project.portal.exam.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +26,19 @@ public class StudentExamController {
 	@Autowired
 	StudentExamService service;
 	
+	@ModelAttribute("course")
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		return course;
+	}
+	
 	@RequestMapping("/student/eclass/examList")
-	public String studentExamInfo(CourseVO course, Model model) {
-		course.setCourseCode("SSPY0001");
+	public String studentExamInfo(Model model) {
 		// 학번 (원래는 세션값으로 들어옴)
 		int studentId = 22000009;
-		List<ExamScoreVO> examList = service.getExamInfo(studentId, course);
+		List<ExamScoreVO> examList = service.getExamInfo(studentId, (CourseVO) model.getAttribute("course"));
 		model.addAttribute("examList", examList);
-		System.out.println(examList);
 		return "student/eclass/exam/examList";
 	}
 	
@@ -56,5 +64,4 @@ public class StudentExamController {
 		model.addAttribute("studentExam", studentExam);
 		return "student/eclass/exam/studentExamResult";
 	}
-
 }

@@ -31,8 +31,7 @@
 						</div>
 						
 					</th:block>
-				</div>
-				<div class="pageBtnContainer">
+					<div class="pageBtnContainer">
 								<th:block th:if="${idx} != 0">
 									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
 								</th:block>
@@ -40,6 +39,8 @@
 									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
 								</th:block>
 						</div>
+				</div>
+				
 			</th:block>
 		</div>
 		<div class="modal fade" id="addQuestionModal" tabindex="-1"
