@@ -10,7 +10,51 @@
 	<th:block layout:fragment="studentContent">
 	<div id="main">
 		<div>
-			<h2>Student Grade Page</h2>
+			<h2>학업 정보 조회</h2>
+		</div>
+		<div class="card">
+			<table class="table">
+				<tr>
+					<th>이수구분</th>
+					<th>총 취득 학점</th>
+				</tr>
+				<tr>
+					<td>전공</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>교양</td>
+					<td>0</td>
+				</tr>
+			</table>
+			<div style="overflow:auto; width:100%; height:50%;">
+			<table class="table">
+				<tr>
+					<th>년도</th>				
+					<th>학기</th>				
+					<th>신청 학점</th>				
+					<th>취득 학점</th>				
+					<th>점수 평균</th>				
+					<th>평점 평균</th>				
+				</tr>
+				<tr th:each="list : ${studentStudyList}">
+					<td th:text=${list.courseYear}>
+					<td th:text=${list.courseSemester}>
+					<td th:text=${list.semesterCredit1}>
+					<td th:text=${list.semesterCredit2}>
+					<td th:text=${list.gradeAvg}>
+					<td th:text=${list.semesterPercentage}>
+				
+				</tr>
+			</table>
+			</div>
+			<table class="table">
+				<tr>
+					<!-- <th th:text="${studentCreditSum.creditSum2}"></th> -->
+					<th>전체 평점 평균: </th>
+				</tr>
+			</table>
+		
 		</div>
 	</div>
 	</th:block>

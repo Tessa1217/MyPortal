@@ -1,52 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor_layout}">
 <head>
 <meta charset="UTF-8">
 <title>나의 정보 조회/수정</title>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
-	<div id="main">
-		<div>
-			<h2>내 정보 조회/수정</h2>
-		</div>
-		<div class="card">
-		<table>
+		<div id="main">
+			<div>
+				<h2>내 정보 조회/수정</h2>
+			</div>
+			<div class="card">
+				<table>
 					<tr>
-						<td><img th:src="|/download/${professorInfo.professorImg}|" class="faceImg"></td>
+						<td><img th:src="|/download/${professorInfo.professorImg}|"
+							class="faceImg"></td>
 					</tr>
 				</table>
-		<table class="table">
-			<tr>
-				<th>담당학과</th>
-				<td th:text="${professorInfo.departName}"></td>
-			</tr>
-			<tr>
-				<th>이름</th>
-				<td th:text="${professorInfo.professorName}"></td>
-			</tr>
-			<tr>
-				<th>생년월일</th>
-				<td th:text="${#dates.format(professorInfo.professorBirth, 'yyyy-MM-dd')}"></td>
-			</tr>
-			<tr>
-				<th>연락처</th>
-				<td th:text="${professorInfo.professorPhone}"></td>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<td th:text="${professorInfo.professorEmail}"></td>
-			</tr>
-			<tr>	
-				<th>주소</th>
-				<td th:text="${professorInfo.professorAddr}"></td>
-			</tr>
-		</table>
-		<button class="btn btn-primary buttonmod" id="mod">수정</button>
-	</div>
-	</div>
+				<table class="table">
+					<tr>
+						<th>담당학과</th>
+						<td th:text="${professorInfo.departName}"></td>
+					</tr>
+					<tr>
+						<th>이름</th>
+						<td th:text="${professorInfo.professorName}"></td>
+					</tr>
+					<tr>
+						<th>생년월일</th>
+						<td
+							th:text="${#dates.format(professorInfo.professorBirth, 'yyyy-MM-dd')}"></td>
+					</tr>
+					<tr>
+						<th>연락처</th>
+						<td><input type="text" class="form-control"
+							name="professorPhoneUpdate" id="professorPhoneUpdate"
+							th:value="${professorInfo.professorPhone}"></td>
+						<!-- <td th:text="${professorInfo.professorPhone}"></td> -->
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td><input type="text" class="form-control"
+							name="professorEmailUpdate" id="professorEmailUpdate"
+							th:value="${professorInfo.professorEmail}"></td>
+						<!-- <td th:text="${professorInfo.professorEmail}"></td> -->
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td><input type="text" class="form-control"
+							name="professorAddrUpdate" id="professorAddrUpdate"
+							th:value="${professorInfo.professorAddr}"></td>
+						<td><input type="text" class="form-control"
+							name="professorDaddrUpdate" id="professorDaddrUpdate"
+							th:value="${professorInfo.professorDaddr}"></td>
+						<!-- <td th:text="${professorInfo.professorAddr}"></td> -->
+					</tr>
+				</table>
+				<button class="btn btn-primary buttonmod" id="mod">수정</button>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+	$(function() {
+	    new daum.Postcode({
+	    	document.getElementById("professorAddrUpdate").addEventListener("click", function(){ //주소입력칸을 클릭하면
+	    }
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+	            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+	         function(data) { //선택시 입력값 세팅
+                document.getElementById("professorAddrUpdate").value = data.address; // 주소 넣기
+                document.querySelector("input[name=professorDaddrUpdate]").focus(); //상세입력 포커싱
+            }
+	    }).open();
+	    });
+	</script>
 	</th:block>
 </body>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.mycourse.service.MyCourseMainVO;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
@@ -24,6 +25,22 @@ public class myCourseController {
 	
 	@Autowired
 	MyCourseServiceImpl service;
+	
+	//학생 학업 정보 조회(학생 학기별 성적 조회)
+		
+	@RequestMapping("/student/studentStudyList")
+	public String StudentStudyInfoList(MyCourseVO vo, Model model, Criteria cri) {
+		model.addAttribute("studentStudyList", service.studentStudyList(cri));
+		return "student/info/grade";
+	}
+	
+	//학생 학업 정보 조회(학생 학기별 성적 조회)
+	
+		@RequestMapping("/student/studentCreditSum")
+		public String StudentCreditSum(MyCourseVO vo, Model model) {
+			model.addAttribute("studentCreditSum", service.studentCreditSum(vo));
+			return "student/info/grade";
+		}
 	
 	// 학생 수강 목록 조회
 	

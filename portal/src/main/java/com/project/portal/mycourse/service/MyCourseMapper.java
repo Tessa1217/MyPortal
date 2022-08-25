@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.project.portal.common.Criteria;
+
 @Mapper
 public interface MyCourseMapper {
 	//학생 수강 조회
@@ -16,5 +18,9 @@ public interface MyCourseMapper {
 	public myCourseDetailVO getstuMyCourseDetail(String courseCode);
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
+
+	public List<MyCourseVO> studentStudyList(Criteria cri);
+
+	public MyCourseVO studentCreditSum(MyCourseVO vo);
 
 }

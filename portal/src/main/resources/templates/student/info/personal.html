@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>내 정보 조회/수정</title>
-
 <style>
 #main {
 	display: block;
@@ -74,10 +73,23 @@
 						<td th:if="${studentInfoSelect.studentDivision =='AD01'}">편입학</td>
 					</tr>
 					<tr>
-						<th>우편번호</th>
-						<td th:text="${studentInfoSelect.studentPostalCode}"></td>
 						<th>주소</th>
-						<td th:text="${studentInfoSelect.studentAddr}"></td>
+						<td><input type="text" class="form-control"
+							name="studentAddrUpdate" id="studentAddrUpdate"
+							th:value="${studentInfoSelect.studentAddr}"></td>
+						<!-- <td th:text="${studentInfoSelect.studentAddr}"></td> -->
+					</tr>
+					<tr>
+						<th>상세주소</th>
+						<td><input type="text" class="form-control"
+							name="studentDaddrUpdate" id="studentDaddrUpdate"
+							th:value="${studentInfoSelect.studentDaddr}"></td>
+						<!-- <td th:text="${studentInfoSelect.studentDaddr}"></td> -->
+						<th>우편번호</th>
+						<td><input type="text" class="form-control"
+							name="studentPostalCodeUpdate" id="studentPostalCodeUpdate"
+							th:value="${studentInfoSelect.studentPostalCode}"></td>
+						<!-- <td th:text="${studentInfoSelect.studentPostalCode}"></td> -->
 					</tr>
 					<tr>
 						<th>연락처</th>
@@ -92,7 +104,8 @@
 				</table>
 				<table>
 					<tr>
-						<td><img th:src="|/download/${studentInfoSelect.studentImg}|" class="faceImg"></td>
+						<td><img th:src="|/download/${studentInfoSelect.studentImg}|"
+							class="faceImg"></td>
 					</tr>
 				</table>
 				<p>보호자 정보</p>
@@ -126,58 +139,6 @@
 					</tr>
 				</table>
 			</div>
-			<!-- <div class="modal fade" id="studentInfoModModal" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">게시글 수정</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<input id="board_update_id" name="board_update_id" type="hidden"
-								class="input" value="${board.boardNo}">
-							<div class="group1">
-								<select id="board_update_localInfo"
-									name="board_update_localInfo">
-									<option value="서울특별시">서울특별시</option>
-									<option value="부산광역시">부산광역시</option>
-									<option value="대구광역시">대구광역시</option>
-									<option value="인천광역시">인천광역시</option>
-									<option value="광주광역시">광주광역시</option>
-									<option value="대전광역시">대전광역시</option>
-									<option value="울산광역시">울산광역시</option>
-									<option value="경기도">경기도</option>
-									<option value="경상도">경상도</option>
-									<option value="전라도">전라도</option>
-									<option value="충청도">충청도</option>
-									<option value="강원도">강원도</option>
-								</select>
-							</div>
-
-							<div class="group">
-								<label for="board_update_title" width="1000px" class="label">제목</label>
-								<input id="board_update_title" name="board_update_title"
-									type="text" class="input">
-							</div>
-							<div class="group">
-								<label for="board_update_subject" class="label">내용</label>
-								<textarea id="board_update_subject" name="board_update_subject"
-									class="input"></textarea>
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-sm btn-danger" type="button"
-								data-dismiss="modal">Cancel</button>
-							<button class="btn btn-sm btn-danger" onclick="boardUpdate()">수정</button>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
@@ -197,6 +158,9 @@
 						data : {
 							"studentPhone" : $("#studentPhoneUpdate").val(),
 							"studentEmail" : $("#studentEmailUpdate").val(),
+							"studentAddr" : $("#studentAddrUpdate").val(),
+							"studentDaddr" : $("#studentDaddrUpdate").val(),
+							"studentPostalCode" : $("#studentPostalCodeUpdate").val(),
 							"parentsName" : $("#parentsNameUpdate").val(),
 							"parentsPhone" : $("#parentsPhoneUpdate").val(),
 							"parentsRel" : $("#parentsRelUpdate").val(),

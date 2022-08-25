@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.mycourse.service.MyCourseMainVO;
 import com.project.portal.mycourse.service.MyCourseMapper;
 import com.project.portal.mycourse.service.MyCourseService;
@@ -40,6 +41,16 @@ public class MyCourseServiceImpl implements MyCourseService {
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode) {
 		// TODO Auto-generated method stub
 		return mapper.getstuMyCourseWeekDetail(courseCode);
+	}
+
+	public List<MyCourseVO> studentStudyList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.studentStudyList(cri);
+	}
+
+	public MyCourseVO studentCreditSum(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.studentCreditSum(vo);
 	}
 
 

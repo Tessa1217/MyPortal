@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 import com.project.portal.tempcourse.web.TempcourseController;
@@ -37,12 +38,6 @@ public class StudentController {
 		model.addAttribute("studentList", service.studentList(cri));
 		return "admin/info/studentList";
 	}
-	//학생 개인 조회(학생)
-	@RequestMapping("/student/studentInfoSelect")
-	public String StudentInfoSelect(StudentVO vo, Model model) {
-		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
-		return "student/info/personal";
-	}
 	
 	//학생 상세조회(관리자)
 		@RequestMapping("/admin/adminStudentInfoSelect")
@@ -50,6 +45,22 @@ public class StudentController {
 			model.addAttribute("adminStudentInfoSelect", service.adminStudentInfoSelect(vo));
 			return "admin/info/studentPersonal";
 		}
+	//학생 정보 수정(관리자)
+	@RequestMapping("/admin/studentInfoUpdate")
+	@ResponseBody
+	public StudentVO AdminStudentInfoUpdate(StudentVO vo, Model model) {
+		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
+		
+		return service.adminStudentInfoUpdate(vo);
+	}
+	
+	//학생 개인 조회(학생)
+	@RequestMapping("/student/studentInfoSelect")
+	public String StudentInfoSelect(StudentVO vo, Model model) {
+		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
+		return "student/info/personal";
+	}
+		
 	//학생 정보 수정(학생)
 	@RequestMapping("/student/studentInfoUpdate")
 	@ResponseBody
@@ -57,15 +68,6 @@ public class StudentController {
 		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
 		return service.studentInfoUpdate(vo);
 	}
-	//학생 정보 수정(관리자)
-		@RequestMapping("/admin/studentInfoUpdate")
-		@ResponseBody
-		public StudentVO AdminStudentInfoUpdate(StudentVO vo, Model model) {
-			//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
-			
-			return service.adminStudentInfoUpdate(vo);
-		}
-	
 	
 	
 	//////// 정보조회 외부에서 이미지 가져오기

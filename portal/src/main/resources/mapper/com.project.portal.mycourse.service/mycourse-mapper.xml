@@ -35,6 +35,16 @@
 		WHERE COURSE_CODE = #{courseCode}
 	</select>
 	
+	<select id="studentStudyList" resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select * 
+		from s_g_vu
+		where student_id = 22000001
+	</select>
+	<select id="studentCreditSum" resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select sum(semester_credit2) 
+		from s_g_vu
+		where student_id = 22000001
+	</select>
 	
 	
 	

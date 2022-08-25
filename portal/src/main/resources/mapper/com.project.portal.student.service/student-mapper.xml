@@ -52,6 +52,7 @@
 	<update id="studentInfoUpdate" parameterType="com.project.portal.student.service.StudentVO">
 		UPDATE student_pri_info 
 		SET student_phone = #{studentPhone}, student_email = #{studentEmail}, parents_name = #{parentsName}
+				, student_addr = #{studentAddr}, student_daddr = #{studentDaddr}, student_postal_code = #{studentPostalCode}
 		        , parents_phone = #{parentsPhone}, parents_rel = #{parentsRel}
 		where student_id = 22000001
 		<!-- where student_id = #{studentId} -->
