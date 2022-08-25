@@ -70,7 +70,7 @@ public class TempcourseController {
 	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri) {
 		pvo.setProfessorId(220002);
 		pvo = service.getInfo(pvo);
-		voo.setWeekCode("HUEN000804");
+//		voo.setWeekCode("HUEN000804");
 //		vo.setProfessorId(0);
 //		vo.setCourseCode(null);
 		
@@ -136,7 +136,7 @@ public class TempcourseController {
 		
 		vo.setCourseCode(courseCode);
 		System.out.println(vo);
-		
+		System.out.println(vo.getCourseSortation());
 		return service.updateTemp(vo);
 		
 	}

@@ -72,12 +72,19 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+												<!-- <input th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control" >
 												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
 												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
 												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td>
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> -->
+												<select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+													class="form-control"  onchange="typeFn();">
+												<option th:value="${tempcourse.courseSortation == 'L01'}" value="L01">교양필수</option>
+												<option th:value="${tempcourse.courseSortation == 'L02'}" value="L02">교양</option>
+												<option th:value="${tempcourse.courseSortation == 'M01'}" value="M01">전공필수</option>
+												<option th:value="${tempcourse.courseSortation == 'M02'}" value="M02">전공</option>
+												</select>
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
@@ -148,7 +155,7 @@
 												class="form-control">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="button" class="btn btn-primary" id="mod">수정하기</button>[[${tempcourse.courseCode}]]
+											<button type="button" class="btn btn-primary" id="mod">수정하기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
