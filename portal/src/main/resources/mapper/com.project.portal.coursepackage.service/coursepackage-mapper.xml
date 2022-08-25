@@ -9,12 +9,15 @@
 		SELECT a.course_code, a.course_name, a.course_sortation,
 		a.course_credit, a.course_limit, b.professor_name
 		FROM course a
-		inner
-		join professor b
-		on a.professor_id = b.professor_id
-		<!-- <where>
-			<if test=
-		</where>		 -->
+		INNER
+		JOIN professor b
+		ON a.professor_id = b.professor_id
+		<where>
+			<if test="departCode != null and departCode !=''">
+				a.depart_code = #{departCode}
+			</if>
+		</where>
+		ORDER BY course_code ASC
 	</select>
 
 	<insert id="coursePackageInsert"
@@ -34,13 +37,15 @@
 	<select id="coursePackageList"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
 		select a.course_code, b.course_name, b.course_sortation,
-		b.course_credit, b.professor_id, c.professor_name
+		b.course_credit, c.professor_name
 		from course_package a
-		inner join course b
+		inner join
+		course b
 		on a.course_code = b.course_code
 		inner join professor c
-		on b.professor_id = c.professor_id
-		WHERE student_id =
+		on
+		b.professor_id = c.professor_id
+		WHERE a.student_id =
 		#{studentId}
 	</select>
 
@@ -48,13 +53,15 @@
 	<select id="coursePackageOne"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
 		select a.course_code, b.course_name, b.course_sortation,
-		b.course_credit, b.professor_id, c.professor_name
+		b.course_credit, c.professor_name
 		from course_package a
-		inner join course b
+		inner join
+		course b
 		on a.course_code = b.course_code
 		inner join professor c
-		on b.professor_id = c.professor_id
-		WHERE a.student_id = #{studentId} 
+		on
+		b.professor_id = c.professor_id
+		WHERE a.student_id = #{studentId}
 		AND
 		b.course_code = #{courseCode}
 	</select>
@@ -63,14 +70,23 @@
 	<delete id="coursePackageDelete"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		DELETE FROM course_package
-		WHERE student_id = #{studentId}
+		WHERE student_id =
+		#{studentId}
 	</delete>
-	
+
 	<!-- 수강꾸러미 전체 삭제 -->
 	<delete id="coursePackageAllDelete"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		TRUNCATE table course_package
+		WHERE student_id =
+		#{studentId}
+	</delete>
+
+	<select id="coursePackagePoint"
+		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
+		SELECT SUM(course_credit) course_credit
+		FROM v_package
 		WHERE student_id = #{studentId}
-		</delete>
+	</select>
 
 </mapper>

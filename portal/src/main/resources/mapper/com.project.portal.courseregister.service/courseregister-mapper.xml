@@ -10,6 +10,7 @@
 		FROM course a
 		INNER JOIN professor b
 		ON a.professor_id = b.professor_id
+		ORDER BY course_code ASC
 	</select>
 
 	<select id="studentInfo"

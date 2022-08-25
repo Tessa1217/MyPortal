@@ -17,5 +17,7 @@ public interface CoursePackageService {
 	
 	public int coursePackageAllDelete(CoursePackageVO vo);
 	
+	public CoursePackageVO coursePackagePoint(CoursePackageVO vo);
+	
 	
 }

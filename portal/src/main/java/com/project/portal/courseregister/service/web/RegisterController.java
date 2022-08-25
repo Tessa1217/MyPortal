@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.courseregister.service.RegisterService;
 import com.project.portal.courseregister.service.RegisterVO;
 
+/*
+ * 작성자: 송도언
+ * 작성일자: 2022/08/25
+ * 내용: 수강신청(학생정보, 리스트 조회, 신청목록, 신청한 목록 등)에 관한 컨트롤러
+ * 수정일자:
+ * 수정내용:
+*/
+
 @Controller
 public class RegisterController {
 

@@ -14,5 +14,5 @@ public class CoursePackageVO {
 	private String professorName;
 	private int studentId;
 	private String collegeCode;
-	private String departmentCode;	
+	private String departCode;	
 }
