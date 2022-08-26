@@ -74,6 +74,13 @@
 		group by course_sortation,course_sortation_credit
 		order by course_sortation desc
 	</select>
+	<select id="semesterGradeSelect" resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select m.student_id, c.course_year,c.course_name, c.course_semester, c.course_sortation, c.course_credit, m.course_grade
+		from my_course m
+		join course c
+		on c.course_code = m.course_code
+		where student_id = 22000001 and course_year = 2022 and course_semester = 1
+	</select>
 
 
 

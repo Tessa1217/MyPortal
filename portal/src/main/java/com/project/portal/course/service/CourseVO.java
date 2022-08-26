@@ -8,14 +8,14 @@ import lombok.Data;
 public class CourseVO {
 	
 	private String courseCode;
-	private int courseYear;
-	private int courseSemester;
-	private String courseName;
-	private char courseSortation;
+	private int courseYear;	// 강의 연도
+	private int courseSemester;	// 강의 학기
+	private String courseName;	// 강의 이름
+	private String courseSortation; // 강의 이수구분
 	private int courseCredit;
 	private String precourseCode;
 	private int courseLimit;
-	private String professorId;
+	private int professorId; // 교수 id
 	private String courseSummary;
 	private String textbookReference;
 	private String courseNotes;

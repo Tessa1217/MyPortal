@@ -10,7 +10,30 @@
 	<th:block layout:fragment="professorContent">
 	<div id="main">
 		<div>
-			<h2>Professor Course List Page</h2>
+			<h2>내 강의 목록 조회</h2>
+		</div>
+		<div class="card">
+			<form name="frm_search" action="/professor/allCourseList" method="post">
+				<label for="courseYear">개설연도</label> 
+				<input type="text" id="courseYear" name="course_year"> 
+				<label for="courseSemester">개설학기</label> 
+				<input type="text" id="courseSemester" name="course_semester">
+				<button class="btn btn-primary">검색</button>
+			</form>
+			<table class="table">
+				<tr>
+					<th>년도</th>
+					<th>학기</th>
+					<th>이수구분</th>
+					<th>강의명</th>
+				</tr>
+				<tr th:each="list : ${allCourseList}">
+					<td th:text="${list.courseYear}"></td>
+					<td th:text="${list.courseSemester}"></td>
+					<td th:text="${list.courseSortation}"></td>
+					<td th:text="${list.courseName}"></td>
+				</tr>			
+			</table>
 		</div>
 	</div>
 	</th:block>

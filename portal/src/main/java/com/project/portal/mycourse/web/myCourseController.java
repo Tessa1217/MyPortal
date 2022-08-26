@@ -34,7 +34,14 @@ public class myCourseController {
 		model.addAttribute("studentSortationCredit", service.studentSortationCredit(vo)); // 이수구분 별 총 취득학점
 		return "student/info/grade";
 	}
-
+	
+	// 학기별 성적 조회
+	
+	@RequestMapping("/student/semesterGradeSelect")
+	public String SemesterGradeSelect(MyCourseVO vo, Model model) {
+		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
+		return "student/info/semesterGrade";
+	}
 
 	// 학생 수강 목록 조회
 

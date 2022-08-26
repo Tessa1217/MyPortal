@@ -58,6 +58,11 @@ public class MyCourseServiceImpl implements MyCourseService {
 		// TODO Auto-generated method stub
 		return mapper.studentSortationCredit(vo);
 	}
+	@Override
+	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.semesterGradeSelect(vo);
+	}
 
 	@Override
 	public List<myProfCourseVO> getProfMyCourse(myProfCourseVO vo) {
@@ -70,6 +75,8 @@ public class MyCourseServiceImpl implements MyCourseService {
 		// TODO Auto-generated method stub
 		return mapper.getProfMyCoursePage(courseCode);
 	}
+
+	
 
 
 

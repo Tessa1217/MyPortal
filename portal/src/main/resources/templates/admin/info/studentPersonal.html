@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>학생 정보 조회/수정</title>
 
-<style>
+<!-- <style>
 #main {
 	display: block;
 }
@@ -25,6 +25,18 @@
 	width: 20%;
 	float: left;
 }
+</style> -->
+<style>
+#main {
+	display: inline-block;
+}
+.card .faceImg {	
+ 	margin-right: 5%;
+ 	height : 100%
+}
+#mod {
+	margin-bottom: 10px;
+}
 </style>
 
 </head>
@@ -32,12 +44,12 @@
 	<th:block layout:fragment="adminContent">
 		<div id="main">
 			<div>
-				<h2>내 정보 조회/수정</h2>
+				<h2>학생 정보 조회</h2>
 			</div>
 			<div class="card">
 				<p style="float: left;">개인 정보</p>
-				<button class="btn btn-primary buttonmod" id="mod">수정</button>
-				<button class="btn btn-primary buttonmod" id="back">목록</button>
+				<div class="row">
+				<div class="col-10">
 				<table class="table table2">
 					<tr>
 						<th>전공학과</th>
@@ -60,7 +72,7 @@
 					</tr>
 					<tr>
 						<th>학적상태</th>
-						<td><select name="studentStatusUpdate"
+						<td><select class="form-select" name="studentStatusUpdate"
 							id="studentStatusUpdate"
 							th:value="${adminStudentInfoSelect.parentsRel}">
 								<option
@@ -102,11 +114,15 @@
 						<td th:text="${adminStudentInfoSelect.studentEmail}"></td>
 					</tr>
 				</table>
-				<table>
+				</div>
+				<div class="col-2">
+				<table class="faceImg">
 					<tr>
-						<td><img th:src="|/download/${adminStudentInfoSelect.studentImg}|" class="faceImg"></td>
+						<td><img th:src="|/download/${adminStudentInfoSelect.studentImg}|" style="width: 100%"></td>
 					</tr>
 				</table>
+				</div>
+				</div>
 				<p>보호자 정보</p>
 				<table class="table">
 					<tr>
@@ -127,6 +143,8 @@
 					<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
 					</tr>
 				</table>
+				<button class="btn btn-primary buttonmod" id="mod">수정</button>
+				<button class="btn btn-primary buttonmod" id="back">목록</button>
 			</div>
 			<!-- <div class="modal fade" id="studentInfoModModal" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

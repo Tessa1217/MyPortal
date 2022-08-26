@@ -30,5 +30,6 @@ public interface MyCourseMapper {
 
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
 	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);
+	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo);
 
 }
