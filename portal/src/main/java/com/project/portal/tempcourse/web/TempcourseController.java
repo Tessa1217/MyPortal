@@ -1,6 +1,7 @@
 package com.project.portal.tempcourse.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
@@ -17,7 +19,6 @@ import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
 import com.project.portal.tempcourse.service.TempcourseweekVO;
-import com.project.portal.tempcourse.service.impl.TempcourseServiceImpl;
 
 @Controller
 public class TempcourseController {
@@ -116,20 +117,25 @@ public class TempcourseController {
 	}
 
 	@PostMapping("/tempweekInsertProc")
-	public String tempweekInsertProc(TempcourseweekVO voo, Model model) {
+	public String tempweekInsertProc(@RequestParam Map map, Model model,TempcourseweekVO voo) {
 		
-		System.out.println(voo);
+		
 		int i = 1;
 
-		for (String weekContent : voo.getWeekContent().split(",")) {
-			voo.setWeekNum(i);
-			voo.setWeekContent(weekContent);
-			
+		/*
+		 * for (String weekContent : voo.getWeekContent().split(",")) {
+		 * voo.setWeekNum(i); voo.setWeekContent(weekContent);
+		 * 
+		 * 
+		 * service.tempweekInsert(voo); i++; }
+		 */
+
+		for(int j = 1;j<=15;j++) {
+			voo.setWeekNum(j);
+			voo.setWeekContent((String)map.get("weekContent"+j));
 			
 			service.tempweekInsert(voo);
-			i++;
 		}
-
 		return "redirect:professor/tempcourseList";
 	}
 	

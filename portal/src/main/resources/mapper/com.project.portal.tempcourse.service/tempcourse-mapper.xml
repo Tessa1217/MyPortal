@@ -55,7 +55,7 @@
 	<select id="getTempweek" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
 		
 		select week_num, week_content, course_code from temp_course_weekly where course_code = #{courseCode}
-	
+		order by week_num asc
 	
 	</select>
 
@@ -124,6 +124,7 @@
 		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
 		#{courseCode}
 		)
+		
 		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
 		into temp_course_weekly
 		(

@@ -155,6 +155,7 @@
 										</div>
 										<div class="col-sm-12" align="right">
 											<button type="submit" class="btn btn-danger">등록</button>
+											<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 										
@@ -191,8 +192,8 @@
 												<td th:text="${num}">
 												
 												</td>
-												<td>
-												<input name="weekContent" class="col-sm-8">
+												<td>											
+												<input th:name="|weekContent${num}|" class="col-sm-8" >
 												</td>
 											</tr>
 										</tbody>
@@ -200,6 +201,7 @@
 								</div> 
 								<div class="col-sm-12" align="right">
 									<button type="submit" class="btn btn-danger">등록</button>
+									<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
 							</form>

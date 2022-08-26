@@ -105,20 +105,20 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<!-- <input th:value="${tempcourse.courseSortation}"
+												 <input th:value="${tempcourse.courseSortation}"
 													id="courseSortation" name="courseSortation"
 													class="form-control">
 												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
 												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
 												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> -->
-												 <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> 
+												<!--  <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control"  onchange="typeFn();">
-												<option th:value="${tempcourse.courseSortation == 'L01'}" value="L01">교양필수</option>
-												<option th:value="${tempcourse.courseSortation == 'L02'}" value="L02">교양</option>
-												<option th:value="${tempcourse.courseSortation == 'M01'}" value="M01">전공필수</option>
-												<option th:value="${tempcourse.courseSortation == 'M02'}" value="M02">전공</option>
-											</select>
+												<option th:value="${tempcourse.courseSortation == 'L01'}" data-sort="L01">교양필수</option>
+												<option th:value="${tempcourse.courseSortation == 'L02'}" data-sort="L02">교양</option>
+												<option th:value="${tempcourse.courseSortation == 'M01'}" data-sort="M01">전공필수</option>
+												<option th:value="${tempcourse.courseSortation == 'M02'}" data-sord="M02">전공</option>
+											</select> -->
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
@@ -196,6 +196,7 @@
 										<div class="col-sm-12" align="right">
 
 											<button type="button" class="btn btn-primary" id="mod">수정하기</button>
+											<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -214,7 +215,7 @@
 							<div class="card-body">
 
 								<h2>주차별 강의</h2>
-								<table class="table">
+								<!-- <table class="table">
 									<thead>
 										<tr>
 											<th>주차</th>
@@ -222,41 +223,43 @@
 										</tr>
 										<tr th:each="items:${tempcourseweek}">
 											<td th:text="${items.weekNum}"></td>
-											<!-- <td th:text="${items.weekContent}"></td> -->
+											<td th:text="${items.weekContent}"></td>
 											<td><input th:value="${items.weekContent}"
 												id="weekContent" name="weekContent" class="form-control">
 											</td>
 										</tr>
-										<!-- <input type="hidden" th:value="${item.weekNum}"> -->
+										<input type="hidden" th:value="${item.weekNum}">
 
 									</thead>
-								</table>
-								<!--	<table class="table">
+								</table> -->
+									<table class="table">
 										<thead>
 											<tr>
 												<th>주차</th>
 												<th>내용</th>
+												
 											</tr>
 										</thead>
+										
 										 <tbody id="tbody">
 											
-											<th:block th:each="num : ${#numbers.sequence(1,15)}">
-											<th:block th:each="items:${tempcourseweek}">
-											<tr>
-												<td th:text="${num}">
-												<td th:text="${items.weekNum}"></td>
+											<!-- <th:block th:each="num : ${#numbers.sequence(1,15)}"> -->
 												
-												</td>
+												<tr th:each="items:${tempcourseweek}" >
+												<!-- <td th:text="${num}"></td> -->
+												<td th:text="${items.weekNum}" id="weekNum"></td>
+												
 												<td>
-												<input name="weekContent" class="col-sm-8">
-												<input th:value="${items.weekContent}" id="weekContent" name="weekContent" class="form-control" >
+												<input name="weekContent" class="col-sm-8" th:value="${items.weekContent}" id="weekContent">
 												</td>
 											</tr>
-										</tbody> -->
+											
+											
+										</tbody>
 								</table>
 								<div class="col-sm-12" align="right">
-									<button type="button" class="btn btn-primary" id="modd">수정하기</button>
-
+									<button type="button" class="btn btn-primary" id="modd" >수정하기</button>
+									<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
 
@@ -350,16 +353,17 @@
 						dataType : "json",
 						success : function(result) {
 							
+							alert('수정되었습니다')
+							location.reload();
 						}
 					});
 				}
 				
-			 	 
-				
-				
 			});
 			
-			$(function() {
+			//주차별 강의 수정
+			
+		 	 $(function() {
 				$("#modd").on("click", confirmModal)
 
 				function confirmModal() {
@@ -381,13 +385,17 @@
 						dataType : "json",
 						success : function(result) {
 							
+							alert('수정되었습니다')
+							location.reload();
 						}
 					});
 				}  
-			});
+			});  
 			
-			$(".moddd").on("click", function () {
-				if (window.confirm("정말로 제출하시겠습니까??")) {
+			//상세 조회 페이지에서 제출하기 기능
+			
+			 $(".moddd").on("click", function () {
+				if (window.confirm("정말로 제출하시겠습니까?")) {
 					let submitYes = $(this).closest("tr").find("#submitYes").data("code")
 					let backReason = $(this).closest("tr").find("#backReason").data("back")
 					let courseCode = $(this).data("course")
@@ -404,10 +412,38 @@
 						dataType : "json",
 						success : function(result) {
 							
+							
+							alert('제출되었습니다')
+							location.reload();
 						} 
 					});
 				}
-			})
+			}) 
+			
+		/* 	$(".modd").on("click", function () {
+				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					let weekContent = $(this).closest("tr").find("#weekContent")
+					let weekCode = $(this).data("weekCode")
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
+						method : "post",
+						dataType : "json",
+						data : { 
+						
+						"weekContent" : $("#weekContent").val(),
+						"weekCode" :	 weekCode			
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							
+							alert('변경되었습니다')
+							location.reload();
+						} 
+					});
+				}
+			}) */
 			
 			
 			</script>
