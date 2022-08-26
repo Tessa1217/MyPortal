@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorVO;
+import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
 import com.project.portal.tempcourse.service.TempcourseweekVO;
 import com.project.portal.tempcourse.service.impl.TempcourseServiceImpl;
@@ -24,7 +25,7 @@ public class TempcourseController {
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
 
 	@Autowired
-	TempcourseServiceImpl service;
+	TempcourseService service;
 
 	// 단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp/{courseCode}")
@@ -35,7 +36,9 @@ public class TempcourseController {
 		System.out.println(tempcourseTest);
 		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 		System.out.println(tempcourseweekList);
-
+		
+		TempcourseVO vol = new TempcourseVO();
+		model.addAttribute("tempcourseList", vol);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 		return "professor/course/getTemp";
@@ -163,11 +166,11 @@ public class TempcourseController {
 		return service.updateweekTemp(voo);		
 	}
 	
-	@RequestMapping("/submitTemp")
+	@RequestMapping(value ={"/professor/tempcourseList/submitTemp", "/professor/getTemp/submitTemp"})
 	@ResponseBody
-	public int submitTemp(@PathVariable String courseCode, TempcourseVO vo, Model model) {
+	public int submitTemp(TempcourseVO vo, Model model) {
 		
-		vo.setCourseCode(courseCode);
+		
 		System.out.println(vo);
 		System.out.println(vo.getSubmitYes());
 		System.out.println(vo.getBackReason());
