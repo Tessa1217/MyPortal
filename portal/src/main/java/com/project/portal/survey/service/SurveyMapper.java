@@ -12,5 +12,5 @@ public interface SurveyMapper {
 	public SurveyVO selectSurvey(SurveyVO vo);
 	
 	// 설문지 제출
-	public SurveyAnswerVO insertSurveyAnswer(SurveyAnswerVO vo);
+	public void insertSurveyAnswer(SurveyAnswerVO vo);
 }

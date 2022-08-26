@@ -5,22 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+	 input[type=radio] {
+	         font-size : 17px;
+	 		 width : 23px;
+	  		 height : 23px;
+	 }
+		
+	
+</style>
 </head>
 <body>
 <th:block layout:fragment="studentEclassContent">
+
 <div id="main">
 	<h2>수강평 설문지</h2>
 	<hr>
 	<div class="card">
 			<div class="card-body">
+			
 	<h3>설문 유의 사항 </h3>
+	<br>
 	<p>1.평가등급(배점)</p>
 	<p>매우 그렇다(5점) 그렇다(4점) 보통이다(3점) 아니다(2점) 전혀 아니다(1점)</p>
 	<p>2.설문 항목에 모두 응답하지 않으면 제출 할 수 없습니다.</p>
 	<hr>
 	<br>
 	<h3>설문 내용</h3>
-	<form action="/student/eclass/courseSurveyAnswer">
+	<form id="formsubmit" action="/student/eclass/courseSurveyAnswer">
 	<table class="table">
 		<thead>
 				<tr>
@@ -44,11 +57,11 @@
 					<td rowspan="3">강의준비</td>
 					<td>1</td>
 					<td th:text="${surveyContent.surveyQ1}"></td>
-					<td><input type="radio" name="surveyA1" value="5"></td>
-					<td><input type="radio" name="surveyA1" value="4"></td>
-					<td><input type="radio" name="surveyA1" value="3"></td>
-					<td><input type="radio" name="surveyA1" value="2"></td>
-					<td><input type="radio" name="surveyA1" value="1"></td>
+					<td><input type="radio" name="surveyA1" value="5" ></td>
+					<td><input type="radio" name="surveyA1" value="4" ></td>
+					<td><input type="radio" name="surveyA1" value="3" ></td>
+					<td><input type="radio" name="surveyA1" value="2" ></td>
+					<td><input type="radio" name="surveyA1" value="1" ></td>
 				</tr>
 				
 				<tr>
@@ -146,12 +159,36 @@
 
 			</tbody>
 		</table>	
-		
-		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
+		<button type="button" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
 	</form>
 	</div>
 	</div>
 </div>
+
+	<script th:inline="javascript">
+	$(function() {
+		submit();
+
+	
+		
+	  	function submit() {
+	  		$(".saveBtn").on("click", function() {
+	  			var check = document.querySelectorAll('input[type="radio"]:checked').length;
+		  		console.log(check);
+		  		
+		  		// 버튼을 모두 체크 했을 때 
+		  		if(check == 10) {
+		  			$("#formsubmit").submit();
+		  		}else {
+		  			alert('모든 문항에 답변하지 않았습니다.')
+		  		}
+	  		})
+	  		
+		
+	  	}
+	
+	})
+	</script>
 
 </th:block>
 </body>

@@ -20,9 +20,9 @@ public class SurveyServiceImpl implements SurveyService {
 		return mapper.selectSurvey(vo);
 	}
 	@Override
-	public SurveyAnswerVO insertSurveyAnswer(SurveyAnswerVO vo) {
+	public void insertSurveyAnswer(SurveyAnswerVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.insertSurveyAnswer(vo);
+		mapper.insertSurveyAnswer(vo);
 	}
 
 }

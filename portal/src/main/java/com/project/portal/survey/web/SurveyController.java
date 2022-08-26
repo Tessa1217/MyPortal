@@ -35,7 +35,8 @@ public class SurveyController {
 		vo.setStudentId(22000001);
 		System.out.println(vo);
 		service.insertSurveyAnswer(vo);
-		return "";
+		// 세션 값으로 변경해주세여~
+		return "redirect:/student/eclass/" + vo.getCourseCode();
 	}
 	
 	
