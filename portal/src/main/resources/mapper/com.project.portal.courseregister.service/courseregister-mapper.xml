@@ -8,8 +8,14 @@
 		SELECT a.course_code, a.course_name, a.course_sortation,
 		a.course_credit, a.course_limit, b.professor_name
 		FROM course a
-		INNER JOIN professor b
+		INNER
+		JOIN professor b
 		ON a.professor_id = b.professor_id
+		<where>
+			<if test="departCode != null and departCode !=''">
+				a.depart_code = #{departCode}
+			</if>
+		</where>
 		ORDER BY course_code ASC
 	</select>
 

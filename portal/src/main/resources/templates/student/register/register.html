@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/student_layout}">
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://www.google.com/recaptcha/api.js?render=6LeM5KshAAAAAC5LH_OFmfGQLT440erIr-zmDWCN"></script>
 </head>
 
 <body>
 	<th:block layout:fragment="studentContent">
 		<div id="main">
+			<h2>수강 신청</h2>
+			<hr>
 			<div>
-				<h2>수강 신청</h2>
-			</div>
-			<div>
-				<table class="table" border="1">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th>학번</th>
@@ -40,29 +39,34 @@
 					</tbody>
 				</table>
 			</div>
-			<div>
-				<select name="collegeCode">
-					<option value='' selected>-- 단과 (선택) --</option>
-					<option value="HU">인문 대학</option>
-					<option value="SS">사회과학 대학</option>
-					<option value="NS">자연과학 대학</option>
-					<option value="SF">소프트웨어 대학</option>
-				</select> <select name="departmentCode">
-					<option value='' selected>-- 학과 (선택) --</option>
-					<option value="PSYC">심리학과</option>
-					<option value="ELEG">전기공학과</option>
-					<option value="BIOL">생물학과</option>
-					<option value="CHEM">화학과</option>
-					<option value="JAPA">일어일문학</option>
-					<option value="PHYS">물리학과</option>
-					<option value="ENGL">영어영문학과</option>
-				</select>
-				<button class="btn rounded-pill btn-primary">조 회</button>
-			</div>
+			<h4>개설강좌 LIST</h4>
 			<br>
-			<div>
-				<h4>개설강좌 LIST</h4>
-				<table class="table" border="1">
+			<form name="frmchoice">
+				<select id="departCode" name="departCode">
+					<option selected>--- 학과선택 ---</option>
+					<optgroup label="인문대학">
+						<option value="JAPA">일어일문학과</option>
+						<option value="ENGL">영어영문학과</option>
+					</optgroup>
+					<optgroup label="사회과학대학">
+						<option value="PSYC">심리학과</option>
+					</optgroup>
+					<optgroup label="자연과학대학">
+						<option value="BIOL">생물학과</option>
+						<option value="CHEM">화학공학과</option>
+						<option value="PHYS">물리학과</option>
+					</optgroup>
+					<optgroup label="소프트웨어대학">
+						<option value="ELEG">전기공학과</option>
+					</optgroup>
+				</select>
+				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+				<button class="btn rounded-pill btn-primary" type="button"
+					onclick="location.href='courseRegister'">초기화</button>
+			</form>
+			<br>
+			<div class="overflow-auto" style="max-height: 300px;">
+				<table class="table table-bordered table-hover" id="ListTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -70,8 +74,7 @@
 							<th>강의명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
-							<th>수강 인원</th>
-
+							<th>수강 제한 인원</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -87,17 +90,20 @@
 				</table>
 			</div>
 			<br>
+			<hr>
 			<div>
 				<h4>수강꾸러미 내역 / 수강신청 LIST</h4>
+				 <form name="frm">
 				<input type="text" placeholder="과목 코드">
-				<button type="button" class="btn rounded-pill btn-primary btnInsert"
-					>신청</button>
-				<input type="text" placeholder="자동입력 방지코드">
-				<button class="btn rounded-pill btn-primary">확 인</button>
-			</div>
+				<button type="button" class="btn rounded-pill btn-primary btnInsert">신청</button>
+					<input type="text" size="18" name="output" placeholder="자동신청 방지코드">
+					<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)" class="btn rounded-pill btn-primary">
+					<input type="text" size="18" name="che"><input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary">
+					<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
+				</form>
 			<div>
 				<br>
-				<table class="table" border="1">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th>과목 코드</th>
@@ -125,14 +131,13 @@
 			<br>
 			<div>
 				<h4 style="display: inline;">신청과목 LIST</h4>
-				<h6 style="display: inline;">신청학점:</h6>
+				<h6 style="display: inline;" >신청가능 학점:<span th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span></h6>
 				<h6 style="display: inline;">전공학점:</h6>
 				<h6 style="display: inline;">교양학점:</h6>
-				<table class="table" border="1">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th>과목 코드</th>
-							<th>학년</th>
 							<th>이수 구분</th>
 							<th>강의명</th>
 							<th>학점</th>
@@ -148,28 +153,28 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<td></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+		</div>
 		<script th:inline="javascript">
-			$(function(){
+			$(function () {
 				$(".btnInsert").on("click", coursePackageInsert)
-				function coursePackageInsert(){
-				let code = $(this).data("code")
+				function coursePackageInsert() {
+					let code = $(this).data("code")
 					$.ajax({
-						url:"/student/registerInsert",
-						method:"post",
-						dataType:"json",
-						data:{
-							"courseCode" : code
+						url: "/student/registerInsert",
+						method: "post",
+						dataType: "json",
+						data: {
+							"courseCode": code
 						},
-						dataType:"json",
-						success:function(item){
+						dataType: "json",
+						success: function (item) {
 							//location.reload();
-							let content=`<tr>
+							let content = `<tr>
 								<td>${item.courseCode}</td>
 								<td>${item.courseSortation}</td>
 								<td>${item.courseName}</td>
@@ -177,11 +182,34 @@
 								<td>${item.professorName}</td>
 								<td>${item.courseLimit}</td>
 								</tr>`
-						$("#rBody").append(content)	
+							$("#rBody").append(content)
 						}
 					});
 				}
 			})
+		</script>
+
+		<script th:inline="javascript">
+			var keyList = "abcdefABCDEF0123456789"
+			var temp = ''
+			function generatepass(plength) {
+			temp = ''
+			for (i = 0; i < plength; i++)
+			 		temp += keyList.charAt(Math.floor(Math.random() * keyList.length))
+			 	return temp
+			 }
+			 function populateform(enterlength) {
+			 	document.frm.output.value = generatepass(enterlength)
+			 }
+			 function check() {
+			 	if (temp == document.frm.che.value) {
+			 		alert('신청 성공');
+			 	} else {
+			 		alert('다시입력해주세요');
+			 	}
+			 }
+
+	
 		</script>
 	</th:block>
 </body>

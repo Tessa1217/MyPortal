@@ -21,7 +21,7 @@ import com.project.portal.courseregister.service.RegisterVO;
 
 @Controller
 public class RegisterController {
-
+	
 	@Autowired
 	RegisterService service;
 	

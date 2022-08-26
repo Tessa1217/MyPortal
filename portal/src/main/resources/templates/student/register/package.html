@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/student_layout}">
-	<!-- CSS only -->
+<!-- CSS only -->
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -12,7 +12,7 @@
 		<div id="main">
 			<h2>수강 꾸러미 신청</h2>
 			<hr>
-				<h4>개설강좌 LIST</h4>
+			<h4>개설강좌 LIST</h4>
 			<br>
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
@@ -34,11 +34,12 @@
 					</optgroup>
 				</select>
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				<button class="btn rounded-pill btn-primary" type="button" onclick="location.href='coursePackage'">초기화</button>
+				<button class="btn rounded-pill btn-primary" type="button"
+					onclick="location.href='coursePackage'">초기화</button>
 			</form>
 			<br>
-			<div class="overflow-auto" style="max-height: 400px;">
-				<table class="table" border="1">
+			<div class="overflow-auto" style="max-height: 300px;">
+				<table class="table table-bordered table-hover" id="ListTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -46,7 +47,7 @@
 							<th>강의명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
-							<th>수강 인원</th>
+							<th>수강 제한 인원</th>
 							<th>담기</th>
 						</tr>
 					</thead>
@@ -67,9 +68,9 @@
 			</div>
 			<br>
 			<hr>
-				<h4>수강꾸러미 LIST</h4>
+			<h4>수강꾸러미 LIST</h4>
 			<div class="overflow-auto" style="max-height: 400px;">
-				<table class="table" border="1">
+				<table class="table table-bordered table-hover" id="ListTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -77,12 +78,11 @@
 							<th>강의명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
-							<th><button type="button"
-									class="btn btn-primary buttonAllDelete">전체 삭제</button></th>
+							<th>취소</th>
 						</tr>
 					</thead>
 					<tbody id="pBody">
-						<tr th:each="item:${coursePackageList}">
+						<tr th:each="item:${coursePackageList}" id="pTr">
 							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseSortation}"></td>
 							<td th:text="${item.courseName}"></td>
@@ -90,14 +90,16 @@
 							<td th:text="${item.professorName}"></td>
 							<td><button type="button"
 									class="btn btn-primary buttonDelete"
-									th:data-code="${item.courseCode}">삭제</button></td>
+									th:data-code="${item.courseCode}">취소</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<br>
 			<div>
-				<h6>수강꾸러미 신청학점: <span th:text="${coursePackagePoint?.courseCredit}"></span></h6>
+				<h6>
+					수강꾸러미 신청가능 학점: <span th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span>
+				</h6>
 				<h6>교양신청 가능학점: 5</h6>
 			</div>
 		</div>
@@ -113,7 +115,7 @@
 						data:{
 							"courseCode" : code
 						},
-						dataType:"json",
+						dataType:"json",			
 						success:function(item){
 							let content=`<tr>
 								<td>${item.courseCode}</td>
@@ -128,7 +130,7 @@
 					});
 				}
 			})
-			
+
 			$(function(){
 				$("#pBody").on("click",".buttonDelete",coursePackageDelete)
 				function coursePackageDelete(){

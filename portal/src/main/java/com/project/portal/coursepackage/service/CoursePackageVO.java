@@ -8,11 +8,12 @@ public class CoursePackageVO {
 	private String packageYn;
 	private String courseCode;
 	private String courseName;
-	private char courseSortation;
+	private String courseSortation;
 	private int courseCredit;
 	private int courseLimit;
 	private String professorName;
 	private int studentId;
 	private String collegeCode;
-	private String departCode;	
+	private String departCode;
+	private int packageCredit;
 }

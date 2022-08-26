@@ -70,8 +70,8 @@
 	<delete id="coursePackageDelete"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		DELETE FROM course_package
-		WHERE student_id =
-		#{studentId}
+		WHERE course_code =
+		#{courseCode}
 	</delete>
 
 	<!-- 수강꾸러미 전체 삭제 -->
@@ -81,10 +81,10 @@
 		WHERE student_id =
 		#{studentId}
 	</delete>
-
+	<!-- 신청 학점 -->
 	<select id="coursePackagePoint"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
-		SELECT SUM(course_credit) course_credit
+		SELECT SUM(course_credit) package_credit
 		FROM v_package
 		WHERE student_id = #{studentId}
 	</select>
