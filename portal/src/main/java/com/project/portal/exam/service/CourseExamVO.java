@@ -8,6 +8,7 @@ public class CourseExamVO {
 	private int examQuestionPoint;
 	private String examCode;
 	private String questionCode;
+	private int professorId;
 	private String examComplete;
 	private QuestionVO examQuestion;
 	private StudentExamVO studentAnswer;

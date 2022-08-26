@@ -14,37 +14,44 @@
 		<div class="col-6">
 			<div>
 				<form id="prevExamListFrm">
+					<input type="hidden" name="courseCode"
+						th:value="${courseInfo.courseCode}">
 					<div class="row">
 						<div class="page-title">
 							<h4>이전 강의 시험지 검색</h4>
 						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label>강의 이름:</label> <input type="text" name="courseCode"
-									class="form-control round" th:value="${courseInfo.courseName}">
-							</div>
-						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label>강의 년도:</label> <input type="text" name="courseYear"
+								<label>강의 년도:</label> <input type="number" name="courseYear" value="0"
 									class="form-control round">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label>강의 학기:</label> <input type="text" name="courseSemester"
+								<label>강의 학기:</label> <input type="number" name="courseSemester" value="0"
 									class="form-control round">
+							</div>
+						</div>
+						<div class="col-sm-3">
+						<br />
+							<div class="form-group">
+								<select name="examCode" class="form-select">
+									<option value="">시험 종류</option>
+									<option value="M">중간</option>
+									<option value="F">기말</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<br />
 							<button id="getPrevExamListBtn" class="btn btn-md btn-primary"
-								type="button" th:onclick="getPrevExamList()">검색</button>
+								type="button">검색</button>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div id="prevExamList"></div>
+			<div id="prevExamList">
+			</div>
 		</div>
 		<div id="testQuestions" class="col-6">
 			<div id="scrollPage">
@@ -57,94 +64,42 @@
 		</div>
 
 		<script th:inline="javascript">
-		$(function() {
-			showTestPaper();
-			getPrevExamList();
-			$("#getPrevExamListBtn").trigger("click");
-			getCourseExam();
-			
-			
-			// 담아온 문제들 중 사용자가 원하는 시험지의 문제들만 보이게 출력
-			function showTestPaper() {
-				$(".examShow").on("click", function(e) {
-				let code = $(e.target).data('examcode');
-				let questions = $(".question");
-				$(questions).each((idx, val) => {
-					$(val).addClass("offPage");
-				})
-				$("#noTest").addClass("offPage");
-				$("#scrollPage").addClass("scroll");
-				$("#saveButton").removeClass("offPage");
-				$(questions).each((idx, val) => {
-					if ($(val).data('examcode') == code) {
-						$(val).removeClass('offPage');
-					}
-				})
+			$(function() {
+				getPrevExamList();
+				$("#getPrevExamListBtn").trigger("click");
+				getCourseExam();
 			})
-			}
-		})
-		
-		// 이전 시험지 보기
-		function getPrevExamList() {
-				$("#getPrevExamListBtn").on("click", function() {
+
+			// 이전 시험 리스트 보기
+			function getPrevExamList() {
+				$(document).on("click", "#getPrevExamListBtn", function() {
 					$.ajax({
 						method : 'POST',
 						url : `/professor/eclass/prevExamList`,
 						data : $("#prevExamListFrm").serialize()
+					}).done(function(fragment) {
+						$("#prevExamList").replaceWith(fragment);
 					})
-						.done(function(fragment) {
-							$("#prevExamList").replaceWith(fragment);
-						})
 				})
 			}
-		
-		function getCourseExam() {
-			$(".examShow").on("click", function(e) {
-				console.log($(e.target).data("examcode"));
-				console.log($(e.target));
-				$.ajax({
-					method : 'POST',
-					url : `/professor/eclass/getCourseExam`,
-					data : {examCode : $(e.target).data("examcode")}
-				})
-				.done(function(fragment) {
+
+			// 이전 시험지 보기 
+			function getCourseExam() {
+				$(document).on("click", ".examShow", function(e) {
+					console.log($(e.target).data("examcode"));
+					console.log($(e.target));
+					$.ajax({
+						method : 'POST',
+						url : `/professor/eclass/getCourseExam`,
+						data : {
+							examCode : $(e.target).data("examcode")
+						}
+					}).done(function(fragment) {
 						$("#testQuestions").replaceWith(fragment);
-				})
-			})
-		}
-			//테스트 불러오기 검색 조건
-/* 			function searchTest() {
-				let course = {
-						courseCode : $("input[name=courseCode]").val(),
-						courseYear : $("input[name=courseYear]").val() ? $("input[name=courseYear]").val() : 0,
-						courseSemester : $("input[name=courseSemester]").val() ? $("input[name=courseSemester]").val() : 0
-				}
-				$.ajax({
-					url : '/professor/examRegister',
-					method : 'POST',
-					data : course
-				})
-					.then(result => {
-						makeTable(result.examInfo);
-						console.log(result.courseExam);
-						getQuestions(result.courseExam);
 					})
-			} */
-			
-			// 교수가 찾는 시험 목록
-/* 			function makeTable(examList) {
-				$(examList).each(function(idx, val) {
-					let tr = $("<tr/>").append(
-						$("<td/>").text(val.courseYear),
-						$("<td/>").text(val.courseSemester),
-						$("<td/>").text(val.courseName),
-						$("<td/>").text(val.examCode),
-						$("<td/>").append($("<button/>").text("시험지 보기").addClass('btn btn-sm btn-primary'))
-					);
-					$("#testList tbody").append(tr);
-				})				
-			} */
-			
+				})
+			}
+
 		</script>
 	</th:block>
 </body>

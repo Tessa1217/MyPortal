@@ -8,7 +8,7 @@
 	<th:block th:fragment="makeTestFragment">
 		<h1>시험지</h1>
 		<div align="right">
-			<button type="button" th:onclick="tempSavePaper"
+			<button type="button" id="tempBtn"
 				class="btn btn-primary btn-md">임시저장</button>
 			<button type="button" th:onclick="insertTestPaper"
 				class="btn btn-primary btn-md">시험지 생성하기</button>
@@ -22,141 +22,200 @@
 				<div
 					th:each="idx : ${#numbers.sequence(0, (exam.examTotalQuestion/5 - 1))}"
 					th:id="|testPage-${idx}|" class="questionContainer hidePage">
-					<th:block
-						th:each="i : ${#numbers.sequence(0 + idx * 5, 4 + idx * 5)}">
-						<div class="card questionBox">
-
-							<button class="card-body btn btn-outline-primary addQuestionBtn"
-								type="button" onclick="addQuestions">+</button>
+					<div class="row">
+						<th:block
+							th:each="i : ${#numbers.sequence(0 + idx * 5, 4 + idx * 5)}">
+							<div class="col-md-6 col-12">
+								<div class="card questionBox">
+									<th:block th:if="${examQuestions}">
+									<div class="card question" th:if="${#lists.size(examQuestions) > i}"
+									th:id="${examQuestions[i].examQuestionNum}">
+										<div class="card-header" th:id="${examQuestions[i].questionCode}">
+											<span th:text="${examQuestions[i].examQuestion.questionContent}"></span>
+											<input type="number" th:value="${examQuestions[i].examQuestionPoint}">
+										</div>
+										<div class="card-body">
+											<th:block th:each="option : ${examQuestions[i].examQuestion.optionList}">
+												<p>
+													<input type="radio" th:checked="${option.questionOptionNum == examQuestions[i].examQuestion.questionAnswer}">
+													<span th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
+												</p>
+											</th:block>
+										</div>
+									</div>
+									<button th:if="${#lists.size(examQuestions) <= i}"
+										class="card-body btn btn-outline-primary addQuestionBtn"
+										type="button" onclick="addQuestions()">+</button>
+									</th:block>
+								</div>
+							</div>
+						</th:block>
+						<div class="pageBtnContainer">
+							<th:block th:if="${idx} != 0">
+								<button type="button" th:data-idx="${idx}" th:onclick="movePage"
+									class="prevBtn btn btn-primary btn-lg">
+									<i class="fa-solid fa-angle-left"></i>
+								</button>
+							</th:block>
+							<th:block th:if="${idx != (exam.examTotalQuestion/5 - 1)}">
+								<button type="button" th:data-idx="${idx}" th:onclick="movePage"
+									class="nextBtn btn btn-primary btn-lg">
+									<i class="fa-solid fa-angle-right"></i>
+								</button>
+							</th:block>
 						</div>
-						
-					</th:block>
-					<div class="pageBtnContainer">
-								<th:block th:if="${idx} != 0">
-									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
-								</th:block>
-								<th:block th:if="${idx != (exam.examTotalQuestion/5 - 1)}">
-									<button type="button" th:data-idx="${idx}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
-								</th:block>
-						</div>
+					</div>
 				</div>
-				
+
 			</th:block>
 		</div>
-		<div class="modal fade" id="addQuestionModal" tabindex="-1"
-			role="dialog" aria-labelledby="exampleModalCenterTitle"
-			aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">문제를 입력해주세요.</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="form-group">
-								<input id="whichModal" hidden=""> <label
-									for="questionContent">Question:</label><input type="text"
-									id="questionContent">
-							</div>
-							<th:block th:each="num : ${#numbers.sequence(1, 4)}">
-								<div class="form-group">
-									<label th:for="|option${num}|">[[${num}]]</label> <input
-										type="text" th:id="|option${num}|"> <input
-										type="radio" th:id="${num}" name="answer">
-								</div>
-							</th:block>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button id="closeModal" type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
-						<button id="submitModal" type="button" class="btn btn-primary">Submit</button>
-					</div>
+		<div id="template" style="display: none;">
+			<div id="newQuestion" class="card">
+				<div class="card-header">
+					<input type="text" name="questionContent">
+				</div>
+				<div class="card-body">
+					<th:block th:each="idx : ${#numbers.sequence(1, 4)}">
+					<label>
+							<input type="radio" name="answer">
+							<input type="text" name="questionOptionContent">
+					</label>
+					</th:block>
+				</div>
+				<div class="btnContainer">
+					<button
+						class="createQuestionBtn btn btn-primary btn-sm rounded-pill"
+						type="button">문제 생성</button>
+					<button class="btn btn-secondary btn-sm rounded-pill" type="button">
+						취소</button>
 				</div>
 			</div>
 		</div>
-
 		<script th:inline="javascript">
 		$(function() {
-			//generatePaper();
-			saveQuestionToPaper();
-			insertTestPaper(); 
+			saveQuestions();
+			tempInsert();
 			addQuestions();
-			modalOff();
 			$("#testPage-0").removeClass("hidePage");
 			movePage();
+			checkAll();
+			createQuestion();
 		})
 		
-		// 시험지 문항수만큼 생성하기
-/* 		function generatePaper() {
-			$("#defaultPaper").siblings().remove();
-			if ($("input[name=examTotalQuestion]").val() == '0') {
-				let div = $("<div/>").text("시험 문항을 입력해주세요.").appendTo($("#testPaperGenerated"));
-			} else {
-				$("#defaultPaper").addClass("offPage");
-				for (let i = 1; i <= $("input[name=examTotalQuestion]").val(); i++) {
-					let div = $("<div/>").addClass("card questionBox")
-					.html(`<button class="card-body btn btn-outline-primary addQuestionBtn"
-							type="button" onclick="addQuestions">+</button>`)
-					.appendTo($("#testPaperGenerated"));
-				}
-			}
-			/* $(document).on("ready", function() {
-				$("#defaultPaper").siblings().remove();
-				if ($("input[name=examTotalQuestion]").val() == '0') {
-					let div = $("<div/>").text("시험 문항을 입력해주세요.").appendTo($("#testPaperGenerated"));
-				} else {
-					$("#defaultPaper").addClass("offPage");
-					for (let i = 1; i <= $("input[name=examTotalQuestion]").val(); i++) {
-						let div = $("<div/>").addClass("card questionBox")
-						.html(`<button class="card-body btn btn-outline-primary addQuestionBtn"
-								type="button" onclick="addQuestions">+</button>`)
-						.appendTo($("#testPaperGenerated"));
-					}
-				} */
-			/* } */
-
-		
-		// 문제 담기
-		function saveQuestionToPaper() {
-			$("#saveButton").on("click", function() {
-				savedQuestions = $(".question input:checked").parent().parent();
-				let questionBox = $(".questionBox");
-				// 담으려는 문제보다 실제 시험 문항수가 많을 경우 경고창을 띄우고 처리 취소 처리
-				if ($(savedQuestions).length > $(questionBox).length) {
-					alert("시험 문항수보다 담은 문제가 많습니다.");
-					return;
+		// 전체 문제 선택
+		function checkAll() {
+			$(document).on("click", "#selectAllButton", function() {
+				if ($("#allChk").val() == '0') {
+					$(".question .card-header input").prop('checked', true);
+					$("#allChk").val('1');
+					console.log($("#allChk").val());
+				} else if ($("#allChk").val() == '1') {
+					$(".question .card-header input").prop('checked', false);
+					$("#allChk").val('0');
 				} 
-				// 내부의 문제 추가 버튼 삭제 후 내용 입력
-				$(savedQuestions).each((idx, val) => {
-					$(questionBox[idx]).children().remove();
-					$(questionBox[idx]).append($(savedQuestions[idx]));
-				})
 			})
 		}
 		
+		// 문제 담기
+		function saveQuestions() {
+			$(document).on("click", "#saveButton", function() {
+				savedQuestions = $(".question .card-header input:checked").parent().parent();
+				let emptyBox = $(".addQuestionBtn");
+				// 담으려는 문제보다 실제 시험 문항수가 많을 경우 경고창을 띄우고 처리 취소 처리
+				if ($(savedQuestions).length > $(emptyBox).length) {
+					fireSwal('warning', '선택한 문제가 시험 문항수보다 많습니다.');
+					return;
+				}
+				// 내부의 문제 추가 버튼 삭제 후 내용 입력
+				$(savedQuestions).each((idx, val) => {
+						$(emptyBox).eq(idx).parent()
+						.empty().append($(savedQuestions[idx]));
+				})
+				fireSwal('success', '문제 담기 완료');
+			})
+		}
+
 		// 문제 직접 입력하기
 		function addQuestions() {
 			$(document).on("click", ".addQuestionBtn", function(e) {
-				console.log(e.target);
-				$("#addQuestionModal").modal('show');
+				$(this).parent().empty().append($("#template").children().clone());
 			})
 		}
 		
-		// 모달창 끄기 버튼
-		function modalOff() {
-			$("#closeModal").on("click", function() {
-				$('#addQuestionModal').modal('hide');
+		// 입력 문제 생성
+		function createQuestion() {
+			$(document).on("click", ".createQuestionBtn", function(e) {
+				let div = $(this).parent().siblings();
+				let question = {
+						questionContent : $($(div[0]).children("input")).val()
+				}
+				let optionList = [];
+				$(div[1]).children("label").each((idx, val) => {
+					if ($($(val).children()[0]).is(":checked")) {
+						question.questionAnswer = idx + 1;
+					}
+					let option = {
+							questionOptionNum : idx + 1,
+							questionOptionContent : $($(val).children()[1]).val()
+					}
+					optionList.push(option);
+				})
+				question.optionList = optionList;
+				console.log(question);
+
+				$.ajax({
+					method : 'POST',
+					url : `/professor/eclass/createQuestion`,
+					contentType : 'application/json',
+					data : JSON.stringify(question)
+				})
+					.done(function(fragment) {
+						$("#newQuestion").replaceWith(fragment);
+					})
 			})
 		}
 		
-		// 시험지 제출하기
-		function insertTestPaper() {
-			console.log("hi");
+		// 시험 문제 추출
+		function getQuestions() {
+			let questions = $(".question");
+			let courseExamList = [];
+			$(questions).each((idx, val) => {
+				let courseExam = {};
+				let header = $(val).children(".card-header").children();
+				courseExam.examQuestionPoint = $(header[1]).val();
+				courseExam.examCode = $("input[name=examCode]").val();
+				courseExam.examQuestionNum = $(val).attr("id");
+				courseExam.questionCode = $(val).children(".card-header").attr("id");
+				courseExam.examComplete = '0';
+				// 교수 아이디 나중에 세션 값으로 넣어야 함
+				courseExam.professorId = 220001;
+				courseExamList.push(courseExam);
+			})
+			return courseExamList;
+		}
+		
+		// 시험지 임시저장 
+		function tempInsert() {
+			$(document).on("click", "#tempBtn", function() {
+				courseExamList = getQuestions();
+				console.log(courseExamList);
+				$.ajax({
+					method : 'POST',
+					url : `/professor/eclass/saveTest`,
+					contentType : 'application/json',
+					data : JSON.stringify(courseExamList)
+				})
+					.then(function(result) {
+						if (result == 'success') {
+							fireSwal('success', '임시 저장이 완료되었습니다.')
+								.then(function(result) {
+									if (result.isConfirmed) {
+										location.href=`/professor/eclass/examList`;
+									}
+								});
+						}
+					})
+			})
 		}
 	</script>
 	</th:block>

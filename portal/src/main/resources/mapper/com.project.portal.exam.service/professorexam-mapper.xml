@@ -10,8 +10,7 @@
 													FROM course
 													WHERE course_code = #{courseCode})
 	</select>
-	<select id="getExamList" parameterType="com.project.portal.course.service.CourseVO"
-	resultType="com.project.portal.exam.service.ExamInfoVO">
+	<select id="getExamList" parameterType="ExamInfoVO" resultType="ExamInfoVO">
 		SELECT * FROM exam_info_vu
 		WHERE course_code = #{courseCode}
 		<if test="courseYear != 0 and courseYear != null">
@@ -20,11 +19,15 @@
 		<if test="courseSemester != 0 and courseSemester != null">
 			AND course_semester = #{courseSemester}
 		</if>
+		<if test="examCode != null and examCode != ''">
+			AND SUBSTR(exam_code, 1, 1) = #{examCode}
+		</if>
 	</select>
 	<resultMap id="courseExamMap" type="com.project.portal.exam.service.CourseExamVO">
 		<id column="exam_question_num" property="examQuestionNum"/>
 		<result column="exam_question_point" property="examQuestionPoint"/>
 		<result column="exam_code" property="examCode"/>
+		<result column="professor_id" property="professorId"/>
 		<result column="question_code" property="questionCode"/>
 		<collection property="examQuestion" ofType="QuestionVO">
 			<id column="question_code" property="questionCode"/>
@@ -38,6 +41,7 @@
 	</resultMap>
 	<select id="getCourseExam" resultMap="courseExamMap">
 		SELECT e.exam_question_num, 
+		e.exam_question_point,
 		e.exam_code,
 		q.question_code, 
 		q.question_content, 
@@ -110,4 +114,54 @@
 		DELETE FROM exam
 			WHERE exam_code = #{examCode}
 	</delete>
+	<insert id="insertQuestion">
+		INSERT INTO QUESTION 
+							(
+							question_code,
+							question_content,
+							question_answer
+							)
+							VALUES (
+							'q'||LPAD(TO_CHAR(seq_q.NEXTVAL), 9, '0'),
+							#{questionContent}, 
+							#{questionAnswer})
+		<selectKey keyProperty="questionCode" resultType="String" order="AFTER">
+			SELECT MAX(question_code)
+				FROM question
+		</selectKey>
+	</insert>
+	<insert id="insertQuestionOption">
+		INSERT INTO QUESTION_OPTION (
+																question_code,
+																question_option_num,
+																question_option_content
+																)
+																			
+																	VALUES (
+																				#{questionCode},
+																				#{questionOptionNum},
+																				#{questionOptionContent}
+																				)
+	</insert>
+	
+	<insert id="insertCourseExam">
+		MERGE INTO COURSE_EXAM c
+			USING dual
+				ON (c.exam_question_num = #{examQuestionNum})
+		WHEN NOT MATCHED THEN
+			INSERT (c.exam_question_num, 
+							c.exam_question_point, 
+							c.exam_code, 
+							c.question_code, 
+							c.exam_complete, 
+							c.professor_id)
+			VALUES (
+							'eq'||LPAD(TO_CHAR(seq_eq.NEXTVAL), 0, '8'),
+							#{examQuestionPoint},
+							#{examCode},
+							#{questionCode},
+							#{examComplete},
+							#{professorId}
+							)
+	</insert>
 </mapper>
