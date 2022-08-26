@@ -8,6 +8,7 @@ import com.project.portal.common.Criteria;
 
 @Mapper
 public interface MyCourseMapper {
+	
 	//학생 수강 조회
 	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo);
 	//교수 강의 목록 조회
@@ -28,5 +29,6 @@ public interface MyCourseMapper {
 	public List<MyCourseVO> studentStudyList(Criteria cri);
 
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
+	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);
 
 }

@@ -5,25 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>내 정보 조회/수정</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 #main {
-	display: block;
+	display: inline-block;
+}
+.card .faceImg {	
+ 	margin-right: 5%;
+ 	height : 100%
 }
 
-.buttonmod {
-	width: 80px;
-	/* float : right; */
-}
 
-.card .table2 {
-	width: 60%;
-	float:;
-}
 
-.card .faceImg {
-	width: 20%;
-	float: left;
-}
 </style>
 
 </head>
@@ -34,8 +27,9 @@
 				<h2>내 정보 조회/수정</h2>
 			</div>
 			<div class="card">
-				<p style="float: left;">개인 정보</p>
-				<button class="btn btn-primary buttonmod" id="mod">수정</button>
+				<h5 style="float: left;">개인 정보</h5>
+				<div class="row">
+				<div class="col-10">
 				<table class="table table2">
 					<tr>
 						<th>전공학과</th>
@@ -74,7 +68,7 @@
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td><input type="text" class="form-control"
+						<td colspan="3"><input type="text" onclick="kakaopost()" class="form-control"
 							name="studentAddrUpdate" id="studentAddrUpdate"
 							th:value="${studentInfoSelect.studentAddr}"></td>
 						<!-- <td th:text="${studentInfoSelect.studentAddr}"></td> -->
@@ -102,13 +96,24 @@
 							th:value="${studentInfoSelect.studentEmail}"></td>
 					</tr>
 				</table>
-				<table>
+				</div>
+				<div class="col-2">
+				<table class="faceImg">
+					<tr>
+						<td><img th:src="|/download/${studentInfoSelect.studentImg}|"
+							style="width: 100%"></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+				<!-- <table>
 					<tr>
 						<td><img th:src="|/download/${studentInfoSelect.studentImg}|"
 							class="faceImg"></td>
 					</tr>
-				</table>
-				<p>보호자 정보</p>
+				</table> -->
+				<hr>
+				<h5>보호자 정보</h5>
 				<table class="table">
 					<tr>
 						<th>보호자 성명</th>
@@ -124,7 +129,7 @@
 					</tr>
 					<tr>
 						<th>관계</th>
-						<td><select name="parentsRelUpdate" id="parentsRelUpdate"
+						<td><select class="form-select" name="parentsRelUpdate" id="parentsRelUpdate"
 							th:value="${studentInfoSelect.parentsRel}">
 								<option th:selected="${studentInfoSelect.parentsRel}=='P01'"
 									th:value="P01" th:text="부"></option>
@@ -138,6 +143,7 @@
 					<td th:if="${studentInfoSelect.parentsRel =='ETC'}">기타</td> -->
 					</tr>
 				</table>
+				<button class="btn btn-primary buttonmod" id="mod">수정</button>
 			</div>
 		</div>
 		<script th:inline="javascript">
@@ -192,6 +198,19 @@
 
 			/*]]>*/
 		</script>
+		<script>
+			function kakaopost() {
+			    new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+			        	document.querySelector("#studentPostalCodeUpdate").value = data.zonecode;
+			            document.querySelector("#studentAddrUpdate").value =  data.address;
+			            document.querySelector("#studentDaddrUpdate").focus();
+			        }
+			    }).open();
+			}
+</script>
 	</th:block>
 
 </body>

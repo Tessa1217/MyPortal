@@ -58,9 +58,21 @@
 	</select>
 	<select id="studentCreditSum"
 		resultType="com.project.portal.mycourse.service.MyCourseVO">
-		select sum(semester_credit2)
+		select trunc(sum(semester_credit2),0) AS "credit_sum",trunc(sum(credit_sum)/sum(semester_credit2),2) AS "grade_avg"
 		from s_g_vu
 		where student_id = 22000001
+	</select>
+	<select id="studentSortationCredit"
+		resultType="com.project.portal.mycourse.service.MyCourseVO">
+		select course_sortation, a.course_sortation_credit
+		from s_g_vu v
+		join (select  student_id, course_sortation, sum(sortation_credit_sum) AS "COURSE_SORTATION_CREDIT"
+		        from sort_course_sum_vu
+		        group by course_sortation, student_id) a
+		on v.student_id = a.student_id
+		where v.student_id = 22000001
+		group by course_sortation,course_sortation_credit
+		order by course_sortation desc
 	</select>
 
 

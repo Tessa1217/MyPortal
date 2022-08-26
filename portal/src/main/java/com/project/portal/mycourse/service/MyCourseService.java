@@ -2,6 +2,8 @@ package com.project.portal.mycourse.service;
 
 import java.util.List;
 
+import com.project.portal.common.Criteria;
+
 public interface MyCourseService {
 	//학생 수강 조회
 	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo);
@@ -19,5 +21,14 @@ public interface MyCourseService {
 	
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
+
+	public List<MyCourseVO> studentStudyList(Criteria cri);
+
+	public MyCourseVO studentCreditSum(MyCourseVO vo);
+
+	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);
+
+
+	
 
 }

@@ -43,15 +43,20 @@ public class MyCourseServiceImpl implements MyCourseService {
 		// TODO Auto-generated method stub
 		return mapper.getstuMyCourseWeekDetail(courseCode);
 	}
-
+	@Override
 	public List<MyCourseVO> studentStudyList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.studentStudyList(cri);
 	}
-
+	@Override
 	public MyCourseVO studentCreditSum(MyCourseVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.studentCreditSum(vo);
+	}
+	@Override
+	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.studentSortationCredit(vo);
 	}
 
 	@Override
@@ -65,6 +70,7 @@ public class MyCourseServiceImpl implements MyCourseService {
 		// TODO Auto-generated method stub
 		return mapper.getProfMyCoursePage(courseCode);
 	}
+
 
 
 

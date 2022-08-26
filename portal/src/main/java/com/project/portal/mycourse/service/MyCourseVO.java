@@ -31,4 +31,7 @@ public class MyCourseVO {
 	private double gradeAvg; // 학기 평균평점
 	private double semesterPercentage; // 학기 백분위
 	private int creditSum2; // 총 취득 학점
+	private String courseSortation; // 이수구분
+	private int courseSortationCredit; // 이수구분별 학점 총계
+	
 }

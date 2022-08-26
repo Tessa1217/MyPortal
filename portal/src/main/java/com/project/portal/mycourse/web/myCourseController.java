@@ -14,33 +14,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.mycourse.service.MyCourseMainVO;
+import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
-import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
 
 @Controller
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 
-	@Autowired
-	MyCourseServiceImpl service;
+	@Autowired MyCourseService service;
 
-	// 학생 학업 정보 조회(학생 학기별 성적 조회)
+	// 학생 학업 정보 조회
 
 	@RequestMapping("/student/studentStudyList")
 	public String StudentStudyInfoList(MyCourseVO vo, Model model, Criteria cri) {
-		model.addAttribute("studentStudyList", service.studentStudyList(cri));
+		model.addAttribute("studentStudyList", service.studentStudyList(cri)); // 학생 학기별 성적 리스트 조회
+		model.addAttribute("studentCreditSum", service.studentCreditSum(vo)); // 학생 전체 취득 학점 조회
+		model.addAttribute("studentSortationCredit", service.studentSortationCredit(vo)); // 이수구분 별 총 취득학점
 		return "student/info/grade";
 	}
 
-	// 학생 학업 정보 조회(학생 학기별 성적 조회)
-
-	@RequestMapping("/student/studentCreditSum")
-	public String StudentCreditSum(MyCourseVO vo, Model model) {
-		model.addAttribute("studentCreditSum", service.studentCreditSum(vo));
-		return "student/info/grade";
-	}
 
 	// 학생 수강 목록 조회
 

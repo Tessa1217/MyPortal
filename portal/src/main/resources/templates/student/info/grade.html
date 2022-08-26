@@ -18,13 +18,10 @@
 					<th>이수구분</th>
 					<th>총 취득 학점</th>
 				</tr>
-				<tr>
-					<td>전공</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>교양</td>
-					<td>0</td>
+				<tr th:each="list : ${studentSortationCredit}">
+					<td th:if="${list.courseSortation =='MAJOR'}">전공</td>
+					<td th:if="${list.courseSortation =='LIBERAL'}">교양</td>
+					<td th:text=${list.courseSortationCredit}></td>
 				</tr>
 			</table>
 			<div style="overflow:auto; width:100%; height:50%;">
@@ -50,8 +47,12 @@
 			</div>
 			<table class="table">
 				<tr>
-					<!-- <th th:text="${studentCreditSum.creditSum2}"></th> -->
-					<th>전체 평점 평균: </th>
+					<th>전체 취득 학점</th>
+					<th>전체 취득 학점</th>
+				</tr>
+				<tr>
+					<td th:text="${studentCreditSum.creditSum}"></td>
+					<td th:text="|${studentCreditSum.gradeAvg} / 4.50|" >
 				</tr>
 			</table>
 		
