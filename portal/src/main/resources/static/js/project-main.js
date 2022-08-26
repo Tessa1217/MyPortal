@@ -20,3 +20,10 @@ function prevPage(idx) {
 	$($(".questionContainer")[idx]).addClass("hidePage");
 	$($(".questionContainer")[idx - 1]).removeClass("hidePage");
 }
+
+function fireSwal(icon, text) {
+	return Swal.fire({
+		icon: icon,
+		text: text
+	})	
+}

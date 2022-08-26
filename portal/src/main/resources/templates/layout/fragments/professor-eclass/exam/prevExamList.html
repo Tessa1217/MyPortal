@@ -24,7 +24,7 @@
 					<td th:if="${#strings.startsWith(exam.examCode, 'F')}">기말고사</td>
 					<td><button
 							class="examShow btn btn-sm rounded-pill btn-primary"
-							type="button" th:onclick="getCourseExam()"
+							type="button"
 							th:data-examcode="${exam.examCode}">시험지 보기</button></td>
 				</tr>
 			</tbody>
@@ -32,18 +32,22 @@
 	</div>
 	
 	<div id="testQuestions" class="col-6">
+			<input id="allChk" type="hidden" value="0">
 			<div class="scroll">
 				<th:block th:each="ce : ${courseExam}">
 					<div class="card question"
 						th:data-examcode="${ce.examCode}">
-						<div>
-							<input class="form-check-input" type="checkbox">
+						<div th:classappend="${ce.examCode}" class="card-header">
+							<input class="form-check-input" type="checkbox">&nbsp;&nbsp;<span th:text="${ce.examQuestion.questionContent}"></span>
 						</div>
-						<div th:class="${ce.examCode}" class="card-header">
-							<p th:text="${ce.examQuestion.questionContent}"></p>
+						<div class="card-body">
 							<th:block th:each="option : ${ce.examQuestion.optionList}">
-								<p
-									th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></p>
+							<p>
+								<input 
+								type="radio" th:checked="${option.questionOptionNum == ce.examQuestion.questionAnswer}">
+								<span
+								th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
+								</p>
 							</th:block>
 						</div>
 					</div>
@@ -51,7 +55,9 @@
 			</div>
 			<div>
 				<button id="saveButton" type="button"
-					class="btn btn-primary">문제 담기</button>
+					class="btn btn-primary btn-outline">선택 문제 담기</button>
+				<button id="selectAllButton" type="button"
+					class="btn btn-secondary btn-outline">전체 선택</button>
 			</div>
 		</div>
 </body>

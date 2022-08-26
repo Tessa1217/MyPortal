@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="newQuestion" class="card question">
+		<div class="card-header">
+			<span th:text="${question.questionContent}"></span>
+		</div>
+		<div class="card-body">
+			<th:block th:each="option : ${question.optionList}">
+				<p>
+					<input type="radio"
+						th:checked="${option.questionOptionNum == question.questionAnswer}">
+					<span
+						th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
+				</p>
+			</th:block>
+		</div>
+		<div>
+			<button type="button" class="btn btn-sm btn-danger">삭제</button>
+			<button type="button" class="btn btn-sm btn-primary">변경</button>
+		</div>
+	</div>
+
+</body>
+</html>

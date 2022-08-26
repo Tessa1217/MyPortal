@@ -38,7 +38,6 @@
 							<td th:text="|${e.examTotalQuestion} 문항|"></td>
 							<td th:text="|${e.examTotalScore}점|"></td>
 							<td th:if="${e.examSubmit} == 'SUB'">
-							<!-- 수정 필요, location.href 안 먹음 -->
 							<button type="button" 
 							class="btn btn-primary rounded-pill"
 							th:onclick="|location.href='@{/professor/eclass/examCheck/{examCode}(examCode=${e.examCode})}'|">
