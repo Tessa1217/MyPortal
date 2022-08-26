@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.survey.service.SurveyMapper">
+
+	<select id="selectSurvey"
+		resultType="com.project.portal.survey.service.SurveyVO">
+		SELECT SURVEY_Q1,
+		       SURVEY_Q2,
+		       SURVEY_Q3,
+		       SURVEY_Q4,
+		       SURVEY_Q5,
+		       SURVEY_Q6,
+		       SURVEY_Q7,
+		       SURVEY_Q8,
+		       SURVEY_Q9,
+		       SURVEY_Q10
+		FROM SURVEY_QUESTION
+	</select>
+
+	<insert id="insertSurveyAnswer" parameterType="SurveyAnswerVO">
+		INSERT INTO
+		COURSE_RATING ( SURVEY_CODE,
+		                SURVEY_A1,
+		                SURVEY_A2,
+		                SURVEY_A3,
+		                SURVEY_A4,
+		                SURVEY_A5,
+		                SURVEY_A6,
+		                SURVEY_A7,
+		                SURVEY_A8,
+		                SURVEY_A9,
+		                SURVEY_A10,
+		                COURSE_CODE,
+		                STUDENT_ID
+		              )
+		VALUES (		
+						'S1',
+						#{surveyA1},
+						#{surveyA2},
+						#{surveyA3},
+						#{surveyA4},
+						#{surveyA5},
+						#{surveyA6},
+						#{surveyA7},
+						#{surveyA8},
+						#{surveyA9},
+						#{surveyA10},
+						#{courseCode},
+						#{studentId}
+				)
+	</insert>
+
+
+</mapper>
