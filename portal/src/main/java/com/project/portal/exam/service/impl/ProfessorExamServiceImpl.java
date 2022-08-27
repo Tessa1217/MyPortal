@@ -22,28 +22,23 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 	@Autowired ProfessorExamMapper mapper;
 	
 	@Override
-	public List<ExamVO> getExamInfoList(CourseVO vo) {
-		return mapper.getExamInfoList(vo);
+	public List<ExamVO> getExamList(CourseVO vo, ExamVO exam) {
+		return mapper.getExamList(vo, exam);
 	}
 	
 	@Override
-	public List<ExamInfoVO> getExamList(ExamInfoVO vo) {
-		return mapper.getExamList(vo);
+	public List<ExamInfoVO> getExamInfoList(ExamInfoVO vo) {
+		return mapper.getExamInfoList(vo);
 	}
 
 	@Override
-	public List<CourseExamVO> getCourseExam(ExamInfoVO vo) {
-		return mapper.getCourseExam(vo);
+	public List<CourseExamVO> getCourseExam(ExamInfoVO vo, List<CourseExamVO> list) {
+		return mapper.getCourseExam(vo, list);
 	}
 
 	@Override
 	public void insertExam(CourseVO course, ExamVO exam) {
 		mapper.insertExam(course, exam);	
-	}
-
-	@Override
-	public ExamVO getExam(ExamVO vo) {
-		return mapper.getExam(vo);
 	}
 
 	@Override
@@ -77,5 +72,12 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 		for (CourseExamVO vo : list) {
 			mapper.insertCourseExam(vo);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void finalExamSubmit(ExamInfoVO vo) {
+		mapper.updateExamStatus(vo);
+		mapper.updateCourseExamCompletion(vo);
 	}
 }

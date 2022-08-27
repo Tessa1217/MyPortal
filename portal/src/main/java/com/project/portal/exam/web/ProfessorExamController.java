@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.exam.service.CourseExamVO;
+import com.project.portal.exam.service.ExamFilterVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.QuestionVO;
+import com.project.portal.exam.service.SaveCourseExamVO;
 import com.project.portal.exam.service.impl.ProfessorExamServiceImpl;
 
 @Controller
@@ -54,7 +56,7 @@ public class ProfessorExamController {
 	
 	@RequestMapping("/professor/eclass/examList")
 	public String courseExamList(Model model) {
-		List<ExamVO> examList = examService.getExamInfoList((CourseVO) model.getAttribute("courseInfo"));
+		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), null);
 		model.addAttribute("examList", examList);
 		return "professor/eclass/exam/examList";
 	}
@@ -63,25 +65,25 @@ public class ProfessorExamController {
 	public String examInsert(@PathVariable String examCode, ExamVO exam, ExamInfoVO vo, Model model) {
 		// 기존 시험 정보
 		exam.setExamCode(examCode);
-		exam = examService.getExam(exam);
-		model.addAttribute("exam", exam);
+		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), exam);
+		model.addAttribute("examList", examList);
 		model.addAttribute("command", "2");
 		vo.setExamCode(examCode);
-		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo);
+		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo, null);
 		model.addAttribute("examQuestions", courseExamInfo);
 		return "professor/eclass/exam/examInsert";
 	}
 	
 	@PostMapping("/professor/eclass/prevExamList")
 	public String prevExamList(ExamInfoVO vo, Model model) {
-		List<ExamInfoVO> examList = examService.getExamList(vo);
+		List<ExamInfoVO> examList = examService.getExamInfoList(vo);
 		model.addAttribute("examList", examList);
 		return "layout/fragments/professor-eclass/exam/prevExamList :: #prevExamList";
 	}
 	
 	@PostMapping("/professor/eclass/getCourseExam")
-	public String getCourseExam(ExamInfoVO vo, Model model) {
-		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo);
+	public String getCourseExam(@RequestBody ExamFilterVO vo, Model model) {
+		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo.getExam(), vo.getFilterQuestions());
 		model.addAttribute("courseExam", courseExamInfo);
 		return "layout/fragments/professor-eclass/exam/prevExamList :: #testQuestions";
 	}
@@ -110,14 +112,24 @@ public class ProfessorExamController {
 	
 	@PostMapping("/professor/eclass/saveTest")
 	@ResponseBody
-	public String saveTestTemporary(@RequestBody List<CourseExamVO> list) {
-		examService.insertCourseExam(list);
-		return "success";
+	public String saveTestTemporary(@RequestBody SaveCourseExamVO vo) {
+		examService.insertCourseExam(vo.getCourseExamList());
+		if (vo.getCommand().equals("temp")) {
+			return "success";
+		}
+		if (vo.getCommand().equals("submit")) {
+			return "submitted";
+		}
+		return null;
 	}
 	
-	@PostMapping("/professor/eclass/generateTestPaper")
-	public String generateTestPaper(ExamInfoVO vo, ExamVO examVO, Model model) {
-		model.addAttribute("exam", examVO);
+	@RequestMapping("/professor/eclass/generateTestPaper/{examCode}")
+	public String generateTestPaper(@PathVariable String examCode, ExamInfoVO vo, ExamVO examVO, Model model) {
+		vo.setExamCode(examCode);
+		List<ExamInfoVO> examList = examService.getExamInfoList(vo);
+		model.addAttribute("examList", examList);
+		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo, null);
+		model.addAttribute("courseExamList", courseExamInfo);
 		return "professor/eclass/exam/examTestPaper";
 	}
 	
@@ -125,8 +137,8 @@ public class ProfessorExamController {
 	@PostMapping("/professor/eclass/examSubmit")
 	public String examInfoUpdate(ExamVO vo, Model model) {
 		examService.updateExam(vo);
-		vo = examService.getExam(vo);
-		model.addAttribute("exam", vo);
+		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), vo);
+		model.addAttribute("examList", examList);
 		return "/layout/fragments/professor-eclass/exam/updateForm :: #update-container";
 	}
 	
@@ -135,6 +147,13 @@ public class ProfessorExamController {
 	public String examInfoDelete(ExamVO vo, Model model) {
 		examService.deleteExam(vo);
 		return "success";
+	}
+	
+	@PostMapping("/professor/eclass/finalSubmit")
+	@ResponseBody
+	public String finalSubmit(ExamInfoVO vo) {
+		examService.finalExamSubmit(vo);
+		return "completed";
 	}
 
 	

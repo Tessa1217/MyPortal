@@ -5,9 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="newQuestion" class="card question">
-		<div class="card-header">
+	<div id="newQuestion" class="card examquestion">
+		<div class="card-header" th:id="${question.questionCode}">
 			<span th:text="${question.questionContent}"></span>
+			<input type="number">
 		</div>
 		<div class="card-body">
 			<th:block th:each="option : ${question.optionList}">

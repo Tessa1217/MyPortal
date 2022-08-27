@@ -3,14 +3,15 @@
 <mapper
 	namespace="com.project.portal.exam.service.ProfessorExamMapper">
 	
-	<select id="getExamInfoList" resultType="ExamVO">
+	<select id="getExamList" resultType="ExamVO">
 		SELECT * 
 			FROM exam
-			WHERE week_code IN (SELECT week_code
-													FROM course
-													WHERE course_code = #{courseCode})
+			WHERE course_code = #{course.courseCode}
+			<if test="exam != null and exam != ''">
+			AND exam_code = #{exam.examCode}
+			</if>
 	</select>
-	<select id="getExamList" parameterType="ExamInfoVO" resultType="ExamInfoVO">
+	<select id="getExamInfoList" parameterType="ExamInfoVO" resultType="ExamInfoVO">
 		SELECT * FROM exam_info_vu
 		WHERE course_code = #{courseCode}
 		<if test="courseYear != 0 and courseYear != null">
@@ -52,7 +53,13 @@
 		on e.question_code = q.question_code
 		JOIN question_option o
 		on q.question_code = o.question_code
-		WHERE e.exam_code = #{examCode}
+		WHERE e.exam_code = #{exam.examCode}
+		<if test="filters != null">
+			<foreach collection="filters" item="item">
+			AND q.question_code != #{item.questionCode}
+			</foreach>
+		</if>
+		ORDER BY e.exam_question_num, o.question_option_num
 	</select>
 	
 	<insert id="insertExam">
@@ -147,7 +154,12 @@
 	<insert id="insertCourseExam">
 		MERGE INTO COURSE_EXAM c
 			USING dual
-				ON (c.exam_question_num = #{examQuestionNum})
+				ON (c.exam_question_num = #{examQuestionNum}
+						AND c.question_code = #{questionCode} 
+						AND c.exam_code = #{examCode})
+		WHEN MATCHED THEN
+			UPDATE SET c.exam_question_point = #{examQuestionPoint}
+			WHERE c.exam_question_num = #{examQuestionNum}
 		WHEN NOT MATCHED THEN
 			INSERT (c.exam_question_num, 
 							c.exam_question_point, 
@@ -156,7 +168,7 @@
 							c.exam_complete, 
 							c.professor_id)
 			VALUES (
-							'eq'||LPAD(TO_CHAR(seq_eq.NEXTVAL), 0, '8'),
+							'eq'||LPAD(TO_CHAR(seq_eq.NEXTVAL), 8, '0'),
 							#{examQuestionPoint},
 							#{examCode},
 							#{questionCode},
@@ -164,4 +176,14 @@
 							#{professorId}
 							)
 	</insert>
+	<update id="updateExamStatus">
+		UPDATE exam
+			SET exam_submit = 'SUB'
+			WHERE exam_code = #{examCode}	
+	</update>
+	<update id="updateCourseExamCompletion">
+		UPDATE course_exam
+			SET exam_complete = '1'
+			WHERE exam_code = #{examCode}
+	</update>
 </mapper>

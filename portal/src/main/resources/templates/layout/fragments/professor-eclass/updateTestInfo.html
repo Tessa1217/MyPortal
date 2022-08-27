@@ -106,7 +106,6 @@
 
 			function updateExam() {
 				$(document).on("click", "#updateBtn", function() {
-					console.log("update");
 					$.ajax({
 						method : 'POST',
 						url : `/professor/eclass/examSubmit`,
@@ -114,10 +113,13 @@
 					}) 
 						.done(function(fragment) {
 							$(".inputBox").replaceWith(fragment);
-							Swal.fire({
-								icon : 'success',
-								text : '변경이 완료되었습니다.'
-							})
+							fireSwal('success', '변경이 완료되었습니다.')
+								.then(function(result) {
+									console.log(result);
+									if (result.isConfirmed) {
+										location.reload();
+									}
+								})
 						})
 				})
 			}

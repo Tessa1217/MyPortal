@@ -40,23 +40,25 @@
 						</div>
 					</th:block>
 					<th:block th:if="${command} == 2">
-						<div class="card paging">
-							<th:block
-								th:replace="/layout/fragments/professor-eclass/updateTestInfo :: testInfoFragment">
-							</th:block>
-						</div>
-						<div class="card paging offPage">
-							<div class="row">
+						<th:block th:each="exam : ${examList}">
+							<div class="card paging">
 								<th:block
-									th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
+									th:replace="/layout/fragments/professor-eclass/updateTestInfo :: testInfoFragment">
 								</th:block>
 							</div>
-						</div>
-						<div class="card paging offPage">
-							<th:block
-								th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
-							</th:block>
-						</div>
+							<div class="card paging offPage">
+								<div class="row">
+									<th:block
+										th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
+									</th:block>
+								</div>
+							</div>
+							<div class="card paging offPage">
+								<th:block
+									th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
+								</th:block>
+							</div>
+						</th:block>
 					</th:block>
 				</div>
 			</div>
@@ -97,7 +99,7 @@
 			
 			// 시험 정보 저장
 			function saveExamInfo() {
-				$(".saveBtn").click(function() {
+				$(document).on("click", ".saveBtn", function() {
 					$.ajax({
 						type : 'POST',
 						url : 'examInsert',

@@ -86,14 +86,16 @@
 			// 이전 시험지 보기 
 			function getCourseExam() {
 				$(document).on("click", ".examShow", function(e) {
-					console.log($(e.target).data("examcode"));
-					console.log($(e.target));
+					let questionList = getQuestions();
+					let exam = {
+							examCode : $(e.target).data("examcode")
+					}
+					let data = {exam : exam, filterQuestions : questionList};
 					$.ajax({
 						method : 'POST',
 						url : `/professor/eclass/getCourseExam`,
-						data : {
-							examCode : $(e.target).data("examcode")
-						}
+						contentType : 'application/json',
+						data : JSON.stringify(data)
 					}).done(function(fragment) {
 						$("#testQuestions").replaceWith(fragment);
 					})

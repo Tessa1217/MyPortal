@@ -37,7 +37,8 @@
 				<th:block th:each="ce : ${courseExam}">
 					<div class="card question"
 						th:data-examcode="${ce.examCode}">
-						<div th:classappend="${ce.examCode}" class="card-header">
+						<div class="card-header"
+						th:id="${ce.questionCode}">
 							<input class="form-check-input" type="checkbox">&nbsp;&nbsp;<span th:text="${ce.examQuestion.questionContent}"></span>
 						</div>
 						<div class="card-body">

@@ -10,7 +10,7 @@
 		<div align="right">
 			<button type="button" id="tempBtn"
 				class="btn btn-primary btn-md">임시저장</button>
-			<button type="button" th:onclick="insertTestPaper"
+			<button type="button" id="submitBtn"
 				class="btn btn-primary btn-md">시험지 생성하기</button>
 		</div>
 		<div id="testPaperGenerated" class="card">
@@ -28,7 +28,7 @@
 							<div class="col-md-6 col-12">
 								<div class="card questionBox">
 									<th:block th:if="${examQuestions}">
-									<div class="card question" th:if="${#lists.size(examQuestions) > i}"
+									<div class="card examquestion" th:if="${#lists.size(examQuestions) > i}"
 									th:id="${examQuestions[i].examQuestionNum}">
 										<div class="card-header" th:id="${examQuestions[i].questionCode}">
 											<span th:text="${examQuestions[i].examQuestion.questionContent}"></span>
@@ -45,7 +45,8 @@
 									</div>
 									<button th:if="${#lists.size(examQuestions) <= i}"
 										class="card-body btn btn-outline-primary addQuestionBtn"
-										type="button" onclick="addQuestions()">+</button>
+										th:id="${i}"
+										type="button">+</button>
 									</th:block>
 								</div>
 							</div>
@@ -72,13 +73,15 @@
 		<div id="template" style="display: none;">
 			<div id="newQuestion" class="card">
 				<div class="card-header">
-					<input type="text" name="questionContent">
+				<textarea class="form-control"
+				rows="3"
+				placeholder="문제를 입력하세요"></textarea>
 				</div>
 				<div class="card-body">
 					<th:block th:each="idx : ${#numbers.sequence(1, 4)}">
-					<label>
+					<label style="display:block;" class="col-form-label form-check-label">
 							<input type="radio" name="answer">
-							<input type="text" name="questionOptionContent">
+							<input type="text" class="form-control" name="questionOptionContent">
 					</label>
 					</th:block>
 				</div>
@@ -100,6 +103,7 @@
 			movePage();
 			checkAll();
 			createQuestion();
+			submitTest();
 		})
 		
 		// 전체 문제 선택
@@ -108,7 +112,6 @@
 				if ($("#allChk").val() == '0') {
 					$(".question .card-header input").prop('checked', true);
 					$("#allChk").val('1');
-					console.log($("#allChk").val());
 				} else if ($("#allChk").val() == '1') {
 					$(".question .card-header input").prop('checked', false);
 					$("#allChk").val('0');
@@ -128,6 +131,8 @@
 				}
 				// 내부의 문제 추가 버튼 삭제 후 내용 입력
 				$(savedQuestions).each((idx, val) => {
+						$(savedQuestions[idx]).removeClass("question").addClass("examquestion")
+						.children(".card-header").append("<input type=number>");
 						$(emptyBox).eq(idx).parent()
 						.empty().append($(savedQuestions[idx]));
 				})
@@ -138,16 +143,19 @@
 		// 문제 직접 입력하기
 		function addQuestions() {
 			$(document).on("click", ".addQuestionBtn", function(e) {
-				$(this).parent().empty().append($("#template").children().clone());
+				let id = $(this).attr("id");
+				$(this).parent().empty().append($("#template").children().clone())
+				.attr("id", id);
 			})
 		}
 		
 		// 입력 문제 생성
 		function createQuestion() {
 			$(document).on("click", ".createQuestionBtn", function(e) {
+				let id = $(this).parent().parent().parent().attr("id");
 				let div = $(this).parent().siblings();
 				let question = {
-						questionContent : $($(div[0]).children("input")).val()
+						questionContent : $($(div[0]).children("textarea")).val().trim()
 				}
 				let optionList = [];
 				$(div[1]).children("label").each((idx, val) => {
@@ -161,7 +169,6 @@
 					optionList.push(option);
 				})
 				question.optionList = optionList;
-				console.log(question);
 
 				$.ajax({
 					method : 'POST',
@@ -170,22 +177,25 @@
 					data : JSON.stringify(question)
 				})
 					.done(function(fragment) {
-						$("#newQuestion").replaceWith(fragment);
+						console.log(fragment);
+						console.log($(".questionBox"[id]));
+						$($(".questionBox")[id]).html(fragment);
 					})
 			})
 		}
 		
 		// 시험 문제 추출
 		function getQuestions() {
-			let questions = $(".question");
+			let questions = $(".examquestion");
 			let courseExamList = [];
 			$(questions).each((idx, val) => {
 				let courseExam = {};
-				let header = $(val).children(".card-header").children();
-				courseExam.examQuestionPoint = $(header[1]).val();
+				let header = $(val).children(".card-header");
+				let qinfo = $(header).children();
+				courseExam.examQuestionPoint = $(header).children("span").next().val();
 				courseExam.examCode = $("input[name=examCode]").val();
 				courseExam.examQuestionNum = $(val).attr("id");
-				courseExam.questionCode = $(val).children(".card-header").attr("id");
+				courseExam.questionCode = $(header).attr("id");
 				courseExam.examComplete = '0';
 				// 교수 아이디 나중에 세션 값으로 넣어야 함
 				courseExam.professorId = 220001;
@@ -197,25 +207,102 @@
 		// 시험지 임시저장 
 		function tempInsert() {
 			$(document).on("click", "#tempBtn", function() {
+				let courseExamList = [];
 				courseExamList = getQuestions();
-				console.log(courseExamList);
-				$.ajax({
-					method : 'POST',
-					url : `/professor/eclass/saveTest`,
-					contentType : 'application/json',
-					data : JSON.stringify(courseExamList)
-				})
-					.then(function(result) {
-						if (result == 'success') {
-							fireSwal('success', '임시 저장이 완료되었습니다.')
-								.then(function(result) {
-									if (result.isConfirmed) {
-										location.href=`/professor/eclass/examList`;
-									}
-								});
+				let command = 'temp';
+				save(command, courseExamList);
+			})
+		}
+		
+		// 임시 저장 서버 요청
+		function save(command, courseExamList) {
+			let data = {
+					courseExamList : courseExamList,
+					command : command
+			}
+			$.ajax({
+				method : 'POST',
+				url : `/professor/eclass/saveTest`,
+				contentType : 'application/json',
+				data : JSON.stringify(data)
+			})
+				.then(function(result) {
+				if (result == 'success') {
+					fireSwal('success', '임시 저장이 완료되었습니다.')
+						.then(function(result) {
+							if (result.isConfirmed) {
+								location.href=`/professor/eclass/examList`;
+							}
+						})
+				} else if (result == 'submitted') {
+					fireSwal('success', '시험지 생성이 완료되었습니다.')
+						.then(function(result) {
+						if (result.isConfirmed) {
+							location.href=`/professor/eclass/generateTestPaper/` + $("input[name=examCode]").val();
 						}
 					})
+				} 
 			})
+		}
+		
+		function submitTest() {
+			$(document).on("click", "#submitBtn", function() {
+				// 문항 수 확인
+				let courseExamList = [];
+				courseExamList = getQuestions();
+				let msg1 = countCheck(courseExamList);
+				let msg2 = pointCheck(courseExamList);
+				let msg3 = pointSumCheck(courseExamList);
+				if (!msg1 && !msg2 && !msg3) {
+					let command = 'submit';
+					save(command, courseExamList);
+				} else {
+					(msg1) ? fireSwal(msg1.icon, msg1.text) : '';
+					(msg2) ? fireSwal(msg2.icon, msg2.text) : '';
+					(msg3) ? fireSwal(msg3.icon, msg3.text) : '';
+				}
+			})
+		}
+		// 문항수 확인
+		function countCheck(courseExamList) {
+			let totalQuestion = $("input[name=examTotalQuestion]").val();
+			if (courseExamList.length != totalQuestion) {
+				let msg = {
+						icon : 'warning',
+						text : '시험 문제 수가 부족합니다.'
+				}
+				return msg;
+			}
+			return null;
+		}
+		// 문제 배점 유무
+		function pointCheck(courseExamList) {
+			const noPoint = (element) => element.examQuestionPoint == 0 || element.examQuestionPoint == '';
+			let noPointIdx = courseExamList.findIndex(noPoint);
+			if (noPointIdx > -1) {
+				let msg = {
+						icon : 'warning',
+						text : '각 문제의 배점이 다 채워지지 않았습니다.'
+				}
+				return msg;
+			}
+			return null;
+		}
+		// 문제 배점 합 
+		function pointSumCheck(courseExamList) {
+			let pointChk = courseExamList.reduce(function(accum, curr) {
+				return accum + parseInt(curr.examQuestionPoint);
+			}, 0);
+			if (pointChk != $("input[name=examTotalScore]").val()) {
+				let msg = {
+						icon : 'warning',
+				}
+				pointChk > $("input[name=examTotalScore]").val() ? 
+						msg.text = '문제 배점의 합이 총점보다 큽니다.' : 
+							msg.text = '문제 배점의 합이 총점보다 작습니다.';
+				return msg;
+			}
+			return null;
 		}
 	</script>
 	</th:block>

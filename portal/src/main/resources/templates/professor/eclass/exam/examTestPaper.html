@@ -1,127 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/professor_layout}">
+	layout:decorate="~{layout/professor-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<th:block layout:fragment="professorContent">
+	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
-			<div class="container">
-				<h1>시험 문제</h1>
+			<input type="hidden" name="examCode" th:value="${courseExamList[0].examCode}">
+			<div class="page-title">
+				<h2>시험지 확인하기</h2>
+				<div class="right">
+				<button type="button" id="testSubmitBtn" class="btn btn-primary btn-md">
+					시험 제출하기
+				</button>
+				<button type="button" id="updateTestBtn" class="btn btn-danger btn-md">
+					시험 수정하기
+				</button>
+				<button type="button" id="cancelBtn" class="btn btn-secondary btn-md">
+					나가기
+				</button>
 			</div>
-			<div class="container">
-				<div class="row justify-content-center">
-					<th:block
-						th:each="num : ${#numbers.sequence(1, exam.examTotalQuestion)}">
-						<div class="col-12 col-md-6">
-							<div th:id="${num}" class="card" style="height: 200px;">
-								<button type="button" class="addBtn btn btn-outline-primary"
-									data-toggle="modal" data-target="#addQuestionModal"
-									style="height: 200px;">
-									<svg class="svg-inline--fa fa-plus fa-w-14 fa-fw select-all"
-										aria-hidden="true" focusable="false" data-prefix="fas"
-										data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 448 512" data-fa-i2svg="">
-										<path fill="currentColor"
-											d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z">
-							</path></svg>
-								</button>
-							</div>
-						</div>
-						<div th:if="${num}%2==0" class="w-100"></div>
-					</th:block>
-				</div>
 			</div>
-			<div id="qFormat" style="visibility: hidden;">
-				<p></p>
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
-			<div class="modal fade" id="addQuestionModal" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">문제를 입력해주세요.</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form>
-								<div class="form-group">
-									<input id="whichModal" hidden=""> <label
-										for="questionContent">Question:</label><input type="text"
-										id="questionContent">
-								</div>
-								<th:block th:each="num : ${#numbers.sequence(1, 4)}">
-									<div class="form-group">
-										<label th:for="|option${num}|">[[${num}]]</label> <input
-											type="text" th:id="|option${num}|"> <input
-											type="radio" th:id="${num}" name="answer">
+			<div class="card">
+				<div class="mainContainer">
+					<div class="row">
+						<div
+							th:each="i : ${#numbers.sequence(0, (#lists.size(courseExamList)/5) - 1)}"
+							th:id="|testPage-${i}|" class="questionContainer hidePage">
+							<th:block
+								th:each="idx : ${#numbers.sequence(0 + i * 5, 4 + i * 5)}">
+								<div th:with="r = ${courseExamList[idx]}"
+									th:data-q-num="${r.examQuestionNum}" class="exam card">
+									<p class="card-header"
+										th:text="|${idx + 1}. ${r.examQuestion.questionContent}
+								(${r.examQuestionPoint}점)|"></p>
+									<div class="testContainer card-body">
+										<th:block th:each="option : ${r.examQuestion.optionList}">
+											<div>
+												<input type="radio" th:name="${r.examQuestionNum}"
+													th:checked="${option.questionOptionNum == r.examQuestion.questionAnswer}"
+													th:text="| ${option.questionOptionContent}|" />
+											</div>
+										</th:block>
 									</div>
+								</div>
+							</th:block>
+							<div class="pageBtnContainer btnContainer">
+								<th:block th:if="${i} != 0">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage"
+										class="prevBtn btn btn-primary btn-lg">
+										<i class="fa-solid fa-angle-left"></i>
+									</button>
 								</th:block>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-							<button id="submitModal" type="button" class="btn btn-primary">Submit</button>
+								<th:block th:if="${i != (#lists.size(courseExamList)/5 - 1)}">
+									<button type="button" th:data-idx="${i}" th:onclick="movePage"
+										class="nextBtn btn btn-primary btn-lg">
+										<i class="fa-solid fa-angle-right"></i>
+									</button>
+								</th:block>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<script th:inline="javascript">
-		$(function() {
-			addQuestion();
-			modalOff();
-			makeQuestion();
-		});
-		
-		// 문제 생성용 모달창 오픈
-		function addQuestion() {
-			$(".row").on("click", "button", (e) => {
-				let modalLocation = $(e.target).parent().attr('id');
-				$('#addQuestionModal').modal('show');
-				$("#whichModal").val(modalLocation);
+			$(function() {
+				$("#testPage-0").removeClass("hidePage");
+				movePage();
+				finalSubmit();
+				modifyTest();
+				goBack();
 			})
-		}
-		
-		// 모달창 끄기 버튼
-		function modalOff() {
-			$("#closeModal").on("click", function() {
-				$('#addQuestionModal').modal('hide');
-			})
-		}
-		
-		// 문제 생성하여 빈 div에 값넣고 클론하여 해당 위치의 카드로 옮기기 
-		function makeQuestion() {
-			$("#submitModal").on("click", function() {
-				let q = $("#qFormat").children();
-				let li = $(q[1]).children();
-				$(q[0]).text($("#questionContent").val());
-				$(li[0]).text($("#option1").val());
-				$(li[1]).text($("#option2").val());
-				$(li[2]).text($("#option3").val())
-				$(li[3]).text($("#option4").val())			
-				$('#' + $("#whichModal").val()).empty().append($("#qFormat").clone().css('visibility', 'visible'));
-				document.querySelectorAll("#addQuestionModal input").forEach(val => {
-					val.value = '';
-				});
-				$("#closeModal").trigger("click");
-			})
-		}
+			
+			function finalSubmit() {
+				$("#testSubmitBtn").click(function() {
+					$.ajax({
+						method : 'POST',
+						url : `/professor/eclass/finalSubmit`,
+						data : {examCode : $("input[name=examCode]").val()}
+					})
+						.then(function(result) {
+							if (result == 'completed') {
+								fireSwal('success', '시험 제출이 완료되었습니다.')
+								.then(function(result) {
+									if (result.isConfirmed) {}
+									$("#cancelBtn").trigger("click");
+								})
+							}
+						})
+				})
+			}
+			
+			function modifyTest() {
+				$("#updateTestBtn").click(function() {
+					fireSwal('info', '변경 페이지로 이동합니다.')
+					.then(function(result) {
+						if (result.isConfirmed) {
+							location.href=`/professor/eclass/examInsert/` + $("input[name=examCode]").val();
+						}
+					})
+				})
+			}
+			
+		 function goBack() {
+			 $("#cancelBtn").click(function() {
+				 location.href=`/professor/eclass/examList`;
+			 })
+		 }
 		</script>
 	</th:block>
 </body>

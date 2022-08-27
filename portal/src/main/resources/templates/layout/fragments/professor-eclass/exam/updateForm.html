@@ -6,74 +6,74 @@
 </head>
 <body>
 	<div id="update-container" class="row inputBox">
-						<div class="col-md-4">
-							<label>시험 종류</label>
-						</div>
-						<div class="col-md-8 form-group">
-						<input type="hidden" name="examCode" th:value="${exam.examCode}">
-							<select class="form-select" disabled>
-								<option value="">시험 종류를 선택해주세요.</option>
-								<option
-									th:selected="${#strings.substring(exam.examCode, 0, 1) == 'M'}"
-									value="M">중간</option>
-								<option
-									th:selected="${#strings.substring(exam.examCode, 0, 1) == 'F'}"
-									value="F">기말</option>
-							</select>
-						</div>
-						<div class="col-md-4">
-							<label>시험 주차</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<select class="form-select" name="weekCode"
-								th:value="${exam.weekCode}">
-								<option value="">주차를 선택해주세요.</option>
-								<th:block th:each="week : ${courseInfo.weekPlans}">
-									<option th:selected="${week.weekCode == exam.weekCode}"
-										th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
-										th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
-										th:value="${week.weekCode}">[[${week.weekNum}]]주차</option>
-								</th:block>
-							</select>
-						</div>
-						<div class="col-md-4">
-							<label>시험 시작일</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="date" name="examStartDate"
-								required
-								th:value="${#dates.format(exam.examStartDate, 'yyyy-MM-dd')}">
-						</div>
-						<div class="col-md-4">
-							<label>시험 마감일</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="date" name="examEndDate"
-								required
-								th:value="${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}">
-						</div>
-						<div class="col-md-4">
-							<label>시험 응시 시간</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="number" name="examDuration"
-								required th:value="${exam.examDuration/60}">
-						</div>
-						<div class="col-md-4">
-							<label>시험 총 문항수</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="number"
-								name="examTotalQuestion" required
-								th:value="${exam.examTotalQuestion}">
-						</div>
-						<div class="col-md-4">
-							<label>시험 총 배점</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="number" name="examTotalScore"
-								required th:value="${exam.examTotalScore}">
-						</div>
-					</div>
+		<th:block th:each="exam : ${examList}">
+			<div class="col-md-4">
+				<label>시험 종류</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input type="hidden" name="examCode" th:value="${exam.examCode}">
+				<select class="form-select" disabled>
+					<option value="">시험 종류를 선택해주세요.</option>
+					<option
+						th:selected="${#strings.substring(exam.examCode, 0, 1) == 'M'}"
+						value="M">중간</option>
+					<option
+						th:selected="${#strings.substring(exam.examCode, 0, 1) == 'F'}"
+						value="F">기말</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<label>시험 주차</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<select class="form-select" name="weekCode"
+					th:value="${exam.weekCode}">
+					<option value="">주차를 선택해주세요.</option>
+					<th:block th:each="week : ${courseInfo.weekPlans}">
+						<option th:selected="${week.weekCode == exam.weekCode}"
+							th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
+							th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
+							th:value="${week.weekCode}">[[${week.weekNum}]]주차</option>
+					</th:block>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<label>시험 시작일</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input class="form-control" type="date" name="examStartDate"
+					required
+					th:value="${#dates.format(exam.examStartDate, 'yyyy-MM-dd')}">
+			</div>
+			<div class="col-md-4">
+				<label>시험 마감일</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input class="form-control" type="date" name="examEndDate" required
+					th:value="${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}">
+			</div>
+			<div class="col-md-4">
+				<label>시험 응시 시간</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input class="form-control" type="number" name="examDuration"
+					required th:value="${exam.examDuration/60}">
+			</div>
+			<div class="col-md-4">
+				<label>시험 총 문항수</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input class="form-control" type="number" name="examTotalQuestion"
+					required th:value="${exam.examTotalQuestion}">
+			</div>
+			<div class="col-md-4">
+				<label>시험 총 배점</label>
+			</div>
+			<div class="col-md-8 form-group">
+				<input class="form-control" type="number" name="examTotalScore"
+					required th:value="${exam.examTotalScore}">
+			</div>
+		</th:block>
+	</div>
 </body>
 </html>

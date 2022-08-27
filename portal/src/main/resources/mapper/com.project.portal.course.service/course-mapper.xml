@@ -29,4 +29,5 @@
 		order by course_year desc, course_semester desc
 	</select>
 	
+	
 </mapper>
