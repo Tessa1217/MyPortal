@@ -2,10 +2,12 @@ package com.project.portal.course.service;
 
 import java.util.List;
 
+import com.project.portal.common.Criteria;
+
 import lombok.Data;
 
 @Data
-public class CourseVO {
+public class CourseVO extends Criteria{
 	
 	private String courseCode;
 	private int courseYear;	// 강의 연도

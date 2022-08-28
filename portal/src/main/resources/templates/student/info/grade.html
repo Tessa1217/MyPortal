@@ -40,7 +40,8 @@
 					<td th:text=${list.semesterCredit1}>
 					<td th:text=${list.semesterCredit2}>
 					<td th:text=${list.gradeAvg}>
-					<td th:text=${list.semesterPercentage}>
+					<td th:if="${list.gradeAvg} == '4.5'">100.00</td>
+					<td th:if="${list.gradeAvg} < '4.5'" th:text=${list.semesterPercentage}></td> 
 				
 				</tr>
 			</table>
