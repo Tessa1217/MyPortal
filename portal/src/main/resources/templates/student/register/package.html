@@ -69,7 +69,7 @@
 			<br>
 			<hr>
 			<h4>수강꾸러미 LIST</h4>
-			<div class="overflow-auto" style="max-height: 400px;">
+			<div class="overflow-auto" style="max-height: 300px;">
 				<table class="table table-bordered table-hover" id="ListTable">
 					<thead>
 						<tr>
@@ -98,16 +98,43 @@
 			<br>
 			<div>
 				<h6>
-					수강꾸러미 신청가능 학점: <span th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span>
+					수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span>
 				</h6>
 				<h6>교양신청 가능학점: 5</h6>
 			</div>
 		</div>
 		<script th:inline="javascript">
+
+			function getTotalSum(){
+				let iCount = 0;
+
+				Array.from(pBody.children).forEach(function(item) {
+						console.log(item.children[3].textContent);
+						iCount += parseInt(item.children[3].textContent);
+				});
+				return iCount;
+			}
+
+			function setTotalData() {
+				const iCount = getTotalSum();
+				document.getElementById("total").innerHTML = (20 - iCount);
+			}
+
 			$(function(){
 				$(".buttonInsert").on("click", coursePackageInsert)
 				function coursePackageInsert(){
-				let code = $(this).data("code")
+					let code = $(this).data("code");
+					let bCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
+					if(bCheck){
+						return alert('이미 담겨있는 강의입니다.');
+					}
+
+					let iCurrentTotal = getTotalSum();
+					const iSelectNum = parseInt($(this)[0].parentElement.parentElement.children[3].textContent);
+					if( (iCurrentTotal + iSelectNum) > 20 ){
+						return alert("최대 학점을 초과할수없습니다.");
+					}
+				
 					$.ajax({
 						url:"/student/coursePackageInsert",
 						method:"post",
@@ -124,8 +151,11 @@
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
 								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">삭제</button></td>
-								</tr>`
-						$("#pBody").append(content)	
+								</tr>`;
+								
+							$("#pBody").append(content);
+							
+							setTotalData();
 						}
 					});
 				}
@@ -145,11 +175,15 @@
 							},
 							dataType:"json",
 							success:function(item){
-									tr.remove()	
+									tr.remove();
+
+									setTotalData();
 							}
 						});
 				}
 			})
+			
+			
 			
 		</script>
 	</th:block>

@@ -95,7 +95,7 @@
 				<h4>수강꾸러미 내역 / 수강신청 LIST</h4>
 				 <form name="frm">
 				<input type="text" placeholder="과목 코드">
-				<button type="button" class="btn rounded-pill btn-primary btnInsert">신청</button>
+				<button id="regBtn" type="button" class="btn rounded-pill btn-primary btnInsert" disabled>신청</button>
 					<input type="text" size="18" name="output" placeholder="자동신청 방지코드">
 					<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)" class="btn rounded-pill btn-primary">
 					<input type="text" size="18" name="che"><input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary">
@@ -202,10 +202,16 @@
 			 	document.frm.output.value = generatepass(enterlength)
 			 }
 			 function check() {
-			 	if (temp == document.frm.che.value) {
-			 		alert('신청 성공');
-			 	} else {
-			 		alert('다시입력해주세요');
+				debugger;
+			 	if (!document.frm.che.value) {
+				return alert('자동방지코드를 입력하세');
+			 	} else if(temp == document.frm.che.value) {
+					const oRegBtn = document.getElementById("regBtn");
+					oRegBtn.disabled = false;
+					
+				return alert('신청 성공');
+				}else {
+			 	return alert('다시입력해주세요');
 			 	}
 			 }
 
