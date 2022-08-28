@@ -66,4 +66,10 @@
 									)					
 	</insert>
 	
+	<delete id="deleteStudyNotice" parameterType="StudyNoticeVO">
+	   DELETE
+	   FROM course_notice
+	   WHERE course_notice_no = #{courseNoticeNo}
+	</delete>
+	
 </mapper>

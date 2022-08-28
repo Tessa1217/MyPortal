@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.portal.studynotice.service.StudyNoticeService;
 import com.project.portal.studynotice.service.StudyNoticeVO;
@@ -87,7 +88,15 @@ public class StudyNoticeController {
 		service.insertStudyNotice(vo);
 		
 		
-		return "redirect:/professor/eclass/notice/eclassnotice";
+		return "redirect:/professor/eclass/eclassnotice";
+	}
+	
+	//교수 공지사항 삭제 처리
+	@PostMapping("/professor/eclass/eclassnoticedelete")
+	public String deleteStudyNotice(StudyNoticeVO vo) {
+		service.deleteStudyNotice(vo);
+		
+		return "redirect:/professor/eclass/eclassnotice";
 	}
 	
 }

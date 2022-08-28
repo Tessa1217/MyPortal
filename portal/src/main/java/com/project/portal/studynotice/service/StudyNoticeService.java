@@ -19,7 +19,9 @@ public interface StudyNoticeService {
 	// 교수 공지사항 등록페이지
 	public StudyNoticeVO insertStudyNoticePage(StudyNoticeVO vo);
 	// 교수 공지사항 등록
-	public StudyNoticeVO insertStudyNotice(StudyNoticeVO vo);
+	public void insertStudyNotice(StudyNoticeVO vo);
+	// 교수 공지사항 삭제
+	public void deleteStudyNotice(StudyNoticeVO vo);
 
 	
 	

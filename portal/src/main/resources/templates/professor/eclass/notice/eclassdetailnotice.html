@@ -17,7 +17,7 @@
 			<td>제목</td>
 			<td th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></td>
 			<td>글번호</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
+			<td id="courseNoticeNo" th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
 		</tr>
 		
 		<tr>
@@ -34,17 +34,30 @@
 		
 		<tr>
 			<td>내용</td>
-			<td colspan="3" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></td>
+			<td colspan="3" id="content" th:html="${selectProDetailStudyNotice.courseNoticeContent}"></td>
 		</tr>
 		</tbody>
 	</table>
 	
 	<button type="button" class="btn btn-primary" id="AllList">목록</button>
+	<button type="button" class="btn btn-primary" id="Delete">삭제</button>
 </div>
 
 	<script th:inline="javascript">
+		// 목록 버튼 처리
 		$('#AllList').click(function() {
-			location.href ="/student/eclass/eclassnotice"
+			location.href ="/professor/eclass/eclassnotice"
+		})
+		
+		// 삭제 버튼 처리
+		$('#Delete').click(function() {
+			var courseNoticeNo = $('#courseNoticeNo').text();
+			console.log(courseNoticeNo)
+			$.ajax({
+				type : 'POST',
+				url : '/professor/eclass/eclassnoticedelete',
+				data : {courseNoticeNo : courseNoticeNo}
+			}) 
 		})
 	
 	</script>

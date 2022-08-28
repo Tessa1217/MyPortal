@@ -66,15 +66,21 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	}
 
 	@Override
-	public StudyNoticeVO insertStudyNotice(StudyNoticeVO vo) {
+	public void insertStudyNotice(StudyNoticeVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.insertStudyNotice(vo);
+		mapper.insertStudyNotice(vo);
 	}
 
 	@Override
 	public StudyNoticeVO insertStudyNoticePage(StudyNoticeVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.insertStudyNoticePage(vo);
+	}
+
+	@Override
+	public void deleteStudyNotice(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.deleteStudyNotice(vo);
 	}
 
 
