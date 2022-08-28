@@ -52,12 +52,12 @@
 														data-code="SUB" id="submitYes">제출</td>
 													<td th:if="${tempcourse.submitYes == 'UNSUB'}"
 														data-code="SUB" id="submitYes">미제출</td>
-													<td th:if="${tempcourse.backReason == 'A00'}"
-														data-back="A01" id="backReason">승인</td>
-													<td th:if="${tempcourse.backReason == 'A01'}"
-														data-back="A01" id="backReason">심사대기</td>
-													<td th:if="${tempcourse.backReason == null}"
-														data-back="A01" id="backReason">비승인</td>
+													<td th:if="${tempcourse.okayYes == 'A00'}"
+														data-back="A01" id="okayYes">승인</td>
+													<td th:if="${tempcourse.okayYes == 'A01'}"
+														data-back="A01" id="okayYes">심사대기</td>
+													<td th:if="${tempcourse.okayYes == null}"
+														data-back="A01" id="okayYes">비승인</td>
 													<td><button name="button1"
 															class="btn btn-danger moddd"
 															th:data-course="${tempcourse.courseCode}">제출하기</button></td>
@@ -196,7 +196,7 @@
 										<div class="col-sm-12" align="right">
 
 											<button type="button" class="btn btn-primary" id="mod">수정하기</button>
-											<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
+											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -213,7 +213,7 @@
 					<div class="row">
 						<div class="card paging">
 							<div class="card-body">
-
+								<form th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
 								<h2>주차별 강의</h2>
 								<!-- <table class="table">
 									<thead>
@@ -237,32 +237,28 @@
 											<tr>
 												<th>주차</th>
 												<th>내용</th>
-												
 											</tr>
 										</thead>
 										
 										 <tbody id="tbody">
-											
-											<!-- <th:block th:each="num : ${#numbers.sequence(1,15)}"> -->
-												
-												<tr th:each="items:${tempcourseweek}" >
-												<!-- <td th:text="${num}"></td> -->
-												<td th:text="${items.weekNum}" id="weekNum"></td>
-												
+										 		
+												 <tr th:each="items:${tempcourseweek}" >
+												<td th:text="${items.weekNum}"  th:value="${items.weekNum}"></td>
 												<td>
-												<input name="weekContent" class="col-sm-8" th:value="${items.weekContent}" id="weekContent">
+												<input th:name="|weekContent${items.weekNum}|" class="col-sm-8" th:value="${items.weekContent}">
 												</td>
+												
 											</tr>
 											
 											
 										</tbody>
 								</table>
 								<div class="col-sm-12" align="right">
-									<button type="button" class="btn btn-primary" id="modd" >수정하기</button>
-									<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
+									<button type="submit" class="btn btn-primary">수정하기</button>
+									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
-
+							</form>
 							</div>
 						</div>
 					</div>
@@ -356,6 +352,7 @@
 							alert('수정되었습니다')
 							location.reload();
 						}
+						
 					});
 				}
 				
@@ -363,7 +360,7 @@
 			
 			//주차별 강의 수정
 			
-		 	 $(function() {
+		 	/*  $(function() {
 				$("#modd").on("click", confirmModal)
 
 				function confirmModal() {
@@ -390,14 +387,14 @@
 						}
 					});
 				}  
-			});  
+			});   */
 			
 			//상세 조회 페이지에서 제출하기 기능
 			
 			 $(".moddd").on("click", function () {
 				if (window.confirm("정말로 제출하시겠습니까?")) {
 					let submitYes = $(this).closest("tr").find("#submitYes").data("code")
-					let backReason = $(this).closest("tr").find("#backReason").data("back")
+					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 					let courseCode = $(this).data("course")
 					$.ajax({
 						url : `/professor/getTemp/submitTemp`,
@@ -406,7 +403,7 @@
 						data : { 
 							
 						"submitYes" : 	submitYes,
-						"backReason" :	backReason,
+						"okayYes" :	okayYes,
 						"courseCode" :	 courseCode					
 						},
 						dataType : "json",

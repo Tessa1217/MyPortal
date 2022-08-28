@@ -12,13 +12,15 @@
 
 .scroll {
 	overflow: scroll;
-	height: 600px;
+	height: 600xp;
 }
 
 .card {
-	padding: 3%;
+	
+	padding: 0%;
 	
 }
+
 
 </style>
 </head>
@@ -154,8 +156,8 @@
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-danger">등록</button>
-											<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
+											<button type="submit" class="btn btn-danger" onclick="history.go(1)">등록</button>
+											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 										
@@ -201,7 +203,7 @@
 								</div> 
 								<div class="col-sm-12" align="right">
 									<button type="submit" class="btn btn-danger">등록</button>
-									<button type="button" onclick="window.history.back()" class="btn btn-info">뒤로가기</button>
+									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
 							</form>

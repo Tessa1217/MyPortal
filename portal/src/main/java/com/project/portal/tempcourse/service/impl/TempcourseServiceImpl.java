@@ -116,7 +116,7 @@ public class TempcourseServiceImpl implements TempcourseService{
 	@Override
 	public int submitTemp(TempcourseVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.submitTemp(vo);
+		 return mapper.submitTemp(vo);
 	}
 
 
