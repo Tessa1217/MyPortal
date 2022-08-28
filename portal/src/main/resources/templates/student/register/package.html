@@ -12,6 +12,8 @@
 		<div id="main">
 			<h2>수강 꾸러미 신청</h2>
 			<hr>
+			<div class="card">
+				<div class="card-body">
 			<h4>개설강좌 LIST</h4>
 			<br>
 			<form name="frmchoice">
@@ -39,7 +41,7 @@
 			</form>
 			<br>
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover" id="ListTable">
+				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -66,11 +68,14 @@
 					</tbody>
 				</table>
 			</div>
+			</div>
+		</div>
 			<br>
-			<hr>
+			<div class="card">
+				<div class="card-body">
 			<h4>수강꾸러미 LIST</h4>
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover" id="ListTable">
+				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -94,41 +99,40 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			<br>
-			<div>
+			</div>	
 				<h6>
-					수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span>
+					수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span>
 				</h6>
 				<h6>교양신청 가능학점: 5</h6>
-			</div>
+		</div>
+	</div>
 		</div>
 		<script th:inline="javascript">
 
-			function getTotalSum(){
-				let iCount = 0;
+			function creditTotalSum(){
+				let creditCount = 0;
 
 				Array.from(pBody.children).forEach(function(item) {
-						iCount += parseInt(item.children[3].textContent);
+						creditCount += parseInt(item.children[3].textContent);
 				});
-				return iCount;
+				return creditCount;
 			}
 
 			function setTotalData() {
-				const iCount = getTotalSum();
-				document.getElementById("total").innerHTML = (20 - iCount);
+				const creditCount = creditTotalSum();
+				document.getElementById("total").innerHTML = (20 - creditCount);
 			}
 
-			function getLibClassTotal() {
-				let iCount = 0;
+			function lSortationCheck() {
+				let creditCount = 0;
 
 				Array.from(pBody.children).forEach(function(item) {
 						if( (item.children[1].textContent).startsWith('L') ){
-							iCount += parseInt(item.children[3].textContent);
+							creditCount += parseInt(item.children[3].textContent);
 						}
 				});
 
-				return iCount;
+				return creditCount;
 
 			}
 
@@ -137,23 +141,23 @@
 				function coursePackageInsert(){
 					let code = $(this).data("code");
 	
-					let bCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
-					if(bCheck){
+					let courseCodeCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
+					if(courseCodeCheck){
 						return alert('이미 담겨있는 강의입니다.');
 					}
 
-					let iCurrentTotal = getTotalSum();
+					let allCourseCredit = creditTotalSum();
 					const oSelectDom = $(this)[0].parentElement.parentElement;
 					const iSelectNum = parseInt(oSelectDom.children[3].textContent);
-					if( (iCurrentTotal + iSelectNum) > 20 ){
+					if( (allCourseCredit + iSelectNum) > 20 ){
 						return alert("최대 학점을 초과할수없습니다.");
 					}
 
 					if((oSelectDom.children[1].textContent).startsWith("L")) {
-						let iLibClassTotal = getLibClassTotal();
+						let lSortationTotal = lSortationCheck();
 
-						if( (iLibClassTotal + parseInt(oSelectDom.children[3].textContent)) > 5 ){
-							return alert("5점을 초과할 수 없습니다.");
+						if( (lSortationTotal + parseInt(oSelectDom.children[3].textContent)) > 5 ){
+							return alert("교양학점은 5점을 초과할 수 없습니다.");
 						}
 					}
 				

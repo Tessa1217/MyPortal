@@ -131,7 +131,7 @@
 			<br>
 			<div>
 				<h4 style="display: inline;">신청과목 LIST</h4>
-				<h6 style="display: inline;" >신청가능 학점:<span th:text="!${coursePackagePoint}?0:20-${coursePackagePoint.packageCredit}"></span></h6>
+				<h6 style="display: inline;" >신청가능 학점:<span th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span></h6>
 				<h6 style="display: inline;">전공학점:</h6>
 				<h6 style="display: inline;">교양학점:</h6>
 				<table class="table table-bordered">
