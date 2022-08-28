@@ -19,4 +19,11 @@
 		on p.depart_code = d.depart_code
 		order by professor_id asc
 	</select>
+	
+	<update id="professorInfoUpdate" parameterType="com.project.portal.professor.service.ProfessorVO" >
+		update professor
+		set professor_phone = #{professorPhone}, professor_email = #{professorEmail}, professor_addr = #{professorAddr},
+			professor_daddr = #{professorDaddr}, professor_postal_code = #{professorPostalCode}
+		where professor_id = 220001
+	</update>
 </mapper>

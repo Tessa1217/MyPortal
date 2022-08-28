@@ -9,4 +9,6 @@ public interface ProfessorService {
 	public ProfessorVO professorInfo(ProfessorVO vo);
 
 	public List<ProfessorVO> professorList(Criteria cri);
+
+	public ProfessorVO professorInfoUpdate(ProfessorVO vo);
 }

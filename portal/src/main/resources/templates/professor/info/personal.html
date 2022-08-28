@@ -24,60 +24,114 @@
 				<table class="table">
 					<tr>
 						<th>담당학과</th>
-						<td th:text="${professorInfo.departName}"></td>
+						<td colspan="3" th:text="${professorInfo.departName}"></td>
 					</tr>
 					<tr>
 						<th>이름</th>
-						<td th:text="${professorInfo.professorName}"></td>
+						<td colspan="3" th:text="${professorInfo.professorName}"></td>
 					</tr>
 					<tr>
 						<th>생년월일</th>
-						<td
+						<td colspan="3"
 							th:text="${#dates.format(professorInfo.professorBirth, 'yyyy-MM-dd')}"></td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td><input type="text" class="form-control"
+						<td colspan="3"><input type="text" class="form-control phoneNumber"
 							name="professorPhoneUpdate" id="professorPhoneUpdate"
 							th:value="${professorInfo.professorPhone}"></td>
 						<!-- <td th:text="${professorInfo.professorPhone}"></td> -->
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td><input type="text" class="form-control"
+						<td colspan="3"><input type="text" class="form-control"
 							name="professorEmailUpdate" id="professorEmailUpdate"
 							th:value="${professorInfo.professorEmail}"></td>
 						<!-- <td th:text="${professorInfo.professorEmail}"></td> -->
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td><input type="text" class="form-control"
-							name="professorAddrUpdate" id="professorAddrUpdate"
+						<td colspan="3"><input type="text" onclick="kakaopost()"
+							class="form-control" name="professorAddrUpdate"
+							id="professorAddrUpdate"
 							th:value="${professorInfo.professorAddr}"></td>
+					</tr>
+					<tr>
+						<th>상세주소</th>
 						<td><input type="text" class="form-control"
 							name="professorDaddrUpdate" id="professorDaddrUpdate"
 							th:value="${professorInfo.professorDaddr}"></td>
 						<!-- <td th:text="${professorInfo.professorAddr}"></td> -->
+						<th>우편번호</th>
+						<td><input type="text" class="form-control"
+							name="professorPostalCodeUpdate" id="professorPostalCodeUpdate"
+							th:value="${professorInfo.professorPostalCode}"></td>
 					</tr>
 				</table>
 				<button class="btn btn-primary buttonmod" id="mod">수정</button>
 			</div>
 		</div>
 
-		<script th:inline="javascript">
-	$(function() {
-	    new daum.Postcode({
-	    	document.getElementById("professorAddrUpdate").addEventListener("click", function(){ //주소입력칸을 클릭하면
+		<script>
+		$(function() {
+			$("#mod").on("click", confirmModal)
+
+			function confirmModal() {
+				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+					studentInfoUpdate();
+				}
+			}
+			function studentInfoUpdate() {
+				$.ajax({
+					url : "/professor/professorInfoUpdate",
+					method : "post",
+					dataType : "json",
+					data : {
+						"professorPhone" : $("#professorPhoneUpdate").val(),
+						"professorEmail" : $("#professorEmailUpdate").val(),
+						"professorAddr" : $("#professorAddrUpdate").val(),
+						"professorDaddr" : $("#professorDaddrUpdate").val(),
+						"professorPostalCode" : $("#professorPostalCodeUpdate").val(),
+					},
+					dataType : "json",
+					success : function(result) {
+						
+					}
+				});
+			}
+			$(document)
+					.on(
+							"keyup",
+							".phoneNumber",
+							function() {
+								$(this)
+										.val(
+												$(this)
+														.val()
+														.replace(/[^0-9]/g,
+																"")
+														.replace(
+																/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
+																"$1-$2-$3")
+														.replace("--", "-"));
+							});
+
+		});
+	
+		function kakaopost() {
+		    new daum.Postcode({
+		    	/* document.getElementById("professorAddrUpdate").addEventListener("click", function(){ //주소입력칸을 클릭하면 */
+		        oncomplete: function(data) {
+		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+		            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+		         	//선택시 입력값 세팅
+		        	document.querySelector("#professorPostalCodeUpdate").value = data.zonecode;
+		            document.querySelector("#professorAddrUpdate").value =  data.address;
+		            document.querySelector("#professorDaddrUpdate").focus();
+	            }
+		    }).open();
 	    }
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-	            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-	         function(data) { //선택시 입력값 세팅
-                document.getElementById("professorAddrUpdate").value = data.address; // 주소 넣기
-                document.querySelector("input[name=professorDaddrUpdate]").focus(); //상세입력 포커싱
-            }
-	    }).open();
-	    });
+	   
 	</script>
 	</th:block>
 </body>

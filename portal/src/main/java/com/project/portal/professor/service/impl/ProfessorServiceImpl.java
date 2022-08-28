@@ -26,4 +26,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 		// TODO Auto-generated method stub
 		return mapper.professorList(cri);
 	}
+
+	@Override
+	public ProfessorVO professorInfoUpdate(ProfessorVO vo) {
+		// TODO Auto-generated method stub
+		mapper.professorInfoUpdate(vo);
+		return mapper.professorInfo(vo);
+	}
 }

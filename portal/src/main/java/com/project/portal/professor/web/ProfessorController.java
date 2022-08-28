@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorService;
@@ -32,6 +33,13 @@ public class ProfessorController {
 	public String Professor(ProfessorVO vo, Model model) {
 		model.addAttribute("professorInfo", service.professorInfo(vo));
 		return "professor/info/personal";
+	}
+	
+	//교수 정보 수정
+	@RequestMapping("/professor/professorInfoUpdate")
+	@ResponseBody
+	public ProfessorVO professorInfoUpdate(ProfessorVO vo, Model model) {
+		return service.professorInfoUpdate(vo);
 	}
 	
 }
