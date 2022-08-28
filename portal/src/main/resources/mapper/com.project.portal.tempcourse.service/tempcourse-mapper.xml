@@ -8,6 +8,7 @@
 			 ${cri.type} = ${cri.keyword}
 		</if>
 		</where>
+		order by course_code desc
 </sql>
 	<select id="getInfo" resultType="ProfessorVO">
 		select depart_code, professor_id
@@ -21,7 +22,7 @@
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
 
 		select *
-		from temp_course
+		from temp_course 
 		 <!-- where course_code =#{courseCode} -->
 		
 		<include refid="criteria"></include>
@@ -30,7 +31,7 @@
 	</select>
 
 	<select id="tempcourseweekList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
-		select * from temp_course_weekly
+		select * from temp_course_weekly 
 	</select>
 
 	<select id="tempcourseListCount" resultType="int">
@@ -54,7 +55,7 @@
 	
 	<select id="getTempweek" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
 		
-		select week_num, week_content, course_code from temp_course_weekly where course_code = #{courseCode}
+		select week_code, week_num, week_content, course_code from temp_course_weekly where course_code = #{courseCode}
 		order by week_num asc
 	
 	</select>
@@ -162,17 +163,28 @@
 	</update>
 	
 	<update id="updateweekTemp" parameterType="com.project.portal.tempcourse.service.TempcourseweekVO">
-		 update  temp_course_weekly
-			set	week_content = #{weekContent}
-			where course_code = #{courseCode}
+		 
+		<!--  merge into temp_course_weekly
+		 using dual
+		 on (week_code = #{weekCode})
+		 when matched then update set week_content = #{weekContent} where course_code = #{courseCode}
+		 when not matched then insert (
+		week_content
+		) values ( 
+		#{weekContent}
+		) -->
 			
+		update temp_course_weekly
+		set week_content = #{weekContent}
+		where week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') and course_code = #{courseCode}
+		 
 	
 	</update>
 	
 	 <update id="submitTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
 	
 		update temp_course
-		set submit_yes = #{submitYes}, back_reason = #{backReason}
+		set submit_yes = #{submitYes}, okay_yes = #{okayYes}
 		where course_code = #{courseCode}
 	</update> 
 </mapper>

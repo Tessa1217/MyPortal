@@ -57,9 +57,9 @@
 							</td>
 							<td th:if="${item.submitYes == 'SUB'}" data-code="SUB" id="submitYes">제출</td>
 							<td th:if="${item.submitYes == 'UNSUB'}" data-code="SUB" id="submitYes">미제출</td>
-							<td th:if="${item.backReason == 'A00'}" data-back="A01" id="backReason">승인</td>
-							<td th:if="${item.backReason == 'A01'}" data-back="A01" id="backReason">심사대기</td>
-							<td th:if="${item.backReason == null}" data-back="A01" id="backReason">비승인</td>
+							<td th:if="${item.okayYes == 'A00'}" data-back="A01" id="okayYes">승인</td>
+							<td th:if="${item.okayYes == 'A01'}" data-back="A01" id="okayYes">심사대기</td>
+							<td th:if="${item.okayYes == null}" data-back="A01" id="okayYes"></td>
 							<td>
 							<a th:href="|/professor/getTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
 							</td>
@@ -104,7 +104,7 @@
 		$(".moddd").on("click", function () {
 			if (window.confirm("정말로 제출하시겠습니까?")) {
 				let submitYes = $(this).closest("tr").find("#submitYes").data("code")
-				let backReason = $(this).closest("tr").find("#backReason").data("back")
+				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 				let courseCode = $(this).data("course")
 				$.ajax({
 					url : `/professor/tempcourseList/submitTemp`,
@@ -113,7 +113,7 @@
 					data : { 
 						
 					"submitYes" : 	submitYes,
-					"backReason" :	backReason,
+					"okayYes" :	okayYes,
 					"courseCode" :	 courseCode					
 					},
 					dataType : "json",
