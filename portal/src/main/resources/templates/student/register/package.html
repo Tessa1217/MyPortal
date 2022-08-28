@@ -109,7 +109,6 @@
 				let iCount = 0;
 
 				Array.from(pBody.children).forEach(function(item) {
-						console.log(item.children[3].textContent);
 						iCount += parseInt(item.children[3].textContent);
 				});
 				return iCount;
@@ -120,19 +119,42 @@
 				document.getElementById("total").innerHTML = (20 - iCount);
 			}
 
+			function getLibClassTotal() {
+				let iCount = 0;
+
+				Array.from(pBody.children).forEach(function(item) {
+						if( (item.children[1].textContent).startsWith('L') ){
+							iCount += parseInt(item.children[3].textContent);
+						}
+				});
+
+				return iCount;
+
+			}
+
 			$(function(){
 				$(".buttonInsert").on("click", coursePackageInsert)
 				function coursePackageInsert(){
 					let code = $(this).data("code");
+	
 					let bCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
 					if(bCheck){
 						return alert('이미 담겨있는 강의입니다.');
 					}
 
 					let iCurrentTotal = getTotalSum();
-					const iSelectNum = parseInt($(this)[0].parentElement.parentElement.children[3].textContent);
+					const oSelectDom = $(this)[0].parentElement.parentElement;
+					const iSelectNum = parseInt(oSelectDom.children[3].textContent);
 					if( (iCurrentTotal + iSelectNum) > 20 ){
 						return alert("최대 학점을 초과할수없습니다.");
+					}
+
+					if((oSelectDom.children[1].textContent).startsWith("L")) {
+						let iLibClassTotal = getLibClassTotal();
+
+						if( (iLibClassTotal + parseInt(oSelectDom.children[3].textContent)) > 5 ){
+							return alert("5점을 초과할 수 없습니다.");
+						}
 					}
 				
 					$.ajax({
