@@ -3,6 +3,8 @@ package com.project.portal.mycourse.service;
 import java.util.List;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.exam.service.ExamInfoVO;
+import com.project.portal.exam.service.ExamScoreVO;
 
 public interface MyCourseService {
 	//학생 수강 조회
@@ -30,7 +32,8 @@ public interface MyCourseService {
 
 	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo);
 
-
+	// 수강생 리스트 조회
+	List<ExamScoreVO> getStudentList(ExamInfoVO vo);
 	
 
 }

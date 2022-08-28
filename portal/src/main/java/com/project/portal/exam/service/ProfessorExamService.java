@@ -15,5 +15,5 @@ public interface ProfessorExamService {
 	List<ExamScoreVO> getExamScore(CourseVO vo);
 	void createQuestion(QuestionVO vo);
 	void insertCourseExam(List<CourseExamVO> list);
-	void finalExamSubmit(ExamInfoVO vo);
+	void finalExamSubmit(ExamInfoVO vo, List<ExamScoreVO> studentList);
 }

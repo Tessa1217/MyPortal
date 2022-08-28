@@ -42,7 +42,7 @@
 									th:data-exam-code="${exam.studentExam.examCode}"
 									th:onclick="viewExamResult()">시험 결과 보기</button></td>
 								</th:block>
-								<th:block th:if="${exam.examTake == 'UNSUB'}">
+								<th:block th:if="${exam.examTake} == 'UNSUB' and ${exam.studentExam.examStartDate} lt ${#dates.createNow()}">
 									<td th:if="${exam.examScore == 0}">미응시</td>
 									<td th:unless="${exam.examScore == 0}" th:text="${exam.examScore}"></td>
 									<td><button type="button" th:data-exam-code="${exam.studentExam.examCode}"
@@ -50,6 +50,10 @@
 								th:onclick="takeExam()">
 								응시하기</button></td>
 								</th:block>		
+								<th:block th:if="${exam.studentExam.examStartDate} ge ${#dates.createNow()}">
+									<td>-</td>
+									<td><button class="btn rounded-pill btn-secondary disabled">오픈 전</button></td>
+								</th:block>
 							</tr>
 						</tbody>
 					</table>

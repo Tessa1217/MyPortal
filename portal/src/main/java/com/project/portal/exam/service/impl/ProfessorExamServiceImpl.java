@@ -76,8 +76,11 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 
 	@Override
 	@Transactional
-	public void finalExamSubmit(ExamInfoVO vo) {
+	public void finalExamSubmit(ExamInfoVO vo, List<ExamScoreVO> studentList) {
 		mapper.updateExamStatus(vo);
 		mapper.updateCourseExamCompletion(vo);
+		for (ExamScoreVO student : studentList) {
+			mapper.insertExamScore(student);
+		}
 	}
 }

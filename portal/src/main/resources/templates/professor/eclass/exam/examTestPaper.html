@@ -10,6 +10,7 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 			<input type="hidden" name="examCode" th:value="${courseExamList[0].examCode}">
+			<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
 			<div class="page-title">
 				<h2>시험지 확인하기</h2>
 				<div class="right">
@@ -81,7 +82,8 @@
 					$.ajax({
 						method : 'POST',
 						url : `/professor/eclass/finalSubmit`,
-						data : {examCode : $("input[name=examCode]").val()}
+						data : {examCode : $("input[name=examCode]").val(), 
+										courseCode : $("input[name=courseCode]").val()}
 					})
 						.then(function(result) {
 							if (result == 'completed') {

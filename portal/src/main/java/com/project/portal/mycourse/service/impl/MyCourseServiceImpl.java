@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.exam.service.ExamInfoVO;
+import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.mycourse.service.MyCourseMainVO;
 import com.project.portal.mycourse.service.MyCourseMapper;
 import com.project.portal.mycourse.service.MyCourseService;
@@ -74,6 +76,11 @@ public class MyCourseServiceImpl implements MyCourseService {
 	public MyCourseMainVO getProfMyCoursePage(String courseCode) {
 		// TODO Auto-generated method stub
 		return mapper.getProfMyCoursePage(courseCode);
+	}
+
+	@Override
+	public List<ExamScoreVO> getStudentList(ExamInfoVO vo) {
+		return mapper.getStudentList(vo);
 	}
 
 	

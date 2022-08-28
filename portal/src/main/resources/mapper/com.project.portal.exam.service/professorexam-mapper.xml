@@ -186,4 +186,17 @@
 			SET exam_complete = '1'
 			WHERE exam_code = #{examCode}
 	</update>
+	<insert id="insertExamScore">
+		INSERT INTO exam_score
+					(
+					student_id, 
+					exam_code, 
+					exam_take
+					)
+					VALUES (
+									#{studentId},
+									#{examCode},
+									'UNSUB'
+									)
+	</insert>
 </mapper>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -9,12 +9,112 @@
 
 <body>
 
-<th:block layout:fragment="studentEclassContent">
-<div id="main">
-<h2>메인페이지</h2>
-
-</div>
-</th:block>
+	<th:block layout:fragment="studentEclassContent">
+		<div id="main">
+			<div class="page-heading">
+				<h2>강의 이름</h2>
+			</div>
+			<div class="page-content"></div>
+			<div class="row">
+				<div class="col-12 col-lg-9">
+					<div class="row">
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card"
+								th:onclick="|location.href='@{/student/eclass/lectureList}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon red">
+												<i class="fa-solid fa-video"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">주별 강의</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon purple">
+												<i class="fa-solid fa-square-pen"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">강의 과제</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card"
+								th:onclick="|location.href='@{/student/eclass/examList}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon blue">
+												<i class="fa-solid fa-list-check"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">강의 시험</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon green">
+												<i class="fa-solid fa-bars-progress"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">학습진척도</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5>이번 주 투두리스트</h5>
+						</div>
+						<div class="card-body"></div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="card">
+						<div class="card-body py-4 px-3">
+							<div class="d-flex align-items-center">
+								<div class="avatar avatar-xl">
+									<img src="assets/images/faces/1.jpg" alt="Face 1">
+								</div>
+								<div class="ms-3 name">
+									<h5 class="font-bold">John Duck</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5>공지사항</h5>
+						</div>
+						<div class="card-body"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
 
 </body>
 </html>

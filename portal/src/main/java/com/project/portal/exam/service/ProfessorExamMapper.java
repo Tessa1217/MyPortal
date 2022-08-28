@@ -34,4 +34,6 @@ public interface ProfessorExamMapper {
 	// 시험지 최종 등록 시 최종 등록 상태로 변경 
 	void updateExamStatus(ExamInfoVO vo);
 	void updateCourseExamCompletion(ExamInfoVO vo);
+	// 시험지 등록 시 수강생 별로 시험에 관한 정보 등록
+	void insertExamScore(ExamScoreVO vo);
 }

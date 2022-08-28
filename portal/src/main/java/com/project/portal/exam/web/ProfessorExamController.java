@@ -23,16 +23,22 @@ import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamFilterVO;
 import com.project.portal.exam.service.ExamInfoVO;
+import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.exam.service.QuestionVO;
 import com.project.portal.exam.service.SaveCourseExamVO;
 import com.project.portal.exam.service.impl.ProfessorExamServiceImpl;
+import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
 
 @Controller
 public class ProfessorExamController {
 	
-	@Autowired CourseServiceImpl courseService;
-	@Autowired ProfessorExamServiceImpl examService;
+	@Autowired 
+	CourseServiceImpl courseService;
+	@Autowired 
+	MyCourseServiceImpl mycourseService;
+	@Autowired 
+	ProfessorExamServiceImpl examService;
 	
 	@ModelAttribute("courseInfo")
 	public CourseVO course(HttpSession session) {
@@ -129,6 +135,7 @@ public class ProfessorExamController {
 		List<ExamInfoVO> examList = examService.getExamInfoList(vo);
 		model.addAttribute("examList", examList);
 		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo, null);
+		System.out.println(courseExamInfo);
 		model.addAttribute("courseExamList", courseExamInfo);
 		return "professor/eclass/exam/examTestPaper";
 	}
@@ -151,10 +158,15 @@ public class ProfessorExamController {
 	
 	@PostMapping("/professor/eclass/finalSubmit")
 	@ResponseBody
-	public String finalSubmit(ExamInfoVO vo) {
-		examService.finalExamSubmit(vo);
+	public String finalSubmit(ExamInfoVO vo, Model model) {
+		System.out.println(vo);
+		List<ExamScoreVO> studentList = mycourseService.getStudentList(vo);
+		for (int i = 0; i < studentList.size(); i++) {
+			studentList.get(i).setExamCode(vo.getExamCode());
+		}
+		System.out.println(studentList);
+		examService.finalExamSubmit(vo, studentList);
 		return "completed";
 	}
 
-	
 }

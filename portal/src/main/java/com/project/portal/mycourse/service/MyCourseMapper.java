@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.exam.service.ExamInfoVO;
+import com.project.portal.exam.service.ExamScoreVO;
 
 @Mapper
 public interface MyCourseMapper {
@@ -31,5 +33,8 @@ public interface MyCourseMapper {
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
 	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);
 	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo);
+	
+	// 수강생 목록 조회하기
+	List<ExamScoreVO> getStudentList(ExamInfoVO vo);
 
 }
