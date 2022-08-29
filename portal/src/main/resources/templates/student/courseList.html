@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/student_layout}">
-	
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -11,35 +11,40 @@
 <body>
 	<!-- student.layout body에 들어갈 이름명시 script부분도 여기 안에서 있어야함.  -->
 	<th:block layout:fragment="studentContent">
-	<div id="main">
-	<h3>나의 수강과목</h3>
-	<hr>
-	
-	<!-- 수강중인 강의 리스트가 없는 경우 -->
-	<div th:if="${mycourseList.isEmpty()}">
-		<h3>수강중인 강의가 없습니다.</h3>
-	</div>
-	
-	<!-- 수강중인 강의 리스트가 있는 경우 -->
-	<div th:unless="${mycourseList.isEmpty()}">
-		<div th:each="mycourse : ${mycourseList}">
-	  <div class="col-6">
-          <div class="card" th:onclick="|location.href='@{/student/eclass/{courseCode}(courseCode=${mycourse.courseCode})}'|">
-            <div class="card-body">
-              <h5 class="card-title">강의명 : </h5>
-              <p th:text="${mycourse.courseName}"></p>
-              <h5 class="card-title">교수명 : </h5>
-              <p th:text="${mycourse.professorName}"></p>
-            </div>
-          </div>
-        </div>
-        </div>
-	</div>
-	</div>
-	
-	<script th:inline="javascript">
+		<div id="main">
+			<h3>나의 수강과목</h3>
+			<hr>
 
-	</script>
+			<!-- 수강중인 강의 리스트가 없는 경우 -->
+			<div th:if="${mycourseList.isEmpty()}">
+				<div class="card">
+					<h3>수강중인 강의가 없습니다.</h3>
+				</div>
+			</div>
+
+			<!-- 수강중인 강의 리스트가 있는 경우 -->
+			<div th:unless="${mycourseList.isEmpty()}">
+				<div class="grid-container">
+					<div th:each="mycourse, idx : ${mycourseList}">
+						<div class="grid-item">
+							<div class="card"
+								th:onclick="|location.href='@{/student/eclass/{courseCode}(courseCode=${mycourse.courseCode})}'|">
+								<div class="card-body">
+									<h5 class="card-title">강의명 :</h5>
+									<p th:text="${mycourse.courseName}"></p>
+									<h5 class="card-title">교수명 :</h5>
+									<p th:text="${mycourse.professorName}"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+			
+		</script>
 
 	</th:block>
 </body>

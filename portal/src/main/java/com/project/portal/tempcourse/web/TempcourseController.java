@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.portal.common.CodeVO;
 import com.project.portal.common.Criteria;
+import com.project.portal.common.service.CodeVO;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
@@ -41,11 +41,7 @@ public class TempcourseController {
 //		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //		System.out.println(tempcourseweekList);
 		List<CodeVO> list = new ArrayList<CodeVO>();
-		list.add(new CodeVO("L01","교양필수"));
-		list.add(new CodeVO("L02","교양"));
-		list.add(new CodeVO("M01","전공필수"));
-		list.add(new CodeVO("M02","전공"));
-		
+	
 		model.addAttribute("Sortation", list);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));

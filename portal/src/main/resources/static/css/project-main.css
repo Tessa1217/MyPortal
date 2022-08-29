@@ -14,42 +14,41 @@
 }
 
 .bold {
-		font-weight: bold;
-		font-size: large;
+	font-weight: bold;
+	font-size: large;
 }
 
 .omrCard {
 	padding: 3%;
 }
-	
+
 .btnContainer {
 	text-align: center;
 	margin: 2%;
 }
-
 
 .lecture-card {
 	border: 1px solid #eee;
 	border-radius: 10px;
 	margin: 2%;
 }
-	
+
 .learnInfo .learnBtn {
 	display: inline;
 }
-	
+
 .learnBtn {
 	width: 15%;
 	line-height: 100%;
 }
-	
+
 .goLearnBtn {
 	font-size: 1.25em;
 }
 
 .right {
 	margin-top: 3%;
-	text-align: right;	
+	text-align: right;
 }
 
 .center {
@@ -80,7 +79,7 @@ input[name="tabs"] {
 	cursor: pointer;
 }
 
-input[name="tabs"] + .tabmenu {
+input[name="tabs"]+.tabmenu {
 	border-top: 1px solid #435ebe;
 	border-left: 1px solid #435ebe;
 	border-right: 1px solid #435ebe;
@@ -131,7 +130,7 @@ input[name="tabs"] + .tabmenu {
 	padding-left: 1%;
 	height: 60px;
 	width: 100%;
-	background-color: #435ebe; 
+	background-color: #435ebe;
 	line-height: 60px;
 }
 
@@ -164,15 +163,15 @@ input[name="tabs"] + .tabmenu {
 }
 
 .notecard:hover {
-	cursor:pointer;
-	
+	cursor: pointer;
 }
-	
+
 .notecard-visible {
 	overflow: visible;
 	height: auto;
 	width: auto;
 }
+
 .board-content-box {
 	overflow: scroll;
 	height: 50vh;
@@ -181,9 +180,28 @@ input[name="tabs"] + .tabmenu {
 
 .tab-title {
 	margin: 4%;
-}	
+}
 
 .scroll {
 	overflow: scroll;
 	height: 600px;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto;
+	padding: 1%;
+}
+
+.grid-item {
+	margin: 2%;
+}
+
+.grid-item .card {
+	cursor: pointer;
+}
+
+.grid-item .card:hover {
+	transform: scale(1.05);
+	transition-duration: 0.5s;
 }
