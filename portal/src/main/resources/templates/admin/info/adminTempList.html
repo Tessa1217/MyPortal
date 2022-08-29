@@ -50,8 +50,8 @@
 						<th>이수구분</th>
 						<th>강의명</th>
 						
-						<th>비승인 사유</th>
 						<th>승인여부</th>
+						<th>비승인 여부</th>
 						<th>상세보기</th>
 						<th>승인하기</th>
 						<th>비승인하기</th>
@@ -70,9 +70,10 @@
 							<td th:text="${item.courseName}">
 							</td>
 							<td class="hidden" th:text="${item.submitYesName}" id="submitYes" th:data-codee="${item.submitYes}"></td>
+							
+							<td th:text="${item.okayYesName}" id="okayYes" th:data-back="${item.okayYes}"></td>
 							<td th:if="${item.backReason == null}" id="backReason" th:data-code="null"></td>
 							<td th:if="${item.backReason == '비승인'}" id="backReason" th:data-code="null">비승인</td>
-							<td th:text="${item.okayYesName}" id="okayYes" th:data-back="${item.okayYes}"></td>
 							<td>
 							<a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
 							</td>
