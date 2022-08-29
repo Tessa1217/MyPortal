@@ -59,9 +59,9 @@
 							<td th:if="${item.submitYes == 'UNSUB'}" data-code="SUB" id="submitYes">미제출</td>
 							<td th:if="${item.okayYes == 'A00'}" data-back="A01" id="okayYes">승인</td>
 							<td th:if="${item.okayYes == 'A01'}" data-back="A01" id="okayYes">심사대기</td>
-							<td th:if="${item.okayYes == null}" data-back="A01" id="okayYes">비승인</td>
+							<td th:if="${item.okayYes == null}" data-back="A01" id="okayYes"></td>
 							<td>
-							<a th:href="|/professor/getTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
+							<a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
 							</td>
 							<td><button name="button1" class="btn btn-danger moddd" th:data-course="${item.courseCode}" >제출하기</button></td>
 						</tr>

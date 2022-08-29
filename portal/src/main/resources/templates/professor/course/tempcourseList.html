@@ -43,16 +43,13 @@
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
-							<td th:if="${item.courseCredit == 1}">1학점</td>
-							<td th:if="${item.courseCredit == 2}">2학점</td>
-							<td th:if="${item.courseCredit == 3}">3학점</td>
-							<td th:if="${item.courseCredit == 4}">4학점</td>
-							<td th:if="${item.courseCredit == 5}">5학점</td>
+							<td>[[${item.courseCredit}]]학점</td>
 							<!-- <td th:text="${item.courseSortation}"></td> -->
 							<td th:if="${item.courseSortation == 'L01'}">교양필수</td>
 							<td th:if="${item.courseSortation == 'L02'}">교양</td>
 							<td th:if="${item.courseSortation == 'M01'}">전공필수</td>
 							<td th:if="${item.courseSortation == 'M02'}">전공</td>
+							
 							<td th:text="${item.courseName}">
 							</td>
 							<td th:if="${item.submitYes == 'SUB'}" data-code="SUB" id="submitYes">제출</td>

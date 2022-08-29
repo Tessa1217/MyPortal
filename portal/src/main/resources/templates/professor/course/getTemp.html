@@ -57,7 +57,7 @@
 													<td th:if="${tempcourse.okayYes == 'A01'}"
 														data-back="A01" id="okayYes">심사대기</td>
 													<td th:if="${tempcourse.okayYes == null}"
-														data-back="A01" id="okayYes">비승인</td>
+														data-back="A01" id="okayYes"></td>
 													<td><button name="button1"
 															class="btn btn-danger moddd"
 															th:data-course="${tempcourse.courseCode}">제출하기</button></td>
@@ -105,20 +105,9 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												 <input th:value="${tempcourse.courseSortation}"
-													id="courseSortation" name="courseSortation"
-													class="form-control">
-												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
-												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
-												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> 
-												<!--  <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
-													class="form-control"  onchange="typeFn();">
-												<option th:value="${tempcourse.courseSortation == 'L01'}" data-sort="L01">교양필수</option>
-												<option th:value="${tempcourse.courseSortation == 'L02'}" data-sort="L02">교양</option>
-												<option th:value="${tempcourse.courseSortation == 'M01'}" data-sort="M01">전공필수</option>
-												<option th:value="${tempcourse.courseSortation == 'M02'}" data-sord="M02">전공</option>
-											</select> -->
+												<select id="courseSortation" name="courseSortation" class="form-control">
+													<option th:each="sortation : ${Sortation}" th:value="${sortation.cd}" th:text="${sortation.nm}">교양필수</option>
+												</select> 
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
@@ -213,7 +202,7 @@
 					<div class="row">
 						<div class="card paging">
 							<div class="card-body">
-								<form th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
+								<form name="frm" th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
 								<h2>주차별 강의</h2>
 								<!-- <table class="table">
 									<thead>
@@ -254,7 +243,7 @@
 										</tbody>
 								</table>
 								<div class="col-sm-12" align="right">
-									<button type="submit" class="btn btn-primary">수정하기</button>
+									<button type="button" class="btn btn-primary" onclick="message()">수정하기</button>
 									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
@@ -271,8 +260,15 @@
 				showPage();
 				saveTempInfo(); 
 				enterDate();
-				
+				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
 			})
+			
+			function message(){
+				if(confirm("수정하시겠습니까?")){
+					frm.submit()
+				}
+				
+			}
 			
 			// 탭 형식으로 보이기
 			function showPage() {

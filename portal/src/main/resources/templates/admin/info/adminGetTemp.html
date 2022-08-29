@@ -5,11 +5,445 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 강의계획서 상세보기</title>
+<style>
+.offPage {
+	display: none;
+}
+
+.scroll {
+	overflow: scroll;
+	height: 600px;
+}
+
+.card {
+	padding: 3%;
+}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
-		
-	
+		<div id="main">
+			<div>
+				<div class="row">
+					<div class="page-title">
+						<h2>강의 계획서 상세보기</h2>
+					</div>
+					<div class="right">
+
+						<input id="tab1" type="radio" name="tabs" checked> <label
+							for="tab1" class="tabmenu">기본 정보</label> <input id="tab2"
+							type="radio" name="tabs"> <label for="tab2"
+							class="tabmenu">주차 계획</label>
+					</div>
+					<div class="card paging">
+						<div class="card-header">
+							<h3>강의 계획서</h3><table class="table">
+											<thead>
+												<tr>
+													<th>제출여부</th>
+													<th>승인여부</th>
+													<th>제출하기</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr>
+													<td th:if="${tempcourse.submitYes == 'SUB'}"
+														data-code="SUB" id="submitYes">제출</td>
+													<td th:if="${tempcourse.submitYes == 'UNSUB'}"
+														data-code="SUB" id="submitYes">미제출</td>
+													<td th:if="${tempcourse.okayYes == 'A00'}"
+														data-back="A01" id="okayYes">승인</td>
+													<td th:if="${tempcourse.okayYes == 'A01'}"
+														data-back="A01" id="okayYes">심사대기</td>
+													<td th:if="${tempcourse.okayYes == null}"
+														data-back="A01" id="okayYes"></td>
+													<td><button name="button1"
+															class="btn btn-danger moddd"
+															th:data-course="${tempcourse.courseCode}">제출하기</button></td>
+												</tr>
+
+											</tbody>
+										</table>
+
+						</div>
+						<div class="card-body">
+							<form id="tempInfoForm" class="form form-horizontal">
+								<div class="form-body">
+									<div class="row inputBox">
+										<!-- <input type="hidden" name="departCode" th:value="${departInsert.departCode}">
+									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
+										
+
+<br><br>
+										<div class="col-md-4">
+											<label>강의명</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseName}"
+												class="form-control" id="courseName" name="courseName">
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>강의 년도</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.courseYear}" id="courseYear"
+													name="courseYear" class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>강의 학기</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input type="number" class="form-control"
+													th:value="${tempcourse.courseSemester}" id="courseSemester"
+													name="courseSemester">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>이수 구분</label>
+											</div>
+											<div class="col-md-8 form-group">
+												 <input th:value="${tempcourse.courseSortation}"
+													id="courseSortation" name="courseSortation"
+													class="form-control">
+												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
+												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
+												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> 
+												<!--  <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
+													class="form-control"  onchange="typeFn();">
+												<option th:value="${tempcourse.courseSortation == 'L01'}" data-sort="L01">교양필수</option>
+												<option th:value="${tempcourse.courseSortation == 'L02'}" data-sort="L02">교양</option>
+												<option th:value="${tempcourse.courseSortation == 'M01'}" data-sort="M01">전공필수</option>
+												<option th:value="${tempcourse.courseSortation == 'M02'}" data-sord="M02">전공</option>
+											</select> -->
+											</div>
+											<div class="col-md-4">
+												<label>이수 단위</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.courseCredit}"
+													id="courseCredit" name="courseCredit" class="form-control">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>과제 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.reportAssignedScore}"
+													id="reportAssignedScore" name="reportAssignedScore"
+													class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>출결 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.attAssignedScore}"
+													id="attAssignedScore" name="attAssignedScore"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>중간고사 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.midtermAssignedScore}"
+													id="midtermAssignedScore" name="midtermAssignedScore"
+													class="form-control">
+											</div>
+											<div class="col-md-4">
+												<label>기말고사 배점</label>
+											</div>
+											<div class="col-md-8 form-group">
+												<input th:value="${tempcourse.finalAssignedScore}"
+													id="finalAssignedScore" name="finalAssignedScore"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<label>수강 인원</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseLimit}" id="courseLimit"
+												name="courseLimit" class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>교재 및 참고문헌</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.textbookReference}"
+												id="textbookReference" name="textbookReference"
+												class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>강의 개요</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseSummary}"
+												id="courseSummary" name="courseSummary" class="form-control">
+										</div>
+										<div class="col-md-4">
+											<label>강의 참고사항</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<input th:value="${tempcourse.courseNotes}" id="courseNotes"
+												name="courseNotes" class="form-control">
+										</div>
+										<div class="col-sm-12" align="right">
+
+											<button type="button" class="btn btn-primary" id="mod">수정하기</button>
+											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
+
+
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="card paging">
+							<div class="card-body">
+								<form th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
+								<h2>주차별 강의</h2>
+								<!-- <table class="table">
+									<thead>
+										<tr>
+											<th>주차</th>
+											<th>내용</th>
+										</tr>
+										<tr th:each="items:${tempcourseweek}">
+											<td th:text="${items.weekNum}"></td>
+											<td th:text="${items.weekContent}"></td>
+											<td><input th:value="${items.weekContent}"
+												id="weekContent" name="weekContent" class="form-control">
+											</td>
+										</tr>
+										<input type="hidden" th:value="${item.weekNum}">
+
+									</thead>
+								</table> -->
+									<table class="table">
+										<thead>
+											<tr>
+												<th>주차</th>
+												<th>내용</th>
+											</tr>
+										</thead>
+										
+										 <tbody id="tbody">
+										 		
+												 <tr th:each="items:${tempcourseweek}" >
+												<td th:text="${items.weekNum}"  th:value="${items.weekNum}"></td>
+												<td>
+												<input th:name="|weekContent${items.weekNum}|" class="col-sm-8" th:value="${items.weekContent}">
+												</td>
+												
+											</tr>
+											
+											
+										</tbody>
+								</table>
+								<div class="col-sm-12" align="right">
+									<button type="submit" class="btn btn-primary">수정하기</button>
+									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
+									<button type="reset" class="btn btn-secondary">취소</button>
+								</div>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			
+			$(function() {
+				showPage();
+				saveTempInfo(); 
+				enterDate();
+				
+			})
+			
+			// 탭 형식으로 보이기
+			function showPage() {
+			let icons = $("input[name=tabs]");
+			$(icons).each((index, val) => {
+				$(val).on("click", function(e) {
+					if ($(val).is(":checked")) {
+						let page = $(".paging");
+						$(page).each((idx, val) => {
+							$(val).addClass('offPage');
+						})
+						$(page[index]).removeClass("offPage");
+					}
+				})
+			})
+			}
+			
+			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
+		 	function enterDate() {
+				$(document).on("change", "select[name=weekCode]", function(e) {
+					let startDate = $($(e.target).children(":selected")).data("start");
+					let endDate = $($(e.target).children(":selected")).data("end");
+					$("input[name=examStartDate]").val(startDate);
+					$("input[name=examEndDate]").val(endDate);
+				})
+			} 
+			
+			// 강의계획서 정보 저장
+			function saveTempInfo() {
+				$(".saveBtn").click(function() {
+					$.ajax({
+						type : 'POST',
+						url : 'tempInsert',
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+						data : $("#tempInfoForm").serialize(),
+						success : function(result) {
+							console.log(result);
+						}
+					})
+				})
+			}
+			
+			//강의계획서 정보 수정
+			$(function() {
+				$("#mod").on("click", confirmModal)
+
+				function confirmModal() {
+					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+						updateTemp();
+					}
+				}
+				function updateTemp() {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateTemp`,
+						method : "post",
+						dataType : "json",
+						data : {
+							"courseName" : $("#courseName").val(),
+							"courseYear" : $("#courseYear").val(),
+							"courseSemester" : $("#courseSemester").val(),
+							"courseSortation" : $("#courseSortation").val(),
+							"courseCredit" : $("#courseCredit").val(),
+							"reportAssignedScore" : $("#reportAssignedScore").val(),
+							"attAssignedScore" : $("#attAssignedScore").val(),
+							"midtermAssignedScore" : $("#midtermAssignedScore").val(),
+							"finalAssignedScore" : $("#finalAssignedScore").val(),
+							"courseLimit" : $("#courseLimit").val(),
+							"textbookReference" : $("#textbookReference").val(),
+							"courseSummary" : $("#courseSummary").val(),
+							"courseNotes" : $("#courseNotes").val(),
+							
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							alert('수정되었습니다')
+							location.reload();
+						}
+						
+					});
+				}
+				
+			});
+			
+			//주차별 강의 수정
+			
+		 	/*  $(function() {
+				$("#modd").on("click", confirmModal)
+
+				function confirmModal() {
+					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+						updateweekTemp();
+					}
+				}
+				function updateweekTemp() {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
+						method : "post",
+						dataType : "json",
+						data : {
+							"weekContent" : $("#weekContent").val(),
+						
+							
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							alert('수정되었습니다')
+							location.reload();
+						}
+					});
+				}  
+			});   */
+			
+			//상세 조회 페이지에서 제출하기 기능
+			
+			 $(".moddd").on("click", function () {
+				if (window.confirm("정말로 제출하시겠습니까?")) {
+					let submitYes = $(this).closest("tr").find("#submitYes").data("code")
+					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+					let courseCode = $(this).data("course")
+					$.ajax({
+						url : `/professor/getTemp/submitTemp`,
+						method : "post",
+						dataType : "json",
+						data : { 
+							
+						"submitYes" : 	submitYes,
+						"okayYes" :	okayYes,
+						"courseCode" :	 courseCode					
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							
+							alert('제출되었습니다')
+							location.reload();
+						} 
+					});
+				}
+			}) 
+			
+		/* 	$(".modd").on("click", function () {
+				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
+					let courseCode =  [[${tempcourse.courseCode}]]
+					let weekContent = $(this).closest("tr").find("#weekContent")
+					let weekCode = $(this).data("weekCode")
+					$.ajax({
+						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
+						method : "post",
+						dataType : "json",
+						data : { 
+						
+						"weekContent" : $("#weekContent").val(),
+						"weekCode" :	 weekCode			
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							
+							alert('변경되었습니다')
+							location.reload();
+						} 
+					});
+				}
+			}) */
+			
+			
+			</script>
 	</th:block>
 </body>
 </html>
