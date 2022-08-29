@@ -21,7 +21,20 @@
 	</resultMap>
 	
 	<select id="getExamInfo" resultMap="studentExamMap">
-		SELECT e.*, s.exam_code, s.exam_score, s.student_id, s.exam_take
+		SELECT e.exam_code,
+		e.week_code,
+		e.exam_reg_date,
+		e.exam_start_date,
+		e.exam_end_date,
+		e.exam_duration,
+		e.exam_total_question,
+		e.exam_total_score,
+		e.exam_submit,
+		e.course_code, 
+		s.exam_code, 
+		s.exam_score, 
+		s.student_id, 
+		s.exam_take
 		FROM exam e join exam_score s
 		on e.exam_code = s.exam_code
 		WHERE e.week_code IN (SELECT week_code
@@ -86,7 +99,18 @@
 	</resultMap>	
 	
 	<select id="getExamResult" resultMap="studentResultMap">
-		SELECT *
+		SELECT exam_code,
+					exam_question_num,
+					exam_question_point,
+					question_code,
+					question_content,
+					question_answer,
+					question_option_num,
+					question_option_content,
+					student_question_num,
+					student_question_answer,
+					student_right_option,
+					student_id
 			FROM result_v
 			WHERE student_id = #{studentId}
 			AND exam_code = #{exam.examCode}

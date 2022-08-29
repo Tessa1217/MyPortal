@@ -23,7 +23,11 @@
 	</select>
 	
 	<select id="allCourseList" resultType="com.project.portal.course.service.CourseVO">
-		select professor_id, course_year, course_semester, course_sortation, course_name 
+		select professor_id, 
+				course_year, 
+				course_semester, 
+				course_sortation, 
+				course_name 
 		from course
 		where professor_id = 220002
 		order by course_year desc, course_semester desc

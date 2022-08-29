@@ -41,7 +41,7 @@
 						<th>이름</th>
 						<td th:text="${studentInfoSelect.studentName}"></td>
 						<th>성별</th>
-						<td th:text="${studentInfoSelect.studentGender}"></td>
+						<td th:text="${studentInfoSelect.studentGenderNm}"></td>
 					</tr>
 					<tr>
 						<th>학년</th>
@@ -52,9 +52,10 @@
 					</tr>
 					<tr>
 						<th>학적상태</th>
-						<td th:if="${studentInfoSelect.studentStatus =='AS00'}">재학</td>
+						<!-- <td th:if="${studentInfoSelect.studentStatus =='AS00'}">재학</td>
 						<td th:if="${studentInfoSelect.studentStatus =='AS01'}">휴학</td>
-						<td th:if="${studentInfoSelect.studentStatus =='AS02'}">졸업</td>
+						<td th:if="${studentInfoSelect.studentStatus =='AS02'}">졸업</td> -->
+						<td th:text="${studentInfoSelect.studentStatusNm}"></td>
 						<th>입학학부</th>
 						<td th:text="${studentInfoSelect.departName}"></td>
 					</tr>
@@ -63,8 +64,9 @@
 						<td
 							th:text="${#dates.format(studentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
 						<th>입학구분</th>
-						<td th:if="${studentInfoSelect.studentDivision =='AD00'}">신입학</td>
-						<td th:if="${studentInfoSelect.studentDivision =='AD01'}">편입학</td>
+						<!-- <td th:if="${studentInfoSelect.studentDivision =='AD00'}">신입학</td>
+						<td th:if="${studentInfoSelect.studentDivision =='AD01'}">편입학</td> -->
+						<td th:text="${studentInfoSelect.studentDivisionNm}"></td>
 					</tr>
 					<tr>
 						<th>주소</th>
@@ -131,12 +133,16 @@
 						<th>관계</th>
 						<td><select class="form-select" name="parentsRelUpdate" id="parentsRelUpdate"
 							th:value="${studentInfoSelect.parentsRel}">
-								<option th:selected="${studentInfoSelect.parentsRel}=='P01'"
+								<th:block th:each="code : ${codeList}">
+									<option th:value="${code.detailCode}" th:text="${code.detailName}"
+									th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}"></option>
+								</th:block>
+								<!-- <option th:selected="${studentInfoSelect.parentsRel}=='P01'"
 									th:value="P01" th:text="부"></option>
 								<option th:selected="${studentInfoSelect.parentsRel}=='P02'"
 									th:value="P02" th:text="모"></option>
 								<option th:selected="${studentInfoSelect.parentsRel}=='ETC'"
-									th:value="ETC" th:text="기타"></option>
+									th:value="ETC" th:text="기타"></option> -->
 						</select></td>
 						<!-- <td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
 					<td th:if="${studentInfoSelect.parentsRel =='P02'}">모</td>
@@ -171,12 +177,12 @@
 							"parentsPhone" : $("#parentsPhoneUpdate").val(),
 							"parentsRel" : $("#parentsRelUpdate").val(),
 						},
-						dataType : "json",
 						success : function(result) {
 							
 						}
 					});
 				}
+				// 전화번호 입력시 자동으로 - 입력되는 기능 정규표현식
 				$(document)
 						.on(
 								"keyup",
@@ -195,10 +201,7 @@
 								});
 
 			});
-
-			/*]]>*/
-		</script>
-		<script>
+			// 주소 입력창 클릭시 다음 주소검색 api 호출
 			function kakaopost() {
 			    new daum.Postcode({
 			        oncomplete: function(data) {
@@ -210,7 +213,9 @@
 			        }
 			    }).open();
 			}
-</script>
+
+			/*]]>*/
+		</script>
 	</th:block>
 
 </body>

@@ -11,7 +11,9 @@
 			<button type="button" id="tempBtn"
 				class="btn btn-primary btn-md">임시저장</button>
 			<button type="button" id="submitBtn"
-				class="btn btn-primary btn-md">시험지 생성하기</button>
+				class="btn btn-danger btn-md">시험지 생성하기</button>
+			<button type="button" id="pointBtn"
+			class="btn btn-info btn-md" title="시험 총점에서 시험 문제 수만큼 나누어 자동적으로 배점을 나눕니다.">자동 배점</button>
 		</div>
 		<div id="testPaperGenerated" class="card">
 			<div th:if="${exam.examTotalQuestion} == 0" id="defaultPaper"
@@ -32,7 +34,7 @@
 									th:id="${examQuestions[i].examQuestionNum}">
 										<div class="card-header" th:id="${examQuestions[i].questionCode}">
 											<span th:text="${examQuestions[i].examQuestion.questionContent}"></span>
-											<input type="number" th:value="${examQuestions[i].examQuestionPoint}">
+											<input type="number" th:value="${examQuestions[i].examQuestionPoint}" name="examQuestionPoint">
 										</div>
 										<div class="card-body">
 											<th:block th:each="option : ${examQuestions[i].examQuestion.optionList}">
@@ -71,7 +73,7 @@
 			</th:block>
 		</div>
 		<div id="template" style="display: none;">
-			<div id="newQuestion" class="card">
+			<div class="card newQuestion">
 				<div class="card-header">
 				<textarea class="form-control"
 				rows="3"
@@ -104,6 +106,7 @@
 			checkAll();
 			createQuestion();
 			submitTest();
+			dividePoint();
 		})
 		
 		// 전체 문제 선택
@@ -177,10 +180,29 @@
 					data : JSON.stringify(question)
 				})
 					.done(function(fragment) {
-						console.log(fragment);
-						console.log($(".questionBox"[id]));
 						$($(".questionBox")[id]).html(fragment);
 					})
+			})
+		}
+		
+		// 문제 자동 배점
+		function dividePoint() {
+			$(document).on("click", "#pointBtn", function() {
+				let questionList = getQuestions();
+				let msg = countCheck(questionList);
+				if (msg) {
+					fireSwal(msg.icon, msg.text);
+				} else if (!msg) {
+					let totalScore = $("input[name=examTotalScore]").val();
+					if (totalScore%questionList.length == 0) {
+						$("input[name=examQuestionPoint]").each((idx, val) => {
+							let pointDivided = totalScore/questionList.length;
+							$(val).val(pointDivided);
+						})
+					} else {
+						fireSwal('warning', '소숫점으로 떨어지는 점수는 입력할 수 없습니다. 시험 총점 또는 시험 문항 수를 수정해주세요.');
+					}
+				}
 			})
 		}
 		

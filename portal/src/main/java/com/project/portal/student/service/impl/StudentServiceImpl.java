@@ -17,34 +17,28 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<StudentVO> studentList(Criteria cri) {
-		// TODO Auto-generated method stub
 		return mapper.studentList(cri);
 	}
 
 	@Override
 	public StudentVO studentInfoSelect(StudentVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.studentInfoSelect(vo);
 	}
 
 	@Override
 	public StudentVO studentInfoUpdate(StudentVO vo) {
-		// TODO Auto-generated method stub
 		mapper.studentInfoUpdate(vo);
 		return mapper.studentInfoSelect(vo);
 	}
 
 	@Override
 	public StudentVO adminStudentInfoSelect(StudentVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.adminStudentInfoSelect(vo);
 	}
 
 	@Override
 	public StudentVO adminStudentInfoUpdate(StudentVO vo) {
-		// TODO Auto-generated method stub
 		mapper.adminStudentInfoUpdate(vo);
-		
 		return mapper.adminStudentInfoSelect(vo);
 	}
 }

@@ -4,7 +4,16 @@
 	namespace="com.project.portal.exam.service.ProfessorExamMapper">
 	
 	<select id="getExamList" resultType="ExamVO">
-		SELECT * 
+		SELECT exam_code,
+					week_code,
+					exam_reg_date,
+					exam_start_date,
+					exam_end_date,
+					exam_duration,
+					exam_total_question,
+					exam_total_score,
+					exam_submit,
+					course_code
 			FROM exam
 			WHERE course_code = #{course.courseCode}
 			<if test="exam != null and exam != ''">
@@ -12,8 +21,17 @@
 			</if>
 	</select>
 	<select id="getExamInfoList" parameterType="ExamInfoVO" resultType="ExamInfoVO">
-		SELECT * FROM exam_info_vu
-		WHERE course_code = #{courseCode}
+		SELECT course_year,
+					course_semester,
+					course_name,
+					course_code,
+					week_code,
+					exam_code 
+		FROM exam_info_vu
+		<where>
+		<if test="courseName != '' and courseName != null">
+			AND course_name LIKE '%'||#{courseName}||'%'
+		</if>
 		<if test="courseYear != 0 and courseYear != null">
 			AND course_year = #{courseYear}
 		</if>
@@ -23,6 +41,7 @@
 		<if test="examCode != null and examCode != ''">
 			AND SUBSTR(exam_code, 1, 1) = #{examCode}
 		</if>
+		</where>
 	</select>
 	<resultMap id="courseExamMap" type="com.project.portal.exam.service.CourseExamVO">
 		<id column="exam_question_num" property="examQuestionNum"/>
@@ -93,14 +112,11 @@
 				WHERE week_code = #{exam.weekCode}
 		</selectKey>
 	</insert>
-	
-	<select id="getExam" resultType="ExamVO">
-		SELECT *
-			FROM exam
-			WHERE exam_code = #{examCode}
-	</select>
 	<select id="getExamScore" resultType="ExamScoreVO">
-		SELECT *
+		SELECT student_id,
+						exam_code,
+						exam_score,
+						exam_take
 			FROM exam_score
 			WHERE exam_code IN (SELECT exam_code
 													FROM exam
