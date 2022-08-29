@@ -53,7 +53,12 @@
 		on w.course_code = k.course_code
 		where course_code = #{courseCode} -->
 		
-		select * from temp_course where course_code = #{courseCode}
+		select t.*,
+		       find_code(course_sortation) as course_sortation_name,
+		       find_code(submit_yes) as submit_yes_name,
+		       find_code(okay_yes) as okay_yes_name
+		from temp_course t 
+		where course_code = #{courseCode}
 	</select>
 	
 	<select id="getTempweek" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">

@@ -18,10 +18,9 @@
 .card {
 	padding: 3%;
 }
+
 .hidden {
-
-    display:none;
-
+	display: none;
 }
 </style>
 </head>
@@ -42,18 +41,20 @@
 					</div>
 					<div class="card paging">
 						<div class="card-header">
-							<h3>강의 계획서</h3><table class="table">
-											<thead>
-												<tr>
-													<th>제출여부</th>
-													<th>승인여부</th>
-													<th>제출하기</th>
-												</tr>
-											</thead>
-											<tbody>
+							<h3>강의 계획서</h3>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>제출여부</th>
+										<th>승인여부</th>
+										<th>비승인 사유</th>
+										<th>제출하기</th>
+									</tr>
+								</thead>
+								<tbody>
 
-												<tr>
-													<td th:if="${tempcourse.submitYes == 'SUB'}"
+									<tr>
+										<!-- <td th:if="${tempcourse.submitYes == 'SUB'}"
 														data-code="SUB" id="submitYes">제출</td>
 													<td th:if="${tempcourse.submitYes == 'UNSUB'}"
 														data-code="SUB" id="submitYes">미제출</td>
@@ -62,15 +63,22 @@
 													<td th:if="${tempcourse.okayYes == 'A01'}"
 														data-back="A01" id="okayYes">심사대기</td>
 													<td th:if="${tempcourse.okayYes == null}"
-														data-back="A01" id="okayYes"></td>
-													<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
-															name="button1"
-															class="btn btn-danger moddd"
-															th:data-course="${tempcourse.courseCode}">제출하기</button></td>
-												</tr>
+														data-back="A01" id="okayYes"></td> -->
+										<td th:text="${tempcourse.submitYesName}" id="submitYes"
+											th:data-codee="${tempcourse.submitYes}"></td>
+										<td th:text="${tempcourse.okayYesName}" id="okayYes"
+											th:data-back="${tempcourse.okayYes}"></td>
+										<td th:if="${tempcourse.backReason == null}" id="backReason"
+											th:data-code="null"></td>
+										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
+											th:data-code="비승인">비승인</td>
+										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
+												name="button1" class="btn btn-danger moddd"
+												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
+									</tr>
 
-											</tbody>
-										</table>
+								</tbody>
+							</table>
 
 						</div>
 						<div class="card-body">
@@ -79,9 +87,10 @@
 									<div class="row inputBox">
 										<!-- <input type="hidden" name="departCode" th:value="${departInsert.departCode}">
 									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
-										
 
-<br><br>
+
+										<br>
+										<br>
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
@@ -101,9 +110,16 @@
 												<label>강의 학기</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input type="number" class="form-control"
-													th:value="${tempcourse.courseSemester}" id="courseSemester"
-													name="courseSemester">
+											<!-- 	<select id="courseSemester" name="courseSemester"
+													class="form-control">
+													<option class="hidden" value=""
+														th:text="${tempcourse.courseSemester}" disabled selected></option>
+													<option th:value="1" th:text="1"></option>
+													<option th:value="2" th:text="2"></option>
+												</select> -->
+												<input th:value="${tempcourse.courseSemester}" id="courseSemester"
+													name="courseSemester" class="form-control">
+												
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -111,20 +127,25 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<select id="courseSortation" name="courseSortation" class="form-control">
-													<option th:each="sortation : ${Sortation}" th:value="${sortation.detailCode}" th:text="${sortation.detailName}"></option>
-												</select> 
+												<select id="courseSortation" name="courseSortation"
+													class="form-control">
+													<option th:each="sortation : ${Sortation}"
+														th:value="${sortation.detailCode}"
+														th:text="${sortation.detailName}"></option>
+												</select>
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<select id="courseCredit" name="courseCredit" class="form-control">
-													<option th:type="hidden" value="" th:text="${tempcourse.courseCredit}" disabled selected ></option>
+												<select id="courseCredit" name="courseCredit"
+													class="form-control">
+													<option class="hidden" value=""
+														th:text="${tempcourse.courseCredit}" disabled selected></option>
 													<option th:value="1" th:text="1학점"></option>
 													<option th:value="2" th:text="2학점"></option>
 													<option th:value="3" th:text="3학점"></option>
-												</select> 
+												</select>
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -194,8 +215,11 @@
 										</div>
 										<div class="col-sm-12" align="right">
 
-											<button th:disabled="${tempcourse.submitYes}=='SUB'" type="button" class="btn btn-primary" id="mod">수정하기</button>
-											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
+											<button th:disabled="${tempcourse.submitYes}=='SUB'"
+												type="button" class="btn btn-primary" id="mod">수정하기</button>
+											<button type="button"
+												onclick="location.href='/professor/tempcourseList'"
+												class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -212,9 +236,11 @@
 					<div class="row">
 						<div class="card paging">
 							<div class="card-body">
-								<form name="frm" th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
-								<h2>주차별 강의</h2>
-								<!-- <table class="table">
+								<form name="frm"
+									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
+									method="POST">
+									<h2>주차별 강의</h2>
+									<!-- <table class="table">
 									<thead>
 										<tr>
 											<th>주차</th>
@@ -238,33 +264,35 @@
 												<th>내용</th>
 											</tr>
 										</thead>
-										
-										 <tbody id="tbody">
-										 		
-												 <tr th:each="items:${tempcourseweek}" >
-												<td th:text="${items.weekNum}"  th:value="${items.weekNum}"></td>
-												<td>
-												<input th:name="|weekContent${items.weekNum}|" class="col-sm-8" th:value="${items.weekContent}">
-												</td>
-												
+
+										<tbody id="tbody">
+
+											<tr th:each="items:${tempcourseweek}">
+												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
+												<td><input th:name="|weekContent${items.weekNum}|"
+													class="col-sm-8" th:value="${items.weekContent}"></td>
+
 											</tr>
-											
-											
+
+
 										</tbody>
-								</table>
-								<div class="col-sm-12" align="right">
-									<button th:disabled="${tempcourse.submitYes}=='SUB'" type="button" class="btn btn-primary" onclick="message()">수정하기</button>
-									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
-									<button type="reset" class="btn btn-secondary">취소</button>
-								</div>
-							</form>
+									</table>
+									<div class="col-sm-12" align="right">
+										<button th:disabled="${tempcourse.submitYes}=='SUB'"
+											type="button" class="btn btn-primary" onclick="message()">수정하기</button>
+										<button type="button"
+											onclick="location.href='/professor/tempcourseList'"
+											class="btn btn-info">목록 보기</button>
+										<button type="reset" class="btn btn-secondary">취소</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		 
+
 		<script th:inline="javascript">
 			
 			$(function() {
@@ -427,7 +455,7 @@
 			})  */
 			$(".moddd").on("click", function () {
 				if (window.confirm("정말로 제출하시겠습니까?")) {
-					let submistYes = $(this).closest("tr").find("#submitYes").data("code")
+					let submistYes = $(this).closest("tr").find("#submitYes").data("codee")
 					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 					let courseCode = $(this).data("course")
 					// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  

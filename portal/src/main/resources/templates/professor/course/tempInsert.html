@@ -60,14 +60,19 @@
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control" name="courseYear" required>
+											<input type="number" class="form-control" name="courseYear" required min='2000' max='2100'>
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="number" class="form-control"
-												name="courseSemester" required>
+											<select id="courseSemester" name="courseSemester"
+													class="form-control">
+													<option class="hidden" value=""
+														th:text="선택" disabled selected></option>
+													<option th:value="1" th:text="1"></option>
+													<option th:value="2" th:text="2"></option>
+												</select>
 										</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -76,7 +81,7 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<select class="form-control" name="courseSortation" required>
-												<option value="" disabled selected>선택하십시오</option>
+												<option value="" disabled selected th:text="선택"></option>
 												<option value="L01">교양필수</option>
 												<option value="L02">교양</option>
 												<option value="M01">전공필수</option>
@@ -88,7 +93,7 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<select class="form-control" name="courseCredit" required>
-												<option value="" disable selected>선택하십시오</option>
+												<option value="" disable selected th:text="선택"></option>
 												<option value=1>1학점</option>
 												<option value=2>2학점</option>
 												<option value=3>3학점</option>
@@ -101,14 +106,14 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control"
-												name="reportAssignedScore">
+												name="reportAssignedScore" min='0' max='100'>
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control"
-												name="attAssignedScore">
+												name="attAssignedScore" min='0' max='100'>
 										</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -117,14 +122,14 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control"
-												name="midtermAssignedScore">
+												name="midtermAssignedScore" min='0' max='100'>
 										</div>
 										<div class="col-md-4">
 											<label>기말고사 배점</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input type="number" class="form-control"
-												name="finalAssignedScore">
+												name="finalAssignedScore" min='0' max='100'>
 										</div>
 										</div>
 										<div class="col-md-4">
