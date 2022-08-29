@@ -14,6 +14,7 @@ import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.web.TempcourseController;
 
+// 작성자: 김진형
 @Controller
 public class ProfessorController {
 

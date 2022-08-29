@@ -19,6 +19,7 @@ import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
 
+// 작성자: 김진형, 박근형
 @Controller
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);

@@ -30,5 +30,11 @@ public class StudentVO {
 	private String parentsPhone;
 	private String studentImg;
 	
+	// 공통 코드
+	private String parentRelNm;
+	private String studentGenderNm;
+	private String studentDivisionNm;
+	private String studentStatusNm;
+	
 	
 }

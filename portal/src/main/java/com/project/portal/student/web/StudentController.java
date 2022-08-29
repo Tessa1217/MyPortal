@@ -25,6 +25,7 @@ import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 import com.project.portal.tempcourse.web.TempcourseController;
 
+// 작성자: 김진형
 @Controller
 public class StudentController {
 
@@ -66,6 +67,7 @@ public class StudentController {
 	@ResponseBody
 	public StudentVO StudentInfoUpdate(StudentVO vo, Model model) {
 		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
+		vo.setStudentId(22000001);
 		return service.studentInfoUpdate(vo);
 	}
 	

@@ -12,12 +12,14 @@ import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.web.myCourseController;
 
+// 작성자: 김진형
 @Controller
 public class CourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 	
 	@Autowired CourseService service;
 	
+	//교수 자신의 강의리스트 조회
 	@RequestMapping("/professor/allCourseList")
 	public String CourseList(CourseVO vo, Model model, Criteria cri) {
 		model.addAttribute("allCourseList",service.allCourseList(cri));
