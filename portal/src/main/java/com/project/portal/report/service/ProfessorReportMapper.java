@@ -11,5 +11,6 @@ public interface ProfessorReportMapper {
 	
 	List<ReportVO> getReportList(CourseVO vo);
 	void insertReport(ReportVO vo);
+	void uploadFile(ReportFileVO vo);
 	
 }

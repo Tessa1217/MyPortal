@@ -9,10 +9,10 @@
 <body>
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
-			<div class="card">
-			<div class="card-header">
-			<h1>강의 과제 등록하기</h1>
-			</div>
+		<div class="page-title">
+			<h2>강의 과제 등록하기</h2>
+		</div>
+			<div class="cardForm card">
 			<div class="card-body">
 			<form name="reportFrm" th:action="@{/professor/eclass/insertLecture}" method="POST" enctype="multipart/form-data">
 				<table class="table">
@@ -51,7 +51,8 @@
 					</tr>
 					<tr>
 						<th>참고사항</th>
-						<td><input type="text" name="reportContent"></td>
+						<td><textarea id="reportContent" name="reportContent">
+						</textarea></td>
 					</tr>
 				</table>
 				<div align="center">
@@ -65,7 +66,16 @@
 		<script th:inline="javascript">
 			$(function() {
 				enterDate();
+				editor();
 			})
+			
+			// 에디터 생성 
+			function editor() {
+				tinymce.
+					init({
+						selector : '#reportContent'
+					})
+			}
 			
 			// 주차별 날짜 자동 입력(중복 코드, 추후 취합 필요)
 			function enterDate() {

@@ -189,6 +189,7 @@
 		function dividePoint() {
 			$(document).on("click", "#pointBtn", function() {
 				let questionList = getQuestions();
+				console.log(questionList);
 				let msg = countCheck(questionList);
 				if (msg) {
 					fireSwal(msg.icon, msg.text);
@@ -198,6 +199,7 @@
 						$("input[name=examQuestionPoint]").each((idx, val) => {
 							let pointDivided = totalScore/questionList.length;
 							$(val).val(pointDivided);
+							fireSwal('success', '자동 배점이 완료되었습니다.');
 						})
 					} else {
 						fireSwal('warning', '소숫점으로 떨어지는 점수는 입력할 수 없습니다. 시험 총점 또는 시험 문항 수를 수정해주세요.');

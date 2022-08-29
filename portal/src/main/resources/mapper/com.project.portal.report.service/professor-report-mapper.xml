@@ -16,6 +16,21 @@
 						FROM report_info
 						WHERE course_code = #{courseCode}
 	</select>
+	<insert id="uploadFile" parameterType="ReportFileVO">
+<!-- 		INSERT INTO report_file (
+														report_file_code,
+														report_file_name,
+														report_file_stored_name,
+														report_file_extension,
+														report_file_path,
+														user_code,
+														submit_id
+														)
+														VALUES (
+																		'01'
+																	
+																		) -->
+	</insert>
 	<insert id="insertReport" parameterType="ReportVO">
 		INSERT INTO report_info (report_code,
 															week_code,

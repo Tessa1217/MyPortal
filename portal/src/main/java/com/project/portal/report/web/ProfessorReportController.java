@@ -1,10 +1,14 @@
 package com.project.portal.report.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +37,9 @@ public class ProfessorReportController {
 		return courseService.getWeeklyInfo(course);
 	}
 	
+	@Value("${spring.servlet.multipart.location}")
+	private String uploadPath;
+	
 	@RequestMapping("/professor/eclass/reportList")
 	public String getReportList(Model model) {
 		List<ReportVO> reportList = service.getReportList((CourseVO) model.getAttribute("courseInfo"));
@@ -46,11 +53,18 @@ public class ProfessorReportController {
 	}
 	
 	@PostMapping("/professor/eclass/insertReport")
-	@ResponseBody
-	public String insertReport(MultipartFile file, ReportVO vo) {
+	public String insertReport(MultipartFile file, ReportVO vo, Model model) throws IllegalStateException, IOException {
 		
-		// 파일 업로드 진행 필요
+		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
+		String courseCode = course.getCourseCode();
+		vo.getReportFile().setReportFileName(file.getOriginalFilename());
+		vo.getReportFile().setReportFileStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
+		vo.getReportFile().setReportFilePath(uploadPath + "/report/" + courseCode + "/" + vo.getReportFile().getReportFileStoredName());
 		service.insertReport(vo);
-		return "success";
+		// 파일 업로드 진행 필요
+		File fileUpload = new File(vo.getReportFile().getReportFilePath());
+		fileUpload.getParentFile().mkdirs();
+		file.transferTo(fileUpload);
+		return "redirect:/professor/eclass/reportList";
 	}
 }

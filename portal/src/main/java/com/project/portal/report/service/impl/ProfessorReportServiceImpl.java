@@ -23,6 +23,7 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 
 	@Override
 	public void insertReport(ReportVO vo) {
+		mapper.uploadFile(vo.getReportFile());
 		mapper.insertReport(vo);
 	}
 
