@@ -120,6 +120,42 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
+
+
+
+
+
+	@Override
+	public int okayTemp(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.okayTemp(vo);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int backTemp(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.backTemp(vo);
+	}
+
+
+
+
+
+
+
+	@Override
+	public List<TempcourseVO> adminTempList(TempcourseVO vo, Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.adminTempList(vo, cri);
+	}
+
+
 	
 
 

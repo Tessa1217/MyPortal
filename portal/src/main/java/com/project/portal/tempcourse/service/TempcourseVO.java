@@ -26,6 +26,9 @@ public class TempcourseVO {
 	private int attAssignedScore;
 	private String departCode;
 	private String courseNotes;
+	private String courseSortationName;
+	private String submitYesName;
+	private String okayYesName;
 	
 	
 }

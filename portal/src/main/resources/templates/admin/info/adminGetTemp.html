@@ -37,34 +37,38 @@
 					</div>
 					<div class="card paging">
 						<div class="card-header">
-							<h3>강의 계획서</h3><table class="table">
-											<thead>
-												<tr>
-													<th>제출여부</th>
-													<th>승인여부</th>
-													<th>제출하기</th>
-												</tr>
-											</thead>
-											<tbody>
+							<h3>강의 계획서</h3>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>제출여부</th>
+										<th>승인여부</th>
+										<th>비승인 사유</th>
+										<th>승인하기</th>
+										<th>비승인하기</th>
+									</tr>
+								</thead>
+								<tbody>
 
-												<tr>
-													<td th:if="${tempcourse.submitYes == 'SUB'}"
-														data-code="SUB" id="submitYes">제출</td>
-													<td th:if="${tempcourse.submitYes == 'UNSUB'}"
-														data-code="SUB" id="submitYes">미제출</td>
-													<td th:if="${tempcourse.okayYes == 'A00'}"
-														data-back="A01" id="okayYes">승인</td>
-													<td th:if="${tempcourse.okayYes == 'A01'}"
-														data-back="A01" id="okayYes">심사대기</td>
-													<td th:if="${tempcourse.okayYes == null}"
-														data-back="A01" id="okayYes"></td>
-													<td><button name="button1"
-															class="btn btn-danger moddd"
-															th:data-course="${tempcourse.courseCode}">제출하기</button></td>
-												</tr>
+									<tr>
+										<td th:text="${tempcourse.submitYesName}" id="submitYes"
+											th:data-codee="${tempcourse.submitYes}"></td>
+										<td th:text="${tempcourse.okayYesName}" id="okayYes"
+											th:data-back="${tempcourse.okayYes}"></td>
+										<td th:if="${tempcourse.backReason == null}" id="backReason"
+											th:data-code="null"></td>
+										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
+											th:data-code="비승인">비승인</td>
+										<td><button th:disabled="${tempcourse.okayYes}=='A00'"
+												name="button1" class="btn btn-danger moddd"
+												th:data-course="${tempcourse.courseCode}">승인</button></td>
+										<td><button th:disabled="${tempcourse.backReason}=='비승인'"
+												name="button1" class="btn btn-danger modddd"
+												th:data-course="${tempcourse.courseCode}">비승인</button></td>
+									</tr>
 
-											</tbody>
-										</table>
+								</tbody>
+							</table>
 
 						</div>
 						<div class="card-body">
@@ -73,9 +77,9 @@
 									<div class="row inputBox">
 										<!-- <input type="hidden" name="departCode" th:value="${departInsert.departCode}">
 									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
-										
 
-<br><br>
+
+										<br> <br>
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
@@ -105,13 +109,13 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												 <input th:value="${tempcourse.courseSortation}"
+												<input th:value="${tempcourse.courseSortation}"
 													id="courseSortation" name="courseSortation"
 													class="form-control">
 												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
 												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
 												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td> 
+												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td>
 												<!--  <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
 													class="form-control"  onchange="typeFn();">
 												<option th:value="${tempcourse.courseSortation == 'L01'}" data-sort="L01">교양필수</option>
@@ -195,8 +199,10 @@
 										</div>
 										<div class="col-sm-12" align="right">
 
-											<button type="button" class="btn btn-primary" id="mod">수정하기</button>
-											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
+											
+											<button type="button"
+												onclick="location.href='/admin/adminTempList'"
+												class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -213,9 +219,11 @@
 					<div class="row">
 						<div class="card paging">
 							<div class="card-body">
-								<form th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}" method="POST">
-								<h2>주차별 강의</h2>
-								<!-- <table class="table">
+								<form
+									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
+									method="POST">
+									<h2>주차별 강의</h2>
+									<!-- <table class="table">
 									<thead>
 										<tr>
 											<th>주차</th>
@@ -239,26 +247,27 @@
 												<th>내용</th>
 											</tr>
 										</thead>
-										
-										 <tbody id="tbody">
-										 		
-												 <tr th:each="items:${tempcourseweek}" >
-												<td th:text="${items.weekNum}"  th:value="${items.weekNum}"></td>
-												<td>
-												<input th:name="|weekContent${items.weekNum}|" class="col-sm-8" th:value="${items.weekContent}">
-												</td>
-												
+
+										<tbody id="tbody">
+
+											<tr th:each="items:${tempcourseweek}">
+												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
+												<td><input th:name="|weekContent${items.weekNum}|"
+													class="col-sm-8" th:value="${items.weekContent}"></td>
+
 											</tr>
-											
-											
+
+
 										</tbody>
-								</table>
-								<div class="col-sm-12" align="right">
-									<button type="submit" class="btn btn-primary">수정하기</button>
-									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
-									<button type="reset" class="btn btn-secondary">취소</button>
-								</div>
-							</form>
+									</table>
+									<div class="col-sm-12" align="right">
+										
+										<button type="button"
+											onclick="location.href='/admin/adminTempList'"
+											class="btn btn-info">목록 보기</button>
+										<button type="reset" class="btn btn-secondary">취소</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -389,33 +398,8 @@
 				}  
 			});   */
 			
-			//상세 조회 페이지에서 제출하기 기능
 			
-			 $(".moddd").on("click", function () {
-				if (window.confirm("정말로 제출하시겠습니까?")) {
-					let submitYes = $(this).closest("tr").find("#submitYes").data("code")
-					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-					let courseCode = $(this).data("course")
-					$.ajax({
-						url : `/professor/getTemp/submitTemp`,
-						method : "post",
-						dataType : "json",
-						data : { 
-							
-						"submitYes" : 	submitYes,
-						"okayYes" :	okayYes,
-						"courseCode" :	 courseCode					
-						},
-						dataType : "json",
-						success : function(result) {
-							
-							
-							alert('제출되었습니다')
-							location.reload();
-						} 
-					});
-				}
-			}) 
+			
 			
 		/* 	$(".modd").on("click", function () {
 				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
@@ -441,6 +425,69 @@
 					});
 				}
 			}) */
+			
+			
+			
+			$(".moddd").on("click", function () {
+				if (window.confirm("정말로 승인하시겠습니까?")) {
+					let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+					let backReason = $(this).closest("tr").find("#backReason").data("code")
+					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+					let courseCode = $(this).data("course")
+						submitYes = 'SUB'
+						backReason = ''
+						okayYes = 'A00'
+					$.ajax({
+						url : `/admin/adminGetTemp/backTemp`,
+						method : "post",
+						dataType : "json",
+						data : { 
+						"submitYes"	: submitYes,
+						"backReason" : 	backReason,
+						"okayYes" :	okayYes,
+						"courseCode" :	 courseCode					
+						},
+						dataType : "json",
+						success : function(result) {
+							
+							
+							alert('승인되었습니다')
+							location.reload();
+						} 
+					});
+				}
+			})
+			
+			$(".modddd").on("click", function () {
+			if (window.confirm("정말로 비승인하시겠습니까?")) {
+				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+				let backReason = $(this).closest("tr").find("#backReason").data("code")
+				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+				let courseCode = $(this).data("course")
+					submitYes = 'UNSUB'
+					backReason = '비승인'
+					okayYes = ''
+				$.ajax({
+					url : `/admin/adminGetTemp/backTemp`,
+					method : "post",
+					dataType : "json",
+					data : { 
+					"submitYes" : submitYes,
+					"backReason" : 	backReason,
+					"okayYes" :	okayYes,
+					"courseCode" :	 courseCode					
+					},
+					dataType : "json",
+					success : function(result) {
+						
+						
+						alert('비승인되었습니다')
+						location.reload();
+					} 
+				});
+			}
+		})
+			
 			
 			
 			</script>

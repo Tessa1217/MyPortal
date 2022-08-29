@@ -32,6 +32,7 @@
 						<th>강의명</th>
 						<th>제출여부</th>
 						<th>승인여부</th>
+						<th>비승인 사유</th>
 						<th>상세보기</th>
 						<th>제출하기</th>
 						
@@ -44,23 +45,16 @@
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
 							<td>[[${item.courseCredit}]]학점</td>
-							<!-- <td th:text="${item.courseSortation}"></td> -->
-							<td th:if="${item.courseSortation == 'L01'}">교양필수</td>
-							<td th:if="${item.courseSortation == 'L02'}">교양</td>
-							<td th:if="${item.courseSortation == 'M01'}">전공필수</td>
-							<td th:if="${item.courseSortation == 'M02'}">전공</td>
-							
-							<td th:text="${item.courseName}">
-							</td>
-							<td th:if="${item.submitYes == 'SUB'}" data-code="SUB" id="submitYes">제출</td>
-							<td th:if="${item.submitYes == 'UNSUB'}" data-code="SUB" id="submitYes">미제출</td>
-							<td th:if="${item.okayYes == 'A00'}" data-back="A01" id="okayYes">승인</td>
-							<td th:if="${item.okayYes == 'A01'}" data-back="A01" id="okayYes">심사대기</td>
-							<td th:if="${item.okayYes == null}" data-back="A01" id="okayYes"></td>
-							<td>
+							<td th:text="${item.courseSortationName}"></td>		
+							<td th:text="${item.courseName}"></td>
+							<td th:text="${item.submitYesName}" id="submitYes" th:data-codee="${item.submitYes}"></td>
+							<td th:text="${item.okayYesName}" id="okayYes" th:data-back="${item.okayYes}"></td>
+							<td th:if="${item.backReason == null}" id="backReason" th:data-code="null"></td>
+							<td th:if="${item.backReason == '비승인'}" id="backReason" th:data-code="비승인">비승인</td>
+							<td>						
 							<a th:href="|/professor/getTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
 							</td>
-							<td><button name="button1" class="btn btn-danger moddd" th:data-course="${item.courseCode}" >제출하기</button></td>
+							<td><button th:disabled="${item.submitYes}=='SUB'" name="button1" class="btn btn-danger moddd" th:data-course="${item.courseCode}" >제출하기</button></td>
 						</tr>
 						
 				</tbody>
@@ -100,9 +94,16 @@
 
 		$(".moddd").on("click", function () {
 			if (window.confirm("정말로 제출하시겠습니까?")) {
-				let submitYes = $(this).closest("tr").find("#submitYes").data("code")
+				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
 				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+				let backReason = $(this).closest("tr").find("#backReason").data("code")
 				let courseCode = $(this).data("course")
+				
+				// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  
+				/* if(submitYes=='SUB'||submitYes=='UNSUB'){ */
+					submitYes = 'SUB'
+					okayYes = 'A01'
+					backReason = ''
 				$.ajax({
 					url : `/professor/tempcourseList/submitTemp`,
 					method : "post",
@@ -111,6 +112,7 @@
 						
 					"submitYes" : 	submitYes,
 					"okayYes" :	okayYes,
+					"backReason" : backReason,
 					"courseCode" :	 courseCode					
 					},
 					dataType : "json",

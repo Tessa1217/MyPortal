@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseService;
@@ -30,6 +31,8 @@ public class TempcourseController {
 
 	@Autowired
 	TempcourseService service;
+	@Autowired
+	CodeService codeService;
 
 	// 단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp/{courseCode}")
@@ -40,9 +43,12 @@ public class TempcourseController {
 //		System.out.println(tempcourseTest);
 //		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //		System.out.println(tempcourseweekList);
-		List<CodeVO> list = new ArrayList<CodeVO>();
-	
-		model.addAttribute("Sortation", list);
+		
+		
+		model.addAttribute("Sortation", codeService.getDetailList("C01"));
+		
+		model.addAttribute("submitYes", codeService.getDetailList("S02"));
+		model.addAttribute("okayYes", codeService.getDetailList("A01"));
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
@@ -220,7 +226,7 @@ public class TempcourseController {
 	@RequestMapping("/admin/adminTempList")
 	public String adminTempList(Model model, TempcourseVO vo, Criteria cri) {
 
-		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+		List<TempcourseVO> tempcourseList = service.adminTempList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
 
 		model.addAttribute("tempcourseList", tempcourseList);
@@ -231,20 +237,52 @@ public class TempcourseController {
 
 	// 관리자 강의계획서 상세보기
 	@RequestMapping("/admin/adminGetTemp/{courseCode}")
-	public String adminGetTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo) {
+	public String adminGetTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo, Criteria cri) {
 			vo = service.getTemp(courseCode);
 //			System.out.println(vo.getCourseCode());
 //			TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
 //			System.out.println(tempcourseTest);
 //			List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //			System.out.println(tempcourseweekList);
+			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+			int total = service.tempcourseListCount(vo, cri);
 
+			model.addAttribute("tempcourseList", tempcourseList);
 
-		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
+			model.addAttribute("Sortation", codeService.getDetailList("C01"));
+			
+			model.addAttribute("submitYes", codeService.getDetailList("S02"));
+			model.addAttribute("okayYes", codeService.getDetailList("A01"));
+			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
 		logger.info(vo.getCourseCode());
 		return "admin/info/adminGetTemp";
 	}
+	// 관리자 강의계획서 승인기능
+		@RequestMapping(value = { "/admin/adminTempList/okayTemp", "/admin/adminGetTemp/okayTemp" })
+		@ResponseBody
+		public int okayTemp(TempcourseVO vo, Model model) {
+
+			System.out.println(vo);
+			System.out.println(vo.getSubmitYes());
+			System.out.println(vo.getBackReason());
+
+			return service.okayTemp(vo);
+
+		}
+		
+		// 관리자 강의계획서 비승인 기능
+				@RequestMapping(value = { "/admin/adminTempList/backTemp", "/admin/adminGetTemp/backTemp" })
+				@ResponseBody
+				public int backTemp(TempcourseVO vo, Model model) {
+
+					System.out.println(vo);
+					System.out.println(vo.getSubmitYes());
+					System.out.println(vo.getBackReason());
+
+					return service.backTemp(vo);
+
+				}
 
 }

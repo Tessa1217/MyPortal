@@ -21,8 +21,11 @@
 	<select id="tempcourseList"
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
 
-		select *
-		from temp_course 
+		select t.*,
+		       find_code(course_sortation) as course_sortation_name,
+		       find_code(submit_yes) as submit_yes_name,
+		       find_code(okay_yes) as okay_yes_name
+		from temp_course t
 		 <!-- where course_code =#{courseCode} -->
 		
 		<include refid="criteria"></include>
@@ -184,7 +187,47 @@
 	 <update id="submitTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
 	
 		update temp_course
-		set submit_yes = #{submitYes}, okay_yes = #{okayYes}
+		set submit_yes = #{submitYes}, okay_yes = #{okayYes}, back_reason = #{backReason}
 		where course_code = #{courseCode}
 	</update> 
+	
+	<update id="okayTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
+	
+		update temp_course
+		set back_reason = #{backReason}, okay_yes = #{okayYes}, submit_yes=#{submitYes}
+		where course_code = #{courseCode}
+	</update> 
+	
+	<update id="backTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
+	
+	update temp_course
+		set back_reason = #{backReason}, okay_yes = #{okayYes}, submit_yes=#{submitYes}
+		where course_code = #{courseCode}
+	
+	</update>
+	
+	<select id="adminTempList"
+		resultType="com.project.portal.tempcourse.service.TempcourseVO">
+
+		select t.*,
+		       find_code(course_sortation) as course_sortation_name,
+		       find_code(submit_yes) as submit_yes_name,
+		       find_code(okay_yes) as okay_yes_name
+		from temp_course t
+		 <!-- where course_code =#{courseCode} -->
+		
+		
+		<where>
+			submit_yes = 'SUB'
+		<if test="cri.keyword != null and cri.keyword != ''">
+			 ${cri.type} = ${cri.keyword}
+			 
+		</if>
+			
+		</where>
+		
+		order by course_code desc
+		
+		
+	</select>
 </mapper>

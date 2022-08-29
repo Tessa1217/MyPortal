@@ -92,8 +92,6 @@
 												<option value=1>1학점</option>
 												<option value=2>2학점</option>
 												<option value=3>3학점</option>
-												<option value=4>4학점</option>
-												<option value=5>5학점</option>
 											</select>
 										</div>
 										</div>
@@ -147,7 +145,11 @@
 											<label>강의 개요</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="courseSummary">
+											
+											
+											<textarea class="form-control" name="courseSummary" id="courseSummary"></textarea>
+											
+											
 										</div>
 										<div class="col-md-4">
 											<label>강의 참고사항</label>
@@ -213,6 +215,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<script th:inline="javascript">
 			
 			$(function() {
@@ -269,6 +272,18 @@
 				row++;
 			}
 			
+			
+			   tinymce.init({
+			        selector: '#courseSummary',
+			        plugins: [
+			          'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+			          'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+			          'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+			        ],
+			        toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+			          'alignleft aligncenter alignright alignjustify | ' +
+			          'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+			      });
 			</script>
 	</th:block>
 </body>

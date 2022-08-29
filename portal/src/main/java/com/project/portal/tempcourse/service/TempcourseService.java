@@ -2,6 +2,7 @@ package com.project.portal.tempcourse.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorVO;
@@ -20,4 +21,7 @@ public interface TempcourseService {
 	public int updateTemp(TempcourseVO vo);
 	public int updateweekTemp(TempcourseweekVO voo);
 	public int submitTemp(TempcourseVO vo);
+	public int okayTemp(TempcourseVO vo);
+	public int backTemp(TempcourseVO vo);
+	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
 }

@@ -22,4 +22,7 @@ public interface TempcourseMapper {
 	public int updateTemp(TempcourseVO vo);
 	public int updateweekTemp(TempcourseweekVO voo);
 	public int submitTemp(TempcourseVO vo);
+	public int okayTemp(TempcourseVO vo);
+	public int backTemp(TempcourseVO vo);
+	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
 }
