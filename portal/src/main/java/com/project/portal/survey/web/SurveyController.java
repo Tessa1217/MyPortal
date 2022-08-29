@@ -1,6 +1,7 @@
 package com.project.portal.survey.web;
 
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,10 @@ import com.project.portal.survey.service.SurveyAnswerVO;
 import com.project.portal.survey.service.SurveyService;
 import com.project.portal.survey.service.SurveyVO;
 import com.project.portal.tempcourse.web.TempcourseController;
+
+
+// 설문지 조회 및 등록
+// 작성자 : 박근형
 
 @Controller
 public class SurveyController {
@@ -35,7 +40,6 @@ public class SurveyController {
 		vo.setStudentId(22000001);
 		System.out.println(vo);
 		service.insertSurveyAnswer(vo);
-		// 세션 값으로 변경해주세여~
 		return "redirect:/student/eclass/" + vo.getCourseCode();
 	}
 	

@@ -7,10 +7,10 @@
 		SELECT Q.LECTURE_QUESTION_NUM,
 		       Q.LECTURE_QUESTION_TITLE,
 		       Q.LECTURE_QUESTION_REG_DATE,
-		       W.WEEK_NUM
-		       
-		FROM LECTURE_QUESTION
-		       Q JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
+		       W.WEEK_NUM,
+		       nvl((SELECT 'O' FROM LECTURE_ANSWER A WHERE A.LECTURE_QUESTION_NUM=Q.LECTURE_QUESTION_NUM)    , 'X') lecture_Question_Answer_Check
+		FROM LECTURE_QUESTION Q
+		JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
 		WHERE Q.STUDENT_ID = #{studentId}
 		ORDER BY 1 ASC
 	</select>
@@ -48,6 +48,7 @@
 		       S.STUDENT_NAME,
 		       W.COURSE_CODE,
 		       W.WEEK_NUM,
+		       nvl((SELECT 'O' FROM LECTURE_ANSWER A WHERE A.LECTURE_QUESTION_NUM=L.LECTURE_QUESTION_NUM), 'X') lecture_Question_Answer_Check,
 		       L.LECTURE_QUESTION_REG_DATE
 		FROM LECTURE_QUESTION L 
 		  JOIN STUDENT_PRI_INFO S
@@ -63,14 +64,15 @@
 		       W.WEEK_CODE,
 		       W.WEEK_NUM,
 		       Q.LECTURE_QUESTION_CONTENT,
-		       Q.LECTURE_QUESTION_REG_DATE
+		       Q.LECTURE_QUESTION_REG_DATE,
+		       Q.LECTURE_QUESTION_NUM
           FROM LECTURE_QUESTION Q JOIN COURSE_WEEKLY W
             ON Q.WEEK_CODE = W.WEEK_CODE
-         WHERE LECTURE_QUESTION_NUM = #{lectureQuestionNum}
+         WHERE Q.LECTURE_QUESTION_NUM = #{lectureQuestionNum}
 	</select>
 	
 	<insert id="insertProfMyQuestion" parameterType="myQuestionAnswerVO">
-		INSERT INTO course_notice ( lecture_answer_num,
+		INSERT INTO LECTURE_ANSWER ( lecture_answer_num,
 									lecture_question_num,
 									lecture_answer_content,
 									lecture_answer_reg_date,
@@ -81,7 +83,14 @@
 										#{lectureQuestionNum},
 										#{lectureAnswerContent},
 										SYSDATE,
-										null)
-									)					
+										null)				
 	</insert>
+	
+	<update id="modifyProfMyQuestion" parameterType="myQuestionAnswerVO">
+		UPDATE
+		LECTURE_ANSWER
+		SET LECTURE_ANSWER_CONTENT = #{lectureAnswerContent}
+		WHERE
+		LECTURE_QUESTION_NUM = #{lectureQuestionNum}
+	</update>
 </mapper>

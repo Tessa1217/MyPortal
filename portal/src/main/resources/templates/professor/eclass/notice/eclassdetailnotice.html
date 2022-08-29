@@ -8,6 +8,11 @@
 </head>
 <body>
 <th:block layout:fragment="professorEclassContent">
+<style>
+	.hidden {
+		display : none
+	}
+</style>
 <div id="main">
 	<h1>공지사항 상세보기</h1>
 	<hr>
@@ -15,7 +20,10 @@
 		<tbody>
 		<tr>
 			<td>제목</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></td>
+			<td colspan="3">
+			    <input class="form-control hidden" name="courseNoticeTitle" id="titleeditor" th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
+			<div id="titleview" th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></div></td>
+			
 			<td>글번호</td>
 			<td id="courseNoticeNo" th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
 		</tr>
@@ -34,16 +42,23 @@
 		
 		<tr>
 			<td>내용</td>
-			<td colspan="3" id="content" th:html="${selectProDetailStudyNotice.courseNoticeContent}"></td>
+			<td colspan="3">
+			    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></textarea>
+			<div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div></td>
+			
 		</tr>
 		</tbody>
 	</table>
 	
 	<button type="button" class="btn btn-primary" id="AllList">목록</button>
 	<button type="button" class="btn btn-primary" id="Delete">삭제</button>
+	<button type="button" class="btn btn-primary" id="Modify">수정</button>
+	<button type="button" class="btn btn-primary hidden" id="prev">이전</button>
+	<button type="button" class="btn btn-primary hidden" id="ModifySubmit">수정하기</button>
 </div>
 
 	<script th:inline="javascript">
+		
 		// 목록 버튼 처리
 		$('#AllList').click(function() {
 			location.href ="/professor/eclass/eclassnotice"
@@ -56,10 +71,61 @@
 			$.ajax({
 				type : 'POST',
 				url : '/professor/eclass/eclassnoticedelete',
-				data : {courseNoticeNo : courseNoticeNo}
+				data : {courseNoticeNo : courseNoticeNo},
+				success : function() {
+					alert('삭제되었습니다.')
+					location.href = '/professor/eclass/eclassnotice/'
+				}
 			}) 
 		})
-	
+		
+		// 수정 버튼 처리 (수정페이지로 이동)
+		$('#Modify').click(function() {
+			$('#contenteditor').show()
+			$('#contentview').hide()
+			$('#Delete').hide()
+			$('#Modify').hide()
+			$('#titleeditor').show()
+			$('#titleview').hide()
+			$('#ModifySubmit').show()
+			$('#prev').show()
+		})
+		
+		// 이전 화면 처리
+		$('#prev').click(function() {
+			$('#contenteditor').hide()
+			$('#contentview').show()
+			$('#Delete').show()
+			$('#Modify').show()
+			$('#titleeditor').hide()
+			$('#titleview').show()
+			$('#ModifySubmit').hide()
+			$('#prev').hide()
+		})
+
+		
+		// 수정 처리
+		$('#ModifySubmit').click(function() {
+			// 수정할 제목
+			var courseNoticeTitle = $('#titleeditor').val()
+			// 수정할 내용
+			var courseNoticeContent = $('#contenteditor').val()
+			var courseNoticeNo = $('#courseNoticeNo').text();
+			$.ajax({
+				type : 'POST',
+				url : '/professor/eclass/eclassnoticemodify',
+				data : {courseNoticeTitle : courseNoticeTitle,
+					    courseNoticeContent : courseNoticeContent,
+					    courseNoticeNo : courseNoticeNo},
+			    success : function(result) {
+			    	console.log(result)
+			    	alert('수정되었습니다.')
+			    	location.href = '/professor/eclass/eclassnotice/' + courseNoticeNo
+			    }
+				
+			})
+		})
+		
 	</script>
 </th:block>
 </body>

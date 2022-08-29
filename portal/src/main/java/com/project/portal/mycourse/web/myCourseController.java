@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +51,7 @@ public class myCourseController {
 
 		vo.setStudentId(22000001);
 		List<MyCourseVO> mycourseList = service.getstuMyCourse(vo);
-		System.out.println(mycourseList);
+		logger.info(mycourseList.toString());
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo));
 
 		return "student/courseList";
@@ -63,7 +63,7 @@ public class myCourseController {
 		vo.setProfessorId("220001");
 		List<myProfCourseVO> mycourseList = service.getProfMyCourse(vo);
 		System.out.println(mycourseList);
-		model.addAttribute("mycourseList", service.getProfMyCourse(vo));
+		model.addAttribute("mycourseList", mycourseList);
 		return "professor/courseList";
 	}
 
@@ -94,13 +94,10 @@ public class myCourseController {
 
 	// 강의 계획서 조회
 	@RequestMapping("/student/eclass/courseDetail")
-	public String selectCourseDetail(myCourseDetailVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
-		System.out.println(vo.getCourseCode());
-		myCourseDetailVO myCourseDetailList = service.getstuMyCourseDetail(vo.getCourseCode());
-		System.out.println(myCourseDetailList);
-		List<myCourseDetailVO> myCourseWeekDetailList = service.getstuMyCourseWeekDetail(vo.getCourseCode());
-		System.out.println(myCourseWeekDetailList);
+	public String selectCourseDetail(myCourseDetailVO vo, Model model, HttpSession session) {
+		// 과목코드 세션설정
+		String courseCode = (String)session.getAttribute("courseCode");
+		vo.setCourseCode(courseCode);
 		model.addAttribute("courseDetail", service.getstuMyCourseDetail(vo.getCourseCode()));
 		model.addAttribute("courseWeekDetail", service.getstuMyCourseWeekDetail(vo.getCourseCode()));
 		return "student/eclass/course/courseDetail";

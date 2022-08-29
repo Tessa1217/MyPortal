@@ -58,11 +58,8 @@
 					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
 					<td th:text="${courseQuestion.weekNum}"></td>
-					<td></td>
-					<!-- <td  th:if="${courseQuestion.lectureAnswerRegDate} != null">O</td>
-					<td th:unless="${courseQuestion.lectureAnswerRegDate} != null">X</td> -->
-		
-					<td th:if="${courseQuestion.lectureAnswerRegDate} == null"> 
+					<td th:text="${courseQuestion.lectureQuestionAnswerCheck}"></td>
+					<td th:if="${courseQuestion.lectureQuestionAnswerCheck} == 'O'"> 
 					<button type="button" class="btn btn-primary courseQuestion" th:data-code="${courseQuestion.lectureQuestionNum}">상세보기</button>
 					</td>
 				</tr>

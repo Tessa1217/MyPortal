@@ -50,7 +50,7 @@
 				<div class="card-body">
 					<table class="table">
 						<tr>
-							<td th:text="${courseDetail.courseSummary}">세부내용입니다.</td>
+							<td id="courseSummary" th:utext="${courseDetail.courseSummary}">세부내용입니다.</td>
 						</tr>
 					</table>
 				</div>
@@ -76,6 +76,10 @@
 				</div>
 			</div>
 		</div>
+		
+		<script th:inline="javascript"> 
+			
+		</script>
 
 	</th:block>
 </body>

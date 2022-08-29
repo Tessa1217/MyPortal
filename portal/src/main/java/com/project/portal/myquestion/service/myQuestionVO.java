@@ -15,6 +15,7 @@ public class myQuestionVO {
 	private Date lectureQuestionRegDate; // 질문 등록일
 	private String weekCode; // 강의주차 계획코드
 	private String lectureQuestionAnswerCheck; // 답변 여부
+	private String lectureAnswerNum; // 답변 번호
 	private String lectureQuestionContent; // 질문 내용
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lectureAnswerRegDate; // 답변등록일
@@ -23,6 +24,9 @@ public class myQuestionVO {
 	private String weekNum;// 주차
 	private String searchType; // 검색타입
 	private String studentName; // 학생이름(질문작성자)
+	
+	myQuestionAnswerVO AnswerVO; 
+	
 	
 	
 }

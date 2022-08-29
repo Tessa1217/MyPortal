@@ -83,6 +83,13 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		mapper.deleteStudyNotice(vo);
 	}
 
+	@Override
+	public void modifyStudyNotice(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.modifyStudyNotice(vo);
+	}
+
+
 
 
 }

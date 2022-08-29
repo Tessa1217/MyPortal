@@ -15,7 +15,9 @@ public interface myQuestionService {
 	// 교수 질문 상세 조회
 	public myQuestionVO getProfMyQuestionDetail(String questionNum);
 	// 교수 질문 답변 등록
-	public myQuestionAnswerVO insertProfMyQuestion(String questionNum);
+	public myQuestionAnswerVO insertProfMyQuestion(myQuestionAnswerVO vo);
+	// 교수 질문 답변 수정
+	public myQuestionAnswerVO modifyProfMyQuestion(myQuestionAnswerVO vo);
 	
 	
 	

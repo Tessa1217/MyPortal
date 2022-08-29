@@ -2,6 +2,8 @@ package com.project.portal.myquestion.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,9 @@ public class myQuestionController {
 	// 학생 질문 목록
 	@RequestMapping("/student/eclass/courseQuestion")
 	public String getStuMyQuestion(myQuestionVO vo, Model model) {
-	
+		
 		vo.setStudentId("22000001");
-		List<myQuestionVO> myQuestionList = service.getStuMyQuestion(vo.getStudentId());
-		System.out.println(myQuestionList);
+		
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo.getStudentId()));
 		//model.addAttribute("courseQuestionCheck", service.getStuMyQuestionCheck(vo.getStudentId()));
@@ -42,7 +43,7 @@ public class myQuestionController {
 	public String getProfMyQuestion(myQuestionVO vo, Model model) {
 		vo.setCourseCode("SSPY0001");
 		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo.getCourseCode()));
-		return "professor/eclass/question/courseQuestion";
+		return "professor/eclass/lecture/courseQuestion";
 	}
 	
 	// 학생 질문 상세조회
@@ -66,8 +67,17 @@ public class myQuestionController {
 	// 교수 답변 등록
 	@PostMapping("/professor/eclass/courseQuestionInsert")
 	@ResponseBody
-	public String insertProfMyQuestion(myQuestionAnswerVO vo, Model model) {
+	public String insertProfMyQuestion(myQuestionAnswerVO vo) {
+		service.insertProfMyQuestion(vo);
+		return "success";
+	}
+	
+	// 교수 답변 수정
+	@PostMapping("/professor/eclass/courseQuestionUpdate")
+	@ResponseBody
+	public String modifyProfMyQuestion(myQuestionAnswerVO vo) {
 		
+		service.modifyProfMyQuestion(vo);
 		return "";
 	}
 }

@@ -22,6 +22,10 @@ public interface StudyNoticeService {
 	public void insertStudyNotice(StudyNoticeVO vo);
 	// 교수 공지사항 삭제
 	public void deleteStudyNotice(StudyNoticeVO vo);
+	// 교수 공지사항 수정
+	public void modifyStudyNotice(StudyNoticeVO vo);
+
+	
 
 	
 	

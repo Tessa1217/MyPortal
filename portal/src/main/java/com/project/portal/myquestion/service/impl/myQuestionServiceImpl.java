@@ -43,10 +43,15 @@ public class myQuestionServiceImpl implements myQuestionService {
 		return mapper.getProfMyQuestionDetail(questionNum);
 	}
 	@Override
-	public myQuestionAnswerVO insertProfMyQuestion(String questionNum) {
+	public myQuestionAnswerVO insertProfMyQuestion(myQuestionAnswerVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.insertProfMyQuestion(questionNum);
+		return mapper.insertProfMyQuestion(vo);
 		
+	}
+	@Override
+	public myQuestionAnswerVO modifyProfMyQuestion(myQuestionAnswerVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.modifyProfMyQuestion(vo);
 	}
 
 }

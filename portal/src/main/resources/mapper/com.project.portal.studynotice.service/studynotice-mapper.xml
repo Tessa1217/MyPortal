@@ -68,8 +68,16 @@
 	
 	<delete id="deleteStudyNotice" parameterType="StudyNoticeVO">
 	   DELETE
-	   FROM course_notice
-	   WHERE course_notice_no = #{courseNoticeNo}
+	   FROM COURSE_NOTICE
+	   WHERE COURSE_NOTICE_NO = #{courseNoticeNo}
 	</delete>
+	
+	<update id="modifyStudyNotice" parameterType="StudyNoticeVO">
+		UPDATE COURSE_NOTICE
+		   SET COURSE_NOTICE_TITLE = #{courseNoticeTitle},
+		       COURSE_NOTICE_CONTENT = #{courseNoticeContent},
+		       COURSE_NOTICE_UPDATE_DATE = SYSDATE
+         WHERE COURSE_CODE = #{courseCode} AND COURSE_NOTICE_NO = #{courseNoticeNo}
+	</update>
 	
 </mapper>
