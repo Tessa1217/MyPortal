@@ -135,7 +135,7 @@
 							th:value="${studentInfoSelect.parentsRel}">
 								<th:block th:each="code : ${codeList}">
 									<option th:value="${code.detailCode}" th:text="${code.detailName}"
-									th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}">
+									th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}"></option>
 								</th:block>
 								<!-- <option th:selected="${studentInfoSelect.parentsRel}=='P01'"
 									th:value="P01" th:text="부"></option>

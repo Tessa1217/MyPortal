@@ -56,12 +56,14 @@
 						<td th:text="${adminStudentInfoSelect.departName}"></td>
 						<th>학번</th>
 						<td th:text="${adminStudentInfoSelect.studentId}"></td>
+						<td><input type="hidden" name="studentId" id="studentId"
+							th:value="${adminStudentInfoSelect.studentId}"></td>
 					</tr>
 					<tr>
 						<th>이름</th>
 						<td th:text="${adminStudentInfoSelect.studentName}"></td>
 						<th>성별</th>
-						<td th:text="${adminStudentInfoSelect.studentGender}"></td>
+						<td th:text="${adminStudentInfoSelect.studentGenderNm}"></td>
 					</tr>
 					<tr>
 						<th>학년</th>
@@ -75,7 +77,12 @@
 						<td><select class="form-select" name="studentStatusUpdate"
 							id="studentStatusUpdate"
 							th:value="${adminStudentInfoSelect.parentsRel}">
-								<option
+								<th:block th:each="code : ${codeList}">
+									<option th:value="${code.detailCode}" th:text="${code.detailName}"
+									th:selected="${adminStudentInfoSelect.studentStatus} == ${code.detailCode}"></option>
+								</th:block>
+								
+								<!-- <option
 									th:selected="${adminStudentInfoSelect.studentStatus}=='AS00'"
 									th:value="AS00" th:text="재학"></option>
 								<option
@@ -83,7 +90,7 @@
 									th:value="AS01" th:text="휴학"></option>
 								<option
 									th:selected="${adminStudentInfoSelect.studentStatus}=='AS02'"
-									th:value="AS02" th:text="졸업"></option>
+									th:value="AS02" th:text="졸업"></option> -->
 						</select></td>
 						<!-- 
 					<td th:if="${adminStudentInfoSelect.studentStatus =='AS00'}">재학</td>
@@ -98,8 +105,9 @@
 						<td
 							th:text="${#dates.format(adminStudentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
 						<th>입학구분</th>
-						<td th:if="${adminStudentInfoSelect.studentDivision =='AD00'}">신입학</td>
-						<td th:if="${adminStudentInfoSelect.studentDivision =='AD01'}">편입학</td>
+						<td th:text="${adminStudentInfoSelect.studentDivisionNm}"></td>
+<!-- 						<td th:if="${adminStudentInfoSelect.studentDivision =='AD00'}">신입학</td>
+						<td th:if="${adminStudentInfoSelect.studentDivision =='AD01'}">편입학</td> -->
 					</tr>
 					<tr>
 						<th>우편번호</th>
@@ -135,9 +143,12 @@
 					</tr>
 					<tr>
 						<th>관계</th>
-						<td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
+						<td th:text="${adminStudentInfoSelect.parentRelNm}"></td>
+						
+						<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
 						<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
-						<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td>
+						<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
+						
 						<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
 					<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
 					<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
@@ -216,6 +227,7 @@
 						method : "post",
 						dataType : "json",
 						data : {
+							"studentId" : $("#studentId").val(),
 							"studentStatus" : $("#studentStatusUpdate").val(),
 						},
 						dataType : "json",

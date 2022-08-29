@@ -40,11 +40,13 @@
 							<td th:text=${list.studentName}></td>
 							<td th:text=${list.departName}></td>
 							<td th:text=${list.studentGrade}></td>
-							<td th:if="${list.studentStatus} == 'AS00'">재학</td>
+							<td th:text=${list.studentStatusNm}></td>
+							<td th:text=${list.studentGenderNm}></td>
+							<!-- <td th:if="${list.studentStatus} == 'AS00'">재학</td>
 							<td th:if="${list.studentStatus} == 'AS01'">휴학</td>
 							<td th:if="${list.studentStatus} == 'AS02'">졸업</td>
 							<td th:if="${list.studentGender} == 'M'">남</td>
-							<td th:if="${list.studentGender} == 'W'">여</td>
+							<td th:if="${list.studentGender} == 'F'">여</td> -->
 							<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
 							<td th:text=${list.studentPhone}></td>
 							<td>

@@ -41,37 +41,43 @@
 	
 	<!-- 학생 상세조회(관리자) -->
 	<select id="adminStudentInfoSelect" resultType="com.project.portal.student.service.StudentVO">
-		select i.student_id,
-				i.student_name,
-				i.student_birth,
-				i.student_phone,
+		select i.student_id, 
+		        i.student_name,
+		        i.student_birth,
+		        i.student_phone,
 		        i.student_email,
 		        i.student_postal_code,
 		        i.student_addr,
-		        i.student_gender,
+		        <!-- i.student_gender, -->
 		        i.student_daddr,
 		        i.parents_name,
 		        i.parents_phone,
-		        i.parents_rel,
+		         i.parents_rel,
 		        i.student_img,
 		        s.depart_name,
 		        s.student_grade,
 		        s.student_status,
 		        s.student_admission_date,
-		        s.student_division
+		        <!-- s.student_division, --> 
+		        find_code(parents_rel) parent_rel_nm, 
+		        find_code(student_gender) student_gender_nm,
+		        student_division_nm,
+		        student_status_nm
 		from student_pri_info i
-		join (select *
-				from student_study_info i
-				join department d
-				on i.department_code = d.depart_code) s
-		on i.student_id = s.student_id
+		join (select i.*,d.*,
+		               find_code(student_division) student_division_nm,
+		               find_code(student_status) student_status_nm
+						from student_study_info i
+						join department d
+						on i.department_code = d.depart_code) s
+				on i.student_id = s.student_id
 		where i.student_id = #{studentId}
 		<!-- where i.student_id = 22000001 -->
 	</select>
 	
 	<!-- 학생 전체 조회(관리자) -->
 	<select id="studentList" resultType="com.project.portal.student.service.StudentVO">
-		select i.student_id,
+		<!-- select i.student_id,
 				i.student_name,
 				i.student_phone,
 				i.student_gender,
@@ -84,7 +90,22 @@
 				from student_study_info i
 				join department d
 				on i.department_code = d.depart_code) s
+		on i.student_id = s.student_id -->
+		select i.student_id,
+				i.student_name,
+				i.student_phone,
+				i.student_gender,
+		        d.depart_name,
+		        s.student_grade, 
+		        i.student_birth, 
+		        s.student_status,
+                find_code(student_status) student_status_nm,
+                find_code(student_gender) student_gender_nm
+		from student_pri_info i
+		join student_study_info s
 		on i.student_id = s.student_id
+		join department d
+		on s.department_code = d.depart_code
 		<where>
 		
 		</where>
@@ -110,7 +131,7 @@
 	<update id="adminStudentInfoUpdate" parameterType="com.project.portal.student.service.StudentVO">
 		UPDATE student_study_info 
 		SET student_status = #{studentStatus}
-		where student_id = 22000001
-		<!-- where student_id = #{studentId} -->
+		<!-- where student_id = 22000001 -->
+		where student_id = #{studentId}
 	</update>
 </mapper>

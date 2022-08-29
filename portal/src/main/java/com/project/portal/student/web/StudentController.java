@@ -47,7 +47,10 @@ public class StudentController {
 	//학생 상세조회(관리자)
 		@RequestMapping("/admin/adminStudentInfoSelect")
 		public String AdminStudentInfoSelect(StudentVO vo, Model model) {
+			List<CodeVO> codeList = new ArrayList<CodeVO>();
+			codeList = codeService.getDetailList("S03");
 			model.addAttribute("adminStudentInfoSelect", service.adminStudentInfoSelect(vo));
+			model.addAttribute("codeList", codeList);
 			return "admin/info/studentPersonal";
 		}
 	//학생 정보 수정(관리자)
