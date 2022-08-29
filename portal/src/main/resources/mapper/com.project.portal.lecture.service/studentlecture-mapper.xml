@@ -6,9 +6,7 @@
 	<select id="getLectureList" resultType="LectureVO">
 		SELECT *
 		FROM lecture
-		WHERE week_code IN (SELECT week_code
-												FROM course_weekly
-												WHERE course_code = #{courseCode})
+		WHERE course_code = #{courseCode}
 		ORDER BY week_code DESC
 	</select>
 	<resultMap id="lectureMap" type="LectureVO">
@@ -80,13 +78,15 @@
 															note_content,
 															note_make,
 															lecture_code,
-															student_id)
+															student_id,
+															note_time)
 							VALUES (
 											'N'||LPAD(TO_CHAR(note_seq.NEXTVAL), 14, '0'),
 											#{noteContent},
 											#{noteMake},
 											#{lectureCode},
-											#{studentId})
+											#{studentId},
+											#{noteTime})
 		<selectKey resultType="String" keyProperty="noteCode" order="AFTER">
 			SELECT MAX(note_code)
 				FROM student_note

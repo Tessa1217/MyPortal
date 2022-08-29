@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block layout:fragment="professorEclassContent">
+	<div id="main">
+		<div class="page-title">
+			<h2>강의 노트</h2>
+		</div>
+		<div class="page-content">
+			<th:block th:each="lecture : ${lectureList}">
+				<th:block th:each="note : ${map.get(lecture.lectureCode)}">
+					<p th:text="${note.noteCode}"></p>
+				</th:block>
+			</th:block>
+		</div>
+	</div>
+</th:block>
+</body>
+</html>

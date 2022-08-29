@@ -6,77 +6,88 @@
 </head>
 <body>
 	<th:block th:fragment="videoFragment">
-	<div class="card col-8">
-		<div class="card-body">
-			<video id="video" height="100%" width="100%" 
-			th:src="@{/video/download/{videoCode}(videoCode=${lecture.videoCode})}" 
-			controls>
-			</video>
+		<div class="card col-8">
+			<div class="card-body">
+				<video id="lectureVideo" height = "100%" width="100%" controls>
+					<source th:src="@{/video/download/{videoCode}(videoCode=${lecture.videoCode})}" type="video/mp4">
+				</video>
+			</div>
 		</div>
-	</div>
-	<script th:inline="javascript">
-	$(function() {
-			insertRecord();
-			videoPlay();
+		<script th:inline="javascript">
+			$(function() {
+				insertRecord();
+				videoPlay();
+				
+				function videoPlay() {
+					$("#lectureVideo").on({
+						play : function() {
+							console.log("play");
+							updateRecord();
+						},
+						pause : function() {
+							console.log("stop");
+							stopUpdate();
+						}
+					})
+				}
+
+				function beforeExit() {
+					$(document).on("beforeunload", function() {
+						fireSwal('warning', '시청 기록이 저장되지 않았습니다. 그대로 나가시겠습니까?')
+					})
+				}
+
+				// 5초마다 갱신
+				function updateRecord() {
+					videoTimer = setInterval(
+							function() {
+								let record = {
+									studentId : $("input[name=studentId]")
+											.val(),
+									lectureCode : $("input[name=lectureCode]")
+											.val(),
+									lectureAttTime : $(
+											"input[name=lectureAttTime]").val(),
+									watchAccumTime : document
+											.querySelector("video").currentTime,
+									cmd : 'update'
+								}
+								console.log(record);
+								$.ajax({
+									method : 'POST',
+									url : '/student/eclass/watchLecture',
+									contentType : 'application/json',
+									data : JSON.stringify(record)
+								})
+							}, 5000);
+				}
+
+				// 비디오 멈추면 갱신 종료
+				function stopUpdate() {
+					clearInterval(videoTimer);
+				}
+			})
 			
-			function videoPlay() {
-				$("video").on({
-					play : function() {
-						console.log("play");
-						updateRecord();
-					},
-					pause : function() {
-						console.log("stop");
-						stopUpdate();
-					}
+
+			function insertRecord() {
+
+				// 레코드 객체 생성
+				let record = {
+					studentId : $("input[name=studentId]").val(),
+					lectureCode : $("input[name=lectureCode]").val(),
+					watchAccumTime : document.querySelector("video").currentTime,
+					cmd : "insert"
+				}
+
+				// 페이지 들어가면 인서트
+				$.ajax({
+					method : 'POST',
+					url : '/student/eclass/watchLecture',
+					contentType : 'application/json',
+					data : JSON.stringify(record)
 				})
 			}
-
-			// 5초마다 갱신
-			function updateRecord() {
-				videoTimer = setInterval(function() {
-					let record = {
-							studentId : $("input[name=studentId]").val(),
-							lectureCode : $("input[name=lectureCode]").val(),
-							lectureAttTime : $("input[name=lectureAttTime]").val(),
-							watchAccumTime : document.querySelector("video").currentTime,
-							cmd : 'update'
-					}
-					$.ajax({
-						method : 'POST',
-						url : '/student/watchLecture',
-						contentType : 'application/json',
-						data : JSON.stringify(record)
-					})
-				}, 5000);
-			}
-			
-			// 비디오 멈추면 갱신 종료
-			function stopUpdate() {
-				clearInterval(videoTimer);
-			}
-	})
-	
-	function insertRecord() {
-		
-		// 레코드 객체 생성
-		let record = {
-				studentId : $("input[name=studentId]").val(),
-				lectureCode : $("input[name=lectureCode]").val(),
-				watchAccumTime : document.querySelector("video").currentTime,
-				cmd : "insert"
-		}
-		
-		// 페이지 들어가면 인서트
-		$.ajax({
-			method : 'POST',
-			url : '/student/watchLecture',
-			contentType : 'application/json',
-			data : JSON.stringify(record)
-		})
-	}
-
-	</script>
+		</script>
 	</th:block>
 </body>
 </html>

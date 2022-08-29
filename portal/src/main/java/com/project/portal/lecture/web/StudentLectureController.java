@@ -1,10 +1,15 @@
 package com.project.portal.lecture.web;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +26,15 @@ import com.project.portal.lecture.service.impl.StudentLectureServiceImpl;
 public class StudentLectureController {
 	
 	@Autowired StudentLectureServiceImpl service;
+	
+	@ModelAttribute("courseInfo")
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		System.out.println(course);
+		return course;
+	}
+	
 	
 	@RequestMapping("student/eclass/lectureList")
 	public String lectureList(CourseVO vo, StudentLectureVO slecture, Model model) {
@@ -69,5 +83,18 @@ public class StudentLectureController {
 		System.out.println(vo);
 		vo = service.insertLectureQuestion(vo);
 		return vo;
+	}
+	
+	@RequestMapping("student/eclass/myNotes")
+	public String getMyNotes(Model model) {
+		Map<String, List<StudentNoteVO>> map = new HashMap<String, List<StudentNoteVO>>();
+		List<LectureVO> lectures = service.getLectureList((CourseVO) model.getAttribute("courseInfo"));
+		for (LectureVO lecture : lectures) {
+			map.put(lecture.getLectureCode(), service.getNoteList(lecture, 22000001));
+		}
+		System.out.println(map);
+		model.addAttribute("lectureList", lectures);
+		model.addAttribute("map", map);
+		return "student/eclass/lecture/lectureNoteList";
 	}
 }

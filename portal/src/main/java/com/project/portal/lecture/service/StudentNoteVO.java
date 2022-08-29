@@ -17,5 +17,5 @@ public class StudentNoteVO {
 	private Date noteUpdate;
 	private String lectureCode;
 	private int studentId;
-
+	private double noteTime;
 }

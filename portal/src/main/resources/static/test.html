@@ -1,0 +1,26 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+
+<video id="myVideo" width="320" height="240" controls>
+  <source src="https://www.w3schools.com/jsref/movie.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+
+<button onclick="getCurTime()" type="button">Get current time position</button>
+<button onclick="setCurTime()" type="button">Set time position to 5 seconds</button>
+
+<script>
+var x = document.getElementById("myVideo");
+
+function getCurTime() { 
+  alert(x.currentTime);
+} 
+
+function setCurTime() { 
+  x.currentTime = 5;
+} 
+</script> 
+
+</body> 
+</html>

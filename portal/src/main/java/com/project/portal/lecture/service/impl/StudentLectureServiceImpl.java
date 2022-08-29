@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.lecture.service.LectureQuestionVO;
@@ -20,7 +23,7 @@ import com.project.portal.lecture.service.StudentNoteVO;
 public class StudentLectureServiceImpl implements StudentLectureService {
 	
 	@Autowired StudentLectureMapper mapper;
-	
+
 	@Override
 	public List<LectureVO> getLectureList(CourseVO vo) {
 		return mapper.getLectureList(vo);
@@ -75,5 +78,12 @@ public class StudentLectureServiceImpl implements StudentLectureService {
 		mapper.insertLectureQuestion(vo);
 		return mapper.getQuestion(vo);
 	}
+
+	@Override
+	public List<StudentNoteVO> getNoteList(LectureVO lecture, int studentId) {
+		return mapper.getNoteList(lecture, studentId);
+	}
+	
+	
 
 }

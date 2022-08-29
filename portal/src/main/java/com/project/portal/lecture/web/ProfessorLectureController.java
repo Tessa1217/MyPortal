@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -15,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,8 @@ import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
 
 @Controller
 public class ProfessorLectureController {
+	
+	Logger log = LoggerFactory.getLogger(ProfessorLectureController.class);
 	
 	@Autowired CourseServiceImpl courseService;
 	@Autowired ProfessorLectureServiceImpl service;
@@ -84,21 +89,19 @@ public class ProfessorLectureController {
 	}
 	
 	@GetMapping("/video/download/{videoCode}")
-	public ResponseEntity<Object> download(@PathVariable String videoCode) {
+	public ResponseEntity<Object> download(@PathVariable String videoCode) throws IOException {
+		log.info("videoCode = " + videoCode);
 		String path = service.getVideo(videoCode).getVideoFilePath();
-		try {
-			Path filePath = Paths.get(path);
-			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+		Path filePath = Paths.get(path);
+		Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+		File file = new File(path);
+
 			
-			File file = new File(path);
-			
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
-			
-			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-		}
-	}
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Length", String.valueOf(file.length()));
+		headers.setContentType(MediaType.valueOf("video/mp4"));
+		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+		return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+		} 
 
 }
