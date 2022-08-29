@@ -25,5 +25,12 @@ public class CourseController {
 		model.addAttribute("allCourseList",service.allCourseList(cri));
 		return "professor/course/courseList";
 	}
+	
+	//교수 강의별 수강평 리스트
+	@RequestMapping("/professor/surveyList")
+	public String ServeyList(CourseVO vo, Model model, Criteria cri) {
+		model.addAttribute("surveyList", service.surveyList(cri));
+		return "professor/course/surveyList";
+	}
 
 }

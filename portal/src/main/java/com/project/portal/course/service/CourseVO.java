@@ -14,20 +14,25 @@ public class CourseVO extends Criteria{
 	private int courseSemester;	// 강의 학기
 	private String courseName;	// 강의 이름
 	private String courseSortation; // 강의 이수구분
-	private int courseCredit;
+	private int courseCredit; // 강의 학점
 	private String precourseCode;
-	private int courseLimit;
+	private int courseLimit; // 강의 최대 수강생 인원
 	private int professorId; // 교수 id
+	private double surveyAvg; // 수강평 평점 평균
+	
 	private String courseSummary;
 	private String textbookReference;
 	private String courseNotes;
-	private int reportAssignedScore;
-	private int midtermAssignedScore;
-	private int finalAssignedScore;
-	private int attAssignedScore;
+	private int reportAssignedScore; // 과제 배점
+	private int midtermAssignedScore;// 중간고사 배점
+	private int finalAssignedScore; // 기말고사 배점
+	private int attAssignedScore; // 출석 배점
 	private String surveyCode;
 	private String departCode;
 	// 주차 계획 정보
 	private List<CourseWeeklyVO> weekPlans;
+	
+	// 강의별 강의평가 평균점수
+	private List<CourseSurveyAvgVO> courseSurveyAvg;
 
 }

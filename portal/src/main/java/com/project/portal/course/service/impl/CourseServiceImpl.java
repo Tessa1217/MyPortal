@@ -25,6 +25,12 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseVO> allCourseList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.allCourseList(cri);
+	}
+
+	@Override
+	public List<CourseVO> surveyList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.surveyList(cri);
 	};
 
 }

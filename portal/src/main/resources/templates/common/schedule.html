@@ -4,7 +4,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />  
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>  
+<!-- fullcalendar 언어 CDN -->  
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+<script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+        calendar.setOption('contentHeight', 450);
+      });
+
+</script>
 <body>
 <h1>스케줄표</h1>
+
+<div id='calendar' style="width:400px"></div>
+<table class="table">
+	<tr>
+		
+	</tr>
+</table>
 </body>
 </html>

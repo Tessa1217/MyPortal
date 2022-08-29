@@ -33,4 +33,9 @@
 		order by course_year desc, course_semester desc
 	</select>
 	
+	<select id="surveyList" resultType="com.project.portal.course.service.CourseVO">
+		
+		
+	</select>
+	
 </mapper>

@@ -13,4 +13,6 @@ public interface CourseMapper {
 
 	List<CourseVO> allCourseList(Criteria cri);
 
+	List<CourseVO> surveyList(Criteria cri);
+
 }
