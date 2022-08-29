@@ -90,7 +90,7 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<input th:value="${tempcourse.courseName}"
-												class="form-control" id="courseName" name="courseName">
+												class="form-control" id="courseName" name="courseName" readonly/>
 										</div>
 										<div class="col-md-6 col-12">
 											<div class="col-md-4">
@@ -98,15 +98,15 @@
 											</div>
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.courseYear}" id="courseYear"
-													name="courseYear" class="form-control">
+													name="courseYear" class="form-control" readonly/>
 											</div>
 											<div class="col-md-4">
 												<label>강의 학기</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input type="number" class="form-control"
+												<input class="form-control"
 													th:value="${tempcourse.courseSemester}" id="courseSemester"
-													name="courseSemester">
+													name="courseSemester" readonly/>
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -114,27 +114,23 @@
 												<label>이수 구분</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseSortation}"
-													id="courseSortation" name="courseSortation"
+												 <select id="courseSortation" name="courseSortation"
 													class="form-control">
-												<td th:if="${tempcourse.courseSortation == 'L01'}">교양필수</td>
-												<td th:if="${tempcourse.courseSortation == 'L02'}">교양</td>
-												<td th:if="${tempcourse.courseSortation == 'M01'}">전공필수</td>
-												<td th:if="${tempcourse.courseSortation == 'M02'}">전공</td>
-												<!--  <select th:value="${tempcourse.courseSortation}" id="courseSortation" name="courseSortation"
-													class="form-control"  onchange="typeFn();">
-												<option th:value="${tempcourse.courseSortation == 'L01'}" data-sort="L01">교양필수</option>
-												<option th:value="${tempcourse.courseSortation == 'L02'}" data-sort="L02">교양</option>
-												<option th:value="${tempcourse.courseSortation == 'M01'}" data-sort="M01">전공필수</option>
-												<option th:value="${tempcourse.courseSortation == 'M02'}" data-sord="M02">전공</option>
-											</select> -->
+													<option th:each="sortation : ${Sortation}"
+														th:value="${sortation.detailCode}"
+														th:text="${sortation.detailName}"></option>
+												</select> 
+											 	   <!-- <input th:value="${tempcourse.courseSortation}" class="form-control"> -->
+											<!-- <input class="form-control" 
+													th:value="${tempcourse.courseSortation}" id="courseSortation"
+													name="courseSortation" readonly/> -->
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
 											</div>
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.courseCredit}"
-													id="courseCredit" name="courseCredit" class="form-control">
+													id="courseCredit" name="courseCredit" class="form-control" readonly/>
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -144,7 +140,7 @@
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.reportAssignedScore}"
 													id="reportAssignedScore" name="reportAssignedScore"
-													class="form-control">
+													class="form-control" readonly/>
 											</div>
 											<div class="col-md-4">
 												<label>출결 배점</label>
@@ -152,7 +148,7 @@
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.attAssignedScore}"
 													id="attAssignedScore" name="attAssignedScore"
-													class="form-control">
+													class="form-control" readonly/>
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -162,7 +158,7 @@
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.midtermAssignedScore}"
 													id="midtermAssignedScore" name="midtermAssignedScore"
-													class="form-control">
+													class="form-control" readonly/>
 											</div>
 											<div class="col-md-4">
 												<label>기말고사 배점</label>
@@ -170,7 +166,7 @@
 											<div class="col-md-8 form-group">
 												<input th:value="${tempcourse.finalAssignedScore}"
 													id="finalAssignedScore" name="finalAssignedScore"
-													class="form-control">
+													class="form-control" readonly/>
 											</div>
 										</div>
 										<div class="col-md-4">
@@ -178,7 +174,7 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<input th:value="${tempcourse.courseLimit}" id="courseLimit"
-												name="courseLimit" class="form-control">
+												name="courseLimit" class="form-control" readonly/>
 										</div>
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
@@ -186,21 +182,21 @@
 										<div class="col-md-8 form-group">
 											<input th:value="${tempcourse.textbookReference}"
 												id="textbookReference" name="textbookReference"
-												class="form-control">
+												class="form-control" readonly/>
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<input th:value="${tempcourse.courseSummary}"
-												id="courseSummary" name="courseSummary" class="form-control">
+											<textarea th:value="${tempcourse.courseSummary}"
+												id="courseSummary" name="courseSummary" class="form-control" >[[${tempcourse.courseSummary}]]</textarea>
 										</div>
 										<div class="col-md-4">
 											<label>강의 참고사항</label>
 										</div>
 										<div class="col-md-8 form-group">
 											<input th:value="${tempcourse.courseNotes}" id="courseNotes"
-												name="courseNotes" class="form-control">
+												name="courseNotes" class="form-control" readonly/>
 										</div>
 										<div class="col-sm-12" align="right">
 
@@ -254,15 +250,15 @@
 										</thead>
 
 										<tbody id="tbody">
-
+											<div class="col-md-8 form-group">
 											<tr th:each="items:${tempcourseweek}">
 												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
 												<td><input th:name="|weekContent${items.weekNum}|"
-													class="col-sm-8" th:value="${items.weekContent}"></td>
+													class="col-sm-8" th:value="${items.weekContent}" ></td>
 
 											</tr>
-
-
+											</div>
+											
 										</tbody>
 									</table>
 									<div class="col-sm-12" align="right">
@@ -443,7 +439,7 @@
 						backReason = ''
 						okayYes = 'A00'
 					$.ajax({
-						url : `/admin/adminGetTemp/backTemp`,
+						url : `/admin/adminGetTemp/okayTemp`,
 						method : "post",
 						dataType : "json",
 						data : { 
@@ -457,7 +453,7 @@
 							
 							
 							alert('승인되었습니다')
-							location.reload();
+							location.replace('/admin/adminTempList');
 						} 
 					});
 				}
@@ -487,12 +483,22 @@
 						
 						
 						alert('비승인되었습니다')
-						location.reload();
+						location.replace('/admin/adminTempList');
 					} 
 				});
 			}
 		})
-			
+			 tinymce.init({
+			        selector: '#courseSummary',
+			        plugins: [
+			          'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+			          'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+			          'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+			        ],
+			        toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+			          'alignleft aligncenter alignright alignjustify | ' +
+			          'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+			      });
 			
 			
 			</script>

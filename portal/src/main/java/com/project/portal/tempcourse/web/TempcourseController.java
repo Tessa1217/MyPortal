@@ -36,17 +36,16 @@ public class TempcourseController {
 
 	// 단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp/{courseCode}")
-	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo) {
+	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri) {
 		vo = service.getTemp(courseCode);
 //		System.out.println(vo.getCourseCode());
 //		TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
 //		System.out.println(tempcourseTest);
 //		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //		System.out.println(tempcourseweekList);
-		
-		
+		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("Sortation", codeService.getDetailList("C01"));
-		
 		model.addAttribute("submitYes", codeService.getDetailList("S02"));
 		model.addAttribute("okayYes", codeService.getDetailList("A01"));
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
@@ -244,13 +243,11 @@ public class TempcourseController {
 //			System.out.println(tempcourseTest);
 //			List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //			System.out.println(tempcourseweekList);
-			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
-			int total = service.tempcourseListCount(vo, cri);
+//			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+//			int total = service.tempcourseListCount(vo, cri);
 
-			model.addAttribute("tempcourseList", tempcourseList);
-
+//			model.addAttribute("tempcourseList", tempcourseList);
 			model.addAttribute("Sortation", codeService.getDetailList("C01"));
-			
 			model.addAttribute("submitYes", codeService.getDetailList("S02"));
 			model.addAttribute("okayYes", codeService.getDetailList("A01"));
 			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
