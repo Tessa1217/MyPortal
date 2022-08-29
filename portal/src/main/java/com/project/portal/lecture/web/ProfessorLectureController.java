@@ -88,20 +88,20 @@ public class ProfessorLectureController {
 		return "redirect:/professor/eclass/lectureList";
 	}
 	
-	@GetMapping("/video/download/{videoCode}")
-	public ResponseEntity<Object> download(@PathVariable String videoCode) throws IOException {
-		log.info("videoCode = " + videoCode);
-		String path = service.getVideo(videoCode).getVideoFilePath();
-		Path filePath = Paths.get(path);
-		Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-		File file = new File(path);
-
-			
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Length", String.valueOf(file.length()));
-		headers.setContentType(MediaType.valueOf("video/mp4"));
-		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
-		return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
-		} 
+//	@GetMapping("/video/download/{videoCode}")
+//	public ResponseEntity<Object> download(@PathVariable String videoCode) throws IOException {
+//		log.info("videoCode = " + videoCode);
+//		String path = service.getVideo(videoCode).getVideoFilePath();
+//		Path filePath = Paths.get(path);
+//		Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+//		File file = new File(path);
+//
+//			
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.set("Content-Length", String.valueOf(file.length()));
+//		headers.setContentType(MediaType.valueOf("video/mp4"));
+//		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+//		return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+//		} 
 
 }

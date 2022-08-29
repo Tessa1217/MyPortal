@@ -8,5 +8,6 @@ public interface ProfessorReportService {
 	
 	List<ReportVO> getReportList(CourseVO vo);
 	void insertReport(ReportVO vo);
+	ReportFileVO getFile(String reportFileCode);
 
 }

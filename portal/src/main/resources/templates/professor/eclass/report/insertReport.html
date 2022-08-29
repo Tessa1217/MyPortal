@@ -14,7 +14,8 @@
 		</div>
 			<div class="cardForm card">
 			<div class="card-body">
-			<form name="reportFrm" th:action="@{/professor/eclass/insertLecture}" method="POST" enctype="multipart/form-data">
+			<form name="reportFrm" th:action="@{/professor/eclass/insertReport}" method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
 				<table class="table">
 					<tr>
 						<th>과제명</th>
@@ -46,7 +47,7 @@
 					</tr>
 					<tr>
 						<th>과제 첨부파일 업로드</th>
-						<td><input type="file" name="reportAttachedFile">
+						<td><input type="file" name="file">
 						<button type="button" class="btn btn-primary">기본 정보 불러오기</button></td>
 					</tr>
 					<tr>
@@ -65,7 +66,7 @@
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				enterDate();
+				enterDate("reportStartDate", "reportEndDate");
 				editor();
 			})
 			
@@ -73,18 +74,14 @@
 			function editor() {
 				tinymce.
 					init({
-						selector : '#reportContent'
+						selector : '#reportContent',
+						submit_patch : false,
+						setup: function(editor) {
+							editor.on('change', function() {
+								editor.save();
+							})
+						}
 					})
-			}
-			
-			// 주차별 날짜 자동 입력(중복 코드, 추후 취합 필요)
-			function enterDate() {
-				$(document).on("change", "select[name=weekCode]", function(e) {
-					let startDate = $($(e.target).children(":selected")).data("start");
-					let endDate = $($(e.target).children(":selected")).data("end");
-					$("input[name=lectureStartDate]").val(startDate);
-					$("input[name=lectureEndDate]").val(endDate);
-				})
 			}
 			
 		</script>

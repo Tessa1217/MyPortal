@@ -2,4 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.report.service.StudentReportMapper">
+	<resultMap id="reportMap" type="ReportVO">
+		<id column="report_code" property="reportCode"/>
+		<result column="week_code" property="weekCode"/>
+		<result column="report_reg_date" property="reportRegDate"/>
+		<result column="report_start_date" property="reportStartDate"/>
+		<result column="report_end_date" property="reportEndDate"/>
+		<result column="report_title" property="reportTitle"/>
+		<result column="report_content" property="reportContent"/>
+		<result column="report_assigned_score" property="reportAssignedScore"/>
+		<result column="report_file_code" property="reportFileCode"/>
+		<result column="course_code" property="courseCode"/>
+		<association property="reportFile" javaType="ReportFileVO">
+			<id column="report_file_code" property="reportFileCode"/>
+			<result column="report_file_name" property="reportFileName"/>
+			<result column="report_file_stored_name" property="reportFileStoredName"/>
+			<result column="report_file_extension" property="reportFileExtension"/>
+			<result column="report_file_path" property="reportFilePath"/>
+			<result column="user_code" property="userCode"/>
+			<result column="submit_id" property="submitId"/>
+		</association>
+	</resultMap>
+	<select id="getReportList" resultMap = "reportMap">
+		SELECT 
+			i.report_code,
+			i.week_code,
+			i.report_reg_date,
+			i.report_start_date,
+			i.report_end_date,
+			i.report_title,
+			i.report_content,
+			i.report_assigned_score,
+			i.course_code,
+			i.report_file_code,
+			f.report_file_code,
+			f.report_file_name,
+			f.report_file_path
+			FROM report_info i JOIN report_file f
+			ON i.report_file_code = f.report_file_code
+			<where>
+				<if test="courseInfo != null OR courseInfo != ''">
+					AND i.course_code = #{courseInfo.courseCode}
+				</if>
+				<if test="report != null OR report != ''">
+					AND i.report_code = #{report.reportCode}
+				</if>
+			</where>
+			ORDER BY i.week_code DESC
+	</select>
+	<select id="getFile" resultType="ReportFileVO">
+	</select>
+	<insert id="uploadFile" parameterType="ReportFileVO">
+	</insert>
+	<insert id="insertReportSubmission" parameterType="ReportSubmissionVO">
+	</insert>
 </mapper>
