@@ -133,12 +133,16 @@
 						<th>관계</th>
 						<td><select class="form-select" name="parentsRelUpdate" id="parentsRelUpdate"
 							th:value="${studentInfoSelect.parentsRel}">
-								<option th:selected="${studentInfoSelect.parentsRel}=='P01'"
+								<th:block th:each="code : ${codeList}">
+									<option th:value="${code.detailCode}" th:text="${code.detailName}"
+									th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}">
+								</th:block>
+								<!-- <option th:selected="${studentInfoSelect.parentsRel}=='P01'"
 									th:value="P01" th:text="부"></option>
 								<option th:selected="${studentInfoSelect.parentsRel}=='P02'"
 									th:value="P02" th:text="모"></option>
 								<option th:selected="${studentInfoSelect.parentsRel}=='ETC'"
-									th:value="ETC" th:text="기타"></option>
+									th:value="ETC" th:text="기타"></option> -->
 						</select></td>
 						<!-- <td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
 					<td th:if="${studentInfoSelect.parentsRel =='P02'}">모</td>

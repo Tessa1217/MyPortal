@@ -1,62 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<th:block layout:fragment="professorEclassContent">
-	<div id="main">
-		<div class="page-title">
-			<h2>내 강의 시험 관리</h2>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>시험</th>
-							<th>주차</th>
-							<th>시험 시작일</th>
-							<th>시험 마감일</th>
-							<th>시험 응시 가능 시간</th>
-							<th>시험 문항 수</th>
-							<th>시험 총점</th>
-							<th>시험 등록</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="e : ${examList}">
-							<td th:if="${#strings.startsWith(e.examCode, 'M')}">중간</td>
-							<td th:if="${#strings.startsWith(e.examCode, 'F')}">기말</td>
-							<td th:text="${#strings.substring(e.weekCode, 8, 10)}"></td>
-							<td th:text="${#dates.format(e.examStartDate, 'yyyy-MM-dd')}"></td>
-							<td th:text="${#dates.format(e.examEndDate, 'yyyy-MM-dd')}"></td>
-							<td th:text="|${e.examDuration/60}분|"></td>
-							<td th:text="|${e.examTotalQuestion} 문항|"></td>
-							<td th:text="|${e.examTotalScore}점|"></td>
-							<td th:if="${e.examSubmit} == 'SUB'">
-							<button type="button" 
-							class="btn btn-primary rounded-pill"
-							th:onclick="|location.href='@{/professor/eclass/examCheck/{examCode}(examCode=${e.examCode})}'|">
-							등록 완료
-							</button>
-							</td>
-							<td th:if="${e.examSubmit} == 'UNSUB'">
-							<button type="button" 
-							class="btn btn-danger rounded-pill"
-							th:onclick="|location.href='@{/professor/eclass/examInsert/{examCode}(examCode=${e.examCode})}'|">
-							작성 중
-							</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+			<div class="page-title">
+				<h2>내 강의 시험 관리</h2>
 			</div>
+			<th:block th:unless="${examList.isEmpty()}">
+				<div class="card">
+					<div class="card-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>시험</th>
+									<th>주차</th>
+									<th>시험 시작일</th>
+									<th>시험 마감일</th>
+									<th>시험 응시 가능 시간</th>
+									<th>시험 문항 수</th>
+									<th>시험 총점</th>
+									<th>시험 등록</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="e : ${examList}">
+									<td th:if="${#strings.startsWith(e.examCode, 'M')}">중간</td>
+									<td th:if="${#strings.startsWith(e.examCode, 'F')}">기말</td>
+									<td th:text="${#strings.substring(e.weekCode, 8, 10)}"></td>
+									<td th:text="${#dates.format(e.examStartDate, 'yyyy-MM-dd')}"></td>
+									<td th:text="${#dates.format(e.examEndDate, 'yyyy-MM-dd')}"></td>
+									<td th:text="|${e.examDuration/60}분|"></td>
+									<td th:text="|${e.examTotalQuestion} 문항|"></td>
+									<td th:text="|${e.examTotalScore}점|"></td>
+									<td th:if="${e.examSubmit} == 'SUB'">
+										<button type="button" class="btn btn-primary rounded-pill"
+											th:onclick="|location.href='@{/professor/eclass/examCheck/{examCode}(examCode=${e.examCode})}'|">
+											등록 완료</button>
+									</td>
+									<td th:if="${e.examSubmit} == 'UNSUB'">
+										<button type="button" class="btn btn-danger rounded-pill"
+											th:onclick="|location.href='@{/professor/eclass/examInsert/{examCode}(examCode=${e.examCode})}'|">
+											작성 중</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</th:block>
+			<th:block th:if="${examList.isEmpty()}">
+				<div class="card">
+					<div class="card-header center">
+						<h4>현재 강의에 등록된 시험이 없습니다.</h4>
+					</div>
+					<div class="card-body">
+						<div class="btnContainer">
+							<button class="btn btn-lg btn-primary" type="button"
+								th:onclick="|location.href='@{/professor/eclass/examInsert}'|">시험 등록하기</button>
+						</div>
+					</div>
+				</div>
+			</th:block>
 		</div>
-	</div>
-</th:block>
+	</th:block>
 </body>
 </html>

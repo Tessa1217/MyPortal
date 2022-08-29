@@ -1,6 +1,8 @@
 package com.project.portal.student.web;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
-import com.project.portal.mycourse.service.MyCourseVO;
+import com.project.portal.common.service.CodeService;
+import com.project.portal.common.service.CodeVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 import com.project.portal.tempcourse.web.TempcourseController;
@@ -32,6 +35,7 @@ public class StudentController {
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
 	
 	@Autowired StudentService service;
+	@Autowired CodeService codeService;
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
@@ -58,7 +62,11 @@ public class StudentController {
 	//학생 개인 조회(학생)
 	@RequestMapping("/student/studentInfoSelect")
 	public String StudentInfoSelect(StudentVO vo, Model model) {
+		// 부모 공통 코드
+		List<CodeVO> codeList = new ArrayList<CodeVO>();
+		codeList = codeService.getDetailList("R02");
 		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
+		model.addAttribute("codeList", codeList);
 		return "student/info/personal";
 	}
 		
