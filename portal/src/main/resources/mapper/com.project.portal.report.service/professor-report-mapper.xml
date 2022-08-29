@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.report.service.ProfessorReportMapper">
+	
+	<select id="getReportList" resultType="ReportVO">
+		SELECT report_code,
+						week_code,
+						report_reg_date,
+						report_start_date,
+						report_end_date,
+						report_title,
+						report_assigned_score,
+						report_attached_file,
+						course_code
+						FROM report_info
+						WHERE course_code = #{courseCode}
+	</select>
+	<insert id="insertReport" parameterType="ReportVO">
+		INSERT INTO report_info (report_code,
+															week_code,
+															report_reg_date,
+															report_start_date,
+															report_end_date,
+															report_title,
+															report_assigned_score,
+															report_attached_file
+															)
+									VALUES (
+													#{weekCode}||LPAD(report_seq, 8, '0'),
+													#{weekCode},
+													SYSDATE,
+													#{reportStartDate},
+													#{reportEndDate},
+													#{reportTitle},
+													#{reportAssignedScore},
+													#{reportAttachedFile}
+													)
+	</insert>
+</mapper>

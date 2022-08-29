@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+			<div class="card">
+			<div class="card-header">
+			<h1>강의 과제 등록하기</h1>
+			</div>
+			<div class="card-body">
+			<form name="reportFrm" th:action="@{/professor/eclass/insertLecture}" method="POST" enctype="multipart/form-data">
+				<table class="table">
+					<tr>
+						<th>과제명</th>
+						<td><input type="text" name="reportTitle"></td>
+					</tr>
+					<tr>
+						<th>강의주차</th>
+						<td><select name="weekCode">
+							<option value="">주차</option>
+							<th:block th:each="week : ${courseInfo.weekPlans}">
+							<option th:value="${week.weekCode}"
+							th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
+							th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
+							>[[${week.weekNum}]]</option>
+							</th:block>
+						</select></td>
+					</tr>
+					<tr>
+						<th>과제 시작일</th>
+						<td><input type="date" name="reportStartDate"></td>
+					</tr>
+					<tr>
+						<th>과제 제출 마감일</th>
+						<td><input type="date" name="reportEndDate"></td>
+					</tr>
+					<tr>
+						<th>과제 배점</th>
+						<td><input type="number" name="reportAssignedScore"> 점</td>
+					</tr>
+					<tr>
+						<th>과제 첨부파일 업로드</th>
+						<td><input type="file" name="reportAttachedFile">
+						<button type="button" class="btn btn-primary">기본 정보 불러오기</button></td>
+					</tr>
+					<tr>
+						<th>참고사항</th>
+						<td><input type="text" name="reportContent"></td>
+					</tr>
+				</table>
+				<div align="center">
+					<button type="submit" class="btn btn-danger">등록하기</button>
+					<button id="check" type="button" class="btn btn-primary">취소</button>
+				</div>
+			</form>
+			</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				enterDate();
+			})
+			
+			// 주차별 날짜 자동 입력(중복 코드, 추후 취합 필요)
+			function enterDate() {
+				$(document).on("change", "select[name=weekCode]", function(e) {
+					let startDate = $($(e.target).children(":selected")).data("start");
+					let endDate = $($(e.target).children(":selected")).data("end");
+					$("input[name=lectureStartDate]").val(startDate);
+					$("input[name=lectureEndDate]").val(endDate);
+				})
+			}
+			
+		</script>
+	</th:block>
+</body>
+</html>
