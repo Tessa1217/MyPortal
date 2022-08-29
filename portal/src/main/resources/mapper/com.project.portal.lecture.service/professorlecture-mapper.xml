@@ -18,7 +18,18 @@
 		</association>
 	</resultMap>
 	<select id="getLectureList" resultMap="lectureMap">
-		SELECT L.*, V.video_name, V.video_file_path
+		SELECT L.lecture_code,
+			L.week_code,
+			L.lecture_reg_date,
+			L.lecture_start_date,
+			L.lecture_end_date,
+			L.lecture_att_time,
+			L.lecture_content,
+			L.video_code,
+			L.lecture_title,
+			L.course_code, 
+			V.video_name, 
+			V.video_file_path
 			FROM lecture L JOIN video V
 			ON L.video_code = V.video_code
 			WHERE L.week_code IN (SELECT week_code

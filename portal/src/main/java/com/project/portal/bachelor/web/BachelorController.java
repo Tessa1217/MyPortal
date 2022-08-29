@@ -18,7 +18,8 @@ public class BachelorController {
 	@Autowired BachelorScheduleService service;
 	
 	// 학사일정 조회
-	/*
-	 * @RequestMapping("")
-	 */
+	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
+	public String getSchedule() {
+		return "common/schedule";
+	}
 }

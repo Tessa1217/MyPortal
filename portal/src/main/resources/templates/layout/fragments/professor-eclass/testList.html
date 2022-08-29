@@ -14,12 +14,11 @@
 		<div class="col-6">
 			<div>
 				<form id="prevExamListFrm">
-					<input type="hidden" name="courseCode"
-						th:value="${courseInfo.courseCode}">
 					<div class="row">
 						<div class="page-title">
 							<h4>이전 강의 시험지 검색</h4>
 						</div>
+						<input type="hidden" name="courseName" th:value="${courseInfo.courseName}">
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label>강의 년도:</label> <input type="number" name="courseYear" value="0"
