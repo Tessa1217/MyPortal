@@ -18,6 +18,11 @@
 .card {
 	padding: 3%;
 }
+.hidden {
+
+    display:none;
+
+}
 </style>
 </head>
 <body>
@@ -41,7 +46,7 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th>제출여부</th>
+										
 										<th>승인여부</th>
 										<th>비승인 사유</th>
 										<th>승인하기</th>
@@ -51,7 +56,7 @@
 								<tbody>
 
 									<tr>
-										<td th:text="${tempcourse.submitYesName}" id="submitYes"
+										<td class="hidden" th:text="${tempcourse.submitYesName}" id="submitYes"
 											th:data-codee="${tempcourse.submitYes}"></td>
 										<td th:text="${tempcourse.okayYesName}" id="okayYes"
 											th:data-back="${tempcourse.okayYes}"></td>
