@@ -145,7 +145,6 @@
 					if(courseCodeCheck){
 						return alert('이미 담겨있는 강의입니다.');
 					}
-
 					let allCourseCredit = creditTotalSum();
 					const oSelectDom = $(this)[0].parentElement.parentElement;
 					const iSelectNum = parseInt(oSelectDom.children[3].textContent);
@@ -176,7 +175,7 @@
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
-								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">삭제</button></td>
+								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">취소</button></td>
 								</tr>`;
 								
 							$("#pBody").append(content);

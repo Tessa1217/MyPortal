@@ -20,4 +20,6 @@ public class RegisterVO {
 	private String collegeName;
 	private String departName;
 	private String departmentCode;
+	private String packageYn;
+	private int packageCredit;
 }

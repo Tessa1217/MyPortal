@@ -5,12 +5,16 @@
 
 	<select id="registerList"
 		resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT a.course_code, a.course_name, a.course_sortation,
-		a.course_credit, a.course_limit, b.professor_name
+		SELECT a.course_code, 
+			   a.course_name, 
+			   a.course_sortation,
+		       a.course_credit, 
+		       a.course_limit, 
+		       
+		       b.professor_name
 		FROM course a
-		INNER
 		JOIN professor b
-		ON a.professor_id = b.professor_id
+			ON a.professor_id = b.professor_id
 		<where>
 			<if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
@@ -21,22 +25,44 @@
 
 	<select id="studentInfo"
 		resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT a.student_id, b.student_name, a.student_grade,
-		c.college_code, a.department_code, d.college_name, c.depart_name
-		FROM
-		STUDENT_STUDY_INFO a
-		INNER JOIN STUDENT_PRI_INFO b
-		ON a.student_id =
-		b.student_id
-		INNER JOIN DEPARTMENT c
-		ON a.department_code =
-		c.depart_code
-		INNER JOIN college d
-		ON c.college_code = d.college_code
+		SELECT a.student_id, 
+			   a.student_grade,
+			   a.department_code, 
+			   
+			   b.student_name, 
+			   
+			   c.college_code, 
+			   c.depart_name,
+			   
+			   d.college_name
+			FROM STUDENT_STUDY_INFO a
+			JOIN STUDENT_PRI_INFO b
+				ON a.student_id = b.student_id
+			JOIN DEPARTMENT c
+				ON a.department_code = c.depart_code
+			JOIN college d
+				ON c.college_code = d.college_code
 		WHERE a.student_id = #{studentId}
 	</select>
 	
-	<!-- <insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
-		INSERT INTO 
-	</insert> -->
+	<select id="packageNList" resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT a.course_code, 
+			   a.package_yn,
+			   a.student_id,
+			   
+			   b.course_sortation, 
+			   b.course_name, 
+			   b.course_credit, 
+			   b.professor_id, 
+			   b.course_limit, 
+			   
+			   c.professor_name 
+			FROM course_package a
+			JOIN course b
+				ON a.course_code = b.course_code
+			JOIN professor c
+				ON b.professor_id = c.professor_id
+		WHERE package_yn = 'N' AND a.student_id = #{studentId}
+	
+	</select>
 </mapper>

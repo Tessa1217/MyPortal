@@ -61,8 +61,7 @@
 					</optgroup>
 				</select>
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				<button class="btn rounded-pill btn-primary" type="button"
-					onclick="location.href='courseRegister'">초기화</button>
+				<button class="btn rounded-pill btn-primary" type="button" onclick="location.href='courseRegister'">초기화</button>
 			</form>
 			<br>
 			<div class="overflow-auto" style="max-height: 300px;">
@@ -93,129 +92,101 @@
 			<hr>
 			<div>
 				<h4>수강꾸러미 내역 / 수강신청 LIST</h4>
-				 <form name="frm">
-				<input type="text" placeholder="과목 코드">
-				<button id="regBtn" type="button" class="btn rounded-pill btn-primary btnInsert" disabled>신청</button>
+				<form name="frm">
+					<input type="text" placeholder="과목 코드">
+					<button id="regBtn" type="button" class="btn rounded-pill btn-primary btnInsert" disabled>신청</button>
 					<input type="text" size="18" name="output" placeholder="자동신청 방지코드">
-					<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)" class="btn rounded-pill btn-primary">
-					<input type="text" size="18" name="che"><input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary">
+					<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
+						class="btn rounded-pill btn-primary">
+					<input type="text" size="18" name="che"><input type="button" value="확인" onClick="check()"
+						class="btn rounded-pill btn-primary">
 					<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
 				</form>
-			<div>
+				<div>
+					<br>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>과목 코드</th>
+								<th>이수 구분</th>
+								<th>강의명</th>
+								<th>학점</th>
+								<th>담당 교수</th>
+								<th>수강 인원</th>
+							</tr>
+						</thead>
+						<tbody id="rBody">
+							<tr th:each="item:${packageNList}">
+								<td th:text="${item.courseCode}"></td>
+								<td th:text="${item.courseSortation}"></td>
+								<td th:text="${item.courseName}"></td>
+								<td th:text="${item.courseCredit}"></td>
+								<td th:text="${item.professorName}"></td>
+								<td th:text="${item.courseLimit}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<br>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>과목 코드</th>
-							<th>학년</th>
-							<th>이수 구분</th>
-							<th>강의명</th>
-							<th>학점</th>
-							<th>담당 교수</th>
-							<th>수강 인원</th>
-						</tr>
-					</thead>
-					<tbody id="rBody">
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+				<div>
+					<h4 style="display: inline;">신청과목 LIST</h4>
+					<h6 style="display: inline;">신청가능 학점:<span
+							th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span></h6>
+					<h6 style="display: inline;">전공학점:</h6>
+					<h6 style="display: inline;">교양학점:</h6>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>과목 코드</th>
+								<th>이수 구분</th>
+								<th>강의명</th>
+								<th>학점</th>
+								<th>담당 교수</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<br>
-			<div>
-				<h4 style="display: inline;">신청과목 LIST</h4>
-				<h6 style="display: inline;" >신청가능 학점:<span th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span></h6>
-				<h6 style="display: inline;">전공학점:</h6>
-				<h6 style="display: inline;">교양학점:</h6>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>과목 코드</th>
-							<th>이수 구분</th>
-							<th>강의명</th>
-							<th>학점</th>
-							<th>담당 교수</th>
-							<th>삭제</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
 		</div>
 		<script th:inline="javascript">
-			$(function () {
-				$(".btnInsert").on("click", coursePackageInsert)
-				function coursePackageInsert() {
-					let code = $(this).data("code")
-					$.ajax({
-						url: "/student/registerInsert",
-						method: "post",
-						dataType: "json",
-						data: {
-							"courseCode": code
-						},
-						dataType: "json",
-						success: function (item) {
-							//location.reload();
-							let content = `<tr>
-								<td>${item.courseCode}</td>
-								<td>${item.courseSortation}</td>
-								<td>${item.courseName}</td>
-								<td>${item.courseCredit}</td>
-								<td>${item.professorName}</td>
-								<td>${item.courseLimit}</td>
-								</tr>`
-							$("#rBody").append(content)
-						}
-					});
-				}
-			})
+
 		</script>
 
 		<script th:inline="javascript">
 			var keyList = "abcdefABCDEF0123456789"
 			var temp = ''
 			function generatepass(plength) {
-			temp = ''
-			for (i = 0; i < plength; i++)
-			 		temp += keyList.charAt(Math.floor(Math.random() * keyList.length))
-			 	return temp
-			 }
-			 function populateform(enterlength) {
-			 	document.frm.output.value = generatepass(enterlength)
-			 }
-			 function check() {
-				debugger;
-			 	if (!document.frm.che.value) {
-				return alert('자동방지코드를 입력하세');
-			 	} else if(temp == document.frm.che.value) {
+				temp = ''
+				for (i = 0; i < plength; i++)
+					temp += keyList.charAt(Math.floor(Math.random() * keyList.length))
+				return temp
+			}
+			function populateform(enterlength) {
+				document.frm.output.value = generatepass(enterlength)
+			}
+			function check() {
+				if (!document.frm.che.value) {
+					return alert('자동방지코드를 입력하세요');
+				} else if (temp == document.frm.che.value) {
 					const oRegBtn = document.getElementById("regBtn");
 					oRegBtn.disabled = false;
-					
-				return alert('신청 성공');
-				}else {
-			 	return alert('다시입력해주세요');
-			 	}
-			 }
+				} else {
+					return alert('다시입력해주세요');
+				}
+			}
 
-	
+
 		</script>
 	</th:block>
 </body>
