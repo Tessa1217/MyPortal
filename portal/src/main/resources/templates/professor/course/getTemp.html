@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.offPage {
+/* .offPage {
 	display: none;
 }
 
@@ -17,7 +17,7 @@
 
 .card {
 	padding: 3%;
-}
+} */
 
 .hidden {
 	display: none;
@@ -71,6 +71,8 @@
 										<td th:if="${tempcourse.backReason == null}" id="backReason"
 											th:data-code="null"></td>
 										<td th:if="${tempcourse.backReason != null}" id="backReason"
+										th:data-coursecod="${tempcourse.courseCode}"
+											data-toggle="modal" data-target="#backReasonWhy" class="btn btn-primary backReasonWhy"
 											th:data-code="비승인">비승인</td>
 										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
 												name="button1" class="btn btn-danger moddd"
@@ -89,8 +91,7 @@
 									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
 
 
-										<br>
-										<br>
+										<br> <br>
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
@@ -110,7 +111,7 @@
 												<label>강의 학기</label>
 											</div>
 											<div class="col-md-8 form-group">
-											<!-- <select id="courseSemester" name="courseSemester"
+												<!-- <select id="courseSemester" name="courseSemester"
 													class="form-control">
 													<option class="hidden" value=""
 														th:text="${tempcourse.courseSemester}" disabled selected></option>
@@ -118,9 +119,10 @@
 													<option th:value="2" th:text="2학기"></option>
 													
 												</select> -->
-											 	<input th:value="${tempcourse.courseSemester}" id="courseSemester"
-													name="courseSemester" class="form-control">
-												
+												<input th:value="${tempcourse.courseSemester}"
+													id="courseSemester" name="courseSemester"
+													class="form-control">
+
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -293,6 +295,53 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 모달창 -->
+		<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+			tabindex="-1" aria-labelledby="staticBackdropLabel"
+			aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
+					</div>
+					<div class="modal-body">
+						<div class="container my-auto">
+							<div class="row">
+								<div class="card z-index-0 fadeIn3 fadeInBottom">
+									<div class="card-body">
+										<table class="table">
+											<tr>
+												<th>비승인 사유</th>
+											</tr>
+										
+										
+											
+												
+												<tr>
+												<td id="backReason2"></td>
+												</tr>
+											
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-container modal-footer">
+							<!-- <button type="button" class="btn btn-outline-danger"
+								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
+							<button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
 
 		<script th:inline="javascript">
 			
@@ -300,6 +349,8 @@
 				showPage();
 				saveTempInfo(); 
 				enterDate();
+				 backReasonWhy();
+					modalOff();
 				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
 				$("#courseCredit").val([[${tempcourse.courseCredit}]]);
 				
@@ -484,6 +535,47 @@
 					});
 				}
 			})
+			
+			//비승인 사유 모달창  열기
+			 function backReasonWhy(){
+				$(".backReasonWhy").on("click", function(){
+					let courseCode = $(this).data("coursecod")
+					
+				$.ajax({
+					type : "POST",
+					url : "/professor/tempcourseList/backReasonWhy",
+					data : 
+						{
+						
+						courseCode : courseCode
+						
+						},
+						
+					dataType : "json",
+					success : function(data){
+						
+						$("#backReason2").text(data.backReason)
+						$('#backReasonWhy').modal('show');
+						
+					},
+					error : function(reject){
+						alert("실패");
+					}
+				});
+				});
+				}
+			
+				
+		
+			//모달창 끄기
+			function modalOff() {
+				$("#closeModal").on("click", function() {
+					$('#backReasonWhy').modal('hide');
+				})
+			}
+			
+			
+			
 			
 		  tinymce.init({
 			        selector: '#courseSummary',
