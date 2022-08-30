@@ -30,10 +30,8 @@ public class myQuestionController {
 	public String getStuMyQuestion(myQuestionVO vo, Model model) {
 		
 		vo.setStudentId("22000001");
-		
 		//질문 목록 조회
-		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo.getStudentId()));
-		//model.addAttribute("courseQuestionCheck", service.getStuMyQuestionCheck(vo.getStudentId()));
+		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
 		return "student/eclass/question/courseQuestion";
 	}
 	
@@ -42,7 +40,7 @@ public class myQuestionController {
 	@RequestMapping("/professor/eclass/courseQuestion")
 	public String getProfMyQuestion(myQuestionVO vo, Model model) {
 		vo.setCourseCode("SSPY0001");
-		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo.getCourseCode()));
+		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo));
 		return "professor/eclass/lecture/courseQuestion";
 	}
 	

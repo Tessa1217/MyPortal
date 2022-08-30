@@ -52,7 +52,7 @@
 									COURSE_NOTICE_CONTENT,
 									COURSE_NOTICE_REG_DATE,
 									COURSE_NOTICE_UPDATE_DATE,
-									COURSE_NOTICE_ATTACHED_FILE,
+									COURSE_NOTICE_ATTACHED_FILENAME,
 									COURSE_NOTICE_HIT)
 									VALUES (
 										COURSE_NOTICE_SEQ.nextval,
@@ -79,5 +79,30 @@
 		       COURSE_NOTICE_UPDATE_DATE = SYSDATE
          WHERE COURSE_CODE = #{courseCode} AND COURSE_NOTICE_NO = #{courseNoticeNo}
 	</update>
+	
+	
+	<insert id="fileUpload" parameterType="StudyNoticeFileVO">
+		INSERT INTO COURSE_NOTICE_FILE (FNO,
+									    FILENAME,
+									    FILEORINAME,
+									    GROUPNO)
+										VALUES (course_notice_file_seq.nextval,
+										 	    #{fileName},
+										 	    #{fileOriName},
+										 	    #{groupNo}
+										 	   ) 
+	</insert>
+	
+	<select id="fileUploadGroupNum" resultType="String">
+		SELECT MAX(GROUPNO) + 1
+		  FROM COURSE_NOTICE_FILE
+	</select>
+	
+	<select id="selectFile" resultType="StudyNoticeFileVO">
+		SELECT F.FILEORINAME
+		FROM COURSE_NOTICE N JOIN COURSE_NOTICE_FILE F
+		ON N.COURSE_NOTICE_ATTACHED_FILENAME = F.GROUPNO
+		WHERE COURSE_CODE = #{courseCode} AND COURSE_NOTICE_NO = #{courseNoticeNo}
+	</select>
 	
 </mapper>

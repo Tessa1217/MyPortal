@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.studynotice.service.StudyNoticeFileVO;
 import com.project.portal.studynotice.service.StudyNoticeMapper;
 import com.project.portal.studynotice.service.StudyNoticeService;
 import com.project.portal.studynotice.service.StudyNoticeVO;
@@ -88,6 +89,26 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		// TODO Auto-generated method stub
 		mapper.modifyStudyNotice(vo);
 	}
+
+	@Override
+	public void fileUpload(StudyNoticeFileVO vo) {
+		// TODO Auto-generated method stub
+		mapper.fileUpload(vo);
+	}
+
+	@Override
+	public String fileUploadGroupNum() {
+		// TODO Auto-generated method stub
+		return mapper.fileUploadGroupNum();
+	}
+
+	@Override
+	public List<StudyNoticeFileVO> selectFile(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectFile(vo);
+	}
+
+
 
 
 

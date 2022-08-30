@@ -12,6 +12,9 @@
 		FROM LECTURE_QUESTION Q
 		JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
 		WHERE Q.STUDENT_ID = #{studentId}
+		 <if test="weekValue != null and weekValue !=''">
+				AND W.WEEK_NUM = #{weekValue} 
+		</if>
 		ORDER BY 1 ASC
 	</select>
 	
@@ -56,6 +59,9 @@
           JOIN COURSE_WEEKLY W 
             ON L.WEEK_CODE = W.WEEK_CODE
        WHERE W.COURSE_CODE = #{courseCode}
+        <if test="weekValue != null and weekValue !=''">
+				AND W.WEEK_NUM = #{weekValue} 
+		</if>
 	</select>
 	
 	
@@ -65,9 +71,12 @@
 		       W.WEEK_NUM,
 		       Q.LECTURE_QUESTION_CONTENT,
 		       Q.LECTURE_QUESTION_REG_DATE,
-		       Q.LECTURE_QUESTION_NUM
+		       Q.LECTURE_QUESTION_NUM,
+		       A.LECTURE_ANSWER_CONTENT
           FROM LECTURE_QUESTION Q JOIN COURSE_WEEKLY W
             ON Q.WEEK_CODE = W.WEEK_CODE
+          LEFT OUTER JOIN LECTURE_ANSWER A 
+            ON Q.LECTURE_QUESTION_NUM = A.LECTURE_QUESTION_NUM
          WHERE Q.LECTURE_QUESTION_NUM = #{lectureQuestionNum}
 	</select>
 	

@@ -14,12 +14,13 @@
 	display : none
 }
 
+
 </style>
 	<div id="main">
 		<h2>질문 목록</h2>
 		<br>
-		<form name="frmsearch">
-		<select id="searchType"  name="searchType">
+		<form name="frmsearch" action="/professor/eclass/courseQuestion">
+		<select id="weekValue"  name="weekValue">
 			<option value="1">1주차</option>
 			<option value="2">2주차</option>
 			<option value="3">3주차</option>
@@ -37,8 +38,9 @@
 			<option value="15">15주차</option>
 		</select>
 		
-		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
-		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
+		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">주차별검색</button>
+		<button type="button" class="saveBtn btn btn-primary me-1 mb-1"
+		onclick="location.href='/professor/eclass/courseQuestion'">전체목록조회</button>
 		
 		</form>
 		
@@ -75,6 +77,7 @@
 	
 	
 		<!-- 모달창 -->
+	<div class="modal-dialog modal-xl">	
 	 <div class="modal fade" id="courseQuestionDetail" data-bs-backdrop="static" tabindex="-1"
          aria-labelledby="staticBackdropLabel"
          aria-hidden="true">
@@ -89,12 +92,12 @@
                             <div class="row">
                                 <div class="card z-index-0 fadeIn3 fadeInBottom">
                                     <div class="card-body">
-                                    <form action="/professor/eclass/courseQuestionInsert">
+                                    <form id="frm" name="frm" action="/professor/eclass/courseQuestionInsert">
                                     	<table class="table">
                                     			<tr>
                                     				<td>질문번호</td>
                                     				<td id="questionnum"></td>
-                                    			</tr>
+                                    			</tr> 
                                     			<tr>
                                     				<td>제목</td>
                                     				<td id="title"></td>
@@ -118,7 +121,7 @@
                                     			<tr>
                                     				<td>답변 내용</td>
                                     				<td>
-                                    				<textarea class="form-control hidden" name="lectureAnswerContent" id="Answeredit"></textarea>
+                                    				<textarea class="form-control hidden" name="lectureAnswerContent" id="Answeredit" required></textarea>
                                     				<div id="answercontentview"></div>
                                     				</td>
                                     				<!-- <td colspan="3">
@@ -134,9 +137,12 @@
                             			th:onclick="modifyAnswer()">답변 수정</button>
                             			
                             			<button type="button" class="btn btn-primary hidden" id="Prev">이전</button>
-                            			<button type="button" class="btn btn-primary" id="Modify">수정</button>
+                            			<button type="button" class="btn btn-primary" id="Modify" >수정</button>
+                            			  <button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
                                     </form>
                                    
+
 
                                     </div>
                                 </div>
@@ -145,22 +151,20 @@
 
                         <div class="input-container modal-footer">
                            
-                            <button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+                          
                         </div>
                     
                 </div>
             </div>
         </div>
     </div>
-    
+   </div>
     <script th:inline="javascript">
     	
     $(function () {
 		courseQuestionDetail();
 		modalOff();
 		insertAnswer();
-		insertAnswerCheck();
 	})
 	// 질문 상세조회
 	function courseQuestionDetail () {
@@ -181,51 +185,50 @@
 	                 $("#week").text(data.weekNum)
 	                 $("#questioncontent").text(data.lectureQuestionContent)
 	                 $("#answerregdate").text(data.lectureQuestionRegDate)
-	                 
+	                 $('#answercontentview').text(data.lectureAnswerContent)
+	                 $('#Answeredit').text(data.lectureAnswerContent)
 	                 
 	                 // 답변 등록이 되어있지 않을 경우 보여질 등록(insert) modal form
-	                 if((data.lectureAnswerContent) == null) {
+	                 if(data.lectureAnswerContent == null || data.lectureAnswerContent == '') {
 	                	 $("#Answeredit").show()
+	                	 $("#AnswerReg").show() // 답변등록
 	                	 $("#Modify").hide()
+	                	 $("#Prev").hide()
+	                	 $("#AnswerMod").hide()
 	                 } else {  // 답변 등록이 되어있는 경우 수정(update) modal form
 	                	 $("#Answeredit").hide()
-	                	 $("#AnswerReg").show()
- 
-	                 }
-                	 
-                	 
-	                 
-	                 
+	                	 $("#AnswerReg").hide()
+	                	 $("#Modify").show()
+	                 }     
                },
                error : function(reject) {
             	   alert("통신 실패");	
-               }
-                
+               }  
     		})
     		$('#courseQuestionDetail').modal('show');
-    		
     	})
-    	
    	}
-    	
- 
+
     
     
  // 모달창 끄기 버튼
-	function modalOff() {
+	 function modalOff() {
 		$("#closeModal").on("click", function() {
 			$('#courseQuestionDetail').modal('hide');
 		})
-	}
+	} 
  
-
- 
- 
- 
- // 답변 등록
+ // 답변 등록 (답변내용 check 후 null 또는 빈값이 아니면 등록)
  	function insertAnswer() {
 	 
- 		//질문 번호
+	 	var frmContent = frm.lectureAnswerContent.value
+	 	//답변 내용이 있는지 확인
+	 	if(frmContent == '' || frmContent == null) {
+	 		window.alert('답변 내용이 없습니다.')
+	 		return false;
+	 	}
+	 	
+ 		//질문 번호, 답변 내용
  		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val()
  		let lectureQuestionNum = $('#questionnum').text()
  		console.log(lectureAnswerContent);
@@ -244,24 +247,24 @@
             	alert('답변이 등록 되었습니다.')
             }
  		})  
- 	}
+ 	} 
 
  	
  // 수정 버튼 처리 (수정페이지로 이동)
 	$('#Modify').click(function() {
  		$('#answercontent').hide()  //답변 내용
- 		$('#AnswerReg').hide()
- 		$('#AnswerMod').show()
- 		$('#Prev').show()
- 		$('#Answeredit').show()
- 		$('#Modify').hide()
+ 		$('#AnswerReg').hide() //답변 등록
+ 		$('#AnswerMod').show() // 답변 수정
+ 		$('#Prev').show() // 이전
+ 		$('#Answeredit').show() // 수정 textarea
+ 		$('#Modify').hide() // 수정
  		$('#answercontentview').hide()
 	})
 	
 	// 수정 이전 버튼
 	$('#Prev').click(function() {
  		$('#answercontent').show()  //답변 내용
- 		$('#AnswerReg').show()
+ 		$('#AnswerReg').hide()
  		$('#AnswerMod').hide()
  		$('#Prev').hide()
  		$('#Answeredit').hide()
@@ -271,6 +274,14 @@
 	
 	// 답변 수정 처리
 	function modifyAnswer() {
+	 
+		var frmContent = frm.lectureAnswerContent.value
+	 	//답변 내용이 있는지 확인
+	 	if(frmContent == '' || frmContent == null) {
+	 		window.alert('답변 내용이 없습니다.')
+	 		return false;
+	 	}
+		
 		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val() // 답변 내용
  		let lectureQuestionNum = $('#questionnum').text() //
  		

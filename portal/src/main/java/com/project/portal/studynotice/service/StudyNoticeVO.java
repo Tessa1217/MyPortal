@@ -1,6 +1,7 @@
 package com.project.portal.studynotice.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,11 +17,14 @@ public class StudyNoticeVO {
 	private Date courseNoticeRegDate; // 강의 공지사항 등록일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date courseNoticeUpdateDate; // 강의 공지사항 변경일
-	private String courseNoticeAttachedFile; // 강의 공지사항 첨부파일
+	
+	private String courseNoticeAttachedFile; // 강의 공지사항 첨부파일 그룹번호
+	
 	private int courseNoticeHit; // 공지사항 조회 수
 	private String professorName; // 교수이름
 	private String searchType; // 검색타입
 	private String search; // 검색 값
+	private String groupNo; // 파일 그룹번호
 	
 	
 	

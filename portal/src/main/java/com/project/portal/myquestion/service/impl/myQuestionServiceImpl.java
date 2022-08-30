@@ -17,14 +17,14 @@ public class myQuestionServiceImpl implements myQuestionService {
 	@Autowired
 	myQuestionMapper mapper;
 	@Override
-	public List<myQuestionVO> getStuMyQuestion(String studentId) {
+	public List<myQuestionVO> getStuMyQuestion(myQuestionVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.getStuMyQuestion(studentId);
+		return mapper.getStuMyQuestion(vo);
 	}
 	@Override
-	public List<myQuestionVO> getProfMyQuestion(String courseCode) {
+	public List<myQuestionVO> getProfMyQuestion(myQuestionVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.getProfMyQuestion(courseCode);
+		return mapper.getProfMyQuestion(vo);
 				
 	}
 	@Override

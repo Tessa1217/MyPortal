@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface myQuestionService {
 	// 학생 질문 조회
-	public List<myQuestionVO> getStuMyQuestion(String studentId);
+	public List<myQuestionVO> getStuMyQuestion(myQuestionVO vo);
 	// 학생 질문 답변여부
 	public myQuestionVO getStuMyQuestionCheck(String studentId);
 	// 교수 질문 조회
-	public List<myQuestionVO> getProfMyQuestion(String courseCode);
+	public List<myQuestionVO> getProfMyQuestion(myQuestionVO vo);
 	
 	// 학생 질문 상세 조회
 	public myQuestionVO getStuMyQuestionDetail(String questionNum);

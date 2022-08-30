@@ -24,6 +24,7 @@ public class myQuestionVO {
 	private String weekNum;// 주차
 	private String searchType; // 검색타입
 	private String studentName; // 학생이름(질문작성자)
+	private String weekValue; //주차선택값
 	
 	myQuestionAnswerVO AnswerVO; 
 	

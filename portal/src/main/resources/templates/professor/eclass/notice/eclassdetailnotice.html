@@ -37,7 +37,9 @@
 		
 		<tr>
 			<td>첨부파일</td>
-			<td colspan="3"></td>
+			<div th:each="selectFile : ${selectFile}">
+			<td><a th:text="${selectFile.fileOriName}"></a></td>
+			</div>
 		</tr>
 		
 		<tr>
