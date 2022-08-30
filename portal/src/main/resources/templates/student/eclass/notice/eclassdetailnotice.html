@@ -11,9 +11,13 @@
 <div id="main">
 	<h1>공지사항 상세보기</h1>
 	<hr>
+		<div class="card">
+				<div class="card-body">
 	<table class="table">
 		<tbody>
 		<tr>
+			<div class="card">
+				<div class="card-body">
 			<td>제목</td>
 			<td th:text="${selectDetailStudyNotice.courseNoticeTitle}"></td>
 			<td>글번호</td>
@@ -29,7 +33,8 @@
 		
 		<tr>
 			<td>첨부파일</td>
-			<td colspan="3"></td>
+			<div th:each="selectFile : ${selectFile}">
+			<td><a th:text="${selectFile.fileOriName}"></a><button type="button">x</button></td>
 		</tr>
 		
 		<tr>
@@ -40,6 +45,8 @@
 	</table>
 	
 	<button type="button" class="btn btn-primary" id="AllList">목록</button>
+</div>
+</div>
 </div>
 
 	<script th:inline="javascript">

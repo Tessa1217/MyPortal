@@ -46,12 +46,12 @@ public class StudyNoticeController {
 
 	// 학생 공지사항 상세조회
 	@RequestMapping("/student/eclass/eclassnotice/{courseNoticeNo}")
-	public String selectDetailStudyNotice(@PathVariable String courseNoticeNo, StudyNoticeVO vo, Model model) {
+	public String selectDetailStudyNotice(@PathVariable String courseNoticeNo, StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model) {
 
 		// 해당 공지사항글 번호
 		vo.setCourseCode("SSPY0001");
 		vo.setCourseNoticeNo(courseNoticeNo);
-
+		model.addAttribute("selectFile" , service.selectFile(vo));
 		model.addAttribute("selectDetailStudyNotice", service.selectDetailStudyNotice(vo));
 		return "student/eclass/notice/eclassdetailnotice";
 
