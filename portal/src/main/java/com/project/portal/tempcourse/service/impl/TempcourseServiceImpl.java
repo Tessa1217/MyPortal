@@ -156,6 +156,18 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
+
+
+
+
+
+	@Override
+	public TempcourseVO backReasonWhy(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.backReasonWhy(courseCode);
+	}
+
+
 	
 
 

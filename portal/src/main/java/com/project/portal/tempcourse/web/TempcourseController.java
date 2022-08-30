@@ -70,7 +70,8 @@ public class TempcourseController {
 	// 목록(GET)
 	@RequestMapping("/professor/tempcourseList")
 	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri) {
-
+		
+		
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
 
@@ -282,4 +283,14 @@ public class TempcourseController {
 
 				}
 
+		//비승인 사유
+		@PostMapping("/professor/tempcourseList/backReasonWhy")
+		@ResponseBody
+		public TempcourseVO backReasonWhy(TempcourseVO vo, Model model ) {
+			
+			System.out.println(vo);
+			vo=service.backReasonWhy(vo.getCourseCode());
+			
+			return vo;
+		}
 }

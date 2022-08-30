@@ -1,131 +1,228 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
-	<div id="main">
-		<div>
-			<h2>강의 계획서 조회</h2>
-		</div>
-		<div class="card-body">
-			<form name="searchForm" class="form-horizontal">
-			<select id="type" name="type">
-				<option value="course_year">개설연도</option>
-				<option value="course_semester">개설학기</option>
-				</select>
-				<input type="number" name="keyword" id="keyword">
-				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				
-			</form>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>년도</th>
-						<th>학기</th>
-						<th>이수단위</th>
-						<th>이수구분</th>
-						<th>강의명</th>
-						<th>제출여부</th>
-						<th>승인여부</th>
-						<th>비승인 사유</th>
-						<th>상세보기</th>
-						<th>제출하기</th>
-						
-					</tr>
-				</thead>
-				<tbody>
-				 	
-					<tr th:each="item:${tempcourseList}">
+		<div id="main">
+			<div>
+				<h2>강의 계획서 조회</h2>
+			</div>
+			<div class="card-body">
+				<form name="searchForm" class="form-horizontal">
+					<select id="type" name="type">
+						<option value="course_year">개설연도</option>
+						<option value="course_semester">개설학기</option>
+					</select> <input type="number" name="keyword" id="keyword">
+					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+
+				</form>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>년도</th>
+							<th>학기</th>
+							<th>이수단위</th>
+							<th>이수구분</th>
+							<th>강의명</th>
+							<th>제출여부</th>
+							<th>승인여부</th>
+							<th>비승인 사유</th>
+							<th>상세보기</th>
+							<th>제출하기</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="item:${tempcourseList}">
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
 							<td>[[${item.courseCredit}]]학점</td>
-							<td th:text="${item.courseSortationName}"></td>		
+							<td th:text="${item.courseSortationName}"></td>
 							<td th:text="${item.courseName}"></td>
-							<td th:text="${item.submitYesName}" id="submitYes" th:data-codee="${item.submitYes}"></td>
-							<td th:text="${item.okayYesName}" id="okayYes" th:data-back="${item.okayYes}"></td>
-							<td th:if="${item.backReason == null}" id="backReason" th:data-code="null"></td>
-							<td th:if="${item.backReason == '비승인'}" id="backReason" th:data-code="비승인">비승인</td>
-							<td>						
-							<a th:href="|/professor/getTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
-							</td>
-							<td><button th:disabled="${item.submitYes}=='SUB'" name="button1" class="btn btn-danger moddd" th:data-course="${item.courseCode}" >제출하기</button></td>
+							<td th:text="${item.submitYesName}" id="submitYes"
+								th:data-codee="${item.submitYes}"></td>
+							<td th:text="${item.okayYesName}" id="okayYes"
+								th:data-back="${item.okayYes}"></td>
+
+							<td th:if="${item.backReason == null}" id="backReason"
+								th:data-code="null"></td>
+
+							<td th:if="${item.backReason != null}" id="backReason"
+								th:data-coursecod="${item.courseCode}"
+								th:data-code="비승인"
+								class="btn btn-primary backReasonWhy" data-toggle="modal"
+								data-target="#backReasonWhy">비승인</td>
+
+							<td><a th:href="|/professor/getTemp/${item.courseCode}|"><button
+										th:text="상세보기" th:data-courseName="${item.courseCode}"
+										class="btn btn-primary"></button></a></td>
+							<td><button th:disabled="${item.submitYes}=='SUB'"
+									name="button1" class="btn btn-danger moddd"
+									th:data-course="${item.courseCode}">제출하기</button></td>
 						</tr>
-						
-				</tbody>
-			</table>
-			
-			<button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button>
-			
+
+					</tbody>
+				</table>
+
+				<button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button>
+
+			</div>
 		</div>
+
+		<!-- 모달창 -->
+		<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+			tabindex="-1" aria-labelledby="staticBackdropLabel"
+			aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
+					</div>
+					<div class="modal-body">
+						<div class="container my-auto">
+							<div class="row">
+								<div class="card z-index-0 fadeIn3 fadeInBottom">
+									<div class="card-body">
+										<table class="table">
+											<tr>
+												<th>비승인 사유</th>
+											</tr>
+										
+										
+											
+												
+												<tr>
+												<td id="backReason"></td>
+												</tr>
+											
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-container modal-footer">
+							<!-- <button type="button" class="btn btn-outline-danger"
+								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
+							<button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
+
 		<script th:inline="javascript">
-		
-		/* $(function() {
-			goPage(pageNum);
-			tempInsert();
-			getTemp();
-		}) */
-		
-		/* function goPage(pageNum){
-			searchFrm.pageNum.value = pageNum;
-			searchFrm.submit();
-		} */
-		function tempInsert(){
-			location.href="tempInsert";
-		}
-		function getTemp(){
-			location.href="getTemp";
-		}
-		/* $(function(){
-			$("#button1").on("click", tempInfo)
-			function tempInfo(){
-				var code = $(this).data("code")
-				alert(code);
-				location.href="getTemp/${code}";
-			}
-		}) */
-		
+			$(function() {
+					 backReasonWhy();
+					modalOff();
+				})
+			
 
-		$(".moddd").on("click", function () {
-			if (window.confirm("정말로 제출하시겠습니까?")) {
-				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-				let backReason = $(this).closest("tr").find("#backReason").data("code")
-				let courseCode = $(this).data("course")
+			
+			function tempInsert() {
+				location.href = "tempInsert";
+			}
+			function getTemp() {
+				location.href = "getTemp";
+			}
+			/* $(function(){
+				$("#button1").on("click", tempInfo)
+				function tempInfo(){
+					var code = $(this).data("code")
+					alert(code);
+					location.href="getTemp/${code}";
+				}
+			}) */
+
+			$(".moddd").on(
+					"click",
+					function() {
+						if (window.confirm("정말로 제출하시겠습니까?")) {
+							let submitYes = $(this).closest("tr").find(
+									"#submitYes").data("codee")
+							let okayYes = $(this).closest("tr")
+									.find("#okayYes").data("back")
+							let backReason = $(this).closest("tr").find(
+									"#backReason").data("code")
+							let courseCode = $(this).data("course")
+
+							// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  
+							/* if(submitYes=='SUB'||submitYes=='UNSUB'){ */
+							submitYes = 'SUB'
+							okayYes = 'A01'
+							backReason = ''
+							$.ajax({
+								url : `/professor/tempcourseList/submitTemp`,
+								method : "post",
+								dataType : "json",
+								data : {
+
+									"submitYes" : submitYes,
+									"okayYes" : okayYes,
+									"backReason" : backReason,
+									"courseCode" : courseCode
+								},
+								dataType : "json",
+								success : function(result) {
+
+									alert('제출되었습니다')
+									location.reload();
+								}
+							});
+						}
+					})
+
+			
+				//비승인 사유 모달창  열기
+				 function backReasonWhy(){
+					
+					$(".backReasonWhy").on("click", function(){
+						let courseCode = $(this).data("coursecod")
+						
+					$.ajax({
+						type : "POST",
+						url : "/professor/tempcourseList/backReasonWhy",
+						data : 
+							{
+							
+							courseCode : courseCode
+							
+							},
+							
+						dataType : "json",
+						success : function(data){
+							
+							$("#backReason").text(data.backReason)
+							$('#backReasonWhy').modal('show');
+							
+						},
+						error : function(reject){
+							alert("실패");
+						}
+					});
+					});
+					}
 				
-				// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  
-				/* if(submitYes=='SUB'||submitYes=='UNSUB'){ */
-					submitYes = 'SUB'
-					okayYes = 'A01'
-					backReason = ''
-				$.ajax({
-					url : `/professor/tempcourseList/submitTemp`,
-					method : "post",
-					dataType : "json",
-					data : { 
-						
-					"submitYes" : 	submitYes,
-					"okayYes" :	okayYes,
-					"backReason" : backReason,
-					"courseCode" :	 courseCode					
-					},
-					dataType : "json",
-					success : function(result) {
-						
-						 
-						alert('제출되었습니다')
-						location.reload();
-					} 
-				});
-			}
-		})
-
+					
+			
+				//모달창 끄기
+				function modalOff() {
+					$("#closeModal").on("click", function() {
+						$('#backReasonWhy').modal('hide');
+					})
+				}
+			
 		</script>
 	</th:block>
 </body>

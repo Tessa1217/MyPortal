@@ -29,7 +29,7 @@
 	<th:block layout:fragment="adminContent">
 	<div id="main">
 		<div>
-			<h2>강의 계획서 조회</h2>
+			<h2>제출된 강의 계획서 조회</h2>
 		</div>
 		<div class="card-body">
 			<form name="searchForm" class="form-horizontal">
@@ -154,7 +154,7 @@
 				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 				let courseCode = $(this).data("course")
 					submitYes = 'UNSUB'
-					backReason = '비승인'
+					backReason = '비승인인 이유는 여러가지가 있다!'
 					okayYes = ''
 				$.ajax({
 					url : `/admin/adminTempList/backTemp`,

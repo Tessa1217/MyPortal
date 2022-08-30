@@ -222,17 +222,19 @@
 		 <!-- where course_code =#{courseCode} -->
 		
 		
-		<where>
-			submit_yes = 'SUB'
+		where submit_yes = 'SUB'
 		<if test="cri.keyword != null and cri.keyword != ''">
-			 ${cri.type} = ${cri.keyword}
+			and ${cri.type} = ${cri.keyword}
 			 
 		</if>
-			
-		</where>
+	
 		
 		order by course_code desc
-		
-		
+	</select>
+	
+	<select id="backReasonWhy" resultType="com.project.portal.tempcourse.service.TempcourseVO">
+	
+	select back_reason from temp_course where course_code = #{courseCode}
+	
 	</select>
 </mapper>

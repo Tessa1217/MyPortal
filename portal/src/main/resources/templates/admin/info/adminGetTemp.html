@@ -105,7 +105,7 @@
 											</div>
 											<div class="col-md-8 form-group">
 												<input class="form-control"
-													th:value="${tempcourse.courseSemester}" id="courseSemester"
+													th:value="${tempcourse.courseSemester}+학기" id="courseSemester"
 													name="courseSemester" readonly/>
 											</div>
 										</div>
@@ -115,10 +115,10 @@
 											</div>
 											<div class="col-md-8 form-group">
 												 <select id="courseSortation" name="courseSortation"
-													class="form-control">
+													class="form-control" readonly/>
 													<option th:each="sortation : ${Sortation}"
 														th:value="${sortation.detailCode}"
-														th:text="${sortation.detailName}"></option>
+														th:text="${sortation.detailName}" ></option>
 												</select> 
 											 	   <!-- <input th:value="${tempcourse.courseSortation}" class="form-control"> -->
 											<!-- <input class="form-control" 
@@ -129,7 +129,7 @@
 												<label>이수 단위</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<input th:value="${tempcourse.courseCredit}"
+												<input th:value="${tempcourse.courseCredit}+학점"
 													id="courseCredit" name="courseCredit" class="form-control" readonly/>
 											</div>
 										</div>
@@ -281,6 +281,7 @@
 				showPage();
 				saveTempInfo(); 
 				enterDate();
+				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
 				
 			})
 			

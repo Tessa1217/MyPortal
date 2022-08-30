@@ -25,4 +25,5 @@ public interface TempcourseMapper {
 	public int okayTemp(TempcourseVO vo);
 	public int backTemp(TempcourseVO vo);
 	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
+	public TempcourseVO backReasonWhy(String courseCode);
 }

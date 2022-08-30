@@ -70,7 +70,7 @@
 											th:data-back="${tempcourse.okayYes}"></td>
 										<td th:if="${tempcourse.backReason == null}" id="backReason"
 											th:data-code="null"></td>
-										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
+										<td th:if="${tempcourse.backReason != null}" id="backReason"
 											th:data-code="비승인">비승인</td>
 										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
 												name="button1" class="btn btn-danger moddd"
@@ -110,14 +110,15 @@
 												<label>강의 학기</label>
 											</div>
 											<div class="col-md-8 form-group">
-											<!-- 	<select id="courseSemester" name="courseSemester"
+											<!-- <select id="courseSemester" name="courseSemester"
 													class="form-control">
 													<option class="hidden" value=""
 														th:text="${tempcourse.courseSemester}" disabled selected></option>
-													<option th:value="1" th:text="1"></option>
-													<option th:value="2" th:text="2"></option>
+													<option th:value="1" th:text="1학기"></option>
+													<option th:value="2" th:text="2학기"></option>
+													
 												</select> -->
-												<input th:value="${tempcourse.courseSemester}" id="courseSemester"
+											 	<input th:value="${tempcourse.courseSemester}" id="courseSemester"
 													name="courseSemester" class="form-control">
 												
 											</div>
@@ -301,6 +302,7 @@
 				enterDate();
 				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
 				$("#courseCredit").val([[${tempcourse.courseCredit}]]);
+				
 				
 			})
 			
