@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="professorContent">
+		<div id="main">
+			<div>
+				<h2>강의 수강 후기</h2>
+			</div>
+			<div class="card">
+				<form name="frm_search" action="/professor/allCourseList"
+					method="post">
+					<label for="courseYear">개설연도</label> <input type="text"
+						id="courseYear" name="course_year"> <label
+						for="courseSemester">개설학기</label> <input type="text"
+						id="courseSemester" name="course_semester">
+					<button class="btn btn-primary">검색</button>
+				</form>
+				<table class="table">
+					<tr>
+						<th>년도</th>
+						<th>학기</th>
+						<th>강의명</th>
+						<th>학점</th>
+						<th>참여인원</th>
+						<th>평점</th>
+						<th>상세보기</th>
+					</tr>
+					<tr th:each="list : ${surveyList}">
+						<td th:text="${list.courseYear}"></td>
+						<td th:text="${list.courseSemester}"></td>
+						<td th:text="${list.courseName}"></td>
+						<td th:text="${list.courseCredit}"></td>
+						<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
+						<td th:text="|${list.surveyAvg} / 5|"></td>
+						<td><button type="button" class="btn btn-primary surveySelect" data-toggle="modal" data-target="#myModal" onclick="" >상세보기</button></td>
+						<td th:text="${list.courseCode}"></td>
+					</tr>
+				</table>
+				<!-- <form name="frm_select" method="post">
+					<input type="text" name="courseCode" id="courseCode" />
+				</form> -->
+			</div>
+			<!-- 모달 영역 -->				
+				<div class="modal" tabindex="-1" id="myModal">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Modal title</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				        <h2>강의명</h2>
+				        <p>0000년도 0학기</p>
+				        <table class="table">
+				        	<tr>
+			        			<th>수강평 문항</th>
+			        			<th>평균 평점</th>
+				        	</tr>
+				        	<tbody id="aaa">
+				        	
+				        	</tbody>
+				        </table>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="classModal">Close</button>
+				        <button type="button" class="btn btn-primary">Save changes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+		</div>
+		<script th:inline="javascript">
+		 $(function(){
+			 $(document).on('show.bs.modal','#myModal', function () {
+				  $.ajax({
+					  url : "/professor/surveySelect",
+					  method : "post",
+					  dataType : "json",
+					  data : {
+						  "coarseCode" : $("#courseCode"),
+					  },
+					  success : function(result) {
+						  
+					  }
+				  });
+				})
+			$("#closeModal").on("click", function() {
+				$('#myModal').modal('hide');
+			})
+		
+			
+		});
+		 
+		 
+		
+		</script>	
+	</th:block>
+</body>
+</html>

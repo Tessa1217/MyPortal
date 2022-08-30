@@ -27,15 +27,96 @@
 				course_year, 
 				course_semester, 
 				course_sortation, 
-				course_name 
+				course_name,
+				find_code(course_sortation) course_sortation_nm
 		from course
 		where professor_id = 220002
 		order by course_year desc, course_semester desc
 	</select>
 	
 	<select id="surveyList" resultType="com.project.portal.course.service.CourseVO">
-		
+		select m.course_code,
+				c.course_year,
+				c.course_semester,
+				c.course_name, 
+				c.course_credit, 
+				nvl(m.REVIEW_SUB_COUNT,0) as "REVIEW_SUB_COUNT", 
+				m.COUNT_ALL_STUDENT, nvl(surveyAvg,0) as "SURVEYAVG"
+		from course c
+		join(select course_code, 
+					case WHEN course_review_yn = 'SUB' THEN count(course_review_yn) end as "REVIEW_SUB_COUNT", 
+					count(student_id) as "COUNT_ALL_STUDENT"
+		        from my_course
+		        group by course_review_yn,course_code) m
+		on c.course_code = m.course_code
+		left outer join(select course_code,(avg(survey_A1)+avg(survey_A2)+avg(survey_A3)+avg(survey_A4)+avg(survey_A5)+avg(survey_A6)
+		                    +avg(survey_A7)+avg(survey_A8)+avg(survey_A9)+avg(survey_A10))/10 AS surveyAvg
+		                    from course_rating
+		                    group by course_code) c
+		on m.course_code = c.course_code
+		where professor_id = #{professorId}
+		order by course_code
 		
 	</select>
+	
+	<select id="surveySelect" resultType="com.project.portal.survey.service.SurveyVO">
+		<!-- select  course_code,
+		            trunc(avg(r.survey_a1),2) AS A1_AVG,
+		            trunc(avg(r.survey_a2),2) AS A2_AVG,
+		            trunc(avg(r.survey_a3),2) AS A3_AVG,
+		            trunc(avg(r.survey_a4),2) AS A4_AVG,
+		            trunc(avg(r.survey_a5),2) AS A5_AVG,
+		            trunc(avg(r.survey_a6),2) AS A6_AVG,
+		            trunc(avg(r.survey_a7),2) AS A7_AVG,
+		            trunc(avg(r.survey_a8),2) AS A8_AVG,
+		            trunc(avg(r.survey_a9),2) AS A9_AVG,
+		            trunc(avg(r.survey_a10),2) AS A10_AVG,
+		            survey_q1,
+		            survey_q2,
+		            survey_q3,
+		            survey_q4,
+		            survey_q5,
+		            survey_q6,
+		            survey_q7,
+		            survey_q8,
+		            survey_q9,
+		            survey_q10
+		from course_rating r
+		join survey_question q
+		on r.survey_code = q.survey_code
+		where course_code='SSPY0001'
+		group by course_code,
+		            survey_q1,
+		            survey_q2,
+		            survey_q3,
+		            survey_q4,
+		            survey_q5,
+		            survey_q6,
+		            survey_q7,
+		            survey_q8,
+		            survey_q9,
+		            survey_q10 -->
+        select  r.*, q.*
+		from (select  course_code,
+		            trunc(avg(r.survey_a1),2) AS A1_AVG,
+		            trunc(avg(r.survey_a2),2) AS A2_AVG,
+		            trunc(avg(r.survey_a3),2) AS A3_AVG,
+		            trunc(avg(r.survey_a4),2) AS A4_AVG,
+		            trunc(avg(r.survey_a5),2) AS A5_AVG,
+		            trunc(avg(r.survey_a6),2) AS A6_AVG,
+		            trunc(avg(r.survey_a7),2) AS A7_AVG,
+		            trunc(avg(r.survey_a8),2) AS A8_AVG,
+		            trunc(avg(r.survey_a9),2) AS A9_AVG,
+		            trunc(avg(r.survey_a10),2) AS A10_AVG
+		        from course_rating r
+		       <!-- where course_code=#{courseCode} -->
+		        where course_code='SSPY0001'
+		        group by course_code
+		        ) r, 
+		    survey_question q
+	
+	</select>
+	
+	
 	
 </mapper>

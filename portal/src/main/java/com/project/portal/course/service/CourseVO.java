@@ -1,10 +1,12 @@
 package com.project.portal.course.service;
 
+
 import java.util.List;
 
 import com.project.portal.common.Criteria;
 
 import lombok.Data;
+
 
 @Data
 public class CourseVO extends Criteria{
@@ -19,6 +21,8 @@ public class CourseVO extends Criteria{
 	private int courseLimit; // 강의 최대 수강생 인원
 	private int professorId; // 교수 id
 	private double surveyAvg; // 수강평 평점 평균
+	private int reviewSubCount; // 수강평 작성 인원수
+	private int countAllStudent; // 수강생 인원수
 	
 	private String courseSummary;
 	private String textbookReference;
@@ -29,10 +33,15 @@ public class CourseVO extends Criteria{
 	private int attAssignedScore; // 출석 배점
 	private String surveyCode;
 	private String departCode;
+	
+	// 공통 코드
+	private String courseSortationNm; // 강의 이수구분
+	
+	
 	// 주차 계획 정보
 	private List<CourseWeeklyVO> weekPlans;
 	
-	// 강의별 강의평가 평균점수
-	private List<CourseSurveyAvgVO> courseSurveyAvg;
+//	// 강의별 강의평가 평균점수
+//	private List<CourseSurveyAvgVO> courseSurveyAvg;
 
 }

@@ -9,6 +9,7 @@ import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseMapper;
 import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.survey.service.SurveyVO;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -28,9 +29,20 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<CourseVO> surveyList(Criteria cri) {
+	public List<CourseVO> surveyList(CourseVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.surveyList(cri);
-	};
+		return mapper.surveyList(vo);
+	}
+
+	@Override
+	public SurveyVO surveySelect(SurveyVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.surveySelect(vo);
+	}
+
+	/*
+	 * @Override public List<CourseVO> surveyAvg(CourseVO vo) { // TODO
+	 * Auto-generated method stub return mapper.surveyAvg(vo); };
+	 */
 
 }
