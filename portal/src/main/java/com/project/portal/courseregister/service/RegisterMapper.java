@@ -15,4 +15,6 @@ public interface RegisterMapper {
 	public List<RegisterVO> registerList(RegisterVO vo);
 	
 	public int registerInsert(RegisterVO vo);
+	
+	public List<RegisterVO> packageNList(RegisterVO vo);
 }

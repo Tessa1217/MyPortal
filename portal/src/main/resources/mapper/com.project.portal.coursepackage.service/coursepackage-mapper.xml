@@ -6,81 +6,86 @@
 	<!--강의목록LIST -->
 	<select id="coursePackage"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
-		SELECT a.course_code, a.course_name, a.course_sortation,
-		a.course_credit, a.course_limit, b.professor_name
-		FROM course a
-		INNER
-		JOIN professor b
-		ON a.professor_id = b.professor_id
+		SELECT a.course_code, 
+		       a.course_name, 
+		       a.course_sortation,
+		       a.course_credit, 
+		       a.course_limit,
+		        
+		       b.professor_name
+		  
+		  FROM course a
+		  JOIN professor b
+		  	ON a.professor_id = b.professor_id
 		<where>
 			<if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
 			</if>
 		</where>
-		ORDER BY course_code ASC
+		  ORDER BY course_code ASC
 	</select>
 
 	<insert id="coursePackageInsert"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		INSERT INTO course_package
-		(
-		course_code, student_id
-		)
-		VALUES
-		(
-		#{courseCode},
-		#{studentId}
-		)
+				(
+					course_code, 
+					student_id
+				)
+		VALUES	(
+					#{courseCode},
+					#{studentId}
+				)
 	</insert>
 
 	<!--단건조회 -->
 	<select id="coursePackageList"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
-		select a.course_code, b.course_name, b.course_sortation,
-		b.course_credit, c.professor_name
-		from course_package a
-		inner join
-		course b
-		on a.course_code = b.course_code
-		inner join professor c
-		on
-		b.professor_id = c.professor_id
-		WHERE a.student_id =
-		#{studentId}
+		SELECT a.course_code, 
+			   b.course_name, 
+			   b.course_sortation,
+			   b.course_credit, 
+		
+			   c.professor_name
+			FROM course_package a
+			JOIN course b
+				ON a.course_code = b.course_code
+			JOIN professor c
+				ON b.professor_id = c.professor_id
+		WHERE a.student_id = #{studentId}
 	</select>
 
 	<!--학번이 있어야 찾음 -->
 	<select id="coursePackageOne"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">
-		select a.course_code, b.course_name, b.course_sortation,
-		b.course_credit, c.professor_name
-		from course_package a
-		inner join
-		course b
-		on a.course_code = b.course_code
-		inner join professor c
-		on
-		b.professor_id = c.professor_id
-		WHERE a.student_id = #{studentId}
-		AND
-		b.course_code = #{courseCode}
+		SELECT a.course_code, 
+			   b.course_name, 
+			   b.course_sortation,
+			   b.course_credit, 
+			   
+			   c.professor_name
+			FROM course_package a
+			JOIN course b
+				ON a.course_code = b.course_code
+			JOIN professor c
+				ON	b.professor_id = c.professor_id
+		WHERE a.student_id = #{studentId} AND b.course_code = #{courseCode}
 	</select>
 
 	<!-- 수강꾸러미 선택 삭제 -->
 	<delete id="coursePackageDelete"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		DELETE FROM course_package
-		WHERE course_code =
-		#{courseCode}
+		WHERE course_code =	#{courseCode}
 	</delete>
 
 	<!-- 수강꾸러미 전체 삭제 -->
 	<delete id="coursePackageAllDelete"
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
-		TRUNCATE table course_package
-		WHERE student_id =
-		#{studentId}
+		DELETE table course_package
+		WHERE student_id =	#{studentId}
 	</delete>
+	
 	<!-- 신청 학점 -->
 	<select id="coursePackagePoint"
 		resultType="com.project.portal.coursepackage.service.CoursePackageVO">

@@ -27,7 +27,7 @@ public class CoursePackageController {
 	// 강의 LIST 조회
 	@RequestMapping("/student/coursePackage")
 	public String coursePackage(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		List<CoursePackageVO> coursePackage = service.coursePackage(vo);
 		model.addAttribute("coursePackage", coursePackage);
 
@@ -45,7 +45,7 @@ public class CoursePackageController {
 	@RequestMapping("/student/coursePackageInsert")
 	@ResponseBody
 	public CoursePackageVO CoursePackageInsert(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		return service.coursePackageInsert(vo);
 	}
 
@@ -53,7 +53,7 @@ public class CoursePackageController {
 	@RequestMapping("/student/coursePackageDelete")
 	@ResponseBody
 	public int CoursePackageDelete(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		return service.coursePackageDelete(vo);
 
 	}
@@ -62,7 +62,7 @@ public class CoursePackageController {
 	@RequestMapping("/student/coursePackageAllDelete")
 	@ResponseBody
 	public int CoursePackageAllDelete(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		return service.coursePackageAllDelete(vo);
 	}
 }

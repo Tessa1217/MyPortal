@@ -28,20 +28,23 @@ public class RegisterController {
 	// 학생 정보, 과목 리스트
 	@RequestMapping("/student/courseRegister")
 	public String Register(Model model, RegisterVO vo) {
-		vo.setStudentId(22000001);
+		vo.setStudentId(22000002);
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
 		
 		List<RegisterVO> registerList = service.registerList(vo);
 		model.addAttribute("registerList", registerList);
+		
+		List<RegisterVO> packageNList = service.packageNList(vo);
+		model.addAttribute("packageNList", packageNList);
 		return "student/register/register";		
 	}
 	
-	// 강의 담아놓기
+	// 강의 신청
 	@RequestMapping("/student/registerInsert")
 	@ResponseBody
 	public int RegisterVO(Model model, RegisterVO vo) {
-		vo.setStudentId(22000001);
+		vo.setStudentId(22000002);
 		return service.registerInsert(vo);
 	}
 }
