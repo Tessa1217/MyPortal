@@ -26,6 +26,7 @@
 						<th>년도</th>
 						<th>학기</th>
 						<th>강의명</th>
+						<th>강의코드</th>
 						<th>학점</th>
 						<th>참여인원</th>
 						<th>평점</th>
@@ -35,16 +36,14 @@
 						<td th:text="${list.courseYear}"></td>
 						<td th:text="${list.courseSemester}"></td>
 						<td th:text="${list.courseName}"></td>
+						<td th:text="${list.courseCode}"></td>
 						<td th:text="${list.courseCredit}"></td>
 						<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
 						<td th:text="|${list.surveyAvg} / 5|"></td>
 						<td><button type="button" class="btn btn-primary surveySelect" data-toggle="modal" data-target="#myModal" onclick="" >상세보기</button></td>
-						<td th:text="${list.courseCode}"></td>
 					</tr>
 				</table>
-				<!-- <form name="frm_select" method="post">
-					<input type="text" name="courseCode" id="courseCode" />
-				</form> -->
+			
 			</div>
 			<!-- 모달 영역 -->				
 				<div class="modal" tabindex="-1" id="myModal">
@@ -77,19 +76,26 @@
 		</div>
 		<script th:inline="javascript">
 		 $(function(){
-			 $(document).on('show.bs.modal','#myModal', function () {
-				  $.ajax({
+			 $(document).on('show.bs.modal','#myModal', function (e) {
+				 console.log(e);
+				 console.log($(e.relatedTarget).parent().prev().prev().prev().prev().text());
+				 /* alert($(e.relatedTarget).parent().prev().prev().prev().prev().text()); */
+				 var courseCode = $(e.relatedTarget).parent().prev().prev().prev().prev().text();
+				 // alert(cCode);
+				     $.ajax({
 					  url : "/professor/surveySelect",
 					  method : "post",
 					  dataType : "json",
 					  data : {
-						  "coarseCode" : $("#courseCode"),
+						  courseCode : courseCode,
 					  },
 					  success : function(result) {
 						  
 					  }
-				  });
-				})
+				  }); 
+			})
+			
+				
 			$("#closeModal").on("click", function() {
 				$('#myModal').modal('hide');
 			})

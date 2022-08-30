@@ -109,8 +109,8 @@
 		            trunc(avg(r.survey_a9),2) AS A9_AVG,
 		            trunc(avg(r.survey_a10),2) AS A10_AVG
 		        from course_rating r
-		       <!-- where course_code=#{courseCode} -->
-		        where course_code='SSPY0001'
+		       where course_code=#{courseCode}
+		        <!-- where course_code='SSPY0001' -->
 		        group by course_code
 		        ) r, 
 		    survey_question q
