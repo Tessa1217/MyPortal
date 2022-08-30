@@ -284,13 +284,12 @@ public class TempcourseController {
 				}
 
 		//비승인 사유
-		@PostMapping("/professor/tempcourseList/backReasonWhy")
+		@PostMapping(value = {"/professor/tempcourseList/backReasonWhy", "/professor/getTemp/{courseCode}/backReasonWhy"})
 		@ResponseBody
 		public TempcourseVO backReasonWhy(TempcourseVO vo, Model model ) {
 			
 			System.out.println(vo);
 			vo=service.backReasonWhy(vo.getCourseCode());
-			
 			return vo;
 		}
 }
