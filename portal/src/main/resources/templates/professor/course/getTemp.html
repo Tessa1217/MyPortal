@@ -273,7 +273,7 @@
 											<tr th:each="items:${tempcourseweek}">
 												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
 												<td><input th:name="|weekContent${items.weekNum}|"
-													class="col-sm-8" th:value="${items.weekContent}"></td>
+													class="form-control" th:value="${items.weekContent}"></td>
 
 											</tr>
 
@@ -358,7 +358,8 @@
 			})
 			
 			function message(){
-				if(confirm("수정하시겠습니까?")){
+				if(confirm("변경 내용을 저장하시겠습니까?")){
+					alert("수정되었습니다")
 					frm.submit()
 				}
 				
@@ -380,30 +381,9 @@
 			})
 			}
 			
-			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
-		 	function enterDate() {
-				$(document).on("change", "select[name=weekCode]", function(e) {
-					let startDate = $($(e.target).children(":selected")).data("start");
-					let endDate = $($(e.target).children(":selected")).data("end");
-					$("input[name=examStartDate]").val(startDate);
-					$("input[name=examEndDate]").val(endDate);
-				})
-			} 
 			
-			// 강의계획서 정보 저장
-			function saveTempInfo() {
-				$(".saveBtn").click(function() {
-					$.ajax({
-						type : 'POST',
-						url : 'tempInsert',
-						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-						data : $("#tempInfoForm").serialize(),
-						success : function(result) {
-							console.log(result);
-						}
-					})
-				})
-			}
+			
+		
 			
 			//강의계획서 정보 수정
 			$(function() {
@@ -506,6 +486,8 @@
 					});
 				}
 			})  */
+			
+			// 교수 제출기능
 			$(".moddd").on("click", function () {
 				if (window.confirm("정말로 제출하시겠습니까?")) {
 					let submistYes = $(this).closest("tr").find("#submitYes").data("codee")
@@ -576,6 +558,7 @@
 			
 			
 			
+			//텍스트 에디터
 			
 		  tinymce.init({
 			        selector: '#courseSummary',

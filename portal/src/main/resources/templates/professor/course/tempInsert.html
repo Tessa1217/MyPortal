@@ -20,6 +20,11 @@
 	padding: 0%;
 	
 }
+.hidden {
+
+    display:none;
+
+}
 
 
 </style>
@@ -163,7 +168,7 @@
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-danger" onclick="history.go(1)">등록</button>
+											<button type="submit" class="btn btn-danger" onclick="history.go(1)" >등록</button>
 											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
@@ -181,8 +186,8 @@
 					<div class="card paging">
 						<div class="card-body">
 							<form th:action="@{/tempweekInsertProc}" method="POST">
-							<h2>주차별 강의</h2>
-							 	<select name="courseCode">
+							<h2 tabindex="1">주차별 강의</h2>
+							 	<select name="courseCode" class="hidden">
 							 		<option th:each="item:${tempcourseList}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
 							 <!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
@@ -202,7 +207,7 @@
 												
 												</td>
 												<td>											
-												<input th:name="|weekContent${num}|" class="col-sm-8" >
+												<input th:name="|weekContent${num}|" class="form-control" required>
 												</td>
 											</tr>
 										</tbody>
@@ -225,8 +230,7 @@
 			
 			$(function() {
 				showPage();
-				saveTempInfo(); 
-				enterDate();
+				
 				
 			})
 			
@@ -246,37 +250,16 @@
 			})
 			}
 			
-			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
-		 	function enterDate() {
-				$(document).on("change", "select[name=weekCode]", function(e) {
-					let startDate = $($(e.target).children(":selected")).data("start");
-					let endDate = $($(e.target).children(":selected")).data("end");
-					$("input[name=examStartDate]").val(startDate);
-					$("input[name=examEndDate]").val(endDate);
-				})
-			} 
+		
 			
-			// 강의계획서 정보 저장
-			function saveTempInfo() {
-				$(".saveBtn").click(function() {
-					$.ajax({
-						type : 'POST',
-						url : 'tempInsert',
-						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-						data : $("#tempInfoForm").serialize(),
-						success : function(result) {
-							console.log(result);
-						}
-					})
-				})
-			}
-			//주차 추가
+	
+			/* //주차 추가
 			let row = 1;
 			function tableAdd(){
 				$("#tbody").append('<tr><td>'+ row +'</td><td>'+'<input name="weekContent">'+'</td></tr>');
 				row++;
 			}
-			
+			 */
 			
 			   tinymce.init({
 			        selector: '#courseSummary',

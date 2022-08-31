@@ -237,4 +237,10 @@
 	select back_reason from temp_course where course_code = #{courseCode}
 	
 	</select>
+	
+	<update id="backReasonInsert" parameterType="TempcourseVO">
+	
+		update temp_course set back_reason = #{backReason} where course_code = #{courseCode}
+	
+	</update>
 </mapper>

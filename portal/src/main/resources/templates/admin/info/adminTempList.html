@@ -18,167 +18,297 @@
 .card {
 	padding: 3%;
 }
+
 .hidden {
-
-    display:none;
-
+	display: none;
 }
 </style>
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
-	<div id="main">
-		<div>
-			<h2>제출된 강의 계획서 조회</h2>
-		</div>
-		<div class="card-body">
-			<form name="searchForm" class="form-horizontal">
-			<select id="type" name="type">
-				<option value="course_year">개설연도</option>
-				<option value="course_semester">개설학기</option>
-				</select>
-				<input type="number" name="keyword" id="keyword">
-				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				
-			</form>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>년도</th>
-						<th>학기</th>
-						<th>이수단위</th>
-						<th>이수구분</th>
-						<th>강의명</th>
-						
-						<th>승인여부</th>
-						<th>비승인 여부</th>
-						<th>상세보기</th>
-						<th>승인하기</th>
-						<th>비승인하기</th>
-						
-					</tr>
-				</thead>
-				<tbody>
-				 	
-					<tr th:each="item:${tempcourseList}">
+		<div id="main">
+			<div>
+				<h2>제출된 강의 계획서 조회</h2>
+			</div>
+			<div class="card-body">
+				<form name="searchForm" class="form-horizontal">
+					<select id="type" name="type">
+						<option value="course_year">개설연도</option>
+						<option value="course_semester">개설학기</option>
+					</select> <input type="number" name="keyword" id="keyword">
+					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+
+				</form>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>년도</th>
+							<th>학기</th>
+							<th>이수단위</th>
+							<th>이수구분</th>
+							<th>강의명</th>
+
+							<th>승인여부</th>
+							<th>비승인 여부</th>
+							<th>상세보기</th>
+							<th>승인 및 비승인</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="item:${tempcourseList}">
+							<td  class="hidden" th:text="${item.courseCode}" id="courseCode"
+							th:data-coursecode="${item.courseCode}"
+							></td>
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
 							<td>[[${item.courseCredit}]]학점</td>
 							<!-- <td th:text="${item.courseSortation}"></td> -->
-							<td th:text="${item.courseSortationName}"></td>	
-							<td th:text="${item.courseName}">
-							</td>
-							<td class="hidden" th:text="${item.submitYesName}" id="submitYes" th:data-codee="${item.submitYes}"></td>
-							
-							<td th:text="${item.okayYesName}" id="okayYes" th:data-back="${item.okayYes}"></td>
-							<td th:if="${item.backReason == null}" id="backReason" th:data-code="null"></td>
-							<td th:if="${item.backReason == '비승인'}" id="backReason" th:data-code="null">비승인</td>
-							<td>
-							<a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button th:text="상세보기" th:data-courseName="${item.courseCode}" class="btn btn-primary"></button></a>
-							</td>
-							<td><button th:disabled="${item.okayYes}=='A00'" name="button1" class="btn btn-danger moddd" th:data-course="${item.courseCode}" >승인</button></td>
-							<td><button th:disabled="${item.backReason}=='비승인'" name="button1" class="btn btn-danger modddd" th:data-course="${item.courseCode}" >비승인</button></td>
+							<td th:text="${item.courseSortationName}"></td>
+							<td th:text="${item.courseName}"></td>
+							<td class="hidden" th:text="${item.submitYesName}" id="submitYes"
+								th:data-codee="${item.submitYes}"></td>
+
+							<td th:text="${item.okayYesName}" id="okayYes"
+								th:data-back="${item.okayYes}"></td>
+							<td th:if="${item.backReason == null}" id="backReason"
+								th:data-code="null"></td>
+							<td th:if="${item.backReason != null}" id="backReason"
+								th:data-code="null">비승인</td>
+							<td><a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button
+										th:text="상세보기" th:data-courseName="${item.courseCode}"
+										class="btn btn-primary"></button></a></td>
+							<td><button th:disabled="${item.okayYes}=='A00'"
+									name="button1" class="btn btn-danger moddd"
+									th:data-course="${item.courseCode}">승인</button>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button type="button"
+									th:disabled="${item.backReason}=='비승인'" name="button1"
+									class="btn btn-secondary backReasonWhy" th:data-coded="${item.backReason}"
+									th:data-course="${item.courseCode}" data-toggle="modal"
+									>비승인</button></td>
 						</tr>
-						
-				</tbody>
-			</table>
-			
-			<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button> -->
-			
+
+					</tbody>
+				</table>
+
+				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button> -->
+
+			</div>
+					<!-- 모달창 -->
+		<div class="modal-dialog modal-xl">
+			<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+				tabindex="-1" aria-labelledby="staticBackdropLabel"
+				>
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+					<div class="modal-content">
+
+						<div class="modal-header">
+							<label class="modal-title" id="staticBackdropLabel">질문 답변</label>
+						</div>
+						<div class="modal-body">
+							<div class="container my-auto">
+								<div class="row">
+									<div class="card z-index-0 fadeIn3 fadeInBottom">
+										<div class="card-body">
+												<input type="hidden" id="tt" name="courseCode">
+												<table class="table">
+													<tr>
+														
+														<th>비승인 사유</th>
+														<td>
+														<input id="backReason2" name ="backReason2">
+														</td>
+													
+													</tr>
+														
+
+												</table>
+												<button type="submit"
+													class="btn btn-secondary backReasonWhy2"
+													data-bs-dismiss="modal" aria-label="Close">답변등록</button>
+												<button id="closeModal" type="button"
+													class="btn btn-secondary" data-dismiss="modal">닫기</button>
+										
+
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="input-container modal-footer"></div>
+
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		</div>
+
+
+
+
 		<script th:inline="javascript">
-		
-		/* $(function() {
-			goPage(pageNum);
-			tempInsert();
-			getTemp();
-		}) */
-		
-		/* function goPage(pageNum){
-			searchFrm.pageNum.value = pageNum;
-			searchFrm.submit();
-		} */
-		function tempInsert(){
-			location.href="tempInsert";
-		}
-		function getTemp(){
-			location.href="getTemp";
-		}
-		/* $(function(){
-			$("#button1").on("click", tempInfo)
-			function tempInfo(){
-				var code = $(this).data("code")
-				alert(code);
-				location.href="getTemp/${code}";
-			}
-		}) */
-		
+			$(function() {
 
-		$(".moddd").on("click", function () {
-			if (window.confirm("정말로 승인하시겠습니까?")) {
-				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-				let backReason = $(this).closest("tr").find("#backReason").data("code")
-				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-				let courseCode = $(this).data("course")
-					submitYes = 'SUB'
-					backReason = ''
-					okayYes = 'A00'
-				$.ajax({
-					url : `/admin/adminTempList/okayTemp`,
-					method : "post",
-					dataType : "json",
-					data : { 
-					"submitYes"	: submitYes,
-					"backReason" : 	backReason,
-					"okayYes" :	okayYes,
-					"courseCode" :	 courseCode					
-					},
-					dataType : "json",
-					success : function(result) {
-						
-						
-						alert('승인되었습니다')
-						location.reload();
-					} 
-				});
-			}
-		})
-		
-		
-		$(".modddd").on("click", function () {
-			if (window.confirm("정말로 비승인하시겠습니까?")) {
-				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-				let backReason = $(this).closest("tr").find("#backReason").data("code")
-				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-				let courseCode = $(this).data("course")
-					submitYes = 'UNSUB'
-					backReason = '비승인인 이유는 여러가지가 있다!'
-					okayYes = ''
-				$.ajax({
-					url : `/admin/adminTempList/backTemp`,
-					method : "post",
-					dataType : "json",
-					data : { 
-					"submitYes" : submitYes,
-					"backReason" : 	backReason,
-					"okayYes" :	okayYes,
-					"courseCode" :	 courseCode					
-					},
-					dataType : "json",
-					success : function(result) {
-						
-						
-						alert('비승인되었습니다')
-						location.reload();
-					} 
-				});
-			}
-		})
+				//backReasonDetail();
+				aaaaa();
+				modalOff();
 
-		</script>
+			})
+			
+			//모달창 띄우기
+			function aaaaa () {
+				$(".backReasonWhy").on("click", function() {
+					let courseCode = $(this).data("course")
+					let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+					
+					$('#tt').val(courseCode)
+					
+					
+					$('#backReasonWhy').modal('show');
+				})
+			}
+
+			
+			function tempInsert() {
+				location.href = "tempInsert";
+			}
+			function getTemp() {
+				location.href = "getTemp";
+			}
+		
+			//관리자 승인기능
+			$(".moddd").on(
+					"click",
+					function() {
+						if (window.confirm("정말로 승인하시겠습니까?")) {
+							let submitYes = $(this).closest("tr").find(
+									"#submitYes").data("codee")
+							let backReason = $(this).closest("tr").find(
+									"#backReason").data("code")
+							let okayYes = $(this).closest("tr")
+									.find("#okayYes").data("back")
+							let courseCode = $(this).data("course")
+							submitYes = 'SUB'
+							backReason = ''
+							okayYes = 'A00'
+							$.ajax({
+								url : `/admin/adminTempList/okayTemp`,
+								method : "post",
+								dataType : "json",
+								data : {
+									"submitYes" : submitYes,
+									"backReason" : backReason,
+									"okayYes" : okayYes,
+									"courseCode" : courseCode
+								},
+								dataType : "json",
+								success : function(result) {
+
+									alert('승인되었습니다')
+									location.reload();
+								}
+							});
+						}
+					})
+
+					
+					//비승인 사유 등록
+					
+		
+				$(".backReasonWhy2").on("click",
+						function() {
+							if (window.confirm("정말로 비승인하시겠습니까?")) {
+								let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+								let backReason = $('#backReason2').val()
+								let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+								let courseCode = $('input[name=courseCode]').val()
+								if(backReason != null || backReason==null){
+								
+								submitYes = 'UNSUB'
+								okayYes = ''
+								
+								}else{
+									return false;
+								}
+									
+							
+								$.ajax({
+									url : `/admin/adminTempList/backTemp`,
+									method : "post",
+									dataType : "json",
+									data : {
+										"submitYes" : submitYes,
+										"backReason" : backReason,
+										"okayYes" : okayYes,
+										"courseCode" : courseCode
+									},
+									dataType : "json",
+									success : function(data) {
+
+										alert('비승인되었습니다')
+										location.reload();
+									}
+								});
+							}
+						})
 	
+			
+			
+
+			//모달창 끄기
+			function modalOff() {
+				$("#closeModal").on("click", function() {
+					$('#backReasonWhy').modal('hide');
+				})
+			}
+			
+			
+			
+			/* $(".backReasonWhy2").on(
+					"click",
+					function() {
+						if (window.confirm("정말로 비승인하시겠습니까?")) {
+							let submitYes = $(this).closest("tr").find(
+									"#submitYes").data("codee")
+							 let backReason = $(this).closest("tr").find("#backReason").data("code") 
+							
+							let okayYes = $(this).closest("tr").find(
+									"#okayYes").data("back")
+							let courseCode = $(this).data("course")
+
+							submitYes = 'UNSUB'
+							 backReason = '비승인인 이유는 여러가지가 있다!'
+							okayYes = ''
+							$.ajax({
+								url : `/admin/adminTempList/backTemp`,
+								method : "post",
+								dataType : "json",
+								data : {
+									"submitYes" : submitYes,
+									"backReason" : backReason,
+									"okayYes" : okayYes,
+									"courseCode" : courseCode
+								},
+								dataType : "json",
+								success : function(data) {
+
+									alert('비승인되었습니다')
+									location.reload();
+								}
+							});
+						}
+					}) */
+		</script>
+
 	</th:block>
 </body>
 </html>

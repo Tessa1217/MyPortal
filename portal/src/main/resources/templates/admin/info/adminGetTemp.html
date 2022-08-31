@@ -49,8 +49,8 @@
 										
 										<th>승인여부</th>
 										<th>비승인 사유</th>
-										<th>승인하기</th>
-										<th>비승인하기</th>
+										<th>승인 및 비승인</th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -66,9 +66,10 @@
 											th:data-code="비승인">비승인</td>
 										<td><button th:disabled="${tempcourse.okayYes}=='A00'"
 												name="button1" class="btn btn-danger moddd"
-												th:data-course="${tempcourse.courseCode}">승인</button></td>
-										<td><button th:disabled="${tempcourse.backReason}=='비승인'"
-												name="button1" class="btn btn-danger modddd"
+												th:data-course="${tempcourse.courseCode}">승인</button>
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<button th:disabled="${tempcourse.backReason}=='비승인'"
+												name="button1" class="btn btn-secondary backReasonWhy"
 												th:data-course="${tempcourse.courseCode}">비승인</button></td>
 									</tr>
 
@@ -254,7 +255,7 @@
 											<tr th:each="items:${tempcourseweek}">
 												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
 												<td><input th:name="|weekContent${items.weekNum}|"
-													class="col-sm-8" th:value="${items.weekContent}" ></td>
+													class="form-control" th:value="${items.weekContent}" readonly/></td>
 
 											</tr>
 											</div>
@@ -275,12 +276,68 @@
 				</div>
 			</div>
 		</div>
+		
+		
+					<!-- 모달창 -->
+		<div class="modal-dialog modal-xl">
+			<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+				tabindex="-1" aria-labelledby="staticBackdropLabel"
+				>
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+					<div class="modal-content">
+
+						<div class="modal-header">
+							<label class="modal-title" id="staticBackdropLabel">질문 답변</label>
+						</div>
+						<div class="modal-body">
+							<div class="container my-auto">
+								<div class="row">
+									<div class="card z-index-0 fadeIn3 fadeInBottom">
+										<div class="card-body">
+												<input type="hidden" id="tt" name="courseCode">
+												<table class="table">
+													<tr>
+														
+														<th>비승인 사유</th>
+														<td>
+														<input id="backReason2" name ="backReason2">
+														</td>
+													
+													</tr>
+														
+
+												</table>
+												<button type="submit"
+													class="btn btn-secondary backReasonWhy2"
+													data-bs-dismiss="modal" aria-label="Close">답변등록</button>
+												<button id="closeModal" type="button"
+													class="btn btn-secondary" data-dismiss="modal">닫기</button>
+										
+
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="input-container modal-footer"></div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
 		<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
-				saveTempInfo(); 
-				enterDate();
+				aaaaa();
+				modalOff();
 				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
 				
 			})
@@ -301,30 +358,9 @@
 			})
 			}
 			
-			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
-		 	function enterDate() {
-				$(document).on("change", "select[name=weekCode]", function(e) {
-					let startDate = $($(e.target).children(":selected")).data("start");
-					let endDate = $($(e.target).children(":selected")).data("end");
-					$("input[name=examStartDate]").val(startDate);
-					$("input[name=examEndDate]").val(endDate);
-				})
-			} 
 			
-			// 강의계획서 정보 저장
-			function saveTempInfo() {
-				$(".saveBtn").click(function() {
-					$.ajax({
-						type : 'POST',
-						url : 'tempInsert',
-						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-						data : $("#tempInfoForm").serialize(),
-						success : function(result) {
-							console.log(result);
-						}
-					})
-				})
-			}
+			
+		
 			
 			//강의계획서 정보 수정
 			$(function() {
@@ -369,66 +405,9 @@
 				
 			});
 			
-			//주차별 강의 수정
-			
-		 	/*  $(function() {
-				$("#modd").on("click", confirmModal)
-
-				function confirmModal() {
-					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-						updateweekTemp();
-					}
-				}
-				function updateweekTemp() {
-					let courseCode =  [[${tempcourse.courseCode}]]
-					$.ajax({
-						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
-						method : "post",
-						dataType : "json",
-						data : {
-							"weekContent" : $("#weekContent").val(),
-						
-							
-						},
-						dataType : "json",
-						success : function(result) {
-							
-							alert('수정되었습니다')
-							location.reload();
-						}
-					});
-				}  
-			});   */
 			
 			
-			
-			
-		/* 	$(".modd").on("click", function () {
-				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-					let courseCode =  [[${tempcourse.courseCode}]]
-					let weekContent = $(this).closest("tr").find("#weekContent")
-					let weekCode = $(this).data("weekCode")
-					$.ajax({
-						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
-						method : "post",
-						dataType : "json",
-						data : { 
-						
-						"weekContent" : $("#weekContent").val(),
-						"weekCode" :	 weekCode			
-						},
-						dataType : "json",
-						success : function(result) {
-							
-							
-							alert('변경되었습니다')
-							location.reload();
-						} 
-					});
-				}
-			}) */
-			
-			
+			//관리자 승인
 			
 			$(".moddd").on("click", function () {
 				if (window.confirm("정말로 승인하시겠습니까?")) {
@@ -460,35 +439,69 @@
 				}
 			})
 			
-			$(".modddd").on("click", function () {
-			if (window.confirm("정말로 비승인하시겠습니까?")) {
-				let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-				let backReason = $(this).closest("tr").find("#backReason").data("code")
-				let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-				let courseCode = $(this).data("course")
-					submitYes = 'UNSUB'
-					backReason = '비승인'
-					okayYes = ''
-				$.ajax({
-					url : `/admin/adminGetTemp/backTemp`,
-					method : "post",
-					dataType : "json",
-					data : { 
-					"submitYes" : submitYes,
-					"backReason" : 	backReason,
-					"okayYes" :	okayYes,
-					"courseCode" :	 courseCode					
-					},
-					dataType : "json",
-					success : function(result) {
-						
-						
-						alert('비승인되었습니다')
-						location.replace('/admin/adminTempList');
-					} 
-				});
+			
+			//비승인 사유 등록
+				$(".backReasonWhy2").on("click",
+						function() {
+							if (window.confirm("정말로 비승인하시겠습니까?")) {
+								let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+								let backReason = $('#backReason2').val()
+								let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+								let courseCode = $('input[name=courseCode]').val()
+								if(backReason != null || backReason==null){
+								
+								submitYes = 'UNSUB'
+								okayYes = ''
+								
+								}else{
+									return false;
+								}
+									
+							
+								$.ajax({
+									url : `/admin/adminTempList/backTemp`,
+									method : "post",
+									dataType : "json",
+									data : {
+										"submitYes" : submitYes,
+										"backReason" : backReason,
+										"okayYes" : okayYes,
+										"courseCode" : courseCode
+									},
+									dataType : "json",
+									success : function(data) {
+
+										alert('비승인되었습니다')
+										location.replace('/admin/adminTempList');
+									}
+								});
+							}
+						})
+		
+			//모달창 띄우기
+			function aaaaa () {
+				$(".backReasonWhy").on("click", function() {
+					let courseCode = $(this).data("course")
+					let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
+					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
+					
+					$('#tt').val(courseCode)
+					
+					
+					$('#backReasonWhy').modal('show');
+				})
 			}
-		})
+			
+			//모달창 끄기
+			function modalOff() {
+				$("#closeModal").on("click", function() {
+					$('#backReasonWhy').modal('hide');
+				})
+			}
+		
+		
+		
+			//텍스트 에디터
 			 tinymce.init({
 			        selector: '#courseSummary',
 			        plugins: [

@@ -55,19 +55,9 @@ public class TempcourseController {
 		return "professor/course/getTemp";
 	}
 
-//	//단건조회 주차별(상세보기)(GET)
-//	@RequestMapping("/professor/getTemp/{courseCode}") 
-//	public String tempcourseweek(@PathVariable String courseCode, Model model, TempcourseweekVO voo, TempcourseVO vo) {
-//		
-//		voo = service.getTempweek(courseCode);
-//		
-//		
-//		model.addAttribute("tempcourseweek", service.getTemp(courseCode));
-//		System.out.println(voo);
-//		return "professor/course/getTemp";
-//	}
 
-	// 목록(GET)
+
+	// 교수 강의계획서 리스트목록(GET)
 	@RequestMapping("/professor/tempcourseList")
 	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri) {
 		
@@ -100,20 +90,7 @@ public class TempcourseController {
 		return "professor/course/tempInsert";
 	}
 
-//	//등록 처리(POST)
-//
-//	@RequestMapping("/tempInsertProc")
-//	public String tempInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
-//		
-//		System.out.println(vo);
-//		System.out.println(voo);
-//		
-//			service.tempInsert(vo);
-//			service.tempweekInsert(voo);
-//			
-//		
-//		return "redirect:tempcourseList";
-//	}
+
 
 	// 강의계획서 기본정보 등록 처리(POST)
 	@PostMapping("/tempInsertProc")
@@ -271,7 +248,7 @@ public class TempcourseController {
 		}
 		
 		// 관리자 강의계획서 비승인 기능
-				@RequestMapping(value = { "/admin/adminTempList/backTemp", "/admin/adminGetTemp/backTemp" })
+				@PostMapping(value = { "/admin/adminTempList/backTemp", "/admin/adminGetTemp/backTemp" })
 				@ResponseBody
 				public int backTemp(TempcourseVO vo, Model model) {
 
@@ -283,8 +260,8 @@ public class TempcourseController {
 
 				}
 
-		//비승인 사유
-		@PostMapping(value = {"/professor/tempcourseList/backReasonWhy", "/professor/getTemp/{courseCode}/backReasonWhy"})
+		//비승인 사유(교수, 관리자)
+		@PostMapping(value = {"/professor/tempcourseList/backReasonWhy", "/professor/getTemp/{courseCode}/backReasonWhy", "/admin/adminTempList/backReasonWhy"})
 		@ResponseBody
 		public TempcourseVO backReasonWhy(TempcourseVO vo, Model model ) {
 			
@@ -292,4 +269,14 @@ public class TempcourseController {
 			vo=service.backReasonWhy(vo.getCourseCode());
 			return vo;
 		}
+		
+		
+//		//비승인 사유 등록(관리자)
+//		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})
+//		@ResponseBody
+//		public String backReasonInsert(TempcourseVO vo) {
+//			service.backReasonInsert(vo);
+//			return "success";
+//		}
+		
 }

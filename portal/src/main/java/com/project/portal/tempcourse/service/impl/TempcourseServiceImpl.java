@@ -168,6 +168,18 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
+
+
+
+
+
+	@Override
+	public TempcourseVO backReasonInsert(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.backReasonInsert(vo);
+	}
+
+
 	
 
 
