@@ -11,6 +11,8 @@
 		       a.course_sortation,
 		       a.course_credit, 
 		       a.course_limit,
+		       a.course_year,
+		       a.course_semester,
 		        
 		       b.professor_name
 		  
@@ -21,6 +23,12 @@
 			<if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
 			</if>
+			<![CDATA[
+		 AND course_year = '2022'
+			   		 ]]>
+			<![CDATA[
+		 AND course_semester = '1'
+			   		 ]]>
 		</where>
 		  ORDER BY course_code ASC
 	</select>
@@ -44,7 +52,8 @@
 		SELECT a.course_code, 
 			   b.course_name, 
 			   b.course_sortation,
-			   b.course_credit, 
+			   b.course_credit,
+			   b.course_year, 
 		
 			   c.professor_name
 			FROM course_package a
@@ -52,7 +61,7 @@
 				ON a.course_code = b.course_code
 			JOIN professor c
 				ON b.professor_id = c.professor_id
-		WHERE a.student_id = #{studentId}
+		WHERE a.student_id = #{studentId} AND a.package_yn IS NULL
 	</select>
 
 	<!--학번이 있어야 찾음 -->
@@ -61,7 +70,8 @@
 		SELECT a.course_code, 
 			   b.course_name, 
 			   b.course_sortation,
-			   b.course_credit, 
+			   b.course_credit,
+			   b.course_year, 
 			   
 			   c.professor_name
 			FROM course_package a

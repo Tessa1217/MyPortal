@@ -28,7 +28,7 @@ public class RegisterController {
 	// 학생 정보, 과목 리스트
 	@RequestMapping("/student/courseRegister")
 	public String Register(Model model, RegisterVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
 		
@@ -37,6 +37,9 @@ public class RegisterController {
 		
 		List<RegisterVO> packageNList = service.packageNList(vo);
 		model.addAttribute("packageNList", packageNList);
+		
+		List<RegisterVO> successList = service.successList(vo);
+		model.addAttribute("successList", successList);
 		return "student/register/register";		
 	}
 	
@@ -44,7 +47,7 @@ public class RegisterController {
 	@RequestMapping("/student/registerInsert")
 	@ResponseBody
 	public int RegisterVO(Model model, RegisterVO vo) {
-		vo.setStudentId(22000002);
+		vo.setStudentId(22000001);
 		return service.registerInsert(vo);
 	}
 }

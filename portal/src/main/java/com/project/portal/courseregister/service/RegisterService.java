@@ -13,6 +13,9 @@ public interface RegisterService {
 	//강의 담기
 	public int registerInsert(RegisterVO vo);
 	
-	//꾸러미 실패한 과목 불러오기
+	//꾸러미 실패한 강의 불러오기
 	public List<RegisterVO> packageNList(RegisterVO vo);
+	
+	//신청 성공한 강의 불러오기
+	public List<RegisterVO> successList(RegisterVO vo);
 }

@@ -14,8 +14,9 @@
 			<hr>
 			<div class="card">
 				<div class="card-body">
-			<h4>개설강좌 LIST</h4>
+			<h3>개설강의 LIST</h3>
 			<br>
+			<!-- 학과별 강의 검색 -->
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
 					<option selected>--- 학과선택 ---</option>
@@ -40,6 +41,7 @@
 					onclick="location.href='coursePackage'">초기화</button>
 			</form>
 			<br>
+			<!-- 강의 목록 -->
 			<div class="overflow-auto" style="max-height: 300px;">
 				<table class="table table-bordered table-hover">
 					<thead>
@@ -49,7 +51,7 @@
 							<th>강의명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
-							<th>수강 제한 인원</th>
+							<th>수강 정원</th>
 							<th>담기</th>
 						</tr>
 					</thead>
@@ -71,9 +73,10 @@
 			</div>
 		</div>
 			<br>
+			<!-- 담은 강의 목록 -->
 			<div class="card">
 				<div class="card-body">
-			<h4>수강꾸러미 LIST</h4>
+			<h3>수강꾸러미 LIST</h3>
 			<div class="overflow-auto" style="max-height: 300px;">
 				<table class="table table-bordered table-hover">
 					<thead>
@@ -100,11 +103,11 @@
 					</tbody>
 				</table>
 			</div>	
-				<h6>
-					수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span>
-				</h6>
-				<h6>교양신청 가능학점: 5</h6>
 		</div>
+		<h6>
+			수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span>
+		</h6>
+		<h6>교양신청 가능학점: 5</h6>
 	</div>
 		</div>
 		<script th:inline="javascript">
@@ -143,19 +146,20 @@
 	
 					let courseCodeCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
 					if(courseCodeCheck){
-						return alert('이미 담겨있는 강의입니다.');
-					}
+						return alert('담겨있는 강의입니다.');
+					} 
+
 					let allCourseCredit = creditTotalSum();
-					const oSelectDom = $(this)[0].parentElement.parentElement;
-					const iSelectNum = parseInt(oSelectDom.children[3].textContent);
-					if( (allCourseCredit + iSelectNum) > 20 ){
+					const selectCode = $(this)[0].parentElement.parentElement;
+					const selectNum = parseInt(selectCode.children[3].textContent);
+					if( (allCourseCredit + selectNum) > 20 ){
 						return alert("최대 학점을 초과할수없습니다.");
 					}
 
-					if((oSelectDom.children[1].textContent).startsWith("L")) {
+					if((selectCode.children[1].textContent).startsWith("L","l")) {
 						let lSortationTotal = lSortationCheck();
 
-						if( (lSortationTotal + parseInt(oSelectDom.children[3].textContent)) > 5 ){
+						if( (lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5 ){
 							return alert("교양학점은 5점을 초과할 수 없습니다.");
 						}
 					}

@@ -16,4 +16,6 @@ public class CoursePackageVO {
 	private String collegeCode;
 	private String departCode;
 	private int packageCredit;
+	private int courseYear;
+	private int courseSemester;
 }
