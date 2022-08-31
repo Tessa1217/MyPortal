@@ -139,7 +139,6 @@ public class ProfessorExamController {
 	@PostMapping("/professor/eclass/createQuestion")
 	public String createQuestion(@RequestBody QuestionVO vo, Model model) {
 		examService.createQuestion(vo);
-		System.out.println(vo);
 		model.addAttribute("question", vo);
 		return "/layout/fragments/professor-eclass/exam/newTestQuestion :: #newQuestion";
 	}

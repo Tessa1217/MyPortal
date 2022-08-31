@@ -237,3 +237,64 @@ input[name=examQuestionPoint] {
 	margin-bottom: 1%;
 }
 
+#bookmark {
+	position: fixed; 
+	top: 10%; 
+	left: 80%;
+	border-left : 3px solid #25396f;
+}
+
+#bookmark h6 {
+	font-weight: bold;
+	margin-bottom: 5%;
+}
+
+#bookmark a {
+	text-decoration : nonte;
+	color : #25396f;
+}
+
+.lectureNoteCard {
+	background: #f8f9fa;
+}
+
+#loginContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+#loginContainer .row {
+	width: 50%;
+	height: 500px;
+	background: white;
+	border-radius: 20px;
+	background: #25396f;
+}
+
+#loginContainer #loginHeading {
+	padding: 5%;
+}
+
+#loginHeading h2, i {
+	color: white;
+}
+
+#loginContainer #loginFrm {
+	width: 100%;
+	padding: 10%;
+	height: 500px;
+	align-items: center;
+	color: white;
+}
+
+#loginImg {
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+#loginImg img {
+	width: 100%;
+	height: 100%;
+}

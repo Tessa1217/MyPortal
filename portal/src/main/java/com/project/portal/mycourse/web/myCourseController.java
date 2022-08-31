@@ -18,6 +18,7 @@ import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
+import com.project.portal.student.service.StudentVO;
 
 // 작성자: 김진형, 박근형
 @Controller
@@ -47,9 +48,11 @@ public class myCourseController {
 	// 학생 수강 목록 조회
 
 	@RequestMapping("student/courseList")
-	public String getstuMyCourse(MyCourseVO vo, Model model) {
+	public String getstuMyCourse(MyCourseVO vo, 
+								Model model, 
+								HttpSession session) {
 
-		vo.setStudentId(22000001);
+		vo.setStudentId((int) session.getAttribute("id"));
 		List<MyCourseVO> mycourseList = service.getstuMyCourse(vo);
 		logger.info(mycourseList.toString());
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo));
@@ -59,8 +62,10 @@ public class myCourseController {
 
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
-	public String getProfMyCourse(myProfCourseVO vo, Model model) {
-		vo.setProfessorId("220001");
+	public String getProfMyCourse(myProfCourseVO vo, 
+									Model model,
+									HttpSession session) {
+		vo.setProfessorId((int) session.getAttribute("id"));
 		List<myProfCourseVO> mycourseList = service.getProfMyCourse(vo);
 		System.out.println(mycourseList);
 		model.addAttribute("mycourseList", mycourseList);
@@ -70,11 +75,12 @@ public class myCourseController {
 	// 수강 강의 lms 메인 페이지 이동
 
 	@RequestMapping("/student/eclass/{courseCode}")
-	public String getstuMyCoursePage(@PathVariable String courseCode, MyCourseMainVO vo, Model model,
-			HttpSession session) {
+	public String getstuMyCoursePage(@PathVariable String courseCode, 
+									MyCourseMainVO vo, 
+									Model model,
+									HttpSession session) {
 		session.setAttribute("courseCode", courseCode);
-		System.out.println(courseCode);
-
+		
 		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));
 		return "student/eclass/eclassmain";
 
@@ -85,7 +91,6 @@ public class myCourseController {
 	public String getProfMyCoursePage(@PathVariable String courseCode, MyCourseMainVO vo, Model model,
 			HttpSession session) {
 		session.setAttribute("courseCode", courseCode);
-		System.out.println(courseCode);
 
 		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));
 		return "professor/eclass/eclassmain";

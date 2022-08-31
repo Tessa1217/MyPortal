@@ -87,9 +87,25 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h5>이번 주 투두리스트</h5>
+							<h3><i class="fa-solid fa-list-ol"></i> Weekly ToDoList</h3>
 						</div>
-						<div class="card-body"></div>
+						<div class="card-body">
+							<div>
+								<div>
+								  <h5>강의</h5>
+								</div>
+							</div>
+							<div>
+								<div>
+								  <h5>과제</h5>
+								</div>
+							</div>
+							<div>
+								<div>
+								  <h5>시험</h5>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-12 col-lg-3">
@@ -97,10 +113,10 @@
 						<div class="card-body py-4 px-3">
 							<div class="d-flex align-items-center">
 								<div class="avatar avatar-xl">
-									<img src="assets/images/faces/1.jpg" alt="Face 1">
+									<img th:src="@{/download/{fileName}(fileName=${session.student.studentImg})}" alt="Face 1">
 								</div>
 								<div class="ms-3 name">
-									<h5 class="font-bold">John Duck</h5>
+									<h5 class="font-bold" th:text="${session.student.studentName}"></h5>
 								</div>
 							</div>
 						</div>

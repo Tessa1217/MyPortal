@@ -8,5 +8,5 @@ public class myProfCourseVO {
 	private String professorName;
 	private String courseRegCode;
 	private String courseCode;  // 강의코드
-	private String professorId; // 교수코드
+	private int professorId; // 교수코드
 }

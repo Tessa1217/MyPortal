@@ -1,5 +1,6 @@
 package com.project.portal.lecture.web;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.lecture.service.LectureQuestionVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.StudentLectureVO;
@@ -26,20 +28,23 @@ import com.project.portal.lecture.service.impl.StudentLectureServiceImpl;
 public class StudentLectureController {
 	
 	@Autowired StudentLectureServiceImpl service;
+	@Autowired CourseServiceImpl courseService;
 	
 	@ModelAttribute("courseInfo")
 	public CourseVO course(HttpSession session) {
 		CourseVO course = new CourseVO();
 		course.setCourseCode((String) session.getAttribute("courseCode"));
-		System.out.println(course);
-		return course;
+		return courseService.getWeeklyInfo(course);
 	}
 	
 	
 	@RequestMapping("student/eclass/lectureList")
-	public String lectureList(CourseVO vo, StudentLectureVO slecture, Model model) {
+	public String lectureList(CourseVO vo, 
+							StudentLectureVO slecture, 
+							Model model,
+							HttpSession session) {
 		vo.setCourseCode("SSPY0001");
-		slecture.setStudentId(22000001);
+		slecture.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("record", service.getLectureRecord(slecture));
 		model.addAttribute("lectureList", service.getLectureList(vo));
 		
@@ -47,10 +52,14 @@ public class StudentLectureController {
 	}
 	
 	@RequestMapping("student/eclass/watchLecture")
-	public String watchLecture(LectureVO vo, StudentNoteVO note, Map<String, Object> map, Model model) {
+	public String watchLecture(LectureVO vo, 
+								StudentNoteVO note, 
+								Map<String, Object> map, 
+								Model model,
+								HttpSession session) {
 		vo = service.getLecture(vo);
 		note.setLectureCode(vo.getLectureCode());
-		note.setStudentId(22000001);
+		note.setStudentId((int) session.getAttribute("id"));
 		map = service.getList(vo, note.getStudentId());
 		model.addAttribute("lecture", vo);
 		model.addAttribute("noteList", map.get("noteList"));
@@ -80,19 +89,20 @@ public class StudentLectureController {
 	@PostMapping("student/eclass/insertQuestion")
 	@ResponseBody
 	public LectureQuestionVO insertLectureQuestion(LectureQuestionVO vo) {
-		System.out.println(vo);
 		vo = service.insertLectureQuestion(vo);
 		return vo;
 	}
 	
 	@RequestMapping("student/eclass/myNotes")
-	public String getMyNotes(Model model) {
+	public String getMyNotes(Model model, HttpSession session) {
 		Map<String, List<StudentNoteVO>> map = new HashMap<String, List<StudentNoteVO>>();
 		List<LectureVO> lectures = service.getLectureList((CourseVO) model.getAttribute("courseInfo"));
 		for (LectureVO lecture : lectures) {
-			map.put(lecture.getLectureCode(), service.getNoteList(lecture, 22000001));
+			List<StudentNoteVO> noteList = service.getNoteList(lecture, (int) session.getAttribute("id"));
+			if (noteList.size() != 0) {
+				map.put(lecture.getLectureCode(), noteList);
+			}
 		}
-		System.out.println(map);
 		model.addAttribute("lectureList", lectures);
 		model.addAttribute("map", map);
 		return "student/eclass/lecture/lectureNoteList";

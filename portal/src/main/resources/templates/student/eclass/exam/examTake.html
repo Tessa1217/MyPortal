@@ -9,7 +9,7 @@
 <body>
 	<th:block layout:fragment="bodyContent">
 		<div class="studentExamContainer">
-			<input id="studentId" type="hidden" value="22000009"> <input
+			<input id="studentId" type="hidden" th:value="${session.id}"> <input
 				id="examCode" type="hidden" th:value="${examInfo.examCode}">
 			<div class="page-title">
 				<h2>시험</h2>
@@ -195,7 +195,7 @@
 
 					$.ajax({
 						method : 'POST',
-						url : /*[[@{/student/eclass/examTake}]]*/'',
+						url : `/student/eclass/examTake`,
 						contentType : 'application/json; charset=utf-8',
 						data : JSON.stringify(data),
 						success : function(result) {

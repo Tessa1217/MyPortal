@@ -2,6 +2,8 @@ package com.project.portal.course.web;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,11 @@ public class CourseController {
 	// 교수 강의별 수강평 리스트
 	@RequestMapping("/professor/surveyList")
 	
-	public String ServeyList(CourseVO vo, SurveyVO voo, Model model) {
-		vo.setProfessorId(220002);
+	public String ServeyList(CourseVO vo, 
+							SurveyVO voo, 
+							Model model, 
+							HttpSession session) {
+		vo.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("surveyList", service.surveyList(vo));
 //		voo.setCourseCode(vo.getCourseCode());
 //		model.addAttribute("surveySelect", service.surveySelect(voo));
@@ -46,7 +51,10 @@ public class CourseController {
 	// 교수 강의 수강평 상세보기
 	@ResponseBody
 	@RequestMapping("/professor/surveySelect")
-	public HashMap<String, Object> ServeySelect(SurveyVO vo, CourseVO voo, SurveyAvgVO svo, Model model) {
+	public HashMap<String, Object> ServeySelect(SurveyVO vo, 
+											CourseVO voo, 
+											SurveyAvgVO svo, 
+											Model model) {
 		vo = service.surveySelect(vo);
 		svo = service.getSurveyStats(voo, svo);
 		

@@ -36,16 +36,16 @@ public class StudentExamController {
 	}
 	
 	@RequestMapping("/student/eclass/examList")
-	public String studentExamInfo(Model model) {
-		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000009;
-		List<ExamScoreVO> examList = service.getExamInfo(studentId, (CourseVO) model.getAttribute("course"));
+	public String studentExamInfo(Model model, HttpSession session) {
+		List<ExamScoreVO> examList = service.getExamInfo((int) session.getAttribute("id"), 
+														(CourseVO) model.getAttribute("course"));
 		model.addAttribute("examList", examList);
 		return "student/eclass/exam/examList";
 	}
 	
 	@RequestMapping("/student/eclass/examTake")
-	public String studentExamTake(ExamVO vo, Model model) {
+	public String studentExamTake(ExamVO vo, Model model, HttpSession session) {
+		System.out.println(session.getAttribute("student"));
 		List<CourseExamVO> studentExam = service.getStudentExam(vo);
 		model.addAttribute("examInfo", vo);
 		model.addAttribute("studentExam", studentExam);
@@ -54,15 +54,14 @@ public class StudentExamController {
 	
 	@PostMapping("/student/eclass/examTake")
 	public String studentExamTaken(@RequestBody ExamTakeVO vo) {
+		System.out.println(vo);
 		service.insertExamResult(vo);
 		return "redirect:/student/eclass/examList";
 	}
 	
 	@RequestMapping("/student/eclass/examResult")
-	public String examResult(ExamVO vo, Model model) {
-		// 학번 (원래는 세션값으로 들어옴)
-		int studentId = 22000009;
-		List<ExamResultVO> studentExam = service.getExamResult(studentId, vo);
+	public String examResult(ExamVO vo, Model model, HttpSession session) {
+		List<ExamResultVO> studentExam = service.getExamResult((int) session.getAttribute("id"), vo);
 		model.addAttribute("studentExam", studentExam);
 		return "student/eclass/exam/studentExamResult";
 	}
