@@ -43,15 +43,17 @@
 			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 			th:text="${selectFile.fileOriName}"></a>
 			</td>
-			<td>
+			</div>
+		</tr>
+
+		<!-- <td>
 			<input type="file" name="courseNoticeAttachedFileName" multiple class="hidden" id="inputfile">
 			</td>
 			<td>
 			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 			th:text="${selectFile.fileOriName}" class="hidden"><button type="button" id="filedelete">x</button></a>
-			</td>
-			</div>
-		</tr>
+		</td>  -->
+
 		
 		<tr>
 			<td>내용</td>

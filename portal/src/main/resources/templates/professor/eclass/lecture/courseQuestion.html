@@ -135,9 +135,9 @@
                                     			
                                     			
                                     	</table>
-                                    	 <button type="submit" class="btn btn-secondary courseProfQuestionAnswer" data-bs-dismiss="modal" aria-label="Close"
-                                    	 th:onclick="insertAnswer()" id="AnswerReg">답변 등록</button>
-                            			<button type="button" id="AnswerMod" class="btn btn-secondary hidden" data-bs-dismiss="modal" aria-label="Close"
+                                    	 <button type="button" class="btn btn-secondary courseProfQuestionAnswer" data-bs-dismiss="modal" aria-label="Close"
+                                    	 id="AnswerReg">답변 등록</button>
+                            			<button type="button" id="AnswerMod" class="btn btn-secondary hidden" data-bs-dismiss="modal"
                             			th:onclick="modifyAnswer()">답변 수정</button>
                             			
                             			<button type="button" class="btn btn-primary hidden" id="Prev">이전</button>
@@ -168,7 +168,6 @@
     $(function () {
 		courseQuestionDetail();
 		modalOff();
-		insertAnswer();
 	})
 	// 질문 상세조회
 	function courseQuestionDetail () {
@@ -204,6 +203,8 @@
 	                	 $("#AnswerReg").hide()
 	                	 $("#Modify").show()
 	                 }     
+                	 
+                	 
                },
                error : function(reject) {
             	   alert("통신 실패");	
@@ -222,16 +223,17 @@
 		})
 	} 
  
- // 답변 등록 (답변내용 check 후 null 또는 빈값이 아니면 등록)
- 	function insertAnswer() {
-	 
-	 	var frmContent = frm.lectureAnswerContent.value
+ 
+ 	$("#AnswerReg").on("click" , function() {
+ 		var frmContent = frm.lectureAnswerContent.value
 	 	//답변 내용이 있는지 확인
 	 	if(frmContent == '' || frmContent == null) {
-	 		window.alert('답변 내용이 없습니다.')
+	 		alert('답변 내용이 없습니다.')
 	 		return false;
 	 	}
 	 	
+ 		
+ 		// 답변 등록 (답변내용 check 후 null 또는 빈값이 아니면 등록)
  		//질문 번호, 답변 내용
  		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val()
  		let lectureQuestionNum = $('#questionnum').text()
@@ -249,9 +251,12 @@
 
             success : function(data) {
             	alert('답변이 등록 되었습니다.')
+            	location.href="/professor/eclass/courseQuestion"
             }
- 		})  
- 	} 
+ 		}) 
+ 	})
+
+
 
  	
  // 수정 버튼 처리 (수정페이지로 이동)
@@ -298,6 +303,7 @@
  	            success : function(result) {
  	            	console.log(result)
  	            	alert('수정되었습니다.')
+ 	            	location.href="/professor/eclass/courseQuestion"
  	            }
  	 		})  
  	}

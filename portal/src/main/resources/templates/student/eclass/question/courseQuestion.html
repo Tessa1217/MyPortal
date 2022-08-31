@@ -56,8 +56,8 @@
 			</thead>
 			
 			<tbody>
-				<tr th:each="courseQuestion : ${courseQuestion}">
-					<td th:text="${courseQuestion.lectureQuestionNum}"></td>
+				<tr th:each="courseQuestion, idx: ${courseQuestion}">
+					<td th:text="${idx.index+1}"></td>
 					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
 					<td th:text="${courseQuestion.weekNum}"></td>
@@ -123,8 +123,8 @@
                             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
                                 확인
                             </button>
-                            <button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+                            <!-- <button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button> -->
                         </div>
                 </div>
             </div>

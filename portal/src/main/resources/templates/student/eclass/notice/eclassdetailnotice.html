@@ -34,7 +34,9 @@
 		<tr>
 			<td>첨부파일</td>
 			<div th:each="selectFile : ${selectFile}">
-			<td><a th:text="${selectFile.fileOriName}"></a><button type="button">x</button></td>
+			<td><a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			th:text="${selectFile.fileOriName}"></a></a></td>
+			
 		</tr>
 		
 		<tr>

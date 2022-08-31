@@ -1,7 +1,8 @@
 package com.project.portal.survey.web;
 
-import org.slf4j.Logger;
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,10 @@ public class SurveyController {
 	
 	// 학생 설문지 답안 제출
 	@RequestMapping("/student/eclass/courseSurveyAnswer")
-	public String insertSurvetAnswer(SurveyAnswerVO vo) {
-		vo.setCourseCode("SSPY0001");
+	public String insertSurvetAnswer(SurveyAnswerVO vo ,HttpSession session) {
+		
+		String courseCode = (String)session.getAttribute("courseCode");
+		vo.setCourseCode(courseCode);
 		vo.setStudentId(22000001);
 		System.out.println(vo);
 		service.insertSurveyAnswer(vo);
