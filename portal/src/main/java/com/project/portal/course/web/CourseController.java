@@ -1,16 +1,20 @@
 package com.project.portal.course.web;
 
+import java.util.HashMap;
+
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.web.myCourseController;
+import com.project.portal.survey.service.SurveyAvgVO;
 import com.project.portal.survey.service.SurveyVO;
 
 // 작성자: 김진형
@@ -30,6 +34,7 @@ public class CourseController {
 
 	// 교수 강의별 수강평 리스트
 	@RequestMapping("/professor/surveyList")
+	
 	public String ServeyList(CourseVO vo, SurveyVO voo, Model model) {
 		vo.setProfessorId(220002);
 		model.addAttribute("surveyList", service.surveyList(vo));
@@ -39,11 +44,19 @@ public class CourseController {
 	}
 
 	// 교수 강의 수강평 상세보기
-
+	@ResponseBody
 	@RequestMapping("/professor/surveySelect")
-	public String ServeySelect(SurveyVO vo, Model model) {
-		model.addAttribute("surveySelect", service.surveySelect(vo));
-		return "professor/course/surveyList";
+	public HashMap<String, Object> ServeySelect(SurveyVO vo, CourseVO voo, SurveyAvgVO svo, Model model) {
+		vo = service.surveySelect(vo);
+		svo = service.getSurveyStats(voo, svo);
+		
+		System.out.println(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("survey", vo);
+		map.put("chart", svo);
+		return map;
 	}
-
+	
+	
+	
 }

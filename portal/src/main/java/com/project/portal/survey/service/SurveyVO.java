@@ -18,15 +18,15 @@ public class SurveyVO {
 	private String surveyQ9;
 	private String surveyQ10;
 	
-	private double a1Avg;
-	private double a2Avg;
-	private double a3Avg;
-	private double a4Avg;
-	private double a5Avg;
-	private double a6Avg;
-	private double a7Avg;
-	private double a8Avg;
-	private double a9Avg;
-	private double a10Avg;
+	private double A1Avg;
+	private double A2Avg;
+	private double A3Avg;
+	private double A4Avg;
+	private double A5Avg;
+	private double A6Avg;
+	private double A7Avg;
+	private double A8Avg;
+	private double A9Avg;
+	private double A10Avg;
 
 }

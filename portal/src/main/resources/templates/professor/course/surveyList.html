@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/professor_layout}">
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
@@ -40,72 +42,259 @@
 						<td th:text="${list.courseCredit}"></td>
 						<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
 						<td th:text="|${list.surveyAvg} / 5|"></td>
-						<td><button type="button" class="btn btn-primary surveySelect" data-toggle="modal" data-target="#myModal" onclick="" >상세보기</button></td>
+						<td><button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#staticBackdrop">상세보기</button></td>
+						<!-- <td><button type="button"
+								class="btn btn-primary surveySelect" data-toggle="modal"
+								data-target=".myModal" onclick="">상세보기</button></td> -->
 					</tr>
 				</table>
-			
+
 			</div>
-			<!-- 모달 영역 -->				
-				<div class="modal" tabindex="-1" id="myModal">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h5 class="modal-title">Modal title</h5>
-				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				      </div>
-				      <div class="modal-body">
-				        <h2>강의명</h2>
-				        <p>0000년도 0학기</p>
-				        <table class="table">
-				        	<tr>
-			        			<th>수강평 문항</th>
-			        			<th>평균 평점</th>
-				        	</tr>
-				        	<tbody id="aaa">
-				        	
-				        	</tbody>
-				        </table>
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="classModal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
-				      </div>
-				    </div>
-				  </div>
+			<!-- 모달 ㅇㅇㅇ -->
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#staticBackdrop">Launch static backdrop
+				modal</button>
+
+			<!-- Modal -->
+			<div class="modal fade myModal" id="staticBackdrop"
+				data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<h2>강의명</h2>
+							<p>0000년도 0학기</p>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>수강평 문항</th>
+										<th>평균 평점</th>
+									</tr>
+								</thead>
+								<tbody id="surveyData">
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="button" id="closeModal" class="btn btn-primary">Understood</button>
+						</div>
+					</div>
 				</div>
+			</div>
+			<!-- 모달 영역 -->
+			<!-- <div class="modal" data-bs-backdrop="static" data-bs-keyboard="false"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true"
+				tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<h2>강의명</h2>
+							<p>0000년도 0학기</p>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>수강평 문항</th>
+										<th>평균 평점</th>
+									</tr>
+								</thead>
+								<tbody id="surveyData">
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal" id="closeModal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div> -->
 		</div>
 		<script th:inline="javascript">
-		 $(function(){
-			 $(document).on('show.bs.modal','#myModal', function (e) {
-				 console.log(e);
-				 console.log($(e.relatedTarget).parent().prev().prev().prev().prev().text());
-				 /* alert($(e.relatedTarget).parent().prev().prev().prev().prev().text()); */
-				 var courseCode = $(e.relatedTarget).parent().prev().prev().prev().prev().text();
-				 // alert(cCode);
-				     $.ajax({
-					  url : "/professor/surveySelect",
-					  method : "post",
-					  dataType : "json",
-					  data : {
-						  courseCode : courseCode,
-					  },
-					  success : function(result) {
-						  let tr = $('<tr/>')
-					  }
-				  }); 
-			})
-			
-				
 			$("#closeModal").on("click", function() {
-				$('#myModal').modal('hide');
+				$('.myModal.in').modal('hide');
 			})
-		
-			
-		});
-		 
-		 
-		
-		</script>	
+			$(function() {
+				surveyReview();
+
+				// ______________모달 종료 시 입력값 초기화
+				$('.myModal').on('hidden.bs.modal', function(e) {
+					console.log('modal close');
+					$('#surveyData').children().remove();
+
+				});
+
+			});
+
+			function surveyReview() {
+				$(document)
+						.on(
+								'show.bs.modal',
+								'.myModal',
+								function(e) {
+									console.log(e);
+									console
+									.log($(e.relatedTarget).parent();
+									console
+											.log($(e.relatedTarget).parent()
+													.prev().prev().prev()
+													.prev().text());
+									/* alert($(e.relatedTarget).parent().prev().prev().prev().prev().text()); */
+									var courseCode = $(e.relatedTarget)
+											.parent().prev().prev().prev()
+											.prev().text();
+									// alert(cCode);
+									$
+											.ajax({
+												url : "/professor/surveySelect",
+												method : "post",
+												data : {
+													courseCode : courseCode,
+												},
+												success : function(res) {
+													var result = res.survey;
+													var chartdata = res.chart;
+													console.log(res.survey);
+													let tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ1),
+																			$(
+																					"<td>")
+																					.text(
+																							result.a1Avg) ]);
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ2),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a2Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ3),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a3Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ4),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a4Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ5),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a5Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ6),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a6Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ7),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a7Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ8),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a8Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ9),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a9Avg) ])
+													$("#surveyData").append(tr);
+													tr = $("<tr/>")
+															.append(
+																	[
+																			$(
+																					"<td>")
+																					.text(
+																							result.surveyQ10),
+																			$(
+																					"<td/>")
+																					.text(
+																							result.a10Avg) ])
+													$("#surveyData").append(tr);
+
+												}
+											});
+								})
+			}
+		</script>
 	</th:block>
 </body>
+
 </html>

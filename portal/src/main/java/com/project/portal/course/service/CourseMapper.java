@@ -9,7 +9,7 @@ import com.project.portal.survey.service.SurveyVO;
 
 @Mapper
 public interface CourseMapper {
-	
+
 	CourseVO getWeeklyInfo(CourseVO vo);
 
 	List<CourseVO> allCourseList(Criteria cri);
@@ -18,6 +18,16 @@ public interface CourseMapper {
 
 	SurveyVO surveySelect(SurveyVO vo);
 
-//	List<CourseVO> surveyAvg(CourseVO vo);
+	// 설문지 강의 문항별 평점
+	SurveyVO getQuestionAvg(CourseVO vo);
+
+	// 설문지 전체 강의 문항별 평점
+	SurveyVO getCourseAvg(CourseVO vo);
+
+	// 설문지 강의 전체 평점
+	double myCourseAvg(CourseVO vo);
+
+	// 설문지 전체 강의 전체 평점
+	double allMyCourseAvg();
 
 }
