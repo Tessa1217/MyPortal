@@ -3,6 +3,7 @@
 			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			layout:decorate="~{layout/professor-eclass_layout}">
 <head>
+<script th:inline="javascript" src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -20,7 +21,7 @@
 		<tbody>
 		<tr>
 			<td>제목</td>
-			<td colspan="3">
+			<td>
 			    <input class="form-control hidden" name="courseNoticeTitle" id="titleeditor" th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 			<div id="titleview" th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></div></td>
 			
@@ -38,15 +39,30 @@
 		<tr>
 			<td>첨부파일</td>
 			<div th:each="selectFile : ${selectFile}">
-			<td><a th:text="${selectFile.fileOriName}"></a><button type="button">x</button></td>
+			<td>
+			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			th:text="${selectFile.fileOriName}"></a>
+			</td>
+			<td>
+			<input type="file" name="courseNoticeAttachedFileName" multiple class="hidden" id="inputfile">
+			</td>
+			<td>
+			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			th:text="${selectFile.fileOriName}" class="hidden"><button type="button" id="filedelete">x</button></a>
+			</td>
 			</div>
 		</tr>
 		
 		<tr>
 			<td>내용</td>
-			<td colspan="3">
-			    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></textarea>
-			<div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div></td>
+			<td colspan="3"><div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div>
+			          		 
+			    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}">
+			    </textarea>
+			    
+            </td>
+			
+		
 			
 		</tr>
 		</tbody>
@@ -60,7 +76,11 @@
 </div>
 
 	<script th:inline="javascript">
-		
+		// X 버튼 클릭시 해당
+		$('#filedelete').click(function() {
+			
+		})
+	
 		// 목록 버튼 처리
 		$('#AllList').click(function() {
 			location.href ="/professor/eclass/eclassnotice"
@@ -91,6 +111,8 @@
 			$('#titleview').hide()
 			$('#ModifySubmit').show()
 			$('#prev').show()
+			$('#inputfile').show()
+			
 		})
 		
 		// 이전 화면 처리
@@ -103,6 +125,7 @@
 			$('#titleview').show()
 			$('#ModifySubmit').hide()
 			$('#prev').hide()
+			$('#inputfile').hide()
 		})
 
 		

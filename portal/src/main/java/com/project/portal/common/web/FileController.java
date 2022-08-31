@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -12,7 +14,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
 import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
+import com.project.portal.studynotice.service.StudyNoticeFileVO;
+import com.project.portal.studynotice.service.impl.StudyNoticeServiceImpl;
 
 @Controller
 public class FileController {
@@ -28,6 +31,8 @@ public class FileController {
 	ProfessorLectureServiceImpl lectureService;
 	@Autowired
 	ProfessorReportServiceImpl reportService;
+	@Autowired
+	StudyNoticeServiceImpl noticeService;
 	
 	@GetMapping("/video/download/{videoCode}")
 	public ResponseEntity<Object> videoDownload(@PathVariable String videoCode) {
@@ -36,10 +41,19 @@ public class FileController {
 	} 
 	
 	@GetMapping("/report/download/{reportFileCode}")
-	public ResponseEntity<Object> fielDownload(@PathVariable String reportFileCode) {
+	public ResponseEntity<Object> fileDownload(@PathVariable String reportFileCode) {
 		String path = reportService.getFile(reportFileCode).getReportFilePath();
 		return setResponseEntity(path);			
 	}
+	
+	@GetMapping("/courseNotice/download/{fileName}")
+	public ResponseEntity<Object> courseNoticefileDownload(@PathVariable String fileName) {
+		StudyNoticeFileVO fileVO = noticeService.filedownload(fileName);
+		String fileUrlDetail = fileVO.getFileUrl();
+		System.out.println(fileUrlDetail);
+		return setResponseEntity(fileUrlDetail);
+	}
+	
 
 	public ResponseEntity<Object> setResponseEntity(String path) {
 		Path filePath = Paths.get(path);

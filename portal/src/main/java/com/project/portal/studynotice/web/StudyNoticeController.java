@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,12 +26,18 @@ import com.project.portal.studynotice.service.StudyNoticeService;
 import com.project.portal.studynotice.service.StudyNoticeVO;
 import com.project.portal.tempcourse.web.TempcourseController;
 
+
 @Controller
 public class StudyNoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
 
 	@Autowired
 	StudyNoticeService service;
+	
+	
+	
+	
+	
 
 	// 학생 강의 공지사항 조회
 	@RequestMapping("/student/eclass/eclassnotice")
@@ -51,6 +58,7 @@ public class StudyNoticeController {
 		// 해당 공지사항글 번호
 		vo.setCourseCode("SSPY0001");
 		vo.setCourseNoticeNo(courseNoticeNo);
+		service.updateHit(vo.getCourseNoticeNo());
 		model.addAttribute("selectFile" , service.selectFile(vo));
 		model.addAttribute("selectDetailStudyNotice", service.selectDetailStudyNotice(vo));
 		return "student/eclass/notice/eclassdetailnotice";
@@ -75,6 +83,7 @@ public class StudyNoticeController {
 		vo.setCourseCode("SSPY0001");
 		vo.setCourseNoticeNo(courseNoticeNo);
 		
+		service.updateHit(vo.getCourseNoticeNo());
 		model.addAttribute("selectFile" , service.selectFile(vo));
 		model.addAttribute("selectProDetailStudyNotice", service.selectProDetailStudyNotice(vo));
 		return "professor/eclass/notice/eclassdetailnotice";
@@ -88,10 +97,15 @@ public class StudyNoticeController {
 		model.addAttribute("StudyNoticeRegisterPage", service.insertStudyNoticePage(vo));
 		return "professor/eclass/notice/eclassnoticewrite";
 	}
+	
+	// 파일 다운로드 경로 가져오기
+	@Value("${spring.servlet.multipart.location}")
+    private String filelocation;
 
 	// 교수 공지사항 등록 처리
 	@PostMapping("/professor/eclass/eclassnoticeinsert")
-	public String insertStudyNotice(@RequestParam(name="courseNoticeAttachedFileName") MultipartFile[] files ,StudyNoticeVO vo, StudyNoticeFileVO filevo, Model model) throws IllegalStateException, IOException {
+	public String insertStudyNotice(@RequestParam(name="courseNoticeAttachedFileName") MultipartFile[] files , StudyNoticeVO vo, StudyNoticeFileVO filevo, Model model, HttpSession session) throws IllegalStateException, IOException {
+		String courseCode = (String)session.getAttribute("courseCode");
 		vo.setCourseCode("SSPY0001");
 		
 		String groupNum = service.fileUploadGroupNum();
@@ -104,26 +118,30 @@ public class StudyNoticeController {
 			String fileNameExtension = fileOriName.substring(fileOriName.lastIndexOf("."));
 			// 랜덤 파일명 값 생성
 			String fileName = UUID.randomUUID().toString().replace("-","") + fileNameExtension;
-			// 파일 URL
-			String fileUrl = "C:\\file\\";
-			
+			// 파일 URL (년도랑 학기 넣어주세요~)
+			String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
 			// 파일객체생성
-			File uploadfile = new File(fileUrl + fileName);
+			File uploadfile = new File(fileUrl);
 			
 			// 파일을 경로에 저장
 			file.transferTo(uploadfile);
+			// 파일 업로드 정보 insert
 			filevo.setFileName(fileName);
 			filevo.setFileOriName(fileOriName);
+			filevo.setFileUrl(fileUrl);
 			filevo.setGroupNo(groupNum);
 			service.fileUpload(filevo); // 그룹번호 생성되면 
 		}
 		
 		
 		}
+		// 그룹넘버 설정 및 게시글 insert
 		vo.setCourseNoticeAttachedFile(groupNum);
 		service.insertStudyNotice(vo);
 		return "redirect:/professor/eclass/eclassnotice";
 	}
+	
+
 
 	// 교수 공지사항 삭제 처리
 	@RequestMapping(value = "/professor/eclass/eclassnoticedelete", method = { RequestMethod.POST })

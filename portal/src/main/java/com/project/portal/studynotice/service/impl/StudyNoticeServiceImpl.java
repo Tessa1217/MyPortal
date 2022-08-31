@@ -108,6 +108,18 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		return mapper.selectFile(vo);
 	}
 
+	@Override
+	public StudyNoticeFileVO filedownload(String groupNo) {
+		// TODO Auto-generated method stub
+		return mapper.filedownload(groupNo);
+	}
+
+	@Override
+	public void updateHit(String hit) {
+		// TODO Auto-generated method stub
+		mapper.updateHit(hit);;
+	}
+
 
 
 

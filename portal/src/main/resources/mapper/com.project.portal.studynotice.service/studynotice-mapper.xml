@@ -10,6 +10,8 @@
 		 <if test="search != null and search !=''">
 				AND ${searchType} like '%'|| #{search} || '%'
 			</if>
+		ORDER BY 1 ASC
+			
 	</select>
 	
 	<select id="selectDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
@@ -28,6 +30,7 @@
 			<if test="search != null and search !=''">
 				AND ${searchType} like '%'|| #{search} || '%'
 			</if>
+		ORDER BY 1 ASC
 	</select>
 	
 	<select id="selectProDetailStudyNotice" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
@@ -38,10 +41,10 @@
 	</select>
 	
 	<select id="insertStudyNoticePage" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
-	 	select p.professor_name
- 		  from 
- 		  course c join professor p on c.professor_id = p.professor_id
- 			where course_code = #{courseCode}
+	 	SELECT P.PROFESSOR_NAME
+ 		  FROM 
+ 		  COURSE C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID
+ 			WHERE COURSE_CODE = #{courseCode}
 	
 	</select>
 	
@@ -70,6 +73,7 @@
 	   DELETE
 	   FROM COURSE_NOTICE
 	   WHERE COURSE_NOTICE_NO = #{courseNoticeNo}
+	   
 	</delete>
 	
 	<update id="modifyStudyNotice" parameterType="StudyNoticeVO">
@@ -85,11 +89,13 @@
 		INSERT INTO COURSE_NOTICE_FILE (FNO,
 									    FILENAME,
 									    FILEORINAME,
-									    GROUPNO)
+									    GROUPNO,
+									    FILEURL)
 										VALUES (course_notice_file_seq.nextval,
 										 	    #{fileName},
 										 	    #{fileOriName},
-										 	    #{groupNo}
+										 	    #{groupNo},
+										 	    #{fileUrl}
 										 	   ) 
 	</insert>
 	
@@ -99,10 +105,23 @@
 	</select>
 	
 	<select id="selectFile" resultType="StudyNoticeFileVO">
-		SELECT F.FILEORINAME
+		SELECT F.FILEORINAME ,F.FILENAME,F.GROUPNO
 		FROM COURSE_NOTICE N JOIN COURSE_NOTICE_FILE F
 		ON N.COURSE_NOTICE_ATTACHED_FILENAME = F.GROUPNO
 		WHERE COURSE_CODE = #{courseCode} AND COURSE_NOTICE_NO = #{courseNoticeNo}
 	</select>
+	
+	<select id="filedownload" parameterType="String" resultType="StudyNoticeFileVO">
+		SELECT *    
+		FROM COURSE_NOTICE_FILE
+		WHERE FILENAME = #{fileName}
+		
+	</select>
+	
+	<update id="updateHit" parameterType="String">
+		UPDATE COURSE_NOTICE
+		SET COURSE_NOTICE_HIT = COURSE_NOTICE_HIT + 1
+		WHERE COURSE_NOTICE_NO = #{courseNoticeNo}
+	</update>
 	
 </mapper>

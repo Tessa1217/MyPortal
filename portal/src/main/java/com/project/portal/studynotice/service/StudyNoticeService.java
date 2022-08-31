@@ -30,6 +30,10 @@ public interface StudyNoticeService {
 	public String fileUploadGroupNum();
 	// 공지사항 파일 조회
 	public List<StudyNoticeFileVO> selectFile(StudyNoticeVO vo);
+	// 파일 다운로드
+	public StudyNoticeFileVO filedownload(String groupNo);
+	// 공지사항 조회수 업데이트
+	public void updateHit(String hit);
 
 	
 
