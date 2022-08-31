@@ -8,7 +8,7 @@
 	<div id="newQuestion" class="card examquestion">
 		<div class="card-header" th:id="${question.questionCode}">
 			<span th:text="${question.questionContent}"></span>
-			<input type="number">
+			<input type="number" name="examQuestionPoint">
 		</div>
 		<div class="card-body">
 			<th:block th:each="option : ${question.optionList}">
@@ -21,10 +21,9 @@
 			</th:block>
 		</div>
 		<div>
-			<button type="button" class="btn btn-sm btn-danger">삭제</button>
-			<button type="button" class="btn btn-sm btn-primary">변경</button>
+			<button type="button" th:data-question="${question.questionCode}" class="updateQuestion btn btn-sm btn-danger">삭제</button>
+			<button type="button" th:data-question="${question.questionCode}" class="deleteQuestion btn btn-sm btn-primary">변경</button>
 		</div>
 	</div>
-
 </body>
 </html>

@@ -12,12 +12,17 @@
 			<input type="hidden" name="examCode" th:value="${courseExamList[0].examCode}">
 			<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
 			<div class="page-title">
-				<h2>시험지 확인하기</h2>
+				<h2 th:if="${command == 0}">시험지 확인하기</h2>
+				<h3 th:if="${command == 1}" th:text="|${examList[0].courseYear}년 ${examList[0].courseSemester}학기 
+				${examList[0].courseName} 
+				${#strings.startsWith(examList[0].examCode, 'M') ? '중간고사' : '기말고사'}|"></h3>
 				<div class="right">
-				<button type="button" id="testSubmitBtn" class="btn btn-primary btn-md">
+				<button type="button" id="testSubmitBtn" class="btn btn-primary btn-md"
+				th:classappend="${command == 1} ? hidePage">
 					시험 제출하기
 				</button>
-				<button type="button" id="updateTestBtn" class="btn btn-danger btn-md">
+				<button type="button" id="updateTestBtn" class="btn btn-danger btn-md"
+				th:classappend="${command == 1} ? hidePage">
 					시험 수정하기
 				</button>
 				<button type="button" id="cancelBtn" class="btn btn-secondary btn-md">
@@ -43,7 +48,8 @@
 											<div>
 												<input type="radio" th:name="${r.examQuestionNum}"
 													th:checked="${option.questionOptionNum == r.examQuestion.questionAnswer}"
-													th:text="| ${option.questionOptionContent}|" />
+													th:text="| ${option.questionOptionContent}|" 
+													th:disabled="${command == 1}"/>
 											</div>
 										</th:block>
 									</div>

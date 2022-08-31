@@ -108,7 +108,7 @@
 			submitTest();
 			dividePoint();
 		})
-		
+
 		// 전체 문제 선택
 		function checkAll() {
 			$(document).on("click", "#selectAllButton", function() {
@@ -135,7 +135,7 @@
 				// 내부의 문제 추가 버튼 삭제 후 내용 입력
 				$(savedQuestions).each((idx, val) => {
 						$(savedQuestions[idx]).removeClass("question").addClass("examquestion")
-						.children(".card-header").append("<input type=number>");
+						.children(".card-header").append("<input type=number name=examQuestionPoint>");
 						$(emptyBox).eq(idx).parent()
 						.empty().append($(savedQuestions[idx]));
 				})
@@ -157,14 +157,17 @@
 			$(document).on("click", ".createQuestionBtn", function(e) {
 				let id = $(this).parent().parent().parent().attr("id");
 				let div = $(this).parent().siblings();
+				let answer = $("input[name=answer]").index($("input[name=answer]:checked"));
+				if (answer == -1) {
+					fireSwal('warning', '문제의 답을 입력해주세요.');
+					return;
+				}
 				let question = {
 						questionContent : $($(div[0]).children("textarea")).val().trim()
 				}
 				let optionList = [];
 				$(div[1]).children("label").each((idx, val) => {
-					if ($($(val).children()[0]).is(":checked")) {
-						question.questionAnswer = idx + 1;
-					}
+					question.questionAnswer = answer + 1;
 					let option = {
 							questionOptionNum : idx + 1,
 							questionOptionContent : $($(val).children()[1]).val()
@@ -172,7 +175,6 @@
 					optionList.push(option);
 				})
 				question.optionList = optionList;
-
 				$.ajax({
 					method : 'POST',
 					url : `/professor/eclass/createQuestion`,
@@ -181,7 +183,7 @@
 				})
 					.done(function(fragment) {
 						$($(".questionBox")[id]).html(fragment);
-					})
+					}) 
 			})
 		}
 		
@@ -189,7 +191,6 @@
 		function dividePoint() {
 			$(document).on("click", "#pointBtn", function() {
 				let questionList = getQuestions();
-				console.log(questionList);
 				let msg = countCheck(questionList);
 				if (msg) {
 					fireSwal(msg.icon, msg.text);
@@ -222,7 +223,7 @@
 				courseExam.questionCode = $(header).attr("id");
 				courseExam.examComplete = '0';
 				// 교수 아이디 나중에 세션 값으로 넣어야 함
-				courseExam.professorId = 220001;
+				courseExam.professorId = $("input[name=professorId]").val();
 				courseExamList.push(courseExam);
 			})
 			return courseExamList;

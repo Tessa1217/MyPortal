@@ -19,6 +19,7 @@
 <body>
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
+		<input type="hidden" name="professorId" th:value="${courseInfo.professorId}"> 
 			<div>
 				<div class="row">
 					<div class="page-title">
@@ -26,7 +27,7 @@
 					</div>
 					<div class="right">
 						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu">시험 기본 정보</label> <input id="tab2"
+							for="tab1" class="tabmenu active">시험 기본 정보</label> <input id="tab2"
 							type="radio" name="tabs"> <label for="tab2"
 							class="tabmenu offPage">시험지 정보 불러오기</label> <input id="tab3"
 							type="radio" name="tabs"> <label for="tab3"
@@ -68,7 +69,7 @@
 			$(function() {
 				showPage();
 				saveExamInfo(); 
-				enterDate(); 
+				enterDate("examStartDate", "examEndDate"); 
 			})
 			
 			// 탭 형식으로 보이기
@@ -76,7 +77,9 @@
 			let icons = $("input[name=tabs]");
 			$(icons).each((index, val) => {
 				$(val).on("click", function(e) {
+					$(icons).siblings("label").removeClass("active");
 					if ($(val).is(":checked")) {
+						$(val).next().addClass("active");
 						let page = $(".paging");
 						$(page).each((idx, val) => {
 							$(val).addClass('offPage');
@@ -85,16 +88,6 @@
 					}
 				})
 			})
-			}
-			
-			// 시험 시작/마감 날짜 주차 기준으로 자동 불러오기
-			function enterDate() {
-				$(document).on("change", "select[name=weekCode]", function(e) {
-					let startDate = $($(e.target).children(":selected")).data("start");
-					let endDate = $($(e.target).children(":selected")).data("end");
-					$("input[name=examStartDate]").val(startDate);
-					$("input[name=examEndDate]").val(endDate);
-				})
 			}
 			
 			// 시험 정보 저장

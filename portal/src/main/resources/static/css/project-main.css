@@ -79,6 +79,11 @@ input[name="tabs"] {
 	cursor: pointer;
 }
 
+.active {
+	background: #435ebe;
+	color: #fff;
+}
+
 input[name="tabs"]+.tabmenu {
 	border-top: 1px solid #435ebe;
 	border-left: 1px solid #435ebe;
@@ -210,3 +215,25 @@ input[name="tabs"]+.tabmenu {
 	height : 80vh;
 	
 }
+
+.testContainer {
+	display: block;
+}
+
+input[name=examQuestionPoint] {
+	float: right;
+	width: 15%;
+}
+
+.width-three {
+	width: 30%;
+}
+
+.width-seven {
+	width: 70%;
+}
+
+.formrow div {
+	margin-bottom: 1%;
+}
+

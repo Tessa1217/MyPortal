@@ -38,8 +38,11 @@
 		<if test="courseSemester != 0 and courseSemester != null">
 			AND course_semester = #{courseSemester}
 		</if>
-		<if test="examCode != null and examCode != ''">
+		<if test="examCode != null and examCode != '' and examCode.length() == 1">
 			AND SUBSTR(exam_code, 1, 1) = #{examCode}
+		</if>
+		<if test="examCode != null and examCode != '' and examCode.length() == 12">
+			AND exam_code = #{examCode}
 		</if>
 		</where>
 	</select>

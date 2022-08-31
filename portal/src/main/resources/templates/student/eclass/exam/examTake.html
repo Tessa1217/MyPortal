@@ -20,11 +20,13 @@
 						style="text-align: center; position: fixed; top: 5%; left: 81%;">
 						<label for="timer">잔여 시간: </label><input id="timer" type="text"
 							th:data-duration="${examInfo.examDuration}" value="" readonly>
+						<button id="submitBtn" class="btn btn-primary" type="button"
+								th:onclick="submitTest">제출하기</button>
 						<h3 align="center" class="card-header">OMR</h3>
-						<div class="omrCard">
+						<div class="omrCard hidePage" th:id="|omrTable-${idx}|" th:each="idx : ${#numbers.sequence(0, #lists.size(studentExam)/10 - 1)}">
 							<table class="table card-body">
 								<tr
-									th:each="num : ${#numbers.sequence(1, #lists.size(studentExam))}">
+									th:each="num : ${#numbers.sequence(1 + idx * 10, 10 + idx * 10)}">
 									<th th:text="${num}"></th>
 									<td><i class="fa-regular fa-1"></i></td>
 									<td><i class="fa-regular fa-2"></i></td>
@@ -32,10 +34,14 @@
 									<td><i class="fa-regular fa-4"></i></td>
 								</tr>
 							</table>
-						</div>
-						<div class="btnContainer">
-							<button id="submitBtn" class="btn btn-primary" type="button"
-								th:onclick="submitTest">제출하기</button>
+							<div class="omrBtnContainer">
+								<th:block th:if="${idx} != 0">
+									<button type="button" th:data-idx="${idx}" th:onclick="moveOmrPage()" class="prevBtn btn btn-primary btn-sm"><i class="fa-solid fa-angle-left"></i></button>
+								</th:block>
+								<th:block th:if="${idx != (#lists.size(studentExam)/10 - 1)}">
+									<button type="button" th:data-idx="${idx}" th:onclick="moveOmrPage()" class="nextBtn btn btn-primary btn-sm"><i class="fa-solid fa-angle-right"></i></button>
+								</th:block>
+						</div>					
 						</div>
 					</div>
 					<div class="col-9" style="float: left;">
@@ -56,22 +62,26 @@
 								th:data-point="${r.examQuestionPoint}">
 								<div class="testContainer card-body">
 									<th:block th:each="option : ${r.examQuestion.optionList}">
+									<div class="optionList">
 										<input type="radio"
+										class="options"
 										th:name="${r.examQuestionNum}"
+										th:id="|${r.examQuestionNum}-${idx+1}|"
 										th:data-num="${idx + 1}"
 										th:data-point="${r.examQuestionPoint}"
 										th:data-value="${option.questionOptionNum}"
 										th:text="| ${option.questionOptionContent}|"/>
+									</div>
 									</th:block>
 								</div>
 							</div>
 						</th:block>
 						<div class="pageBtnContainer">
 								<th:block th:if="${i} != 0">
-									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
+									<button type="button" th:data-idx="${i}" th:onclick="movePage()" class="prevBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-left"></i></button>
 								</th:block>
 								<th:block th:if="${i != (#lists.size(studentExam)/5 - 1)}">
-									<button type="button" th:data-idx="${i}" th:onclick="movePage" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
+									<button type="button" th:data-idx="${i}" th:onclick="movePage()" class="nextBtn btn btn-primary btn-lg"><i class="fa-solid fa-angle-right"></i></button>
 								</th:block>
 						</div>
 					</div>
@@ -89,7 +99,10 @@
 				examTimeOut();
 				submitTest();
 				$("#testPage-0").removeClass("hidePage");
+				$("#omrTable-0").removeClass("hidePage");
 				movePage();
+				moveOmrPage();
+				createDataTable();
 				
 				// OMR 마킹
 				function omrMarking() {
@@ -152,21 +165,21 @@
 					let totalScore = 0;
 					let studentAnswers = document.querySelectorAll(".exam");
 					studentAnswers.forEach((elem, index) => {
-						let option = $($(elem).children(".testContainer")).children();
+						let option = $(".optionList").children("input:checked");
 						let right = $(elem).children("input[type=hidden]");
 						let answer = {
 							examCode : document.querySelector("#examCode").value,
 							examQuestionNum : $(elem).data("q-num"),
 							studentQuestionNum : index + 1,
-							studentQuestionAnswer : option.index(option.filter(":checked")) + 1,
+							studentQuestionAnswer : $(option[index]).data("value"),
 							studentId : document.querySelector("#studentId").value
 						}
 						answer.studentRightOption = 
 							$(right).val() == answer.studentQuestionAnswer ? $(right).data("point") : 0;
-						answerList.push(answer);
+							answerList.push(answer);
 						totalScore += answer.studentRightOption;
 					})
-					
+					console.log(answerList);
 					// 학생 시험
 					let examScore = {
 						studentId : document.querySelector("#studentId").value,
@@ -188,10 +201,9 @@
 						success : function(result) {
 							window.location.href = /*[[@{/student/eclass/examList}]]*/'';
 						}
-					})
+					}) 
 				});
 			}
-			
 			
 		</script>
 </body>

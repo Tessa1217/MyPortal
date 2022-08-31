@@ -3,24 +3,36 @@ function movePage() {
 	$(document).on("click", ".pageBtnContainer button", function(e) {
 		e.stopPropagation();
 		if ($(e.target).hasClass("prevBtn")) {
-			prevPage($(e.target).data("idx"));
+			prevPage($(e.target).data("idx"), ".questionContainer");
 		}
 		if ($(e.target).hasClass("nextBtn")) {
-			nextPage($(e.target).data("idx"));
+			nextPage($(e.target).data("idx"), ".questionContainer");
+		}
+	})
+}
+
+function moveOmrPage() {
+	$(document).on("click", ".omrBtnContainer button", function(e) {
+		e.stopPropagation();
+		if ($(e.target).hasClass("prevBtn")) {
+			prevPage($(e.target).data("idx"), ".omrCard");
+		}
+		if ($(e.target).hasClass("nextBtn")) {
+			nextPage($(e.target).data("idx"), ".omrCard");
 		}
 	})
 }
 
 // 이후 페이지로 이동
-function nextPage(idx) {
-	$($(".questionContainer")[idx]).addClass("hidePage");
-	$($(".questionContainer")[idx + 1]).removeClass("hidePage");
+function nextPage(idx, target) {
+	$(target).eq(idx).addClass("hidePage");
+	$(target).eq(idx+1).removeClass("hidePage");
 }
 
 // 이전 페이지로 이동
-function prevPage(idx) {
-	$($(".questionContainer")[idx]).addClass("hidePage");
-	$($(".questionContainer")[idx - 1]).removeClass("hidePage");
+function prevPage(idx, target) {
+	$(target).eq(idx).addClass("hidePage");
+	$(target).eq(idx-1).removeClass("hidePage");
 }
 
 // 에러창 (icon, text만 존재)

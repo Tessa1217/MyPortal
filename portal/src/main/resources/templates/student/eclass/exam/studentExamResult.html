@@ -19,9 +19,14 @@
 					<div class="col-3 col-lg-2 card"
 						style="text-align: center; position: fixed; top: 5%; left: 81%;">
 						<h3 align="center" class="card-header">OMR</h3>
-						<div class="omrCard">
+						<div class="btnContainer">
+								<button type="button" class="btn btn-primary"
+								th:onclick="|location.href='@{/student/eclass/examList}'|">돌아가기</button>
+						</div>
+						<div class="omrCard hidePage" th:id="|omrTable-${idx}|" th:each="idx : ${#numbers.sequence(0, #lists.size(studentExam)/10 - 1)}">
 							<table class="table card-body">
-								<tr th:each="r : ${studentExam}">
+								<tr th:each="num : ${#numbers.sequence(0 + idx * 10, 9 + idx * 10)}"
+								th:with="r = ${studentExam[num]}">
 									<th th:text="${r.studentQuestionNum}"></th>
 									<th:block th:each="option : ${r.optionList}">
 										<th:block th:if="${r.studentRightOption != 0}">
@@ -52,10 +57,14 @@
 									</th:block>
 								</tr>
 							</table>
-							<div class="btnContainer">
-								<button type="button" class="btn btn-primary"
-									th:onclick="|location.href='@{/student/eclass/examList}'|">돌아가기</button>
-							</div>
+							<div class="omrBtnContainer">
+								<th:block th:if="${idx} != 0">
+									<button type="button" th:data-idx="${idx}" th:onclick="moveOmrPage()" class="prevBtn btn btn-primary btn-sm"><i class="fa-solid fa-angle-left"></i></button>
+								</th:block>
+								<th:block th:if="${idx != (#lists.size(studentExam)/10 - 1)}">
+									<button type="button" th:data-idx="${idx}" th:onclick="moveOmrPage()" class="nextBtn btn btn-primary btn-sm"><i class="fa-solid fa-angle-right"></i></button>
+								</th:block>
+						</div>					
 						</div>
 					</div>
 					<div class="mainContainer col-9" style="float: left;">
@@ -121,7 +130,9 @@
 			$(function() {
 				// 첫번째 페이지만 열기
 				$("#testPage-0").removeClass("hidePage");
+				$("#omrTable-0").removeClass("hidePage");
 				movePage();
+				moveOmrPage();
 			})
 		</script>
 	</th:block>
