@@ -30,6 +30,7 @@ import com.project.portal.exam.service.SaveCourseExamVO;
 import com.project.portal.exam.service.impl.ProfessorExamServiceImpl;
 import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
 
+// 작성자: 권유진
 @Controller
 public class ProfessorExamController {
 	
@@ -67,6 +68,20 @@ public class ProfessorExamController {
 		return "professor/eclass/exam/examList";
 	}
 	
+	@GetMapping("/professor/eclass/examInsert")
+	public String newExamInsert(Model model) {
+		model.addAttribute("command", "1");
+		System.out.println("코스 인포: " + model.getAttribute("courseInfo"));
+		return "professor/eclass/exam/examInsert";
+	}
+	
+	@PostMapping("/professor/eclass/examInsert")
+	@ResponseBody
+	public ExamVO getExamList(CourseVO course, ExamVO exam) {
+		examService.insertExam(course, exam);
+		return exam;
+	}
+	
 	@RequestMapping("/professor/eclass/examInsert/{examCode}")
 	public String examInsert(@PathVariable String examCode, ExamVO exam, ExamInfoVO vo, Model model) {
 		// 기존 시험 정보
@@ -92,20 +107,6 @@ public class ProfessorExamController {
 		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo.getExam(), vo.getFilterQuestions());
 		model.addAttribute("courseExam", courseExamInfo);
 		return "layout/fragments/professor-eclass/exam/prevExamList :: #testQuestions";
-	}
-	
-	@GetMapping("/professor/eclass/examInsert")
-	public String newExamInsert(Model model) {
-		model.addAttribute("command", "1");
-		System.out.println("코스 인포: " + model.getAttribute("courseInfo"));
-		return "professor/eclass/exam/examInsert";
-	}
-	
-	@PostMapping("/professor/eclass/examInsert")
-	@ResponseBody
-	public ExamVO getExamList(CourseVO course, ExamVO exam) {
-		examService.insertExam(course, exam);
-		return exam;
 	}
 	
 	@PostMapping("/professor/eclass/createQuestion")

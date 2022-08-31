@@ -2,27 +2,18 @@ package com.project.portal.lecture.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +24,8 @@ import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.VideoVO;
 import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
 
+// 작성자: 권유진 
+
 @Controller
 public class ProfessorLectureController {
 	
@@ -40,68 +33,60 @@ public class ProfessorLectureController {
 	
 	@Autowired CourseServiceImpl courseService;
 	@Autowired ProfessorLectureServiceImpl service;
-	private String courseCode = "SSPY0001";
 	
+	// 강의 정보 
+	@ModelAttribute("courseInfo")
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		return courseService.getWeeklyInfo(course);
+	}
+	
+	// 파일 업로드하는 상위 디렉토리
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	
+	// 강의 리스트 페이지 이동 
 	@RequestMapping("professor/eclass/lectureList")
-	public String lectureList(Model model, CourseVO vo) {
-		vo.setCourseCode("SSPY0001");
-		List<LectureVO> lectureList = service.getLectureList(vo);
+	public String lectureList(Model model) {
+		List<LectureVO> lectureList = service.getLectureList((CourseVO) model.getAttribute("courseInfo"));
 		model.addAttribute("lectureList", lectureList);
 		return "professor/eclass/lecture/lectureList";
 	}
 	
+	// 강의 등록 페이지
 	@RequestMapping("professor/eclass/insertLecture")
 	public String insertLecture(CourseVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
-		// 주차 정보
-		vo = courseService.getWeeklyInfo(vo);
-		System.out.println(vo);
-		model.addAttribute("courseInfo", vo);
 		return "professor/eclass/lecture/insertLecture";
 	}
 	
+	// 강의 등록
 	@PostMapping("professor/eclass/insertLecture")
-	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video) throws IllegalStateException, IOException {
+	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video, Model model) throws IllegalStateException, IOException {
 		
-		// 비디오 테이블에 등록하기
+		// 비디오 파일 테이블에 등록하기
+		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
 		video.setVideoName(file.getOriginalFilename());
 		video.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
 		video.setVideoExtension(file.getContentType().substring(5));
-		video.setVideoFilePath(uploadPath + "/video/" + courseCode + "/" + video.getVideoStoredName());
-		video.setProfessorId(220001);
+		video.setVideoFilePath(uploadPath + "/video/" + 
+		course.getCourseYear() + "/" + course.getCourseSemester() + "/" + 
+		course.getCourseCode() + "/" + video.getVideoStoredName());
+		video.setProfessorId(course.getProfessorId());
 		service.uploadVideo(video);
 		
 		// 비디오 실제 파일 업로드
 		File fileUpload = new File(video.getVideoFilePath());
-		// 부모 디렉토리 생성하는 부분
+		
+		// 부모 디렉토리가 존재하지 않을 경우 생성하여 오류 막는 부분
 		fileUpload.getParentFile().mkdirs();
 		file.transferTo(fileUpload);
 		
 		// 비디오 코드 받아서 강의 영상 자료 정보 테이블에 등록해오기
 		lecture.setVideoCode(video.getVideoCode());
-		System.out.println(lecture);
 		service.insertLecture(lecture);
 		
 		return "redirect:/professor/eclass/lectureList";
 	}
-	
-//	@GetMapping("/video/download/{videoCode}")
-//	public ResponseEntity<Object> download(@PathVariable String videoCode) throws IOException {
-//		log.info("videoCode = " + videoCode);
-//		String path = service.getVideo(videoCode).getVideoFilePath();
-//		Path filePath = Paths.get(path);
-//		Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-//		File file = new File(path);
-//
-//			
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.set("Content-Length", String.valueOf(file.length()));
-//		headers.setContentType(MediaType.valueOf("video/mp4"));
-//		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
-//		return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
-//		} 
 
 }
