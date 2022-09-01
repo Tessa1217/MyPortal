@@ -95,6 +95,6 @@
 													#{reportAssignedScore},
 													#{courseCode},
 													#{reportFileCode}
-													)
+											)
 	</insert>
 </mapper>

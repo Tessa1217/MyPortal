@@ -11,8 +11,80 @@
 	<div id="main">
 		<div class="page-title">
 			<h2>과제 제출하기</h2>
+			<hr>
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/student/eclass/reportSubmit}" method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="reportCode" th:value="${reportDetail.reportCode}">
+						<table class="table">
+							<tr>
+								<td>과제 제목</td>
+								<td th:text="${reportDetail.reportTitle}"></td>
+							</tr>
+							
+							<tr>
+								<td>과제 주차</td>
+								<td th:text="${reportDetail.weekNum}"></td>
+							</tr>
+							
+							<tr>
+								<td>과제 시작일</td>
+								<td th:text="${#dates.format(reportDetail.reportStartDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+							
+							<tr>
+								<td>과제 마감일</td>
+								<td th:text="${#dates.format(reportDetail.reportEndDate, 'yyyy-MM-dd')}"></td>
+							</tr>
+							
+							<tr>
+								<td>과제 내용</td>
+								<td th:utext="${reportDetail.reportContent}"></td>
+							</tr>
+							
+							<tr>
+								<td>제출한 첨부파일</td>
+							 	<td th:if="${reportFile.reportFileName} != null" th:text="${reportFile.reportFileName}"></td>
+							</tr>
+							
+							<tr>
+								<td>과제 첨부파일</td>
+								
+								<td><input type="file" name="rFile"></td>
+							</tr>
+						
+						</table>
+						
+						<button type="submit" class="saveBtn btn btn-primary me-1 mb-1 submitReport"
+						th:if="${reportDetail.reportSubmitCheck} == 'X'">제출하기</button>
+						<button type="button" class="saveBtn btn btn-primary me-1 mb-1 modifyReport"
+						th:if="${reportDetail.reportSubmitCheck} == 'O'"  >수정하기</button>
+						<button type="button" class="saveBtn btn btn-primary me-1 mb-1 submitClose">취소</button>
+						</form>
+						
+					</div>
+					
+				</div>
 		</div>
 	</div>
+	
+	<script th:inline="javascript">
+		// 취소 버튼 (과제 리스트페이지로 이동)
+		$('.submitClose').on("click", function() {
+			let reportCode = ($(this).data("reportcode"));
+			console.log(reportCode)
+			location.href = "/student/eclass/reportList/"
+
+		})
+		
+		// 수정하기 버튼(수정 페이지로 이동)
+		$('.modifyReport').on("click" , function () {
+			
+		})
+		
+		// courseCode 값 전송
+		$('#courseCode').val()
+	</script>
 	</th:block>
 </body>
 </html>

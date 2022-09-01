@@ -44,16 +44,20 @@
 								</td>
 								<td
 									th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
-						> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">미제출</td>
+									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">[[${reportList.reportSubmitCheck}]]
+								</td>
 
-
-								</a>
-						</td>
+									<td><a th:href="@{/report/download/{reportFileCode}(reportFileCode=${reportList.reportFileCode})}"
+									th:text="${reportList.reportFile.reportFileName}"
+									th:download="${reportList.reportFile.reportFileName}"></a></td>
+									
 								
-					
 						<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
 						<button class="saveBtn btn btn-primary me-1 mb-1">이의신청</button></td>
-						<td></td>
+						<td th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
+						-
+						</td>
+						<td>-</td>
 					</tr>
 				
 				

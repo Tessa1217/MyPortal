@@ -13,6 +13,7 @@
 		<result column="report_file_code" property="reportFileCode"/>
 		<result column="course_code" property="courseCode"/>
 		<result column="week_num" property="weekNum"/>
+		<result column="report_submit_check" property="reportSubmitCheck"/>
 		<association property="reportFile" javaType="ReportFileVO">
 			<id column="report_file_code" property="reportFileCode"/>
 			<result column="report_file_name" property="reportFileName"/>
@@ -40,7 +41,8 @@
 			f.report_file_code,
 			f.report_file_name,
 			f.report_file_path,
-			w.week_Num
+			w.week_Num,
+			nvl((select 'O' FROM report_submission s WHERE i.report_code = s.report_code) , 'X') report_submit_check
 			FROM report_info i JOIN report_file f
 			ON i.report_file_code = f.report_file_code
 			JOIN course_weekly w
@@ -63,7 +65,9 @@
 		I.REPORT_START_DATE,
 		I.REPORT_END_DATE,
 		I.REPORT_CONTENT,
-		I.REPORT_FILE_CODE
+		I.REPORT_FILE_CODE,
+		I.REPORT_CODE,
+		nvl((select 'O' FROM report_submission s WHERE i.report_code = s.report_code) , 'X') report_submit_check
 		FROM 
             REPORT_INFO I JOIN COURSE_WEEKLY W
 	    ON I.WEEK_CODE = W.WEEK_CODE
@@ -72,9 +76,58 @@
 	
 	
 	<select id="getFile" resultType="ReportFileVO">
+		 SELECT F.REPORT_FILE_NAME , F.REPORT_FILE_PATH
+   		 FROM 
+    		REPORT_SUBMISSION S JOIN REPORT_FILE F
+    	 ON S.REPORT_FILE_CODE = F.REPORT_FILE_CODE
+   		 WHERE S.REPORT_CODE = #{value}
+	
 	</select>
+	
 	<insert id="uploadFile" parameterType="ReportFileVO">
+			INSERT INTO report_file (
+														report_file_code,
+														report_file_name,
+														report_file_stored_name,
+														report_file_extension,
+														report_file_path,
+														user_code,
+														submit_id
+														)
+														VALUES (
+																		'RPF'||LPAD(TO_CHAR(report_file_seq.NEXTVAL), 17, '0'),
+																		#{reportFileName},
+																		#{reportFileStoredName},
+																		#{reportFileExtension},
+																		#{reportFilePath},
+																		#{userCode},
+																		#{submitId}
+																		)
+																		
+			<selectKey keyProperty="reportFileCode" resultType="String" order="AFTER">
+				SELECT MAX(report_file_code)
+					FROM report_file
+			</selectKey> 
 	</insert>
+	
+	
 	<insert id="insertReportSubmission" parameterType="ReportSubmissionVO">
+				INSERT INTO report_submission ( report_submission_code,
+												report_code,
+												report_submission_date,
+												report_score,
+												student_id,
+												report_submission_option,
+												report_file_code
+											  )
+									VALUES (
+													'RSUB'||LPAD(TO_CHAR(REPORT_SUB_SEQ.NEXTVAL),  6 , '0'),
+													#{reportCode},
+													SYSDATE,
+													null,
+													#{studentId},
+													'SUB',
+													#{reportFileCode}	
+											)
 	</insert>
 </mapper>

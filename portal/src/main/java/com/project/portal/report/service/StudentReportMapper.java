@@ -10,14 +10,25 @@ import com.project.portal.course.service.CourseVO;
 @Mapper
 public interface StudentReportMapper {
 	
-	List<ReportVO> getReportList(@Param("courseInfo") CourseVO vo,
-								@Param("report") ReportVO report);
-	void insertReportSubmission(ReportSubmissionVO vo);
-	void uploadFile(ReportFileVO vo);
-	ReportFileVO getFile(@Param("reportFileCode") String reportFileCode);
 	
+	List<ReportVO> getReportList(@Param("courseInfo") CourseVO vo, @Param("report") ReportVO report);
+	 
+	List<ReportVO> getReportList(CourseVO vo);
+	void insertReportSubmission(ReportSubmissionVO vo);
+	
+	// 파일 업로드
+	void uploadFile(ReportFileVO vo);
+	
+
 	// 과제 상세 조회
 	public ReportVO getReportDetail(String reportCode);
 	
+	// 과제 제출
+	public void insertReport(ReportSubmissionVO vo);
+	
 
+	
+	// 파일 읽어오기
+	ReportFileVO getFile(String reportFileCode);
+	
 }

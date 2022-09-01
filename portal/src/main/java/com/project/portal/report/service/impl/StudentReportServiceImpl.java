@@ -24,8 +24,6 @@ public class StudentReportServiceImpl implements StudentReportService {
 
 	@Override
 	public void insertReport(ReportSubmissionVO vo) {
-		mapper.uploadFile(vo.getReportFile());
-		vo.setReportFileCode(vo.getReportFile().getReportFileCode());
 		mapper.insertReportSubmission(vo);
 	}
 
@@ -39,5 +37,18 @@ public class StudentReportServiceImpl implements StudentReportService {
 		// TODO Auto-generated method stub
 		return mapper.getReportDetail(reportCode);
 	}
+
+	@Override
+	public void insertReportSubmission(ReportSubmissionVO vo) {
+		// TODO Auto-generated method stub
+		mapper.insertReportSubmission(vo);
+	}
+
+	@Override
+	public void uploadFile(ReportFileVO vo) {
+		// TODO Auto-generated method stub
+		mapper.uploadFile(vo);
+	}
+
 
 }
