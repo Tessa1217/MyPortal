@@ -7,6 +7,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+@media (min-width: 1200px) {
+   .modal-xlg {
+      width: 90%;
+   }
+}
+</style>
 
 <body>
 	<th:block layout:fragment="professorContent">
@@ -51,44 +58,11 @@
 				</table>
 
 			</div>
-			<!-- 모달 영역 -->
-			<!-- <div class="modal fade myModal" id="exampleModalToggle" data-bs-keyboard="false"
-				aria-labelledby="exampleModalToggleLabel" aria-hidden="true" tabindex="-1">
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점 상세조회</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<h2 class="ModalCourseName"></h2>
-							<p class="ModalYear"></p>
-							<table class="table">
-								<thead>
-									<tr>
-										<th>수강평 문항</th>
-										<th>평점</th>
-									</tr>
-								</thead>
-								<tbody id="surveyData">
-								</tbody>
-							</table>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Close</button>
-							<button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-						</div>
-					</div>
-				</div>
-			</div> -->
-
-
-			<div class="modal fade myModal" id="exampleModalToggle"
+			<!-- 모달 1번 영역 -->
+			<div class="modal fade myModal modal-xlg" id="exampleModalToggle"
 				aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
 				tabindex="-1">
-				<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-dialog modal-xl modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점
@@ -118,6 +92,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- 모달 1번 영역 -->
+			<!-- 모달 2번 영역 -->
 			<div class="modal fade myModal2" id="exampleModalToggle2"
 				aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
 				tabindex="-1">
@@ -130,15 +106,17 @@
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<div id="columnchart" style="width: 800px; height: 500px;"></div>
+							<div id="columnchart"></div>
 							<div id="questionchart"></div>
 						</div>
-						<div class="modal-footer"></div>
+						<div class="modal-footer">
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>>
-			
+			<!-- 모달 2번 영역 -->
+		</div>
+		
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 			<script th:inline="javascript">
 				$(function() {
@@ -155,9 +133,8 @@
 				// 차트 그리는 함수
 				function drawTotalAvgChart(elem1, elem2) {
 					var data = google.visualization.arrayToDataTable([
-							['강의', '평균'], 
-							['내 강의', elem1],
-							['전체 강의', elem2]
+							['강의', '내 강의', '전체 강의'], 
+							['내 강의', elem1, elem2]
 						])
 					var options = {
 						chart : {
@@ -171,17 +148,17 @@
 				
 				function drawQuestionAvgChart(elem1, elem2) {
 					var data = google.visualization.arrayToDataTable([
-						['문항', '강의 평균', '전체 강의 평균'],
-						['1', elem1.a1Avg, elem2.a1Avg],
-						['2', elem1.a2Avg, elem2.a2Avg],
-						['3', elem1.a3Avg, elem2.a3Avg],
-						['4', elem1.a4Avg, elem2.a4Avg],
-						['5', elem1.a5Avg, elem2.a5Avg],
-						['6', elem1.a6Avg, elem2.a6Avg],
-						['7', elem1.a7Avg, elem2.a7Avg],
-						['8', elem1.a8Avg, elem2.a8Avg],
-						['9', elem1.a9Avg, elem2.a9Avg],
-						['10', elem1.a10Avg, elem2.a10Avg]
+						['문항', '내 강의', '전체 강의'],
+						['1번 문항', elem1.a1Avg, elem2.a1Avg],
+						['2번 문항', elem1.a2Avg, elem2.a2Avg],
+						['3번 문항', elem1.a3Avg, elem2.a3Avg],
+						['4번 문항', elem1.a4Avg, elem2.a4Avg],
+						['5번 문항', elem1.a5Avg, elem2.a5Avg],
+						['6번 문항', elem1.a6Avg, elem2.a6Avg],
+						['7번 문항', elem1.a7Avg, elem2.a7Avg],
+						['8번 문항', elem1.a8Avg, elem2.a8Avg],
+						['9번 문항', elem1.a9Avg, elem2.a9Avg],
+						['10번 문항', elem1.a10Avg, elem2.a10Avg]
 					])
 
 					var options = {
@@ -209,6 +186,7 @@
 							.on(
 									'show.bs.modal',
 									'.myModal',
+									'#gofirst',
 									function(e) {
 										// 버튼위치 강의 코드
 										var courseCode = $(e.relatedTarget)
