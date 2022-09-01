@@ -53,9 +53,9 @@
 									
 								
 						<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
-						<button class="saveBtn btn btn-primary me-1 mb-1">이의신청</button></td>
+						<button class="saveBtn btn btn-primary me-1 mb-1 reportObjection" th:data-reportcode="${reportList.reportCode}">이의신청</button></td>
 						<td th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
-						-
+						
 						</td>
 						<td>-</td>
 					</tr>
@@ -75,6 +75,12 @@
 			console.log(reportCode)
 			location.href = "/student/eclass/reportSubmit/" + reportCode
 
+		})
+		
+		//이의 신청 페이지 이동 버튼
+		$('.reportObjection').on("click", function() {
+			let reportCode = ($(this).data("reportcode"))
+			location.href = "/student/eclass/reportObjection/" + reportCode
 		})
 	</script>
 	</th:block>

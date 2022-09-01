@@ -56,19 +56,34 @@ public class StudentReportController {
 
 	// 과제 제출 페이지 이동
 	@RequestMapping("/student/eclass/reportSubmit/{reportCode}")
-	public String reportSubmit(@PathVariable String reportCode, Model model, ReportVO vo ,ReportFileVO filevo) {
+	public String reportSubmit(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo, HttpSession session,
+			ReportSubmissionVO rsubvo) {
+		int studentId = (int)session.getAttribute("id");
 		vo.setReportCode(reportCode);
+		// 과제 제출 내용 조회
+		rsubvo = service.selectDetail(reportCode);
+		
+		
+		
+		
+
 		model.addAttribute("reportDetail", service.getReportDetail(vo.getReportCode()));
-		model.addAttribute("reportFile" , service.getFile(vo.getReportCode()));
 		return "student/eclass/report/submitReport";
+	}
+
+	// 과제 이의 신청 페이지 이동
+	@RequestMapping("/student/eclass/reportObjection/{reportCode}")
+	public String reportObjection(@PathVariable String reportCode, Model model) {
+
+		return "student/eclass/report/reportObjection";
 	}
 
 	// 과제 제출 처리
 	@PostMapping("/student/eclass/reportSubmit")
-	public String reportSubmission(@RequestParam(name = "rFile") MultipartFile file, ReportSubmissionVO resub, 
+	public String reportSubmission(@RequestParam(name = "rFile") MultipartFile file, ReportSubmissionVO resub,
 			ReportFileVO filevo, HttpSession session) throws IllegalStateException, IOException {
 		int studentId = (int) session.getAttribute("id");
-		
+
 		String courseCode = (String) session.getAttribute("courseCode");
 		// 업로드 파일이 있을 때
 		if (!file.isEmpty()) {
@@ -85,7 +100,7 @@ public class StudentReportController {
 
 			// 파일을 경로에 저장
 			file.transferTo(uploadfile);
-			
+
 			// 파일 테이블에 insert 하기 위해 필요한 정보 set
 			filevo.setReportFileExtension(fileNameExtension); // 확장자
 			filevo.setReportFileName(fileOriName); // 원본파일이름
@@ -93,12 +108,12 @@ public class StudentReportController {
 			filevo.setReportFileStoredName(fileName); // uuid 랜덤 파일명
 			filevo.setSubmitId(studentId); // 학번
 			filevo.setUserCode("02"); // 학생 유저코드 02
-			
+
 			// 파일 테이블 insert
 			service.uploadFile(filevo);
-			
+
 		}
-		
+
 		// 제출 테이블 insert
 		resub.setReportFileCode(filevo.getReportFileCode());
 		resub.setStudentId(studentId); // 학번

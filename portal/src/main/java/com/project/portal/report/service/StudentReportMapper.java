@@ -26,9 +26,10 @@ public interface StudentReportMapper {
 	// 과제 제출
 	public void insertReport(ReportSubmissionVO vo);
 	
-
-	
 	// 파일 읽어오기
 	ReportFileVO getFile(String reportFileCode);
+	
+	// 과제 제출 상세 조회
+	public ReportSubmissionVO selectDetail(String reportCode); 
 	
 }

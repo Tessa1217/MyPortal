@@ -50,5 +50,11 @@ public class StudentReportServiceImpl implements StudentReportService {
 		mapper.uploadFile(vo);
 	}
 
+	@Override
+	public ReportSubmissionVO selectDetail(String reportCode) {
+		// TODO Auto-generated method stub
+		return mapper.selectDetail(reportCode);
+	}
+
 
 }

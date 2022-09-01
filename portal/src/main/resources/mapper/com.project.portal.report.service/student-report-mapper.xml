@@ -41,8 +41,7 @@
 			f.report_file_code,
 			f.report_file_name,
 			f.report_file_path,
-			w.week_Num,
-			nvl((select 'O' FROM report_submission s WHERE i.report_code = s.report_code) , 'X') report_submit_check
+			w.week_Num
 			FROM report_info i JOIN report_file f
 			ON i.report_file_code = f.report_file_code
 			JOIN course_weekly w
@@ -76,11 +75,6 @@
 	
 	
 	<select id="getFile" resultType="ReportFileVO">
-		 SELECT F.REPORT_FILE_NAME , F.REPORT_FILE_PATH
-   		 FROM 
-    		REPORT_SUBMISSION S JOIN REPORT_FILE F
-    	 ON S.REPORT_FILE_CODE = F.REPORT_FILE_CODE
-   		 WHERE S.REPORT_CODE = #{value}
 	
 	</select>
 	
@@ -130,4 +124,9 @@
 													#{reportFileCode}	
 											)
 	</insert>
+	
+	<select id="selectDetail" resultType="ReportSubmissionVO">
+		 select * from report_submission
+        where student_id = #{studentId}   and REPORT_CODE = #{reportCode}
+	</select>
 </mapper>
