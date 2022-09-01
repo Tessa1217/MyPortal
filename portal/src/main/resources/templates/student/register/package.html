@@ -144,10 +144,10 @@
 				function coursePackageInsert(){
 					let code = $(this).data("code");
 	
-					let courseCodeCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
-					if(courseCodeCheck){
-						return alert('담겨있는 강의입니다.');
-					} 
+					// let courseCodeCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
+					// if(courseCodeCheck){
+					// 	return alert('담겨있는 강의입니다.');
+					// } 
 
 					let allCourseCredit = creditTotalSum();
 					const selectCode = $(this)[0].parentElement.parentElement;

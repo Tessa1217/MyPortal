@@ -19,17 +19,10 @@
 		  FROM course a
 		  JOIN professor b
 		  	ON a.professor_id = b.professor_id
-		<where>
+		WHERE course_year = 2022 AND course_semester = 1
 			<if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
 			</if>
-			<![CDATA[
-		 AND course_year = '2022'
-			   		 ]]>
-			<![CDATA[
-		 AND course_semester = '1'
-			   		 ]]>
-		</where>
 		  ORDER BY course_code ASC
 	</select>
 

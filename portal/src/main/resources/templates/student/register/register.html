@@ -76,7 +76,7 @@
 			<br>
 			<!-- 강의 리스트 -->
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover" id="ListTable">
+				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -218,11 +218,9 @@
 								<td><button type="button"
 								class="btn btn-primary buttonDelete"
 								data-code="${item.courseCode}">취소</button></td>
-							</tr>`;
-
-						$("#rBody").append(content);	
-
-						location.reload;
+							</tr>`
+							$("#rBody").append(content);
+							location.reload();
 						}
 					});
 				}
