@@ -45,7 +45,12 @@
 						f.report_file_path
 						FROM report_info i JOIN report_file f
 						ON i.report_file_code = f.report_file_code
-						WHERE i.course_code = #{courseCode}
+						<if test="course != null and course != ''">
+						WHERE i.course_code = #{course.courseCode}
+						</if>
+						<if test="report != null and report != ''">
+						WHERE i.report_code = #{report.reportCode}
+						</if>
 						ORDER BY i.week_code DESC
 	</select>
 	<insert id="uploadFile" parameterType="ReportFileVO">

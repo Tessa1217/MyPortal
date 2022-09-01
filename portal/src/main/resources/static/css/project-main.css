@@ -155,12 +155,12 @@ input[name="tabs"]+.tabmenu {
 
 .notecard {
 	height: 100px;
-	display: inline-block;
+	display: block;
 	overflow: hidden;
 	position: relative;
 	width: 90%;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	white-space: wrap;
 	border: 1px solid #eee;
 	border-radius: 10px;
 	padding: 2%;
@@ -174,10 +174,10 @@ input[name="tabs"]+.tabmenu {
 .notecard-visible {
 	overflow: visible;
 	height: auto;
-	width: auto;
+	width: 90%;
 }
 
-.board-content-box {
+.board-content-box, .board-question-box {
 	overflow: scroll;
 	height: 50vh;
 	margin-bottom: 2%;
@@ -277,7 +277,7 @@ input[name=examQuestionPoint] {
 	padding: 5%;
 }
 
-#loginHeading h2, i {
+#loginHeading h2, #loginHeading i {
 	color: white;
 }
 
@@ -297,4 +297,19 @@ input[name=examQuestionPoint] {
 #loginImg img {
 	width: 100%;
 	height: 100%;
+}
+
+.mainCard:hover {
+	transform : scale(1.1);
+	transition : 1s;
+	cursor: pointer;
+}
+
+#goOutContainer {
+	float:right;
+	margin: 2%;
+}
+
+#goOut {
+	border: none;
 }

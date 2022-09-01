@@ -85,12 +85,14 @@
 			</div> -->
 
 
-			<div class="modal fade myModal" id="exampleModalToggle" aria-hidden="true"
-				aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+			<div class="modal fade myModal" id="exampleModalToggle"
+				aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+				tabindex="-1">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점 상세조회</h5>
+							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점
+								상세조회</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -116,32 +118,91 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal fade myModal2" id="exampleModalToggle2" aria-hidden="true"
-				aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+			<div class="modal fade myModal2" id="exampleModalToggle2"
+				aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+				tabindex="-1">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalToggleLabel2">Modal
-								2</h5>
+							<h5 class="modal-title" id="exampleModalToggleLabel2">수강 후기
+								비교하기</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
-						<div class="modal-body">Hide this modal and show the first
-							with the button below.</div>
-						<div class="modal-footer">						
+						<div class="modal-body">
+							<div id="columnchart" style="width: 800px; height: 500px;"></div>
+							<div id="questionchart"></div>
 						</div>
+						<div class="modal-footer"></div>
 					</div>
 				</div>
 			</div>
 		</div>>
 			
-
+			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 			<script th:inline="javascript">
 				$(function() {
 					surveyReview();
 					rollbackModal();
-
+					google.charts.load('current', {
+						'packages' : [ 'bar' ]
+					});
+					google.charts.setOnLoadCallback(drawTotalAvgChart);
+					google.charts.setOnLoadCallback(drawQuestionAvgChart);
 				});
+
+
+				// 차트 그리는 함수
+				function drawTotalAvgChart(elem1, elem2) {
+					var data = google.visualization.arrayToDataTable([
+							['강의', '평균'], 
+							['내 강의', elem1],
+							['전체 강의', elem2]
+						])
+					var options = {
+						chart : {
+							title : '평균 평점 비교',
+							subtitle : '현재 강의 전체 평균 vs. 전체 강의 전체 평균',
+						}
+					};
+					var chart = new google.charts.Bar(document.getElementById('columnchart'));
+					chart.draw(data, google.charts.Bar.convertOptions(options));
+				}
+				
+				function drawQuestionAvgChart(elem1, elem2) {
+					var data = google.visualization.arrayToDataTable([
+						['문항', '강의 평균', '전체 강의 평균'],
+						['1', elem1.a1Avg, elem2.a1Avg],
+						['2', elem1.a2Avg, elem2.a2Avg],
+						['3', elem1.a3Avg, elem2.a3Avg],
+						['4', elem1.a4Avg, elem2.a4Avg],
+						['5', elem1.a5Avg, elem2.a5Avg],
+						['6', elem1.a6Avg, elem2.a6Avg],
+						['7', elem1.a7Avg, elem2.a7Avg],
+						['8', elem1.a8Avg, elem2.a8Avg],
+						['9', elem1.a9Avg, elem2.a9Avg],
+						['10', elem1.a10Avg, elem2.a10Avg]
+					])
+
+					var options = {
+						chart : {
+							title : '문항별 평점 비교'
+						}
+					}
+					var chart = new google.charts.Bar(document.getElementById("questionchart"));
+					chart.draw(data, google.charts.Bar.convertOptions(options));
+				}
+
+				// 필요 없는 필드 삭제
+				function removeField(elem) {
+					for ( let field in elem) {
+						if (elem[field] == null) {
+							delete elem[field];
+						}
+					}
+					return elem;
+				}
+
 				// 상세보기 모달 생성시 문항, 평균평점 테이블 생성.
 				function surveyReview() {
 					$(document)
@@ -191,8 +252,17 @@
 													},
 													success : function(res) {
 														var graph = res.survey;
-														var chartdata = res.chart;
-														console.log(res.survey);
+														console
+																.log(res.chart.courseAvg);
+
+														let totalCourseAvg = res.chart.allMyCourseAvg;
+														let myCourseAvg = res.chart.myCourseAvg;
+														let totalQuestionAvg = removeField(res.chart.courseAvg);
+														let myCourseQuestionAvg = removeField(res.chart.questionAvg);
+
+														drawTotalAvgChart(myCourseAvg, totalCourseAvg);
+														drawQuestionAvgChart(myCourseQuestionAvg, totalQuestionAvg);
+														
 														let tr = $("<tr/>")
 																.append(
 																		[

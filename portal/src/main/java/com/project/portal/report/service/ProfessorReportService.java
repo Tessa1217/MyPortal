@@ -6,8 +6,10 @@ import com.project.portal.course.service.CourseVO;
 
 public interface ProfessorReportService {
 	
-	List<ReportVO> getReportList(CourseVO vo);
+	List<ReportVO> getReportList(CourseVO vo, ReportVO report);
 	void insertReport(ReportVO vo);
 	ReportFileVO getFile(String reportFileCode);
+	void updateReport(ReportVO vo);
+	void updateReportOnly(ReportVO vo);
 
 }

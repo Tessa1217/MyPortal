@@ -25,15 +25,14 @@
 					</div>
 					</th:block>
 					<th:block th:unless="${reportList.isEmpty()}">
-						<table class="table">
+						<table id="reportTable" class="table">
 							<thead>
 								<tr>
 									<th>과제 주차</th>
 									<th>과제 오픈일</th>
 									<th>과제 마감일</th>
 									<th>과제 첨부파일</th>
-									<th>과제 참고사항 확인</th>
-									<th>과제 수정</th>
+									<th>상세보기</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -45,14 +44,9 @@
 									<td><a th:href="@{/report/download/{reportFileCode}(reportFileCode=${r.reportFileCode})}"
 									th:text="${r.reportFile.reportFileName}"
 									th:download="${r.reportFile.reportFileName}"></a></td>
-									<td><button class="btn btn-sm btn-secondary" 
-									th:classappend="${r.reportContent == null} ? disabled"
-									type="button" th:onclick="showDetail()"
-									th:data-report="${r.reportCode}">참고사항</button></td>
-									<td><button class="btn btn-sm btn-primary" 
-									type="button" 
-									th:onclick="|location.href='@{/professor/eclass/updateReport/{reportCode}(reportCode = ${r.reportCode})}'|"
-									th:classappend="${r.reportStartDate lt #dates.createNow()} ? disabled">수정</button></td>
+									<td><button class="btn btn-sm rounded-pill btn-primary" 
+									type="button"
+									th:onclick="|location.href='@{/professor/eclass/detailReport/{reportCode}(reportCode = ${r.reportCode})}'|">참고사항</button></td>
 								</tr>
 							</th:block>
 							</tbody>
@@ -63,13 +57,9 @@
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				
+				showDetail();
+				$("#reportTable").DataTable();
 			})
-			
-			// 과제 참고사항 상세보기 기능
-			function showDetail() {
-				console.log("HI");
-			}
 			
 		</script>
 	</th:block>

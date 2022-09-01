@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="updateFragment">
+		<div class="page-title">
+			<h2>과제 수정하기</h2>
+		</div>
+		<div class="cardForm card">
+			<div class="card-body">
+				<form name="reportFrm" th:action="@{/professor/eclass/updateReport}"
+					method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="courseCode"
+						th:value="${courseInfo.courseCode}">
+					<input type="hidden" name="reportCode"
+						th:value="${report.reportCode}">
+					<table class="table">
+						<tr>
+							<th>과제명</th>
+							<td><input type="text" name="reportTitle" th:value="${report.reportTitle}"></td>
+						</tr>
+						<tr>
+							<th>과제주차</th>
+							<td><select name="weekCode">
+							<option value="">주차</option>
+							<th:block th:each="week : ${courseInfo.weekPlans}">
+							<option th:value="${week.weekCode}"
+							th:selected="${week.weekCode == report.weekCode}"
+							th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
+							th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
+							>[[${week.weekNum}]]</option>
+							</th:block>
+						</select></td>
+						</tr>
+						<tr>
+							<th>과제 시작일</th>
+							<td><input type="date" name="reportStartDate"
+							th:value="${#dates.format(report.reportStartDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+						<tr>
+							<th>과제 제출 마감일</th>
+							<td><input type="date"
+							name="reportEndDate" 
+							th:value="${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+						<tr>
+							<th>과제 배점</th>
+							<td><input type="number" name="reportAssignedScore" th:value="${report.reportAssignedScore}">점</td>
+						</tr>
+						<tr>
+							<th>원본 파일 확인하기</th>
+							<td><a th:text="${report.reportFile.reportFileName}"
+								th:download="${report.reportFile.reportFileName}"
+								th:href="@{/report/download/{reportFileCode}(reportFileCode = ${report.reportFileCode})}">
+								</a>
+								<input type="hidden" th:value="${report.reportFileCode}" name="reportFileCode"></td>
+						</tr>
+						<tr>
+							<th>과제 첨부파일 업로드</th>
+							<td><input type="file" name="file"></td>
+						</tr>
+						<tr>
+							<th>참고사항</th>
+							<td><textarea id="updateEditor" name="reportContent"></textarea></td>
+						</tr>
+					</table>
+					<div align="center">
+						<button type="submit" class="btn btn-danger">수정하기</button>
+						<button id="check" type="button" class="btn btn-primary">취소</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

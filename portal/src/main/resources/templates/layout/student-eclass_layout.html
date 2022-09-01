@@ -8,6 +8,8 @@
 </head>
 <body>
 	<div id="app">
+		<th:block 
+			th:replace="/layout/fragments/headers/studentHeading :: heading"></th:block>
 		<th:block
 			th:replace="/layout/fragments/headers/studentEclassHeader :: studentEclassHeaderFragment"></th:block>
 		<th:block layout:fragment="studentEclassContent"></th:block>

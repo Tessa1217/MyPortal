@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="detailFragment">
+		<div class="page-title">
+			<h2>과제 상세보기</h2>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th>과제명</th>
+						<td th:text="${report.reportTitle}"></td>
+					</tr>
+					<tr>
+						<th>과제 주차</th>
+						<td th:text="${#strings.substring(report.weekCode, 8, 10)}"></td>
+					</tr>
+					<tr>
+						<th>과제 제출 기간</th>
+						<td th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - 
+						${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
+					</tr>
+					<tr>
+						<th>과제 배점</th>
+						<td th:text="|${report.reportAssignedScore} 점|"></td>
+					</tr>
+					<tr>
+						<th>과제 첨부파일</th>
+						<td><a th:text="${report.reportFile.reportFileName}"
+								th:download="${report.reportFile.reportFileName}"
+								th:href="@{/report/download/{reportFileCode}(reportFileCode = ${report.reportFileCode})}"></a></td>
+					</tr>
+					<tr>
+						<th>과제 참고사항</th>
+						<td th:utext="${report.reportContent}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div th:if="${report.reportStartDate} gt ${#dates.createNow()}" class="btnContainer">
+			<button type="button" id="changeBtn" class="btn btn-primary">수정하기</button>
+		</div>
+	</th:block>
+</body>
+</html>

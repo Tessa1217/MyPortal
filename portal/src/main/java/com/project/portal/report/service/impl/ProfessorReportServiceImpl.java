@@ -19,8 +19,8 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	ProfessorReportMapper mapper;
 	
 	@Override
-	public List<ReportVO> getReportList(CourseVO vo) {
-		return mapper.getReportList(vo);
+	public List<ReportVO> getReportList(CourseVO vo, ReportVO report) {
+		return mapper.getReportList(vo, report);
 	}
 
 	@Override
@@ -34,6 +34,22 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	@Override
 	public ReportFileVO getFile(String reportFileCode) {
 		return mapper.getFile(reportFileCode);
+	}
+
+	@Override
+	@Transactional
+	public void updateReport(ReportVO vo) {
+		ReportFileVO deleteFile = new ReportFileVO();
+		deleteFile.setReportFileCode(vo.getReportFileCode());
+		mapper.deleteFile(deleteFile);
+		mapper.uploadFile(vo.getReportFile());
+		vo.setReportFileCode(vo.getReportFile().getReportFileCode());
+		mapper.updateReport(vo);
+	}
+
+	@Override
+	public void updateReportOnly(ReportVO vo) {
+		mapper.updateReport(vo);
 	}
 
 }

@@ -16,6 +16,7 @@
 			<div class="card-body">
 			<form name="reportFrm" th:action="@{/professor/eclass/insertReport}" method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
+				<input type="hidden" name="professorId" th:value="${courseInfo.professorId}">
 				<table class="table">
 					<tr>
 						<th>과제명</th>

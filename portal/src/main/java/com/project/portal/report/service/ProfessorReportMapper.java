@@ -10,9 +10,11 @@ import com.project.portal.course.service.CourseVO;
 @Mapper
 public interface ProfessorReportMapper {
 	
-	List<ReportVO> getReportList(CourseVO vo);
+	List<ReportVO> getReportList(@Param("course") CourseVO vo, @Param("report") ReportVO report);
 	void insertReport(ReportVO vo);
 	void uploadFile(ReportFileVO vo);
 	ReportFileVO getFile(@Param("reportFileCode") String reportFileCode);
+	void deleteFile(ReportFileVO vo);
+	void updateReport(ReportVO vo);
 	
 }

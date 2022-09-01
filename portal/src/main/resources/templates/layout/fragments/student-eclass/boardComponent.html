@@ -27,8 +27,8 @@
 				</th:block>
 				<th:block  th:if="${noteList.isEmpty()}">
 					<div class="card">
-						<div class="card-header">
-							현재 등록된 노트가 없습니다.
+						<div class="notecard">
+							<h5>현재 등록된 노트가 없습니다.</h5>
 						</div>
 					</div>
 				</th:block>
@@ -39,8 +39,8 @@
 							th:value="${#dates.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 						<input type="hidden" name="lectureCode"
 							th:value="${lecture.lectureCode}"> <input type="hidden"
-							name="studentId" value="22000001" />
-						<textarea id="note"></textarea>
+							name="studentId" th:value="${session.id}" />
+						<textarea id="note" name="noteContent"></textarea>
 						<div class="right">
 							<button id="takeNote" class="btn btn-primary" type="button"
 								th:onclick="insertNote">노트 작성</button>
@@ -56,13 +56,22 @@
 						</h4>
 					</div>
 					<div class="board-question-box">
+					<th:block th:unless="${questionList.isEmpty()}">
 						<div th:each="question : ${questionList}" class="card">
+							<div class="notecard">
 							<p class="card-header" th:text="${question.lectureQuestionTitle}"></p>
 							<div class="card-body" th:utext="${question.lectureQuestionContent}"></div>
+							</div>
 						</div>
+					</th:block>
+					<th:block th:if="${questionList.isEmpty()}">
+						<div class="card">
+							<h3>현재 등록된 질문이 없습니다.</h3>
+						</div>
+					</th:block>
 					</div>
 					<div align="center">
-						<button class="askQnA btn rounded-pill btn-primary">질문하기</button>
+						<button id="askQnA" class="btn rounded-pill btn-primary">질문하기</button>
 					</div>
 				</div>
 				<div class="qna offPage">
@@ -105,7 +114,7 @@
 						<div align="center">
 							<button id="questionBtn" class="btn btn-danger" type="button"
 								th:onclick="insertQuestion">확인</button>
-							<button class="askQnA btn btn-primary" type="button">취소</button>
+							<button id="cancel" class="btn btn-primary" type="button">취소</button>
 						</div>
 					</div>
 				</div>
@@ -120,6 +129,7 @@
 				insertNote();
 				insertQuestion();
 				detailNote();
+				cancelQ();
 			})
 
 			// 에디터 생성하기
@@ -137,13 +147,19 @@
 									+ 'bold italic backcolor | alignleft aligncenter '
 									+ 'alignright alignjustify | bullist numlist outdent indent | '
 									+ 'removeformat | help',
-							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+							content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+							setup(editor) {
+								editor.on("change", () => {
+									console.log(tinyMCE.activeEditor.getContent());
+								})
+							}
 						});
 			}
 			
 			function createQuestionEditor() {
 				tinymce
 				.init({
+					cleanup : true,
 					selector : 'textarea#question',
 					height : 300,
 					plugins : [ 'advlist', 'autolink', 'lists', 'link',
@@ -158,6 +174,7 @@
 					content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
 					setup(editor) {
 						editor.on('change', () => {
+							console.log(tinyMCE.activeEditor.getContent());
 							$("input[name=lectureQuestionContent]").val(tinyMCE.activeEditor.getContent());
 						})
 					}
@@ -167,10 +184,11 @@
 			// 노트 등록하기
 			function insertNote() {
 				$(document).on("click", "#takeNote", function() {
-					let data = $("#noteFrm").serialize();
+					
 					let content = tinyMCE.get('note').getContent();
-					let noteTime = document.querySelector("#lectureVideo").currentTime;
-					data += ("&noteContent=" + content + "&noteTime=" + noteTime);
+					$("#note").val(content);
+					let data = $("#noteFrm").serialize();
+			
 					$.ajax({
 						method : 'POST',
 						url : /*[[@{/student/eclass/insertNote}]]*/'',
@@ -190,7 +208,7 @@
 			}
 			
 			function detailNote() {
-				$(".notecard").on("click", function(e) {
+				$(document).on("click", ".notecard", function(e) {
 					$(this).toggleClass("notecard-visible");
 				})
 			}
@@ -206,14 +224,20 @@
 						data : data
 					})
 						.done(function(result) {
+							$("input[name=lectureQuestionTitle]").val('');
 							tinyMCE.activeEditor.setContent('');
 							let parentDiv = $(".board-question-box");
+							let higherDiv = $("<div/>").addClass('card');
 							let div = $("<div/>")
-							.addClass("card")
+							.addClass("notecard")
 							.append(
 									[$("<p/>").text(result.lectureQuestionTitle).addClass("card-header"),
 									$("<div/>").addClass("card-body")
 							.html(result.lectureQuestionContent)]);
+							$(higherDiv).append(div);
+							$(parentDiv).append(higherDiv);
+							$("#cancel").trigger("click");
+							
 						})
 				})
 			}
@@ -229,7 +253,14 @@
 			
 			// 질문하기 페이지
 			function askQnAs() {
-				$(".askQnA").on("click", function() {
+				$("#askQnA").on("click", function() {
+					$(".qna").toggleClass("offPage");
+				})
+			}
+			
+			// 질문하기 페이지 닫기
+			function cancelQ() {
+				$("#cancel").on("click", function() {
 					$(".qna").toggleClass("offPage");
 				})
 			}
