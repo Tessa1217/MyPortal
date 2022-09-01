@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.student.service.StudentVO;
 
 @Mapper
 public interface ProfessorReportMapper {
@@ -16,5 +17,7 @@ public interface ProfessorReportMapper {
 	ReportFileVO getFile(@Param("reportFileCode") String reportFileCode);
 	void deleteFile(ReportFileVO vo);
 	void updateReport(ReportVO vo);
+	List<StudentVO> getStudentList(ReportVO vo);
+	void insertStudentSubmission(@Param("report") ReportVO vo, @Param("student") StudentVO student);
 	
 }

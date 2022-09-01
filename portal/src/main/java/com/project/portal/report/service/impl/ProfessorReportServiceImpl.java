@@ -11,6 +11,7 @@ import com.project.portal.report.service.ProfessorReportMapper;
 import com.project.portal.report.service.ProfessorReportService;
 import com.project.portal.report.service.ReportFileVO;
 import com.project.portal.report.service.ReportVO;
+import com.project.portal.student.service.StudentVO;
 
 @Service
 public class ProfessorReportServiceImpl implements ProfessorReportService {
@@ -29,6 +30,11 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		mapper.uploadFile(vo.getReportFile());
 		vo.setReportFileCode(vo.getReportFile().getReportFileCode());
 		mapper.insertReport(vo);
+		System.out.println(vo);
+		List<StudentVO> studentList = mapper.getStudentList(vo);
+		for (StudentVO student : studentList) {
+			mapper.insertStudentSubmission(vo, student);
+		}
 	}
 
 	@Override

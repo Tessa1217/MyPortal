@@ -101,5 +101,29 @@
 													#{courseCode},
 													#{reportFileCode}
 											)
+		<selectKey keyProperty="reportCode" resultType="String" order="AFTER">
+			SELECT MAX(report_code)
+				FROM report_info
+				WHERE course_code = #{courseCode}
+		</selectKey>
+	</insert>
+	<select id="getStudentList" resultType="StudentVO">
+		SELECT student_id
+			FROM my_course
+			WHERE course_code = #{courseCode}
+	</select>
+	<insert id="insertStudentSubmission">
+		INSERT INTO report_submission (
+																	report_submission_code,
+																	report_code,
+																	student_id,
+																	report_submission_option
+																	)
+																	VALUES (
+																					'RSUB'||LPAD(TO_CHAR(REPORT_SUB_SEQ.NEXTVAL), 6, '0'),
+																					#{report.reportCode},
+																					#{student.studentId},
+																					'UNSUB'
+																					)
 	</insert>
 </mapper>
