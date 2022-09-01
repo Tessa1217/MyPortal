@@ -18,7 +18,6 @@ import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
-import com.project.portal.student.service.StudentVO;
 
 // 작성자: 김진형, 박근형
 @Controller
@@ -30,8 +29,9 @@ public class myCourseController {
 	// 학생 학업 정보 조회
 
 	@RequestMapping("/student/studentStudyList")
-	public String StudentStudyInfoList(MyCourseVO vo, Model model, Criteria cri) {
-		model.addAttribute("studentStudyList", service.studentStudyList(cri)); // 학생 학기별 성적 리스트 조회
+	public String StudentStudyInfoList(MyCourseVO vo, Model model, HttpSession session) {
+		vo.setStudentId((int) session.getAttribute("id"));
+		model.addAttribute("studentStudyList", service.studentStudyList(vo)); // 학생 학기별 성적 리스트 조회
 		model.addAttribute("studentCreditSum", service.studentCreditSum(vo)); // 학생 전체 취득 학점 조회
 		model.addAttribute("studentSortationCredit", service.studentSortationCredit(vo)); // 이수구분 별 총 취득학점
 		return "student/info/grade";
@@ -40,7 +40,10 @@ public class myCourseController {
 	// 학기별 성적 조회
 	
 	@RequestMapping("/student/semesterGradeSelect")
-	public String SemesterGradeSelect(MyCourseVO vo, Model model) {
+	public String SemesterGradeSelect(MyCourseVO vo, Model model, HttpSession session) {
+		vo.setStudentId((int) session.getAttribute("id"));
+		vo.setCourseYear(2022);
+		vo.setCourseSemester(2);
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
 		return "student/info/semesterGrade";
 	}

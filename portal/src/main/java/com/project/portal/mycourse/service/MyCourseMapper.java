@@ -28,7 +28,7 @@ public interface MyCourseMapper {
 	
 	
 	
-	public List<MyCourseVO> studentStudyList(Criteria cri);
+	public List<MyCourseVO> studentStudyList(MyCourseVO vo);
 
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
 	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);

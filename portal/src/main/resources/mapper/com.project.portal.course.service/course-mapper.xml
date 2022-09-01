@@ -31,7 +31,7 @@
 				course_name,
 				find_code(course_sortation) course_sortation_nm
 		from course
-		where professor_id = 220002
+		where professor_id = #{professorId}
 		order by course_year desc, course_semester desc
 	</select>
 	

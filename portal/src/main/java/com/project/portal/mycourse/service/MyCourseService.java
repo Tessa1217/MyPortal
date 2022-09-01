@@ -24,7 +24,7 @@ public interface MyCourseService {
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
 
-	public List<MyCourseVO> studentStudyList(Criteria cri);
+	public List<MyCourseVO> studentStudyList(MyCourseVO vo);
 
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
 

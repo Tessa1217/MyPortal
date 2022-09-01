@@ -15,7 +15,7 @@
 		from professor p
 		join department d
 		on p.depart_code = d.depart_code
-		where p.professor_id = 220001
+		where p.professor_id = #{professorId}
 	</select>
 	
 	<select id="professorList" resultType="com.project.portal.professor.service.ProfessorVO">
@@ -33,6 +33,6 @@
 			professor_addr = #{professorAddr},
 			professor_daddr = #{professorDaddr},
 			professor_postal_code = #{professorPostalCode}
-		where professor_id = 220001
+		where professor_id = #{professorId}
 	</update>
 </mapper>

@@ -4,10 +4,12 @@ package com.project.portal.mycourse.service;
 
 import java.util.Date;
 
+import com.project.portal.common.Criteria;
+
 import lombok.Data;
 
 @Data
-public class MyCourseVO {
+public class MyCourseVO extends Criteria {
 	
 	private String courseName; // 강의명
 	private String professorName; // 교수이름

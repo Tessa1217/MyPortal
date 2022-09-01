@@ -54,13 +54,13 @@
 		resultType="MyCourseVO">
 		select *
 		from s_g_vu
-		where student_id = 22000001
+		where student_id = #{studentId}
 	</select>
 	<select id="studentCreditSum"
 		resultType="MyCourseVO">
 		select trunc(sum(semester_credit2),0) AS "credit_sum",trunc(sum(credit_sum)/sum(semester_credit2),2) AS "grade_avg"
 		from s_g_vu
-		where student_id = 22000001
+		where student_id = #{studentId}
 	</select>
 	<select id="studentSortationCredit"
 		resultType="MyCourseVO">
@@ -70,7 +70,7 @@
 		        from sort_course_sum_vu
 		        group by course_sortation, student_id) a
 		on v.student_id = a.student_id
-		where v.student_id = 22000001
+		where v.student_id = #{studentId}
 		group by course_sortation,course_sortation_credit
 		order by course_sortation desc
 	</select>
@@ -79,7 +79,7 @@
 		from my_course m
 		join course c
 		on c.course_code = m.course_code
-		where student_id = 22000001 and course_year = 2022 and course_semester = 1
+		where student_id = #{studentId} and course_year = #{courseYear} and course_semester = #{courseSemester}
 	</select>
 	<select id="getStudentList" resultType="ExamScoreVO">
 		SELECT student_id, course_code

@@ -46,9 +46,9 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return mapper.getstuMyCourseWeekDetail(courseCode);
 	}
 	@Override
-	public List<MyCourseVO> studentStudyList(Criteria cri) {
+	public List<MyCourseVO> studentStudyList(MyCourseVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.studentStudyList(cri);
+		return mapper.studentStudyList(vo);
 	}
 	@Override
 	public MyCourseVO studentCreditSum(MyCourseVO vo) {

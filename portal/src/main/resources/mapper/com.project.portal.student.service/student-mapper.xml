@@ -35,8 +35,7 @@
 						join department d
 						on i.department_code = d.depart_code) s
 				on i.student_id = s.student_id
-		<!-- where student_id = #{studentId} -->
-		where i.student_id = 22000001
+				where i.student_id = #{studentId}
 	</select>
 	
 	<!-- 학생 상세조회(관리자) -->
@@ -72,7 +71,6 @@
 						on i.department_code = d.depart_code) s
 				on i.student_id = s.student_id
 		where i.student_id = #{studentId}
-		<!-- where i.student_id = 22000001 -->
 	</select>
 	
 	<!-- 학생 전체 조회(관리자) -->
@@ -123,7 +121,6 @@
 			student_postal_code = #{studentPostalCode},
 			parents_phone = #{parentsPhone},
 			parents_rel = #{parentsRel}
-		<!-- WHERE student_id = 22000001 -->
 		 WHERE student_id = #{studentId}
 	</update>
 	
@@ -131,7 +128,6 @@
 	<update id="adminStudentInfoUpdate" parameterType="com.project.portal.student.service.StudentVO">
 		UPDATE student_study_info 
 		SET student_status = #{studentStatus}
-		<!-- where student_id = 22000001 -->
 		where student_id = #{studentId}
 	</update>
 </mapper>

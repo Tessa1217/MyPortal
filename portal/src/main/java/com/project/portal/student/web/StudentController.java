@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +66,10 @@ public class StudentController {
 	
 	//학생 개인 조회(학생)
 	@RequestMapping("/student/studentInfoSelect")
-	public String StudentInfoSelect(StudentVO vo, Model model) {
+	public String StudentInfoSelect(StudentVO vo, Model model, HttpSession session) {
 		// 부모 공통 코드
 		List<CodeVO> codeList = new ArrayList<CodeVO>();
+		vo.setStudentId((int) session.getAttribute("id"));
 		codeList = codeService.getDetailList("R02");
 		model.addAttribute("studentInfoSelect", service.studentInfoSelect(vo));
 		model.addAttribute("codeList", codeList);

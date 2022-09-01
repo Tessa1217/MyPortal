@@ -1,6 +1,8 @@
 package com.project.portal.professor.web;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,8 @@ public class ProfessorController {
 	
 	//교수 본인 정보 조회
 	@RequestMapping("/professor/professorInfo")
-	public String Professor(ProfessorVO vo, Model model) {
+	public String Professor(ProfessorVO vo, Model model, HttpSession session) {
+		vo.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("professorInfo", service.professorInfo(vo));
 		return "professor/info/personal";
 	}
@@ -39,7 +42,8 @@ public class ProfessorController {
 	//교수 정보 수정
 	@RequestMapping("/professor/professorInfoUpdate")
 	@ResponseBody
-	public ProfessorVO professorInfoUpdate(ProfessorVO vo, Model model) {
+	public ProfessorVO professorInfoUpdate(ProfessorVO vo, Model model, HttpSession session) {
+		vo.setProfessorId((int) session.getAttribute("id"));
 		return service.professorInfoUpdate(vo);
 	}
 	

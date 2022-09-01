@@ -29,8 +29,9 @@ public class CourseController {
 
 	// 교수 자신의 강의리스트 조회
 	@RequestMapping("/professor/allCourseList")
-	public String CourseList(CourseVO vo, Model model, Criteria cri) {
-		model.addAttribute("allCourseList", service.allCourseList(cri));
+	public String CourseList(CourseVO vo, Model model, HttpSession session) {
+		vo.setProfessorId((int) session.getAttribute("id"));
+		model.addAttribute("allCourseList", service.allCourseList(vo));
 		return "professor/course/courseList";
 	}
 
