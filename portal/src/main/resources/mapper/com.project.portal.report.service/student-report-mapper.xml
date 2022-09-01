@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.project.portal.report.service.StudentReportMapper">
+<mapper	namespace="com.project.portal.report.service.StudentReportMapper">
 	<resultMap id="reportMap" type="ReportVO">
 		<id column="report_code" property="reportCode"/>
 		<result column="week_code" property="weekCode"/>
@@ -13,6 +12,7 @@
 		<result column="report_assigned_score" property="reportAssignedScore"/>
 		<result column="report_file_code" property="reportFileCode"/>
 		<result column="course_code" property="courseCode"/>
+		<result column="week_num" property="weekNum"/>
 		<association property="reportFile" javaType="ReportFileVO">
 			<id column="report_file_code" property="reportFileCode"/>
 			<result column="report_file_name" property="reportFileName"/>
@@ -23,6 +23,8 @@
 			<result column="submit_id" property="submitId"/>
 		</association>
 	</resultMap>
+	
+	
 	<select id="getReportList" resultMap = "reportMap">
 		SELECT 
 			i.report_code,
@@ -37,19 +39,38 @@
 			i.report_file_code,
 			f.report_file_code,
 			f.report_file_name,
-			f.report_file_path
+			f.report_file_path,
+			w.week_Num
 			FROM report_info i JOIN report_file f
 			ON i.report_file_code = f.report_file_code
+			JOIN course_weekly w
+			ON w.week_code = i.week_code
 			<where>
-				<if test="courseInfo != null OR courseInfo != ''">
+				<if test="courseInfo != null and courseInfo != ''">
 					AND i.course_code = #{courseInfo.courseCode}
 				</if>
-				<if test="report != null OR report != ''">
+				<if test="report != null and report != ''">
 					AND i.report_code = #{report.reportCode}
 				</if>
 			</where>
 			ORDER BY i.week_code DESC
 	</select>
+	
+	<select id="getReportDetail" resultType="ReportVO">
+		SELECT 
+		I.REPORT_TITLE,
+		W.WEEK_NUM,
+		I.REPORT_START_DATE,
+		I.REPORT_END_DATE,
+		I.REPORT_CONTENT,
+		I.REPORT_FILE_CODE
+		FROM 
+            REPORT_INFO I JOIN COURSE_WEEKLY W
+	    ON I.WEEK_CODE = W.WEEK_CODE
+		WHERE REPORT_CODE = #{reportCode}
+	</select>
+	
+	
 	<select id="getFile" resultType="ReportFileVO">
 	</select>
 	<insert id="uploadFile" parameterType="ReportFileVO">

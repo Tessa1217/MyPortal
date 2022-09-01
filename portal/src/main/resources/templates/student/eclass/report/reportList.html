@@ -1,18 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<th:block layout:fragment="studentEclassContent">
-	<div id="main">
-		<div class="page-title">
-			<h2>강의 과제 리스트</h2>
+		<div id="main">
+			<div class="page-title">
+				<h2>강의 과제 리스트</h2>
+				<hr>
+				<div class="card">
+					<div class="card-body">
+						<table class="table">
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>주차</th>
+								<th>과제시작일</th>
+								<th>과제마감일</th>
+								<th>제출</th>
+								<th>첨부파일</th>
+								<th>이의신청</th>
+								<th>이의신청여부</th>
+							</tr>
+
+							<tr th:each="reportList, idx : ${reportList}">
+								<td th:text="${idx.index+1}"></td>
+								<td th:text="${reportList.reportTitle}"></td>
+								<td th:text="${reportList.weekNum}"></td>
+								<td
+									th:text="${#dates.format(reportList.reportStartDate, 'yyyy-MM-dd')}"></td>
+								<td
+									th:text="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')}"></td>
+								<td
+									th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} >
+						 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
+									<button
+										class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
+										th:data-reportcode="${reportList.reportCode}">제출</button>
+								</td>
+								<td
+									th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
+						> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">미제출</td>
+
+
+								</a>
+						</td>
+								
+					
+						<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
+						<button class="saveBtn btn btn-primary me-1 mb-1">이의신청</button></td>
+						<td></td>
+					</tr>
+				
+				
+				</table>
+			
+			</div>
+			</div>
 		</div>
 	</div>
+	
+	<script th:inline="javascript">
+		// 제출 페이지 이동 버튼
+		$('.reportSubmitPage').on("click", function() {
+			let reportCode = ($(this).data("reportcode"));
+			console.log(reportCode)
+			location.href = "/student/eclass/reportSubmit/" + reportCode
+
+		})
+	</script>
 	</th:block>
 </body>
 </html>

@@ -156,10 +156,11 @@
     	                dataType : "json",
     	                success : function(data){ // 비동기통신의 성공일경우 success 콜백
     	                   console.log(data);
+    	                   let answerRegDate = data.lectureAnswerRegDate.substring(0,10)
     	                   $("#title").text(data.lectureQuestionTitle)
     	                   $("#week").text(data.weekNum)
     	                   $("#questioncontent").text(data.lectureQuestionTitle)
-    	                   $("#answerdate").text(data.lectureAnswerRegDate)
+    	                   $("#answerdate").text(answerRegDate)
     	                   $("#answercontent").text(data.lectureAnswerContent)
     	                   $('#courseQuestionDetail').modal('show');
 

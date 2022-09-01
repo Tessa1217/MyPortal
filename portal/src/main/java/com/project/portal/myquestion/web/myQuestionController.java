@@ -76,6 +76,6 @@ public class myQuestionController {
 	public String modifyProfMyQuestion(myQuestionAnswerVO vo) {
 		
 		service.modifyProfMyQuestion(vo);
-		return "";
+		return "success";
 	}
 }

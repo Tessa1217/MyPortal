@@ -50,6 +50,13 @@
 						#{studentId}
 				)
 	</insert>
+	
+	
+	<update id="updateSurveyState" parameterType="MyCourseVO">
+		UPDATE MY_COURSE 
+		SET COURSE_REVIEW_YN = 'SUB' 
+		WHERE COURSE_CODE =#{courseCode} AND STUDENT_ID =#{studentId}
+	</update>
 
 
 </mapper>
