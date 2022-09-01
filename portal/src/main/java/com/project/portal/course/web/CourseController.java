@@ -55,8 +55,11 @@ public class CourseController {
 	public HashMap<String, Object> ServeySelect(SurveyVO vo, 
 											CourseVO voo, 
 											SurveyAvgVO svo, 
-											Model model) {
+											Model model,
+											HttpSession session) {
+		
 		vo = service.surveySelect(vo);
+		voo.setProfessorId((int) session.getAttribute("id"));
 		svo = service.getSurveyStats(voo, svo);
 		
 		System.out.println(vo);

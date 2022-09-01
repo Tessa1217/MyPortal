@@ -35,47 +35,40 @@
 						<th>상세보기</th>
 					</tr>
 					<tr th:each="list : ${surveyList}">
-						<td th:text="${list.courseYear}"></td>
+						<td th:text="${list.courseYear}" th:value="${list.courseYear}"
+							class="ck"></td>
 						<td th:text="${list.courseSemester}"></td>
 						<td th:text="${list.courseName}"></td>
 						<td th:text="${list.courseCode}"></td>
 						<td th:text="${list.courseCredit}"></td>
 						<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
-						<td th:text="|${list.surveyAvg} / 5|"></td>
+						<td th:text="|${list.surveyAvg} / 5.0|"></td>
 						<td><button type="button" class="btn btn-primary"
-								data-bs-toggle="modal" data-bs-target="#staticBackdrop">상세보기</button></td>
-						<!-- <td><button type="button"
-								class="btn btn-primary surveySelect" data-toggle="modal"
-								data-target=".myModal" onclick="">상세보기</button></td> -->
+								data-bs-toggle="modal" data-bs-target=".myModal"
+								th:disabled="${list.surveyAvg} == '0.0'">상세보기</button></td>
+
 					</tr>
 				</table>
 
 			</div>
-			<!-- 모달 ㅇㅇㅇ -->
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#staticBackdrop">Launch static backdrop
-				modal</button>
-
-			<!-- Modal -->
-			<div class="modal fade myModal" id="staticBackdrop"
-				data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-				aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
+			<!-- 모달 영역 -->
+			<!-- <div class="modal fade myModal" id="exampleModalToggle" data-bs-keyboard="false"
+				aria-labelledby="exampleModalToggleLabel" aria-hidden="true" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점 상세조회</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<h2>강의명</h2>
-							<p>0000년도 0학기</p>
+							<h2 class="ModalCourseName"></h2>
+							<p class="ModalYear"></p>
 							<table class="table">
 								<thead>
 									<tr>
 										<th>수강평 문항</th>
-										<th>평균 평점</th>
+										<th>평점</th>
 									</tr>
 								</thead>
 								<tbody id="surveyData">
@@ -85,30 +78,30 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="button" id="closeModal" class="btn btn-primary">Understood</button>
+							<button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- 모달 영역 -->
-			<!-- <div class="modal" data-bs-backdrop="static" data-bs-keyboard="false"
-				aria-labelledby="staticBackdropLabel" aria-hidden="true"
-				tabindex="-1">
-				<div class="modal-dialog">
+			</div> -->
+
+
+			<div class="modal fade myModal" id="exampleModalToggle" aria-hidden="true"
+				aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Modal title</h5>
+							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점 상세조회</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<h2>강의명</h2>
-							<p>0000년도 0학기</p>
+							<h2 class="ModalCourseName"></h2>
+							<p class="ModalYear"></p>
 							<table class="table">
 								<thead>
 									<tr>
 										<th>수강평 문항</th>
-										<th>평균 평점</th>
+										<th>평점</th>
 									</tr>
 								</thead>
 								<tbody id="surveyData">
@@ -116,184 +109,235 @@
 							</table>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal" id="closeModal">Close</button>
+							<button class="btn btn-primary"
+								data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+								data-bs-dismiss="modal">도표</button>
 						</div>
 					</div>
 				</div>
-			</div> -->
-		</div>
-		<script th:inline="javascript">
-			$("#closeModal").on("click", function() {
-				$('.myModal.in').modal('hide');
-			})
-			$(function() {
-				surveyReview();
+			</div>
+			<div class="modal fade myModal2" id="exampleModalToggle2" aria-hidden="true"
+				aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalToggleLabel2">Modal
+								2</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">Hide this modal and show the first
+							with the button below.</div>
+						<div class="modal-footer">						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>>
+			
 
-				// ______________모달 종료 시 입력값 초기화
-				$('.myModal').on('hidden.bs.modal', function(e) {
-					console.log('modal close');
-					$('#surveyData').children().remove();
+			<script th:inline="javascript">
+				$(function() {
+					surveyReview();
+					rollbackModal();
 
 				});
+				// 상세보기 모달 생성시 문항, 평균평점 테이블 생성.
+				function surveyReview() {
+					$(document)
+							.on(
+									'show.bs.modal',
+									'.myModal',
+									function(e) {
+										// 버튼위치 강의 코드
+										var courseCode = $(e.relatedTarget)
+												.parent().prev().prev().prev()
+												.prev().text();
 
-			});
+										//	alert(courseCode)
+										// 버튼위치 강의 년도
+										var courseYear = $(e.relatedTarget)
+												.parent().prev().prev().prev()
+												.prev().prev().prev().prev()
+												.text();
 
-			function surveyReview() {
-				$(document)
-						.on(
-								'show.bs.modal',
-								'.myModal',
-								function(e) {
-									console.log(e);
-									console
-									.log($(e.relatedTarget).parent();
-									console
-											.log($(e.relatedTarget).parent()
-													.prev().prev().prev()
-													.prev().text());
-									/* alert($(e.relatedTarget).parent().prev().prev().prev().prev().text()); */
-									var courseCode = $(e.relatedTarget)
-											.parent().prev().prev().prev()
-											.prev().text();
-									// alert(cCode);
-									$
-											.ajax({
-												url : "/professor/surveySelect",
-												method : "post",
-												data : {
-													courseCode : courseCode,
-												},
-												success : function(res) {
-													var result = res.survey;
-													var chartdata = res.chart;
-													console.log(res.survey);
-													let tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ1),
-																			$(
-																					"<td>")
-																					.text(
-																							result.a1Avg) ]);
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ2),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a2Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ3),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a3Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ4),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a4Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ5),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a5Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ6),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a6Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ7),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a7Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ8),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a8Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ9),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a9Avg) ])
-													$("#surveyData").append(tr);
-													tr = $("<tr/>")
-															.append(
-																	[
-																			$(
-																					"<td>")
-																					.text(
-																							result.surveyQ10),
-																			$(
-																					"<td/>")
-																					.text(
-																							result.a10Avg) ])
-													$("#surveyData").append(tr);
+										courseYear += '년도 ';
+										courseYear += $(e.relatedTarget)
+												.parent().prev().prev().prev()
+												.prev().prev().prev().text();
 
-												}
-											});
-								})
-			}
-		</script>
+										courseYear += '학기';
+
+										$(".ModalYear").text(courseYear);
+										// alert(courseYear)
+										// 버튼위치 강의 학기
+										var courseSemester = $(e.relatedTarget)
+												.parent().prev().prev().prev()
+												.prev().prev().prev().text();
+										// 버튼위치 강의 이름
+										$(".ModalCourseName").text(
+												$(e.relatedTarget).parent()
+														.prev().prev().prev()
+														.prev().prev().text());
+										var courseName = $(e.relatedTarget)
+												.parent().prev().prev().prev()
+												.prev().prev().text();
+										$
+												.ajax({
+													url : "/professor/surveySelect",
+													method : "post",
+													data : {
+														courseCode : courseCode,
+													},
+													success : function(res) {
+														var graph = res.survey;
+														var chartdata = res.chart;
+														console.log(res.survey);
+														let tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ1),
+																				$(
+																						"<td>")
+																						.text(
+																								graph.a1Avg) ]);
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ2),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a2Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ3),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a3Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ4),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a4Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ5),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a5Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ6),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a6Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ7),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a7Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ8),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a8Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ9),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a9Avg) ])
+														$("#surveyData")
+																.append(tr);
+														tr = $("<tr/>")
+																.append(
+																		[
+																				$(
+																						"<td>")
+																						.text(
+																								graph.surveyQ10),
+																				$(
+																						"<td/>")
+																						.text(
+																								graph.a10Avg) ])
+														$("#surveyData")
+																.append(tr);
+
+													}
+												});
+
+									})
+				}
+				// 모달 종료 시 입력값 초기화
+				function rollbackModal() {
+					$('.myModal').on('hidden.bs.modal', function(e) {
+						console.log('modal close');
+						$('#surveyData').children().remove();
+
+					});
+				}
+			</script>
 	</th:block>
 </body>
 

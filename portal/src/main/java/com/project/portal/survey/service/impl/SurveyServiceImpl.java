@@ -15,17 +15,14 @@ public class SurveyServiceImpl implements SurveyService {
 	@Autowired SurveyMapper mapper;
 	@Override
 	public SurveyVO selectSurvey(SurveyVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.selectSurvey(vo);
 	}
 	@Override
 	public void insertSurveyAnswer(SurveyAnswerVO vo) {
-		// TODO Auto-generated method stub
 		mapper.insertSurveyAnswer(vo);
 	}
 	@Override
 	public void updateSurveyState(MyCourseVO vo) {
-		// TODO Auto-generated method stub
 		mapper.updateSurveyState(vo);
 	}
 

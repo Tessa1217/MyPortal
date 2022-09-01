@@ -36,43 +36,45 @@
 	</select>
 	
 	<select id="surveyList" resultType="com.project.portal.course.service.CourseVO">
-		select m.course_code,
+		select c.course_code,
 				c.course_year,
 				c.course_semester,
 				c.course_name, 
 				c.course_credit, 
-				nvl(m.REVIEW_SUB_COUNT,0) as "REVIEW_SUB_COUNT", 
-				m.COUNT_ALL_STUDENT, nvl(surveyAvg,0) as "SURVEYAVG"
+				sum(nvl(m.REVIEW_SUB_COUNT,0)) as "REVIEW_SUB_COUNT", 
+				sum(m.COUNT_ALL_STUDENT) as "COUNT_ALL_STUDENT",
+				nvl(trunc(surveyAvg,1),0) as "SURVEYAVG"
 		from course c
 		join(select course_code, 
-					case WHEN course_review_yn = 'SUB' THEN count(course_review_yn) end as "REVIEW_SUB_COUNT", 
-					count(student_id) as "COUNT_ALL_STUDENT"
+		            case WHEN course_review_yn = 'SUB' THEN count(course_review_yn) end as "REVIEW_SUB_COUNT", 
+		            count(student_id) as "COUNT_ALL_STUDENT"
 		        from my_course
-		        group by course_review_yn,course_code) m
+		        group by course_code, course_review_yn) m
 		on c.course_code = m.course_code
 		left outer join(select course_code,(avg(survey_A1)+avg(survey_A2)+avg(survey_A3)+avg(survey_A4)+avg(survey_A5)+avg(survey_A6)
 		                    +avg(survey_A7)+avg(survey_A8)+avg(survey_A9)+avg(survey_A10))/10 AS surveyAvg
 		                    from course_rating
-		                    group by course_code) c
-		on m.course_code = c.course_code
+		                    group by course_code) a
+		on m.course_code = a.course_code
 		where professor_id = #{professorId}
-		order by course_code
+		group by c.course_code, c.course_year, c.course_semester, c.course_name, c.course_credit, SURVEYAVG
+		order by c.course_code
 		
 	</select>
 	
-	<select id="surveySelect" resultType="com.project.portal.survey.service.SurveyVO">
+	<select id="surveySelect" resultType="SurveyVO">
         select  r.*, q.*
 		from (select  course_code,
-		            trunc(avg(r.survey_a1),2) AS A1_AVG,
-		            trunc(avg(r.survey_a2),2) AS A2_AVG,
-		            trunc(avg(r.survey_a3),2) AS A3_AVG,
-		            trunc(avg(r.survey_a4),2) AS A4_AVG,
-		            trunc(avg(r.survey_a5),2) AS A5_AVG,
-		            trunc(avg(r.survey_a6),2) AS A6_AVG,
-		            trunc(avg(r.survey_a7),2) AS A7_AVG,
-		            trunc(avg(r.survey_a8),2) AS A8_AVG,
-		            trunc(avg(r.survey_a9),2) AS A9_AVG,
-		            trunc(avg(r.survey_a10),2) AS A10_AVG
+		            trunc(avg(r.survey_a1),1) AS A1_AVG,
+		            trunc(avg(r.survey_a2),1) AS A2_AVG,
+		            trunc(avg(r.survey_a3),1) AS A3_AVG,
+		            trunc(avg(r.survey_a4),1) AS A4_AVG,
+		            trunc(avg(r.survey_a5),1) AS A5_AVG,
+		            trunc(avg(r.survey_a6),1) AS A6_AVG,
+		            trunc(avg(r.survey_a7),1) AS A7_AVG,
+		            trunc(avg(r.survey_a8),1) AS A8_AVG,
+		            trunc(avg(r.survey_a9),1) AS A9_AVG,
+		            trunc(avg(r.survey_a10),1) AS A10_AVG
 		        from course_rating r
 		       where course_code=#{courseCode}
 		        group by course_code
@@ -80,12 +82,59 @@
 		    survey_question q
 	
 	</select>
-	<select id="courseSelect" resultType="com.project.portal.course.service.CourseVO">
-		select course_year,
-				course_name,
-				course_semester
+	
+	<select id="getQuestionAvg" resultType="SurveyVO">
+		select trunc(avg(survey_a1),1) as "A1_AVG",
+				trunc(avg(survey_a2),1) as "A2_AVG",
+				trunc(avg(survey_a3),1) as "A3_AVG",
+				trunc(avg(survey_a4),1) as "A4_AVG",
+				trunc(avg(survey_a5),1) as "A5_AVG",
+		        trunc(avg(survey_a6),1) as "A6_AVG",
+		        trunc(avg(survey_a7),1) as "A7_AVG",
+		        trunc(avg(survey_a8),1) as "A8_AVG",
+		        trunc(avg(survey_a9),1) as "A9_AVG",
+		        trunc(avg(survey_a10),1) as "A10_AVG"
+		from course_rating
 		where course_code = #{courseCode}
 	</select>
 	
+	<select id="getCourseAvg" resultType="SurveyVO">
+		select trunc(avg(survey_a1),1) as "A1_AVG",
+				trunc(avg(survey_a2),1) as "A2_AVG",
+				trunc(avg(survey_a3),1) as "A3_AVG",
+				trunc(avg(survey_a4),1) as "A4_AVG",
+				trunc(avg(survey_a5),1) as "A5_AVG",
+        		trunc(avg(survey_a6),1) as "A6_AVG",
+        		trunc(avg(survey_a7),1) as "A7_AVG",
+        		trunc(avg(survey_a8),1) as "A8_AVG",
+        		trunc(avg(survey_a9),1) as "A9_AVG",
+        		trunc(avg(survey_a10),1) as "A10_AVG"
+		from course_rating
+	</select>
+	
+	<select id="myCourseAvg" resultType="double">
+		select 
+				trunc(
+						(avg(survey_a1)+avg(survey_a2)+avg(survey_a3)+avg(survey_a4)+avg(survey_a5)+
+		               	avg(survey_a6)+avg(survey_a7)+avg(survey_a8)+avg(survey_a9)+avg(survey_a10))/10
+		       ,1) as "MY_COURSE_AVG"
+		from course_rating r
+		join course c
+		on r.course_code = c.course_code
+		where c.course_code = #{courseCode}
+		group by c.course_code
+	
+	</select>
+	
+	<select id="allMyCourseAvg" resultType="double">
+		select trunc(
+		                (avg(survey_a1)+avg(survey_a2)+avg(survey_a3)+avg(survey_a4)+avg(survey_a5)+
+		               avg(survey_a6)+avg(survey_a7)+avg(survey_a8)+avg(survey_a9)+avg(survey_a10))/10
+		       
+		       ,1) as "ALL_COURSE_AVG"
+		from course_rating r
+		join course c
+		on r.course_code = c.course_code
+	</select>
 	
 </mapper>
