@@ -34,4 +34,10 @@ public class StudentReportServiceImpl implements StudentReportService {
 		return mapper.getFile(reportFileCode);
 	}
 
+	@Override
+	public ReportVO getReportDetail(String reportCode) {
+		// TODO Auto-generated method stub
+		return mapper.getReportDetail(reportCode);
+	}
+
 }

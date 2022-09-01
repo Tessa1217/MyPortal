@@ -182,12 +182,14 @@
                 	{lectureQuestionNum : lectureQuestionNum},
                 dataType : "json",
                 success : function(data){ // 비동기통신의 성공일경우 success 콜백
-                	console.log(data);
+                	// 질문 등록일 데이터 처리
+                	let questionRegDate = data.lectureQuestionRegDate.substring(0,10)
+
                 	 $("#questionnum").text(data.lectureQuestionNum)
                 	 $("#title").text(data.lectureQuestionTitle)
 	                 $("#week").text(data.weekNum)
 	                 $("#questioncontent").text(data.lectureQuestionContent)
-	                 $("#answerregdate").text(data.lectureQuestionRegDate)
+	                 $("#answerregdate").text(questionRegDate)
 	                 $('#answercontentview').text(data.lectureAnswerContent)
 	                 $('#Answeredit').text(data.lectureAnswerContent)
 	                 
@@ -220,6 +222,17 @@
 	 function modalOff() {
 		$("#closeModal").on("click", function() {
 			$('#courseQuestionDetail').modal('hide');
+			
+			
+			$('#answercontent').hide()  //답변 내용
+	 		$('#AnswerReg').hide() //답변 등록
+	 		$('#AnswerMod').hide() // 답변 수정
+	 		$('#Prev').hide() // 이전
+	 		$('#Answeredit').hide() // 수정 textarea
+	 		$('#Modify').hide() // 수정
+	 		$('#answercontentview').show()
+			
+		
 		})
 	} 
  
@@ -284,7 +297,7 @@
 	// 답변 수정 처리
 	function modifyAnswer() {
 	 
-		var frmContent = frm.lectureAnswerContent.value
+		var frmContent = frm.lectureAnswerContent.value.trim()
 	 	//답변 내용이 있는지 확인
 	 	if(frmContent == '' || frmContent == null) {
 	 		window.alert('답변 내용이 없습니다.')
@@ -300,8 +313,8 @@
  	            data : 
  	            	{ lectureAnswerContent : lectureAnswerContent,
  	            	  lectureQuestionNum : lectureQuestionNum} ,
- 	            success : function(result) {
- 	            	console.log(result)
+ 	            success : function(success) {
+ 	            	console.log(success)
  	            	alert('수정되었습니다.')
  	            	location.href="/professor/eclass/courseQuestion"
  	            }

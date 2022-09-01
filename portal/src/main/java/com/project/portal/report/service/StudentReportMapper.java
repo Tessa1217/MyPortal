@@ -15,5 +15,9 @@ public interface StudentReportMapper {
 	void insertReportSubmission(ReportSubmissionVO vo);
 	void uploadFile(ReportFileVO vo);
 	ReportFileVO getFile(@Param("reportFileCode") String reportFileCode);
+	
+	// 과제 상세 조회
+	public ReportVO getReportDetail(String reportCode);
+	
 
 }

@@ -27,6 +27,7 @@ public class StudentReportController {
 	@Autowired
 	StudentReportServiceImpl service;
 	
+	// 주차 정보
 	@ModelAttribute("courseInfo")
 	public CourseVO course(HttpSession session) {
 		CourseVO course = new CourseVO();
@@ -34,6 +35,7 @@ public class StudentReportController {
 		return courseService.getWeeklyInfo(course);
 	}
 	
+	// 과제 리스트
 	@RequestMapping("/student/eclass/reportList")
 	public String getReportList(Model model, CourseVO vo) {
 		vo = (CourseVO) model.getAttribute("courseInfo");
@@ -42,17 +44,22 @@ public class StudentReportController {
 		return "student/eclass/report/reportList";
 	}
 	
+	
+	
+	// 과제 제출 페이지 이동
 	@RequestMapping("/student/eclass/reportSubmit/{reportCode}")
 	public String reportSubmit(@PathVariable String reportCode, Model model, ReportVO vo) {
 		vo.setReportCode(reportCode);
-		List<ReportVO> report = service.getReportList(null, vo);
-		model.addAttribute("report", report);
+		model.addAttribute("reportDetail", service.getReportDetail(vo.getReportCode()));
 		return "student/eclass/report/reportSubmit";
 	}
 	
-		
+	// 과제 제출 처리
 	@PostMapping("/student/eclass/reportSubmit")
 	public String reportSubmission(ReportSubmissionVO resub, MultipartFile file) {
+		
+		
+		
 		return "redirect:/student/eclass/reportList";
 	}
 

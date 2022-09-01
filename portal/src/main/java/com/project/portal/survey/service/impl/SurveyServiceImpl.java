@@ -3,6 +3,7 @@ package com.project.portal.survey.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.survey.service.SurveyAnswerVO;
 import com.project.portal.survey.service.SurveyMapper;
 import com.project.portal.survey.service.SurveyService;
@@ -21,6 +22,11 @@ public class SurveyServiceImpl implements SurveyService {
 	public void insertSurveyAnswer(SurveyAnswerVO vo) {
 		// TODO Auto-generated method stub
 		mapper.insertSurveyAnswer(vo);
+	}
+	@Override
+	public void updateSurveyState(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		mapper.updateSurveyState(vo);
 	}
 
 }

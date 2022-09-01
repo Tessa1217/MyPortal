@@ -8,19 +8,20 @@ import lombok.Data;
 
 @Data
 public class ReportVO {
-	private String reportCode;
-	private String weekCode;
+	private String reportCode; // 과제코드
+	private String weekCode; // 강의주차계획코드
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date reportRegDate;
+	private Date reportRegDate; // 과제 등록일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date reportStartDate;
+	private Date reportStartDate; // 과제 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date reportEndDate;
-	private String reportTitle;
-	private String reportContent;
-	private int reportAssignedScore;
-	private String reportFileCode;
-	private ReportFileVO reportFile;
-	private String courseCode;
+	private Date reportEndDate; // 과제마감일
+	private String reportTitle; // 과제 제목
+	private String reportContent; // 과제 내용
+	private int reportAssignedScore; // 과제 배점
+	private String reportFileCode; // 과제파일 코드
+	private ReportFileVO reportFile; //  과제파일
+	private String courseCode;  // 강의 코드
+	private String weekNum; // 주차
 
 }

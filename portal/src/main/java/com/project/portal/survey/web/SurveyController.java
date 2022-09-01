@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.survey.service.SurveyAnswerVO;
 import com.project.portal.survey.service.SurveyService;
 import com.project.portal.survey.service.SurveyVO;
@@ -36,13 +37,16 @@ public class SurveyController {
 	
 	// 학생 설문지 답안 제출
 	@RequestMapping("/student/eclass/courseSurveyAnswer")
-	public String insertSurvetAnswer(SurveyAnswerVO vo ,HttpSession session) {
+	public String insertSurvetAnswer(SurveyAnswerVO vo, MyCourseVO coursevo, HttpSession session) {
 		
 		String courseCode = (String)session.getAttribute("courseCode");
 		vo.setCourseCode(courseCode);
 		vo.setStudentId(22000001);
+		coursevo.setStudentId(22000001);
+		coursevo.setCourseCode(courseCode);
 		System.out.println(vo);
 		service.insertSurveyAnswer(vo);
+		service.updateSurveyState(coursevo);
 		return "redirect:/student/eclass/" + vo.getCourseCode();
 	}
 	
