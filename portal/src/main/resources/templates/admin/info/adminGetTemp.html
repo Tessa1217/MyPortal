@@ -301,9 +301,18 @@
 														
 														<th>비승인 사유</th>
 														<td>
-														<input id="backReason2" name ="backReason2">
+														<select class="form-control" name="backReason2" id="backReason2">
+															<option value="오타 문제   :  ">오타 문제</option>
+															<option value="규칙 문제   :  ">규칙 문제</option>
+															<option value="그냥 문제   :  ">그냥 문제</option>
+															<option value="햄버거 문제   :  ">햄버거 문제</option>
+														</select>
+														
+														
+														
+														<input id="backReason3" name ="backReason3" class="form-control">
 														</td>
-													
+														
 													</tr>
 														
 
@@ -445,7 +454,7 @@
 						function() {
 							if (window.confirm("정말로 비승인하시겠습니까?")) {
 								let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-								let backReason = $('#backReason2').val()
+								let backReason = $("#backReason2 option:selected").val() + $('#backReason3').val()
 								let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 								let courseCode = $('input[name=courseCode]').val()
 								if(backReason != null || backReason==null){

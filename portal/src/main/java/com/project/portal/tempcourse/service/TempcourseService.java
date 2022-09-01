@@ -26,4 +26,6 @@ public interface TempcourseService {
 	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
 	public TempcourseVO backReasonWhy(String courseCode);
 	public TempcourseVO backReasonInsert(TempcourseVO vo);
+	public TempcourseVO bringme(TempcourseVO vo);
+	public List<TempcourseVO> bringme(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //강의계획서입력페이지에서 강의계획서 정보를 모달로 불러오기
 }

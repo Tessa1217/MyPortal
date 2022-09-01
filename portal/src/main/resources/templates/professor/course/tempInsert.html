@@ -39,13 +39,14 @@
 					</div>
 					<div class="right">
 						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu">기본 정보</label> <input id="tab2"
-							type="radio" name="tabs"> <label for="tab2"
+							for="tab1" class="tabmenu">기본 정보</label> 
+							<input id="tab2" type="radio" name="tabs"> <label for="tab2"
 							class="tabmenu">주차 계획</label>
 					</div>
 					<div class="card paging">
 						<div class="card-header">
 							<h3>강의 계획서</h3>
+							<button type="button" class="btn btn-secondary bringme" data-toggle="modal">강의계획서 불러오기</button>
 						</div>
 						<div class="card-body">
 							<form id="tempInfoForm" class="form form-horizontal"
@@ -72,11 +73,11 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<select id="courseSemester" name="courseSemester"
-													class="form-control">
+													class="form-control" required>
 													<option class="hidden" value=""
 														th:text="선택" disabled selected></option>
-													<option th:value="1" th:text="1"></option>
-													<option th:value="2" th:text="2"></option>
+													<option th:value="1" th:text="1학기"></option>
+													<option th:value="2" th:text="2학기"></option>
 												</select>
 										</div>
 										</div>
@@ -98,10 +99,10 @@
 										</div>
 										<div class="col-md-8 form-group">
 											<select class="form-control" name="courseCredit" required>
-												<option value="" disable selected th:text="선택"></option>
-												<option value=1>1학점</option>
-												<option value=2>2학점</option>
-												<option value=3>3학점</option>
+												<option value="" disabled selected th:text="선택"></option>
+												<option value="1" th:text="1학점"></option>
+												<option value="2" th:text="2학점"></option>
+												<option value="3" th:text="3학점"></option>
 											</select>
 										</div>
 										</div>
@@ -186,7 +187,7 @@
 					<div class="card paging">
 						<div class="card-body">
 							<form th:action="@{/tempweekInsertProc}" method="POST">
-							<h2 tabindex="1">주차별 강의</h2>
+							<h2>주차별 강의</h2>
 							 	<select name="courseCode" class="hidden">
 							 		<option th:each="item:${tempcourseList}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
@@ -207,7 +208,7 @@
 												
 												</td>
 												<td>											
-												<input th:name="|weekContent${num}|" class="form-control" required>
+												<input th:name="|weekContent${num}|" class="form-control">
 												</td>
 											</tr>
 										</tbody>
@@ -226,11 +227,97 @@
 			</div>
 		</div>
 		
+		<!-- 강의계획서 불러오기 모달창 -->
+		<div class="modal fade" id="bringme" data-bs-backdrop="static"
+			tabindex="-1" aria-labelledby="staticBackdropLabel"
+			aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<label class="modal-title" id="staticBackdropLabel">강의계획서 불러오기</label>
+					</div>
+					<div class="modal-body">
+					<form name="searchForm" class="form-horizontal">
+					<select id="type" name="type">
+						<option value="course_year">개설연도</option>
+						<option value="course_semester">개설학기</option>
+					</select> <input type="number" name="keyword" id="keyword">
+					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+
+				</form>
+					
+					
+						<table class="table">
+					<thead>
+						<tr>
+							<th>년도</th>
+							<th>학기</th>
+							<th>이수단위</th>
+							<th>이수구분</th>
+							<th>강의명</th>
+							<th>제출여부</th>
+							<th>승인여부</th>
+							<th>비승인 사유</th>
+							<th>상세보기</th>
+							<th>제출하기</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="item:${tempcourseList}">
+							<td th:text="${item.courseYear}"></td>
+							<td th:text="${item.courseSemester}"></td>
+							<!-- <td th:text="${item.courseCredit}"></td> -->
+							<td>[[${item.courseCredit}]]학점</td>
+							<td th:text="${item.courseSortationName}"></td>
+							<td th:text="${item.courseName}"></td>
+							<td th:text="${item.submitYesName}" id="submitYes"
+								th:data-codee="${item.submitYes}"></td>
+							<td th:text="${item.okayYesName}" id="okayYes"
+								th:data-back="${item.okayYes}"></td>
+
+							<td th:if="${item.backReason == null}" id="backReason"
+								th:data-code="null"></td>
+
+							<td th:if="${item.backReason != null}" id="backReason"
+								th:data-coursecod="${item.courseCode}"
+								th:data-code="비승인"
+								class="btn btn-secondary backReasonWhy" data-toggle="modal"
+								data-target="#backReasonWhy">비승인</td>
+
+							<td><a th:href="|/professor/getTemp/${item.courseCode}|"><button
+										th:text="상세보기" th:data-courseName="${item.courseCode}"
+										class="btn btn-primary"></button></a></td>
+							<td><button th:disabled="${item.submitYes}=='SUB'"
+									name="button1" class="btn btn-danger moddd"
+									th:data-course="${item.courseCode}">제출하기</button></td>
+						</tr>
+
+					</tbody>
+				</table>
+				
+						<div class="input-container modal-footer">
+							<!-- <button type="button" class="btn btn-outline-danger"
+								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
+							<button id="closeModal" type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
 		<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
-				
+				aaaaa();
+				modalOff();
 				
 			})
 			
@@ -250,7 +337,25 @@
 			})
 			}
 			
-		
+			//모달창 띄우기
+			function aaaaa () {
+				$(".bringme").on("click", function() {
+					
+					
+					
+					
+					
+					$('#bringme').modal('show');
+				})
+			}
+			
+			
+			//모달창 끄기
+			function modalOff() {
+				$("#closeModal").on("click", function() {
+					$('#bringme').modal('hide');
+				})
+			}
 			
 	
 			/* //주차 추가

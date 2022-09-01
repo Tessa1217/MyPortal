@@ -180,6 +180,44 @@ public class TempcourseServiceImpl implements TempcourseService{
 	}
 
 
+
+
+
+
+
+	@Override
+	public TempcourseVO bringme(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+
+
+	@Override
+	public List<TempcourseVO> bringme(TempcourseVO vo, Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.bringme(vo, cri);
+	}
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
 	
 
 

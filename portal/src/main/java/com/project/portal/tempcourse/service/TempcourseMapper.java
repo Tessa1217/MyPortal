@@ -11,20 +11,21 @@ import com.project.portal.professor.service.ProfessorVO;
 @Mapper
 public interface TempcourseMapper {
 
-	ProfessorVO getInfo(ProfessorVO pvo);
-	public TempcourseVO getTemp(String no);
-	public List<TempcourseweekVO> getTempweek(String no);
-	public List<TempcourseVO> tempcourseList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
-	public int tempcourseListCount(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
-	public List<TempcourseweekVO> tempcourseweekList(TempcourseVO vo, Criteria cri);
-	public void tempInsert(TempcourseVO vo);
-	public void tempweekInsert(TempcourseweekVO voo);
-	public int updateTemp(TempcourseVO vo);
-	public int updateweekTemp(TempcourseweekVO voo);
-	public int submitTemp(TempcourseVO vo);
-	public int okayTemp(TempcourseVO vo);
-	public int backTemp(TempcourseVO vo);
-	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri);
-	public TempcourseVO backReasonWhy(String courseCode);
-	public TempcourseVO backReasonInsert(TempcourseVO vo);
+	ProfessorVO getInfo(ProfessorVO pvo); //교수 단대 가져오기
+	public TempcourseVO getTemp(String no);  //강의계획서 상세정보
+	public List<TempcourseweekVO> getTempweek(String no); //강의계획서 상세정보(주차별)
+	public List<TempcourseVO> tempcourseList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); // 강의계획서 조회 리스트
+	public int tempcourseListCount(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //강의계획서 카운트
+	public List<TempcourseweekVO> tempcourseweekList(TempcourseVO vo, Criteria cri); //강의계획서 상세정보(주차별) // X
+	public void tempInsert(TempcourseVO vo); //강의계획서 입력(기본정보)
+	public void tempweekInsert(TempcourseweekVO voo); //강의계획서 입력(주차별)
+	public int updateTemp(TempcourseVO vo); //강의계획서 수정(기본정보)
+	public int updateweekTemp(TempcourseweekVO voo); //강의계획서 수정(주차별)
+	public int submitTemp(TempcourseVO vo); //강의계획서 제출
+	public int okayTemp(TempcourseVO vo); //강의계획서 승인 기능
+	public int backTemp(TempcourseVO vo); //강의계획서 비승인 기능
+	public List<TempcourseVO> adminTempList(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //관리자 강의계획서 리스트(제출된)
+	public TempcourseVO backReasonWhy(String courseCode); //강의계획서 비승인 사유보기 (교수)
+	public TempcourseVO backReasonInsert(TempcourseVO vo); //강의계획서 비승인 내용 입력( 관리자)
+	public List<TempcourseVO> bringme(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //강의계획서입력페이지에서 강의계획서 정보를 모달로 불러오기
 }

@@ -27,9 +27,13 @@
 		       find_code(okay_yes) as okay_yes_name
 		from temp_course t
 		 <!-- where course_code =#{courseCode} -->
+		where professor_id = #{vo.professorId}
 		
-		<include refid="criteria"></include>
-		
+		<if test="cri.keyword != null and cri.keyword != ''">
+			and ${cri.type} = ${cri.keyword}
+			 
+		</if>
+		order by course_code desc
 		
 	</select>
 
@@ -57,7 +61,7 @@
 		       find_code(course_sortation) as course_sortation_name,
 		       find_code(submit_yes) as submit_yes_name,
 		       find_code(okay_yes) as okay_yes_name
-		from temp_course t 
+		from temp_course t
 		where course_code = #{courseCode}
 	</select>
 	
@@ -198,9 +202,12 @@
 	
 	<update id="okayTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
 	
-		update temp_course
+		 update temp_course
 		set back_reason = #{backReason}, okay_yes = #{okayYes}, submit_yes=#{submitYes}
 		where course_code = #{courseCode}
+		
+		<!-- merge into temp_course using course on (temp_course.okay_yes = 'A00') when matched --> 
+		
 	</update> 
 	
 	<update id="backTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
@@ -243,4 +250,22 @@
 		update temp_course set back_reason = #{backReason} where course_code = #{courseCode}
 	
 	</update>
+	
+	<select id="bringme" resultType="TempcourseVO">
+		
+		select t.*,
+		       find_code(course_sortation) as course_sortation_name,
+		       find_code(submit_yes) as submit_yes_name,
+		       find_code(okay_yes) as okay_yes_name
+		from temp_course t
+		 <!-- where course_code =#{courseCode} -->
+		where professor_id = #{vo.professorId}
+		
+		<if test="cri.keyword != null and cri.keyword != ''">
+			and ${cri.type} = ${cri.keyword}
+			 
+		</if>
+		order by course_code desc
+	
+	</select>
 </mapper>

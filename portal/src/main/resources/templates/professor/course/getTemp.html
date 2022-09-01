@@ -72,8 +72,9 @@
 											th:data-code="null"></td>
 										<td th:if="${tempcourse.backReason != null}" id="backReason"
 										th:data-coursecod="${tempcourse.courseCode}"
-											data-toggle="modal" data-target="#backReasonWhy" class="btn btn-primary backReasonWhy"
-											th:data-code="비승인">비승인</td>
+											th:data-code="비승인"
+											class="btn btn-secondary backReasonWhy" data-toggle="modal"
+											data-target="#backReasonWhy">비승인</td>
 										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
 												name="button1" class="btn btn-danger moddd"
 												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
@@ -111,17 +112,14 @@
 												<label>강의 학기</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<!-- <select id="courseSemester" name="courseSemester"
-													class="form-control">
-													<option class="hidden" value=""
-														th:text="${tempcourse.courseSemester}" disabled selected></option>
-													<option th:value="1" th:text="1학기"></option>
-													<option th:value="2" th:text="2학기"></option>
-													
-												</select> -->
-												<input th:value="${tempcourse.courseSemester}"
+												  <!-- <select id="courseCredit" name="courseCredit"
+													class="form-control">													
+													<option th:value="1" th:text="1학기" th:selected="${tempcourse.courseSemester}==1"></option>
+													<option th:value="2" th:text="2학기" th:selected="${tempcourse.courseSemester}==2"></option>
+												</select>  -->
+												 <input th:value="${tempcourse.courseSemester}"
 													id="courseSemester" name="courseSemester"
-													class="form-control">
+													class="form-control"> 
 
 											</div>
 										</div>
@@ -134,21 +132,23 @@
 													class="form-control">
 													<option th:each="sortation : ${Sortation}"
 														th:value="${sortation.detailCode}"
-														th:text="${sortation.detailName}"></option>
+														th:text="${sortation.detailName}" th:selected="${sortation.detailCode==tempcourse.courseSortation}"></option>
+														
 												</select>
 											</div>
 											<div class="col-md-4">
 												<label>이수 단위</label>
 											</div>
 											<div class="col-md-8 form-group">
-												<select id="courseCredit" name="courseCredit"
-													class="form-control">
-													<option class="hidden" value=""
-														th:text="${tempcourse.courseCredit}" disabled selected></option>
-													<option th:value="1" th:text="1학점"></option>
-													<option th:value="2" th:text="2학점"></option>
-													<option th:value="3" th:text="3학점"></option>
+												  <select id="courseCredit" name="courseCredit"
+													class="form-control">													
+													<option th:value="1" th:text="1학점" th:selected="${tempcourse.courseCredit}==1"></option>
+													<option th:value="2" th:text="2학점" th:selected="${tempcourse.courseCredit}==2"></option>
+													<option th:value="3" th:text="3학점" th:selected="${tempcourse.courseCredit}==3"></option>
 												</select>
+												<!-- <input th:value="${tempcourse.courseCredit}"
+													id="courseCredit" name="courseCredit"
+													class="form-control"> -->
 											</div>
 										</div>
 										<div class="col-md-6 col-12">
@@ -296,7 +296,7 @@
 			</div>
 		</div>
 		
-		<!-- 모달창 -->
+		<!-- 비승인 사유 모달창 -->
 		<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
 			tabindex="-1" aria-labelledby="staticBackdropLabel"
 			aria-hidden="true">
@@ -342,13 +342,14 @@
 		</div>
 		
 		
+		
+		
 
 		<script th:inline="javascript">
 			
 			$(function() {
 				showPage();
-				saveTempInfo(); 
-				enterDate();
+				
 				 backReasonWhy();
 					modalOff();
 				$("#courseSortation").val([[${tempcourse.courseSortation}]]);
@@ -525,7 +526,7 @@
 					
 				$.ajax({
 					type : "POST",
-					url : "/professor/tempcourseList/backReasonWhy",
+					url : "/professor/getTemp/{courseCode}/backReasonWhy",
 					data : 
 						{
 						

@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.common.Criteria;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
+import com.project.portal.login.service.User;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
@@ -34,9 +40,11 @@ public class TempcourseController {
 	@Autowired
 	CodeService codeService;
 
+	
+	
 	// 단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp/{courseCode}")
-	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri) {
+	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
 		vo = service.getTemp(courseCode);
 //		System.out.println(vo.getCourseCode());
 //		TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
@@ -58,13 +66,14 @@ public class TempcourseController {
 
 
 	// 교수 강의계획서 리스트목록(GET)
-	@RequestMapping("/professor/tempcourseList")
-	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri) {
+	@RequestMapping(value={"/professor/tempcourseList", "/professor/tempInsert/tempList" })
+	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri, HttpSession session, Authentication authentication) {
 		
-		
+		vo.setProfessorId((int) session.getAttribute("id"));
+		System.out.println(vo.getProfessorId());
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
-
+		
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		System.out.println(tempcourseList);
@@ -73,15 +82,14 @@ public class TempcourseController {
 
 	// 강의계획서 등록페이지
 	@RequestMapping("/professor/tempInsert")
-	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri) {
-		pvo.setProfessorId(220002);
+	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri, HttpSession session, Authentication authentication ) {
+		
+		vo.setProfessorId((int) session.getAttribute("id"));
+		pvo.setProfessorId((int) session.getAttribute("id"));
 		pvo = service.getInfo(pvo);
-//		voo.setWeekCode("HUEN000804");
-//		vo.setProfessorId(0);
-//		vo.setCourseCode(null);
+		
 
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
-//		List<TempcourseweekVO> list2 = service.tempcourseweekList(null);
 
 		model.addAttribute("tempcourseList", list);
 //		model.addAttribute("tempcourseWList", list2);
@@ -95,7 +103,7 @@ public class TempcourseController {
 	// 강의계획서 기본정보 등록 처리(POST)
 	@PostMapping("/tempInsertProc")
 	public String tempInsertProc(TempcourseVO vo, TempcourseweekVO voo, Model model) {
-
+		
 		service.tempInsert(vo);
 
 		System.out.println(vo);
@@ -131,7 +139,7 @@ public class TempcourseController {
 	@RequestMapping("professor/getTemp/{courseCode}/updateTemp")
 	@ResponseBody
 	public int tempUpdate(@PathVariable String courseCode, TempcourseVO vo, Model model) {
-
+		
 		vo.setCourseCode(courseCode);
 		return service.updateTemp(vo);
 
@@ -270,6 +278,21 @@ public class TempcourseController {
 			return vo;
 		}
 		
+		//강의계획서 입력에서 모달창 띄워서 해당 교수의 강의계획서 리스트 출력
+		@RequestMapping("/professor/tempInsert/bringme")
+		public String bringme(Model model, TempcourseVO vo, Criteria cri, HttpSession session, Authentication authentication) {
+			
+			vo.setProfessorId((int) session.getAttribute("id"));
+			System.out.println(vo.getProfessorId());
+			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+//			int total = service.tempcourseListCount(vo, cri);
+			
+			model.addAttribute("tempcourseList", tempcourseList);
+			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+			System.out.println(tempcourseList);
+			
+			return "/professor/tempInsert";
+		}
 		
 //		//비승인 사유 등록(관리자)
 //		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})
