@@ -2,6 +2,8 @@ package com.project.portal.courseregister.service.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +27,10 @@ public class RegisterController {
 	@Autowired
 	RegisterService service;
 	
-	// 학생 정보, 과목 리스트
+	// 학생 정보, 강의 리스트, 신청한 강의 리스트
 	@RequestMapping("/student/courseRegister")
-	public String Register(Model model, RegisterVO vo) {
-		vo.setStudentId(22000001);
+	public String Register(Model model, RegisterVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
 		
@@ -46,8 +48,8 @@ public class RegisterController {
 	// 강의 신청
 	@RequestMapping("/student/registerInsert")
 	@ResponseBody
-	public int RegisterVO(Model model, RegisterVO vo) {
-		vo.setStudentId(22000001);
+	public RegisterVO registerInsert(Model model, RegisterVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		return service.registerInsert(vo);
 	}
 }

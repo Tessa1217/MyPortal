@@ -28,9 +28,10 @@ public class RegisterServiceImpl implements RegisterService {
 	}
 
 	@Override
-	public int registerInsert(RegisterVO vo) {
+	public RegisterVO registerInsert(RegisterVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.registerInsert(vo);
+		mapper.registerInsert(vo);
+		return mapper.regSuccess(vo);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.project.portal.coursepackage.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +28,8 @@ public class CoursePackageController {
 
 	// 강의 LIST 조회
 	@RequestMapping("/student/coursePackage")
-	public String coursePackage(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000001);
+	public String coursePackage(Model model, CoursePackageVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		List<CoursePackageVO> coursePackage = service.coursePackage(vo);
 		model.addAttribute("coursePackage", coursePackage);
 
@@ -44,16 +46,16 @@ public class CoursePackageController {
 	// 수강꾸러미 담기
 	@RequestMapping("/student/coursePackageInsert")
 	@ResponseBody
-	public CoursePackageVO CoursePackageInsert(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000001);
+	public CoursePackageVO CoursePackageInsert(Model model, CoursePackageVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		return service.coursePackageInsert(vo);
 	}
 
 	// 수강꾸러미 선택 삭제
 	@RequestMapping("/student/coursePackageDelete")
 	@ResponseBody
-	public int CoursePackageDelete(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000001);
+	public int CoursePackageDelete(Model model, CoursePackageVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		return service.coursePackageDelete(vo);
 
 	}
@@ -61,8 +63,8 @@ public class CoursePackageController {
 	// 수강꾸러미 전체 삭제
 	@RequestMapping("/student/coursePackageAllDelete")
 	@ResponseBody
-	public int CoursePackageAllDelete(Model model, CoursePackageVO vo) {
-		vo.setStudentId(22000001);
+	public int CoursePackageAllDelete(Model model, CoursePackageVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
 		return service.coursePackageAllDelete(vo);
 	}
 }

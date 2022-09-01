@@ -5,7 +5,7 @@
 
 	<select id="registerList"
 		resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT	       a.course_name, 
+		SELECT a.course_name, 
 		       a.course_sortation,
 		       a.course_credit, 
 		       a.course_limit,
@@ -22,15 +22,11 @@
           JOIN my_course c
             ON a.course_code = c.course_code
 		<where>
+		 AND course_year = 2022
+		 AND course_semester = 1
 			<if test="departCode != null and departCode !=''">
-				a.depart_code = #{departCode}
+				AND a.depart_code = #{departCode}
 			</if>
-			<![CDATA[
-		 AND course_year = '2022'
-			   		 ]]>
-			<![CDATA[
-		 AND course_semester = '1'
-			   		 ]]>
 		</where>
 		GROUP BY a.course_code, 
 				 a.course_name, 
@@ -97,8 +93,7 @@
                a.course_semester, 
                
                b.student_id, 
-               b.course_code, 
-       	       b.apply_date, 
+               b.course_code,  
        	       
        	       c.professor_name
 			FROM course a
@@ -111,7 +106,75 @@
 			AND a.course_year = '2022'
 	</select>
 	
-	<!-- <insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
-		INSERT INTO 
-	</insert> -->
+	<select id="regSuccess" resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT a.course_sortation, 
+			   a.course_year, 
+               a.course_name, 
+               a.course_credit,
+               a.course_semester, 
+               
+               b.student_id, 
+               b.course_code,  
+       	       
+       	       c.professor_name
+			FROM course a
+				JOIN my_course b
+					ON a.course_code = b.course_code
+				JOIN professor c
+					ON a.professor_id = c.professor_id
+		WHERE b.student_id = #{studentId} 
+			AND b.course_code = #{courseCode}
+			AND a.course_semester = '1'
+			AND a.course_year = '2022'
+	</select>
+	
+	<select id="limitCount" resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT	       a.course_name, 
+		       a.course_sortation,
+		       a.course_credit, 
+		       a.course_limit,
+		       a.course_year,
+		       a.course_semester,
+		        
+		       b.professor_name,
+               
+               c.course_code,
+               COUNT(c.student_id) studentCount
+		  FROM course a
+		  JOIN professor b
+		  	ON a.professor_id = b.professor_id
+          JOIN my_course c
+            ON a.course_code = c.course_code
+		<where>
+			<if test="departCode != null and departCode !=''">
+				a.depart_code = #{departCode}
+			</if>
+			<![CDATA[
+		 AND course_year = '2022'
+			   		 ]]>
+			<![CDATA[
+		 AND course_semester = '1'
+			   		 ]]>
+			<![CDATA[
+		 AND course_code = #{courseCode}
+			   		 ]]>
+		</where>
+	</select>
+	
+	
+	<insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
+		INSERT INTO my_course
+				(
+					course_reg_code,
+					apply_date,
+					course_code,
+					student_id
+				)
+		VALUES	(
+					REG_SEQ.nextval,
+					sysdate,
+					#{courseCode},
+					#{studentId}
+				)		
+	</insert>
 </mapper>
