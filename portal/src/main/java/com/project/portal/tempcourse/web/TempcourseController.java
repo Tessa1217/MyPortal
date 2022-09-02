@@ -1,17 +1,14 @@
 package com.project.portal.tempcourse.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.common.service.CodeService;
-import com.project.portal.common.service.CodeVO;
-import com.project.portal.login.service.User;
 import com.project.portal.professor.service.ProfessorVO;
+import com.project.portal.tempcourse.service.TempcourseListVO;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
 import com.project.portal.tempcourse.service.TempcourseweekVO;
@@ -90,8 +86,16 @@ public class TempcourseController {
 		
 
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
-
-		model.addAttribute("tempcourseList", list);
+		List<TempcourseVO> list2 = service.bringme(vo, cri);
+		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
+		List<TempcourseweekVO> list4 = service.tempcourseweekListList(vo, cri, voo); 
+		
+		model.addAttribute("tempcourseLis", list);
+		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
+		
+		
+		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기
+		model.addAttribute("tempcourseweekList", list3);  //강의계획서 주차별 정보 가져오기
 //		model.addAttribute("tempcourseWList", list2);
 		model.addAttribute("departInsert", pvo);
 
@@ -114,10 +118,12 @@ public class TempcourseController {
 
 	// 주차별 등록처리
 	@PostMapping("/tempweekInsertProc")
-	public String tempweekInsertProc(@RequestParam Map map, Model model, TempcourseweekVO voo) {
+	public String tempweekInsertProc(TempcourseListVO vo, Model model) {
 
-		int i = 1;
-
+		service.tempweekInsert(vo);
+		  
+		
+		
 		/*
 		 * for (String weekContent : voo.getWeekContent().split(",")) {
 		 * voo.setWeekNum(i); voo.setWeekContent(weekContent);
@@ -125,13 +131,22 @@ public class TempcourseController {
 		 * 
 		 * service.tempweekInsert(voo); i++; }
 		 */
-
-		for (int j = 1; j <= 15; j++) {
-			voo.setWeekNum(j);
-			voo.setWeekContent((String) map.get("weekContent" + j));
-
-			service.tempweekInsert(voo);
-		}
+		
+		
+		
+		/*
+		 * for (int j = 1; j <= 16; j++) { voo.setWeekNum(j);
+		 * voo.setWeekContent((String) map.get("weekContent" + j));
+		 * 
+		 * service.tempweekInsert(voo); }
+		 */
+		
+		
+		 
+		
+			
+		
+			
 		return "redirect:professor/tempcourseList";
 	}
 
@@ -250,9 +265,19 @@ public class TempcourseController {
 			System.out.println(vo);
 			System.out.println(vo.getSubmitYes());
 			System.out.println(vo.getBackReason());
-
+			
 			return service.okayTemp(vo);
 
+		}
+		
+		
+		
+		//관리자가 강의계획서 승인시 course 테이블로 강의 이관
+		@RequestMapping(value = {"/admin/adminTempList/okayTempCourse", "/admin/adminGetTemp/okayTempCourse"})
+		@ResponseBody
+		public int okayTempCourse(TempcourseVO vo, Model model) {
+			
+			return service.okayTempCourse(vo);
 		}
 		
 		// 관리자 강의계획서 비승인 기능
@@ -293,6 +318,7 @@ public class TempcourseController {
 			
 			return "/professor/tempInsert";
 		}
+		
 		
 //		//비승인 사유 등록(관리자)
 //		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})

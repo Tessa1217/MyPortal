@@ -38,7 +38,8 @@
 	</select>
 
 	<select id="tempcourseweekList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
-		select * from temp_course_weekly 
+		
+		select * from temp_course_weekly
 	</select>
 
 	<select id="tempcourseListCount" resultType="int">
@@ -128,14 +129,18 @@
 		week_num,
 		week_content,
 		week_code,
-		course_code
+		course_code,
+		week_start_date,
+		week_end_date
 		)
 		values
 		( 
 		#{weekNum},
 		#{weekContent},
 		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
-		#{courseCode}
+		#{courseCode},
+		#{weekStartDate},
+		#{weekEndDate}
 		)
 		
 		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
@@ -205,8 +210,7 @@
 		 update temp_course
 		set back_reason = #{backReason}, okay_yes = #{okayYes}, submit_yes=#{submitYes}
 		where course_code = #{courseCode}
-		
-		<!-- merge into temp_course using course on (temp_course.okay_yes = 'A00') when matched --> 
+	
 		
 	</update> 
 	
@@ -229,7 +233,7 @@
 		 <!-- where course_code =#{courseCode} -->
 		
 		
-		where submit_yes = 'SUB'
+		where submit_yes = 'SUB' and okay_yes = 'A01'
 		<if test="cri.keyword != null and cri.keyword != ''">
 			and ${cri.type} = ${cri.keyword}
 			 
@@ -259,7 +263,7 @@
 		       find_code(okay_yes) as okay_yes_name
 		from temp_course t
 		 <!-- where course_code =#{courseCode} -->
-		where professor_id = #{vo.professorId}
+		where professor_id = #{vo.professorId} and okay_yes = 'A00'
 		
 		<if test="cri.keyword != null and cri.keyword != ''">
 			and ${cri.type} = ${cri.keyword}
@@ -267,5 +271,34 @@
 		</if>
 		order by course_code desc
 	
+	</select>
+	
+	<insert id="okayTempCourse" parameterType="TempcourseVO">
+	 insert into course select
+	 	course_code,
+		course_year,
+		course_semester,
+		course_name,
+		course_sortation,
+		course_credit,
+		course_limit,
+		professor_id,
+		course_summary,
+		textbook_reference,
+		course_notes,
+		report_assigned_score,
+		midterm_assigned_score,
+		final_assigned_score,
+		att_assigned_score,
+		survey_code,
+		depart_code
+		
+		
+	  from temp_course where course_code = #{courseCode}
+	
+	</insert>
+	
+	<select id="tempcourseweekListList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
+		select * from semester_week
 	</select>
 </mapper>

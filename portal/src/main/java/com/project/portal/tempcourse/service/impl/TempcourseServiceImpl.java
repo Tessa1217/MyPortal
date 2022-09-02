@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorVO;
+import com.project.portal.tempcourse.service.TempcourseListVO;
 import com.project.portal.tempcourse.service.TempcourseMapper;
 import com.project.portal.tempcourse.service.TempcourseService;
 import com.project.portal.tempcourse.service.TempcourseVO;
@@ -55,9 +57,13 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
-	public void tempweekInsert(TempcourseweekVO voo) {
+	public void tempweekInsert(TempcourseListVO vo) {
 		// TODO Auto-generated method stub
-		mapper.tempweekInsert(voo);
+		for(TempcourseweekVO voo: vo.getList()) {
+			voo.setCourseCode(vo.getCourseCode());
+			mapper.tempweekInsert(voo);
+		}
+		
 	}
 
 
@@ -126,9 +132,12 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
+	@Transactional
 	public int okayTemp(TempcourseVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.okayTemp(vo);
+		int update= mapper.okayTemp(vo);
+		mapper.okayTempCourse(vo);
+		return update;
 	}
 
 
@@ -202,6 +211,38 @@ public class TempcourseServiceImpl implements TempcourseService{
 		// TODO Auto-generated method stub
 		return mapper.bringme(vo, cri);
 	}
+
+
+
+
+
+
+
+	@Override
+	public int okayTempCourse(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.okayTempCourse(vo);
+	}
+
+
+
+
+
+
+
+	@Override
+	public List<TempcourseweekVO> tempcourseweekListList(TempcourseVO vo, Criteria cri, TempcourseweekVO voo) {
+		// TODO Auto-generated method stub
+		return mapper.tempcourseweekListList(vo, cri);
+	}
+
+
+
+
+
+
+
+	
 
 
 
