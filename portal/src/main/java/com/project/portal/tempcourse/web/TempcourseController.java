@@ -70,6 +70,7 @@ public class TempcourseController {
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
 		
+		
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		System.out.println(tempcourseList);
