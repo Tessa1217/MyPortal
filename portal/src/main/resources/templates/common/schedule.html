@@ -6,34 +6,74 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+.clear {
+	display: block;
+	float: none;
+	clear: both;
+	height: 0;
+	width: 100%;
+	font-size: 0 !important;
+	line-height: 0 !important;
+	overflow: hidden;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 
+.red {
+	color: red;
+}
+</style>
 
 <body>
-<th:block layout:fragment="scheduleContent">
-<div id="main">
-	<h1>스케줄표</h1>
-	
-	<div id='calendar' style="width:400px"></div>
-	<table class="table">
-		<tr>
-			
-		</tr>
-	</table>
+	<th:block layout:fragment="scheduleContent">
+		<div id="main">
+			<div>
+				<h2>학사 일정</h2>
+			</div>
+			<div class="card">
+				<div class="row">
+					<div class="col-4">
+						<div id='calendar'></div>
+					</div>
+					<div class="col-8">
+					<br>
+					<form action="">
+						<button class="btn btn-primary" style="margin-right: 15px">등록</button>
+						<button class="btn btn-primary">일괄등록</button>
+						<button class="btn btn-primary"> < </button>
+						<button class="btn btn-primary"> 해당 년도 </button>
+						<button class="btn btn-primary"> > </button>
+					</form>
+					<br>
+					<dl th:each="i : ${#numbers.sequence(1, 12)}">
+						<dt th:text="|${i}월|"></dt>
+						<dd>
+							<th:block th:each="list : ${scheduleList}">
+							<ul th:if="${list.month == i}">
+								<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|" ></li>
+							</ul>
+							</th:block>
+						</dd>
+						<hr>
+					 </dl>
+					</div>
+				</div>
 
 
-<script th:inline="javascript">
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-        calendar.setOption('contentHeight', 450);
-      });
-
-</script>
-</div>
-</th:block>
+				<script th:inline="javascript">
+					document.addEventListener('DOMContentLoaded', function() {
+						var calendarEl = document.getElementById('calendar');
+						var calendar = new FullCalendar.Calendar(calendarEl, {
+							initialView : 'dayGridMonth'
+						});
+						calendar.render();
+						calendar.setOption('contentHeight', 450);
+					});
+				</script>
+			</div>
+		</div>
+	</th:block>
 </body>
 </html>
