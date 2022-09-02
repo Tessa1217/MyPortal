@@ -12,12 +12,12 @@
 
 .scroll {
 	overflow: scroll;
-	height: 600xp;
+	height: 600px;
 }
 
-.card {
+.name {
 	
-	padding: 0%;
+	height : 110vh;
 	
 }
 .hidden {
@@ -43,12 +43,12 @@
 							<input id="tab2" type="radio" name="tabs"> <label for="tab2"
 							class="tabmenu">주차 계획</label>
 					</div>
-					<div class="card paging">
+					<div class="card paging name">
 						<div class="card-header">
 							<h3>강의 계획서</h3>
 							<button type="button" class="btn btn-secondary bringme" data-toggle="modal">강의계획서 불러오기</button>
 						</div>
-						<div class="card-body">
+						<div class="card-body name">
 							<form id="tempInfoForm" class="form form-horizontal"
 								th:action="@{/tempInsertProc}" method="POST">
 								<div class="form-body">
@@ -122,7 +122,7 @@
 												name="attAssignedScore" min='0' max='100'>
 										</div>
 										</div>
-										<div class="col-md-6 col-12">
+										<div class="col-md-4 col-8">
 										<div class="col-md-4">
 											<label>중간고사 배점</label>
 										</div>
@@ -169,7 +169,7 @@
 											<input type="text" class="form-control" name="courseNotes">
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-danger" onclick="history.go(1)" >등록</button>
+											<a href="#tab2"><button type="submit" class="btn btn-danger" >등록</button></a>
 											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
@@ -184,10 +184,10 @@
 					</div>
 					
 					<div class="row">
-					<div class="card paging">
+					<div class="card paging name">
 						<div class="card-body">
 							<form th:action="@{/tempweekInsertProc}" method="POST">
-							<h2>주차별 강의</h2>
+							<h2>주차별 강의 내용</h2>
 							 	<select name="courseCode">
 							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
@@ -231,7 +231,7 @@
 									</table>
 								</div> 
 								<div class="col-sm-12" align="right">
-									<button type="submit" class="btn btn-danger">등록</button>
+									<button type="submit" class="btn btn-danger" onclick="message()">등록</button>
 									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
@@ -373,6 +373,14 @@
 				})
 			}
 			
+			//등록버튼시 알람
+			function message(){
+				if(confirm("입력한 내용을 등록하시겠습니까?")){
+					alert("등록되었습니다")
+					frm.submit()
+				}
+				
+			}
 	
 			/* //주차 추가
 			let row = 1;

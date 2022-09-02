@@ -83,7 +83,8 @@
 			on c.college_code = d.college_code where d.depart_code =
 			#{departCode}
 		</selectKey>
-		insert into temp_course(
+		
+		 insert into temp_course(
 		course_name,
 		course_code,
 		course_sortation,
@@ -100,7 +101,66 @@
 		course_year,
 		course_semester,
 		professor_id
-
+		
+		)
+		values(
+		#{courseName},
+		#{courseCode},
+		#{courseSortation},
+		#{courseCredit},
+		#{reportAssignedScore},
+		#{attAssignedScore},
+		#{midtermAssignedScore},
+		#{finalAssignedScore},
+		#{courseLimit},
+		#{textbookReference},
+		#{courseSummary},
+		#{courseNotes},
+		#{departCode},
+		#{courseYear},
+		#{courseSemester},
+		#{professorId}
+		) 
+		
+		
+		<!-- merge into temp_course t using dual on (
+		
+		t.course_name == null
+		t.course_code == null
+		t.course_sortation == null
+		t.course_credit == null
+		t.report_assigned_score == null
+		t.att_assigned_score == null
+		t.midterm_assigned_score == null
+		t.final_assigned_score == null
+		t.course_limit == null
+		t.textbook_reference == null
+		t.course_summary == null
+		t.course_notes == null
+		t.depart_code == null
+		t.course_year == null
+		t.course_semester == null
+		t.professor_id == null
+		
+		) when matched then 
+		insert (
+		course_name,
+		course_code,
+		course_sortation,
+		course_credit,
+		report_assigned_score,
+		att_assigned_score,
+		midterm_assigned_score,
+		final_assigned_score,
+		course_limit,
+		textbook_reference,
+		course_summary,
+		course_notes,
+		depart_code,
+		course_year,
+		course_semester,
+		professor_id
+		
 		)
 		values(
 		#{courseName},
@@ -120,12 +180,27 @@
 		#{courseSemester},
 		#{professorId}
 		)
-
+		when not matched then 
+		update  
+		   set  course_name = #{courseName}, 
+				course_year = #{courseYear}, 
+				course_sortation = #{courseSortation},
+				course_semester = #{courseSemester}, 
+				course_credit = #{courseCredit},
+				report_assigned_score = #{reportAssignedScore}, 
+				midterm_assigned_score= #{midtermAssignedScore},
+				final_assigned_score = #{finalAssignedScore}, 
+				course_limit = #{courseLimit},
+				textbook_reference = #{textbookReference}, 
+				course_summary = #{courseSummary},
+				course_notes = #{courseNotes}
+		 where  course_code = #{courseCode} -->
 	</insert>
 
 	<insert id="tempweekInsert">
 
-		 insert into temp_course_weekly(
+
+  insert into temp_course_weekly(
 		week_num,
 		week_content,
 		week_code,
@@ -141,7 +216,40 @@
 		#{courseCode},
 		#{weekStartDate},
 		#{weekEndDate}
+		) 
+
+
+		<!-- merge into temp_course_weekly w using dual on (
+		
+		w.week_num == null
+		w.week_content == null
+		w.week_code == null
+		w.course_code == null
+		w.week_start_date == null
+		w.week_end_date == null
+		
+		) when matched then
+
+		 insert into (
+		week_num,
+		week_content,
+		week_code,
+		course_code,
+		week_start_date,
+		week_end_date
 		)
+		values
+		( 
+		#{weekNum},
+		#{weekContent},
+		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
+		#{courseCode},
+		#{weekStartDate},
+		#{weekEndDate}
+		) when not matched then
+		update 
+		set week_content = #{weekContent}
+		where week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') and course_code = #{courseCode} -->
 		
 		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
 		into temp_course_weekly
