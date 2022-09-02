@@ -1,132 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper	namespace="com.project.portal.report.service.StudentReportMapper">
+<mapper
+	namespace="com.project.portal.report.service.StudentReportMapper">
 	<resultMap id="reportMap" type="ReportVO">
-		<id column="report_code" property="reportCode"/>
-		<result column="week_code" property="weekCode"/>
-		<result column="report_reg_date" property="reportRegDate"/>
-		<result column="report_start_date" property="reportStartDate"/>
-		<result column="report_end_date" property="reportEndDate"/>
-		<result column="report_title" property="reportTitle"/>
-		<result column="report_content" property="reportContent"/>
-		<result column="report_assigned_score" property="reportAssignedScore"/>
-		<result column="report_file_code" property="reportFileCode"/>
-		<result column="course_code" property="courseCode"/>
-		<result column="week_num" property="weekNum"/>
-		<result column="report_submit_check" property="reportSubmitCheck"/>
+		<id column="report_code" property="reportCode" />
+		<result column="week_code" property="weekCode" />
+		<result column="report_reg_date" property="reportRegDate" />
+		<result column="report_start_date" property="reportStartDate" />
+		<result column="report_end_date" property="reportEndDate" />
+		<result column="report_title" property="reportTitle" />
+		<result column="report_content" property="reportContent" />
+		<result column="report_assigned_score"
+			property="reportAssignedScore" />
+		<result column="report_file_code" property="reportFileCode" />
+		<result column="course_code" property="courseCode" />
+		<result column="week_num" property="weekNum" />
+		<result column="report_submission_option"
+			property="reportSubmissionOption" />
+			<result column="report_submission_code" property="reportSubmissionCode"/>
+			<result column="report_score_objection_approval_option" property="reportScoreObjectionApprovalOption"/>
 		<association property="reportFile" javaType="ReportFileVO">
-			<id column="report_file_code" property="reportFileCode"/>
-			<result column="report_file_name" property="reportFileName"/>
-			<result column="report_file_stored_name" property="reportFileStoredName"/>
-			<result column="report_file_extension" property="reportFileExtension"/>
-			<result column="report_file_path" property="reportFilePath"/>
-			<result column="user_code" property="userCode"/>
-			<result column="submit_id" property="submitId"/>
+			<id column="report_file_code" property="reportFileCode" />
+			<result column="report_file_name" property="reportFileName" />
+			<result column="report_file_stored_name"
+				property="reportFileStoredName" />
+			<result column="report_file_extension"
+				property="reportFileExtension" />
+			<result column="report_file_path" property="reportFilePath" />
+			<result column="user_code" property="userCode" />
+			<result column="submit_id" property="submitId" />
 		</association>
 	</resultMap>
+
+
+	<select id="getReportList" resultMap="reportMap">
 	
 	
-	<select id="getReportList" resultMap = "reportMap">
-		SELECT 
-			i.report_code,
-			i.week_code,
-			i.report_reg_date,
-			i.report_start_date,
-			i.report_end_date,
-			i.report_title,
-			i.report_content,
-			i.report_assigned_score,
-			i.course_code,
-			i.report_file_code,
-			f.report_file_code,
-			f.report_file_name,
-			f.report_file_path,
-			w.week_Num
-			FROM report_info i JOIN report_file f
-			ON i.report_file_code = f.report_file_code
-			JOIN course_weekly w
-			ON w.week_code = i.week_code
-			<where>
-				<if test="courseInfo != null and courseInfo != ''">
-					AND i.course_code = #{courseInfo.courseCode}
-				</if>
-				<if test="report != null and report != ''">
-					AND i.report_code = #{report.reportCode}
-				</if>
-			</where>
-			ORDER BY i.week_code DESC
+		select r.report_code,
+		r.week_code,
+		r.report_title,
+		r.report_start_date,
+		r.report_end_date,
+		s.student_id,
+		s.report_score,
+		s.report_submission_option,
+		r.report_file_code,
+        s.report_submission_code,
+        f.report_file_name,
+        f.report_file_path,
+        o.report_score_objection_approval_option
+ 
+		from report_info r join report_submission s
+		on r.report_code = s.report_code
+            join report_file f
+        on f.report_file_code = r.report_file_code
+           left outer join report_score_objection o
+               on o.report_submission_code = s.report_submission_code
+
+		<where>
+			<if test="courseInfo != null and courseInfo != ''">
+				AND s.student_id = #{courseInfo.studentId}
+			</if>
+			<if test="courseInfo != null and courseInfo != ''">
+				AND r.course_code = #{courseInfo.courseCode}
+			</if>
+			<if test="report != null and report != ''">
+				AND r.report_code = #{report.reportCode}
+			</if>
+		</where>
+		
+		        ORDER BY 2 DESC
 	</select>
-	
+
 	<select id="getReportDetail" resultType="ReportVO">
-		SELECT 
+		SELECT
 		I.REPORT_TITLE,
 		W.WEEK_NUM,
 		I.REPORT_START_DATE,
 		I.REPORT_END_DATE,
 		I.REPORT_CONTENT,
 		I.REPORT_FILE_CODE,
-		I.REPORT_CODE,
-		nvl((select 'O' FROM report_submission s WHERE i.report_code = s.report_code) , 'X') report_submit_check
-		FROM 
-            REPORT_INFO I JOIN COURSE_WEEKLY W
-	    ON I.WEEK_CODE = W.WEEK_CODE
+		I.REPORT_CODE
+		FROM
+		REPORT_INFO I JOIN COURSE_WEEKLY W
+		ON I.WEEK_CODE = W.WEEK_CODE
 		WHERE REPORT_CODE = #{reportCode}
 	</select>
-	
-	
+
+
 	<select id="getFile" resultType="ReportFileVO">
-	
+
 	</select>
-	
+
 	<insert id="uploadFile" parameterType="ReportFileVO">
-			INSERT INTO report_file (
-														report_file_code,
-														report_file_name,
-														report_file_stored_name,
-														report_file_extension,
-														report_file_path,
-														user_code,
-														submit_id
-														)
-														VALUES (
-																		'RPF'||LPAD(TO_CHAR(report_file_seq.NEXTVAL), 17, '0'),
-																		#{reportFileName},
-																		#{reportFileStoredName},
-																		#{reportFileExtension},
-																		#{reportFilePath},
-																		#{userCode},
-																		#{submitId}
-																		)
-																		
-			<selectKey keyProperty="reportFileCode" resultType="String" order="AFTER">
-				SELECT MAX(report_file_code)
-					FROM report_file
-			</selectKey> 
+		INSERT INTO report_file (
+		report_file_code,
+		report_file_name,
+		report_file_stored_name,
+		report_file_extension,
+		report_file_path,
+		user_code,
+		submit_id
+		)
+		VALUES (
+		'RPF'||LPAD(TO_CHAR(report_file_seq.NEXTVAL), 17, '0'),
+		#{reportFileName},
+		#{reportFileStoredName},
+		#{reportFileExtension},
+		#{reportFilePath},
+		#{userCode},
+		#{submitId}
+		)
+
+		<selectKey keyProperty="reportFileCode" resultType="String"
+			order="AFTER">
+			SELECT MAX(report_file_code)
+			FROM report_file
+		</selectKey>
 	</insert>
-	
-	
-	<insert id="insertReportSubmission" parameterType="ReportSubmissionVO">
-				INSERT INTO report_submission ( report_submission_code,
-												report_code,
-												report_submission_date,
-												report_score,
-												student_id,
-												report_submission_option,
-												report_file_code
-											  )
-									VALUES (
-													'RSUB'||LPAD(TO_CHAR(REPORT_SUB_SEQ.NEXTVAL),  6 , '0'),
-													#{reportCode},
-													SYSDATE,
-													null,
-													#{studentId},
-													'SUB',
-													#{reportFileCode}	
-											)
-	</insert>
-	
+
+
+	<update id="insertReportSubmission"
+		parameterType="ReportSubmissionVO">
+		UPDATE REPORT_SUBMISSION
+		SET REPORT_SUBMISSION_OPTION = 'SUB',
+		REPORT_SUBMISSION_DATE = SYSDATE,
+		REPORT_FILE_CODE = #{reportFileCode}
+		WHERE STUDENT_ID = #{studentId} and report_code = #{reportCode}
+	</update>
+
 	<select id="selectDetail" resultType="ReportSubmissionVO">
-		 select * from report_submission
-        where student_id = #{studentId}   and REPORT_CODE = #{reportCode}
+		select * from report_submission
+		where student_id = #{studentId} and REPORT_CODE = #{reportCode}
+		<if test="reportSubmissionOption != 'SUB'">
+			and report_submission_option = 'SUB'
+		</if>
 	</select>
+
+
+	<select id="selectStuObjection" resultType="ReportObjectionVO">
+		SELECT
+		S.STUDENT_GRADE,
+		S.STUDENT_ID,
+		P.STUDENT_NAME
+		FROM STUDENT_STUDY_INFO S JOIN STUDENT_PRI_INFO P
+		ON S.STUDENT_ID = P.STUDENT_ID
+		WHERE S.STUDENT_ID = #{value}
+	</select>
+
+	<select id="selectStuReportObjection"
+		resultType="ReportObjectionVO">
+		select c.week_num,
+		s.report_score,
+		s.report_submission_code
+		from report_info i join report_submission s
+		ON s.report_code = i.report_code
+		join course_weekly c
+		ON c.week_code = i.week_code
+		where i.report_code = #{reportCode} and s.student_id = #{studentId}
+	</select>
+
+	<insert id="insertReportObjection"
+		parameterType="ReportObjectionVO">
+		INSERT INTO
+		  REPORT_SCORE_OBJECTION
+		( student_id,
+		report_submission_code,
+		report_score_objection_application_reason,
+		REPORT_SCORE_OBJECTION_APPROVAL_OPTION,
+		report_score_objection_rejection_reason)
+		values (
+		#{studentId},
+		#{reportSubmissionCode},
+		#{reportScoreObjectionApplicationReason},
+		'A01',
+		null)
+	</insert>
+
 </mapper>

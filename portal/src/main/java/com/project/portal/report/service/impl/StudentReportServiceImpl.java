@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportObjectionVO;
 import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.report.service.StudentReportMapper;
@@ -51,9 +52,27 @@ public class StudentReportServiceImpl implements StudentReportService {
 	}
 
 	@Override
-	public ReportSubmissionVO selectDetail(String reportCode) {
+	public ReportSubmissionVO selectDetail(ReportVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.selectDetail(reportCode);
+		return mapper.selectDetail(vo);
+	}
+
+	@Override
+	public ReportObjectionVO selectStuObjection(int studentId) {
+		// TODO Auto-generated method stub
+		return mapper.selectStuObjection(studentId);
+	}
+
+	@Override
+	public ReportObjectionVO selectStuReportObjection(ReportVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectStuReportObjection(vo);
+	}
+
+	@Override
+	public void insertReportObjection(ReportObjectionVO vo) {
+		// TODO Auto-generated method stub
+		mapper.insertReportObjection(vo);
 	}
 
 

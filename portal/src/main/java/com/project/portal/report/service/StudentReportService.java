@@ -21,6 +21,13 @@ public interface StudentReportService {
 	void uploadFile(ReportFileVO vo);
 	
 	// 과제 제출 상세 조회
-	public ReportSubmissionVO selectDetail(String reportCode); 
+	public ReportSubmissionVO selectDetail(ReportVO vo); 
+	// 이의 신청 학생 정보 조회
+	public ReportObjectionVO selectStuObjection(int studentId);
+	// 이의 신청 과제 정보 조회
+	public ReportObjectionVO selectStuReportObjection(ReportVO vo);
+	// 이의 신청 등록
+	public void insertReportObjection(ReportObjectionVO vo);
+
 
 }

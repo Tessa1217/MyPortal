@@ -35,6 +35,7 @@
 									th:text="${#dates.format(reportList.reportStartDate, 'yyyy-MM-dd')}"></td>
 								<td
 									th:text="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')}"></td>
+								<!-- 과제 마감일이 지나지않은경우 제출버튼표시  -->
 								<td
 									th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} >
 						 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
@@ -42,47 +43,59 @@
 										class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
 										th:data-reportcode="${reportList.reportCode}">제출</button>
 								</td>
-								<td
+								<!-- 과제 마감일이 지난경우 제출된 경우 O 아니면 X -->
+								<th:block
 									th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
-									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">[[${reportList.reportSubmitCheck}]]
-								</td>
+									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<td th:if="${reportList.reportSubmissionOption == 'UNSUB'}">X</td>
+									<td th:if="${reportList.reportSubmissionOption == 'SUB'}">O</td>
+								</th:block>
 
-									<td><a th:href="@{/report/download/{reportFileCode}(reportFileCode=${reportList.reportFileCode})}"
+								<td><a
+									th:href="@{/report/download/{reportFileCode}(reportFileCode=${reportList.reportFileCode})}"
 									th:text="${reportList.reportFile.reportFileName}"
 									th:download="${reportList.reportFile.reportFileName}"></a></td>
-									
-								
-						<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
-						<button class="saveBtn btn btn-primary me-1 mb-1 reportObjection" th:data-reportcode="${reportList.reportCode}">이의신청</button></td>
-						<td th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} ">
-						
-						</td>
-						<td>-</td>
-					</tr>
-				
-				
-				</table>
-			
-			</div>
+
+								<!-- 이의 신청 -->
+								<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<button
+										class="saveBtn btn btn-primary me-1 mb-1 reportObjection"
+										th:disabled="${reportList.reportScoreObjectionApprovalOption == 'A01' || reportList.reportScoreObjectionApprovalOption == 'A00'
+										|| reportList.reportSubmissionOption == 'UNSUB'}"
+										th:data-reportcode="${reportList.reportCode}">이의신청</button>
+								</td>
+
+								<th:block>
+									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A01'}">심사대기</td>
+									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A00'}">승인</td>
+								</th:block>
+
+							</tr>
+
+
+						</table>
+
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<script th:inline="javascript">
-		// 제출 페이지 이동 버튼
-		$('.reportSubmitPage').on("click", function() {
-			let reportCode = ($(this).data("reportcode"));
-			console.log(reportCode)
-			location.href = "/student/eclass/reportSubmit/" + reportCode
 
-		})
-		
-		//이의 신청 페이지 이동 버튼
-		$('.reportObjection').on("click", function() {
-			let reportCode = ($(this).data("reportcode"))
-			location.href = "/student/eclass/reportObjection/" + reportCode
-		})
-	</script>
+		<script th:inline="javascript">
+			// 제출 페이지 이동 버튼
+			$('.reportSubmitPage').on("click", function() {
+				let reportCode = ($(this).data("reportcode"));
+				console.log(reportCode)
+				location.href = "/student/eclass/reportSubmit/" + reportCode
+
+			})
+
+			//이의 신청 페이지 이동 버튼
+			$('.reportObjection').on("click", function() {
+				let reportcode = ($(this).data("reportcode"));
+				location.href = "/student/eclass/reportObjection/" + reportcode
+
+			})
+		</script>
 	</th:block>
 </body>
 </html>

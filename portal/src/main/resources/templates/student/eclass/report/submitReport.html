@@ -48,8 +48,8 @@
 
 								<tr>
 									<td>제출한 첨부파일</td>
-									<td th:if="${reportFile.isEmpty()}">제출파일없음</td>
-									<td th:unless="${reportFile.isEmpty()}" th:text="${reportFile.reportFileName}"></td>
+									<!-- <td th:if="${reportFile.isEmpty()}">제출파일없음</td>
+									<td th:unless="${reportFile.isEmpty()}" th:text="${reportFile.reportFileName}"></td> -->
 								</tr>
 
 								<tr>
@@ -62,10 +62,10 @@
 
 							<button type="submit"
 								class="saveBtn btn btn-primary me-1 mb-1 submitReport"
-								th:if="${reportDetail.reportSubmitCheck} == 'X'">제출하기</button>
+								>제출하기</button>
 							<button type="button"
 								class="saveBtn btn btn-primary me-1 mb-1 modifyReport"
-								th:if="${reportDetail.reportSubmitCheck} == 'O'">수정하기</button>
+								>수정하기</button>
 							<button type="button"
 								class="saveBtn btn btn-primary me-1 mb-1 submitClose">취소</button>
 						</form>

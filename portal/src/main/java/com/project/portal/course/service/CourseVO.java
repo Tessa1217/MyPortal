@@ -23,6 +23,7 @@ public class CourseVO extends Criteria{
 	private double surveyAvg; // 수강평 평점 평균
 	private int reviewSubCount; // 수강평 작성 인원수
 	private int countAllStudent; // 수강생 인원수
+	private int studentId;
 	
 	private String courseSummary;
 	private String textbookReference;

@@ -10,41 +10,65 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2>과제 점수 이의 신청</h2>
+				<h2>과제 점수 이의 신청서</h2>
 				<hr>
 				<div class="card">
 					<div class="card-body"></div>
-					
+					<form th:action="@{/student/eclass/reportObjectionSubmit}" method="POST">
+					<input type="hidden" name="reportSubmissionCode"
+					th:value="${stureportobjectionscore.reportSubmissionCode}">
 					<table class="table">
 						<tr>
-							<td>과제제목</td>
-							<td></td>
+							<td>과목명</td>
+							<td th:text="${courseInfo.courseName}"></td>
+							<td>과제주차</td>
+							<td th:text="${stureportobjectionscore.weekNum}"></td>
 						</tr>
 					
 						<tr>
+							<td>학년</td>
+							<td th:text="${stuobjection.studentGrade}"></td>
+							<td>학번</td>
+							<td th:text="${stuobjection.studentId}"></td>
+						</tr>
+						
+						<tr>
 							<td>작성자</td>
-							<td></td>
+							<td th:text="${stuobjection.studentName}"></td>
+							<td>과제 성적</td>
+							<td th:text="${stureportobjectionscore.reportScore}"></td>
+							
 						</tr>
 						
 						<tr>
-							<td>주차</td>
-							<td></td>
-						</tr>
-						
-						<tr>
-							<td>이의신청사유</td>
-							<td></td>
+							<td>이의 신청 사유</td>
+							<td><textarea name="reportScoreObjectionApplicationReason"></textarea></td>
 						</tr>
 						
 						
 					</table>
+					<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
+					<button type="button" class="saveBtn btn btn-primary me-1 mb-1 List">목록</button>
+					</form>
 					
 				</div>
 
 			</div>
 
 		</div>
+		
+		
+		
+		<script th:inline="javascript">
+			// 취소 버튼 (과제 리스트페이지로 이동)
+			$('.List').on("click", function() {
+				let reportCode = ($(this).data("reportcode"));
+				console.log(reportCode)
+				location.href = "/student/eclass/reportList/"
 
-	</th:block>
+			})
+		</script>
+
+</th:block>
 </body>
 </html>

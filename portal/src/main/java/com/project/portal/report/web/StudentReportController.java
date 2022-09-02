@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportObjectionVO;
 import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.report.service.impl.StudentReportServiceImpl;
@@ -47,8 +48,9 @@ public class StudentReportController {
 
 	// 과제 리스트
 	@RequestMapping("/student/eclass/reportList")
-	public String getReportList(Model model, CourseVO vo) {
+	public String getReportList(Model model, CourseVO vo, HttpSession session) {
 		vo = (CourseVO) model.getAttribute("courseInfo");
+		vo.setStudentId((int) session.getAttribute("id"));
 		List<ReportVO> reportList = service.getReportList(vo, null);
 		model.addAttribute("reportList", reportList);
 		return "student/eclass/report/reportList";
@@ -60,8 +62,9 @@ public class StudentReportController {
 			ReportSubmissionVO rsubvo) {
 		int studentId = (int)session.getAttribute("id");
 		vo.setReportCode(reportCode);
+		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
-		rsubvo = service.selectDetail(reportCode);
+		rsubvo = service.selectDetail(vo);
 		
 		
 		
@@ -73,9 +76,28 @@ public class StudentReportController {
 
 	// 과제 이의 신청 페이지 이동
 	@RequestMapping("/student/eclass/reportObjection/{reportCode}")
-	public String reportObjection(@PathVariable String reportCode, Model model) {
-
+	public String reportObjection(@PathVariable String reportCode, Model model, HttpSession session, ReportVO vo, CourseVO cvo) {
+		int studentId = (int) session.getAttribute("id");
+		String courseCode = (String) session.getAttribute("courseCode");
+		vo.setStudentId(studentId);
+		vo.setReportCode(reportCode);
+		cvo = (CourseVO) model.getAttribute("courseInfo");
+		System.out.println(cvo);
+		model.addAttribute("stuobjection" , service.selectStuObjection(studentId));
+		model.addAttribute("stureportobjectionscore", service.selectStuReportObjection(vo));
+		
 		return "student/eclass/report/reportObjection";
+	}
+	
+	// 과제 이의 신청 처리
+	@RequestMapping("/student/eclass/reportObjectionSubmit")
+	public String insertReportObjection(ReportObjectionVO vo, HttpSession session) {
+		int studentId = (int) session.getAttribute("id");
+		vo.setStudentId(studentId);
+		System.out.println(vo);
+		service.insertReportObjection(vo);
+		
+		return "redirect:/student/eclass/reportList";
 	}
 
 	// 과제 제출 처리
