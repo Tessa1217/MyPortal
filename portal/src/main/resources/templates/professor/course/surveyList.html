@@ -8,11 +8,7 @@
 <title>Insert title here</title>
 </head>
 <style>
-@media (min-width: 1200px) {
-   .modal-xlg {
-      width: 90%;
-   }
-}
+
 </style>
 
 <body>
@@ -59,7 +55,7 @@
 
 			</div>
 			<!-- 모달 1번 영역 -->
-			<div class="modal fade myModal modal-xlg" id="exampleModalToggle"
+			<div class="modal fade myModal" id="exampleModalToggle"
 				aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
 				tabindex="-1">
 				<div class="modal-dialog modal-xl modal-dialog-centered">
@@ -93,6 +89,7 @@
 				</div>
 			</div>
 			<!-- 모달 1번 영역 -->
+			
 			<!-- 모달 2번 영역 -->
 			<div class="modal fade myModal2" id="exampleModalToggle2"
 				aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
@@ -119,30 +116,32 @@
 		
 			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 			<script th:inline="javascript">
+			
+				google.charts.load('current', {
+					'packages' : [ 'bar' ]
+				});
+				
 				$(function() {
 					surveyReview();
 					rollbackModal();
-					google.charts.load('current', {
-						'packages' : [ 'bar' ]
-					});
-					google.charts.setOnLoadCallback(drawTotalAvgChart);
-					google.charts.setOnLoadCallback(drawQuestionAvgChart);
+					chartDraw();
 				});
 
-
+				var responseData;
+				
 				// 차트 그리는 함수
 				function drawTotalAvgChart(elem1, elem2) {
 					var data = google.visualization.arrayToDataTable([
 							['강의', '내 강의', '전체 강의'], 
-							['내 강의', elem1, elem2]
+							['평균평점', elem1, elem2]
 						])
 					var options = {
 						chart : {
 							title : '평균 평점 비교',
-							subtitle : '현재 강의 전체 평균 vs. 전체 강의 전체 평균',
+							subtitle : '현재 강의 전체 평균 vs. 전체 강의 전체 평균'
 						}
 					};
-					var chart = new google.charts.Bar(document.getElementById('columnchart'));
+					chart = new google.charts.Bar(document.getElementById('columnchart'));
 					chart.draw(data, google.charts.Bar.convertOptions(options));
 				}
 				
@@ -163,10 +162,11 @@
 
 					var options = {
 						chart : {
-							title : '문항별 평점 비교'
+							title : '문항별 평점 비교',
+							subtitle : '현재 강의 항목별 평균 vs. 전체 강의 항목별 평균',
 						}
 					}
-					var chart = new google.charts.Bar(document.getElementById("questionchart"));
+					chart = new google.charts.Bar(document.getElementById("questionchart"));
 					chart.draw(data, google.charts.Bar.convertOptions(options));
 				}
 
@@ -180,204 +180,77 @@
 					return elem;
 				}
 
-				// 상세보기 모달 생성시 문항, 평균평점 테이블 생성.
+				// 상세보기 첫번째 모달 생성시 에이젝스로 값 불러오고 문항, 평균평점 테이블 생성.
 				function surveyReview() {
-					$(document)
-							.on(
-									'show.bs.modal',
-									'.myModal',
-									'#gofirst',
+					$(document).on(	'show.bs.modal', '.myModal',
 									function(e) {
 										// 버튼위치 강의 코드
-										var courseCode = $(e.relatedTarget)
-												.parent().prev().prev().prev()
-												.prev().text();
+										tds= $(e.relatedTarget).closest("tr").find("td");
+										
+										var year = tds.eq(0).text()
+										var seme =  tds.eq(1).text()
+										var courseName = tds.eq(2).text();
+										var courseCode = tds.eq(3).text();
 
-										//	alert(courseCode)
 										// 버튼위치 강의 년도
-										var courseYear = $(e.relatedTarget)
-												.parent().prev().prev().prev()
-												.prev().prev().prev().prev()
-												.text();
-
-										courseYear += '년도 ';
-										courseYear += $(e.relatedTarget)
-												.parent().prev().prev().prev()
-												.prev().prev().prev().text();
-
-										courseYear += '학기';
-
-										$(".ModalYear").text(courseYear);
-										// alert(courseYear)
-										// 버튼위치 강의 학기
-										var courseSemester = $(e.relatedTarget)
-												.parent().prev().prev().prev()
-												.prev().prev().prev().text();
+										$(".ModalYear").text(`${year} 년도  ${seme} 학기`);										
 										// 버튼위치 강의 이름
-										$(".ModalCourseName").text(
-												$(e.relatedTarget).parent()
-														.prev().prev().prev()
-														.prev().prev().text());
-										var courseName = $(e.relatedTarget)
-												.parent().prev().prev().prev()
-												.prev().prev().text();
-										$
-												.ajax({
+										$(".ModalCourseName").text(	tds.eq(2).text());
+										
+										$.ajax({
 													url : "/professor/surveySelect",
 													method : "post",
 													data : {
 														courseCode : courseCode,
 													},
 													success : function(res) {
+														responseData = res; // 전역변수 responseData에 res 값을 담음.
 														var graph = res.survey;
-														console
-																.log(res.chart.courseAvg);
-
-														let totalCourseAvg = res.chart.allMyCourseAvg;
+														console.log(res.chart.courseAvg);
+														
+														///////
+														/* let totalCourseAvg = res.chart.allMyCourseAvg;
 														let myCourseAvg = res.chart.myCourseAvg;
 														let totalQuestionAvg = removeField(res.chart.courseAvg);
 														let myCourseQuestionAvg = removeField(res.chart.questionAvg);
-
+	
 														drawTotalAvgChart(myCourseAvg, totalCourseAvg);
-														drawQuestionAvgChart(myCourseQuestionAvg, totalQuestionAvg);
+														drawQuestionAvgChart(myCourseQuestionAvg, totalQuestionAvg); */
+														///////
 														
-														let tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ1),
-																				$(
-																						"<td>")
-																						.text(
-																								graph.a1Avg) ]);
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ2),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a2Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ3),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a3Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ4),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a4Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ5),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a5Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ6),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a6Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ7),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a7Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ8),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a8Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ9),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a9Avg) ])
-														$("#surveyData")
-																.append(tr);
-														tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph.surveyQ10),
-																				$(
-																						"<td/>")
-																						.text(
-																								graph.a10Avg) ])
-														$("#surveyData")
-																.append(tr);
-
+														
+														for(let i =1; i<=10; i++) {
+															
+															let tr = $("<tr/>").append(																		[
+																					$("<td>").text(graph["surveyQ"+i]),
+																					$("<td>").text(graph[`a${i}Avg`]) ]);
+															
+															$("#surveyData").append(tr);
+														}
+														
 													}
 												});
 
 									})
 				}
-				// 모달 종료 시 입력값 초기화
+				// 두번째 모달 생성시 차트 그려주는 함수
+				function chartDraw() {
+					$(document).on('show.bs.modal','.myModal2', function(){
+						// 모달이 생성되기 전에 차트가 그려지면 차트가 망가지기때문에 딜레이를 준다.
+						window.setTimeout(function(){							
+							res = responseData; 
+							let totalCourseAvg = res.chart.allMyCourseAvg;
+							let myCourseAvg = res.chart.myCourseAvg;
+							let totalQuestionAvg = removeField(res.chart.courseAvg);
+							let myCourseQuestionAvg = removeField(res.chart.questionAvg);
+	
+							drawTotalAvgChart(myCourseAvg, totalCourseAvg);
+							drawQuestionAvgChart(myCourseQuestionAvg, totalQuestionAvg);
+						}, 200);
+					})
+				}
+				
+				// 모달 종료 시 첫번째 모달 입력값 초기화
 				function rollbackModal() {
 					$('.myModal').on('hidden.bs.modal', function(e) {
 						console.log('modal close');
