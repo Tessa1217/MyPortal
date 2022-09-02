@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.tempcourse.web.TempcourseController;
 
 // 작성자: 김진형
@@ -22,9 +23,9 @@ public class BachelorController {
 	
 	// 학사일정 조회
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
-	public String getSchedule(HttpServletRequest request, Model model) {
+	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo) {
 		String requestURI = request.getRequestURI();
-		System.out.println(requestURI);
+		// System.out.println(requestURI);
 		int command = 0;
 		if (requestURI.equals("/professor/schedule")) {
 			command = 2;
@@ -33,7 +34,10 @@ public class BachelorController {
 		} else if (requestURI.equals("/admin/schedule")) {
 			command = 3;
 		}
+		
+		
 		model.addAttribute("command", command);
+		model.addAttribute("scheduleList", service.scheduleList(vo));
 		return "common/schedule";
 	}
 }

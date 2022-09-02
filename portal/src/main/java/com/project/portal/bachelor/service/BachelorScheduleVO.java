@@ -10,5 +10,8 @@ public class BachelorScheduleVO {
 	private String scheduleContent;
 	private Date scheduleStartDate;
 	private Date scheduleEndDate;
-	private char scheduleSortCode;
+	private int year;
+	private String detailCode;
+	private int semester;
+	private int month;
 }

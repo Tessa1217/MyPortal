@@ -195,7 +195,7 @@
 										// 버튼위치 강의 년도
 										$(".ModalYear").text(`${year} 년도  ${seme} 학기`);										
 										// 버튼위치 강의 이름
-										$(".ModalCourseName").text(	tds.eq(2).text());
+										$(".ModalCourseName").text(${courseName});
 										
 										$.ajax({
 													url : "/professor/surveySelect",
@@ -204,20 +204,12 @@
 														courseCode : courseCode,
 													},
 													success : function(res) {
-														responseData = res; // 전역변수 responseData에 res 값을 담음.
+														
+														/*  모달이 열리기 전에 도표를 그리는 함수를 사용하면 도표가 깨져서 들어가기때문에 
+														 전역변수 responseData에 res 값을 담아서 모달이 열리고 난 이후에 도표를 진행하는 함수 chartDraw()를 아래에 적어줬음 */
+														responseData = res; 
 														var graph = res.survey;
 														console.log(res.chart.courseAvg);
-														
-														///////
-														/* let totalCourseAvg = res.chart.allMyCourseAvg;
-														let myCourseAvg = res.chart.myCourseAvg;
-														let totalQuestionAvg = removeField(res.chart.courseAvg);
-														let myCourseQuestionAvg = removeField(res.chart.questionAvg);
-	
-														drawTotalAvgChart(myCourseAvg, totalCourseAvg);
-														drawQuestionAvgChart(myCourseQuestionAvg, totalQuestionAvg); */
-														///////
-														
 														
 														for(let i =1; i<=10; i++) {
 															
