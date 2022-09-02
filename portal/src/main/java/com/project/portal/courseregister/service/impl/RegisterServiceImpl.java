@@ -30,8 +30,15 @@ public class RegisterServiceImpl implements RegisterService {
 	@Override
 	public RegisterVO registerInsert(RegisterVO vo) {
 		// TODO Auto-generated method stub
-		mapper.registerInsert(vo);
-		return mapper.regSuccess(vo);
+		//이전 신청 여부 확인
+		
+		RegisterVO rVO = mapper.courseCheck(vo);
+		
+		if (rVO == null) {
+			mapper.registerInsert(vo);
+			return mapper.limitCount(vo);	
+		} 
+		return null;
 	}
 
 	@Override
@@ -44,6 +51,12 @@ public class RegisterServiceImpl implements RegisterService {
 	public List<RegisterVO> successList(RegisterVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.successList(vo);
+	}
+
+	@Override
+	public int registerDelete(RegisterVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.registerDelete(vo);
 	}
 
 

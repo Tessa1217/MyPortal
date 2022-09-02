@@ -25,8 +25,12 @@ public interface RegisterMapper {
 	//신청 성공 강의 띄우기
 	public List<RegisterVO> successList(RegisterVO vo);
 	
-	public RegisterVO regSuccess(RegisterVO vo);
+	public RegisterVO limitCount(RegisterVO vo);
 	
-//	public List<RegisterVO> limitCount(RegisterVO vo);
+	//신청 강의 취소
+	public int registerDelete(RegisterVO vo);
+	
+	// 이전 강의 중복 확인
+	public RegisterVO courseCheck(RegisterVO vo);
 	
 }

@@ -52,4 +52,12 @@ public class RegisterController {
 		vo.setStudentId((int)session.getAttribute("id"));
 		return service.registerInsert(vo);
 	}
+	
+	//강의 취소
+	@RequestMapping("/student/registerDelete")
+	@ResponseBody
+	public int RegisterDelete(Model model, RegisterVO vo, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
+		return service.registerDelete(vo);
+	}
 }

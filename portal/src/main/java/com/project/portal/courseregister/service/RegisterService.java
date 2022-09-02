@@ -18,4 +18,8 @@ public interface RegisterService {
 	
 	//신청 성공한 강의 불러오기
 	public List<RegisterVO> successList(RegisterVO vo);
+	
+	//강의 취소
+	public int registerDelete(RegisterVO vo);
+	
 }

@@ -70,7 +70,7 @@
 				<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
 					class="btn rounded-pill btn-primary">
 				<input type="text" size="18" name="che" id="regBtn">
-				<input type="button" value="확인" onClick="check()"	class="btn rounded-pill btn-primary" disabled>
+				<input type="button" value="확인" onClick="check()"	class="btn rounded-pill btn-primary">
 				<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
 			</form>
 			<br>
@@ -99,8 +99,8 @@
 							<td th:text="${item.studentCount}"></td>
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button"
-								class="btn btn-primary buttonRegister"
-								th:data-code="${item.courseCode}">신청</button></td>
+								class="btn btn-primary regInsertButton"
+								th:data-code="${item.courseCode}" th:data-name="${item.courseName}" disabled>신청</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -163,7 +163,7 @@
 								<td th:text="${item.courseCredit}"></td>
 								<td th:text="${item.professorName}"></td>
 								<td><button type="button"
-								class="btn btn-primary buttonDelete"
+								class="btn btn-primary regDeleteButton"
 								th:data-code="${item.courseCode}">취소</button></td>
 							</tr>
 						</tbody>
@@ -171,10 +171,6 @@
 				</div>
 			</div>
 		</div>
-		<script th:inline="javascript">
-
-		</script>
-
 		<script th:inline="javascript">
 			var keyList = "abcdefABCDEF0123456789"
 			var temp = ''
@@ -196,19 +192,21 @@
 			}
 
 			$(function(){
-				$(".buttonRegister").on("click", registerInsert)
+				$(".regInsertButton").on("click", registerInsert)
 				function registerInsert(){
 					let code = $(this).data("code");
-					
+					let name = $(this).data("name");
 					$.ajax({
 						url:"/student/registerInsert",
 						method:"post",
 						dataType:"json",
 						data:{
-							"courseCode" : code
+							"courseCode" : code,
+							"courseName" : name
 						},
 						dataType:"json",
 						success:function(item){
+							console.log(item);
 							let content=`<tr>
 								<td>${item.courseCode}</td>
 								<td>${item.courseSortation}</td>
@@ -216,13 +214,37 @@
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
 								<td><button type="button"
-								class="btn btn-primary buttonDelete"
+								class="btn btn-primary regDeleteButton"
 								data-code="${item.courseCode}">취소</button></td>
-							</tr>`
+							</tr>`;
 							$("#rBody").append(content);
-							location.reload();
+							//location.reload();
+						},
+						error:function(){
+							alert('이전에 수강하신 과목입니다.');
 						}
 					});
+				}
+			})
+
+			$(function(){
+				$("#rBody").on("click",".regDeleteButton", registerDelete)
+				function registerDelete(){
+					let code = $(this).data("code")
+					let tr = $(this).closest("tr");
+						$.ajax({
+							url:"/student/registerDelete",
+							method:"post",
+							dataType:"json",
+							data:{
+								"courseCode" : code
+							},
+							dataType:"json",
+							success:function(item){
+								tr.remove();
+								// location.reload();
+							}
+						});
 				}
 			})
 

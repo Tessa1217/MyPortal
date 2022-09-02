@@ -5,26 +5,24 @@
 
 	<select id="registerList"
 		resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT a.course_name, 
+		SELECT a.course_name,
 		       a.course_sortation,
 		       a.course_credit, 
 		       a.course_limit,
 		       a.course_year,
 		       a.course_semester,
+               a.course_code,
 		        
-		       b.professor_name,
+               COUNT(b.student_id) AS studentCount,
                
-               c.course_code,
-               COUNT(c.student_id) studentCount
+               c.professor_name
+               
 		  FROM course a
-		  JOIN professor b
-		  	ON a.professor_id = b.professor_id
-          JOIN my_course c
-            ON a.course_code = c.course_code
-        WHERE course_year = 2022
-		 		AND course_semester = 1 and a.course_code not in (select course_code from my_course where student_id = #{studentId})
-		 		 		
-			<if test="departCode != null and departCode !=''">
+		  LEFT OUTER JOIN my_course b
+		  	ON a.course_code = b.course_code
+          JOIN professor c
+            ON a.professor_id = c.professor_id
+            <if test="departCode != null and departCode !=''">
 				AND a.depart_code = #{departCode}
 			</if>
 		GROUP BY a.course_code, 
@@ -34,11 +32,11 @@
 				 a.course_limit, 
 				 a.course_year, 
 				 a.course_semester, 
-        
-        		 b.professor_name, 
-        
-        		 c.course_code
-		ORDER BY course_code ASC
+                 a.course_code,
+                
+        		 c.professor_name
+        HAVING a.course_year = 2022
+            AND a.course_semester = 1 and a.course_code not in (select course_code from my_course where student_id = #{studentId})
 	</select>
 
 	<select id="studentInfo"
@@ -105,26 +103,23 @@
 			AND a.course_year = '2022'
 	</select>
 	
-	<select id="regSuccess" resultType="com.project.portal.courseregister.service.RegisterVO">
+	<select id="limitCount" resultType="com.project.portal.courseregister.service.RegisterVO">
 		SELECT a.course_sortation, 
 			   a.course_year, 
                a.course_name, 
                a.course_credit,
                a.course_semester, 
+               a.course_code,
                
-               b.student_id, 
-               b.course_code,  
-       	       
        	       c.professor_name
 			FROM course a
-				JOIN my_course b
+				LEFT OUTER JOIN my_course b
 					ON a.course_code = b.course_code
 				JOIN professor c
 					ON a.professor_id = c.professor_id
-		WHERE b.student_id = #{studentId} 
-			AND b.course_code = #{courseCode}
-			AND a.course_semester = '1'
-			AND a.course_year = '2022'
+		WHERE a.course_code = #{courseCode}
+			AND a.course_semester = 1
+			AND a.course_year = 2022
 	</select>
 	
 	<insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
@@ -142,4 +137,17 @@
 					#{studentId}
 				)		
 	</insert>
+	
+	<delete id="registerDelete" parameterType="com.project.portal.courseregister.service.RegisterVO">
+		DELETE FROM my_course
+		WHERE course_code = #{courseCode}
+	</delete>
+	
+	<select id="courseCheck" resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT a.course_name
+			FROM course a
+				JOIN my_course b
+					ON a.course_code = b.course_code
+		WHERE student_id = #{studentId} AND a.course_name LIKE '%'||#{courseName}||'%'
+	</select>
 </mapper>
