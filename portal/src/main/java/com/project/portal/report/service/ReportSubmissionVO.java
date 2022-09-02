@@ -1,5 +1,7 @@
 package com.project.portal.report.service;
 
+import com.project.portal.student.service.StudentVO;
+
 import lombok.Data;
 
 @Data
@@ -12,4 +14,5 @@ public class ReportSubmissionVO {
 	private int studentId; // 학번
 	private String reportSubmissionOption; //과제 제출 여부
 	private ReportFileVO reportFile; //제출 파일명
+	private StudentVO studentInfo; // 학생 정보
 }

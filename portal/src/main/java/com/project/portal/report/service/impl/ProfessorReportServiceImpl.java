@@ -10,6 +10,7 @@ import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ProfessorReportMapper;
 import com.project.portal.report.service.ProfessorReportService;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.student.service.StudentVO;
 
@@ -30,8 +31,7 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		mapper.uploadFile(vo.getReportFile());
 		vo.setReportFileCode(vo.getReportFile().getReportFileCode());
 		mapper.insertReport(vo);
-		System.out.println(vo);
-		List<StudentVO> studentList = mapper.getStudentList(vo);
+		List<StudentVO> studentList = mapper.getStudentList(vo, null);
 		for (StudentVO student : studentList) {
 			mapper.insertStudentSubmission(vo, student);
 		}
@@ -56,6 +56,21 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	@Override
 	public void updateReportOnly(ReportVO vo) {
 		mapper.updateReport(vo);
+	}
+
+	@Override
+	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report) {
+		List<ReportVO> list = mapper.getReportList(vo, report);
+		List<ReportSubmissionVO> subList = mapper.getStudentReportList(list);
+		if (report == null) {
+			report = new ReportVO();
+			report.setCourseCode(vo.getCourseCode());
+		}
+		for (ReportSubmissionVO sub : subList) {
+			List<StudentVO> student = mapper.getStudentList(report, sub);
+			sub.setStudentInfo(student.get(0));
+		}
+		return subList;
 	}
 
 }

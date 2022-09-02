@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,8 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
+
+// 작성자: 권유진 
 
 @Controller
 public class ProfessorReportController {
@@ -141,9 +143,21 @@ public class ProfessorReportController {
 		return reportFile;
 	}
 	
+	// 수강생 과제 관리
 	@RequestMapping("/professor/eclass/studentScore")
-	public String studentScoreForm() {
+	public String studentScoreForm(Model model) {
+		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
+		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, null);
+		model.addAttribute("reportList", reportList);
 		return "professor/eclass/report/studentReportScore";
+	}
+	
+	@PostMapping("/professor/eclass/studentScore")
+	public String weeklyStudentScore(Model model, CourseVO course, ReportVO vo) {
+		course = (CourseVO) model.getAttribute("courseInfo");
+		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, vo);
+		model.addAttribute("reportList", reportList);
+		return "string";
 	}
 	
 }

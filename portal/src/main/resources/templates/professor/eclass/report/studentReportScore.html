@@ -20,12 +20,21 @@
 					<table class="table">
 						<thead>
 							<tr>
-
+								<th>학번</th>
+								<th>이름</th>
+								<th>제출 여부</th>
+								<th>과제 점수</th>
+								<th>첨부파일</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="s : ${studentList}">
-								
+							<tr th:each="r : ${reportList}">
+								<td th:text="${r.studentId}"></td>
+								<td th:text="${r.studentInfo.studentName}"></td>
+								<td th:text="${r.reportSubmissionOption}"></td>
+								<td th:text = "${r.reportSubmissionOption == 'UNSUB'} ? 'X' : 'O'"></td>
+								<td th:if = "${r.reportFileCode == null}">-</td>
+								<td th:if="${r.reportFileCode != null}"><a th:href="@{/report/download/{reportFileCode}(reportFileCode = ${r.reportFileCode})}">과제 파일</a></td>
 							</tr>
 						</tbody>
 					</table>

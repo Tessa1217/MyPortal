@@ -11,5 +11,5 @@ public interface ProfessorReportService {
 	ReportFileVO getFile(String reportFileCode);
 	void updateReport(ReportVO vo);
 	void updateReportOnly(ReportVO vo);
-
+	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report);
 }

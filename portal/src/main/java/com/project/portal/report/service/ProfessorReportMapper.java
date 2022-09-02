@@ -17,7 +17,9 @@ public interface ProfessorReportMapper {
 	ReportFileVO getFile(@Param("reportFileCode") String reportFileCode);
 	void deleteFile(ReportFileVO vo);
 	void updateReport(ReportVO vo);
-	List<StudentVO> getStudentList(ReportVO vo);
+	List<StudentVO> getStudentList(@Param("report") ReportVO vo, 
+								@Param("submission") ReportSubmissionVO submission);
 	void insertStudentSubmission(@Param("report") ReportVO vo, @Param("student") StudentVO student);
+	List<ReportSubmissionVO> getStudentReportList(List<ReportVO> list);
 	
 }

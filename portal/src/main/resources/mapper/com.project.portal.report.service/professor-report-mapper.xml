@@ -45,12 +45,19 @@
 						f.report_file_path
 						FROM report_info i JOIN report_file f
 						ON i.report_file_code = f.report_file_code
+						<where>
 						<if test="course != null and course != ''">
-						WHERE i.course_code = #{course.courseCode}
+						AND i.course_code = #{course.courseCode}
 						</if>
 						<if test="report != null and report != ''">
-						WHERE i.report_code = #{report.reportCode}
+							<if test="report.reportCode != null and report.reportCode != ''">
+							AND i.report_code = #{report.reportCode}
+							</if>
+							<if test="report.weekCode != null and report.weekCode != ''">
+							AND i.week_code = #{report.weekCode}
+							</if>					
 						</if>
+						</where>
 						ORDER BY i.week_code DESC
 	</select>
 	<insert id="uploadFile" parameterType="ReportFileVO">
@@ -108,9 +115,17 @@
 		</selectKey>
 	</insert>
 	<select id="getStudentList" resultType="StudentVO">
-		SELECT student_id
-			FROM my_course
-			WHERE course_code = #{courseCode}
+		SELECT m.student_id, s.student_name
+			FROM my_course m JOIN student_pri_info s
+			ON m.student_id = s.student_id
+			<where>
+			<if test="report != null and report != ''">
+			AND m.course_code = #{report.courseCode}
+			</if>
+			<if test="submission != null and submission != ''">
+			AND m.student_id = #{submission.studentId}
+			</if>
+			</where>
 	</select>
 	<insert id="insertStudentSubmission">
 		INSERT INTO report_submission (
@@ -141,4 +156,21 @@
 			report_file_code = #{reportFileCode}
 			WHERE report_code = #{reportCode}
 	</update>
+	<select id="getStudentReportList" resultType="ReportSubmissionVO">
+		SELECT 
+			report_submission_code,
+			report_code,
+			report_submission_date,
+			report_score,
+			student_id,
+			report_submission_option,
+			report_file_code
+		FROM report_submission
+		WHERE report_code IN
+		<foreach collection="list" item="item" 
+		open = "(" separator="," close =")" >
+			#{item.reportCode}
+		</foreach> 
+		ORDER BY report_code
+	</select>
 </mapper>
