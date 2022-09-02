@@ -126,4 +126,19 @@
 																					'UNSUB'
 																					)
 	</insert>
+	<delete id="deleteFile" parameterType="ReportFileVO">
+		DELETE FROM report_file
+			WHERE report_file_code = #{reportFileCode}
+	</delete>
+	<update id="updateReport" parameterType="ReportVO">
+		UPDATE report_info
+			SET week_code = #{weekCode},
+			report_start_date = #{reportStartDate},
+			report_end_date = #{reportEndDate},
+			report_title = #{reportTitle},
+			report_content = #{reportContent},
+			report_assigned_score = #{reportAssignedScore},
+			report_file_code = #{reportFileCode}
+			WHERE report_code = #{reportCode}
+	</update>
 </mapper>
