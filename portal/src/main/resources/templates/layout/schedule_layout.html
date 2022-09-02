@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block th:replace="/layout/fragments/configurations/config :: configFragment"></th:block>
+<th:block th:replace="/layout/fragments/configurations/fullcalendarconfig :: fullcalFragment"></th:block>
+</head>
+<body>
+<div id="app"> 
+[[${command}]]=====================
+	<!--/* 사용자별 네비게이션 커맨드: 1번이 학생, 2번이 교수, 3번이 관리자 */-->
+		<th:block th:switch="${command}">
+			<div th:case="1">
+				<th:block th:replace="/layout/fragments/headers/studentHeader :: studentHeaderFragment"></th:block>
+			</div>
+			<div th:case="2">
+				<th:block th:replace="/layout/fragments/headers/professorHeader :: professorHeaderFragment"></th:block>
+			</div>	
+			<div th:case="3"> 
+				<th:block th:replace="/layout/fragments/headers/adminHeader :: adminHeaderFragment"></th:block>
+			</div>
+		</th:block>
+		<!--/* 스케줄 바디 부분 */-->
+		<th:block layout:fragment="scheduleContent"></th:block>
+	</div>
+	<th:block th:replace="/layout/fragments/configurations/script :: scriptFragment"></th:block>
+</body>
+</html>
