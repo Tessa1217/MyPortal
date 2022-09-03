@@ -5,6 +5,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style>
+		#rTable thead {
+			position: sticky; 
+			top: 0px;
+			background-color: black !important;
+			color: white;
+		}
+		#rTable tbody tr {
+			background-color: white;
+		}
+	</style>
 </head>
 
 <body>
@@ -76,7 +87,7 @@
 			<br>
 			<!-- 강의 리스트 -->
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover">
+				<table class="table table-bordered table-hover" id="rTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -121,6 +132,7 @@
 								<th>담당 교수</th>
 								<th>신청 인원</th>
 								<th>수강 정원</th>
+								<th>신청</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -132,6 +144,9 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
+								<td><button type="button"
+									class="btn btn-primary regInsertButton"
+									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">신청</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -172,7 +187,7 @@
 			</div>
 		</div>
 		<script th:inline="javascript">
-			var keyList = "abcdefABCDEF0123456789"
+			var keyList = "abcdefghABCDEFGH0123456789"
 			var temp = ''
 			function generatepass(plength) {
 				temp = ''
@@ -186,7 +201,16 @@
 			function check() {
 				if (!document.frm.che.value) {
 					return alert('자동방지코드를 입력하세요');
-				} else {
+				} else if(document.getElementById("makeBtn").value === document.frm.che.value) {
+					var rTable = document.getElementById("rTable");
+					var ableBtn = Array.from(rTable.children[1].children);
+					
+					ableBtn.forEach(function(findDisabled){
+						findDisabled.children[7].children[0].disabled = false;
+						
+					});
+					return alert('인증성공');
+				}else {
 					return alert('다시입력해주세요');
 				}
 			}
@@ -218,7 +242,14 @@
 								data-code="${item.courseCode}">취소</button></td>
 							</tr>`;
 							$("#rBody").append(content);
-							//location.reload();
+							var rTable = document.getElementById("rTable");
+							var ableBtn = Array.from(rTable.children[1].children);
+					
+							ableBtn.forEach(function(findDisabled){
+							if(findDisabled.children[0].textContent === item.courseCode){
+								findDisabled.remove();
+							}		
+					});
 						},
 						error:function(){
 							alert('이전에 수강하신 과목입니다.');
@@ -242,7 +273,6 @@
 							dataType:"json",
 							success:function(item){
 								tr.remove();
-								// location.reload();
 							}
 						});
 				}
