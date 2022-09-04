@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <style>
 .clear {
 	display: block;
@@ -41,6 +42,7 @@
 					<form action="">
 						<button class="btn btn-primary" style="margin-right: 15px">등록</button>
 						<button class="btn btn-primary">일괄등록</button>
+						<input type="file" id="id_file_upload" onchange="upload(event)"/>
 						<button class="btn btn-primary"> < </button>
 						<button class="btn btn-primary"> 해당 년도 </button>
 						<button class="btn btn-primary"> > </button>
@@ -71,6 +73,20 @@
 						calendar.render();
 						calendar.setOption('contentHeight', 450);
 					});
+					
+					function upload(event){
+					    var input = event.target;
+					    var reader = new FileReader();
+					    reader.onload = function(){
+					        var fdata = reader.result;
+					        var read_buffer = XLSX.read(fdata, {type : 'binary'});
+					        read_buffer.SheetNames.forEach(function(sheetName){
+					            var rowdata =XLSX.utils.sheet_to_json(read_buffer.Sheets[sheetName]);
+					            console.log(JSON.stringify(rowdata));
+					        })
+					    };
+					    reader.readAsBinaryString(input.files[0]);
+					}
 				</script>
 			</div>
 		</div>
