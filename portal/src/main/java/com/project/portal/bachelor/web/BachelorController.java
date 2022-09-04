@@ -27,6 +27,7 @@ public class BachelorController {
 	@ModelAttribute("scheduleList")
 	public List<BachelorScheduleVO> getSchedule() {
 		BachelorScheduleVO vo = new BachelorScheduleVO();
+		vo.setYear(2022);
 		return service.scheduleList(vo);
 	}
 	

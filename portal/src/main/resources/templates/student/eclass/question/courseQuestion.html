@@ -156,12 +156,14 @@
     	                dataType : "json",
     	                success : function(data){ // 비동기통신의 성공일경우 success 콜백
     	                   console.log(data);
+    	                	// 태그 제거 및 날짜 포멧 변경
     	                   let answerRegDate = data.lectureAnswerRegDate.substring(0,10)
+    	                   let questionAnswerContent = data.lectureAnswerContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
     	                   $("#title").text(data.lectureQuestionTitle)
     	                   $("#week").text(data.weekNum)
     	                   $("#questioncontent").text(data.lectureQuestionTitle)
     	                   $("#answerdate").text(answerRegDate)
-    	                   $("#answercontent").text(data.lectureAnswerContent)
+    	                   $("#answercontent").text(questionAnswerContent)
     	                   $('#courseQuestionDetail').modal('show');
 
     	                },

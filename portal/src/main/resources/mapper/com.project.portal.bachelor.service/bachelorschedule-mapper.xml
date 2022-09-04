@@ -11,8 +11,10 @@
 				schedule_end_date,
 				detail_code,
 				semester,
-				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "month"
+				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "MONTH",
+                TO_NUMBER(TO_CHAR(schedule_start_date, 'yyyy')) as "YEAR"
 		from bachelor_schedule
+		where YEAR = #{year}
 		order by schedule_start_date
 	</select>
 	

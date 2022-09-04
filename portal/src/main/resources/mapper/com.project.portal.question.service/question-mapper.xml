@@ -62,6 +62,7 @@
         <if test="weekValue != null and weekValue !=''">
 				AND W.WEEK_NUM = #{weekValue} 
 		</if>
+		ORDER BY 1 ASC
 	</select>
 	
 	

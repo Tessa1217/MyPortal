@@ -87,20 +87,35 @@
 			   a.course_year, 
                a.course_name, 
                a.course_credit,
-               a.course_semester, 
+               a.course_semester,
+               a.course_limit, 
                
                b.student_id, 
-               b.course_code,  
+               b.course_code,
+               COUNT(b.student_id) AS studentCount,  
        	       
        	       c.professor_name
 			FROM course a
-				JOIN my_course b
+			LEFT OUTER 	JOIN my_course b
 					ON a.course_code = b.course_code
 				JOIN professor c
 					ON a.professor_id = c.professor_id
-		WHERE b.student_id = #{studentId} 
+			GROUP BY  
+				 a.course_sortation, 
+			   a.course_year, 
+               a.course_name, 
+               a.course_credit,
+               a.course_semester,
+               a.course_limit,  
+               
+               b.student_id, 
+               b.course_code,  
+                
+        	   c.professor_name
+        HAVING b.student_id = #{studentId} 
 			AND a.course_semester = '1'
-			AND a.course_year = '2022'
+			AND a.course_year = '2022'		
+		 
 	</select>
 	
 	<select id="limitCount" resultType="com.project.portal.courseregister.service.RegisterVO">
@@ -110,6 +125,7 @@
                a.course_credit,
                a.course_semester, 
                a.course_code,
+               a.course_limit,
                
        	       c.professor_name
 			FROM course a
@@ -140,11 +156,11 @@
 	
 	<delete id="registerDelete" parameterType="com.project.portal.courseregister.service.RegisterVO">
 		DELETE FROM my_course
-		WHERE course_code = #{courseCode}
+		WHERE course_code = #{courseCode} AND student_id = #{studentId}
 	</delete>
 	
 	<select id="courseCheck" resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT a.course_name
+		SELECT course_name
 			FROM course a
 				JOIN my_course b
 					ON a.course_code = b.course_code

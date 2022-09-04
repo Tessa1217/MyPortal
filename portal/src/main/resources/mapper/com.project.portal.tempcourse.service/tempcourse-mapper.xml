@@ -409,4 +409,11 @@
 	<select id="tempcourseweekListList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
 		select * from semester_week
 	</select>
+	
+	<delete id="tempDelete" parameterType="TempcourseVO">
+	
+	delete from temp_course where course_code = #{courseCode}	
+	</delete>
+
+	
 </mapper>

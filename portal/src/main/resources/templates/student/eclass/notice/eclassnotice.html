@@ -1,77 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 <style>
-	table {
-  border-collapse: collapse;
-  border: 0;
-}	
+table {
+	border-collapse: collapse;
+	border: 0;
+}
+
 th {
- border: 1px solid #aaa;
-  background-clip: padding-box;
-  scroll-snap-align: start;
-  text-align : center;
-  background-color : skyblue;
+	border: 1px solid #aaa;
+	background-clip: padding-box;
+	scroll-snap-align: start;
+	text-align: center;
+	background-color: skyblue;
 }
 
 td {
-  border: 1px solid #aaa;
-  background-clip: padding-box;
-  scroll-snap-align: start;
-  text-align : center;
+	border: 1px solid #aaa;
+	background-clip: padding-box;
+	scroll-snap-align: start;
+	text-align: center;
 }
 </style>
 </head>
 <body>
-	<th:block layout:fragment="studentEclassContent" >
-	<div id="main">
-		<h2>강의 공지사항</h2>
-		<hr>
+	<th:block layout:fragment="studentEclassContent">
+		<div id="main">
+			<h2>강의 공지사항</h2>
+			<hr>
 			<div class="card">
 				<div class="card-body">
-		<form name="frmsearch">
-		<select id="searchType" name="searchType">
-			<option value="course_Notice_No" selected>번호</option>
-			<option value="course_Notice_Title">제목</option>
-			<option value="course_Notice_Content">내용</option>
-		</select>
-		<input type="text" name="search" id="search">
-		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
-		<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
-		</form>
-		
-		
-		
-		<table border="1" class="table" id="tablepaging">
-			<thead>
-			<tr>
-				<th width = "100px">번호</th>
-				<th width = "300px">제목</th>
-				<th width = "100px">등록일자</th>
-				<th width = "100px">조회수</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr th:each="studyNoticeList : ${studyNoticeList}">
-				<td th:text="${studyNoticeList.courseNoticeNo}"></td>
-				<td>
-				<a th:text="${studyNoticeList.courseNoticeTitle}" th:href="|/student/eclass/eclassnotice/${studyNoticeList.courseNoticeNo}|"></a>
-				</td>
-				<td th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
-				<td th:text="${studyNoticeList.courseNoticeHit}"></td>
-			</tr>
-			</tbody>
-		</table>
+					<form name="frmsearch">
+						<select id="searchType" name="searchType">
+							<option value="course_Notice_No" selected>번호</option>
+							<option value="course_Notice_Title">제목</option>
+							<option value="course_Notice_Content">내용</option>
+						</select> <input type="text" name="search" id="search">
+						<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+						<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
+					</form>
+
+
+
+					<table border="1" class="table" id="tablepaging">
+						<thead>
+							<tr>
+								<th width="100px">번호</th>
+								<th width="300px">제목</th>
+								<th width="100px">등록일자</th>
+								<th width="100px">조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="studyNoticeList : ${studyNoticeList}">
+								<td th:text="${studyNoticeList.courseNoticeNo}"></td>
+								<td><a th:text="${studyNoticeList.courseNoticeTitle}"
+									th:href="|/student/eclass/eclassnotice/${studyNoticeList.courseNoticeNo}|"></a>
+								</td>
+								<td
+									th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${studyNoticeList.courseNoticeHit}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		</div>
-		</div>
-		
-		
+
+
 		<script th:inline="javascript">
 		frmsearch.searchType.value = [[${search.searchType}]]
 		frmsearch.search.value = [[${search.search}]]
@@ -93,9 +94,9 @@ td {
 	          });
 	      });
 		</script>
-		
-		
-		
+
+
+
 	</th:block>
 </body>
 </html>
