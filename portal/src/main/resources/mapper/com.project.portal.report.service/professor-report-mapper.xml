@@ -6,7 +6,17 @@
 		SELECT report_file_path
 			FROM report_file
 			WHERE report_file_code = #{reportFileCode}
-			AND user_code = '01'
+			AND user_code = #{userCode}
+	</select>
+	<select id="getProfWholeFile" resultType="ReportFileVO">
+		SELECT report_file_code,
+					report_file_path,
+					report_file_name,
+					user_code,
+					submit_id
+					FROM report_file
+					WHERE submit_id = #{submitId}
+					AND user_code = #{userCode}
 	</select>
 	<resultMap id="reportMap" type="ReportVO">
 		<id column="report_code" property="reportCode"/>
@@ -42,7 +52,9 @@
 						i.course_code,
 						f.report_file_code,
 						f.report_file_name,
-						f.report_file_path
+						f.report_file_path,
+						f.user_code,
+						f.submit_id
 						FROM report_info i JOIN report_file f
 						ON i.report_file_code = f.report_file_code
 						<where>
@@ -173,4 +185,8 @@
 		</foreach> 
 		ORDER BY report_code
 	</select>
+	<delete id="deleteReport">
+		DELETE FROM report_info
+			WHERE report_code = #{reportCode}
+	</delete>
 </mapper>

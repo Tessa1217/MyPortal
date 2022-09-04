@@ -16,7 +16,7 @@
 			<div class="card-body">
 			<form name="reportFrm" th:action="@{/professor/eclass/insertReport}" method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
-				<input type="hidden" name="professorId" th:value="${courseInfo.professorId}">
+				<input type="hidden" name="professorId" th:value="${session.id}">
 				<table class="table">
 					<tr>
 						<th>과제명</th>
@@ -49,7 +49,7 @@
 					<tr>
 						<th>과제 첨부파일 업로드</th>
 						<td><input type="file" name="file">
-						<button type="button" class="btn btn-primary">기본 정보 불러오기</button></td>
+						<button type="button" id="getFiles" class="btn btn-primary">기본 정보 불러오기</button></td>
 					</tr>
 					<tr>
 						<th>참고사항</th>
@@ -61,6 +61,25 @@
 					<button type="submit" class="btn btn-danger">등록하기</button>
 					<button id="check" type="button" class="btn btn-primary">취소</button>
 				</div>
+				<div id="fileModal" class="modal" tabindex="-1"
+				aria-labelledby="fileModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title">내 과제 파일 모아보기</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body">
+			        <div id="oldFileList">
+			        </div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			        <button type="button" id="file" class="btn btn-primary">파일 적용하기</button>
+			      </div>
+			    </div>
+			  </div>
+			 </div>
 			</form>
 			</div>
 			</div>
@@ -69,6 +88,9 @@
 			$(function() {
 				enterDate("reportStartDate", "reportEndDate");
 				editor();
+				getFiles();
+				closeModal();
+				file();
 			})
 			
 			// 에디터 생성 
@@ -85,6 +107,36 @@
 					})
 			}
 			
+			function getFiles() {
+				$(document).on("click", "#getFiles", function() {
+					console.log($("input[name=professorId]").val());
+					$.ajax({
+						method : 'POST',
+						url : `/professor/eclass/getWholeFile`,
+						data : {
+							submitId : $("input[name=professorId]").val(),
+							userCode : '01'
+						},
+						success : function(result) {
+							$("#oldFileList").replaceWith(result);
+							$("#fileModal").show();
+						}
+					})
+				})
+			}
+			
+			function closeModal() {
+				$("#close").on("click", function() {
+					$("#fileModal").hide();
+				})
+			}
+			
+			function file() {
+				$("#file").on("click", function() {
+					let fileList = $("input[name=file]");
+					console.log(fileList);
+				})
+			}
 		</script>
 	</th:block>
 </body>

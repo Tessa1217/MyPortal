@@ -52,7 +52,7 @@
 								</th:block>
 
 								<td><a
-									th:href="@{/report/download/{reportFileCode}(reportFileCode=${reportList.reportFileCode})}"
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportList.reportFileCode}, userCode=${reportList.reportFile.userCode})}"
 									th:text="${reportList.reportFile.reportFileName}"
 									th:download="${reportList.reportFile.reportFileName}"></a></td>
 

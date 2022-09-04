@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.portal.course.service.CourseVO;
@@ -57,7 +60,7 @@ public class ProfessorReportController {
 	
 	// 과제 등록 페이지 이동 
 	@RequestMapping("/professor/eclass/insertReport")
-	public String insertReportForm() {
+	public String insertReportForm(Model model) {
 		return "professor/eclass/report/insertReport";
 	}
 	
@@ -81,6 +84,13 @@ public class ProfessorReportController {
 		return "redirect:/professor/eclass/reportList";
 	}
 	
+	// 교수의 파일 전체 가져오기
+	@PostMapping("/professor/eclass/getWholeFile")
+	public String getWholeFile(ReportFileVO vo, Model model) {
+		model.addAttribute("fileList", service.getProfWholeFile(vo));
+		return "layout/fragments/professor-eclass/report/fileList :: #oldFileList";
+	}
+	
 	// 상세 보기 페이지 (ON/OFF 이용해서 상세 보기 + 수정 같이 한 페이지에서 처리)
 	@RequestMapping("/professor/eclass/detailReport/{reportCode}")
 	public String detailReport(@PathVariable String reportCode, ReportVO vo, Model model) {
@@ -99,7 +109,7 @@ public class ProfessorReportController {
 		System.out.println(file.getOriginalFilename());
 		// 수정하려는 파일이 있을 때
 		if (!file.isEmpty()) {
-			ReportFileVO storedReportFile = service.getFile(vo.getReportFileCode());
+			ReportFileVO storedReportFile = service.getFile(vo.getReportFileCode(), "01");
 			File storedFile = new File(storedReportFile.getReportFilePath());
 			if (storedFile.exists()) {
 				storedFile.delete();
@@ -125,8 +135,13 @@ public class ProfessorReportController {
 		}
 		
 		return "redirect:/professor/eclass/reportList";
-		
-		
+	}
+	
+	@DeleteMapping("/professor/eclass/deleteReport") 
+	@ResponseBody
+	private String deleteFile(@RequestBody ReportVO report) {
+		service.deleteReport(report);
+		return "success";
 	}
 	
 	// 파일 세팅하는 메서드 

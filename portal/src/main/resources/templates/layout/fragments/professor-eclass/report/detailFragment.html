@@ -8,6 +8,9 @@
 </head>
 <body>
 	<th:block th:fragment="detailFragment">
+		<input type="hidden" name="reportCode" th:value="${report.reportCode}">
+		<input type="hidden" name="reportFileCode"
+			th:value="${report.reportFileCode}">
 		<div class="page-title">
 			<h2>과제 상세보기</h2>
 		</div>
@@ -24,7 +27,8 @@
 					</tr>
 					<tr>
 						<th>과제 제출 기간</th>
-						<td th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - 
+						<td
+							th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - 
 						${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
 					</tr>
 					<tr>
@@ -34,8 +38,8 @@
 					<tr>
 						<th>과제 첨부파일</th>
 						<td><a th:text="${report.reportFile.reportFileName}"
-								th:download="${report.reportFile.reportFileName}"
-								th:href="@{/report/download/{reportFileCode}(reportFileCode = ${report.reportFileCode})}"></a></td>
+							th:download="${report.reportFile.reportFileName}"
+							th:href="@{/report/download/{reportFileCode}(reportFileCode = ${report.reportFileCode})}"></a></td>
 					</tr>
 					<tr>
 						<th>과제 참고사항</th>
@@ -44,9 +48,42 @@
 				</table>
 			</div>
 		</div>
-		<div th:if="${report.reportStartDate} gt ${#dates.createNow()}" class="btnContainer">
+		<div th:if="${report.reportStartDate} gt ${#dates.createNow()}"
+			class="btnContainer">
 			<button type="button" id="changeBtn" class="btn btn-primary">수정하기</button>
+			<button type="button" id="delBtn" class="btn btn-danger">삭제하기</button>
 		</div>
+	<script th:inline="javascript">
+		$(function() {
+			deleteReport();
+		})
+		
+		function deleteReport() {
+			$(document).on("click", "#delBtn", function() {
+				let data = {
+						reportCode : $("input[name=reportCode]").val(),
+						reportFileCode : $("input[name=reportFileCode]").val()
+				}
+				console.log("HI");
+				$.ajax({
+					method : 'DELETE',
+					url : `/professor/eclass/deleteReport`,
+					contentType : 'application/json',
+					data : JSON.stringify(data),
+					success : function(message) {
+						if (message == 'success') {
+							fireSwal('success', '과제 삭제가 완료되었습니다.')
+								.then((result) => {
+									if (result.isConfirmed) {
+										location.href=`/professor/eclass/reportList`;
+									}
+								})
+						}
+					}
+				})
+			})
+		}
+	</script>
 	</th:block>
 </body>
 </html>

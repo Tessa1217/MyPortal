@@ -41,7 +41,7 @@
 									<td th:text="|${#strings.substring(r.weekCode, 8, 10)}주차|"></td>
 									<td th:text="${#dates.format(r.reportStartDate, 'yyyy-MM-dd')}"></td>
 									<td th:text="${#dates.format(r.reportEndDate, 'yyyy-MM-dd')}"></td>
-									<td><a th:href="@{/report/download/{reportFileCode}(reportFileCode=${r.reportFileCode})}"
+									<td><a th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${r.reportFileCode}, userCode=${r.reportFile.userCode})}"
 									th:text="${r.reportFile.reportFileName}"
 									th:download="${r.reportFile.reportFileName}"></a></td>
 									<td><button class="btn btn-sm rounded-pill btn-primary" 

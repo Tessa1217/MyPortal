@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="oldFileList">
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>파일 이름</th>
+					<th>파일 보기</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="file : ${fileList}">
+					<td><input type="radio" name="file"></td>
+					<td th:id="|name-${file.reportFileCode}|" 
+					th:text="${file.reportFileName}"></td>
+					<td><a th:text="${file.reportFileName}"
+					th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${file.reportFileCode}, userCode=${file.userCode})}">
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

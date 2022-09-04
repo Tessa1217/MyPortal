@@ -24,6 +24,8 @@ import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
 import com.project.portal.studynotice.service.StudyNoticeFileVO;
 import com.project.portal.studynotice.service.impl.StudyNoticeServiceImpl;
 
+// 작성자: 권유진, 박근형 
+
 @Controller
 public class FileController {
 	
@@ -40,9 +42,10 @@ public class FileController {
 		return setResponseEntity(path);
 	} 
 	
-	@GetMapping("/report/download/{reportFileCode}")
-	public ResponseEntity<Object> fileDownload(@PathVariable String reportFileCode) {
-		String path = reportService.getFile(reportFileCode).getReportFilePath();
+	@GetMapping("/report/download/{reportFileCode}/{userCode}")
+	public ResponseEntity<Object> fileDownload(@PathVariable String reportFileCode, 
+												@PathVariable String userCode) {
+		String path = reportService.getFile(reportFileCode, userCode).getReportFilePath();
 		return setResponseEntity(path);			
 	}
 	

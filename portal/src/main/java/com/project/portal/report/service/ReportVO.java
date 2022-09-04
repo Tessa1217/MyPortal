@@ -20,6 +20,8 @@ public class ReportVO {
 	private String reportContent; // 과제 내용
 	private int reportAssignedScore; // 과제 배점
 	private String reportFileCode; // 과제파일 코드
+	private String userCode;
+	private int submitId;
 	private ReportFileVO reportFile; //  과제파일
 	private String courseCode;  // 강의 코드
 	private String weekNum; // 주차

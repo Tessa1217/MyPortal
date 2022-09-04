@@ -38,8 +38,8 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	}
 
 	@Override
-	public ReportFileVO getFile(String reportFileCode) {
-		return mapper.getFile(reportFileCode);
+	public ReportFileVO getFile(String reportFileCode, String userCode) {
+		return mapper.getFile(reportFileCode, userCode);
 	}
 
 	@Override
@@ -71,6 +71,19 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 			sub.setStudentInfo(student.get(0));
 		}
 		return subList;
+	}
+
+	@Override
+	public void deleteReport(ReportVO vo) {
+		ReportFileVO file = new ReportFileVO();
+		file.setReportFileCode(vo.getReportFileCode());
+		mapper.deleteReport(vo);
+		mapper.deleteFile(file);
+	}
+
+	@Override
+	public List<ReportFileVO> getProfWholeFile(ReportFileVO vo) {
+		return mapper.getProfWholeFile(vo);
 	}
 
 }
