@@ -99,26 +99,26 @@
                                     <form id="frm" name="frm" action="/professor/eclass/courseQuestionInsert">
                                     	<table class="table">
                                     			<tr>
-                                    				<td>질문번호</td>
+                                    				<td width="200px">질문번호</td>
                                     				<td id="questionnum"></td>
                                     			</tr> 
                                     			<tr>
-                                    				<td>제목</td>
+                                    				<td width="200px">제목</td>
                                     				<td id="title"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td>주차</td>
+                                    				<td width="200px">주차</td>
                                     				<td id="week"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td>질문 내용</td>
+                                    				<td width="200px">질문 내용</td>
                                     				<td id="questioncontent"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td>질문 등록일</td>
+                                    				<td width="200px">질문 등록일</td>
                                     				<td id="answerregdate"></td>
                                     			</tr>
                                     			
@@ -184,14 +184,28 @@
                 success : function(data){ // 비동기통신의 성공일경우 success 콜백
                 	// 질문 등록일 데이터 처리
                 	let questionRegDate = data.lectureQuestionRegDate.substring(0,10)
-
+					// 태그 제거하고 출력
+					let questionContent
+					let questionAnswerContent
+					if(data.lectureQuestionContent != null) {
+						questionContent = data.lectureQuestionContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
+					
+					}
+                	if(data.lectureAnswerContent != null) {
+                		questionAnswerContent = data.lectureAnswerContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
+                		 
+                		console.log(questionAnswerContent)
+                	}
+                
+                	
                 	 $("#questionnum").text(data.lectureQuestionNum)
                 	 $("#title").text(data.lectureQuestionTitle)
 	                 $("#week").text(data.weekNum)
-	                 $("#questioncontent").text(data.lectureQuestionContent)
+	                 $('#answercontentview').text(questionAnswerContent)
+	                 $('#Answeredit').text(questionAnswerContent)
+	                 $("#questioncontent").text(questionContent)
 	                 $("#answerregdate").text(questionRegDate)
-	                 $('#answercontentview').text(data.lectureAnswerContent)
-	                 $('#Answeredit').text(data.lectureAnswerContent)
+	                
 	                 
 	                 // 답변 등록이 되어있지 않을 경우 보여질 등록(insert) modal form
 	                 if(data.lectureAnswerContent == null || data.lectureAnswerContent == '') {
@@ -204,6 +218,7 @@
 	                	 $("#Answeredit").hide()
 	                	 $("#AnswerReg").hide()
 	                	 $("#Modify").show()
+	                	 $('#answercontentview').show()
 	                 }     
                 	 
                 	 
@@ -228,9 +243,10 @@
 	 		$('#AnswerReg').hide() //답변 등록
 	 		$('#AnswerMod').hide() // 답변 수정
 	 		$('#Prev').hide() // 이전
+	 		$("#Answeredit").val('')
 	 		$('#Answeredit').hide() // 수정 textarea
 	 		$('#Modify').hide() // 수정
-	 		$('#answercontentview').show()
+	 		$('#answercontentview').hide()
 			
 		
 		})
@@ -301,6 +317,13 @@
 	 	//답변 내용이 있는지 확인
 	 	if(frmContent == '' || frmContent == null) {
 	 		window.alert('답변 내용이 없습니다.')
+	 		$('#answercontent').hide()  //답변 내용
+	 		$('#AnswerReg').hide() //답변 등록
+	 		$('#AnswerMod').hide() // 답변 수정
+	 		$('#Prev').hide() // 이전
+	 		$('#Answeredit').hide() // 수정 textarea
+	 		$('#Modify').hide() // 수정
+	 		$('#answercontentview').show()
 	 		return false;
 	 	}
 		

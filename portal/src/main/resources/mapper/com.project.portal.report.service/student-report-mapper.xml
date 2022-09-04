@@ -48,7 +48,8 @@
         s.report_submission_code,
         f.report_file_name,
         f.report_file_path,
-        o.report_score_objection_approval_option
+        o.report_score_objection_approval_option,
+         w.week_num
  
 		from report_info r join report_submission s
 		on r.report_code = s.report_code
@@ -56,6 +57,8 @@
         on f.report_file_code = r.report_file_code
            left outer join report_score_objection o
                on o.report_submission_code = s.report_submission_code
+               join course_weekly w
+               on w.week_code = r.week_code
 
 		<where>
 			<if test="courseInfo != null and courseInfo != ''">

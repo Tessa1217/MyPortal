@@ -14,6 +14,34 @@
 				<hr>
 				<div class="card">
 					<div class="card-body">
+					<form name="frmsearch" action="/student/eclass/reportList">
+					
+					<select id="weekNum"  name="weekNum">
+			<option value="1">1주차</option>
+			<option value="2">2주차</option>
+			<option value="3">3주차</option>
+			<option value="4">4주차</option>
+			<option value="5">5주차</option>
+			<option value="6">6주차</option>
+			<option value="7">7주차</option>
+			<option value="8">8주차</option>
+			<option value="9">9주차</option>
+			<option value="10">10주차</option>
+			<option value="11">11주차</option>
+			<option value="12">12주차</option>
+			<option value="13">13주차</option>
+			<option value="14">14주차</option>
+			<option value="15">15주차</option>
+		</select>
+		
+		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<button type="button" class="saveBtn btn btn-primary me-1 mb-1"
+		onclick="location.href='/student/eclass/reportList'">전체목록조회</button>
+		
+		</form>
+		
+		<br>
+		<br>
 						<table class="table">
 							<tr>
 								<th>번호</th>
