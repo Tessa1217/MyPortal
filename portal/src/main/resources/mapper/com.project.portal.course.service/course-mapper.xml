@@ -137,4 +137,11 @@
 		on r.course_code = c.course_code
 	</select>
 	
+	<select id="getCurrent" resultType="CourseVO">
+		SELECT max(year) course_year,
+					max(semester) course_semester
+		FROM bachelor_schedule
+			WHERE detail_code = 'BPLAN00'
+	</select>
+	
 </mapper>

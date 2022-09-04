@@ -29,5 +29,8 @@ public interface CourseMapper {
 
 	// 설문지 전체 강의 전체 평점
 	double allMyCourseAvg();
+	
+	// 현재 학기와 년도 조회
+	CourseVO getCurrent();
 
 }

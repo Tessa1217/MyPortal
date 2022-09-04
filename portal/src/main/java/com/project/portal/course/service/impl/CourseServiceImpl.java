@@ -55,5 +55,10 @@ public class CourseServiceImpl implements CourseService {
 		vo.setAllMyCourseAvg(mapper.allMyCourseAvg());
 		return vo;
 	}
+
+	@Override
+	public CourseVO getCurrent() {
+		return mapper.getCurrent();
+	}
 	
 }

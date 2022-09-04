@@ -4,27 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.project.portal.exam.service.ProfessorExamService;
-import com.project.portal.exam.service.StudentExamService;
-import com.project.portal.report.service.ProfessorReportService;
-import com.project.portal.report.service.StudentReportService;
+import com.project.portal.common.service.impl.ScheduleServiceImpl;
+import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.impl.CourseServiceImpl;
 
 // 작성자: 권유진
 @Service
 public class ScheduleController {
 	
 	@Autowired
-	ProfessorReportService prService;
+	CourseServiceImpl cService;
 	@Autowired
-	StudentReportService srService;
-	@Autowired
-	ProfessorExamService peService;
-	@Autowired
-	StudentExamService seService;
+	ScheduleServiceImpl service;
 	
 	@Scheduled(cron = "0 0 0 * * ?")
-	public void autoReportScore() {
-		
+	public void autoReportScore(CourseVO vo) {
+		vo = cService.getCurrent();
+		service.updateExamScore(vo);
 	}
 	
 	@Scheduled(cron = "0 0 0 * * ?")
