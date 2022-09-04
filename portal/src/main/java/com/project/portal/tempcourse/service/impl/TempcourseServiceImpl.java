@@ -242,6 +242,25 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 
+	@Override
+	public int tempDelete(TempcourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.tempDelete(vo);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 

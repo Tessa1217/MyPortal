@@ -93,13 +93,11 @@ public class TempcourseController {
 		
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
-		
-		
 		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기
 		model.addAttribute("tempcourseweekList", list3);  //강의계획서 주차별 정보 가져오기
-//		model.addAttribute("tempcourseWList", list2);
 		model.addAttribute("departInsert", pvo);
-
+		
+		
 		return "professor/course/tempInsert";
 	}
 
@@ -320,6 +318,16 @@ public class TempcourseController {
 			return "/professor/tempInsert";
 		}
 		
+		// 강의계획서 삭제기능
+		@PostMapping(value={"/professor/getTemp/tempDelete", "/professor/tempcourseList/tempDelete"})
+		public int tempDelete(TempcourseVO vo, Model model) {
+			
+			
+			
+			
+			return service.tempDelete(vo);
+
+		}
 		
 //		//비승인 사유 등록(관리자)
 //		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})

@@ -34,6 +34,7 @@
 							<th>비승인 사유</th>
 							<th>상세보기</th>
 							<th>제출하기</th>
+							
 
 						</tr>
 					</thead>
@@ -51,22 +52,24 @@
 							<td th:text="${item.okayYesName}" id="okayYes"
 								th:data-back="${item.okayYes}"></td>
 
-							<td th:if="${item.backReason == null}" id="backReason"
-								th:data-code="null"></td>
+							<td><a th:if="${item.backReason == null}" id="backReason"
+								th:data-code="null"></a>
 
-							<td th:if="${item.backReason != null}" id="backReason"
+							<button th:if="${item.backReason != null}" id="backReason"
 								th:data-coursecod="${item.courseCode}"
 								th:data-code="비승인"
 								class="btn btn-secondary backReasonWhy" data-toggle="modal"
-								data-target="#backReasonWhy">비승인</td>
+								data-target="#backReasonWhy">비승인</button></td>
 
-							<td><a th:href="|/professor/getTemp/${item.courseCode}|"><button
+							<td><a th:href="|/professor/getTemp/${item.courseCode}|"
 										th:text="상세보기" th:data-courseName="${item.courseCode}"
-										class="btn btn-primary"></button></a></td>
+										class="btn btn-primary"></a></td>
 							<td><button th:disabled="${item.submitYes}=='SUB'"
 								
 									name="button1" class="btn btn-danger moddd"
 									th:data-course="${item.courseCode}">제출하기</button></td>
+									
+									<!-- <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}">삭제[[${item.courseCode}]]</button></td> -->
 						</tr>
 
 					</tbody>
@@ -96,28 +99,33 @@
 								<div class="card z-index-0 fadeIn3 fadeInBottom">
 									<div class="card-body">
 										<table class="table">
+										<div class="col-md-10 col-16">
 											<tr>
 												<th>비승인 사유</th>
+											
 											</tr>
-										
-										
+												
+												<br>
 											
 												
-												<tr>
-												<td id="backReason2"></td>
+												</div>
+											<div class="col-md-10 col-16">
+											<tr>
+												<td id="backReason2" style="height:8em;"></td>
 												
+											
 												
 												
 												<!-- <td id="backReason3"></td> -->
 												</tr>
-											
+											</div>
 										</table>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="input-container modal-footer">
+						<div class="input-container modal-footer" align="center">
 							<!-- <button type="button" class="btn btn-outline-danger"
 								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
 							<button id="closeModal" type="button" class="btn btn-secondary"
@@ -133,6 +141,8 @@
 			$(function() {
 					backReasonWhy();
 					modalOff();
+					
+					
 				})
 			
 
@@ -151,6 +161,8 @@
 					location.href="getTemp/${code}";
 				}
 			}) */
+			
+			//제출 기능
 
 			$(".moddd").on(
 					"click",
@@ -229,6 +241,39 @@
 					})
 				}
 			
+				//삭제 기능
+				
+			 	
+			 		$(".deletee").on("click", confirmModal)
+			 		function confirmModal(){
+			 			if(window.confirm("정말로 삭제하시겠습니까?")){
+			 				
+			 				tempDelete();
+			 			}
+			 		}
+			 		function tempDelete(){
+			 			let courseCode = $(this).data("coursecod")
+			 			$.ajax({
+			 				url : "/professor/tempcourseList/tempDelete",
+			 				method : "post",
+			 				dataType : "json",
+			 				data : {
+			 					
+			 					courseCode : courseCode 
+			 						
+			 				},
+			 				dataType : "json",
+			 				success : function(result){
+			 					alert('삭제되었습니다')
+			 					location.replace('/professor/tempcourseList');
+			 				}
+			 			})
+			 		}
+			 	
+			 	
+			 	
+					
+				
 		</script>
 	</th:block>
 </body>

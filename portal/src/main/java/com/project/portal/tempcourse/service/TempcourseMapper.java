@@ -30,5 +30,6 @@ public interface TempcourseMapper {
 	public TempcourseVO backReasonInsert(TempcourseVO vo); //강의계획서 비승인 내용 입력( 관리자)
 	public List<TempcourseVO> bringme(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //강의계획서입력페이지에서 강의계획서 정보를 모달로 불러오기
 	public int okayTempCourse(TempcourseVO vo); // 승인시 강의 테이블로 데이터이관
+	public int tempDelete(TempcourseVO vo); //강의계획서 삭제
 	
 }
