@@ -17,7 +17,7 @@
 
 .name {
 	
-	height : 110vh;
+	height : 100%;
 	
 }
 .hidden {
@@ -25,6 +25,7 @@
     display:none;
 
 }
+
 
 
 </style>
@@ -39,14 +40,18 @@
 					</div>
 					<div class="right">
 						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu">기본 정보</label> 
+							for="tab1" class="tabmenu active">기본 정보</label> 
 							<input id="tab2" type="radio" name="tabs"> <label for="tab2"
 							class="tabmenu">주차 계획</label>
 					</div>
-					<div class="card paging name">
-						<div class="card-header">
+					
+					<div class="card paging name" id="tab11">
+						<div class="card-header" align="left">
 							<h3>강의 계획서</h3>
+							<div align="right">
+							
 							<button type="button" class="btn btn-secondary bringme" data-toggle="modal">강의계획서 불러오기</button>
+							</div>
 						</div>
 						<div class="card-body name">
 							<form id="tempInfoForm" class="form form-horizontal"
@@ -55,23 +60,24 @@
 									<div class="row inputBox">
 									<input type="hidden" name="departCode" th:value="${departInsert.departCode}">
 									<input type="hidden" name="professorId" th:value="${departInsert.professorId}">
+									<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10">
 											<input type="text" class="form-control" name="courseName" required>
 										</div>
-										<div class="col-md-6 col-12">
+										
 										<div class="col-md-4">
 											<label>강의 년도</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" name="courseYear" required min='2000' max='2100'>
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<select id="courseSemester" name="courseSemester"
 													class="form-control" required>
 													<option class="hidden" value=""
@@ -80,12 +86,12 @@
 													<option th:value="2" th:text="2학기"></option>
 												</select>
 										</div>
-										</div>
-										<div class="col-md-6 col-12">
+										
+										
 										<div class="col-md-4">
 											<label>이수 구분</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<select class="form-control" name="courseSortation" required>
 												<option value="" disabled selected th:text="선택"></option>
 												<option value="L01">교양필수</option>
@@ -97,7 +103,7 @@
 										<div class="col-md-4">
 											<label>이수 단위</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<select class="form-control" name="courseCredit" required>
 												<option value="" disabled selected th:text="선택"></option>
 												<option value="1" th:text="1학점"></option>
@@ -105,88 +111,96 @@
 												<option value="3" th:text="3학점"></option>
 											</select>
 										</div>
-										</div>
+										
 										<div class="col-md-6 col-12">
 										<div class="col-md-4">
 											<label>과제 배점</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control"
 												name="reportAssignedScore" min='0' max='100'>
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control"
 												name="attAssignedScore" min='0' max='100'>
 										</div>
-										</div>
-										<div class="col-md-4 col-8">
+										
+										
 										<div class="col-md-4">
-											<label>중간고사 배점</label>
+											<label>중간고사배점</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control"
 												name="midtermAssignedScore" min='0' max='100'>
 										</div>
 										<div class="col-md-4">
-											<label>기말고사 배점</label>
+											<label>기말고사배점</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control"
 												name="finalAssignedScore" min='0' max='100'>
 										</div>
-										</div>
+										
 										<div class="col-md-4">
 											<label>수강 인원</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" name="courseLimit"
 												min='0' max='200' required>
 										</div>
+										</div>
+										</div>
+										<div class="col-md-6 col-16">
 										<div class="col-md-4">
 											<label>교재 및 참고문헌</label>
 										</div>
-										<div class="col-md-8 form-group">
-											<input type="text" class="form-control"
-												name="textbookReference">
+										<div class="col-md-12 form-group">
+											<textarea class="form-control"
+												name="textbookReference" style="height:6em;"></textarea>
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
 										</div>
-										<div class="col-md-8 form-group">
+										<div class="col-md-12 form-group">
 											
 											
-											<textarea class="form-control" name="courseSummary" id="courseSummary"></textarea>
+											<textarea  class="form-control" name="courseSummary" id="courseSummary"></textarea>
 											
 											
 										</div>
 										<div class="col-md-4">
 											<label>강의 참고사항</label>
 										</div>
-										<div class="col-md-8 form-group">
-											<input type="text" class="form-control" name="courseNotes">
+										<div class="col-md-12 form-group">
+											<textarea class="form-control" name="courseNotes" style="height:6em;"></textarea>
+										</div>
 										</div>
 										<div class="col-sm-12" align="right">
-											<a href="#tab2"><button type="submit" class="btn btn-danger" >등록</button></a>
-											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
-											<button type="reset" class="btn btn-secondary">취소</button>
+											<button type="submit" class="btn btn-danger" style="margin-right:30px;">다음 페이지로</button>
+											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info" style="margin-right:30px;">목록 보기</button>
+											<button type="reset" class="btn btn-secondary" >취소</button>
 										</div>
 										
 
-									</div>
 									
+									</div>
 								</div>
 								
 							</form>
 						</div>
 					</div>
 					
+					
+					
 					<div class="row">
-					<div class="card paging name">
+					<div class="col-md-22 col-12">
+					<div class="card paging name offPage" id="tab22">
 						<div class="card-body">
 							<form th:action="@{/tempweekInsertProc}" method="POST">
+							
 							<h2>주차별 강의 내용</h2>
 							 	<select name="courseCode">
 							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
@@ -219,24 +233,28 @@
 												<td>											
 												<input th:name="|list[${weekStat.index}].weekContent|" class="form-control">
 												</td>
+												
 											<td><input type="hidden" th:name="|list[${weekStat.index}].weekNum|" th:value="${week.weekNum}" class="form-control">
-												<input class="hidden" type="date" th:name="|list[${weekStat.index}].weekStartDate|" th:value="${week.weekStartDate}">
+											
+												<input class="form-control hidden" type="date" th:name="|list[${weekStat.index}].weekStartDate|" th:value="${week.weekStartDate}" readonly/>
+											
+												<input  class="form-control hidden" type="date" th:name="|list[${weekStat.index}].weekEndDate|" th:value="${week.weekEndDate}" readonly/>
 											</td>
-											<td>
-												<input  class="hidden" type="date" th:name="|list[${weekStat.index}].weekEndDate|" th:value="${week.weekEndDate}">
-											</td>
+											
 											</tr>
 											</th:block>
 										</tbody>
 									</table>
 								</div> 
 								<div class="col-sm-12" align="right">
-									<button type="submit" class="btn btn-danger" onclick="message()">등록</button>
-									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info">목록 보기</button>
+									<button type="submit" class="btn btn-danger" onclick="message()" style="margin-right:30px;">강의 계획서 등록하기</button>
+									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info" style="margin-right:30px;">목록 보기</button>
 									<button type="reset" class="btn btn-secondary">취소</button>
 								</div>
+								
 							</form>
 						</div>
+					</div>
 					</div>
 					</div>
 				</div>
@@ -334,7 +352,7 @@
 				showPage();
 				aaaaa();
 				modalOff();
-				
+				 /* bbb(); */
 			})
 			
 			// 탭 형식으로 보이기
@@ -342,7 +360,9 @@
 			let icons = $("input[name=tabs]");
 			$(icons).each((index, val) => {
 				$(val).on("click", function(e) {
+					$(icons).siblings("label").removeClass("active");
 					if ($(val).is(":checked")) {
+						$(val).next().addClass("active");
 						let page = $(".paging");
 						$(page).each((idx, val) => {
 							$(val).addClass('offPage');
@@ -352,6 +372,23 @@
 				})
 			})
 			}
+			
+			/*  function bbb(){
+				
+				 let icons = $("input[name=tabs]");
+					$(icons).each((index, val) => {
+						$("#bbb").on("click", function(e) {
+							$(icons).siblings("label").removeClass("offPage");
+							$(icons).siblings("label").removeClass("active");
+								$(val).next().addClass("active");
+								let page = $(".paging");
+								$(page).each((idx, val) => {
+									$(val).addClass('offPage');
+								})
+								$(page[index]).removeClass("offPage");
+						})
+					})
+			}  */
 			
 			//모달창 띄우기
 			function aaaaa () {
@@ -378,6 +415,9 @@
 				if(confirm("입력한 내용을 등록하시겠습니까?")){
 					alert("등록되었습니다")
 					frm.submit()
+				}else{
+					alert("등록이 취소되었습니다")
+					return "professor/course/tempInsert";
 				}
 				
 			}
@@ -393,9 +433,9 @@
 			   tinymce.init({
 			        selector: '#courseSummary',
 			        plugins: [
-			          'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+			          'advlist','autolink',
 			          'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-			          'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+			          'fullscreen','insertdatetime','media','table','help','wordcount'
 			        ],
 			        toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
 			          'alignleft aligncenter alignright alignjustify | ' +

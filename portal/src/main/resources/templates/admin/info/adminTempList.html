@@ -117,34 +117,49 @@
 								<div class="row">
 									<div class="card z-index-0 fadeIn3 fadeInBottom">
 										<div class="card-body">
-												<input type="hidden" id="tt" name="courseCode">
+											<input type="hidden" id="tt" name="courseCode">
+												
 												<table class="table">
+												<div class="col-md-10 col-16">
 													<tr>
 														
 														<th>비승인 사유</th>
+														
+														
 														<td>
-														<select class="form-control" name="backReason2" id="backReason2">
-															<option value="오타 문제  : ">오타 문제</option>
-															<option value="규칙 문제  : ">규칙 문제</option>
-															<option value="그냥 문제  : ">그냥 문제</option>
-															<option value="햄버거 문제  : ">햄버거 문제</option>
+														<select class="form-control" name="backReason2" id="backReason2" required>
+															<option value="" disabled selected th:text="선택하세요">선택하세요</option>
+															<option value="오타 문제   :">오타 문제</option>
+															<option value="중복 문제   :">중복 문제 </option>
+															<option value="부적절한 내용 문제   :">부적절한 내용 문제</option>
+															<option value="기타 문제   :">기타 문제</option>
 														</select>
 														
 														
+														<br>
 														
-														<input id="backReason3" name ="backReason3" class="form-control">
+														
+														<textarea id="backReason3" name ="backReason3" class="form-control"
+														style="height:8em;"
+														></textarea>
 														</td>
 														
 													</tr>
-														
+														</div>
 
 												</table>
+												
+												<div align="right">
 												<button type="submit"
-													class="btn btn-secondary backReasonWhy2"
-													data-bs-dismiss="modal" aria-label="Close">답변등록</button>
+													class="btn btn-primary backReasonWhy2"
+													data-bs-dismiss="modal" aria-label="Close" style="margin-right:40%;">답변등록</button>
+													
+													
 												<button id="closeModal" type="button"
 													class="btn btn-secondary" data-dismiss="modal">닫기</button>
-										
+													</div>
+
+
 
 
 

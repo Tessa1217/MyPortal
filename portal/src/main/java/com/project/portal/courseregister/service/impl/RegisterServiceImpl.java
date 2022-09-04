@@ -31,9 +31,7 @@ public class RegisterServiceImpl implements RegisterService {
 	public RegisterVO registerInsert(RegisterVO vo) {
 		// TODO Auto-generated method stub
 		//이전 신청 여부 확인
-		
 		RegisterVO rVO = mapper.courseCheck(vo);
-		
 		if (rVO == null) {
 			mapper.registerInsert(vo);
 			return mapper.limitCount(vo);	
