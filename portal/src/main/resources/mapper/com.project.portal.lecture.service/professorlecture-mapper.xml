@@ -35,7 +35,7 @@
 			WHERE L.week_code IN (SELECT week_code
 														FROM course_weekly
 														WHERE course_code = #{courseCode})
-			ORDER BY L.week_code
+			ORDER BY L.week_code DESC
 	</select>
 	<insert id="uploadVideo" parameterType="VideoVO">
 		INSERT INTO video (

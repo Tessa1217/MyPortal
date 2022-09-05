@@ -106,7 +106,6 @@ public class ProfessorReportController {
 								@RequestParam("file") MultipartFile file, 
 								HttpSession session, 
 								Model model) {
-		System.out.println(file.getOriginalFilename());
 		// 수정하려는 파일이 있을 때
 		if (!file.isEmpty()) {
 			ReportFileVO storedReportFile = service.getFile(vo.getReportFileCode(), "01");
@@ -161,18 +160,26 @@ public class ProfessorReportController {
 	// 수강생 과제 관리
 	@RequestMapping("/professor/eclass/studentScore")
 	public String studentScoreForm(Model model) {
-		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
-		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, null);
-		model.addAttribute("reportList", reportList);
 		return "professor/eclass/report/studentReportScore";
 	}
 	
+	// 수강생 과제 리스트 조회 
 	@PostMapping("/professor/eclass/studentScore")
-	public String weeklyStudentScore(Model model, CourseVO course, ReportVO vo) {
+	public String weeklyStudentScore(Model model, String reportCode, CourseVO course) {
 		course = (CourseVO) model.getAttribute("courseInfo");
+		ReportVO vo = null;
+		if (reportCode != null) {
+			vo = new ReportVO();
+			vo.setReportCode(reportCode);
+		}
 		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, vo);
+		List<ReportVO> rList = service.getReportList(course, null);
 		model.addAttribute("reportList", reportList);
-		return "string";
+		model.addAttribute("rList", rList);
+		model.addAttribute("reportCode", reportCode);
+		return "layout/fragments/professor-eclass/report/studentScoreFragment :: #studentScore";
 	}
+	
+	//@RequestMapping("/professor/eclass/studentScore/")
 	
 }

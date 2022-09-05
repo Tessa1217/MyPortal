@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.project.portal.common.Criteria;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.course.service.CourseService;
+import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.service.MyCourseMainVO;
 import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
@@ -25,6 +27,8 @@ public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 
 	@Autowired MyCourseService service;
+	@Autowired CourseService cservice;
+	
 
 	// 학생 학업 정보 조회
 
@@ -52,13 +56,15 @@ public class myCourseController {
 
 	@RequestMapping("student/courseList")
 	public String getstuMyCourse(MyCourseVO vo, 
+								BachelorScheduleVO schedule,
 								Model model, 
 								HttpSession session) {
-
+		schedule.setDetailCode("BPLAN00");
+		CourseVO course = cservice.getYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
-		List<MyCourseVO> mycourseList = service.getstuMyCourse(vo);
+		List<MyCourseVO> mycourseList = service.getstuMyCourse(vo, course);
 		logger.info(mycourseList.toString());
-		model.addAttribute("mycourseList", service.getstuMyCourse(vo));
+		model.addAttribute("mycourseList", mycourseList);
 
 		return "student/courseList";
 	}
@@ -66,10 +72,15 @@ public class myCourseController {
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
 	public String getProfMyCourse(myProfCourseVO vo, 
+									BachelorScheduleVO schedule,
 									Model model,
 									HttpSession session) {
-		vo.setProfessorId((int) session.getAttribute("id"));
-		List<myProfCourseVO> mycourseList = service.getProfMyCourse(vo);
+		
+		schedule.setDetailCode("BPLAN00");
+		CourseVO course = cservice.getYearSemester(schedule);
+		course.setProfessorId((int) session.getAttribute("id"));
+		
+		List<myProfCourseVO> mycourseList = service.getProfMyCourse(course);
 		System.out.println(mycourseList);
 		model.addAttribute("mycourseList", mycourseList);
 		return "professor/courseList";

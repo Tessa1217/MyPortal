@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.portal.common.Criteria;
+import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.mycourse.service.MyCourseMainVO;
@@ -23,9 +23,9 @@ public class MyCourseServiceImpl implements MyCourseService {
 	MyCourseMapper mapper;
 
 	@Override
-	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo) {
+	public List<MyCourseVO> getstuMyCourse(MyCourseVO mycourse, CourseVO course) {
 		// TODO Auto-generated method stub
-		return mapper.getstuMyCourse(vo);
+		return mapper.getstuMyCourse(mycourse, course);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MyCourseServiceImpl implements MyCourseService {
 	}
 
 	@Override
-	public List<myProfCourseVO> getProfMyCourse(myProfCourseVO vo) {
+	public List<myProfCourseVO> getProfMyCourse(CourseVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.getProfMyCourse(vo);
 	}

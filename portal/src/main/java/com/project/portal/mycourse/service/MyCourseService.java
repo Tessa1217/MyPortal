@@ -2,16 +2,18 @@ package com.project.portal.mycourse.service;
 
 import java.util.List;
 
-import com.project.portal.common.Criteria;
+import org.apache.ibatis.annotations.Param;
+
+import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
 
 public interface MyCourseService {
 	//학생 수강 조회
-	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo);
+	public List<MyCourseVO> getstuMyCourse(MyCourseVO myCourse, CourseVO vo);
 	
 	//교수 강의 목록 조회
-	public List<myProfCourseVO> getProfMyCourse(myProfCourseVO vo);
+	public List<myProfCourseVO> getProfMyCourse(CourseVO vo);
 	
 	//학생 수강강의 페이지 이동
 	public MyCourseMainVO getstuMyCoursePage(String courseCode);

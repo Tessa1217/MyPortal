@@ -62,10 +62,8 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report) {
 		List<ReportVO> list = mapper.getReportList(vo, report);
 		List<ReportSubmissionVO> subList = mapper.getStudentReportList(list);
-		if (report == null) {
-			report = new ReportVO();
-			report.setCourseCode(vo.getCourseCode());
-		}
+		report = new ReportVO();
+		report.setCourseCode(vo.getCourseCode());
 		for (ReportSubmissionVO sub : subList) {
 			List<StudentVO> student = mapper.getStudentList(report, sub);
 			sub.setStudentInfo(student.get(0));

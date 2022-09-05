@@ -2,6 +2,7 @@ package com.project.portal.course.service;
 
 import java.util.List;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.survey.service.SurveyAvgVO;
 import com.project.portal.survey.service.SurveyVO;
@@ -20,6 +21,6 @@ public interface CourseService {
 	SurveyAvgVO getSurveyStats(CourseVO course, SurveyAvgVO vo);
 
 	// 이번 년도와 학기 조회
-	CourseVO getCurrent();
+	CourseVO getYearSemester(BachelorScheduleVO vo);
 
 }

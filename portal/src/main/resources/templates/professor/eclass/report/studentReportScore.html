@@ -15,32 +15,36 @@
 			<div class="page-title">
 				<h2>수강생 과제 관리</h2>
 			</div>
-			<div class="card">
-				<div class="card-body">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>학번</th>
-								<th>이름</th>
-								<th>제출 여부</th>
-								<th>과제 점수</th>
-								<th>첨부파일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="r : ${reportList}">
-								<td th:text="${r.studentId}"></td>
-								<td th:text="${r.studentInfo.studentName}"></td>
-								<td th:text="${r.reportSubmissionOption}"></td>
-								<td th:text = "${r.reportSubmissionOption == 'UNSUB'} ? 'X' : 'O'"></td>
-								<td th:if = "${r.reportFileCode == null}">-</td>
-								<td th:if="${r.reportFileCode != null}"><a th:href="@{/report/download/{reportFileCode}(reportFileCode = ${r.reportFileCode})}">과제 파일</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+			<div id="studentScore" class="card">
 			</div>
 		</div>
+		<script th:inline="javascript">
+			$(function() {
+				getStudentScore();
+				complete();
+			})
+			
+			function getStudentScore() {
+				let data = {};
+				if ($("select[name=reportCode]").val() != '') {
+					data.reportCode = $("select[name=reportCode]").val();
+				}
+				$.ajax({
+					method : 'POST',
+					url : `/professor/eclass/studentScore`,
+					data : data,
+					success : function(fragment) {
+						$("#studentScore").replaceWith(fragment);
+					}
+				})
+			}
+			
+			function complete() {
+				console.log("hi");
+			}
+
+		
+		</script>
 	</th:block>
 </body>
 </html>

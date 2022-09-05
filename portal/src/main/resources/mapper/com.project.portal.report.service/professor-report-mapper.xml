@@ -62,12 +62,7 @@
 						AND i.course_code = #{course.courseCode}
 						</if>
 						<if test="report != null and report != ''">
-							<if test="report.reportCode != null and report.reportCode != ''">
-							AND i.report_code = #{report.reportCode}
-							</if>
-							<if test="report.weekCode != null and report.weekCode != ''">
-							AND i.week_code = #{report.weekCode}
-							</if>					
+						AND i.report_code = #{report.reportCode}			
 						</if>
 						</where>
 						ORDER BY i.week_code DESC

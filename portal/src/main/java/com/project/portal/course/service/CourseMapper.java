@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.survey.service.SurveyVO;
 
@@ -31,6 +32,6 @@ public interface CourseMapper {
 	double allMyCourseAvg();
 	
 	// 현재 학기와 년도 조회
-	CourseVO getCurrent();
+	CourseVO getYearSemester(BachelorScheduleVO vo);
 
 }

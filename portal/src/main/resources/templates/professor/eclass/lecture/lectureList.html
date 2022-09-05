@@ -14,13 +14,12 @@
 		</div>
 		<div class="card">
 		<div class="card-body">
-			<table class="table table-striped dataTable-table center" id="lectureTable">
+			<table class="table" id="lectureTable">
 				<thead>
 					<tr>
 						<th>강의 주차</th>
 						<th>강의 제목</th>
-						<th>강의 시작일</th>
-						<th>강의 마감일</th>
+						<th>강의 출석 기한</th>
 						<th>강의 출석 인정 시간</th>
 						<th>강의 영상</th>
 					</tr>
@@ -29,8 +28,7 @@
 					<tr th:each="lec : ${lectureList}">
 						<td th:text="${#strings.substring(lec.weekCode, 8, 10)}"></td>
 						<td th:text="${lec.lectureTitle}"></td>
-						<td th:text="${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')}"></td>
-						<td th:text="${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}"></td>
+						<td th:text="|${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></td>
 						<td th:text="${lec.lectureAttTime}"></td>
 						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td>
 					</tr>

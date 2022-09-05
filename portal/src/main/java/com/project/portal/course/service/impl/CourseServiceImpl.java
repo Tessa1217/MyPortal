@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseMapper;
 import com.project.portal.course.service.CourseService;
@@ -57,8 +58,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public CourseVO getCurrent() {
-		return mapper.getCurrent();
+	public CourseVO getYearSemester(BachelorScheduleVO vo) {
+		return mapper.getYearSemester(vo);
 	}
 	
 }

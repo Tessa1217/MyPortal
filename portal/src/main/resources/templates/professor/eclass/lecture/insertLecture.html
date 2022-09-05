@@ -18,6 +18,7 @@
 			th:action="@{/professor/eclass/insertLecture}" 
 			method="POST" enctype="multipart/form-data"
 			class="form form-horizontal">
+			<input type="hidden" name="courseCode" th:value="${session.courseCode}">
 				<div class="form-body width-seven">
 					<div class="row formrow">
 							<div class="col-md-4">
@@ -71,11 +72,14 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<label>출석 인정시간</label>
+								<label>강의 참고사항</label>
 							</div>
 							<div class="col-md-8">
-								<input type="text" name="lectureContent" class="form-control width-seven"> 분
+								<input type="text" name="lectureContent" class="form-control width-seven">
 							</div>
+					</div>
+					<div class="btnContainer">
+						<button type="submit">등록하기</button>
 					</div>
 				</div>
 			</form>
@@ -109,7 +113,7 @@
 						video.addEventListener('loadedmetadata', function() {
 							let duration = video.duration;
 							document.querySelector("input[name=lectureAttTime]").value = Math.floor(duration/60);
-							document.querySelector("input[type=hidden]").value = duration;
+							document.querySelector("input[name=videoPlayTime]").value = duration;
 						})
 					}	
 				})

@@ -11,7 +11,9 @@
 		FROM MY_COURSE M
 		JOIN COURSE C ON M.COURSE_CODE = C.COURSE_CODE
 		JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
-		WHERE M.STUDENT_ID = #{studentId}
+		WHERE M.STUDENT_ID = #{my.studentId}
+		AND C.COURSE_YEAR = #{course.courseYear}
+		AND C.COURSE_SEMESTER = #{course.courseSemester}
 	</select>
 
 	<select id="getstuMyCourseDetail"

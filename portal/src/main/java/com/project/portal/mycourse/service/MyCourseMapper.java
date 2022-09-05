@@ -3,8 +3,9 @@ package com.project.portal.mycourse.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-import com.project.portal.common.Criteria;
+import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
 
@@ -12,9 +13,10 @@ import com.project.portal.exam.service.ExamScoreVO;
 public interface MyCourseMapper {
 	
 	//학생 수강 조회
-	public List<MyCourseVO> getstuMyCourse(MyCourseVO vo);
+	public List<MyCourseVO> getstuMyCourse(@Param("my") MyCourseVO myCourse, 
+											@Param("course") CourseVO vo);
 	//교수 강의 목록 조회
-	public List<myProfCourseVO> getProfMyCourse(myProfCourseVO vo);
+	public List<myProfCourseVO> getProfMyCourse(CourseVO vo);
 	// 수강강의 페이지 이동
 	public MyCourseMainVO getstuMyCoursePage(String courseCode);
 	//교수 수강강의 페이지 이동
