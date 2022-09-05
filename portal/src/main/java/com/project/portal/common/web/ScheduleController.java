@@ -18,8 +18,8 @@ public class ScheduleController {
 	ScheduleServiceImpl service;
 	
 	@Scheduled(cron = "0 0 0 * * ?")
-	public void autoReportScore(CourseVO vo) {
-		vo = cService.getCurrent();
+	public void autoReportScore() {
+		CourseVO vo = cService.getCurrent();
 		service.updateExamScore(vo);
 	}
 	
