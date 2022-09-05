@@ -7,7 +7,7 @@ import com.project.portal.course.service.CourseVO;
 
 public interface StudentLectureService {
 	
-	List<LectureVO> getLectureList(CourseVO vo);
+	List<LectureVO> getLectureList(CourseVO course, LectureVO lecture);
 	LectureVO getLecture(LectureVO vo);
 	StudentLectureVO getLectureRecord(StudentLectureVO vo);
 	void insertLectureRecord(StudentLectureVO vo);

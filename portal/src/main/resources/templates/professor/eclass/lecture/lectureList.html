@@ -10,7 +10,7 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 		<div class="page-title">
-			<h3>강의 영상 자료 리스트</h3>
+			<h2 th:text="|${courseInfo.courseName} 영상 리스트|"></h2>
 		</div>
 		<div class="card">
 		<div class="card-body">
@@ -20,8 +20,9 @@
 						<th>강의 주차</th>
 						<th>강의 제목</th>
 						<th>강의 출석 기한</th>
-						<th>강의 출석 인정 시간</th>
+						<th class="width-one">인정 시간</th>
 						<th>강의 영상</th>
+						<th>상세보기</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,8 +30,10 @@
 						<td th:text="${#strings.substring(lec.weekCode, 8, 10)}"></td>
 						<td th:text="${lec.lectureTitle}"></td>
 						<td th:text="|${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></td>
-						<td th:text="${lec.lectureAttTime}"></td>
+						<td th:text="|${lec.lectureAttTime/60}분|"></td>
 						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td>
+						<td><button type="button" class="btn btn-sm rounded-pill btn-primary"
+						th:onclick="|location.href='@{/professor/eclass/detailLecture/{lectureCode}(lectureCode = ${lec.lectureCode})}'|">상세보기</button></td>
 					</tr>
 				</tbody>
 			</table>

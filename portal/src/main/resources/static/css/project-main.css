@@ -231,11 +231,27 @@ input[name=examQuestionPoint] {
 	width: 15%;
 }
 
+.width-one {
+	width: 10%;
+}
+
 .width-three {
 	width: 30%;
 }
 
+.width-five {
+	width: 50%;
+}
+
+.width-six {
+	width: 60%;
+}
+
 .width-seven {
+	width: 70%;
+}
+
+.width-nine {
 	width: 90%;
 }
 

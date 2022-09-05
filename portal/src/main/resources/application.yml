@@ -5,22 +5,32 @@ spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     # driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:log4jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
+    url: jdbc:log4jdbc:oracle:thin:@portal_high?TNS_ADMIN=/Users/tessa/Wallet_portal
     # url: jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
-    
     username: ADMIN
     password: finalProject@1234
     hikari:
       maximum-pool-size: 3
   servlet:
     multipart:
-      location: C:////portal
+      location: /Users/tessa/portal
       max-file-size: 20MB
       max-request-size: 20MB
   thymeleaf:
     check-template-location: true
     prefix: classpath:/templates/
     suffix: .html
+  mail:
+    host: smtp.gmail.com
+    post: 587
+    username: kwonyuj1996@gmail.com
+    password: ojgwgszkwpfdhhsc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
     
 mybatis:
   configuration:

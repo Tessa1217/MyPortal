@@ -13,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.portal.course.service.CourseVO;
@@ -49,7 +54,7 @@ public class ProfessorLectureController {
 	// 강의 리스트 페이지 이동 
 	@RequestMapping("professor/eclass/lectureList")
 	public String lectureList(Model model) {
-		List<LectureVO> lectureList = service.getLectureList((CourseVO) model.getAttribute("courseInfo"));
+		List<LectureVO> lectureList = service.getLectureList((CourseVO) model.getAttribute("courseInfo"), null);
 		model.addAttribute("lectureList", lectureList);
 		return "professor/eclass/lecture/lectureList";
 	}
@@ -87,6 +92,62 @@ public class ProfessorLectureController {
 		service.insertLecture(lecture);
 		
 		return "redirect:/professor/eclass/lectureList";
+	}
+	
+	// 강의 상세보기 & 수정하기 페이지 이동
+	@RequestMapping("/professor/eclass/detailLecture/{lectureCode}")
+	public String detailLecture(@PathVariable String lectureCode, 
+								CourseVO course,
+								Model model) {
+		course = (CourseVO) model.getAttribute("courseInfo");
+		LectureVO vo = new LectureVO();
+		vo.setLectureCode(lectureCode);
+		List<LectureVO> lecture = service.getLectureList(course, vo);
+		System.out.println(lecture.get(0));
+		model.addAttribute("lecture", lecture.get(0));
+		return "professor/eclass/lecture/detailLecture";
+	}
+	
+	@DeleteMapping("/professor/eclass/deleteLecture")
+	@ResponseBody
+	public String deleteLecture(@RequestBody LectureVO vo) {
+		service.deleteLecture(vo);
+		return "success";
+	}
+	
+	@PostMapping("/professor/eclass/updateLecture")
+	public String updateLecture(@RequestParam("file") MultipartFile file, 
+											LectureVO vo,
+											HttpSession session,
+											Model model) {
+		if (! file.isEmpty()) {
+			File storedFile = new File(service.getVideo(vo.getVideoCode()).getVideoFilePath());
+			if (storedFile.exists()) {
+				storedFile.delete();
+			}
+			CourseVO course = (CourseVO) model.getAttribute("courseInfo");
+			VideoVO newFile = newFile(file, course, session);
+			service.updateLecture(vo, newFile);
+		} else {
+			service.updateLectureOnly(vo);
+		}
+		return "redirect:/professor/eclass/lectureList";
+	}
+	
+	// 파일 세팅하는 메서드 
+	private VideoVO newFile(MultipartFile file, 
+								CourseVO course, 
+								HttpSession session) {
+		VideoVO newFile = new VideoVO();
+		newFile.setProfessorId((int) session.getAttribute("id"));
+		newFile.setVideoExtension(file.getContentType());
+		newFile.setVideoName(file.getOriginalFilename());
+		newFile.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
+		newFile.setVideoFilePath(uploadPath + "/video/" + 
+		course.getCourseYear() + "/" + course.getCourseSemester() + "/"
+		+ course.getCourseCode() + "/" + 
+		newFile.getVideoStoredName());
+		return newFile;
 	}
 
 }

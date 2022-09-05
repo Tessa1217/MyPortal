@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/professor-eclass_layout}">
 <head>
+<head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -11,12 +12,12 @@
 		<div id="main">
 			<div id="detailView">
 				<th:block
-					th:replace="/layout/fragments/professor-eclass/report/detailFragment :: detailFragment">
+					th:replace="/layout/fragments/professor-eclass/lecture/detailFragment :: detailFragment">
 				</th:block>
 			</div>
 			<div id="updateView">
 				<th:block
-					th:replace="/layout/fragments/professor-eclass/report/updateFragment :: updateFragment">
+					th:replace="/layout/fragments/professor-eclass/lecture/updateFragment :: updateFragment">
 				</th:block>
 			</div>
 		</div>

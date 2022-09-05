@@ -19,13 +19,13 @@
 			method="POST" enctype="multipart/form-data"
 			class="form form-horizontal">
 			<input type="hidden" name="courseCode" th:value="${session.courseCode}">
-				<div class="form-body width-seven">
+				<div class="form-body width-nine">
 					<div class="row formrow">
 							<div class="col-md-4">
 								<label>강의명</label>
 							</div>
 							<div class="col-md-8">
-								<input type="text" name="lectureTitle" class="form-control">
+								<input type="text" name="lectureTitle" class="form-control width-nine">
 							</div>
 							<div class="col-md-4">
 								<label>강의 주차</label>
@@ -42,40 +42,37 @@
 						</select>
 							</div>
 							<div class="col-md-4">
-								<label>강의 시작일</label>
+								<label>강의 출석 인정 기간</label>
 							</div>
 							<div class="col-md-8">
-								<input type="date" name="lectureStartDate" class="form-control width-seven">
-							</div>
-							<div class="col-md-4">
-								<label>강의 종료일</label>
-							</div>
-							<div class="col-md-8">
-								<input type="date" name="lectureEndDate" class="form-control width-seven">
+								<input type="date" name="lectureStartDate" 
+								style="display:inline;" class="form-control width-three">
+								 ~ <input type="date" name="lectureEndDate" 
+								style="display:inline;" class="form-control width-three">
 							</div>
 							<div class="col-md-4">
 								<label>출석 인정시간</label>
 							</div>
 							<div class="col-md-8">
-								<input type="number" name="lectureAttTime" class="form-control width-seven">
+								<input type="number" name="lectureAttTime" class="form-control width-nine">
 							</div>
 							<div class="col-md-4">
 								<label>강의 파일 업로드</label>
 							</div>
 							<div class="col-md-8">
-									<input type="file" class="form-control" style="display:inline;" th:onchange="getDuration" name="file">
-									<button type="button" style="float:right;" class="btn btn-primary">기본 정보 불러오기</button>
+									<input type="file" class="form-control width-six" style="display:inline;" th:onchange="getDuration" name="file">
+									<button type="button" style="display:inline;" class="btn btn-primary">기본 정보 불러오기</button>
 								<input type="hidden" name="videoPlayTime">
 							</div>
 							<div class="col-md-4">
 								<label>강의 참고사항</label>
 							</div>
 							<div class="col-md-8">
-								<input type="text" name="lectureContent" class="form-control width-seven">
+								<textarea id="lectureContent" name="lectureContent"></textarea>
 							</div>
 					</div>
 					<div class="btnContainer">
-						<button type="submit">등록하기</button>
+						<button class="btn btn-primary" type="submit">등록하기</button>
 					</div>
 				</div>
 			</form>
@@ -87,6 +84,18 @@
 				enterDate("lectureStartDate", "lectureEndDate");
 				getDuration();
 			})
+			
+			// 에디터
+			tinymce.
+					init({
+						selector : '#lectureContent',
+						submit_patch : false,
+						setup: function(editor) {
+							editor.on('change', function() {
+								editor.save();
+							})
+						}
+					})
 			
 			// 비디오 업로드 시 비디오 재생시간 구하기
 			function getDuration() {

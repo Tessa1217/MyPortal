@@ -27,11 +27,11 @@
 							class="goLearnBtn btn btn-primary disabled btn-lg" 
 							type="button">학습예정</button>
 							<button th:if="${#dates.createNow()} ge ${lec.lectureStartDate} and ${#dates.createNow()} le ${lec.lectureEndDate}" 
-							th:data-week-code="${lec.weekCode}" 
+							th:data-lecture-code="${lec.lectureCode}" 
 							class="goLearnBtn btn btn-danger btn-lg" 
 							type="button">학습하기</button>
 							<button class="goReLearnBtn btn btn-primary btn-lg" 
-							th:data-week-code="${lec.weekCode}"
+							th:data-lecture-code="${lec.lectureCode}"
 							th:if="${#dates.createNow()} gt ${lec.lectureEndDate} and ${#dates.createNow()} gt ${lec.lectureStartDate}">
 							다시보기
 							</button>
@@ -49,18 +49,18 @@
 			// 해당 강의 학습하러 가기
 			function goToLecture() {
 				$(document).on("click", ".goLearnBtn", function(e) {
-					let weekcode = $(e.target).data("week-code");
- 					location.href="watchLecture?weekCode=" + weekcode;
+					let weekcode = $(e.target).data("lecture-code");
+ 					location.href="watchLecture?lectureCode=" + weekcode;
 				})
 			}
 			
 			// 지난 강의 학습하러 가기 
 			function goToPrevLecture() {
 				$(document).on("click", '.goReLearnBtn', function(e) {
-					let weekcode = $(e.target).data("week-code");
+					let weekcode = $(e.target).data("lecture-code");
 					fireSwal('info', '학습 인정 일자가 지나 출결율에 반영되지 않습니다. 그래도 시청하시겠습니까?')
 						.then((result) => {
-							location.href=`watchLecture?weekCode=` + weekcode;
+							location.href=`watchLecture?lectureCode=` + weekcode;
 						})
 				})
 			}

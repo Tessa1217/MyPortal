@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.lecture.service.LectureVO;
@@ -17,8 +18,8 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 	@Autowired ProfessorLectureMapper mapper;
 	
 	@Override
-	public List<LectureVO> getLectureList(CourseVO vo) {
-		return mapper.getLectureList(vo);
+	public List<LectureVO> getLectureList(CourseVO course, LectureVO lecture) {
+		return mapper.getLectureList(course, lecture);
 	}
 	
 	@Override
@@ -36,5 +37,31 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 	public VideoVO getVideo(String videoCode) {
 		return mapper.getVideo(videoCode);
 	}
+
+	@Override
+	@Transactional
+	public void deleteLecture(LectureVO vo) {
+		VideoVO video = new VideoVO();
+		video.setVideoCode(vo.getVideoCode());
+		mapper.deleteLecture(vo);
+		mapper.deleteVideo(video);
+	}
+
+	@Override
+	@Transactional
+	public void updateLecture(LectureVO vo, VideoVO newFile) {
+		mapper.deleteVideo(vo.getLectureFile());
+		mapper.uploadVideo(newFile);
+		vo.setVideoCode(newFile.getVideoCode());
+		mapper.updateLecture(vo);
+		
+	}
+
+	@Override
+	public void updateLectureOnly(LectureVO vo) {
+		mapper.updateLecture(vo);
+	}
+	
+	
 
 }

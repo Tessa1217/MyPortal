@@ -6,7 +6,14 @@
 	<select id="getLectureList" resultType="LectureVO">
 		SELECT *
 		FROM lecture
-		WHERE course_code = #{courseCode}
+		<where>
+		<if test="course != null and course != ''">
+		AND course_code = #{course.courseCode}
+		</if>
+		<if test="lecture != null and lecture != ''">
+		AND lecture_code = #{lecture.lectureCode}
+		</if>
+		</where>
 		ORDER BY week_code DESC
 	</select>
 	<resultMap id="lectureMap" type="LectureVO">

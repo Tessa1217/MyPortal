@@ -9,10 +9,22 @@ import com.project.portal.course.service.CourseVO;
 
 @Mapper
 public interface ProfessorLectureMapper {
-	
-	List<LectureVO> getLectureList(CourseVO vo);
+	// 강의 리스트
+	List<LectureVO> getLectureList(@Param("course") 
+								CourseVO course, 
+								@Param("lecture") 
+								LectureVO lecture);
+	// 강의 등록
 	void insertLecture(LectureVO vo);
+	// 비디오 업로드
 	void uploadVideo(VideoVO vo);
+	// 비디오 가져오기
 	VideoVO getVideo(@Param("videoCode") String videoCode);
+	// 강의 삭제 
+	void deleteLecture(LectureVO vo);
+	// 비디오 삭제
+	void deleteVideo(VideoVO vo);
+	// 강의 수정
+	void updateLecture(LectureVO vo);
 
 }

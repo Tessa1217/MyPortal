@@ -22,8 +22,7 @@
 			</div>
 			<div class="row lecture-box">
 			<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
-			<!-- 세션 값으로 변경 -->
-			<input type="hidden" name="studentId" value=22000001>
+			<input type="hidden" name="studentId" th:value="${session.id}">
 			<input type="hidden" name="lectureAttTime" th:value="${lecture.lectureAttTime}">
 				<th:block
 					th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">

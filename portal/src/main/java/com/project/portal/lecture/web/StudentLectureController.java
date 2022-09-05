@@ -43,10 +43,10 @@ public class StudentLectureController {
 							StudentLectureVO slecture, 
 							Model model,
 							HttpSession session) {
-		vo.setCourseCode("SSPY0001");
+		vo = (CourseVO) model.getAttribute("courseInfo");
 		slecture.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("record", service.getLectureRecord(slecture));
-		model.addAttribute("lectureList", service.getLectureList(vo));
+		model.addAttribute("lectureList", service.getLectureList(vo, null));
 		
 		return "student/eclass/lecture/lectureList";
 	}
@@ -57,11 +57,12 @@ public class StudentLectureController {
 								Map<String, Object> map, 
 								Model model,
 								HttpSession session) {
-		vo = service.getLecture(vo);
-		note.setLectureCode(vo.getLectureCode());
+		System.out.println(vo);
+		List<LectureVO> lecture = service.getLectureList(null, vo);
+		note.setLectureCode(lecture.get(0).getLectureCode());
 		note.setStudentId((int) session.getAttribute("id"));
-		map = service.getList(vo, note.getStudentId());
-		model.addAttribute("lecture", vo);
+		map = service.getList(lecture.get(0), note.getStudentId());
+		model.addAttribute("lecture", lecture.get(0));
 		model.addAttribute("noteList", map.get("noteList"));
 		model.addAttribute("questionList", map.get("questionList"));
 		return "student/eclass/lecture/watchLecture";
@@ -75,6 +76,7 @@ public class StudentLectureController {
 		} 
 		if (vo.getCmd().equals("update")) {
 			service.updateLectureRecord(vo);
+			System.out.println(vo);
 		}
 		return "success";
 	}
@@ -96,7 +98,7 @@ public class StudentLectureController {
 	@RequestMapping("student/eclass/myNotes")
 	public String getMyNotes(Model model, HttpSession session) {
 		Map<String, List<StudentNoteVO>> map = new HashMap<String, List<StudentNoteVO>>();
-		List<LectureVO> lectures = service.getLectureList((CourseVO) model.getAttribute("courseInfo"));
+		List<LectureVO> lectures = service.getLectureList((CourseVO) model.getAttribute("courseInfo"), null);
 		for (LectureVO lecture : lectures) {
 			List<StudentNoteVO> noteList = service.getNoteList(lecture, (int) session.getAttribute("id"));
 			if (noteList.size() != 0) {

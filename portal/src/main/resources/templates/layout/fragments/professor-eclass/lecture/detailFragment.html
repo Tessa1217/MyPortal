@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="detailFragment">
+		<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
+		<input type="hidden" name="videoCode" th:value="${lecture.videoCode}">
+		<div class="page-title">
+			<h2>강의 상세보기</h2>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th>강의명</th>
+						<td th:text="${lecture.lectureTitle}"></td>
+					</tr>
+					<tr>
+						<th>강의 주차</th>
+						<td th:text="|${#strings.substring(lecture.weekCode, 8, 10)}주차|"></td>
+					</tr>
+					<tr>
+						<th>강의 출석 인정 기간</th>
+						<td
+							th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - 
+						${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
+					</tr>
+					<tr>
+						<th>강의 출석 인정 시간</th>
+						<td th:text="|${lecture.lectureAttTime/60} 분|"></td>
+					</tr>
+					<tr>
+						<th>강의 영상</th>
+						<td><a th:text="${lecture.lectureFile.videoName}"
+							th:download="${lecture.lectureFile.videoName}"
+							th:href="@{/video/download/{videoCode}(videoCode = ${lecture.videoCode})}"></a></td>
+					</tr>
+					<tr>
+						<th>과제 참고사항</th>
+						<td th:utext="${lecture.lectureContent}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div th:if="${lecture.lectureStartDate} gt ${#dates.createNow()}"
+			class="btnContainer">
+			<button type="button" id="changeBtn" class="btn btn-primary">수정하기</button>
+			<button type="button" id="delBtn" class="btn btn-danger">삭제하기</button>
+		</div>
+	<script th:inline="javascript">
+		$(function() {
+			deleteReport();
+		})
+		
+		function deleteReport() {
+			$(document).on("click", "#delBtn", function() {
+				let data = {
+						lectureCode : $("input[name=lectureCode]").val(),
+						videoCode : $("input[name=videoCode]").val()
+				}
+				console.log(data);
+				$.ajax({
+					method : 'DELETE',
+					url : `/professor/eclass/deleteLecture`,
+					contentType : 'application/json',
+					data : JSON.stringify(data),
+					success : function(message) {
+						if (message == 'success') {
+							fireSwal('success', '강의 삭제가 완료되었습니다.')
+								.then((result) => {
+									if (result.isConfirmed) {
+										location.href=`/professor/eclass/lectureList`;
+									}
+								})
+						}
+					}
+				})
+			})
+		}
+	</script>
+	</th:block>
+</body>
+</html>

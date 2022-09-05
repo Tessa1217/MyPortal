@@ -10,7 +10,8 @@ import com.project.portal.course.service.CourseVO;
 @Mapper
 public interface StudentLectureMapper {
 	
-	List<LectureVO> getLectureList(CourseVO vo);
+	List<LectureVO> getLectureList(@Param("course") CourseVO course,
+									@Param("lecture") LectureVO lecture);
 	LectureVO getLecture(LectureVO vo);
 	StudentLectureVO getLectureRecord(StudentLectureVO vo);
 	void insertLectureRecord(StudentLectureVO vo);

@@ -20,8 +20,9 @@ public class UserServiceImpl implements UserService {
 		User user = mapper.getSelectUserInfo(username);
 		return user;
 	}
-
-
 	
+	public void setTempPassword(String id, String pwd) {
+		mapper.setTempPassword(id, pwd);
+	}
 
 }

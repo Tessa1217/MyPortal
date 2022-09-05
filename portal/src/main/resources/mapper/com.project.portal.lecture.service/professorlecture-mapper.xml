@@ -32,9 +32,16 @@
 			V.video_file_path
 			FROM lecture L JOIN video V
 			ON L.video_code = V.video_code
-			WHERE L.week_code IN (SELECT week_code
+			<where>
+			<if test="course != null and course != ''">
+			AND L.week_code IN (SELECT week_code
 														FROM course_weekly
-														WHERE course_code = #{courseCode})
+														WHERE course_code = #{course.courseCode})
+			</if>
+			<if test="lecture != null and lecture != ''">
+			AND L.lecture_code = #{lecture.lectureCode}
+			</if>
+			</where>
 			ORDER BY L.week_code DESC
 	</select>
 	<insert id="uploadVideo" parameterType="VideoVO">
@@ -83,7 +90,7 @@
 																SYSDATE,
 																#{lectureStartDate},
 																#{lectureEndDate},
-																#{lectureAttTime},
+																#{lectureAttTime} * 60,
 																#{lectureContent},
 																#{videoCode},
 																#{lectureTitle},
@@ -94,4 +101,24 @@
 			FROM video
 			WHERE video_code = #{videoCode}
 	</select>
+	<delete id="deleteLecture" parameterType="LectureVO">
+		DELETE FROM lecture
+		WHERE lecture_code = #{lectureCode}
+	</delete>
+	<delete id="deleteVideo" parameterType="VideoVO">
+		DELETE FROM video
+		WHERE video_code = #{videoCode}
+	</delete>
+	<update id="updateLecture" parameterType="LectureVO">
+		UPDATE lecture
+			SET 
+				week_code = #{weekCode},
+				lecture_att_time = #{lectureAttTime} * 60,
+				lecture_title = #{lectureTitle},
+				lecture_content = #{lectureContent},
+				lecture_start_date = #{lectureStartDate},
+				lecture_end_date = #{lectureEndDate},
+				video_code = #{videoCode}
+			WHERE lecture_code = #{lectureCode}
+	</update>
 </mapper>
