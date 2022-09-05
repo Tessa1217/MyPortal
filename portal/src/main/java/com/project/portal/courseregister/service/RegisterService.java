@@ -22,4 +22,7 @@ public interface RegisterService {
 	//강의 취소
 	public int registerDelete(RegisterVO vo);
 	
+	//수강신청 학점 조회
+	public RegisterVO registerAllCredit(RegisterVO vo);
+	
 }

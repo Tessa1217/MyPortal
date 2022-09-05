@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.coursepackage.service.CoursePackageService;
 import com.project.portal.coursepackage.service.CoursePackageVO;
+import com.project.portal.student.service.StudentVO;
 
 /*
  * 작성자: 송도언
@@ -32,7 +33,11 @@ public class CoursePackageController {
 		vo.setStudentId((int)session.getAttribute("id"));
 		List<CoursePackageVO> coursePackage = service.coursePackage(vo);
 		model.addAttribute("coursePackage", coursePackage);
-
+		
+		// 학생 정보
+		CoursePackageVO studentInfo = service.studentInfo(vo);
+		model.addAttribute("studentInfo", studentInfo);
+		
 		// 담은 꾸러미 LIST
 		List<CoursePackageVO> coursePackageList = service.coursePackageList(vo);
 		model.addAttribute("coursePackageList", coursePackageList);

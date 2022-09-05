@@ -57,6 +57,12 @@ public class RegisterServiceImpl implements RegisterService {
 		return mapper.registerDelete(vo);
 	}
 
+	@Override
+	public RegisterVO registerAllCredit(RegisterVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.registerAllCredit(vo);
+	}
+
 
 	
 }

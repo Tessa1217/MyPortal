@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.student.service.StudentVO;
 
 @Mapper
 public interface CoursePackageMapper {
@@ -23,4 +24,7 @@ public interface CoursePackageMapper {
 	
 	public CoursePackageVO coursePackagePoint(CoursePackageVO vo);
 	
+	public CoursePackageVO courseCheck(CoursePackageVO vo);
+	
+	public CoursePackageVO studentInfo(CoursePackageVO vo);
 }

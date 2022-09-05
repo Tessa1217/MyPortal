@@ -13,7 +13,7 @@
 		       a.course_semester,
                a.course_code,
 		        
-               COUNT(b.student_id) AS studentCount,
+               COUNT(b.student_id) AS S_COUNT,
                
                c.professor_name
                
@@ -92,14 +92,15 @@
                
                b.student_id, 
                b.course_code,
-               COUNT(b.student_id) AS studentCount,  
+               COUNT(b.student_id) AS S_COUNT,  
        	       
        	       c.professor_name
+       	       
 			FROM course a
 			LEFT OUTER 	JOIN my_course b
 					ON a.course_code = b.course_code
 				JOIN professor c
-					ON a.professor_id = c.professor_id
+					ON a.professor_id = c.professor_id	
 			GROUP BY  
 				 a.course_sortation, 
 			   a.course_year, 
@@ -112,9 +113,10 @@
                b.course_code,  
                 
         	   c.professor_name
+        	   
         HAVING b.student_id = #{studentId} 
-			AND a.course_semester = '1'
-			AND a.course_year = '2022'		
+			AND a.course_semester = 1
+			AND a.course_year = 2022		
 		 
 	</select>
 	
@@ -165,5 +167,13 @@
 				JOIN my_course b
 					ON a.course_code = b.course_code
 		WHERE student_id = #{studentId} AND a.course_name LIKE '%'||#{courseName}||'%'
+	</select>
+	
+	<select id="registerAllCredit" resultType="com.project.portal.courseregister.service.RegisterVO">
+		SELECT SUM(a.course_credit) register_credit
+			FROM course a
+				JOIN my_course b
+					ON a.course_code = b.course_code
+			WHERE student_id = #{studentId}
 	</select>
 </mapper>
