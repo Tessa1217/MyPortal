@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script
+	src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <style>
 .clear {
 	display: block;
@@ -38,33 +39,77 @@
 						<div id='calendar'></div>
 					</div>
 					<div class="col-8">
-					<br>
-					<form action="">
-						<button class="btn btn-primary" style="margin-right: 15px">등록</button>
-						<button class="btn btn-primary">일괄등록</button>
-						<input type="file" id="id_file_upload" onchange="upload(event)"/>
-						<button class="btn btn-primary"> < </button>
-						<button class="btn btn-primary"> 해당 년도 </button>
-						<button class="btn btn-primary"> > </button>
-					</form>
-					<br>
-					<dl th:each="i : ${#numbers.sequence(1, 12)}">
-						<dt th:text="|${i}월|"></dt>
-						<dd>
-							<th:block th:each="list : ${scheduleList}">
-							<ul th:if="${list.month == i}">
-								<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|" ></li>
-							</ul>
-							</th:block>
-						</dd>
-						<hr>
-					 </dl>
+						<br>
+						<form name="frm_year">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" style="margin-right: 15px" data-bs-target="#insertModal">
+								등록</button>
+							<button class="btn btn-primary">일괄등록</button>
+							<input type="file" id="id_file_upload" onchange="upload(event)" />
+							<button type="button" class="btn btn-primary" th:onclick="prevYear()">◁</button>
+							<input type="number" name="year" id="year" th:value='${year}' readonly style="text-align: center;width:80px">
+							<button type="button" class="btn btn-primary" th:onclick="nextYear()">▷</button>
+						</form>
+						<br>
+						<dl th:each="i : ${#numbers.sequence(3, 12)}">
+							<dt th:text="|${i}월|"></dt>
+							<dd>
+								<th:block th:each="list : ${scheduleList}">
+									<ul th:if="${list.month == i}">
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+									</ul>
+								</th:block>
+							</dd>
+							<hr>
+						</dl>
+						<dl th:each="i : ${#numbers.sequence(1, 2)}">
+							<dt th:text="|${i}월|"></dt>
+							<dd>
+								<th:block th:each="list : ${scheduleList}">
+									<ul th:if="${list.month == i}">
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+									</ul>
+								</th:block>
+							</dd>
+							<hr>
+						</dl>
+					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="insertModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form name="frm_insert">
+										<label for="scheduleStartDate">시작일</label>
+										<input type="date" id="scheduleStartDate" name="schedule_start_date">
+										<label for="scheduleEndDate">마감일</label>
+										<input type="date" id="scheduleEndDate" name="schedule_end_date">
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Save
+										changes</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
 
 
 				<script th:inline="javascript">
+				// Fullcalendar
 					document.addEventListener('DOMContentLoaded', function() {
 						var calendarEl = document.getElementById('calendar');
 						var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -74,19 +119,64 @@
 						calendar.setOption('contentHeight', 450);
 					});
 					
-					function upload(event){
-					    var input = event.target;
-					    var reader = new FileReader();
-					    reader.onload = function(){
-					        var fdata = reader.result;
-					        var read_buffer = XLSX.read(fdata, {type : 'binary'});
-					        read_buffer.SheetNames.forEach(function(sheetName){
-					            var rowdata =XLSX.utils.sheet_to_json(read_buffer.Sheets[sheetName]);
-					            console.log(JSON.stringify(rowdata));
-					        })
-					    };
-					    reader.readAsBinaryString(input.files[0]);
-					}
+					/* date = new Date();
+					var year = date.getFullYear();
+				  if(document.getElementById("year").value == ''){
+					document.getElementById("year").value = year;
+				} */
+				  
+				  function prevYear() {
+					$('#year').val(parseInt($("#year").val()) - 1);
+					document.frm_year.submit()
+				  }
+				  
+				  function nextYear() {
+					  if($('#year').val() < year) {
+					  $('#year').val(parseInt($("#year").val()) + 1);
+					  	console.log($("#year").val());
+					  	document.frm_year.submit()
+					  	}else{
+					  		alert("현재년도 입니다.")
+					  	}
+					  }
+					
+					/* function scheduleSearch(){
+						$.ajax({
+							url : "/professor/schedule",
+							method : "post",
+							data : {
+								"year" : ${"#year"}.val(),
+							},
+							success : function(result) {
+								
+							}
+						})
+					} */
+					
+					
+					
+					
+					
+					
+					
+					//엑셀 받아오기 일단 주석처리
+					/* function upload(event) {
+						var input = event.target;
+						var reader = new FileReader();
+						reader.onload = function() {
+							var fdata = reader.result;
+							var read_buffer = XLSX.read(fdata, {
+								type : 'binary'
+							});
+							read_buffer.SheetNames
+									.forEach(function(sheetName) {
+										var rowdata = XLSX.utils
+												.sheet_to_json(read_buffer.Sheets[sheetName]);
+										console.log(JSON.stringify(rowdata));
+									})
+						};
+						reader.readAsBinaryString(input.files[0]);
+					} */
 				</script>
 			</div>
 		</div>

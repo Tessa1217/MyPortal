@@ -3,6 +3,7 @@ package com.project.portal.bachelor.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
@@ -24,19 +26,25 @@ public class BachelorController {
 	
 	@Autowired BachelorScheduleService service;
 	
-	@ModelAttribute("scheduleList")
-	public List<BachelorScheduleVO> getSchedule() {
-		BachelorScheduleVO vo = new BachelorScheduleVO();
-		vo.setYear(2022);
-		return service.scheduleList(vo);
-	}
+//	@RequestMapping("/common/scheduleList")
+//	@ResponseBody
+//	public List<BachelorScheduleVO> getSchedule(BachelorScheduleVO vo) {
+//		return service.scheduleList(vo);
+//	}
 	
 	// 학사일정 조회
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
-	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo) {
+	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo, HttpSession session) {
 		String requestURI = request.getRequestURI();
+		//vo.setYear((int)session.getAttribute("year"));
+		
+		if(vo.getYear() == 0 ) {
+			vo.setYear((int)session.getAttribute("year"));
+			vo.setSemester((int)session.getAttribute("semester"));
+		}
 		// System.out.println(requestURI);
-		int command = 0;
+		int command =0;
+		
 		if (requestURI.equals("/professor/schedule")) {
 			command = 2;
 		} else if (requestURI.equals("/student/schedule")) {
@@ -47,7 +55,9 @@ public class BachelorController {
 		
 		
 		model.addAttribute("command", command);
-		//model.addAttribute("scheduleList", service.scheduleList(vo));
+		model.addAttribute("year", vo.getYear());
+		//model.addAttribute(vo)
+		model.addAttribute("scheduleList", service.scheduleList(vo));
 		return "common/schedule";
 	}
 }

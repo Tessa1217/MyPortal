@@ -22,8 +22,12 @@
 					method="post">
 					<label for="courseYear">개설연도</label> <input type="text"
 						id="courseYear" name="course_year"> <label
-						for="courseSemester">개설학기</label> <input type="text"
-						id="courseSemester" name="course_semester">
+						for="courseSemester">개설학기</label> 
+						<select	id="courseSemester" name="course_semester">
+							<option value="1">1학기</option>
+							<option value="2">2학기</option>
+						</select>
+
 					<button class="btn btn-primary">검색</button>
 				</form>
 				<table class="table">

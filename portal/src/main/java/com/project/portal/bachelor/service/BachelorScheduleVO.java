@@ -14,4 +14,5 @@ public class BachelorScheduleVO {
 	private String detailCode;
 	private int semester;
 	private int month;
+	private int command = 0;
 }

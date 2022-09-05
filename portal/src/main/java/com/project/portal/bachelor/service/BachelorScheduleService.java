@@ -6,4 +6,5 @@ public interface BachelorScheduleService {
 
 	List<BachelorScheduleVO> scheduleList(BachelorScheduleVO vo);
 	
+	BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo);
 }

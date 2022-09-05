@@ -12,10 +12,21 @@
 				detail_code,
 				semester,
 				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "MONTH",
-                TO_NUMBER(TO_CHAR(schedule_start_date, 'yyyy')) as "YEAR"
+                YEAR
 		from bachelor_schedule
 		where YEAR = #{year}
 		order by schedule_start_date
+	</select>
+	
+	<select id="currentYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
+		select year, semester
+	  	from bachelor_schedule
+	  	where schedule_start_date = (
+	            SELECT max(schedule_start_date)
+	            FROM bachelor_schedule
+	            WHERE detail_code = 'BPLAN00'
+	                and sysdate  > schedule_start_date )
+	    and rownum = 1
 	</select>
 	
 	
