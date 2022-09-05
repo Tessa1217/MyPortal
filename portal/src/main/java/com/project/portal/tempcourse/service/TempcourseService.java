@@ -16,7 +16,7 @@ public interface TempcourseService {
 	public List<TempcourseVO> tempcourseList(TempcourseVO vo,Criteria cri);
 	public int tempcourseListCount(TempcourseVO vo,Criteria cri);
 	public List<TempcourseweekVO> tempcourseweekList(TempcourseVO vo,Criteria cri);
-	public List<TempcourseweekVO> tempcourseweekListList(TempcourseVO vo,Criteria cri, TempcourseweekVO voo);
+	public List<TempcourseweekVO> tempcourseweekListList();
 	public void tempInsert(TempcourseVO vo);
 	public void tempweekInsert(TempcourseListVO vo);
 	public int updateTemp(TempcourseVO vo);
@@ -31,5 +31,7 @@ public interface TempcourseService {
 	public List<TempcourseVO> bringme(@Param("vo") TempcourseVO vo,@Param("cri") Criteria cri); //강의계획서입력페이지에서 강의계획서 정보를 모달로 불러오기
 	public int okayTempCourse(TempcourseVO vo); // 승인시 강의 테이블로 데이터이관
 	public int tempDelete(TempcourseVO vo); //강의계획서 삭제
+	public TempcourseVO getUpdateTemp(String no); //승인된 강의계획서 상세정보 불러오기
+	public void tempInsertWith(TempcourseweekVO voo);
 	
 }

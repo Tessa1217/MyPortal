@@ -47,6 +47,15 @@ public class TempcourseController {
 //		System.out.println(tempcourseTest);
 //		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
 //		System.out.println(tempcourseweekList);
+		
+		List<TempcourseVO> list = service.tempcourseList(vo, cri);
+		List<TempcourseVO> list2 = service.bringme(vo, cri);
+		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
+		List<TempcourseweekVO> list4 = service.tempcourseweekListList(); 
+		model.addAttribute("tempcourseLis", list);
+		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
+		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기
+		model.addAttribute("tempcourseweekList", list3);  //강의계획서 주차별 정보 가져오기
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("Sortation", codeService.getDetailList("C01"));
@@ -89,7 +98,9 @@ public class TempcourseController {
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
-		List<TempcourseweekVO> list4 = service.tempcourseweekListList(vo, cri, voo); 
+		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
+		
+		
 		
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
@@ -150,7 +161,7 @@ public class TempcourseController {
 	}
 
 	// 강의계획서 기본정보 수정기능
-	@RequestMapping("professor/getTemp/{courseCode}/updateTemp")
+	@RequestMapping(value={"professor/getTemp/{courseCode}/updateTemp", "professor/getUpdateTemp/{courseCode}/updateTemp"})
 	@ResponseBody
 	public int tempUpdate(@PathVariable String courseCode, TempcourseVO vo, Model model) {
 		
@@ -328,6 +339,59 @@ public class TempcourseController {
 			return service.tempDelete(vo);
 
 		}
+		
+		
+		// 모달창에서 승인된 강의계획서 바로가기에서 수정기능
+		@RequestMapping("/professor/getUpdateTemp/{courseCode}")
+		public String getUpdateTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
+			vo = service.getTemp(courseCode);
+//			System.out.println(vo.getCourseCode());
+//			TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
+//			System.out.println(tempcourseTest);
+//			List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
+//			System.out.println(tempcourseweekList);
+			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
+			model.addAttribute("tempcourseList", tempcourseList);
+			model.addAttribute("Sortation", codeService.getDetailList("C01"));
+			model.addAttribute("submitYes", codeService.getDetailList("S02"));
+			model.addAttribute("okayYes", codeService.getDetailList("A01"));
+			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
+
+			logger.info(vo.getCourseCode());
+			return "professor/course/getUpdateTemp";
+		}
+
+		// 승인된 강의계획서 주차별 강의 수정기능
+		@RequestMapping("/professor/getUpdateTemp/{courseCode}/updateweekTemp")
+		public String updateweekTempU(@PathVariable String courseCode, @RequestParam Map map, Model model,
+				TempcourseweekVO voo, TempcourseVO vo) {
+
+//			voo.setCourseCode(vo.getCourseCode());
+
+			TempcourseVO vol = new TempcourseVO();
+			model.addAttribute("tempcourseList", vol);
+			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
+
+			/*
+			 * for (String weekContent : voo.getWeekContent().split(",")) {
+			 * voo.setWeekNum(i); voo.setWeekContent(weekContent);
+			 * 
+			 * 
+			 * service.tempweekInsert(voo); i++; }
+			 */
+
+			for (int j = 1; j <= 15; j++) {
+				voo.setWeekNum(j);
+				voo.setWeekContent((String) map.get("weekContent" + j));
+				service.updateweekTemp(voo);
+
+			}
+
+			return "redirect:/professor/getUpdateTemp/" + courseCode;
+		}
+		
 		
 //		//비승인 사유 등록(관리자)
 //		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})

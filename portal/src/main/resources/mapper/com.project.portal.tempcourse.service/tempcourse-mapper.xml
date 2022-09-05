@@ -74,7 +74,7 @@
 	</select>
 
 	<insert id="tempInsert">
-		<selectKey resultType="string" keyProperty="courseCode"
+		 <selectKey resultType="string" keyProperty="courseCode"
 			order="BEFORE">
 			select SUBSTR(CONCAT(c.college_code, d.depart_code), 1,
 			4)||LPAD(TO_CHAR(seq_en.nextval), 4, '0') from
@@ -120,51 +120,55 @@
 		#{courseYear},
 		#{courseSemester},
 		#{professorId}
-		) 
+		)  
+		
+		<!--  merge into temp_course t using dual on (
 		
 		
-		<!-- merge into temp_course t using dual on (
+		t.course_code = #{courseCode} 
 		
-		t.course_name == null
-		t.course_code == null
-		t.course_sortation == null
-		t.course_credit == null
-		t.report_assigned_score == null
-		t.att_assigned_score == null
-		t.midterm_assigned_score == null
-		t.final_assigned_score == null
-		t.course_limit == null
-		t.textbook_reference == null
-		t.course_summary == null
-		t.course_notes == null
-		t.depart_code == null
-		t.course_year == null
-		t.course_semester == null
-		t.professor_id == null
 		
 		) when matched then 
+			update  
+		   set  t.course_name = #{courseName}, 
+				t.course_year = #{courseYear}, 
+				t.course_sortation = #{courseSortation},
+				t.course_semester = #{courseSemester}, 
+				t.course_credit = #{courseCredit},
+				t.report_assigned_score = #{reportAssignedScore}, 
+				t.midterm_assigned_score= #{midtermAssignedScore},
+				t.final_assigned_score = #{finalAssignedScore}, 
+				t.course_limit = #{courseLimit},
+				t.textbook_reference = #{textbookReference}, 
+				t.course_summary = #{courseSummary},
+				t.course_notes = #{courseNotes}
+		 where  t.course_code = #{courseCode} 
+		
+		
+		when not matched then 
+
 		insert (
-		course_name,
-		course_code,
-		course_sortation,
-		course_credit,
-		report_assigned_score,
-		att_assigned_score,
-		midterm_assigned_score,
-		final_assigned_score,
-		course_limit,
-		textbook_reference,
-		course_summary,
-		course_notes,
-		depart_code,
-		course_year,
-		course_semester,
-		professor_id
+		t.course_name,
+		t.course_code,
+		t.course_sortation,
+		t.course_credit,
+		t.report_assigned_score,
+		t.att_assigned_score,
+		t.midterm_assigned_score,
+		t.final_assigned_score,
+		t.course_limit,
+		t.textbook_reference,
+		t.course_summary,
+		t.course_notes,
+		t.depart_code,
+		t.course_year,
+		t.course_semester,
+		t.professor_id
 		
 		)
 		values(
 		#{courseName},
-		#{courseCode},
+		FIND_COURSECODE(#{departCode}),
 		#{courseSortation},
 		#{courseCredit},
 		#{reportAssignedScore},
@@ -178,29 +182,14 @@
 		#{departCode},
 		#{courseYear},
 		#{courseSemester},
-		#{professorId}
-		)
-		when not matched then 
-		update  
-		   set  course_name = #{courseName}, 
-				course_year = #{courseYear}, 
-				course_sortation = #{courseSortation},
-				course_semester = #{courseSemester}, 
-				course_credit = #{courseCredit},
-				report_assigned_score = #{reportAssignedScore}, 
-				midterm_assigned_score= #{midtermAssignedScore},
-				final_assigned_score = #{finalAssignedScore}, 
-				course_limit = #{courseLimit},
-				textbook_reference = #{textbookReference}, 
-				course_summary = #{courseSummary},
-				course_notes = #{courseNotes}
-		 where  course_code = #{courseCode} -->
+		#{professorId}) -->
+	
 	</insert>
 
 	<insert id="tempweekInsert">
 
 
-  insert into temp_course_weekly(
+   insert into temp_course_weekly(
 		week_num,
 		week_content,
 		week_code,
@@ -216,40 +205,12 @@
 		#{courseCode},
 		#{weekStartDate},
 		#{weekEndDate}
-		) 
+		)  
 
-
-		<!-- merge into temp_course_weekly w using dual on (
 		
-		w.week_num == null
-		w.week_content == null
-		w.week_code == null
-		w.course_code == null
-		w.week_start_date == null
-		w.week_end_date == null
 		
-		) when matched then
 
-		 insert into (
-		week_num,
-		week_content,
-		week_code,
-		course_code,
-		week_start_date,
-		week_end_date
-		)
-		values
-		( 
-		#{weekNum},
-		#{weekContent},
-		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
-		#{courseCode},
-		#{weekStartDate},
-		#{weekEndDate}
-		) when not matched then
-		update 
-		set week_content = #{weekContent}
-		where week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') and course_code = #{courseCode} -->
+		 
 		
 		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
 		into temp_course_weekly
@@ -288,20 +249,44 @@
 	</update>
 	
 	<update id="updateweekTemp" parameterType="com.project.portal.tempcourse.service.TempcourseweekVO">
-		 
-		<!--  merge into temp_course_weekly
-		 using dual
-		 on (week_code = #{weekCode})
-		 when matched then update set week_content = #{weekContent} where course_code = #{courseCode}
-		 when not matched then insert (
-		week_content
-		) values ( 
-		#{weekContent}
-		) -->
+	 <!-- merge into temp_course_weekly w using dual on (
+		
+		
+		w.week_start_date is not null
+		
+		
+		) when matched then
+
+		update 
+		set w.week_content = #{weekContent}
+		where w.week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') 
+		and w.course_code = #{courseCode}
+		
+		 when not matched then
+		
+		 insert (
+		w.week_num,
+		w.week_content,
+		w.week_code,
+		w.course_code,
+		w.week_start_date,
+		w.week_end_date
+		)
+		values
+		( 
+		#{weekNum},
+		#{weekContent},
+		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
+		#{courseCode},
+		#{weekStartDate},
+		#{weekEndDate}
+		)  -->
+		
 			
-		update temp_course_weekly
+		 update temp_course_weekly
 		set week_content = #{weekContent}
-		where week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') and course_code = #{courseCode}
+		where week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') 
+		and course_code = #{courseCode}
 		 
 	
 	</update>
@@ -382,7 +367,75 @@
 	</select>
 	
 	<insert id="okayTempCourse" parameterType="TempcourseVO">
-	 insert into course select
+	 
+	   merge into course c using temp_course t
+	   
+	   on 
+	   (c.course_code = t.course_code) 
+	   when matched then 
+		update  
+		   set  
+		c.course_year = t.course_year,
+		c.course_semester = t.course_semester,
+		c.course_name = t.course_name,
+		c.course_sortation = t.course_sortation,
+		c.course_credit = t.course_credit,
+		c.course_limit = t.course_limit,
+		c.professor_id = t.professor_id,
+		c.course_summary = t.course_summary,
+		c.textbook_reference = t.textbook_reference,
+		c.course_notes = t.course_notes,
+		c.report_assigned_score = t.report_assigned_score,
+		c.midterm_assigned_score = t.midterm_assigned_score,
+		c.final_assigned_score = t.final_assigned_score,
+		c.att_assigned_score = t.att_assigned_score,
+		c.survey_code = t.survey_code,
+		c.depart_code = t.depart_code
+		 
+		
+		when not matched then 
+
+		insert (
+	 	c.course_code,
+		c.course_year,
+		c.course_semester,
+		c.course_name,
+		c.course_sortation,
+		c.course_credit,
+		c.course_limit,
+		c.professor_id,
+		c.course_summary,
+		c.textbook_reference,
+		c.course_notes,
+		c.report_assigned_score,
+		c.midterm_assigned_score,
+		c.final_assigned_score,
+		c.att_assigned_score,
+		c.survey_code,
+		c.depart_code)
+		values(
+		t.course_code,
+		t.course_year,
+		t.course_semester,
+		t.course_name,
+		t.course_sortation,
+		t.course_credit,
+		t.course_limit,
+		t.professor_id,
+		t.course_summary,
+		t.textbook_reference,
+		t.course_notes,
+		t.report_assigned_score,
+		t.midterm_assigned_score,
+		t.final_assigned_score,
+		t.att_assigned_score,
+		t.survey_code,
+		t.depart_code
+		)
+		
+	
+	 
+	 <!-- insert into course select
 	 	course_code,
 		course_year,
 		course_semester,
@@ -402,11 +455,17 @@
 		depart_code
 		
 		
-	  from temp_course where course_code = #{courseCode}
+	  from temp_course where course_code = #{courseCode} -->
 	
 	</insert>
 	
 	<select id="tempcourseweekListList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
+		<!-- select a.course_code, b.course_year, b.course_semester,b.week_start_date, b.week_end_date, b.week_num
+		from temp_course a
+		join semester_week b
+		on a.course_year = b.course_year
+		where a.course_code = #{courseCode} AND b.course_semester = #{courseSemester} -->
+		
 		select * from semester_week
 	</select>
 	
@@ -414,6 +473,36 @@
 	
 	delete from temp_course where course_code = #{courseCode}	
 	</delete>
+	
+	<insert id="tempInsertWith">
+	
+	<selectKey resultType="string" keyProperty="courseCode"
+			order="AFTER">
+			select SUBSTR(CONCAT(c.college_code, d.depart_code), 1,
+			4)||LPAD(TO_CHAR(seq_en.nextval), 4, '0') from
+			college c join
+			department d
+			on c.college_code = d.college_code where d.depart_code =
+			#{departCode}
+		</selectKey>
+	 insert into temp_course_weekly(
+		week_num,
+		week_content,
+		week_code,
+		course_code,
+		week_start_date,
+		week_end_date
+		)
+		values
+		( 
+		#{weekNum},
+		#{weekContent},
+		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
+		#{courseCode},
+		#{weekStartDate},
+		#{weekEndDate}
+		) 
+	</insert>
 
 	
 </mapper>

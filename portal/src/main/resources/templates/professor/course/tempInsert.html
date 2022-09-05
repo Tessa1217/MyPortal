@@ -50,7 +50,7 @@
 							<h3>강의 계획서</h3>
 							<div align="right">
 							
-							<button type="button" class="btn btn-secondary bringme" data-toggle="modal">강의계획서 불러오기</button>
+							<button type="button" class="btn btn-secondary bringme" data-toggle="modal">승인된 강의계획서 불러오기</button>
 							</div>
 						</div>
 						<div class="card-body name">
@@ -205,6 +205,12 @@
 							 	<select name="courseCode">
 							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
+							 	<select name="courseYear">
+							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseYear}" th:value="${item.courseYear}"></option>
+							 	</select>
+							 	<select name="courseSemester">
+							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseSemester}" th:value="${item.courseSemester}"></option>
+							 	</select>
 							 <!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
 								<div>
 									<table class="table">
@@ -270,7 +276,7 @@
 				<div class="modal-content">
 
 					<div class="modal-header">
-						<label class="modal-title" id="staticBackdropLabel">강의계획서 불러오기</label>
+						<label class="modal-title" id="staticBackdropLabel">승인된 강의계획서 리스트</label>
 					</div>
 					<div class="modal-body">
 					<form name="searchForm" class="form-horizontal">
@@ -293,9 +299,9 @@
 							<th>강의명</th>
 							<th>제출여부</th>
 							<th>승인여부</th>
-							<th>비승인 사유</th>
-							<th>상세보기</th>
-							<th>제출하기</th>
+							
+							<th>바로가기</th>
+							
 
 						</tr>
 					</thead>
@@ -313,21 +319,12 @@
 							<td th:text="${item.okayYesName}" id="okayYes"
 								th:data-back="${item.okayYes}"></td>
 
-							<td th:if="${item.backReason == null}" id="backReason"
-								th:data-code="null"></td>
+							
 
-							<td th:if="${item.backReason != null}" id="backReason"
-								th:data-coursecod="${item.courseCode}"
-								th:data-code="비승인"
-								class="btn btn-secondary backReasonWhy" data-toggle="modal"
-								data-target="#backReasonWhy">비승인</td>
-
-							<td><a th:href="|/professor/getTemp/${item.courseCode}|"><button
-										th:text="상세보기" th:data-courseName="${item.courseCode}"
+							<td><a th:href="|/professor/getUpdateTemp/${item.courseCode}|"><button
+										th:text="바로가기" th:data-courseName="${item.courseCode}"
 										class="btn btn-primary"></button></a></td>
-							<td><button th:disabled="${item.submitYes}=='SUB'"
-									name="button1" class="btn btn-danger moddd"
-									th:data-course="${item.courseCode}">제출하기</button></td>
+							
 						</tr>
 
 					</tbody>

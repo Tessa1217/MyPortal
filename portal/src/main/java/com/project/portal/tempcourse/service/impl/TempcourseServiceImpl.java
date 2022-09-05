@@ -52,6 +52,21 @@ public class TempcourseServiceImpl implements TempcourseService{
 	public void tempInsert(TempcourseVO vo) {
 		// TODO Auto-generated method stub
 		mapper.tempInsert(vo);
+		
+		
+		/*
+		 * TempcourseweekVO voo = new TempcourseweekVO(); for(int i=1; i<=16; i++) {
+		 * voo.setCourseCode(vo.getCourseCode()); mapper.tempweekInsert(voo);
+		 * 
+		 * }
+		 */
+		/*
+		 * TempcourseListVO vooo = new TempcourseListVO(); for(TempcourseweekVO voo:
+		 * vooo.getList()) { voo.setCourseCode(vooo.getCourseCode());
+		 * mapper.tempweekInsert(voo); }
+		 */
+		
+		 
 	}
 
 
@@ -85,6 +100,8 @@ public class TempcourseServiceImpl implements TempcourseService{
 	@Override
 	public TempcourseVO getTemp(String no) {
 		// TODO Auto-generated method stub
+		
+		
 		return mapper.getTemp(no);
 	}
 
@@ -231,9 +248,9 @@ public class TempcourseServiceImpl implements TempcourseService{
 
 
 	@Override
-	public List<TempcourseweekVO> tempcourseweekListList(TempcourseVO vo, Criteria cri, TempcourseweekVO voo) {
+	public List<TempcourseweekVO> tempcourseweekListList() {
 		// TODO Auto-generated method stub
-		return mapper.tempcourseweekListList(vo, cri);
+		return mapper.tempcourseweekListList();
 	}
 
 
@@ -247,6 +264,31 @@ public class TempcourseServiceImpl implements TempcourseService{
 		// TODO Auto-generated method stub
 		return mapper.tempDelete(vo);
 	}
+
+
+
+
+
+
+
+	@Override
+	public TempcourseVO getUpdateTemp(String no) {
+		// TODO Auto-generated method stub
+		return mapper.getUpdateTemp(no);
+	}
+
+
+
+
+
+
+
+	@Override
+	public void tempInsertWith(TempcourseweekVO voo) {
+		// TODO Auto-generated method stub
+		
+		mapper.tempInsertWith(voo);
+	} 
 
 
 
