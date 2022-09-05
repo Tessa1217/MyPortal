@@ -42,6 +42,9 @@ public class RegisterController {
 		
 		List<RegisterVO> successList = service.successList(vo);
 		model.addAttribute("successList", successList);
+		
+		RegisterVO registerAllCredit = service.registerAllCredit(vo);
+		model.addAttribute("registerAllCredit", registerAllCredit);
 		return "student/register/register";		
 	}
 	

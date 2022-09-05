@@ -2,7 +2,7 @@ package com.project.portal.coursepackage.service;
 
 import java.util.List;
 
-import com.project.portal.course.service.CourseVO;
+import com.project.portal.student.service.StudentVO;
 
 
 public interface CoursePackageService {
@@ -19,5 +19,6 @@ public interface CoursePackageService {
 	
 	public CoursePackageVO coursePackagePoint(CoursePackageVO vo);
 	
+	public CoursePackageVO studentInfo(CoursePackageVO vo);
 	
 }

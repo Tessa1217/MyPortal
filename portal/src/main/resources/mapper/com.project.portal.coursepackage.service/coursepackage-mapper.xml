@@ -19,11 +19,32 @@
 		  FROM course a
 		  JOIN professor b
 		  	ON a.professor_id = b.professor_id
-		WHERE course_year = 2022 AND course_semester = 1
+		WHERE course_year = 2022 AND course_semester = 1 AND a.course_code NOT IN (SELECT course_code FROM course_package WHERE student_id = #{studentId})
 			<if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
 			</if>
 		  ORDER BY course_code ASC
+	</select>
+
+	<select id="studentInfo" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
+		SELECT a.student_id, 
+			   a.student_grade,
+			   a.department_code, 
+			   
+			   b.student_name, 
+			   
+			   c.college_code, 
+			   c.depart_name,
+			   
+			   d.college_name
+			FROM STUDENT_STUDY_INFO a
+			JOIN STUDENT_PRI_INFO b
+				ON a.student_id = b.student_id
+			JOIN DEPARTMENT c
+				ON a.department_code = c.depart_code
+			JOIN college d
+				ON c.college_code = d.college_code
+		WHERE a.student_id = #{studentId}
 	</select>
 
 	<insert id="coursePackageInsert"
@@ -54,7 +75,7 @@
 				ON a.course_code = b.course_code
 			JOIN professor c
 				ON b.professor_id = c.professor_id
-		WHERE a.student_id = #{studentId} AND a.package_yn IS NULL
+		WHERE a.student_id = #{studentId}
 	</select>
 
 	<!--학번이 있어야 찾음 -->
@@ -96,5 +117,13 @@
 		FROM v_package
 		WHERE student_id = #{studentId}
 	</select>
-
+	
+	<!-- 이전강의 확인 -->
+	<select id="courseCheck" resultType="com.project.portal.coursepackage.service.CoursePackageVO">
+		SELECT course_name
+			FROM course a
+				JOIN my_course b
+					ON a.course_code = b.course_code
+		WHERE student_id = #{studentId} AND a.course_name LIKE '%'||#{courseName}||'%'
+	</select>
 </mapper>

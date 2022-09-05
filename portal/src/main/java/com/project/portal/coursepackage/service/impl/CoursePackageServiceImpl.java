@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.portal.coursepackage.service.CoursePackageMapper;
 import com.project.portal.coursepackage.service.CoursePackageService;
 import com.project.portal.coursepackage.service.CoursePackageVO;
+import com.project.portal.student.service.StudentVO;
 
 
 @Service
@@ -25,8 +26,13 @@ public class CoursePackageServiceImpl implements CoursePackageService {
 	@Override
 	public CoursePackageVO coursePackageInsert(CoursePackageVO vo) {
 		// TODO Auto-generated method stub
-		 mapper.coursePackageInsert(vo);
-		return mapper.coursePackageOne(vo);
+		//이전 신청 여부 확인
+		CoursePackageVO cVO = mapper.courseCheck(vo);
+		if(cVO == null) {		
+			mapper.coursePackageInsert(vo);
+			return mapper.coursePackageOne(vo);
+		}
+		return null;
 	}
 
 	@Override
@@ -51,6 +57,12 @@ public class CoursePackageServiceImpl implements CoursePackageService {
 	public CoursePackageVO coursePackagePoint(CoursePackageVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.coursePackagePoint(vo);
+	}
+
+	@Override
+	public CoursePackageVO studentInfo(CoursePackageVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.studentInfo(vo);
 	}
 
 	

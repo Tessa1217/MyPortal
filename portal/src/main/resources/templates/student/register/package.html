@@ -6,16 +6,64 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	/* 스크롤 테이블 헤더 고정 */
+	#cTable thead {
+		position: sticky; 
+		top: 0px;
+		background-color: lightblue !important;
+		color: black;
+	}
+	#cTable tbody tr {
+		background-color: white;
+	}
+	/* 신청학점 위치 조정 및 글자크기 */
+	#totalCredit {
+		padding-left: 20px;
+		font-size: large;
+	}
+	#cTable {
+		margin: auto;
+		text-align: center;
+	}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
 		<div id="main">
 			<h2>수강 꾸러미 신청</h2>
 			<hr>
+			<!-- 학생 정보 -->
+			<div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>학번</th>
+							<th>성명</th>
+							<th>학년</th>
+							<th>대학</th>
+							<th>전공</th>
+							<th>신청 가능학점</th>
+							<th>교양 신청 가능학점</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item:${studentInfo}">
+							<td th:text="${item.studentId}"></td>
+							<td th:text="${item.studentName}"></td>
+							<td th:text="${item.studentGrade}"></td>
+							<td th:text="${item.collegeName}"></td>
+							<td th:text="${item.departName}"></td>
+							<td>20</td>
+							<td>5</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr>
 			<div class="card">
 				<div class="card-body">
 			<h3>개설강의 LIST</h3>
-			<br>
 			<!-- 학과별 강의 검색 -->
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
@@ -43,16 +91,16 @@
 			<br>
 			<!-- 강의 목록 -->
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover">
+				<table class="table table-bordered table-hover" id="cTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
 							<th>이수 구분</th>
-							<th>강의명</th>
+							<th>강의 명</th>
 							<th>학점</th>
 							<th>담당 교수</th>
 							<th>수강 정원</th>
-							<th>담기</th>
+							<th>담 기</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -65,14 +113,14 @@
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button"
 									class="btn btn-primary buttonInsert"
-									th:data-code="${item.courseCode}">담기</button></td>
+									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">담기</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			</div>
 		</div>
-			<br>
+		<hr>
 			<!-- 담은 강의 목록 -->
 			<div class="card">
 				<div class="card-body">
@@ -104,10 +152,12 @@
 				</table>
 			</div>	
 		</div>
-		<h6>
+		<div id="totalCredit">
+		<p>
 			수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span>
-		</h6>
-		<h6>교양신청 가능학점: 5</h6>
+		</p>
+		<p>교양신청 가능학점: 5</p>
+		</div>
 	</div>
 		</div>
 		<script th:inline="javascript">
@@ -130,7 +180,7 @@
 				let creditCount = 0;
 
 				Array.from(pBody.children).forEach(function(item) {
-						if( (item.children[1].textContent).startsWith('L') ){
+						if((item.children[1].textContent).startsWith('L') ){
 							creditCount += parseInt(item.children[3].textContent);
 						}
 				});
@@ -143,15 +193,14 @@
 				$(".buttonInsert").on("click", coursePackageInsert)
 				function coursePackageInsert(){
 					let code = $(this).data("code");
-	
-					// let courseCodeCheck = Array.from(pBody.children).some(item => item.children[0].textContent === code);
-					// if(courseCodeCheck){
-					// 	return alert('담겨있는 강의입니다.');
-					// } 
-
+					let name = $(this).data("name");
 					let allCourseCredit = creditTotalSum();
+					var cTable = document.getElementById("cTable");
+					var moveTr = Array.from(cTable.children[1].children);
 					const selectCode = $(this)[0].parentElement.parentElement;
 					const selectNum = parseInt(selectCode.children[3].textContent);
+					
+					// 담은 학점 계산
 					if( (allCourseCredit + selectNum) > 20 ){
 						return alert("최대 학점을 초과할수없습니다.");
 					}
@@ -169,7 +218,8 @@
 						method:"post",
 						dataType:"json",
 						data:{
-							"courseCode" : code
+							"courseCode" : code,
+							"courseName" : name
 						},
 						dataType:"json",			
 						success:function(item){
@@ -181,10 +231,11 @@
 								<td>${item.professorName}</td>
 								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">취소</button></td>
 								</tr>`;
-								
 							$("#pBody").append(content);
-							
 							setTotalData();
+						},
+						error:function(){
+							alert('이전에 수강하신 강의입니다.');
 						}
 					});
 				}
@@ -200,7 +251,8 @@
 							method:"post",
 							dataType:"json",
 							data:{
-								"courseCode" : code
+								"courseCode" : code,
+								"courseName" : name
 							},
 							dataType:"json",
 							success:function(item){
