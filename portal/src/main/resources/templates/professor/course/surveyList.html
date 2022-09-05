@@ -195,7 +195,7 @@
 										// 버튼위치 강의 년도
 										$(".ModalYear").text(`${year} 년도  ${seme} 학기`);										
 										// 버튼위치 강의 이름
-										$(".ModalCourseName").text(${courseName});
+										$(".ModalCourseName").text(courseName);
 										
 										$.ajax({
 													url : "/professor/surveySelect",
@@ -213,9 +213,10 @@
 														
 														for(let i =1; i<=10; i++) {
 															
-															let tr = $("<tr/>").append(																		[
+															let tr = $("<tr/>").append([
 																					$("<td>").text(graph["surveyQ"+i]),
-																					$("<td>").text(graph[`a${i}Avg`]) ]);
+																					$("<td>").text(graph[`a${i}Avg`]) 
+																					]);
 															
 															$("#surveyData").append(tr);
 														}
