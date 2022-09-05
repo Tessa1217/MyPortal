@@ -7,78 +7,71 @@
 <body>
 	<th:block th:fragment="studentHeaderFragment">
 		<div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img th:src="@{/images/logo/logo.png}" alt="Logo" srcset=""></a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>내 정보</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="/student/studentInfoSelect">개인 정보 관리</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/student/studentStudyList">학업 정보 조회</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/student/semesterGradeSelect">학기 성적 조회</a>
-                                </li>
-                            </ul>
-                        </li>
+			<div class="sidebar-wrapper active">
+				<div class="sidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a href="index.html"><img th:src="@{/images/logo/logo.png}"
+								alt="Logo" srcset=""></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+						<div>
+							<button class="btn btn-sm btn-outline-primary"
+							type="button"
+							th:onclick="|location.href='@{/logout}'|">
+							<i class="fa-solid fa-right-from-bracket"></i> Logout
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="sidebar-menu">
+					<ul class="menu">
+						<li class="sidebar-title">Menu</li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-stack"></i> <span>내
+									정보</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									href="/student/studentInfoSelect">개인 정보 관리</a></li>
+								<li class="submenu-item "><a
+									href="/student/studentStudyList">학업 정보 조회</a></li>
+								<li class="submenu-item "><a
+									href="/student/semesterGradeSelect">학기 성적 조회</a></li>
+							</ul></li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>수강</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="/student/coursePackage">수강꾸러미</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/student/courseRegister">수강 신청</a>
-                                </li>
-                            </ul>
-                        </li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>수강</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a href="/student/coursePackage">수강꾸러미</a>
+								</li>
+								<li class="submenu-item "><a href="/student/courseRegister">수강
+										신청</a></li>
+							</ul></li>
 
-                        <li class="sidebar-item">
-                            <a th:href="@{/student/courseList}" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>E-Class</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>학사</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/student/schedule}">학사 공지사항</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-pricing.html">학사 일정</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-            </div>
-        </div>
+						<li class="sidebar-item"><a th:href="@{/student/courseList}"
+							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>E-Class</span>
+						</a></li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>학사</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a th:href="@{/student/schedule}">학사
+										공지사항</a></li>
+								<li class="submenu-item "><a href="ui-widgets-pricing.html">학사
+										일정</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				<button class="sidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
 	</th:block>
 </body>
 </html>

@@ -7,97 +7,84 @@
 <body>
 	<th:block th:fragment="professorEclassHeaderFragment">
 		<div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img th:src="@{/images/logo/logo.png}" alt="Logo" srcset=""></a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">내 강의</li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>질문</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/courseQuestion}">강의 질문 목록</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>과제</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/reportList}">강의 과제 리스트</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/insertReport}">강의 과제 등록</a>
-                                </li>
-                                <li class="submenu-item">
-                                	<a th:href="@{/professor/eclass/studentScore}">수강생 과제 관리</a>
-                                </li>
-                            </ul>
-                        </li>
+			<div class="sidebar-wrapper active">
+				<div class="sidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a href="index.html"><img th:src="@{/images/logo/logo.png}"
+								alt="Logo" srcset=""></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+						<div>
+							<button class="btn btn-sm btn-outline-primary" type="button"
+								th:onclick="|location.href='@{/logout}'|">
+								<i class="fa-solid fa-right-from-bracket"></i> Logout
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="sidebar-menu">
+					<ul class="menu">
+						<li class="sidebar-title">내 강의</li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-stack"></i> <span>질문</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/courseQuestion}">강의 질문 목록</a></li>
+							</ul></li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-stack"></i> <span>과제</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/reportList}">강의 과제 리스트</a></li>
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/insertReport}">강의 과제 등록</a></li>
+								<li class="submenu-item"><a
+									th:href="@{/professor/eclass/studentScore}">수강생 과제 관리</a></li>
+							</ul></li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>시험</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/examList}">강의 시험 관리</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/examScore}">수강생 시험 성적 조회</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/examInsert}">시험지 등록</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="table.html" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>강의 동영상</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/lectureList}">강의 동영상 조회</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/insertLecture}">강의 동영상 등록</a>
-                                </li>
-                            </ul>
-                        </li>
-                        
-                         <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>강의 공지사항</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/eclass/eclassnotice}">강의 공지사항 리스트</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-            </div>
-        </div>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>시험</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/examList}">강의 시험 관리</a></li>
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/examScore}">수강생 시험 성적 조회</a></li>
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/examInsert}">시험지 등록</a></li>
+							</ul></li>
+						<li class="sidebar-item  has-sub"><a href="table.html"
+							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>강의
+									동영상</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/lectureList}">강의 동영상 조회</a></li>
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/insertLecture}">강의 동영상 등록</a></li>
+							</ul></li>
+
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-stack"></i> <span>강의
+									공지사항</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/eclassnotice}">강의 공지사항 리스트</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				<button class="sidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
 	</th:block>
 </body>
 </html>

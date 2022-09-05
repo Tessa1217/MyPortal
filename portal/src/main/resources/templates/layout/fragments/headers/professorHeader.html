@@ -7,78 +7,73 @@
 <body>
 	<th:block th:fragment="professorHeaderFragment">
 		<div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img th:src="@{/images/logo/logo.png}" alt="Logo" srcset=""></a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>내 정보</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a th:href="@{/professor/professorInfo}">개인 정보 조회</a>
-                                </li>
-                            </ul>
-                        </li>
+			<div class="sidebar-wrapper active">
+				<div class="sidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a href="index.html"><img th:src="@{/images/logo/logo.png}"
+								alt="Logo" srcset=""></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+						<div>
+							<button class="btn btn-sm btn-outline-primary" type="button"
+								th:onclick="|location.href='@{/logout}'|">
+								<i class="fa-solid fa-right-from-bracket"></i> Logout
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="sidebar-menu">
+					<ul class="menu">
+						<li class="sidebar-title">Menu</li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-stack"></i> <span>내
+									정보</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/professor/professorInfo}">개인 정보 조회</a></li>
+							</ul></li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>내 강의</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="/professor/allCourseList">내 강의 목록 조회</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/professor/surveyList">강의 수강 후기</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/professor/tempcourseList">강의 계획서 조회</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="/professor/tempInsert">강의 계획서 등록</a>
-                                </li>
-                            </ul>
-                        </li>
+						<li class="sidebar-item  has-sub"><a href="#"
+							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>내
+									강의</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a
+									href="/professor/allCourseList">내 강의 목록 조회</a></li>
+								<li class="submenu-item "><a href="/professor/surveyList">강의
+										수강 후기</a></li>
+								<li class="submenu-item "><a
+									href="/professor/tempcourseList">강의 계획서 조회</a></li>
+								<li class="submenu-item "><a href="/professor/tempInsert">강의
+										계획서 등록</a></li>
+							</ul></li>
 
-                        <li class="sidebar-item">
-                            <a th:href="@{/professor/courseList}" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>E-Class</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item  ">
-                            <a th:href="@{/professor/schedule}" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>학사 공지사항</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-chatbox.html">학사 공지사항</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-pricing.html">학사 일정</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-            </div>
-        </div>
+						<li class="sidebar-item"><a
+							th:href="@{/professor/courseList}" class='sidebar-link'> <i
+								class="bi bi-grid-1x2-fill"></i> <span>E-Class</span>
+						</a></li>
+						<li class="sidebar-item  "><a
+							th:href="@{/professor/schedule}" class='sidebar-link'> <i
+								class="bi bi-grid-1x2-fill"></i> <span>학사 공지사항</span>
+						</a>
+							<ul class="submenu ">
+								<li class="submenu-item "><a href="ui-widgets-chatbox.html">학사
+										공지사항</a></li>
+								<li class="submenu-item "><a href="ui-widgets-pricing.html">학사
+										일정</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				<button class="sidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
 	</th:block>
 </body>
 </html>
