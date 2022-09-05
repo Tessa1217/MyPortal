@@ -62,14 +62,10 @@
 							<div class="col-md-4">
 								<label>강의 파일 업로드</label>
 							</div>
-							<div class="col-md-8 col-sm-12">
-								<div class="col-sm-8">
-								<input type="file" class="form-control width-seven" th:onchange="getDuration" name="file">
-								</div>
+							<div class="col-md-8">
+									<input type="file" class="form-control" style="display:inline;" th:onchange="getDuration" name="file">
+									<button type="button" style="float:right;" class="btn btn-primary">기본 정보 불러오기</button>
 								<input type="hidden" name="videoPlayTime">
-								<div class="col-sm-4">
-								<button type="button" class="btn btn-primary">기본 정보 불러오기</button>
-								</div>
 							</div>
 							<div class="col-md-4">
 								<label>강의 참고사항</label>

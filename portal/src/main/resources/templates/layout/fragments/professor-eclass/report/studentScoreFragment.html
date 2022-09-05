@@ -41,8 +41,10 @@
 						<td th:unless="${r.reportSubmissionOption == 'UNSUB'}">
 						<label>과제 점수: </label>
 						<input type="number" class="form-control" style="display:inline; width:50%;" th:id="|score-${r.reportCode}|" th:value="${r.reportScore != null} ? ${r.reportScore}" th:disabled="${r.reportScore}">
-						<button type="button" th:onclick="location.href='@{/professor/eclass/studentScore/{reportCode}(reportCode = ${r.reportCode})'"
-						class="btn btn-sm rounded-pill btn-primary">점수 입력</button>
+						<button type="button" 
+						th:onclick="location.href='@{/professor/eclass/studentScore/{reportCode}(reportCode = ${r.reportCode})'"
+						th:text="${r.reportScore != null} ? '점수 입' : '점수 입력'"
+						class="btn btn-sm rounded-pill btn-primary"></button>
 						</td>
 						<td th:if="${r.reportFileCode == null}">-</td>
 						<td th:if="${r.reportFileCode != null}"><a
