@@ -52,6 +52,11 @@ public class UserController {
 		return "login/userAccess";
 	}
 	
+	@RequestMapping("/findPassword")
+	public String findPassword() {
+		return "login/findPassword";
+	}
+	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, 
 			HttpServletResponse response,

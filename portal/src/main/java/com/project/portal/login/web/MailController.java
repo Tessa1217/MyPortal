@@ -30,8 +30,8 @@ public class MailController {
 	
 	@PostMapping("/tempPwd")
 	@ResponseBody
-	public MailVO sendMail(MailVO mail) {
+	public String sendMail(MailVO mail) {
 		mailService.sendMail(mail);
-		return mail;
+		return "success";
 	}
 }

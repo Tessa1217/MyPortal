@@ -11,4 +11,9 @@
 			FROM portal_user
 			WHERE id = #{username} 
 	</select>
+	<update id="setTempPassword">
+		UPDATE portal_user
+			SET password = #{pwd}
+			WHERE id = #{id}
+	</update>
 </mapper>

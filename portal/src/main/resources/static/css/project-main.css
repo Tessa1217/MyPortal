@@ -251,6 +251,10 @@ input[name=examQuestionPoint] {
 	width: 70%;
 }
 
+.width-eight {
+	width: 80%;
+}
+
 .width-nine {
 	width: 90%;
 }
@@ -280,7 +284,7 @@ input[name=examQuestionPoint] {
 	background: #f8f9fa;
 }
 
-#loginContainer {
+#loginContainer, #passwordContainer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -293,6 +297,23 @@ input[name=examQuestionPoint] {
 	background: white;
 	border-radius: 20px;
 	background: #25396f;
+}
+
+#passwordContainer .row {
+	width: 70%;
+	height: 500px;
+	border-radius: 20px;
+	background: white;
+	padding: 5%;
+}
+
+#passwordContainer .form-header {
+	margin: 2%;
+	text-align: center;
+}
+
+.inline {
+	display: inline;
 }
 
 #loginContainer #loginHeading {

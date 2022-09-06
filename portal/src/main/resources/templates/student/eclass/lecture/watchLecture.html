@@ -24,6 +24,7 @@
 			<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
 			<input type="hidden" name="studentId" th:value="${session.id}">
 			<input type="hidden" name="lectureAttTime" th:value="${lecture.lectureAttTime}">
+			<input type="hidden" id="review" th:value="${#dates.createNow()} gt ${lecture.lectureEndDate} ? 1 : 0">
 				<th:block
 					th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">
 				</th:block>

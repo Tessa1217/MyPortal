@@ -2,9 +2,13 @@ package com.project.portal.login.service.impl;
 
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +24,21 @@ public class MailService {
 	@Autowired
 	private UserServiceImpl userService;
 	
+	  public void setMailSender(JavaMailSender sender) {
+	        this.sender = sender;
+	    }
+	
 	public void sendMail(MailVO mail) {
+		MimeMessage message = sender.createMimeMessage();
 		String tempPwd = insertTempPassword(mail.getId());
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(mail.getAddress());
-		message.setSubject("[My Portal] 이메일 인증 안내");
-		message.setText(mailFormat(tempPwd));
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setTo(mail.getAddress());
+			helper.setSubject("[My Portal] 이메일 인증 안내");
+			helper.setText(mailFormat(tempPwd), true);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 		sender.send(message);
 	}
 	
@@ -48,20 +61,25 @@ public class MailService {
 	
 	public String verifyId(String id) {
 		User user = (User) userService.loadUserByUsername(id);
-		if (user.getId() != null) {
+		if (user != null) {
 			return "success";
 		}
 		return "error";
 	}
 	
 	public String verifyEmail(MailVO mail) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(mail.getAddress());
-		message.setSubject("[My Portal] 이메일 인증 번호");
+		MimeMessage message = sender.createMimeMessage();
 		String messageHeader = "<p>이메일 인증 번호 발급 안내입니다.</p>";
 		String tempCode = UUID.randomUUID().toString().substring(0, 5);
 		String messageBody = "<p>인증 번호를 입력창에 입력해주세요: " + tempCode + "</p>";
-		message.setText(messageHeader + messageBody);
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setTo(mail.getAddress());
+			helper.setSubject("[My Portal] 이메일 인증 번호");
+			helper.setText(messageHeader + messageBody, true);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 		sender.send(message);
 		return tempCode;
 	}

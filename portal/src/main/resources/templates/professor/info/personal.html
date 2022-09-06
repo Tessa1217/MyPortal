@@ -77,10 +77,14 @@
 			$("#mod").on("click", confirmModal)
 
 			function confirmModal() {
-				if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-					studentInfoUpdate();
-				}
+				fireSwal('info', '변경 내용을 저장하시겠습니까?')
+					.then(function(result) {
+						if (result.isConfirmed) {
+							studentInfoUpdate();
+						}
+					})
 			}
+			
 			function studentInfoUpdate() {
 				$.ajax({
 					url : "/professor/professorInfoUpdate",
@@ -95,7 +99,7 @@
 					},
 					dataType : "json",
 					success : function(result) {
-						
+						fireSwal('success', '수정이 완료되었습니다.');
 					}
 				});
 			}
@@ -119,17 +123,16 @@
 		});
 	
 		function kakaopost() {
-		    new daum.Postcode({
-		    	/* document.getElementById("professorAddrUpdate").addEventListener("click", function(){ //주소입력칸을 클릭하면 */
-		        oncomplete: function(data) {
-		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-		            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-		         	//선택시 입력값 세팅
-		        	document.querySelector("#professorPostalCodeUpdate").value = data.zonecode;
-		            document.querySelector("#professorAddrUpdate").value =  data.address;
-		            document.querySelector("#professorDaddrUpdate").focus();
-	            }
-		    }).open();
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+			         	//선택시 입력값 세팅
+			         	$("input[name=professorAddrUpdate]").val(data.address);
+			          $("input[name=professorDaddrUpdate]").val(data.buildingName);
+			          $("input[name=professorPostalCodeUpdate]").val(data.zonecode);
+		            }
+			    }).open();
 	    }
 	   
 	</script>
