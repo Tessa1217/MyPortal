@@ -8,11 +8,52 @@
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
-	<div id="main">
-		<div>
-			<h2>Admin Main Page</h2>
+			<div id="main">
+			<div class="grid-container">
+				<div class="grid-item">
+					<div class="main-box" style="background: white;"
+						th:onclick="|location.href='@{/admin/studentList}'|">
+						<h3>학생 정보 관리</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: #435ebe;"
+						th:onclick="|location.href='@{/admin/professorList}'|">
+						<h3 style="color: white;">교직원 정보 관리</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: #435ebe;"
+						th:onclick="|location.href='@{/admin/adminTempList}'|">
+						<h3 style="color: white;">강의 관리</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: white"
+						th:onclick="|location.href='@{/admin/schedule}'|">
+						<h3>학사 일정 관리</h3>
+					</div>
+				</div>
+			</div>
+			<div class="grid-container-two">
+				<div class="grid-item">
+					<div class="main-long-box">
+						<h3>이번 달 학사 일정</h3>
+						<div id="calendar"></div>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-long-box">
+						<h3>공지사항</h3>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+		<script th:inline="javascript">
+			$(function() {
+				monthlyCalendar();
+			})
+		</script>
 	</th:block>
 </body>
 </html>

@@ -9,4 +9,6 @@ public interface BachelorScheduleService {
 	BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo);
 
 	public String scheduleAllInsert(List<BachelorScheduleVO> list);
+	
+	List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo);
 }

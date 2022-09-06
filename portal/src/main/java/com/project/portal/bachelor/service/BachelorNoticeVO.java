@@ -13,6 +13,7 @@ public class BachelorNoticeVO {
 	private char noticeDivision;
 	private Date noticePostDate;
 	private Date noticeModDate;
-	private String noticeFile;
+	private String noticeFileCode;
+	private BachelorNoticeFileVO noticeFile;
 	
 }

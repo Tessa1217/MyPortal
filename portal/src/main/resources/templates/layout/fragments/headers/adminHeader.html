@@ -11,8 +11,7 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="/admin"><img th:src="@{/images/logo/logo.png}"
-								alt="Logo" srcset=""></a>
+							<a th:href="@{/admin}"><i class="fa-solid fa-house-user"></i></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -34,9 +33,9 @@
 									관리</span>
 						</a>
 							<ul class="submenu ">
-								<li class="submenu-item "><a href="/admin/studentList">학생
+								<li class="submenu-item "><a th:href="@{/admin/studentList}">학생
 										개인 정보 조회</a></li>
-								<li class="submenu-item "><a href="/admin/professorList">교직원
+								<li class="submenu-item "><a th:href="@{/admin/professorList}">교직원
 										조회</a></li>
 							</ul></li>
 
@@ -46,18 +45,17 @@
 						</a>
 							<ul class="submenu ">
 								<li class="submenu-item "><a
-									href="/admin/adminTempList">강의 계획서 관리</a></li>
+									th:href="@{/admin/adminTempList}">강의 계획서 관리</a></li>
 							</ul></li>
 						<li class="sidebar-item  has-sub"><a href="#"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>학사
 									관리</span>
 						</a>
 							<ul class="submenu ">
-								<li class="submenu-item "><a href="ui-widgets-chatbox.html">학사
-										공지사항 등록</a></li>
-								<li class="submenu-item "><a th:href="@{/admin/schedule}">학사
+								<li class="submenu-item "><a th:href="@{/admin/notice}">학사
 										공지사항</a></li>
-								<li class="submenu-item "><a th:href="@{/professor/schedule}">학사
+								<li class="submenu-item "><a th:href="@{/admin/insertNotice}">공지사항 등록</a></li>
+								<li class="submenu-item "><a th:href="@{/admin/schedule}">학사
 										일정</a></li>
 							</ul></li>
 					</ul>

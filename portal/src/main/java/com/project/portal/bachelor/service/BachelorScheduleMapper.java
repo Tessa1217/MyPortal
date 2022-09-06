@@ -8,9 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BachelorScheduleMapper {
 
 	List<BachelorScheduleVO> scheduleList(BachelorScheduleVO vo);
-	
+
 	BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo);
 
 	int scheduleAllInsert(BachelorScheduleVO vo);
 	
-	}
+	List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo);
+
+}

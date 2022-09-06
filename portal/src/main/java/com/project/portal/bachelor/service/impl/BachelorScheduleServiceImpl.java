@@ -32,4 +32,9 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return "";
 	}
 
+	@Override
+	public List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo) {
+		return mapper.getMonthlyList(vo);
+	}
+
 }

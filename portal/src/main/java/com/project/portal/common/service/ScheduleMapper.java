@@ -2,10 +2,11 @@ package com.project.portal.common.service;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.project.portal.course.service.CourseVO;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 
 @Mapper
 public interface ScheduleMapper {
-	void updateExamScore(CourseVO vo);
+	void updateExamScore(BachelorScheduleVO vo);
+	void updateLectureScore(BachelorScheduleVO vo);
 	
 }

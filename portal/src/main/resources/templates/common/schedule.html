@@ -12,27 +12,36 @@
 <body>
 	<th:block layout:fragment="scheduleContent">
 		<div id="main">
-			<div>
+			<div class="page-title">
 				<h2>학사 일정</h2>
 			</div>
 			<div class="card">
+				<div class="card-header">
+					<select id="view" class="form-select width-three">
+						<option>달력</option>
+						<option>일정</option>
+					</select>
+				</div>
 				<div class="row">
-					<div class="col-4">
-						<div id='calendar'></div>
-					</div>
-					<div class="col-8">
+					<div class="col-12 padding-ten">
 						<br>
 						<form name="frm_year">
 							<!-- Button trigger modal -->
+							<button th:if="${command == 3}" type="button" class="btn btn-primary"
+								data-bs-toggle="modal" style="margin-right: 15px"
+								data-bs-target="#insertModal">등록</button>
+							<button th:if="${command == 3}" type="button" class="btn btn-primary"
+								data-bs-toggle="modal" style="margin-right: 15px"
+								data-bs-target="#allInsertModal">일괄등록</button>
 							<button type="button" class="btn btn-primary"
-								data-bs-toggle="modal" style="margin-right: 15px" data-bs-target="#insertModal">
-								등록</button>
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" style="margin-right: 15px" data-bs-target="#allInsertModal">일괄등록</button>
-							<button type="button" class="btn btn-primary" th:onclick="prevYear()">◁</button>
-							<input type="number" name="year" id="year" th:value='${year}' readonly style="text-align: center;width:80px">
-							<button type="button" class="btn btn-primary" th:onclick="nextYear()">▷</button>
+								th:onclick="prevYear()">◁</button>
+							<input type="number" name="year" id="year" th:value='${year}'
+								readonly style="text-align: center; width: 80px">
+							<button type="button" class="btn btn-primary"
+								th:onclick="nextYear()">▷</button>
 						</form>
 						<br>
+						<h3 id="currentYear"></h3>
 						<dl th:each="i : ${#numbers.sequence(3, 12)}">
 							<dt th:text="|${i}월|"></dt>
 							<dd>
@@ -71,10 +80,10 @@
 								</div>
 								<div class="modal-body">
 									<form name="frm_insert">
-										<label for="scheduleStartDate">시작일</label>
-										<input type="date" id="scheduleStartDate" name="schedule_start_date">
-										<label for="scheduleEndDate">마감일</label>
-										<input type="date" id="scheduleEndDate" name="schedule_end_date">
+										<label for="scheduleStartDate">시작일</label> <input type="date"
+											id="scheduleStartDate" name="schedule_start_date"> <label
+											for="scheduleEndDate">마감일</label> <input type="date"
+											id="scheduleEndDate" name="schedule_end_date">
 									</form>
 								</div>
 								<div class="modal-footer">
@@ -102,71 +111,106 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" th:onclick="allInputdata()" aria-label="Close">일괄 등록</button>
+									<button type="button" class="btn btn-primary"
+										th:onclick="allInputdata()" aria-label="Close">일괄 등록</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="row hidePage">
+					<div class="col-12">
+						<div id='fullCalendar'></div>
+					</div>
+				</div>
+			</div>
 
 
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
-				<script th:inline="javascript">
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+			<script th:inline="javascript">
+				
+			$(function() {
+				changeView();
+				$("#view").trigger('change');
+			})
+			
+				function changeView() {
+					$(document).on('change', '#view', function() {
+						$(".row").each((idx, val) => {
+							$(val).toggleClass('hidePage');
+						})
+					})
+				}
+			
 				// Fullcalendar
-					document.addEventListener('DOMContentLoaded', function() {
-						var inputdata;
-						var calendarEl = document.getElementById('calendar');
-						var calendar = new FullCalendar.Calendar(calendarEl, {
-							initialView : 'dayGridMonth'
-						});
-						calendar.render();
-						calendar.setOption('contentHeight', 450);
-						
-						let aaa = parseInt($('#year').val()) + 1;
-						$('#plusYear').text(aaa + ' 년도');
-					});
+				document.addEventListener('DOMContentLoaded', function() {
 					
-				  
-				  function prevYear() {
+					var calendarEl = document.getElementById('fullCalendar');
+					var calendar = new FullCalendar.Calendar(calendarEl, {
+						initialView : 'dayGridMonth'
+					});
+					calendar.render();
+					getData().then((result) => {
+						result.forEach((val) => {
+							let event = {
+									title : val.scheduleContent,
+									start : val.scheduleStartDate,
+									end : val.scheduleEndDate
+							}
+							calendar.addEvent(event);
+						})
+					})
+					$("#currentYear").text($("#year").val() + ' 년도');
+					let aaa = parseInt($('#year').val()) + 1;
+					$('#plusYear').text(aaa + ' 년도');
+					
+				});
+				
+				function getData() {
+					return $.ajax({
+						method : 'POST',
+						url : `/getCalendar`
+					})
+				}
+
+				function prevYear() {
 					$('#year').val(parseInt($("#year").val()) - 1);
 					document.frm_year.submit()
-				  }
-				  
-				  function nextYear() {
-					  if($('#year').val() < year) {
-					  $('#year').val(parseInt($("#year").val()) + 1);
-					  	console.log($("#year").val());
-					  	document.frm_year.submit()
-					  	}else{
-					  		alert("현재년도 입니다.")
-					  	}
-					  }
-				  
-				  
-					
-			
-					
-					//엑셀에서 값 받아오기
-					function upload(event) {
-						var input = event.target;
-						var reader = new FileReader();
-						reader.onload = function() {
-							var fdata = reader.result;
-							var read_buffer = XLSX.read(fdata, {
-								type : 'binary'
-							});
-							read_buffer.SheetNames
-									.forEach(function(sheetName) {
-										var rowdata = XLSX.utils
-												.sheet_to_json(read_buffer.Sheets[sheetName]);
-										inputdata = rowdata;
-										 console.log(rowdata);
-										// $.ajax
-									})
-						};
-						reader.readAsBinaryString(input.files[0]);
+				}
+
+				function nextYear() {
+					if ($('#year').val() < year) {
+						$('#year').val(parseInt($("#year").val()) + 1);
+						console.log($("#year").val());
+						document.frm_year.submit()
+					} else {
+						alert("현재년도 입니다.")
 					}
-					function allInputdata() {
+				}
+
+				//엑셀에서 값 받아오기
+				function upload(event) {
+					var input = event.target;
+					var reader = new FileReader();
+					reader.onload = function() {
+						var fdata = reader.result;
+						var read_buffer = XLSX.read(fdata, {
+							type : 'binary'
+						});
+						read_buffer.SheetNames
+								.forEach(function(sheetName) {
+									var rowdata = XLSX.utils
+											.sheet_to_json(read_buffer.Sheets[sheetName]);
+									inputdata = rowdata;
+									console.log(rowdata);
+									// $.ajax
+								})
+					};
+					reader.readAsBinaryString(input.files[0]);
+				}
+
+				function allInputdata() {
 					/* console.log(inputdata[0].detailCode); */
 					$.ajax({
 						url : "/admin/scheduleAllInsert",
@@ -182,10 +226,9 @@
 							$("#allInsertModal").modal("hide");
 						}
 					})
-						
-					}					
-				</script>
-			</div>
+
+				}
+			</script>
 		</div>
 	</th:block>
 </body>

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,15 +37,38 @@ public class BachelorController {
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
 	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo, HttpSession session) {
 		String requestURI = request.getRequestURI();
-		//vo.setYear((int)session.getAttribute("year"));
 		
 		if(vo.getYear() == 0 ) {
 			vo.setYear((int)session.getAttribute("year"));
 			vo.setSemester((int)session.getAttribute("semester"));
 		}
-		// System.out.println(requestURI);
-		int command =0;
+		int command = setCommand(requestURI);
 		
+		model.addAttribute("command", command);
+		model.addAttribute("year", vo.getYear());
+		model.addAttribute("scheduleList", service.scheduleList(vo));
+		return "common/schedule";
+	}
+	
+	@PostMapping("/getCalendar")
+	@ResponseBody
+	public List<BachelorScheduleVO> getFullCalendar(BachelorScheduleVO vo, 
+													HttpSession session) {
+		vo.setYear((int)session.getAttribute("year"));
+		vo.setSemester((int)session.getAttribute("semester"));
+		return service.scheduleList(vo);
+	}
+	
+	// 학사일정 일괄 등록
+	@RequestMapping("/admin/scheduleAllInsert")
+	@ResponseBody
+	public String scheduleAllInsert(@RequestBody List<BachelorScheduleVO> vo, Model model) {
+		service.scheduleAllInsert(vo);
+		return "success";
+	}
+	
+	private int setCommand(String requestURI) {
+		int command = 0;
 		if (requestURI.equals("/professor/schedule")) {
 			command = 2;
 		} else if (requestURI.equals("/student/schedule")) {
@@ -53,19 +76,6 @@ public class BachelorController {
 		} else if (requestURI.equals("/admin/schedule")) {
 			command = 3;
 		}
-		
-		
-		model.addAttribute("command", command);
-		model.addAttribute("year", vo.getYear());
-		//model.addAttribute(vo)
-		model.addAttribute("scheduleList", service.scheduleList(vo));
-		return "common/schedule";
-	}
-	// 학사일정 일괄 등록
-	@RequestMapping("/admin/scheduleAllInsert")
-	@ResponseBody
-	public String scheduleAllInsert(@RequestBody List<BachelorScheduleVO> vo, Model model) {
-		service.scheduleAllInsert(vo);
-		return "success";
+		return command;
 	}
 }

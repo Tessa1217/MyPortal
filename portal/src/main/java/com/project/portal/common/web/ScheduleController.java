@@ -2,32 +2,35 @@ package com.project.portal.common.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.bachelor.service.impl.BachelorScheduleServiceImpl;
 import com.project.portal.common.service.impl.ScheduleServiceImpl;
-import com.project.portal.course.service.CourseVO;
-import com.project.portal.course.service.impl.CourseServiceImpl;
 
 // 작성자: 권유진
-@Service
+@Component
 public class ScheduleController {
 	
 	@Autowired
-	CourseServiceImpl cService;
+	BachelorScheduleServiceImpl bservice;
 	@Autowired
 	ScheduleServiceImpl service;
 	
-	@Scheduled(cron = "0 0 0 * * ?")
-	public void autoReportScore() {
-		BachelorScheduleVO schedule = new BachelorScheduleVO();
-		schedule.setDetailCode("BPLAN00");
-		CourseVO vo = cService.getYearSemester(schedule);
-		service.updateExamScore(vo);
-	}
+	private BachelorScheduleVO schedule = new BachelorScheduleVO();
+
 	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void autoExamScore() {
-		
+		schedule = bservice.currentYearSemester(schedule);
+		service.updateExamScore(schedule);
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void autoLectureScore() {
+		schedule = bservice.currentYearSemester(schedule);
+		service.updateLectureScore(schedule);
+		System.out.println(schedule);
 	}
 }

@@ -198,6 +198,12 @@ input[name="tabs"]+.tabmenu {
 	padding: 1%;
 }
 
+.grid-container-two {
+	display: grid;
+	grid-template-columns: 60% 40%;
+	padding: 1%;
+}
+
 .grid-container-four {
 	display: grid;
 	grid-template-columns: auto auto auto auto;
@@ -368,4 +374,54 @@ input[name=examQuestionPoint] {
 	height: 80vh;
 }
 
+.main-box {
+	height: 90px;
+	border-radius: 10px;
+}
 
+.main-box:hover {
+	transform: scale(1.05);
+	transition: 1s;
+	cursor: pointer;
+}
+
+.main-box h3 {
+	line-height: 90px;
+	margin-left: 3%;
+}
+
+.main-long-box h3 {
+	line-height: 50px;
+	margin-left: 5%;
+	text-align: center;
+}
+
+.main-long-box {
+	height: 64vh;
+	background: white;
+	border-radius: 10px;
+}
+
+#calendar {
+	width: 100%;
+	height: 52vh;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.padding-ten {
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top : 3%;
+	padding-bottom: 3%;
+}
+
+form[name=frm_year] {
+	text-align: center;
+}
+
+#fullCalendar {
+	height: 72vh;
+	width: 100%;
+	padding: 3%;
+}

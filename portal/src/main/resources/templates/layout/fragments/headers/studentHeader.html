@@ -11,8 +11,7 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a th:href="@{/student}"><img th:src="@{/images/logo/logo.png}"
-								alt="Logo" srcset=""></a>
+							<a th:href="@{/student}"><i class="fa-solid fa-house-user"></i></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -36,11 +35,11 @@
 						</a>
 							<ul class="submenu ">
 								<li class="submenu-item "><a
-									href="/student/studentInfoSelect">개인 정보 관리</a></li>
+									th:href="@{/student/studentInfoSelect}">개인 정보 관리</a></li>
 								<li class="submenu-item "><a
-									href="/student/studentStudyList">학업 정보 조회</a></li>
+									th:href="@{/student/studentStudyList}">학업 정보 조회</a></li>
 								<li class="submenu-item "><a
-									href="/student/semesterGradeSelect">학기 성적 조회</a></li>
+									th:href="@{/student/semesterGradeSelect}">학기 성적 조회</a></li>
 							</ul></li>
 
 						<li class="sidebar-item  has-sub"><a href="#"
@@ -60,7 +59,7 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>학사</span>
 						</a>
 							<ul class="submenu ">
-								<li class="submenu-item "><a th:href="@{/student/schedule}">학사
+								<li class="submenu-item "><a th:href="@{/student/notice}">학사
 										공지사항</a></li>
 								<li class="submenu-item "><a th:href="@{/student/schedule}">학사
 										일정</a></li>

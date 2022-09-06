@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,6 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.project.portal.bachelor.service.BachelorNoticeFileVO;
+import com.project.portal.bachelor.service.BachelorNoticeVO;
+import com.project.portal.bachelor.service.impl.BachelorNoticeServiceImpl;
 import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
 import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
 import com.project.portal.studynotice.service.StudyNoticeFileVO;
@@ -35,6 +36,8 @@ public class FileController {
 	ProfessorReportServiceImpl reportService;
 	@Autowired
 	StudyNoticeServiceImpl noticeService;
+	@Autowired
+	BachelorNoticeServiceImpl bnoticeService;
 	
 	@GetMapping("/video/download/{videoCode}")
 	public ResponseEntity<Object> videoDownload(@PathVariable String videoCode) {
@@ -57,6 +60,14 @@ public class FileController {
 		return setResponseEntity(fileUrlDetail);
 	}
 	
+	@GetMapping("/notice/download/{noticeFileCode}")
+	public ResponseEntity<Object> noticeFileDownload(@PathVariable String noticeFileCode) {
+		BachelorNoticeVO vo = new BachelorNoticeVO();
+		vo.setNoticeFileCode(noticeFileCode);
+		BachelorNoticeFileVO file = bnoticeService.getFile(vo);
+		String fileUrl = file.getNoticeFilePath();
+		return setResponseEntity(fileUrl);
+	}
 
 	public ResponseEntity<Object> setResponseEntity(String path) {
 		Path filePath = Paths.get(path);

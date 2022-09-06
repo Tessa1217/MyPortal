@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin_layout}">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="adminContent">
+		<div id="main">
+			<div class="page-title">
+				<h2>학사 공지사항 등록</h2>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<form>
+						<div>
+							<label>공지사항 제목</label> <input class="form-control" type="text"
+								name="noticeTitle">
+						</div>
+						<div>
+							<label>공지사항 공개 여부</label> <select class="form-select"
+								name="noticePrivate">
+								<option></option>
+							</select>
+						</div>
+						<div>
+							<label>공지사항 공개 범위</label> <select class="form-select"
+								name="noticeDivision">
+								<option></option>
+							</select>
+						</div>
+						<div>
+							<label>파일</label> <input type="file" name="file"
+								class="form-control">
+						</div>
+						<div>
+							<label>공지사항 내용</label>
+							<textarea id="noticeContent" name="noticeContent"></textarea>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				editor();
+			})
+
+			function editor() {
+				tinymce.init({
+					selector : '#noticeContent',
+					submit_patch : false,
+					setup : function(editor) {
+						editor.on('change', function() {
+							editor.save();
+						})
+					}
+				})
+			}
+		</script>
+	</th:block>
+</body>
+</html>

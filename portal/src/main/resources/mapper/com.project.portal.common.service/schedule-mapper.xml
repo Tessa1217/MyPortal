@@ -4,7 +4,12 @@
 	namespace="com.project.portal.common.service.ScheduleMapper">
 	<update id="updateExamScore" statementType="CALLABLE">
 		{
-			CALL exam_score_procedure(#{courseYear}, #{courseSemester})
+			CALL exam_score_procedure(#{year}, #{semester})
+		}
+	</update>
+	<update id="updateLectureScore" statementType="CALLABLE">
+		{
+			CALL lecture_score_procedure(#{year}, #{semester})
 		}
 	</update>
 </mapper>

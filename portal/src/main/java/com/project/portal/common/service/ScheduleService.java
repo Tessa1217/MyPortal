@@ -1,9 +1,10 @@
 package com.project.portal.common.service;
 
-import com.project.portal.course.service.CourseVO;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 
 public interface ScheduleService {
 	
-	void updateExamScore(CourseVO vo);
+	void updateExamScore(BachelorScheduleVO vo);
+	void updateLectureScore(BachelorScheduleVO vo);
 
 }

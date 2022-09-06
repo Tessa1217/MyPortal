@@ -39,6 +39,24 @@
 		            )
 	</insert>
 	
+	<select id="getMonthlyList" resultType="BachelorScheduleVO">
+		SELECT
+				schedule_code,
+				schedule_content,
+				schedule_start_date,
+				schedule_end_date,
+				detail_code,
+				semester,
+				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "MONTH",
+                YEAR
+        FROM bachelor_schedule
+        WHERE 
+        TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) = #{month}
+        AND YEAR = #{year}
+        <if test="detailCode != null and detailCode != ''">
+        AND detail_code NOT LIKE #{detailCode}||'%'
+        </if>
+	</select>
 	
 	
 </mapper>

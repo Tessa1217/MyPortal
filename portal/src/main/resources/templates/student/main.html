@@ -1,18 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
-	<div id="main">
-		<div>
-			<h2>Student Main Page</h2>
+		<div id="main">
+			<div class="grid-container">
+				<div class="grid-item">
+					<div class="main-box" style="background: white;"
+						th:onclick="|location.href='@{/student/studentInfoSelect}'|">
+						<h3>내 정보</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: #435ebe;"
+						th:onclick="|location.href='@{/student/semesterGradeSelect}'|">
+						<h3 style="color: white;">내 성적</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: #435ebe;"
+						th:onclick="|location.href='@{/student/courseList}'|">
+						<h3 style="color: white;">E-Class</h3>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-box" style="background: white"
+						th:onclick="|location.href='@{/student/schedule}'|">
+						<h3>학사</h3>
+					</div>
+				</div>
+			</div>
+			<div class="grid-container-two">
+				<div class="grid-item">
+					<div class="main-long-box">
+						<h3>이번 달 학사 일정</h3>
+						<div id="calendar"></div>
+					</div>
+				</div>
+				<div class="grid-item">
+					<div class="main-long-box">
+						<h3>공지사항</h3>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+		<script th:inline="javascript">
+			$(function() {
+				monthlyCalendar();
+			})
+		</script>
 	</th:block>
 </body>
 </html>

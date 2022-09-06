@@ -85,3 +85,37 @@ function updateEditor() {
 		}
 	})
 }
+
+// 캘린더 
+function monthlyCalendar() {
+	var calendarEl = document.getElementById('calendar');
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		editable: false,
+		initialView: 'dayGridMonth',
+		headerToolbar: {
+			left: '',
+			center: '',
+			right: ''
+		}
+	});
+	calendar.render();
+
+	getCalendar().done(function(data) {
+		data.forEach((val) => {
+			let event = {
+				title: val.scheduleContent,
+				start: val.scheduleStartDate,
+				end: val.scheduleEndDate
+			}
+			calendar.addEvent(event);
+		})
+	})
+}
+
+// 이달의 정보 
+function getCalendar() {
+	return $.ajax({
+		method: 'POST',
+		url: `/getMonthly`,
+	})
+}
