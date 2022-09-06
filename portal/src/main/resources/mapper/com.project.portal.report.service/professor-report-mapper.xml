@@ -92,6 +92,10 @@
 		</selectKey>
 	</insert>
 	<insert id="insertReport" parameterType="ReportVO">
+		<selectKey keyProperty="reportCode" resultType="String" order="BEFORE">
+			SELECT #{weekCode}||LPAD(TO_CHAR(report_seq.NEXTVAL), 8, '0')
+				FROM dual
+		</selectKey>
 		INSERT INTO report_info (report_code,
 															week_code,
 															report_reg_date,
@@ -104,7 +108,7 @@
 															report_file_code
 															)
 									VALUES (
-													#{weekCode}||LPAD(TO_CHAR(report_seq.NEXTVAL), 8, '0'),
+													#{reportCode},
 													#{weekCode},
 													SYSDATE,
 													#{reportStartDate},
@@ -115,11 +119,6 @@
 													#{courseCode},
 													#{reportFileCode}
 											)
-		<selectKey keyProperty="reportCode" resultType="String" order="AFTER">
-			SELECT MAX(report_code)
-				FROM report_info
-				WHERE course_code = #{courseCode}
-		</selectKey>
 	</insert>
 	<select id="getStudentList" resultType="StudentVO">
 		SELECT m.student_id, s.student_name
