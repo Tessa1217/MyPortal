@@ -27,9 +27,9 @@ public class myQuestionController {
 	
 	// 학생 질문 목록
 	@RequestMapping("/student/eclass/courseQuestion")
-	public String getStuMyQuestion(myQuestionVO vo, Model model) {
-		
-		vo.setStudentId("22000001");
+	public String getStuMyQuestion(myQuestionVO vo, Model model, HttpSession session) {
+		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
 		return "student/eclass/question/courseQuestion";
@@ -38,8 +38,8 @@ public class myQuestionController {
 	
 	// 교수 질문 목록 조회
 	@RequestMapping("/professor/eclass/courseQuestion")
-	public String getProfMyQuestion(myQuestionVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
+	public String getProfMyQuestion(myQuestionVO vo, Model model, HttpSession session) {
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo));
 		return "professor/eclass/lecture/courseQuestion";
 	}

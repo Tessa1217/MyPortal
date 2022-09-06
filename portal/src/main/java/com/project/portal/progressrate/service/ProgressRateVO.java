@@ -29,6 +29,8 @@ public class ProgressRateVO {
 	private Date examStartDate; // 시험 시작날짜
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date examEndDate; // 시험 종료날짜
+	private double reportRate; // 과제 진행률
+	private String lectureCode; // 강의영상코드
 	
 	
 }

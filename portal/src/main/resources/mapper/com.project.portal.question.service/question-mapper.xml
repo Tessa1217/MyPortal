@@ -11,7 +11,7 @@
 		       nvl((SELECT 'O' FROM LECTURE_ANSWER A WHERE A.LECTURE_QUESTION_NUM=Q.LECTURE_QUESTION_NUM)    , 'X') lecture_Question_Answer_Check
 		FROM LECTURE_QUESTION Q
 		JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
-		WHERE Q.STUDENT_ID = #{studentId}
+		WHERE Q.STUDENT_ID = #{studentId} AND w.course_code = #{courseCode}
 		 <if test="weekValue != null and weekValue !=''">
 				AND W.WEEK_NUM = #{weekValue} 
 		</if>

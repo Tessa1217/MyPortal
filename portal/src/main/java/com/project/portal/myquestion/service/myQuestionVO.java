@@ -20,7 +20,7 @@ public class myQuestionVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lectureAnswerRegDate; // 답변등록일
 	private String lectureAnswerContent; // 답변 내용 
-	private String studentId; // 학번
+	private int studentId; // 학번
 	private String weekNum;// 주차
 	private String searchType; // 검색타입
 	private String studentName; // 학생이름(질문작성자)

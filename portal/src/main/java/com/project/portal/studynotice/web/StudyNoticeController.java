@@ -41,9 +41,9 @@ public class StudyNoticeController {
 
 	// 학생 강의 공지사항 조회
 	@RequestMapping("/student/eclass/eclassnotice")
-	public String selectStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model) {
-
-		vo.setCourseCode("SSPY0001");
+	public String selectStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model, HttpSession session) {
+		
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		// List<StudyNoticeVO> studyNoticeList = service.selectStudyNoticeList(vo);
 		// System.out.println(studyNoticeList);
 
@@ -53,10 +53,10 @@ public class StudyNoticeController {
 
 	// 학생 공지사항 상세조회
 	@RequestMapping("/student/eclass/eclassnotice/{courseNoticeNo}")
-	public String selectDetailStudyNotice(@PathVariable String courseNoticeNo, StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model) {
+	public String selectDetailStudyNotice(@PathVariable String courseNoticeNo, StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model, HttpSession session) {
 
 		// 해당 공지사항글 번호
-		vo.setCourseCode("SSPY0001");
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		vo.setCourseNoticeNo(courseNoticeNo);
 		service.updateHit(vo.getCourseNoticeNo());
 		model.addAttribute("selectFile" , service.selectFile(vo));
@@ -67,8 +67,8 @@ public class StudyNoticeController {
 
 	// 교수 강의 공지사항 조회
 	@RequestMapping("/professor/eclass/eclassnotice")
-	public String selectProStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
+	public String selectProStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model, HttpSession session) {
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 
 		model.addAttribute("studyNoticeList", service.selectProStudyNoticeList(vo));
 
@@ -77,10 +77,10 @@ public class StudyNoticeController {
 
 	// 교수 공지사항 상세조회
 	@RequestMapping("/professor/eclass/eclassnotice/{courseNoticeNo}")
-	public String selectProDetailStudyNotice(@PathVariable String courseNoticeNo,StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model) {
+	public String selectProDetailStudyNotice(@PathVariable String courseNoticeNo,StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model, HttpSession session) {
 
 		// 해당 공지사항글 번호
-		vo.setCourseCode("SSPY0001");
+		vo.setCourseCode((String)session.getAttribute("courseCode"));;
 		vo.setCourseNoticeNo(courseNoticeNo);
 		
 		service.updateHit(vo.getCourseNoticeNo());
@@ -92,8 +92,8 @@ public class StudyNoticeController {
 
 	// 교수 공지사항 등록 페이지
 	@RequestMapping("/professor/eclass/eclassnoticewrite")
-	public String StudyNoticeRegisterPage(StudyNoticeVO vo, Model model) {
-		vo.setCourseCode("SSPY0001");
+	public String StudyNoticeRegisterPage(StudyNoticeVO vo, Model model , HttpSession session) {
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		model.addAttribute("StudyNoticeRegisterPage", service.insertStudyNoticePage(vo));
 		return "professor/eclass/notice/eclassnoticewrite";
 	}
@@ -105,8 +105,7 @@ public class StudyNoticeController {
 	// 교수 공지사항 등록 처리
 	@PostMapping("/professor/eclass/eclassnoticeinsert")
 	public String insertStudyNotice(@RequestParam(name="courseNoticeAttachedFileName") MultipartFile[] files , StudyNoticeVO vo, StudyNoticeFileVO filevo, Model model, HttpSession session) throws IllegalStateException, IOException {
-		String courseCode = (String)session.getAttribute("courseCode");
-		vo.setCourseCode("SSPY0001");
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		
 		String groupNum = service.fileUploadGroupNum();
 		for( MultipartFile file : files) {		
@@ -157,7 +156,7 @@ public class StudyNoticeController {
 	@RequestMapping(value = "/professor/eclass/eclassnoticemodify", method = { RequestMethod.POST})
 	public String modifyStudyNotice(StudyNoticeVO vo , HttpSession session) {
 		//String courseCode = (String)session.getAttribute("courseCode");
-		vo.setCourseCode("SSPY0001");
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		service.modifyStudyNotice(vo);
 		return "success";
 		
