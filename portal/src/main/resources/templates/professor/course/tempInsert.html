@@ -349,7 +349,7 @@
 				showPage();
 				aaaaa();
 				modalOff();
-				 /* bbb(); */
+				 
 			})
 			
 			// 탭 형식으로 보이기
@@ -370,22 +370,7 @@
 			})
 			}
 			
-			/*  function bbb(){
-				
-				 let icons = $("input[name=tabs]");
-					$(icons).each((index, val) => {
-						$("#bbb").on("click", function(e) {
-							$(icons).siblings("label").removeClass("offPage");
-							$(icons).siblings("label").removeClass("active");
-								$(val).next().addClass("active");
-								let page = $(".paging");
-								$(page).each((idx, val) => {
-									$(val).addClass('offPage');
-								})
-								$(page[index]).removeClass("offPage");
-						})
-					})
-			}  */
+		
 			
 			//모달창 띄우기
 			function aaaaa () {
@@ -410,11 +395,12 @@
 			//등록버튼시 알람
 			function message(){
 				if(confirm("입력한 내용을 등록하시겠습니까?")){
-					alert("등록되었습니다")
+					alert("등록되었습니다. 주차별 강의계획을 작성해주세요.")
 					frm.submit()
 				}else{
+					return false;
 					alert("등록이 취소되었습니다")
-					return false();
+					
 				}
 				
 			}

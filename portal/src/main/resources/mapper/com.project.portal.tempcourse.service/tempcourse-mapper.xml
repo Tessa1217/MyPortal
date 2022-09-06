@@ -473,7 +473,7 @@ select week_num,
 	
 	<delete id="tempDelete" parameterType="TempcourseVO">
 	
-	delete from temp_course where course_code = #{courseCode}	
+	 delete from temp_course where course_code = #{courseCode}	 
 	</delete>
 	
 	<insert id="tempInsertWith">

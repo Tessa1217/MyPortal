@@ -13,7 +13,7 @@
 				<h2>강의 계획서 조회</h2>
 			</div>
 			<div class="card-body">
-				<form name="searchForm" class="form-horizontal">
+				<form name="searchFrm" class="form-horizontal">
 					<select id="type" name="type">
 						<option value="course_year">개설연도</option>
 						<option value="course_semester">개설학기</option>
@@ -21,6 +21,8 @@
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
 				</form>
+				<br>
+				<br>
 				<table class="table">
 					<thead>
 						<tr>
@@ -34,6 +36,7 @@
 							<th>비승인 사유</th>
 							<th>상세보기</th>
 							<th>제출하기</th>
+							<th>삭제하기</th>
 							
 
 						</tr>
@@ -69,13 +72,42 @@
 									name="button1" class="btn btn-danger moddd"
 									th:data-course="${item.courseCode}">제출하기</button></td>
 									
-									<!-- <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}">삭제[[${item.courseCode}]]</button></td> -->
+									 <td><button class="btn btn-dark deletee" th:data-coursecod="${item.courseCode}"
+									 th:disabled="${item.submitYes}=='SUB' or ${item.okayYes}=='A00'"
+									 >삭제</button></td>
 						</tr>
 
 					</tbody>
 				</table>
+				
+				 <nav aria-label="Page navigation example">
+            <ul class="pagination" style="place-content: center;">
+               <th:if test="${pageMaker.prev}">
+                  <li class="page-item"><a class="page-link" href="#"
+                     aria-label="Previous" onclick="goPage(${pageMaker.startPage-1})"
+                     
+                     >
+                        <span aria-hidden="true">&laquo;</span>
+                  </a></li>
+               </th:if>
+               <th:each begin="${pageMaker.startPage}" end="${pageMaker.endPage}"
+                  var="num">
+                  <li class="page-item"><a class="page-link" href="#"
+                     onclick="goPage(${num})">${num}</a></li>
+               </th:each>
+               <th:if test="${pageMaker.next}">
+                  <li class="page-item"><a class="page-link" href="#"
+                     aria-label="Next" onclick="goPage(${pageMaker.endPage+1})"> <span
+                        aria-hidden="true">&raquo;</span>
+                  </a></li>
+               </th:if>
+            </ul>
+         </nav>
+				
+				
+				
 				<div align="right">
-				<button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button>
+				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" th:disabled="${bache.detailCode} == 'PROF00'">등록</button>
 					</div>
 			</div>
 		</div>
@@ -146,22 +178,26 @@
 					
 				})
 			
+			//페이징 처리
+			function goPage(pageNum){
+        	 searchFrm.pageNum.value = pageNum;
+         	searchFrm.submit();
+      		}
+				
+				
+				
+				
 
-			
+			//강의계획서 등록 페이지로
 			function tempInsert() {
 				location.href = "tempInsert";
 			}
+			
+			//해당 강의계획서 상세보기 페이지로
 			function getTemp() {
 				location.href = "getTemp";
 			}
-			/* $(function(){
-				$("#button1").on("click", tempInfo)
-				function tempInfo(){
-					var code = $(this).data("code")
-					alert(code);
-					location.href="getTemp/${code}";
-				}
-			}) */
+			
 			
 			//제출 기능
 
@@ -245,31 +281,29 @@
 				//삭제 기능
 				
 			 	
-			 		$(".deletee").on("click", confirmModal)
-			 		function confirmModal(){
+			 		$(".deletee").on("click", function(){
+			 		
 			 			if(window.confirm("정말로 삭제하시겠습니까?")){
+			 				let courseCode = $(this).data("coursecod")
 			 				
-			 				tempDelete();
-			 			}
-			 		}
-			 		function tempDelete(){
-			 			let courseCode = $(this).data("coursecod")
 			 			$.ajax({
 			 				url : "/professor/tempcourseList/tempDelete",
 			 				method : "post",
 			 				dataType : "json",
 			 				data : {
 			 					
-			 					courseCode : courseCode 
+			 					"courseCode" : courseCode 
 			 						
 			 				},
 			 				dataType : "json",
 			 				success : function(result){
+			 					
 			 					alert('삭제되었습니다')
-			 					location.replace('/professor/tempcourseList');
+			 					location.replace('|/professor/tempcourseList|');
 			 				}
-			 			})
+			 			});
 			 		}
+			 		})
 			 	
 			 	
 			 	

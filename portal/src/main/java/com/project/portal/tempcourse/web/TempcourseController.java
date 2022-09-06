@@ -79,10 +79,13 @@ public class TempcourseController {
 		System.out.println(vo.getProfessorId());
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
-		
+		BachelorScheduleVO bac = new BachelorScheduleVO();
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+		model.addAttribute("bache", bac);
 		System.out.println(tempcourseList);
 		return "professor/course/tempcourseList";
 	}
@@ -94,7 +97,6 @@ public class TempcourseController {
 		vo.setProfessorId((int) session.getAttribute("id"));
 		pvo.setProfessorId((int) session.getAttribute("id"));
 		pvo = service.getInfo(pvo);
-		
 		vooo.setYear((int)session.getAttribute("year"));
 		vooo.setSemester((int)session.getAttribute("semester"));
 
@@ -155,11 +157,6 @@ public class TempcourseController {
 		 * service.tempweekInsert(voo); }
 		 */
 		
-		
-		 
-		
-			
-		
 			
 		return "redirect:professor/tempcourseList";
 	}
@@ -198,20 +195,13 @@ public class TempcourseController {
 	public String updateweekTemp(@PathVariable String courseCode, @RequestParam Map map, Model model,
 			TempcourseweekVO voo, TempcourseVO vo) {
 
-//		voo.setCourseCode(vo.getCourseCode());
 
 		TempcourseVO vol = new TempcourseVO();
 		model.addAttribute("tempcourseList", vol);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
-		/*
-		 * for (String weekContent : voo.getWeekContent().split(",")) {
-		 * voo.setWeekNum(i); voo.setWeekContent(weekContent);
-		 * 
-		 * 
-		 * service.tempweekInsert(voo); i++; }
-		 */
+		
 
 		for (int j = 1; j <= 15; j++) {
 			voo.setWeekNum(j);
