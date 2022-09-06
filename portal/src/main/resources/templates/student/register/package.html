@@ -7,24 +7,53 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	/* 스크롤 테이블 헤더 고정 */
-	#cTable thead {
-		position: sticky; 
-		top: 0px;
-		background-color: lightblue !important;
+	/* 카드 */
+	.card{
+		background-color:#BDC8DE;
+	}
+	/* 학생정보 테이블 */
+	#sInfo{
+		text-align: center;
+		margin: auto;
 		color: black;
 	}
-	#cTable tbody tr {
+	#sInfo thead{
+		background-color: #AAAAC6
+	}
+	#sInfo tbody{
+		background-color: white;
+	}
+	/* 스크롤 테이블 헤더 고정 */
+	#pTable {
+		margin: auto;
+		text-align: center;
+	}
+	#pTable thead {
+		position: sticky; 
+		top: 0px;
+		background-color: #AAAAC6 !important;
+		color: black;
+	}
+	#pTable tbody tr {
 		background-color: white;
 	}
 	/* 신청학점 위치 조정 및 글자크기 */
 	#totalCredit {
-		padding-left: 20px;
+		padding-left: 30px;
 		font-size: large;
+		color: black;
 	}
-	#cTable {
-		margin: auto;
+	/* 꾸러미LIST */
+	#inTable{
 		text-align: center;
+		margin: auto;
+		color: black;
+	}
+	#inTable thead{
+		background-color: #AAAAC6
+	}
+	#inTable tbody{
+		background-color: white;
 	}
 </style>
 </head>
@@ -34,8 +63,9 @@
 			<h2>수강 꾸러미 신청</h2>
 			<hr>
 			<!-- 학생 정보 -->
-			<div>
-				<table class="table table-bordered">
+			<div class="card">
+				<div class="card-body">
+				<table class="table table-bordered" id="sInfo">
 					<thead>
 						<tr>
 							<th>학번</th>
@@ -60,10 +90,12 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
 			<hr>
+			<br>
+			<h3>개설강의 LIST</h3>
 			<div class="card">
 				<div class="card-body">
-			<h3>개설강의 LIST</h3>
 			<!-- 학과별 강의 검색 -->
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
@@ -91,7 +123,7 @@
 			<br>
 			<!-- 강의 목록 -->
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover" id="cTable">
+				<table class="table table-bordered table-hover" id="pTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -121,12 +153,12 @@
 			</div>
 		</div>
 		<hr>
-			<!-- 담은 강의 목록 -->
+		<!-- 담은 강의 목록 -->
+		<h3>수강꾸러미 LIST</h3>
 			<div class="card">
 				<div class="card-body">
-			<h3>수강꾸러미 LIST</h3>
 			<div class="overflow-auto" style="max-height: 300px;">
-				<table class="table table-bordered table-hover">
+				<table class="table table-bordered table-hover" id="inTable">
 					<thead>
 						<tr>
 							<th>강의 코드</th>
@@ -195,8 +227,8 @@
 					let code = $(this).data("code");
 					let name = $(this).data("name");
 					let allCourseCredit = creditTotalSum();
-					var cTable = document.getElementById("cTable");
-					var moveTr = Array.from(cTable.children[1].children);
+					var pTable = document.getElementById("pTable");
+					var moveTr = Array.from(pTable.children[1].children);
 					const selectCode = $(this)[0].parentElement.parentElement;
 					const selectNum = parseInt(selectCode.children[3].textContent);
 					
