@@ -179,7 +179,7 @@ input[name="tabs"]+.tabmenu {
 
 .board-content-box, .board-question-box {
 	overflow: scroll;
-	height: 50vh;
+	height: 38vh;
 	margin-bottom: 2%;
 }
 
@@ -340,6 +340,11 @@ input[name=examQuestionPoint] {
 	overflow-y: scroll;
 	height: 60vh;
 	margin: 2%;
+}
+
+.lecture-scroll {
+	overflow: scroll;
+	height: 80vh;
 }
 
 

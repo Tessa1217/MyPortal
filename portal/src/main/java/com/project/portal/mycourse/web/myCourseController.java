@@ -1,6 +1,7 @@
 package com.project.portal.mycourse.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,21 +14,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
-import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.service.MyCourseMainVO;
-import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
+import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
+import com.project.portal.student.service.StudentVO;
+import com.project.portal.student.service.impl.StudentServiceImpl;
 
 // 작성자: 김진형, 박근형
 @Controller
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 
-	@Autowired MyCourseService service;
-	@Autowired CourseService cservice;
+	@Autowired MyCourseServiceImpl service;
+	@Autowired CourseServiceImpl cservice;
+	@Autowired StudentServiceImpl studService;
 	
 
 	// 학생 학업 정보 조회
@@ -94,7 +98,14 @@ public class myCourseController {
 									Model model,
 									HttpSession session) {
 		session.setAttribute("courseCode", courseCode);
-		
+		CourseVO course = new CourseVO();
+		course.setCourseCode(courseCode);
+		Map<String, Object> map = service.getWeeklyList(course);
+		model.addAttribute("map", map);
+		System.out.println(map);
+		StudentVO student = new StudentVO();
+		student.setStudentId((int) session.getAttribute("id"));
+		model.addAttribute("student", studService.studentInfoSelect(student));
 		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));
 		return "student/eclass/eclassmain";
 

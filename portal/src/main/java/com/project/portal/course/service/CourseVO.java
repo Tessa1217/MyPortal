@@ -41,6 +41,8 @@ public class CourseVO extends Criteria{
 	
 	// 주차 계획 정보
 	private List<CourseWeeklyVO> weekPlans;
+	// 주차 정보
+	private String weekCode;
 	
 //	// 강의별 강의평가 평균점수
 //	private List<CourseSurveyAvgVO> courseSurveyAvg;

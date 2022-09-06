@@ -1,8 +1,7 @@
 package com.project.portal.mycourse.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
+import java.util.Map;
 
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
@@ -25,7 +24,10 @@ public interface MyCourseService {
 	
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
-
+	
+	// 이주 게획 조회
+	public Map<String, Object> getWeeklyList(CourseVO vo);
+	
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo);
 
 	public MyCourseVO studentCreditSum(MyCourseVO vo);

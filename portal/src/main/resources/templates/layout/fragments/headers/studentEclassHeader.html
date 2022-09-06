@@ -11,8 +11,7 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img th:src="@{/images/logo/logo.png}"
-								alt="Logo" srcset=""></a>
+							<a th:href="@{/student/eclass/{courseCode}(courseCode = ${session.courseCode})}"><i class="fa-solid fa-house-user"></i></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -36,53 +35,40 @@
 								<li class="submenu-item "><a
 									th:href="@{/student/eclass/lectureList}">주별 강의 리스트</a></li>
 								<li class="submenu-item "><a
-									th:href="@{/student/eclass/courseDetail}">강의 계획서</a></li>
-								<li class="submenu-item "><a
 									th:href="@{/student/eclass/courseSurvey}">수강평 작성</a></li>
 							</ul></li>
 
-						<li class="sidebar-item  has-sub"><a href="#"
+						<li class="sidebar-item"><a th:href="@{/student/eclass/progressRate}"
 							class='sidebar-link'> <i class="bi bi-stack"></i> <span>학습
 									진척도</span>
-						</a>
-							<ul class="submenu ">
-								<li class="submenu-item "><a
-									th:href="@{/student/eclass/progressRate}">학습 진척도 조회</a></li>
-							</ul></li>
+						</a></li>
 
-						<li class="sidebar-item  has-sub"><a href="#"
+						<li class="sidebar-item"><a th:href="@{/student/eclass/reportList}"
 							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>과제</span>
-						</a>
-							<ul class="submenu ">
-								<li class="submenu-item "><a
-									th:href="@{/student/eclass/reportList}">나의 과제</a></li>
-								<li class="submenu-item "><a
-									href="extra-component-sweetalert.html">bb</a></li>
-								<li class="submenu-item "><a
-									href="extra-component-toastify.html">cc</a></li>
-							</ul></li>
+						</a></li>
 
 						<li class="sidebar-item  has-sub"><a href="#"
-							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>질문</span>
+							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>모아보기</span>
 						</a>
 							<ul class="submenu ">
+								<li class="submenu-item ">
+									<a th:href="@{/student/eclass/myNotes}">강의 노트 모아보기</a>
+								</li>
 								<li class="submenu-item "><a
-									th:href="@{/student/eclass/courseQuestion}">나의 질문보기</a></li>
+									th:href="@{/student/eclass/courseQuestion}">나의 질문 모아보기</a></li>
 							</ul></li>
 
 
-						<li class="sidebar-item has-sub"><a href="table.html"
+						<li class="sidebar-item"><a th:href="@{/student/eclass/examList}"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>시험</span>
-						</a>
-							<ul class="submenu">
-								<li class="submenu-item "><a
-									th:href="@{/student/eclass/examList}">강의 시험</a></li>
-							</ul></li>
+						</a></li>
 						<li class="sidebar-item  has-sub"><a href="#"
 							class='sidebar-link'> <i class="bi bi-stack"></i> <span>강의
 									공지사항</span>
 						</a>
 							<ul class="submenu ">
+								<li class="submenu-item "><a
+									th:href="@{/student/eclass/courseDetail}">강의 계획서</a></li>
 								<li class="submenu-item "><a
 									th:href="@{/student/eclass/eclassnotice}">강의 공지사항 리스트</a></li>
 							</ul></li>

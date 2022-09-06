@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
+import com.project.portal.exam.service.ExamVO;
+import com.project.portal.lecture.service.LectureVO;
+import com.project.portal.report.service.ReportVO;
 
 @Mapper
 public interface MyCourseMapper {
@@ -26,8 +29,14 @@ public interface MyCourseMapper {
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
 
-	
-	
+	// 이번주 정보
+	public CourseVO getWeekCode(CourseVO vo);
+	// 이주 강의 리스트
+	public List<LectureVO> getLectureList(CourseVO vo);
+	// 이주 과제 리스트
+	public List<ReportVO> getReportList(CourseVO vo);
+	// 이주 시험 조회
+	public List<ExamVO> getExamList(CourseVO vo);
 	
 	
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo);

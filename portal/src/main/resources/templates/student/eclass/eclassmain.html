@@ -91,15 +91,98 @@
 								<div>
 								  <h5>강의</h5>
 								</div>
+								<div th:unless="|${map.containsKey('lectureList')}|">
+									<div>
+										<h3>이번 주 예정된 강의가 없습니다.</h3>
+									</div>
+								</div>
+								<div th:if="|${map.containsKey('lectureList')}|">
+									<table class="table">
+										<thead>	
+											<tr>
+												<th>주차</th>
+												<th>강의명</th>
+												<th>강의 기한</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="lecture : ${map.get('lectureList')}">
+												<td th:text="${#strings.substring(lecture.weekCode, 8, 10)}"></td>
+												<td th:text="${lecture.lectureTitle}"></td>
+												<td th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
+												<td><button type="button"
+												class="btn btn-sm btn-primary rounded-pill"
+												>바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 							<div>
 								<div>
 								  <h5>과제</h5>
 								</div>
+								<div th:unless="${map.containsKey('reportList')}">
+									<div>
+										<h3>이번 주 예정된 과제가 없습니다.</h3>
+									</div>
+								</div>
+								<div th:if="${map.containsKey('reportList')}">
+									<table class="table">
+										<thead>	
+											<tr>
+												<th>주차</th>
+												<th>과제명</th>
+												<th>과제 기한</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="report : ${map.get('reportList')}">
+												<td th:text="${#strings.substring(report.weekCode, 8, 10)}"></td>
+												<td th:text="${report.reportTitle}"></td>
+												<td th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
+												<td><button type="button"
+												class="btn btn-sm btn-primary rounded-pill"
+												>바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 							<div>
 								<div>
 								  <h5>시험</h5>
+								</div>
+								<div th:unless="${map.containsKey('examList')}">
+									<div>
+										<h3>이번 주 예정된 시험이 없습니다.</h3>
+									</div>
+								</div>
+								<div th:if="${map.containsKey('examList')}">
+									<table class="table">
+										<thead>	
+											<tr>
+												<th>시험</th>
+												<th>시험 기간</th>
+												<th>시험 문항수</th>
+												<th>시험 총점</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="exam : ${map.get('examList')}">
+												<td th:text="${#strings.startsWith(exam.examCode, 'M')} ? 중간고사 : 기말고사"></td>
+												<td th:text="|${#dates.format(exam.examStartDate, 'yyyy-MM-dd')} - ${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}|"></td>
+												<td th:text="|${exam.examTotalQuestion}문항|"></td>
+												<td th:text="|${exam.examTotalScore}점|"></td>
+												<td><button type="button"
+												class="btn btn-sm btn-primary rounded-pill"
+												>바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -110,10 +193,10 @@
 						<div class="card-body py-4 px-3">
 							<div class="d-flex align-items-center">
 								<div class="avatar avatar-xl">
-									<img th:src="@{/download/{fileName}(fileName=${session.student.studentImg})}" alt="Face 1">
+									<img th:src="@{/download/{fileName}(fileName=${student.studentImg})}" alt="Face 1">
 								</div>
 								<div class="ms-3 name">
-									<h5 class="font-bold" th:text="${session.student.studentName}"></h5>
+									<h5 class="font-bold" th:text="${student.studentName}"></h5>
 								</div>
 							</div>
 						</div>

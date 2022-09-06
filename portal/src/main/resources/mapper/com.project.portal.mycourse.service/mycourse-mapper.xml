@@ -88,7 +88,48 @@
 			FROM my_course
 			WHERE course_code = #{courseCode}
 	</select>
-
-
-
+	<select id="getWeekCode" resultType="CourseVO">
+		SELECT week_code, course_code
+			FROM course_weekly
+			WHERE SYSDATE between
+				week_start_date AND week_end_date
+			AND course_code = #{courseCode}
+	</select>
+	<select id="getLectureList" resultType="LectureVO">
+		SELECT 
+			lecture_code,
+			week_code,
+			lecture_start_date,
+			lecture_end_date,
+			lecture_title,
+			course_code
+			FROM lecture
+			WHERE course_code = #{courseCode}
+			AND week_code = #{weekCode}
+	</select>
+	<select id="getReportList" resultType="ReportVO">
+		SELECT 
+			report_code,
+			week_code,
+			report_start_date,
+			report_end_date,
+			report_title,
+			course_code
+			FROM report_info
+			WHERE course_code = #{courseCode}
+			AND week_code = #{weekCode}
+	</select>
+	<select id="getExamList" resultType="ExamVO">
+		SELECT
+			exam_code,
+			week_code,
+			exam_start_date,
+			exam_end_date,
+			exam_total_question,
+			exam_total_score
+			course_code
+			FROM exam
+			WHERE course_code = #{courseCode}
+			AND week_code = #{weekCode}
+	</select>
 </mapper>

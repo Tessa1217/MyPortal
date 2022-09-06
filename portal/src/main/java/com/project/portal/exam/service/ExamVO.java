@@ -20,5 +20,5 @@ public class ExamVO {
 	private int examTotalQuestion;
 	private int examTotalScore;
 	private String examSubmit;
-
+	private String courseCode;
 }
