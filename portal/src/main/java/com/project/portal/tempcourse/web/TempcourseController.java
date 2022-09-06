@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.professor.service.ProfessorVO;
@@ -88,19 +89,21 @@ public class TempcourseController {
 
 	// 강의계획서 등록페이지
 	@RequestMapping("/professor/tempInsert")
-	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri, HttpSession session, Authentication authentication ) {
+	public String tempInsert(TempcourseVO vo, Model model, TempcourseweekVO voo, ProfessorVO pvo, Criteria cri, HttpSession session, Authentication authentication, BachelorScheduleVO vooo) {
 		
 		vo.setProfessorId((int) session.getAttribute("id"));
 		pvo.setProfessorId((int) session.getAttribute("id"));
 		pvo = service.getInfo(pvo);
 		
+		vooo.setYear((int)session.getAttribute("year"));
+		vooo.setSemester((int)session.getAttribute("semester"));
 
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
-		
-		
+		model.addAttribute("year", vooo.getYear());
+		model.addAttribute("semester", vooo.getSemester());
 		
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
@@ -120,10 +123,11 @@ public class TempcourseController {
 		
 		service.tempInsert(vo);
 
+		
 		System.out.println(vo);
 		System.out.println(voo);
 
-		return "redirect:professor/tempInsert";
+		return "redirect:/professor/getTemp/"+vo.getCourseCode();
 	}
 
 	// 주차별 등록처리

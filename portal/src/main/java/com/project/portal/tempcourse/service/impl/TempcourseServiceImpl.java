@@ -54,19 +54,15 @@ public class TempcourseServiceImpl implements TempcourseService{
 		mapper.tempInsert(vo);
 		
 		
-		/*
-		 * TempcourseweekVO voo = new TempcourseweekVO(); for(int i=1; i<=16; i++) {
-		 * voo.setCourseCode(vo.getCourseCode()); mapper.tempweekInsert(voo);
-		 * 
-		 * }
-		 */
-		/*
-		 * TempcourseListVO vooo = new TempcourseListVO(); for(TempcourseweekVO voo:
-		 * vooo.getList()) { voo.setCourseCode(vooo.getCourseCode());
-		 * mapper.tempweekInsert(voo); }
-		 */
 		
-		 
+		  TempcourseweekVO voo = new TempcourseweekVO(); 
+		  voo.setCourseYear(vo.getCourseYear());
+		  voo.setCourseSemester(vo.getCourseSemester());
+		  for(int i=1; i<=16; i++) {
+			  voo.setCourseCode(vo.getCourseCode()); 
+			  voo.setWeekNum(i);
+			  mapper.tempweekInsert(voo);
+		  }
 	}
 
 

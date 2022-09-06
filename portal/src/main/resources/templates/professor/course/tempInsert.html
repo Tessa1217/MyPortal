@@ -42,7 +42,7 @@
 						<input id="tab1" type="radio" name="tabs" checked> <label
 							for="tab1" class="tabmenu active">기본 정보</label> 
 							<input id="tab2" type="radio" name="tabs"> <label for="tab2"
-							class="tabmenu">주차 계획</label>
+							class="tabmenu offPage">주차 계획</label>
 					</div>
 					
 					<div class="card paging name" id="tab11">
@@ -72,7 +72,7 @@
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" name="courseYear" required min='2000' max='2100'>
+											<input type="number" class="form-control" name="courseYear" required th:value="${year}">
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
@@ -81,9 +81,9 @@
 											<select id="courseSemester" name="courseSemester"
 													class="form-control" required>
 													<option class="hidden" value=""
-														th:text="선택" disabled selected></option>
-													<option th:value="1" th:text="1학기"></option>
-													<option th:value="2" th:text="2학기"></option>
+														th:text="선택"></option>
+													<option th:value="1" th:text="1학기" th:selected="${semester==1}"></option>
+													<option th:value="2" th:text="2학기" th:selected="${semester==2}"></option>
 												</select>
 										</div>
 										
@@ -179,7 +179,7 @@
 										</div>
 										</div>
 										<div class="col-sm-12" align="right">
-											<button type="submit" class="btn btn-danger" style="margin-right:30px;">다음 페이지로</button>
+											<button type="submit" class="btn btn-danger" style="margin-right:30px;" onclick="message()">강의계획서 등록하기</button>
 											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info" style="margin-right:30px;">목록 보기</button>
 											<button type="reset" class="btn btn-secondary" >취소</button>
 										</div>
@@ -202,15 +202,12 @@
 							<form th:action="@{/tempweekInsertProc}" method="POST">
 							
 							<h2>주차별 강의 내용</h2>
+									
+									
 							 	<select name="courseCode">
 							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
 							 	</select>
-							 	<select name="courseYear">
-							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseYear}" th:value="${item.courseYear}"></option>
-							 	</select>
-							 	<select name="courseSemester">
-							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseSemester}" th:value="${item.courseSemester}"></option>
-							 	</select>
+							 
 							 <!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
 								<div>
 									<table class="table">
@@ -233,12 +230,15 @@
 											</tr> -->
 											<th:block th:each="week:${tempcourseweekListList}">
 											<tr>
-												<td th:text="${week.weekNum}" th:value="${week.weekNum}">
+												 <td th:text="${week.weekNum}" th:value="${week.weekNum}">
 												</td>
 												
-												<td>											
+												<td >			
+												
+																				
 												<input th:name="|list[${weekStat.index}].weekContent|" class="form-control">
 												</td>
+												
 												
 											<td><input type="hidden" th:name="|list[${weekStat.index}].weekNum|" th:value="${week.weekNum}" class="form-control">
 											
@@ -414,7 +414,7 @@
 					frm.submit()
 				}else{
 					alert("등록이 취소되었습니다")
-					return "professor/course/tempInsert";
+					return false();
 				}
 				
 			}
