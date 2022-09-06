@@ -11,8 +11,7 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img th:src="@{/images/logo/logo.png}"
-								alt="Logo" srcset=""></a>
+							<a th:href="@{/professor/eclass/{courseCode}(courseCode = ${session.courseCode})}"><i class="fa-solid fa-house-user"></i></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -29,11 +28,16 @@
 				<div class="sidebar-menu">
 					<ul class="menu">
 						<li class="sidebar-title">내 강의</li>
-						<li class="sidebar-item  has-sub"><a href="#"
-							class='sidebar-link'> <i class="bi bi-stack"></i> <span>질문</span>
+						<li class="sidebar-item  has-sub"><a href="table.html"
+							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>강의
+									관리</span>
 						</a>
 							<ul class="submenu ">
 								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/lectureList}">강의 동영상 조회</a></li>
+								<li class="submenu-item "><a
+									th:href="@{/professor/eclass/insertLecture}">강의 동영상 등록</a></li>
+									<li class="submenu-item "><a
 									th:href="@{/professor/eclass/courseQuestion}">강의 질문 목록</a></li>
 							</ul></li>
 						<li class="sidebar-item  has-sub"><a href="#"
@@ -55,20 +59,11 @@
 								<li class="submenu-item "><a
 									th:href="@{/professor/eclass/examList}">강의 시험 관리</a></li>
 								<li class="submenu-item "><a
-									th:href="@{/professor/eclass/examScore}">수강생 시험 성적 조회</a></li>
-								<li class="submenu-item "><a
 									th:href="@{/professor/eclass/examInsert}">시험지 등록</a></li>
-							</ul></li>
-						<li class="sidebar-item  has-sub"><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>강의
-									동영상</span>
-						</a>
-							<ul class="submenu ">
 								<li class="submenu-item "><a
-									th:href="@{/professor/eclass/lectureList}">강의 동영상 조회</a></li>
-								<li class="submenu-item "><a
-									th:href="@{/professor/eclass/insertLecture}">강의 동영상 등록</a></li>
+									th:href="@{/professor/eclass/examScore}">수강생 시험 성적 조회</a></li>
 							</ul></li>
+						
 
 						<li class="sidebar-item  has-sub"><a href="#"
 							class='sidebar-link'> <i class="bi bi-stack"></i> <span>강의

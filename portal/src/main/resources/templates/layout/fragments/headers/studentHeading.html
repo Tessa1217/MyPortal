@@ -6,7 +6,8 @@
 </head>
 <th:block th:fragment="heading">
 		<div id="goOutContainer" class="page-header">
-			<button type="button" class="btn btn-primary" id="goOut"><i class="fa-solid fa-right-from-bracket"></i> 돌아가기</button>
+			<button type="button" class="btn btn-primary"
+			th:onclick="|location.href='@{/student}'|"><i class="fa-solid fa-right-from-bracket"></i> 돌아가기</button>
 		</div>
 	</th:block>
 </html>
