@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/admin_layout}">
 <head>
 <meta charset="UTF-8">
-<title>관리자 강의계획서 리스트출력</title>
+<title>강의 계획서 관리</title>
 <style>
 .offPage {
 	display: none;
@@ -28,7 +28,7 @@
 	<th:block layout:fragment="adminContent">
 		<div id="main">
 			<div>
-				<h2>제출된 강의 계획서 조회</h2>
+				<h2>강의계획서 관리</h2>
 			</div>
 			<div class="card-body">
 				<form name="searchForm" class="form-horizontal">
@@ -206,12 +206,7 @@
 			}
 
 			
-			function tempInsert() {
-				location.href = "tempInsert";
-			}
-			function getTemp() {
-				location.href = "getTemp";
-			}
+			
 		
 			//관리자 승인기능
 			$(".moddd").on("click",

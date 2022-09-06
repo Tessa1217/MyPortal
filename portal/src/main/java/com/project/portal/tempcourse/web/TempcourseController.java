@@ -66,7 +66,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
 		logger.info(vo.getCourseCode());
-		return "professor/course/getTemp";
+		return "/professor/course/getTemp";
 	}
 
 
@@ -87,7 +87,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("bache", bac);
 		System.out.println(tempcourseList);
-		return "professor/course/tempcourseList";
+		return "/professor/course/tempcourseList";
 	}
 
 	// 강의계획서 등록페이지
@@ -114,7 +114,7 @@ public class TempcourseController {
 		model.addAttribute("departInsert", pvo);
 		
 		
-		return "professor/course/tempInsert";
+		return "/professor/course/tempInsert";
 	}
 
 
@@ -158,11 +158,11 @@ public class TempcourseController {
 		 */
 		
 			
-		return "redirect:professor/tempcourseList";
+		return "redirect:/professor/tempcourseList";
 	}
 
 	// 강의계획서 기본정보 수정기능
-	@RequestMapping(value={"professor/getTemp/{courseCode}/updateTemp", "professor/getUpdateTemp/{courseCode}/updateTemp"})
+	@RequestMapping(value={"/professor/getTemp/{courseCode}/updateTemp", "/professor/getUpdateTemp/{courseCode}/updateTemp"})
 	@ResponseBody
 	public int tempUpdate(@PathVariable String courseCode, TempcourseVO vo, Model model) {
 		
@@ -191,7 +191,7 @@ public class TempcourseController {
 //	}
 
 	// 강의계획서 주차별 강의 수정기능
-	@RequestMapping("professor/getTemp/{courseCode}/updateweekTemp")
+	@RequestMapping("/professor/getTemp/{courseCode}/updateweekTemp")
 	public String updateweekTemp(@PathVariable String courseCode, @RequestParam Map map, Model model,
 			TempcourseweekVO voo, TempcourseVO vo) {
 
@@ -236,7 +236,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		System.out.println(tempcourseList);
-		return "admin/info/adminTempList";
+		return "/admin/info/adminTempList";
 	}
 
 	// 관리자 강의계획서 상세보기
@@ -259,7 +259,7 @@ public class TempcourseController {
 			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
 		logger.info(vo.getCourseCode());
-		return "admin/info/adminGetTemp";
+		return "/admin/info/adminGetTemp";
 	}
 	// 관리자 강의계획서 승인기능
 		@RequestMapping(value = { "/admin/adminTempList/okayTemp", "/admin/adminGetTemp/okayTemp" })
@@ -297,7 +297,7 @@ public class TempcourseController {
 
 				}
 
-		//비승인 사유(교수, 관리자)
+		//비승인 사유(교수)
 		@PostMapping(value = {"/professor/tempcourseList/backReasonWhy", "/professor/getTemp/{courseCode}/backReasonWhy", "/admin/adminTempList/backReasonWhy"})
 		@ResponseBody
 		public TempcourseVO backReasonWhy(TempcourseVO vo, Model model ) {
@@ -335,7 +335,7 @@ public class TempcourseController {
 		}
 		
 		
-		// 모달창에서 승인된 강의계획서 바로가기에서 수정기능
+		// 모달창에서 승인된 강의계획서 바로가기에서 수정기능되는 페이지
 		@RequestMapping("/professor/getUpdateTemp/{courseCode}")
 		public String getUpdateTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
 			vo = service.getTemp(courseCode);
@@ -353,7 +353,7 @@ public class TempcourseController {
 			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
 			logger.info(vo.getCourseCode());
-			return "professor/course/getUpdateTemp";
+			return "/professor/course/getUpdateTemp";
 		}
 
 		// 승인된 강의계획서 주차별 강의 수정기능
@@ -361,7 +361,6 @@ public class TempcourseController {
 		public String updateweekTempU(@PathVariable String courseCode, @RequestParam Map map, Model model,
 				TempcourseweekVO voo, TempcourseVO vo) {
 
-//			voo.setCourseCode(vo.getCourseCode());
 
 			TempcourseVO vol = new TempcourseVO();
 			model.addAttribute("tempcourseList", vol);
@@ -387,12 +386,6 @@ public class TempcourseController {
 		}
 		
 		
-//		//비승인 사유 등록(관리자)
-//		@PostMapping(value={"/admin/adminTempList/backReasonInsert", "/admin/adminGetTemp/{courseCode}/backReasonInsert"})
-//		@ResponseBody
-//		public String backReasonInsert(TempcourseVO vo) {
-//			service.backReasonInsert(vo);
-//			return "success";
-//		}
+
 		
 }
