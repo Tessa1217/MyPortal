@@ -10,5 +10,7 @@ public interface BachelorScheduleMapper {
 	List<BachelorScheduleVO> scheduleList(BachelorScheduleVO vo);
 	
 	BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo);
+
+	int scheduleAllInsert(BachelorScheduleVO vo);
 	
 	}

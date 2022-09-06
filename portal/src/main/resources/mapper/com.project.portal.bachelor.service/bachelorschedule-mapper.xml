@@ -29,6 +29,16 @@
 	    and rownum = 1
 	</select>
 	
+	<insert id="scheduleAllInsert">
+		INSERT INTO bachelor_schedule
+		VALUES (
+		            'SC'||LPAD(
+		                        TO_CHAR(schedule_seq.NEXTVAL), 18, '0'
+		                        
+		                                    ),#{scheduleContent},#{scheduleStartDate}, #{scheduleEndDate},#{year},#{detailCode},#{semester}
+		            )
+	</insert>
+	
 	
 	
 </mapper>

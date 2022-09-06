@@ -6,26 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script
-	src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-<style>
-.clear {
-	display: block;
-	float: none;
-	clear: both;
-	height: 0;
-	width: 100%;
-	font-size: 0 !important;
-	line-height: 0 !important;
-	overflow: hidden;
-	margin: 0 !important;
-	padding: 0 !important;
-}
 
-.red {
-	color: red;
-}
-</style>
+
 
 <body>
 	<th:block layout:fragment="scheduleContent">
@@ -45,8 +27,7 @@
 							<button type="button" class="btn btn-primary"
 								data-bs-toggle="modal" style="margin-right: 15px" data-bs-target="#insertModal">
 								등록</button>
-							<button class="btn btn-primary">일괄등록</button>
-							<input type="file" id="id_file_upload" onchange="upload(event)" />
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" style="margin-right: 15px" data-bs-target="#allInsertModal">일괄등록</button>
 							<button type="button" class="btn btn-primary" th:onclick="prevYear()">◁</button>
 							<input type="number" name="year" id="year" th:value='${year}' readonly style="text-align: center;width:80px">
 							<button type="button" class="btn btn-primary" th:onclick="nextYear()">▷</button>
@@ -64,6 +45,7 @@
 							</dd>
 							<hr>
 						</dl>
+						<h3 id="plusYear"></h3>
 						<dl th:each="i : ${#numbers.sequence(1, 2)}">
 							<dt th:text="|${i}월|"></dt>
 							<dd>
@@ -104,26 +86,46 @@
 							</div>
 						</div>
 					</div>
+					<!-- 일괄등록 모달 -->
+					<div class="modal fade" id="allInsertModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<input type="file" id="id_file_upload" onchange="upload(event)" />
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" th:onclick="allInputdata()" aria-label="Close">일괄 등록</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 
-
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
 				<script th:inline="javascript">
 				// Fullcalendar
 					document.addEventListener('DOMContentLoaded', function() {
+						var inputdata;
 						var calendarEl = document.getElementById('calendar');
 						var calendar = new FullCalendar.Calendar(calendarEl, {
 							initialView : 'dayGridMonth'
 						});
 						calendar.render();
 						calendar.setOption('contentHeight', 450);
+						
+						let aaa = parseInt($('#year').val()) + 1;
+						$('#plusYear').text(aaa + ' 년도');
 					});
 					
-					/* date = new Date();
-					var year = date.getFullYear();
-				  if(document.getElementById("year").value == ''){
-					document.getElementById("year").value = year;
-				} */
 				  
 				  function prevYear() {
 					$('#year').val(parseInt($("#year").val()) - 1);
@@ -139,28 +141,13 @@
 					  		alert("현재년도 입니다.")
 					  	}
 					  }
+				  
+				  
 					
-					/* function scheduleSearch(){
-						$.ajax({
-							url : "/professor/schedule",
-							method : "post",
-							data : {
-								"year" : ${"#year"}.val(),
-							},
-							success : function(result) {
-								
-							}
-						})
-					} */
+			
 					
-					
-					
-					
-					
-					
-					
-					//엑셀 받아오기 일단 주석처리
-					/* function upload(event) {
+					//엑셀에서 값 받아오기
+					function upload(event) {
 						var input = event.target;
 						var reader = new FileReader();
 						reader.onload = function() {
@@ -172,11 +159,31 @@
 									.forEach(function(sheetName) {
 										var rowdata = XLSX.utils
 												.sheet_to_json(read_buffer.Sheets[sheetName]);
-										console.log(JSON.stringify(rowdata));
+										inputdata = rowdata;
+										 console.log(rowdata);
+										// $.ajax
 									})
 						};
 						reader.readAsBinaryString(input.files[0]);
-					} */
+					}
+					function allInputdata() {
+					/* console.log(inputdata[0].detailCode); */
+					$.ajax({
+						url : "/admin/scheduleAllInsert",
+						method : "post",
+						contentType : "application/json",
+						data : JSON.stringify(inputdata),
+						success : function(res) {
+							console.log(res)
+							$("#allInsertModal").modal("hide");
+						},
+						error : function(err) {
+							console.log(err)
+							$("#allInsertModal").modal("hide");
+						}
+					})
+						
+					}					
 				</script>
 			</div>
 		</div>

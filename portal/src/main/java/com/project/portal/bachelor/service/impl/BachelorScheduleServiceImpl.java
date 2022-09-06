@@ -24,4 +24,12 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return mapper.currentYearSemester(vo);
 	}
 
+	@Override
+	public String scheduleAllInsert(List<BachelorScheduleVO> list) {
+		for(BachelorScheduleVO vo : list) {
+			mapper.scheduleAllInsert(vo);
+		}
+		return "";
+	}
+
 }

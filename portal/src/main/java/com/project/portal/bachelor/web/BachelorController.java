@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -59,5 +60,12 @@ public class BachelorController {
 		//model.addAttribute(vo)
 		model.addAttribute("scheduleList", service.scheduleList(vo));
 		return "common/schedule";
+	}
+	// 학사일정 일괄 등록
+	@RequestMapping("/admin/scheduleAllInsert")
+	@ResponseBody
+	public String scheduleAllInsert(@RequestBody List<BachelorScheduleVO> vo, Model model) {
+		service.scheduleAllInsert(vo);
+		return "success";
 	}
 }
