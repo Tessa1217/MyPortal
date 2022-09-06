@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.progressrate.service.ProgressRateMapper">
+	
+	<select id="selectLectureProgress" resultType="ProgressRateVO">
+		SELECT W.WEEK_NUM,
+		       L.LECTURE_TITLE,
+		       (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME * 60 * 60)) * 100 AS LEC_PROGRESS_RATE,
+		       L.WEEK_CODE
+          FROM COURSE_WEEKLY W LEFT OUTER JOIN LECTURE L
+            ON W.WEEK_CODE = L.WEEK_CODE
+               LEFT OUTER JOIN STUDENT_LECTURE SL
+            ON L.LECTURE_CODE = SL.LECTURE_CODE
+         WHERE W.COURSE_CODE = #{courseCode} AND SL.STUDENT_ID = #{studentId}
+         ORDER BY 1 ASC
+	</select>
+	
+	<select id="selectReportProgress" resultType="ProgressRateVO">
+		SELECT W.WEEK_NUM,
+		       R.REPORT_TITLE,
+		       RS.REPORT_SUBMISSION_OPTION,
+		       R.REPORT_CODE,
+		       R.REPORT_START_DATE,
+		       R.REPORT_END_DATE
+          FROM COURSE_WEEKLY W LEFT OUTER JOIN REPORT_INFO R
+            ON W.WEEK_CODE = R.WEEK_CODE
+          LEFT OUTER JOIN REPORT_SUBMISSION RS
+            ON R.REPORT_CODE = RS.REPORT_CODE
+         WHERE W.COURSE_CODE =#{courseCode} AND RS.STUDENT_ID = #{studentId}
+         ORDER BY 1 ASC
+	</select>
+	
+	<select id="selectAttProgress" resultType="ProgressRateVO">
+		SELECT  W.WEEK_NUM,
+		        SUM(SL.ATT_OPTION) AS ATT_OPTION
+		   FROM COURSE_WEEKLY W LEFT OUTER JOIN REPORT_INFO R
+             ON W.WEEK_CODE = R.WEEK_CODE
+           LEFT OUTER JOIN LECTURE L
+             ON L.WEEK_CODE = R.WEEK_CODE
+           LEFT OUTER JOIN STUDENT_LECTURE SL
+             ON SL.LECTURE_CODE = L.LECTURE_CODE
+          WHERE W.COURSE_CODE = #{courseCode} and sl.student_id = #{studentId}
+          GROUP BY W.WEEK_NUM
+          ORDER BY 1 ASC
+	</select>
+	
+	<select id="selectMidExamProgress" resultType="ProgressRateVO">
+		SELECT E.EXAM_CODE,
+		       ES.EXAM_SCORE,
+		       E.EXAM_DURATION,
+		       E.EXAM_START_DATE,
+		       E.EXAM_END_DATE
+		  FROM EXAM E JOIN EXAM_SCORE ES
+            ON E.EXAM_CODE = ES.EXAM_CODE
+         WHERE COURSE_CODE = #{courseCode} AND ES.STUDENT_ID = #{studentId} AND ES.EXAM_CODE LIKE 'M%'
+         ORDER BY 1 DESC
+	</select>
+	
+	<select id="selectFinalExamProgress" resultType="ProgressRateVO">
+		SELECT E.EXAM_CODE,
+		       ES.EXAM_SCORE,
+		       E.EXAM_DURATION,
+		       E.EXAM_START_DATE,
+		       E.EXAM_END_DATE
+		  FROM EXAM E JOIN EXAM_SCORE ES
+            ON E.EXAM_CODE = ES.EXAM_CODE
+         WHERE COURSE_CODE = #{courseCode} AND ES.STUDENT_ID = #{studentId} AND ES.EXAM_CODE LIKE 'F%'
+         ORDER BY 1 DESC
+	</select>
+	
+</mapper>
