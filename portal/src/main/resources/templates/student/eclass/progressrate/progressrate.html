@@ -160,21 +160,21 @@ caption {
 										<td th:if="${reportRate.reportSubmissionOption == 'SUB'}">O</td>
 									</th:block>
 									
-									<th:block>
 									<!-- 제출기한 안일 때 -->
-									<td	th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									<th:block> 
+									<td th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
 									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">제출</button>
-									</td>
-								<!-- 	<th:block th:unless="">
+									</td>						
+									</th:block>
+<!-- 
+									<td th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+										-
+									</td> -->
 									
-									<td th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-										
-									</td>
-									</th:block> -->
-									
-									
-									<td>-</td>
+									<!-- 과제 진행률 표시 -->
+									<!-- <td>-</td> -->
 								</tr>
 							</table>
 						</div>
