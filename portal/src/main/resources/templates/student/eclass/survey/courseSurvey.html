@@ -36,13 +36,13 @@
 	<form id="formsubmit" action="/student/eclass/courseSurveyAnswer">
 	<table class="table">
 		<thead>
-				<tr>
+				<tr style="text-align:center">
 					<td rowspan="2">평가요소</td>
 					<td rowspan="2">평가내용</td>
 					<td colspan="5">평가등급</td>
 				</tr>
 				
-				<tr>
+				<tr style="text-align:center">
 					<td>매우 그렇다</td>
 					<td>그렇다</td>
 					<td>보통이다</td>
@@ -71,7 +71,7 @@
 					<td><input type="radio" name="surveyA2" value="1"></td>
 				</tr>
 				
-				<tr>
+				<tr >
 					<td th:text="${surveyContent.surveyQ3}"></td>
 					<td><input type="radio" name="surveyA3" value="5"></td>
 					<td><input type="radio" name="surveyA3" value="4"></td>
