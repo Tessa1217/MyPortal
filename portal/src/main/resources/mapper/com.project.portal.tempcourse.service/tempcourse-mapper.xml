@@ -189,7 +189,7 @@
 	<insert id="tempweekInsert">
 
 
-   insert into temp_course_weekly(
+  insert into temp_course_weekly(
 		week_num,
 		week_content,
 		week_code,
@@ -197,15 +197,17 @@
 		week_start_date,
 		week_end_date
 		)
-		values
-		( 
-		#{weekNum},
-		#{weekContent},
+select week_num, 
+		'', 
 		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
-		#{courseCode},
-		#{weekStartDate},
-		#{weekEndDate}
-		)  
+		#{courseCode}, 
+		week_start_date, 
+		week_end_date 
+ from semester_week
+ where week_num=#{weekNum} 
+   and course_year=#{courseYear} 
+   and course_semester=#{courseSemester}
+		
 
 		
 		

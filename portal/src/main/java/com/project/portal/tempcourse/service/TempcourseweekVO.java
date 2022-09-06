@@ -17,5 +17,7 @@ public class TempcourseweekVO {
 	private String weekContent;
 	private Date weekStartDate;
 	private Date weekEndDate;
+	private int courseYear;
+	private int courseSemester;
 	
 }
