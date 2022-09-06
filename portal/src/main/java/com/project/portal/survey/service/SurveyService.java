@@ -11,4 +11,7 @@ public interface SurveyService {
 	
 	// 설문 제출 상태 업데이트
 	public void updateSurveyState(MyCourseVO vo);
+	
+	// 학생 설문 상태 조회
+	public MyCourseVO selectSurveyState(MyCourseVO vo);
 }

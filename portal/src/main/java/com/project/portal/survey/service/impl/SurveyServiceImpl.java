@@ -25,5 +25,10 @@ public class SurveyServiceImpl implements SurveyService {
 	public void updateSurveyState(MyCourseVO vo) {
 		mapper.updateSurveyState(vo);
 	}
+	@Override
+	public MyCourseVO selectSurveyState(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectSurveyState(vo);
+	}
 
 }

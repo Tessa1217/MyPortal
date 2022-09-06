@@ -19,9 +19,18 @@
 <body>
 <th:block layout:fragment="studentEclassContent">
 
+
 <div id="main">
 	<h2>수강평 설문지</h2>
 	<hr>
+	
+	<div th:if="${surveyState.courseReviewYn} == 'SUB'">
+				<div class="card">
+					<h3>이미 수강평을 등록하였습니다.</h3>
+				</div>
+			</div>
+	
+	<div th:if="${surveyState.courseReviewYn} == 'UNSUB'">
 	<div class="card">
 			<div class="card-body">
 			
@@ -152,6 +161,7 @@
 	</form>
 	</div>
 	</div>
+</div>
 </div>
 
 	<script th:inline="javascript">

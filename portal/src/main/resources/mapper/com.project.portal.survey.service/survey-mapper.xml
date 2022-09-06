@@ -17,7 +17,12 @@
 		       SURVEY_Q10
 		FROM SURVEY_QUESTION
 	</select>
-
+	
+	<select id="selectSurveyState" resultType="com.project.portal.mycourse.service.MyCourseVO">
+	  SELECT COURSE_REVIEW_YN
+        FROM MY_COURSE
+        WHERE STUDENT_ID = #{studentId} AND COURSE_CODE = #{courseCode}
+	</select>
 	<insert id="insertSurveyAnswer" parameterType="SurveyAnswerVO">
 		INSERT INTO
 		COURSE_RATING ( SURVEY_CODE,

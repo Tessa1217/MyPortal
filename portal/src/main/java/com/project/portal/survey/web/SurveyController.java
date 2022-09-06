@@ -27,8 +27,10 @@ public class SurveyController {
 	
 	// 설문지 조회
 	@RequestMapping("/student/eclass/courseSurvey")
-	public String selectCourseSurvey(SurveyVO vo, Model model) {
-		
+	public String selectCourseSurvey(SurveyVO vo, Model model,HttpSession session, MyCourseVO coursevo) {
+		coursevo.setCourseCode((String)session.getAttribute("courseCode"));
+		coursevo.setStudentId((int)session.getAttribute("id"));
+		model.addAttribute("surveyState", service.selectSurveyState(coursevo));
 		model.addAttribute("surveyContent" , service.selectSurvey(vo));
 		
 		return "/student/eclass/survey/courseSurvey";
