@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.courseregister.service.RegisterService;
 import com.project.portal.courseregister.service.RegisterVO;
 
@@ -30,7 +31,11 @@ public class RegisterController {
 	// 학생 정보, 강의 리스트, 신청한 강의 리스트
 	@RequestMapping("/student/courseRegister")
 	public String Register(Model model, RegisterVO vo, HttpSession session) {
+		
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
+		
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
 		
@@ -53,14 +58,18 @@ public class RegisterController {
 	@ResponseBody
 	public RegisterVO registerInsert(Model model, RegisterVO vo, HttpSession session) {
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		return service.registerInsert(vo);
 	}
 	
 	//강의 취소
 	@RequestMapping("/student/registerDelete")
 	@ResponseBody
-	public int RegisterDelete(Model model, RegisterVO vo, HttpSession session) {
+	public int RegisterDelete(Model model, RegisterVO vo, BachelorScheduleVO bvo, HttpSession session) {
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		return service.registerDelete(vo);
 	}
 }

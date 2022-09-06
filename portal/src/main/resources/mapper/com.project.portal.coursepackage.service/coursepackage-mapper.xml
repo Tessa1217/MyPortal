@@ -19,10 +19,14 @@
 		  FROM course a
 		  JOIN professor b
 		  	ON a.professor_id = b.professor_id
-		WHERE course_year = 2022 AND course_semester = 1 AND a.course_code NOT IN (SELECT course_code FROM course_package WHERE student_id = #{studentId})
-			<if test="departCode != null and departCode !=''">
+		WHERE course_year = #{courseYear} 
+		  AND course_semester = #{courseSemester} 
+		  AND a.course_code NOT IN (SELECT course_code 
+		                              FROM course_package 
+		                             WHERE student_id = #{studentId})
+			<!-- <if test="departCode != null and departCode !=''">
 				a.depart_code = #{departCode}
-			</if>
+			</if> -->
 		  ORDER BY course_code ASC
 	</select>
 

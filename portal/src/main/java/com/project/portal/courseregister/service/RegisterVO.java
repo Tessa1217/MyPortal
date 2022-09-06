@@ -21,6 +21,7 @@ public class RegisterVO {
 	private Date applyDate;
 	private int courseSemester;
 	private int studentCount;
+	private int year;
 	//학생 정보 찾기
 	private String collegeName;
 	private String departName;

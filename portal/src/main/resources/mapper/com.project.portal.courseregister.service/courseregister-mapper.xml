@@ -13,7 +13,7 @@
 		       a.course_semester,
                a.course_code,
 		        
-               COUNT(b.student_id) AS S_COUNT,
+               COUNT(b.student_id) AS student_count,
                
                c.professor_name
                
@@ -35,8 +35,11 @@
                  a.course_code,
                 
         		 c.professor_name
-        HAVING a.course_year = 2022
-            AND a.course_semester = 1 and a.course_code not in (select course_code from my_course where student_id = #{studentId})
+        HAVING a.course_year = #{courseYear}
+            AND a.course_semester = #{courseSemester} 
+            AND a.course_code not in (select course_code 
+            							from my_course 
+            						   where student_id = #{studentId})
 	</select>
 
 	<select id="studentInfo"
@@ -51,14 +54,14 @@
 			   c.depart_name,
 			   
 			   d.college_name
-			FROM STUDENT_STUDY_INFO a
-			JOIN STUDENT_PRI_INFO b
+		  FROM STUDENT_STUDY_INFO a
+		  JOIN STUDENT_PRI_INFO b
 				ON a.student_id = b.student_id
-			JOIN DEPARTMENT c
+		  JOIN DEPARTMENT c
 				ON a.department_code = c.depart_code
-			JOIN college d
+		  JOIN college d
 				ON c.college_code = d.college_code
-		WHERE a.student_id = #{studentId}
+		 WHERE a.student_id = #{studentId}
 	</select>
 	
 	<select id="packageNList" resultType="com.project.portal.courseregister.service.RegisterVO">
@@ -79,7 +82,7 @@
 				ON a.course_code = b.course_code
 			JOIN professor c
 				ON b.professor_id = c.professor_id
-		WHERE a.package_yn = 'S01' AND a.student_id = #{studentId}
+		  WHERE a.package_yn = 'S01' AND a.student_id = #{studentId}
 	</select>
 	
 	<select id="successList" resultType="com.project.portal.courseregister.service.RegisterVO">
@@ -92,7 +95,7 @@
                
                b.student_id, 
                b.course_code,
-               COUNT(b.student_id) AS S_COUNT,  
+               COUNT(b.student_id) AS student_count,  
        	       
        	       c.professor_name
        	       
@@ -115,8 +118,8 @@
         	   c.professor_name
         	   
         HAVING b.student_id = #{studentId} 
-			AND a.course_semester = 1
-			AND a.course_year = 2022		
+			AND a.course_semester = #{courseSemester}
+			AND a.course_year = #{courseYear}		
 		 
 	</select>
 	
@@ -136,8 +139,9 @@
 				JOIN professor c
 					ON a.professor_id = c.professor_id
 		WHERE a.course_code = #{courseCode}
-			AND a.course_semester = 1
-			AND a.course_year = 2022
+			AND a.course_semester = #{courseSemester}
+			AND a.course_year = #{courseYear}
+			AND b.student_id = #{studentId}
 	</select>
 	
 	<insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
@@ -170,10 +174,13 @@
 	</select>
 	
 	<select id="registerAllCredit" resultType="com.project.portal.courseregister.service.RegisterVO">
-		SELECT SUM(a.course_credit) register_credit
-			FROM course a
-				JOIN my_course b
-					ON a.course_code = b.course_code
-			WHERE student_id = #{studentId}
+		SELECT 
+			SUM(b.course_credit) reg_credit
+		FROM my_course a
+			JOIN course b
+				ON a.course_code = b.course_code
+		WHERE student_id = #{studentId} 
+			AND course_year = #{courseYear} 
+			AND course_semester = #{courseSemester}
 	</select>
 </mapper>

@@ -8,13 +8,19 @@
 	<style>
 		/* 스크롤 테이블 헤더 고정 */
 		#rTable thead {
-			position: sticky; 
+			position: sticky;
 			top: 0px;
 			background-color: black !important;
 			color: white;
 		}
+
 		#rTable tbody tr {
 			background-color: white;
+		}
+
+		p{
+			color: black;
+			padding-left: 20px;
 		}
 	</style>
 </head>
@@ -83,12 +89,12 @@
 				<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
 					class="btn rounded-pill btn-primary">
 				<input type="text" size="18" name="che" id="regBtn">
-				<input type="button" value="확인" onClick="check()"	class="btn rounded-pill btn-primary">
+				<input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary">
 				<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
 			</form>
 			<br>
 			<!-- 강의 리스트 -->
-			<div class="overflow-auto" style="max-height: 300px;">
+			<div class="overflow-auto" style="max-height: 300px;" id="rDiv">
 				<table class="table table-bordered table-hover" id="rTable">
 					<thead>
 						<tr>
@@ -111,9 +117,8 @@
 							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.studentCount}"></td>
 							<td th:text="${item.courseLimit}"></td>
-							<td><button type="button"
-								class="btn btn-primary regInsertButton"
-								th:data-code="${item.courseCode}" th:data-name="${item.courseName}" disabled>신청</button></td>
+							<td><button type="button" class="btn btn-primary regInsertButton" th:data-code="${item.courseCode}"
+									th:data-name="${item.courseName}" disabled>신청</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -146,9 +151,8 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
-								<td><button type="button"
-									class="btn btn-primary regInsertButton"
-									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">신청</button></td>
+								<td><button type="button" class="btn btn-primary regInsertButton" th:data-code="${item.courseCode}"
+										th:data-name="${item.courseName}">신청</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -157,9 +161,10 @@
 				<!-- 신청 성공 리스트 -->
 				<div>
 					<h4 style="display: inline;">신청과목 LIST</h4>
-					<h6 style="display: inline;">신청가능 학점:<span id="total" th:text="!${registerAllCredit}?20:20-${registerAllCredit.registerCredit}"></span></h6>
-					<h6 style="display: inline;">전공학점:</h6>
-					<h6 style="display: inline;">교양학점:</h6>
+					<p style="display: inline;">신청가능 학점:<span id="cTotal"
+							th:text="!${registerAllCredit}?20:20-${registerAllCredit.regCredit}"></span></p>
+					<!-- <h6 style="display: inline;">전공학점:</h6>
+					<h6 style="display: inline;">교양학점:</h6> -->
 					<table class="table table-bordered" id="rsTable">
 						<thead>
 							<tr>
@@ -182,9 +187,8 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}" hidden></td>
 								<td th:text="${item.courseLimit}" hidden></td>
-								<td><button type="button"
-								class="btn btn-primary regDeleteButton"
-								th:data-code="${item.courseCode}">취소</button></td>
+								<td><button type="button" class="btn btn-primary regDeleteButton"
+										th:data-code="${item.courseCode}">취소</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -193,6 +197,33 @@
 		</div>
 		<script th:inline="javascript">
 
+			function creditTotalSum() {
+				let creditCount = 0;
+
+				Array.from(rSuccessBody.children).forEach(function (item) {
+					creditCount += parseInt(item.children[3].textContent);
+				});
+				return creditCount;
+			}
+
+			function setTotalData() {
+				const creditCount = creditTotalSum();
+				document.getElementById("cTotal").innerHTML = (20 - creditCount);
+			}
+
+			function lSortationCheck() {
+				let creditCount = 0;
+
+				Array.from(rSuccessBody.children).forEach(function (item) {
+					if ((item.children[1].textContent).startsWith('L')) {
+						creditCount += parseInt(item.children[3].textContent);
+					}
+				});
+				return creditCount;
+			}
+			// $(function(){
+			// 	setTotalData();
+			// })
 			// 자동입력방지 코드 생성
 			var keyList = "abcdefghABCDEFGH0123456789"
 			var temp = ''
@@ -210,98 +241,117 @@
 			function check() {
 				if (!document.frm.che.value) {
 					return alert('자동방지코드를 입력하세요');
-				} else if(document.getElementById("makeBtn").value === document.frm.che.value) {
+				} else if (document.getElementById("makeBtn").value === document.frm.che.value) {
 					var rTable = document.getElementById("rTable");
 					var ableBtn = Array.from(rTable.children[1].children);
-					
-					ableBtn.forEach(function(findDisabled){
+
+					ableBtn.forEach(function (findDisabled) {
 						findDisabled.children[7].children[0].disabled = false;
-						
+
 					});
 					return alert('인증 완료');
-				}else {
+				} else {
 					return alert('다시입력해주세요');
 				}
 			}
 
-			// 수강 취소 후 다시 신청할 때의 오류 방지코드
-			$(function(){
-				$(".regInsertButton").on("click", registerInsert)	
-					
-			})
-			function registerInsert(oThis){
-					let that = oThis instanceof jQuery.Event ? $(this) : oThis;
-					let code = oThis instanceof jQuery.Event ? that.data("code") : that.getAttribute("th:data-code");
-					let name = oThis instanceof jQuery.Event ? that.data("name") : that.getAttribute("th:data-name");
+			$(function () {
+				$(".regInsertButton").on("click", registerInsert)
 
-					// 신청 버튼
-					$.ajax({
-						url:"/student/registerInsert",
-						method:"post",
-						dataType:"json",
-						data:{
-							"courseCode" : code,
-							"courseName" : name
-						},
-						dataType:"json",
-						success:function(item){
-							let content="<tr>"
-								+"<td>"+item.courseCode+"</td>"
-								+"<td>"+item.courseSortation+"</td>"
-								+"<td>"+item.courseName+"</td>"
-								+"<td>"+item.courseCredit+"</td>"
-								+"<td>"+item.professorName+"</td>"
-								+"<td hidden>"+item.studentCount+"</td>"
-								+"<td hidden>"+item.courseLimit+"</td>"
-								+"<td><button type='button'	class='btn btn-primary regDeleteButton'	data-code= "+item.courseCode+">취소</button></td></tr>";
-							$("#rSuccessBody").append(content);
-							var rTable = document.getElementById("rTable");
-							var ableBtn = Array.from(rTable.children[1].children);
-							ableBtn.forEach(function(findDisabled){
-							if(findDisabled.children[0].textContent === item.courseCode){
-								findDisabled.remove();
-							}		
-					});
-						},
-						error:function(){
-							alert('이전에 수강하신 강의입니다.');
-						}
-					});
+			})
+			// 수강 취소 후 다시 신청할 때의 오류 방지코드
+			function registerInsert(oThis) {
+				let that = oThis instanceof jQuery.Event ? $(this) : oThis;
+				let code = oThis instanceof jQuery.Event ? that.data("code") : that.getAttribute("th:data-code");
+				let name = oThis instanceof jQuery.Event ? that.data("name") : that.getAttribute("th:data-name");
+				let allCourseCredit = creditTotalSum();
+				const selectCode = $(that)[0].parentElement.parentElement;
+				const selectNum = parseInt(selectCode.children[3].textContent);
+
+				if ((allCourseCredit + selectNum) > 20) {
+					return alert("최대 학점을 초과할 수 없습니다.");
 				}
 
+				if ((selectCode.children[1].textContent).startsWith("L", "l")) {
+					let lSortationTotal = lSortationCheck();
+					if ((lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5) {
+						return alert("교양학점은 5점을 초과할 수 없습니다.");
+					}
+				}
+
+				if ((parseInt(selectCode.children[5].textContent)) >= (parseInt(selectCode.children[6].textContent))) {
+					return alert("수강 정원이 초과했습니다.")
+				}
+				// 신청 버튼
+				$.ajax({
+					url: "/student/registerInsert",
+					method: "post",
+					dataType: "json",
+					data: {
+						"courseCode": code,
+						"courseName": name
+					},
+					dataType: "json",
+					success: function (item) {
+						let content = "<tr>"
+							+ "<td>" + item.courseCode + "</td>"
+							+ "<td>" + item.courseSortation + "</td>"
+							+ "<td>" + item.courseName + "</td>"
+							+ "<td>" + item.courseCredit + "</td>"
+							+ "<td>" + item.professorName + "</td>"
+							+ "<td hidden>" + item.studentCount + "</td>"
+							+ "<td hidden>" + item.courseLimit + "</td>"
+							+ "<td><button type='button'	class='btn btn-primary regDeleteButton'	data-code= " + item.courseCode + ">취소</button></td></tr>";
+						$("#rSuccessBody").append(content);
+						var rTable = document.getElementById("rTable");
+						var ableBtn = Array.from(rTable.children[1].children);
+						ableBtn.forEach(function (findDisabled) {
+							if (findDisabled.children[0].textContent === item.courseCode) {
+								findDisabled.remove();
+							}
+						});
+						setTotalData();
+					},
+					error: function () {
+						alert('이전에 수강하신 강의입니다.');
+					}
+
+				});
+			}
+
 			// 수강 취소 버튼
-			$(function(){
-				$("#rSuccessBody").on("click",".regDeleteButton", registerDelete)
-				function registerDelete(){
+			$(function () {
+				$("#rSuccessBody").on("click", ".regDeleteButton", registerDelete)
+				function registerDelete() {
 					let code = $(this).data("code")
 					let tr = $(this).closest("tr");
 					let cancelCourse = this.parentElement.parentElement;
-						$.ajax({
-							url:"/student/registerDelete",
-							method:"post",
-							dataType:"json",
-							data:{
-								"courseCode" : code,
-								"courseName" : name
-							},
-							dataType:"json",
-							success:function(item){
-								let cancel = "<tr><td>"+cancelCourse.children[0].textContent+"</td>" 
-									+"<td>"+cancelCourse.children[1].textContent+"</td>"
-									+"<td>"+cancelCourse.children[2].textContent+"</td>"
-									+"<td>"+cancelCourse.children[3].textContent+"</td>"
-									+"<td>"+cancelCourse.children[4].textContent+"</td>"
-									+"<td>"+cancelCourse.children[5].textContent+"</td>"
-									+"<td>"+cancelCourse.children[6].textContent+"</td>"
-									+"<td><button type='button' class='btn btn-primary regInsertButton'	th:data-code= "+cancelCourse.children[0].textContent+" th:data-name= "+cancelCourse.children[2].textContent+" onclick='registerInsert(this)'>신청</button></td></tr>"
-									$("#rBody").append(cancel);		
-									tr.remove();
-							}
-						});
+					$.ajax({
+						url: "/student/registerDelete",
+						method: "post",
+						dataType: "json",
+						data: {
+							"courseCode": code,
+							"courseName": name
+						},
+						dataType: "json",
+						success: function (item) {
+							let cancel = "<tr><td>" + cancelCourse.children[0].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[1].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[2].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[3].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[6].textContent + "</td>"
+								+ "<td><button type='button' class='btn btn-primary regInsertButton'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
+							$("#rBody").append(cancel);
+							tr.remove();
+							setTotalData();
+						}
+					});
 				}
 			})
 		</script>
 	</th:block>
 </body>
-
 </html>

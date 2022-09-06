@@ -2,6 +2,8 @@ package com.project.portal.coursepackage.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,11 @@ public class CoursePackageServiceImpl implements CoursePackageService {
 
 	@Override
 	public List<CoursePackageVO> coursePackage(CoursePackageVO vo) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub\
+		/*
+		 * vo.setCourseYear((int)session.getAttribute("year"));
+		 * vo.setCourseSemester((int)session.getAttribute("semester"));
+		 */
 		return mapper.coursePackage(vo);
 	}
 

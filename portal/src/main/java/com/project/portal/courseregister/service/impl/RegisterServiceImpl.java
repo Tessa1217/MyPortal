@@ -35,8 +35,8 @@ public class RegisterServiceImpl implements RegisterService {
 		if (rVO == null) {
 			mapper.registerInsert(vo);
 			return mapper.limitCount(vo);	
-		} 
-		return null;
+		}
+		return null; 
 	}
 
 	@Override

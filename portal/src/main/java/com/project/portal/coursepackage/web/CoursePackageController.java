@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.coursepackage.service.CoursePackageService;
 import com.project.portal.coursepackage.service.CoursePackageVO;
 import com.project.portal.student.service.StudentVO;
@@ -27,13 +28,17 @@ public class CoursePackageController {
 	@Autowired
 	CoursePackageService service;
 
-	// 강의 LIST 조회
+	
 	@RequestMapping("/student/coursePackage")
 	public String coursePackage(Model model, CoursePackageVO vo, HttpSession session) {
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
+		
+		// 강의 LIST 조회
 		List<CoursePackageVO> coursePackage = service.coursePackage(vo);
 		model.addAttribute("coursePackage", coursePackage);
-		
+
 		// 학생 정보
 		CoursePackageVO studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
@@ -53,6 +58,8 @@ public class CoursePackageController {
 	@ResponseBody
 	public CoursePackageVO CoursePackageInsert(Model model, CoursePackageVO vo, HttpSession session) {
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		return service.coursePackageInsert(vo);
 	}
 
@@ -61,15 +68,9 @@ public class CoursePackageController {
 	@ResponseBody
 	public int CoursePackageDelete(Model model, CoursePackageVO vo, HttpSession session) {
 		vo.setStudentId((int)session.getAttribute("id"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		return service.coursePackageDelete(vo);
 
-	}
-
-	// 수강꾸러미 전체 삭제
-	@RequestMapping("/student/coursePackageAllDelete")
-	@ResponseBody
-	public int CoursePackageAllDelete(Model model, CoursePackageVO vo, HttpSession session) {
-		vo.setStudentId((int)session.getAttribute("id"));
-		return service.coursePackageAllDelete(vo);
 	}
 }

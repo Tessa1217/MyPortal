@@ -27,12 +27,12 @@
 	#pTable {
 		margin: auto;
 		text-align: center;
+		color: black;
 	}
 	#pTable thead {
 		position: sticky; 
 		top: 0px;
 		background-color: #AAAAC6 !important;
-		color: black;
 	}
 	#pTable tbody tr {
 		background-color: white;
@@ -188,7 +188,7 @@
 		<p>
 			수강꾸러미 신청가능 학점: <span id="total" th:text="!${coursePackagePoint}?20:20-${coursePackagePoint.packageCredit}"></span>
 		</p>
-		<p>교양신청 가능학점: 5</p>
+		<p>교양과목 신청 최대학점: 5</p>
 		</div>
 	</div>
 		</div>
@@ -210,15 +210,12 @@
 
 			function lSortationCheck() {
 				let creditCount = 0;
-
 				Array.from(pBody.children).forEach(function(item) {
-						if((item.children[1].textContent).startsWith('L') ){
+						if((item.children[1].textContent).startsWith('L','l') ){
 							creditCount += parseInt(item.children[3].textContent);
 						}
 				});
-
 				return creditCount;
-
 			}
 
 			$(function(){

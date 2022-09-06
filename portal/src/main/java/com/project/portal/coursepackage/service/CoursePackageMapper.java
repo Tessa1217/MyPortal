@@ -2,6 +2,8 @@ package com.project.portal.coursepackage.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.portal.course.service.CourseVO;
