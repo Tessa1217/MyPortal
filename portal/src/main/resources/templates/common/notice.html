@@ -29,8 +29,10 @@
 									<td th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
 									<td
 										th:text="${noticeModDate} != null ? ${#dates.format(noticeModDate, 'yyyy-MM-dd')} : '-'"></td>
+									<th:block th:with="url = ${command == 1} ? 'student' : ${command == 2} ? 'professor' : 'admin'">
 									<td><button type="button"
-											class="btn btn-primary btn-sm rounded-pill">상세보기</button></td>
+											class="btn btn-primary btn-sm rounded-pill" th:text="${url}"></button></td>
+									</th:block>
 								</tr>
 							</th:block>
 						</tbody>
@@ -62,11 +64,9 @@
 
 		<script th:inline="javascript">
 		$(function() {
+			movePagination(uri, queryString);
 		})
 		
-			function movePagination(uri, queryString) {
-				location.href=uri + queryString;
-			}
 		</script>
 	</th:block>
 </body>

@@ -92,10 +92,7 @@ public class BachelorNoticeController {
 				e.printStackTrace();
 			}
 		}
-		
 		service.insertNotice(vo);
-		
-				
 		return "redirect:/admin/notice";
 	}
 

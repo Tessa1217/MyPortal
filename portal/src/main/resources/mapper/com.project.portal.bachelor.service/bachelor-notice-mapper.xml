@@ -5,7 +5,7 @@
 	<select id="getNoticeList" resultType="BachelorNoticeVO">
 		<![CDATA[
 			SELECT
-				notice_no,
+				TO_NUMBER(notice_no) notice_no,
 				notice_title,
 				notice_content,
 				notice_private,
@@ -13,7 +13,7 @@
 				notice_post_date,
 				notice_mod_date,
 				notice_file_code
-				FROM (SELECT /*+ INDEX(BACHELOR_NOTICE B_NOTICE_PK) */ 
+				FROM (SELECT /*+ INDEX_DESC(BACHELOR_NOTICE B_NOTICE_PK) */ 
 										ROWNUM r, 
 										notice_no, 
 										notice_title,
@@ -24,9 +24,9 @@
 										notice_mod_date,
 										notice_file_code
 										FROM bachelor_notice
-										WHERE ROWNUM <= #{cri.pageNum} * #{cri.amount}
 						)
-						WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
+						WHERE R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
+						
 		]]>
 	</select>
 	<select id="getTotal" resultType="int">
@@ -47,7 +47,7 @@
 	</insert> 
 	<insert id="insertNotice">
 		<selectKey keyProperty="noticeNo" resultType="String" order="BEFORE">
-			SELECT NOTICE_SEQ.NEXTVAL
+			SELECT LPAD(TO_CHAR(NOTICE_SEQ.NEXTVAL), 8, '0')
 				FROM dual
 		</selectKey>
 		INSERT INTO BACHELOR_NOTICE(

@@ -119,3 +119,8 @@ function getCalendar() {
 		url: `/getMonthly`,
 	})
 }
+
+// 페이지 이동 
+function movePagination(uri, queryString) {
+		location.href=uri + queryString;
+}
