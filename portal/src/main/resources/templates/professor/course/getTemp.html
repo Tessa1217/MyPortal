@@ -52,6 +52,7 @@
 										<th>승인여부</th>
 										<th>비승인 사유</th>
 										<th>제출하기</th>
+										<th>강의계획서 삭제</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -81,6 +82,9 @@
 										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
 												name="button1" class="btn btn-danger moddd"
 												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
+												<td><button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
+									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
+									 >삭제</button></td>
 									</tr>
 
 								</tbody>
@@ -232,9 +236,7 @@
 												onclick="location.href='/professor/tempcourseList'"
 												class="btn btn-info" style="margin-right:30px;">목록 보기</button>
 											<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
-											<button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
-									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
-									 >삭제</button>
+											
 										</div>
 
 
@@ -337,9 +339,7 @@
 											onclick="location.href='/professor/tempcourseList'"
 											class="btn btn-info" style="margin-right:30px;">목록 보기</button>
 										<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
-										<button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
-									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
-									 >삭제</button>
+										
 									</div>
 								</form>
 							</div>
