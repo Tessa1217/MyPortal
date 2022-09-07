@@ -231,7 +231,10 @@
 											<button type="button"
 												onclick="location.href='/professor/tempcourseList'"
 												class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-											<button type="reset" class="btn btn-secondary">취소</button>
+											<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
+											<button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
+									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
+									 >삭제</button>
 										</div>
 
 
@@ -333,7 +336,10 @@
 										<button type="button"
 											onclick="location.href='/professor/tempcourseList'"
 											class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-										<button type="reset" class="btn btn-secondary">취소</button>
+										<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
+										<button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
+									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
+									 >삭제</button>
 									</div>
 								</form>
 							</div>
@@ -477,64 +483,7 @@
 				
 			});
 			
-			//주차별 강의 수정
 			
-		 	/*  $(function() {
-				$("#modd").on("click", confirmModal)
-
-				function confirmModal() {
-					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-						updateweekTemp();
-					}
-				}
-				function updateweekTemp() {
-					let courseCode =  [[${tempcourse.courseCode}]]
-					$.ajax({
-						url : `/professor/getTemp/${courseCode}/updateweekTemp`,
-						method : "post",
-						dataType : "json",
-						data : {
-							"weekContent" : $("#weekContent").val(),
-						
-							
-						},
-						dataType : "json",
-						success : function(result) {
-							
-							alert('수정되었습니다')
-							location.reload();
-						}
-					});
-				}  
-			});   */
-			
-			//상세 조회 페이지에서 제출하기 기능
-			
-			 /* $(".moddd").on("click", function () {
-				if (window.confirm("정말로 제출하시겠습니까?")) {
-					let submitYes = $(this).closest("tr").find("#submitYes").data("code")
-					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-					let courseCode = $(this).data("course")
-					$.ajax({
-						url : `/professor/getTemp/submitTemp`,
-						method : "post",
-						dataType : "json",
-						data : { 
-							
-						"submitYes" : 	submitYes,
-						"okayYes" :	okayYes,
-						"courseCode" :	 courseCode					
-						},
-						dataType : "json",
-						success : function(result) {
-							
-							
-							alert('제출되었습니다')
-							location.reload();
-						} 
-					});
-				}
-			})  */
 			
 			// 교수 제출기능
 			$(".moddd").on("click", function () {
@@ -604,6 +553,34 @@
 					$('#backReasonWhy').modal('hide');
 				})
 			}
+			
+			
+			//삭제 기능
+			
+		 	
+	 		$(".deletee").on("click", function(){
+	 		
+	 			if(window.confirm("정말로 삭제하시겠습니까?")){
+	 				let courseCode = $(this).data("coursecod")
+	 				
+	 			$.ajax({
+	 				url : "/professor/getTemp/tempDelete",
+	 				method : "post",
+	 				dataType : "json",
+	 				data : {
+	 					
+	 					"courseCode" : courseCode 
+	 						
+	 				},
+	 				dataType : "json",
+	 				success : function(result){
+	 					
+	 					alert('삭제되었습니다')
+	 					location.replace('/professor/tempcourseList');
+	 				}
+	 			});
+	 		}
+	 		})
 			
 			
 			
