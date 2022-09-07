@@ -13,7 +13,7 @@
 			</div>
 			<div class="card">
 				<div class="card-body">
-					<form>
+					<form id="form" th:action="@{/admin/insertNotice}" method="POST" enctype="multipart/form-data">
 						<div>
 							<label>공지사항 제목</label> <input class="form-control" type="text"
 								name="noticeTitle">
@@ -21,13 +21,17 @@
 						<div>
 							<label>공지사항 공개 여부</label> <select class="form-select"
 								name="noticePrivate">
-								<option></option>
+								<th:block th:each="open : ${codeMap.get('O01')}" th:object="${open}">
+								<option th:value="*{detailCode}" th:text="*{detailName}"></option>
+								</th:block>
 							</select>
 						</div>
 						<div>
 							<label>공지사항 공개 범위</label> <select class="form-select"
 								name="noticeDivision">
-								<option></option>
+								<th:block th:each="sort : ${codeMap.get('S01')}" th:object="${sort}">
+								<option th:value="*{detailCode}" th:text="*{detailName}"></option>
+								</th:block>
 							</select>
 						</div>
 						<div>
@@ -37,6 +41,9 @@
 						<div>
 							<label>공지사항 내용</label>
 							<textarea id="noticeContent" name="noticeContent"></textarea>
+						</div>
+						<div class="btnContainer">
+							<button type="button" th:onclick="confirm()" class="btn btn-primary btn-md">등록하기</button>
 						</div>
 					</form>
 				</div>
@@ -50,6 +57,7 @@
 			function editor() {
 				tinymce.init({
 					selector : '#noticeContent',
+					plugins : ['image', 'table'],
 					submit_patch : false,
 					setup : function(editor) {
 						editor.on('change', function() {
@@ -58,6 +66,16 @@
 					}
 				})
 			}
+			
+			function confirm() {
+				fireSwal('info', '공지사항을 등록하시겠습니까?')
+					.then((result) => {
+						if (result.isConfirmed) {
+							$("#form").submit();
+						}
+					})
+			}
+			
 		</script>
 	</th:block>
 </body>

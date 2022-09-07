@@ -9,8 +9,8 @@ public class BachelorNoticeVO {
 	private String noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
-	private char noticePrivate;
-	private char noticeDivision;
+	private String noticePrivate;
+	private String noticeDivision;
 	private Date noticePostDate;
 	private Date noticeModDate;
 	private String noticeFileCode;

@@ -10,6 +10,7 @@ import com.project.portal.bachelor.service.BachelorNoticeFileVO;
 import com.project.portal.bachelor.service.BachelorNoticeMapper;
 import com.project.portal.bachelor.service.BachelorNoticeService;
 import com.project.portal.bachelor.service.BachelorNoticeVO;
+import com.project.portal.common.Criteria;
 
 @Service
 public class BachelorNoticeServiceImpl implements BachelorNoticeService {
@@ -18,8 +19,8 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	BachelorNoticeMapper mapper;
 	
 	@Override
-	public List<BachelorNoticeVO> getNoticeList(BachelorNoticeVO vo) {
-		List<BachelorNoticeVO> noticeList = mapper.getNoticeList(vo);
+	public List<BachelorNoticeVO> getNoticeList(BachelorNoticeVO vo, Criteria cri) {
+		List<BachelorNoticeVO> noticeList = mapper.getNoticeList(vo, cri);
 		for (BachelorNoticeVO notice : noticeList) {
 			if (notice.getNoticeFile() != null) {
 				BachelorNoticeFileVO file = mapper.getFile(vo);
@@ -33,7 +34,9 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	@Transactional
 	public void insertNotice(BachelorNoticeVO vo) {
 		mapper.insertNotice(vo);
-		mapper.insertFile(vo.getNoticeFile());
+		if (vo.getNoticeFile() != null) {
+			mapper.insertFile(vo.getNoticeFile());
+		}
 	}
 
 	@Override
@@ -58,6 +61,11 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	@Override
 	public BachelorNoticeFileVO getFile(BachelorNoticeVO vo) {
 		return mapper.getFile(vo);
+	}
+
+	@Override
+	public int getTotal() {
+		return mapper.getTotal();
 	}
 
 }

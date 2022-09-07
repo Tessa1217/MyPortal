@@ -1,6 +1,6 @@
 package com.project.portal.common;
 
-import org.springframework.data.relational.core.query.Criteria;
+
 
 import lombok.Data;
 import lombok.ToString;
@@ -8,31 +8,34 @@ import lombok.ToString;
 @Data
 @ToString
 public class PageDTO {
-
+	
+	private int pageCount;
 	private int startPage;
 	private int endPage;
+	private int realEnd;
 	private boolean prev, next;
 	private int total;
 	private Criteria cri;
-
-	public PageDTO(Criteria cri, int total) {
-		this.cri = cri;
+	
+	public PageDTO() {};
+	
+	public PageDTO(int total, int pageCount, Criteria cri) {
 		this.total = total;
-
-		 //마지막 페이지
-		//this.endPage = (int) (Math.ceil(cri.getPageNum() / 10.0) * 10);
-
-		 //시작 페이지
-		this.startPage = this.endPage - 9;
-
-		//int realEnd = (int) (Math.ceil((total * 1.0) / cri.getAmount()));
-
+		this.cri = cri;
+		this.pageCount = pageCount;
 		
-		//  if (realEnd < this.endPage) { this.endPage = realEnd; }
-		 
-		// this.prev = this.startPage > 1; this.next = this.endPage < realEnd;
+		this.endPage = (int) (Math.ceil(cri.getPageNum() * 1.0 / pageCount)) * pageCount;
+		this.startPage = endPage - (pageCount - 1);
 		
-
+		realEnd = (int) (Math.ceil(total * 1.0 / cri.getAmount()));
+		
+		if (endPage > realEnd) {
+			endPage = realEnd == 0 ? 1 : realEnd;
+		}
+		
+		prev = startPage > 1;
+		next = endPage < realEnd;
+		
 	}
 
 }

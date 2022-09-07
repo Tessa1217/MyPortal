@@ -2,5 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.project.portal.bachelor.service.BachelorNoticeMapper">
-
+	<select id="getNoticeList" resultType="BachelorNoticeVO">
+		<![CDATA[
+			SELECT
+				notice_no,
+				notice_title,
+				notice_content,
+				notice_private,
+				notice_division,
+				notice_post_date,
+				notice_mod_date,
+				notice_file_code
+				FROM (SELECT /*+ INDEX(BACHELOR_NOTICE B_NOTICE_PK) */ 
+										ROWNUM r, 
+										notice_no, 
+										notice_title,
+										notice_content,
+										notice_private,
+										notice_division,
+										notice_post_date,
+										notice_mod_date,
+										notice_file_code
+										FROM bachelor_notice
+										WHERE ROWNUM <= #{cri.pageNum} * #{cri.amount}
+						)
+						WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
+	</select>
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+			FROM bachelor_notice
+	</select>
+	<insert id="insertFile">
+		<selectKey keyProperty="noticeFileCode" resultType="String" order="BEFORE">
+			SELECT 'NF'||LPAD(TO_CHAR(notice_file_seq.NEXTVAL), 18, '0')
+				FROM dual
+		</selectKey>
+		INSERT INTO BACHELOR_NOTICE_FILE
+			VALUES (#{noticeFileCode}, 
+							#{noticeFileName},
+							#{noticeFileStoredName},
+							#{noticeFileExtension},
+							#{noticeFilePath}) 
+	</insert> 
+	<insert id="insertNotice">
+		<selectKey keyProperty="noticeNo" resultType="String" order="BEFORE">
+			SELECT NOTICE_SEQ.NEXTVAL
+				FROM dual
+		</selectKey>
+		INSERT INTO BACHELOR_NOTICE(
+																notice_no,
+																notice_title,
+																notice_content,
+																notice_private,
+																notice_division,
+																notice_post_date,
+																notice_mod_date,
+																notice_file_code,
+																notice_hit	
+																)
+				
+			VALUES (
+							#{noticeNo},
+							#{noticeTitle},
+							#{noticeContent},
+							#{noticePrivate},
+							#{noticeDivision},
+							SYSDATE,
+							NULL,
+							#{noticeFileCode},
+							0
+							)
+	</insert>
 </mapper>

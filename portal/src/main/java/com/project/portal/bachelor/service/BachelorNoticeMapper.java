@@ -3,11 +3,16 @@ package com.project.portal.bachelor.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.project.portal.common.Criteria;
 
 @Mapper
 public interface BachelorNoticeMapper {
 	
-	List<BachelorNoticeVO> getNoticeList(BachelorNoticeVO vo);
+	List<BachelorNoticeVO> getNoticeList(@Param("notice") BachelorNoticeVO vo, 
+										@Param("cri") Criteria cri);
+	int getTotal();
 	void insertNotice(BachelorNoticeVO vo);
 	void updateNotice(BachelorNoticeVO vo);
 	void deleteNotice(BachelorNoticeVO vo);
