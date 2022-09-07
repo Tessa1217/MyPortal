@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,8 +32,15 @@ public class myCourseController {
 
 	@Autowired MyCourseServiceImpl service;
 	@Autowired CourseServiceImpl cservice;
-	@Autowired StudentServiceImpl studService;
+	@Autowired StudentServiceImpl studService;	
+	@Autowired CourseServiceImpl courseService;
 	
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		course.setCourseName(null);
+		return courseService.getWeeklyInfo(course);
+	}
 
 	// 학생 학업 정보 조회
 
@@ -97,7 +105,10 @@ public class myCourseController {
 									MyCourseMainVO vo, 
 									Model model,
 									HttpSession session) {
+		String getCourseCode = service.getCourseName(courseCode);
+		session.setAttribute("courseName", getCourseCode);
 		session.setAttribute("courseCode", courseCode);
+		
 		CourseVO course = new CourseVO();
 		course.setCourseCode(courseCode);
 		Map<String, Object> map = service.getWeeklyList(course);
@@ -115,6 +126,8 @@ public class myCourseController {
 	@RequestMapping("/professor/eclass/{courseCode}")
 	public String getProfMyCoursePage(@PathVariable String courseCode, MyCourseMainVO vo, Model model,
 			HttpSession session) {
+		String getCourseCode = service.getCourseName(courseCode);
+		session.setAttribute("courseName", getCourseCode);
 		session.setAttribute("courseCode", courseCode);
 
 		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));

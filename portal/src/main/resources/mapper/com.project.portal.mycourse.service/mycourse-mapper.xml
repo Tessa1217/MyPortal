@@ -132,4 +132,9 @@
 			WHERE course_code = #{courseCode}
 			AND week_code = #{weekCode}
 	</select>
+	
+	<select id="getCourseName" resultType="String">
+		select course_name from course
+		where course_code = #{courseCode}
+	</select>
 </mapper>

@@ -43,8 +43,8 @@ public class SurveyController {
 		
 		String courseCode = (String)session.getAttribute("courseCode");
 		vo.setCourseCode(courseCode);
-		vo.setStudentId(22000001);
-		coursevo.setStudentId(22000001);
+		vo.setStudentId((int)session.getAttribute("id"));
+		coursevo.setStudentId((int)session.getAttribute("id"));
 		coursevo.setCourseCode(courseCode);
 		System.out.println(vo);
 		service.insertSurveyAnswer(vo);

@@ -24,7 +24,8 @@ public interface MyCourseService {
 	
 	// 수강강의 주차계획 조회
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode);
-	
+	// 강의명 조회
+	public String getCourseName(String courseCode);
 	// 이주 게획 조회
 	public Map<String, Object> getWeeklyList(CourseVO vo);
 	

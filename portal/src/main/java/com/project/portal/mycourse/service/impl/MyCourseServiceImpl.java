@@ -95,6 +95,12 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return map;
 	}
 
+	@Override
+	public String getCourseName(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.getCourseName(courseCode);
+	}
+
 	
 
 
