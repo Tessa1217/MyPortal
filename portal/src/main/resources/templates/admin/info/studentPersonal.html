@@ -5,27 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>학생 정보 조회/수정</title>
-
-<!-- <style>
-#main {
-	display: block;
-}
-
-.buttonmod {
-	width: 80px;
-	/* float : right; */
-}
-
-.card .table2 {
-	width: 60%;
-	float:;
-}
-
-.card .faceImg {
-	width: 20%;
-	float: left;
-}
-</style> -->
 <style>
 #main {
 	display: inline-block;
@@ -81,22 +60,7 @@
 									<option th:value="${code.detailCode}" th:text="${code.detailName}"
 									th:selected="${adminStudentInfoSelect.studentStatus} == ${code.detailCode}"></option>
 								</th:block>
-								
-								<!-- <option
-									th:selected="${adminStudentInfoSelect.studentStatus}=='AS00'"
-									th:value="AS00" th:text="재학"></option>
-								<option
-									th:selected="${adminStudentInfoSelect.studentStatus}=='AS01'"
-									th:value="AS01" th:text="휴학"></option>
-								<option
-									th:selected="${adminStudentInfoSelect.studentStatus}=='AS02'"
-									th:value="AS02" th:text="졸업"></option> -->
 						</select></td>
-						<!-- 
-					<td th:if="${adminStudentInfoSelect.studentStatus =='AS00'}">재학</td>
-					<td th:if="${adminStudentInfoSelect.studentStatus =='AS01'}">휴학</td>
-					<td th:if="${adminStudentInfoSelect.studentStatus =='AS02'}">졸업</td> 
-					-->
 						<th>입학학부</th>
 						<td th:text="${adminStudentInfoSelect.departName}"></td>
 					</tr>
@@ -106,8 +70,6 @@
 							th:text="${#dates.format(adminStudentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
 						<th>입학구분</th>
 						<td th:text="${adminStudentInfoSelect.studentDivisionNm}"></td>
-<!-- 						<td th:if="${adminStudentInfoSelect.studentDivision =='AD00'}">신입학</td>
-						<td th:if="${adminStudentInfoSelect.studentDivision =='AD01'}">편입학</td> -->
 					</tr>
 					<tr>
 						<th>우편번호</th>
@@ -144,71 +106,11 @@
 					<tr>
 						<th>관계</th>
 						<td th:text="${adminStudentInfoSelect.parentRelNm}"></td>
-						
-						<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
-						<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
-						<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
-						
-						<!-- <td th:if="${adminStudentInfoSelect.parentsRel =='P01'}">부</td>
-					<td th:if="${adminStudentInfoSelect.parentsRel =='P02'}">모</td>
-					<td th:if="${adminStudentInfoSelect.parentsRel =='ETC'}">기타</td> -->
 					</tr>
 				</table>
 				<button class="btn btn-primary buttonmod" id="mod">수정</button>
 				<button class="btn btn-primary buttonmod" id="back">목록</button>
 			</div>
-			<!-- <div class="modal fade" id="studentInfoModModal" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">게시글 수정</h5>
-							<button class="close" type="button" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<input id="board_update_id" name="board_update_id" type="hidden"
-								class="input" value="${board.boardNo}">
-							<div class="group1">
-								<select id="board_update_localInfo"
-									name="board_update_localInfo">
-									<option value="서울특별시">서울특별시</option>
-									<option value="부산광역시">부산광역시</option>
-									<option value="대구광역시">대구광역시</option>
-									<option value="인천광역시">인천광역시</option>
-									<option value="광주광역시">광주광역시</option>
-									<option value="대전광역시">대전광역시</option>
-									<option value="울산광역시">울산광역시</option>
-									<option value="경기도">경기도</option>
-									<option value="경상도">경상도</option>
-									<option value="전라도">전라도</option>
-									<option value="충청도">충청도</option>
-									<option value="강원도">강원도</option>
-								</select>
-							</div>
-
-							<div class="group">
-								<label for="board_update_title" width="1000px" class="label">제목</label>
-								<input id="board_update_title" name="board_update_title"
-									type="text" class="input">
-							</div>
-							<div class="group">
-								<label for="board_update_subject" class="label">내용</label>
-								<textarea id="board_update_subject" name="board_update_subject"
-									class="input"></textarea>
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-sm btn-danger" type="button"
-								data-dismiss="modal">Cancel</button>
-							<button class="btn btn-sm btn-danger" onclick="boardUpdate()">수정</button>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<script th:inline="javascript">
 			/*<![CDATA[*/

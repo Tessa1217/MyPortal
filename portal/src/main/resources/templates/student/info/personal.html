@@ -52,9 +52,6 @@
 					</tr>
 					<tr>
 						<th>학적상태</th>
-						<!-- <td th:if="${studentInfoSelect.studentStatus =='AS00'}">재학</td>
-						<td th:if="${studentInfoSelect.studentStatus =='AS01'}">휴학</td>
-						<td th:if="${studentInfoSelect.studentStatus =='AS02'}">졸업</td> -->
 						<td th:text="${studentInfoSelect.studentStatusNm}"></td>
 						<th>입학학부</th>
 						<td th:text="${studentInfoSelect.departName}"></td>
@@ -64,8 +61,6 @@
 						<td
 							th:text="${#dates.format(studentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
 						<th>입학구분</th>
-						<!-- <td th:if="${studentInfoSelect.studentDivision =='AD00'}">신입학</td>
-						<td th:if="${studentInfoSelect.studentDivision =='AD01'}">편입학</td> -->
 						<td th:text="${studentInfoSelect.studentDivisionNm}"></td>
 					</tr>
 					<tr>
@@ -73,19 +68,16 @@
 						<td colspan="3"><input type="text" onclick="kakaopost()" class="form-control"
 							name="studentAddrUpdate" id="studentAddrUpdate"
 							th:value="${studentInfoSelect.studentAddr}"></td>
-						<!-- <td th:text="${studentInfoSelect.studentAddr}"></td> -->
 					</tr>
 					<tr>
 						<th>상세주소</th>
 						<td><input type="text" class="form-control"
 							name="studentDaddrUpdate" id="studentDaddrUpdate"
 							th:value="${studentInfoSelect.studentDaddr}"></td>
-						<!-- <td th:text="${studentInfoSelect.studentDaddr}"></td> -->
 						<th>우편번호</th>
 						<td><input type="text" class="form-control"
 							name="studentPostalCodeUpdate" id="studentPostalCodeUpdate"
 							th:value="${studentInfoSelect.studentPostalCode}"></td>
-						<!-- <td th:text="${studentInfoSelect.studentPostalCode}"></td> -->
 					</tr>
 					<tr>
 						<th>연락처</th>
@@ -108,12 +100,6 @@
 				</table>
 				</div>
 				</div>
-				<!-- <table>
-					<tr>
-						<td><img th:src="|/download/${studentInfoSelect.studentImg}|"
-							class="faceImg"></td>
-					</tr>
-				</table> -->
 				<hr>
 				<h5>보호자 정보</h5>
 				<table class="table">
@@ -137,16 +123,7 @@
 									<option th:value="${code.detailCode}" th:text="${code.detailName}"
 									th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}"></option>
 								</th:block>
-								<!-- <option th:selected="${studentInfoSelect.parentsRel}=='P01'"
-									th:value="P01" th:text="부"></option>
-								<option th:selected="${studentInfoSelect.parentsRel}=='P02'"
-									th:value="P02" th:text="모"></option>
-								<option th:selected="${studentInfoSelect.parentsRel}=='ETC'"
-									th:value="ETC" th:text="기타"></option> -->
 						</select></td>
-						<!-- <td th:if="${studentInfoSelect.parentsRel =='P01'}">부</td>
-					<td th:if="${studentInfoSelect.parentsRel =='P02'}">모</td>
-					<td th:if="${studentInfoSelect.parentsRel =='ETC'}">기타</td> -->
 					</tr>
 				</table>
 				<button class="btn btn-primary buttonmod" id="mod">수정</button>

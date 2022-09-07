@@ -134,6 +134,7 @@
 				changeView();
 				$("#view").trigger('change');
 			})
+		
 			
 				function changeView() {
 					$(document).on('change', '#view', function() {
@@ -205,7 +206,7 @@
 											.sheet_to_json(read_buffer.Sheets[sheetName]);
 									inputdata = rowdata;
 									console.log(rowdata);
-									// $.ajax
+									
 								})
 					};
 					reader.readAsBinaryString(input.files[0]);
@@ -230,11 +231,6 @@
 				}
 			</script>
 		</div>
-		<style>
-			.fc-time{
-   					display : none;
-					}
-		</style>
 	</th:block>
 	
 </body>

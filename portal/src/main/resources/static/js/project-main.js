@@ -92,6 +92,7 @@ function monthlyCalendar() {
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		editable: false,
 		initialView: 'dayGridMonth',
+		displayEventTime : false,
 		headerToolbar: {
 			left: '',
 			center: '',

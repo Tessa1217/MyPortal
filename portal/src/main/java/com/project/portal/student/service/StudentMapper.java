@@ -19,4 +19,6 @@ public interface StudentMapper {
 
 	public int adminStudentInfoUpdate(StudentVO vo);
 
+	int getTotal();
+
 }

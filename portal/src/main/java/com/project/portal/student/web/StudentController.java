@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.student.service.StudentService;
@@ -41,8 +42,10 @@ public class StudentController {
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
-	public String StudentList(StudentVO vo, Model model, Criteria cri) {
-		model.addAttribute("studentList", service.studentList(cri));
+	public String StudentList(Model model, Criteria cri) {
+		StudentVO vo = new StudentVO();
+		model.addAttribute("studentList", service.studentList(vo, cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(), cri.getAmount(), cri));
 		return "admin/info/studentList";
 	}
 	
