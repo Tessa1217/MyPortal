@@ -26,6 +26,21 @@
 		order by professor_id asc
 	</select>
 	
+	<select id="adminProfessorInfoSelect" resultType="ProfessorVO">
+		select p.professor_name,
+				p.professor_birth,
+				p.professor_addr,
+				p.professor_daddr,
+				p.professor_postal_code,
+				p.professor_phone,p.professor_email,
+				p.professor_img,
+				 depart_name
+		from professor p
+		join department d
+		on p.depart_code = d.depart_code
+		where p.professor_id = #{professorId}
+	</select>
+	
 	<update id="professorInfoUpdate" parameterType="com.project.portal.professor.service.ProfessorVO" >
 		update professor
 		set professor_phone = #{professorPhone},

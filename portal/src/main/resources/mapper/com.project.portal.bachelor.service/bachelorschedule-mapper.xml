@@ -14,7 +14,7 @@
 				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "MONTH",
                 YEAR
 		from bachelor_schedule
-		where YEAR = #{year}
+		where YEAR = #{year} and detail_code != 'BPLAN00'
 		order by schedule_start_date
 	</select>
 	

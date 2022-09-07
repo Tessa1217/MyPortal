@@ -31,6 +31,13 @@ public class ProfessorController {
 		return "admin/info/professorList";
 	}
 	
+	//교수 정보 상세조회(관리자)
+	@RequestMapping("admin/adminProfessorInfoSelect")
+	public String AdminProfessorInfoSelect(ProfessorVO vo, Model model) {
+		model.addAttribute("adminProfessorInfoSelect" , service.adminProfessorInfoSelect(vo));
+		return "admin/info/professorPersonal";
+	}
+	
 	//교수 본인 정보 조회
 	@RequestMapping("/professor/professorInfo")
 	public String Professor(ProfessorVO vo, Model model, HttpSession session) {
