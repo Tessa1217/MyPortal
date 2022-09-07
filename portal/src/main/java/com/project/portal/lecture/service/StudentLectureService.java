@@ -16,4 +16,5 @@ public interface StudentLectureService {
 	LectureQuestionVO insertLectureQuestion(LectureQuestionVO vo);
 	Map<String, Object> getList(LectureVO vo, int studentId);
 	List<StudentNoteVO> getNoteList(LectureVO lecture, int studentId);
+	void deleteStudentNote(StudentNoteVO vo);
 }

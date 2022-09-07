@@ -83,6 +83,11 @@ public class StudentLectureServiceImpl implements StudentLectureService {
 	public List<StudentNoteVO> getNoteList(LectureVO lecture, int studentId) {
 		return mapper.getNoteList(lecture, studentId);
 	}
+
+	@Override
+	public void deleteStudentNote(StudentNoteVO vo) {
+		mapper.deleteStudentNote(vo);
+	}
 	
 	
 

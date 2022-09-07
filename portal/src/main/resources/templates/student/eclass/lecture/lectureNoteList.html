@@ -35,6 +35,9 @@
 												th:each="noteList : ${map.get(lecture.lectureCode)}">
 												<div class="card lectureNoteCard"
 													th:each="note : ${noteList}">
+													<div align="right">
+														<button type="button" class="btn btn-danger deleteBtn btn-sm" th:id="${note.noteCode}">삭제</button>
+													</div>
 													<div class="card-body">
 														<div th:utext="${note.noteContent}"></div>
 													</div>
@@ -60,6 +63,34 @@
 				</th:block>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			
+		$(function() {
+			deleteNote();
+		})
+		
+			function deleteNote() {
+				$(document).on("click", ".deleteBtn", function(e) {
+					let code = $(e.target).attr("id");
+					$.ajax({
+						method : 'DELETE',
+						url : `/student/eclass/deleteNote`,
+						data : JSON.stringify({noteCode : code}),
+						contentType : 'application/json',
+						success : function(result) {
+							if (result == 'success') {
+								fireSwal('success', '삭제를 완료하였습니다.')
+								.then((result) => {
+									if (result.isConfirmed) {
+										location.reload();
+									}
+								})
+							}
+						}
+					}) 
+				})
+			}
+		</script>
 	</th:block>
 </body>
 </html>

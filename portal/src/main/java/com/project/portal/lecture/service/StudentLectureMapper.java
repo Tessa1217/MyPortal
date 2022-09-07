@@ -24,5 +24,6 @@ public interface StudentLectureMapper {
 			@Param("studentId") int studentId);
 	List<LectureQuestionVO> getQuestionList(@Param("lecture") LectureVO vo,
 			@Param("studentId") int studentId);
+	void deleteStudentNote(StudentNoteVO vo);
 }
 

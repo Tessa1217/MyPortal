@@ -3,9 +3,8 @@
 <mapper
 	namespace="com.project.portal.bachelor.service.BachelorNoticeMapper">
 	<select id="getNoticeList" resultType="BachelorNoticeVO">
-		<![CDATA[
 			SELECT
-				TO_NUMBER(notice_no) notice_no,
+				notice_no,
 				notice_title,
 				notice_content,
 				notice_private,
@@ -24,10 +23,17 @@
 										notice_mod_date,
 										notice_file_code
 										FROM bachelor_notice
+										<if test="notice.noticeNo != null and notice.noticeNo != ''">
+											WHERE notice_no = #{notice.noticeNo}
+										</if>
 						)
-						WHERE R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
-						
-		]]>
+						<where>
+						<if test="cri != null and cri != ''">
+							<if test="cri.pageNum != null and cri.pageNum != 0">
+								AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
+							</if>
+						</if>
+						</where>
 	</select>
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)

@@ -152,5 +152,8 @@
 			FROM lecture_question
 			WHERE lecture_question_num = #{lectureQuestionNum}
 	</select>
-	
+	<delete id="deleteStudentNote" parameterType="StudentNoteVO">
+		DELETE FROM student_note
+			WHERE note_code = #{noteCode}
+	</delete>
 </mapper>

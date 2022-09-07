@@ -26,7 +26,7 @@
 					</div>
 				</th:block>
 				<th:block  th:if="${noteList.isEmpty()}">
-					<div class="card">
+					<div id="emptyNote" class="card">
 						<div class="notecard">
 							<h5>현재 등록된 노트가 없습니다.</h5>
 						</div>
@@ -54,6 +54,9 @@
 						<h4>
 							<i class="fa-regular fa-comment"></i> 강의 질문하기
 						</h4>
+						<div align="right">
+							<button id="askQnA" class="btn btn-md rounded-pill btn-primary">질문하기</button>
+						</div>
 					</div>
 					<div class="board-question-box">
 					<th:block th:unless="${questionList.isEmpty()}">
@@ -65,13 +68,10 @@
 						</div>
 					</th:block>
 					<th:block th:if="${questionList.isEmpty()}">
-						<div class="card">
-							<h3>현재 등록된 질문이 없습니다.</h3>
+						<div id="emptyQuestion" class="card">
+							<h4>현재 등록된 질문이 없습니다.</h4>
 						</div>
 					</th:block>
-					</div>
-					<div align="center">
-						<button id="askQnA" class="btn rounded-pill btn-primary">질문하기</button>
 					</div>
 				</div>
 				<div class="qna offPage">
@@ -106,7 +106,7 @@
 										<input type="hidden" th:value="${lecture.weekCode}" name="weekCode"/>
 										<input type="hidden" name="lectureQuestionContent">
 										<input type="hidden" th:value="${lecture.lectureCode}" name="lectureCode"> 
-										<input type="hidden" name="studentId" value=22000001>
+										<input type="hidden" name="studentId" th:value="${session.id}">
 									</div>
 								</div>
 							</div>
@@ -196,6 +196,9 @@
 						data : data
 					})
 						.done(function(result) {
+							if ($("#emptyNote")) {
+								$("#emptyNote").remove();
+							}
 							tinyMCE.activeEditor.setContent('');
 							
 							let parentDiv = $(".board-content-box");
@@ -224,6 +227,9 @@
 						data : data
 					})
 						.done(function(result) {
+							if ($("#emptyQuestion")) {
+								$("#emptyQuestion").remove();
+							}
 							$("input[name=lectureQuestionTitle]").val('');
 							tinyMCE.activeEditor.setContent('');
 							let parentDiv = $(".board-question-box");

@@ -177,10 +177,22 @@ input[name="tabs"]+.tabmenu {
 	width: 90%;
 }
 
-.board-content-box, .board-question-box {
+.board-content-box {
 	overflow: scroll;
 	height: 38vh;
 	margin-bottom: 2%;
+}
+
+.board-question-box {
+	overflow-y: scroll;
+	height: 80vh;
+	margin-bottom: 2%;
+}
+
+#emptyQuestion {
+	border: 1px solid #eee;
+	padding: 10%;
+	margin-right: 3%;
 }
 
 .tab-title {

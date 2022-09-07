@@ -6,9 +6,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-<th:block layout:fragment="scheduleContent">
-<div id="main">
-	</div>
-</th:block>
+	<th:block layout:fragment="scheduleContent">
+		<div id="main">
+			<div class="card">
+				<div class="card-header">
+					<h4 th:text="${notice.noticeTitle}"></h4>
+				</div>
+				<div class="card-body">
+					<p th:utext="${notice.noticeContent}"></p>
+				</div>
+			</div>
+		</div>
+	</th:block>
 </body>
 </html>

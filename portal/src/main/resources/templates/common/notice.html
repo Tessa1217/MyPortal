@@ -24,14 +24,14 @@
 						<tbody>
 							<th:block th:each="notice, idx : ${noticeList}">
 								<tr th:object="${notice}">
-									<td th:text="${notice.noticeNo}"></td>
+									<td th:text="${#strings.replace(notice.noticeNo, '0', '')}"></td>
 									<td th:text="*{noticeTitle}"></td>
 									<td th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
 									<td
 										th:text="${noticeModDate} != null ? ${#dates.format(noticeModDate, 'yyyy-MM-dd')} : '-'"></td>
-									<th:block th:with="url = ${command == 1} ? 'student' : ${command == 2} ? 'professor' : 'admin'">
+									<th:block th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
 									<td><button type="button"
-											class="btn btn-primary btn-sm rounded-pill" th:text="${url}"></button></td>
+											class="btn btn-primary btn-sm rounded-pill" th:onclick="|location.href='@{/{command}/detailNotice/{noticeNo}(command = ${command}, noticeNo = ${notice.noticeNo})}'|">상세보기</button></td>
 									</th:block>
 								</tr>
 							</th:block>

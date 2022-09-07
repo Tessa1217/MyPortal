@@ -2,7 +2,6 @@ package com.project.portal.bachelor.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,12 +57,17 @@ public class BachelorNoticeController {
 		return "common/notice";
 	}
 
-	@RequestMapping({ "/student/detailNotice/{noticeCode}", "/professor/detailNotice/{noticeCode}",
-			"/admin/detailNotice/{noticeCode}" })
-	public String detailNotice(HttpServletRequest request, Model model) {
+	@RequestMapping({ "/student/detailNotice/{noticeNo}", "/professor/detailNotice/{noticeNo}",
+			"/admin/detailNotice/{noticeNo}" })
+	public String detailNotice(@PathVariable String noticeNo, 
+								HttpServletRequest request, 
+								Model model, 
+								BachelorNoticeVO vo) {
 		String requestURI = request.getRequestURI();
 		int command = setCommand(requestURI);
 		model.addAttribute("command", command);
+		vo.setNoticeNo(noticeNo);
+		model.addAttribute("notice", service.getNoticeList(vo, null).get(0));
 		return "common/detailNotice";
 	}
 
