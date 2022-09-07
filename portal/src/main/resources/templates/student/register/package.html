@@ -5,7 +5,8 @@
 <!-- CSS only -->
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>수강 꾸러미</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	/* 카드 */
 	.card{
@@ -231,14 +232,14 @@
 					
 					// 담은 학점 계산
 					if( (allCourseCredit + selectNum) > 20 ){
-						return alert("최대 학점을 초과할수없습니다.");
+						return fireSwal('warning','최대 학점을 초과할수없습니다.');
 					}
 
 					if((selectCode.children[1].textContent).startsWith("L","l")) {
 						let lSortationTotal = lSortationCheck();
 
 						if( (lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5 ){
-							return alert("교양학점은 5점을 초과할 수 없습니다.");
+							return fireSwal('warning','교양학점은 5점을 초과할 수 없습니다.');
 						}
 					}
 				
@@ -258,13 +259,13 @@
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
-								<td><button type="button" class="btn btn-primary buttonDelete" data-code="${item.courseCode}">취소</button></td>
+								<td><button type="button" class="buttonDelete" data-code="${item.courseCode}">취소</button></td>
 								</tr>`;
 							$("#pBody").append(content);
 							setTotalData();
 						},
 						error:function(){
-							alert('이전에 수강하신 강의입니다.');
+							fireSwal('warning', '이전에 수강하신 강의입니다.');
 						}
 					});
 				}
