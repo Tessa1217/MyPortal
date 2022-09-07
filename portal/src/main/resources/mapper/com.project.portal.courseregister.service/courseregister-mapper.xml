@@ -183,4 +183,5 @@
 			AND course_year = #{courseYear} 
 			AND course_semester = #{courseSemester}
 	</select>
+	
 </mapper>

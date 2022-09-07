@@ -9,7 +9,7 @@
 <style>
 	/* 카드 */
 	.card{
-		background-color:#BDC8DE;
+		background-color:white;
 	}
 	/* 학생정보 테이블 */
 	#sInfo{
@@ -18,7 +18,7 @@
 		color: black;
 	}
 	#sInfo thead{
-		background-color: #AAAAC6
+		background-color: lightblue
 	}
 	#sInfo tbody{
 		background-color: white;
@@ -32,7 +32,7 @@
 	#pTable thead {
 		position: sticky; 
 		top: 0px;
-		background-color: #AAAAC6 !important;
+		background-color: lightblue !important;
 	}
 	#pTable tbody tr {
 		background-color: white;
@@ -50,7 +50,7 @@
 		color: black;
 	}
 	#inTable thead{
-		background-color: #AAAAC6
+		background-color: lightblue
 	}
 	#inTable tbody{
 		background-color: white;
@@ -144,7 +144,7 @@
 							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button"
-									class="btn btn-primary buttonInsert"
+									class="buttonInsert"
 									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">담기</button></td>
 						</tr>
 					</tbody>
@@ -177,7 +177,7 @@
 							<td th:text="${item.courseCredit}"></td>
 							<td th:text="${item.professorName}"></td>
 							<td><button type="button"
-									class="btn btn-primary buttonDelete"
+									class="buttonDelete"
 									th:data-code="${item.courseCode}">취소</button></td>
 						</tr>
 					</tbody>

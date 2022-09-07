@@ -24,52 +24,53 @@ import com.project.portal.courseregister.service.RegisterVO;
 
 @Controller
 public class RegisterController {
-	
+
 	@Autowired
 	RegisterService service;
-	
+
 	// 학생 정보, 강의 리스트, 신청한 강의 리스트
 	@RequestMapping("/student/courseRegister")
 	public String Register(Model model, RegisterVO vo, HttpSession session) {
-		
-		vo.setStudentId((int)session.getAttribute("id"));
-		vo.setCourseYear((int)session.getAttribute("year"));
-		vo.setCourseSemester((int)session.getAttribute("semester"));
+
+		vo.setStudentId((int) session.getAttribute("id"));
+		vo.setCourseYear((int) session.getAttribute("year"));
+		vo.setCourseSemester((int) session.getAttribute("semester"));
 		
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
-		
+
 		List<RegisterVO> registerList = service.registerList(vo);
 		model.addAttribute("registerList", registerList);
-		
+
 		List<RegisterVO> packageNList = service.packageNList(vo);
 		model.addAttribute("packageNList", packageNList);
-		
+
 		List<RegisterVO> successList = service.successList(vo);
 		model.addAttribute("successList", successList);
-		
+
 		RegisterVO registerAllCredit = service.registerAllCredit(vo);
 		model.addAttribute("registerAllCredit", registerAllCredit);
-		return "student/register/register";		
+		
+		return "student/register/register";
 	}
-	
+
 	// 강의 신청
 	@RequestMapping("/student/registerInsert")
 	@ResponseBody
 	public RegisterVO registerInsert(Model model, RegisterVO vo, HttpSession session) {
-		vo.setStudentId((int)session.getAttribute("id"));
-		vo.setCourseYear((int)session.getAttribute("year"));
-		vo.setCourseSemester((int)session.getAttribute("semester"));
+		vo.setStudentId((int) session.getAttribute("id"));
+		vo.setCourseYear((int) session.getAttribute("year"));
+		vo.setCourseSemester((int) session.getAttribute("semester"));
 		return service.registerInsert(vo);
 	}
-	
-	//강의 취소
+
+	// 강의 취소
 	@RequestMapping("/student/registerDelete")
 	@ResponseBody
 	public int RegisterDelete(Model model, RegisterVO vo, BachelorScheduleVO bvo, HttpSession session) {
-		vo.setStudentId((int)session.getAttribute("id"));
-		vo.setCourseYear((int)session.getAttribute("year"));
-		vo.setCourseSemester((int)session.getAttribute("semester"));
+		vo.setStudentId((int) session.getAttribute("id"));
+		vo.setCourseYear((int) session.getAttribute("year"));
+		vo.setCourseSemester((int) session.getAttribute("semester"));
 		return service.registerDelete(vo);
 	}
 }

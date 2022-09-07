@@ -6,21 +6,27 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style>
-		/* 스크롤 테이블 헤더 고정 */
-		#rTable thead {
-			position: sticky;
-			top: 0px;
-			background-color: black !important;
-			color: white;
+
+		table{
+			text-align: center;
 		}
 
-		#rTable tbody tr {
-			background-color: white;
+		table thead{
+			background-color: lightblue;
+			position: sticky;
+			top: 0px;
+			color: black;
+		}
+
+		/* 스크롤 테이블 헤더 고정 */
+		#regInsertButton:disabled {
+			background-color:#F0F0F0;
 		}
 
 		p{
 			color: black;
 			padding-left: 20px;
+			font-size: large;
 		}
 	</style>
 </head>
@@ -31,7 +37,8 @@
 			<h2>수강 신청</h2>
 			<hr>
 			<!-- 학생 정보 -->
-			<div>
+			<div class="card">
+			<div class="card-body">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -57,9 +64,12 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
 			<h4>개설강의 LIST</h4>
 			<br>
 			<!-- 학과별 강의 검색 -->
+			<div class="card">
+				<div class="card-body">
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
 					<option selected>--- 학과선택 ---</option>
@@ -117,18 +127,20 @@
 							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.studentCount}"></td>
 							<td th:text="${item.courseLimit}"></td>
-							<td><button type="button" class="btn btn-primary regInsertButton" th:data-code="${item.courseCode}"
+							<td><button type="button" class="regInsertButton" th:data-code="${item.courseCode}"
 									th:data-name="${item.courseName}" disabled>신청</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+		</div>
+		</div>
+		<hr>
 			<br>
-			<hr>
 			<!-- 꾸러미 실패 내역 및 신청 리스트 -->
-			<div>
-				<h4>수강꾸러미 내역</h4>
-				<div>
+			<h4>수강꾸러미 내역</h4>
+			<div class="card">
+				<div class="card-body">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -151,20 +163,20 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
-								<td><button type="button" class="btn btn-primary regInsertButton" th:data-code="${item.courseCode}"
+								<td><button type="button" class="regInsertButton" th:data-code="${item.courseCode}"
 										th:data-name="${item.courseName}">신청</button></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+			</div>
 				<br>
 				<!-- 신청 성공 리스트 -->
-				<div>
-					<h4 style="display: inline;">신청과목 LIST</h4>
-					<p style="display: inline;">신청가능 학점:<span id="cTotal"
-							th:text="!${registerAllCredit}?20:20-${registerAllCredit.regCredit}"></span></p>
-					<!-- <h6 style="display: inline;">전공학점:</h6>
-					<h6 style="display: inline;">교양학점:</h6> -->
+				<h4 style="display: inline;">신청과목 LIST</h4>
+				<p style="display: inline;">신청가능 학점:<span id="cTotal"
+					th:text="!${registerAllCredit}?20:20-${registerAllCredit.regCredit}"></span></p>
+				<div class="card">
+					<div class="card-body">
 					<table class="table table-bordered" id="rsTable">
 						<thead>
 							<tr>
@@ -187,13 +199,13 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}" hidden></td>
 								<td th:text="${item.courseLimit}" hidden></td>
-								<td><button type="button" class="btn btn-primary regDeleteButton"
+								<td><button type="button" class="regDeleteButton"
 										th:data-code="${item.courseCode}">취소</button></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-			</div>
+				</div>
 		</div>
 		<script th:inline="javascript">
 
@@ -301,7 +313,7 @@
 							+ "<td>" + item.professorName + "</td>"
 							+ "<td hidden>" + item.studentCount + "</td>"
 							+ "<td hidden>" + item.courseLimit + "</td>"
-							+ "<td><button type='button'	class='btn btn-primary regDeleteButton'	data-code= " + item.courseCode + ">취소</button></td></tr>";
+							+ "<td><button type='button'	class='regDeleteButton'	data-code= " + item.courseCode + ">취소</button></td></tr>";
 						$("#rSuccessBody").append(content);
 						var rTable = document.getElementById("rTable");
 						var ableBtn = Array.from(rTable.children[1].children);
@@ -343,7 +355,7 @@
 								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[6].textContent + "</td>"
-								+ "<td><button type='button' class='btn btn-primary regInsertButton'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
+								+ "<td><button type='button' class='regInsertButton'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
 							$("#rBody").append(cancel);
 							tr.remove();
 							setTotalData();
