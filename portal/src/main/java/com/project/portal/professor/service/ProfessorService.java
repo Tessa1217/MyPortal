@@ -11,4 +11,6 @@ public interface ProfessorService {
 	public List<ProfessorVO> professorList(Criteria cri);
 
 	public ProfessorVO professorInfoUpdate(ProfessorVO vo);
+
+	public ProfessorVO adminProfessorInfoSelect(ProfessorVO vo);
 }

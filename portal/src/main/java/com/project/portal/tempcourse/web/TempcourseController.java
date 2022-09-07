@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.common.service.CodeService;
+import com.project.portal.course.service.CourseVO;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseListVO;
 import com.project.portal.tempcourse.service.TempcourseService;
@@ -53,6 +54,7 @@ public class TempcourseController {
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList(); 
+
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
 		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기
@@ -171,24 +173,7 @@ public class TempcourseController {
 
 	}
 
-//	@RequestMapping(value = {"/professor/getTemp/{courseCode}/updateweekTemp", "/tempweekUpdate"})
-//	@ResponseBody
-//	public int tempweekUpdate(@RequestParam Map map, TempcourseweekVO voo, Model model) {
-//		
-//		System.out.println(voo);
-//		System.out.println(voo.getCourseCode());
-//		int i = 1;
-//
-//		for(int j = 1;j<=15;j++) {
-//			voo.setWeekNum(j);
-//			voo.setWeekContent((String)map.get("weekContent"+j));
-//			
-//			service.updateweekTemp(voo);
-//			
-//		}
-//		return service.updateweekTemp(voo);
-//			
-//	}
+
 
 	// 강의계획서 주차별 강의 수정기능
 	@RequestMapping("/professor/getTemp/{courseCode}/updateweekTemp")
@@ -325,6 +310,7 @@ public class TempcourseController {
 		
 		// 강의계획서 삭제기능
 		@PostMapping(value={"/professor/getTemp/tempDelete", "/professor/tempcourseList/tempDelete"})
+		@ResponseBody
 		public int tempDelete(TempcourseVO vo, Model model) {
 			
 			

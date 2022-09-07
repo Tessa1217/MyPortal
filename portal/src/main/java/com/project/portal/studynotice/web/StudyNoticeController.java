@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.studynotice.service.StudyNoticeFileVO;
 import com.project.portal.studynotice.service.StudyNoticeService;
 import com.project.portal.studynotice.service.StudyNoticeVO;
@@ -33,6 +35,15 @@ public class StudyNoticeController {
 
 	@Autowired
 	StudyNoticeService service;
+	
+	@Autowired CourseServiceImpl courseService;
+	
+	@ModelAttribute("courseInfo")
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		return courseService.getWeeklyInfo(course);
+	}
 	
 	
 	

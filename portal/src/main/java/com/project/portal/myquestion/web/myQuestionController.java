@@ -9,10 +9,13 @@ import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.web.myCourseController;
 import com.project.portal.myquestion.service.myQuestionAnswerVO;
 import com.project.portal.myquestion.service.myQuestionService;
@@ -24,6 +27,14 @@ public class myQuestionController {
 	
 	@Autowired
 	myQuestionService service;
+	@Autowired CourseServiceImpl courseService;
+	
+	@ModelAttribute("courseInfo")
+	public CourseVO course(HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode((String) session.getAttribute("courseCode"));
+		return courseService.getWeeklyInfo(course);
+	}
 	
 	// 학생 질문 목록
 	@RequestMapping("/student/eclass/courseQuestion")

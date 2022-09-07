@@ -46,6 +46,7 @@
 					<div class="card paging name">
 						<div class="card-header">
 							<h3>강의 계획서</h3>
+							<div align="center" style="margin:50px">
 							<table class="table">
 								<thead>
 									<tr>
@@ -67,6 +68,7 @@
 											th:data-code="null"></td>
 										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
 											th:data-code="비승인">비승인</td>
+											
 										<td><button th:disabled="${tempcourse.okayYes}=='A00'"
 												name="button1" class="btn btn-danger moddd"
 												th:data-course="${tempcourse.courseCode}">승인</button>
@@ -78,6 +80,7 @@
 
 								</tbody>
 							</table>
+							</div>
 
 						</div>
 						<div class="card-body">

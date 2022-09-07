@@ -13,4 +13,6 @@ public interface ProfessorMapper {
 	public List<ProfessorVO> professorList(Criteria cri);
 
 	public int professorInfoUpdate(ProfessorVO vo);
+
+	public ProfessorVO adminProfessorInfoSelect(ProfessorVO vo);
 	}

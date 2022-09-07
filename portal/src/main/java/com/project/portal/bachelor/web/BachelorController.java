@@ -27,12 +27,6 @@ public class BachelorController {
 	
 	@Autowired BachelorScheduleService service;
 	
-//	@RequestMapping("/common/scheduleList")
-//	@ResponseBody
-//	public List<BachelorScheduleVO> getSchedule(BachelorScheduleVO vo) {
-//		return service.scheduleList(vo);
-//	}
-	
 	// 학사일정 조회
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
 	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo, HttpSession session) {
