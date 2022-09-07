@@ -19,6 +19,7 @@
 			property="reportSubmissionOption" />
 			<result column="report_submission_code" property="reportSubmissionCode"/>
 			<result column="report_score_objection_approval_option" property="reportScoreObjectionApprovalOption"/>
+			<result column="report_no" property="reportNo"/>
 		<association property="reportFile" javaType="ReportFileVO">
 			<id column="report_file_code" property="reportFileCode" />
 			<result column="report_file_name" property="reportFileName" />
@@ -31,48 +32,86 @@
 			<result column="submit_id" property="submitId" />
 		</association>
 	</resultMap>
+	
+	
+	<select id="getTotal" resultType="int">
+		 SELECT COUNT(*) FROM ( SELECT R.REPORT_CODE,
+		R.WEEK_CODE,
+		R.REPORT_TITLE,
+		R.REPORT_START_DATE,
+		R.REPORT_END_DATE,
+		S.STUDENT_ID,
+		S.REPORT_SCORE,
+		S.REPORT_SUBMISSION_OPTION,
+		R.REPORT_FILE_CODE,
+        S.REPORT_SUBMISSION_CODE,
+        F.REPORT_FILE_NAME,
+        F.REPORT_FILE_PATH,
+        O.REPORT_SCORE_OBJECTION_APPROVAL_OPTION,
+         W.WEEK_NUM
+		FROM REPORT_INFO R JOIN REPORT_SUBMISSION S
+		ON R.REPORT_CODE = S.REPORT_CODE
+            JOIN REPORT_FILE F
+        ON F.REPORT_FILE_CODE = R.REPORT_FILE_CODE
+           LEFT OUTER JOIN REPORT_SCORE_OBJECTION O
+             ON O.REPORT_SUBMISSION_CODE = S.REPORT_SUBMISSION_CODE
+            JOIN COURSE_WEEKLY W
+               ON W.WEEK_CODE = R.WEEK_CODE 
+              WHERE S.STUDENT_ID = #{studentId})
+	</select>
 
 
 	<select id="getReportList" resultMap="reportMap">
-	
-	
-		select r.report_code,
-		r.week_code,
-		r.report_title,
-		r.report_start_date,
-		r.report_end_date,
+		select a.*, ROWNUM report_no
+ 
+		from (       select 
+		ROWNUM report_no,
+		ri.report_code,
+		ri.week_code,
+		ri.report_title,
+		ri.report_start_date,
+		ri.report_end_date,
 		s.student_id,
 		s.report_score,
 		s.report_submission_option,
-		r.report_file_code,
+		ri.report_file_code,
         s.report_submission_code,
         f.report_file_name,
         f.report_file_path,
         o.report_score_objection_approval_option,
          w.week_num
  
-		from report_info r join report_submission s
-		on r.report_code = s.report_code
+		from report_info ri join report_submission s
+		on ri.report_code = s.report_code
             join report_file f
-        on f.report_file_code = r.report_file_code
+        on f.report_file_code = ri.report_file_code
            left outer join report_score_objection o
                on o.report_submission_code = s.report_submission_code
                join course_weekly w
-               on w.week_code = r.week_code
+               on w.week_code = ri.week_code
 
 		<where>
-			<if test="courseInfo != null and courseInfo != ''">
+			<if test="courseInfo.studentId != null and courseInfo.studentId != ''">
 				AND s.student_id = #{courseInfo.studentId}
 			</if>
-			<if test="courseInfo != null and courseInfo != ''">
+			<if test="courseInfo.courseCode != null and courseInfo.courseCode != ''">
 				AND r.course_code = #{courseInfo.courseCode}
 			</if>
-			<if test="report != null and report != ''">
+			<if test="report.reportCode != null and report.reportCode != ''">
 				AND r.report_code = #{report.reportCode}
 			</if>
+			<if test="courseInfo.weekNum != null and courseInfo.weekNum != ''">
+				AND w.week_num = #{courseInfo.weekNum}
+			</if>
+			<![CDATA[AND ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
 		</where>
 		
-		        ORDER BY 2 DESC
+		  ORDER BY 14 DESC
+		) a
+		
+		WHERE ROWNUM > (#{cri.pageNum} - 1) * #{cri.amount}
+		
+		      
 	</select>
 
 	<select id="getReportDetail" resultType="ReportVO">
@@ -83,11 +122,37 @@
 		I.REPORT_END_DATE,
 		I.REPORT_CONTENT,
 		I.REPORT_FILE_CODE,
-		I.REPORT_CODE
+		I.REPORT_CODE,
+        RS.REPORT_SUBMISSION_OPTION
 		FROM
 		REPORT_INFO I JOIN COURSE_WEEKLY W
 		ON I.WEEK_CODE = W.WEEK_CODE
-		WHERE REPORT_CODE = #{reportCode}
+		JOIN REPORT_SUBMISSION RS
+        ON RS.REPORT_CODE = I.REPORT_CODE
+		WHERE RS.REPORT_CODE = #{reportCode} AND RS.STUDENT_ID = #{studentId}
+	</select>
+	
+	<select id="getModDetail" resultType="ReportVO">
+		SELECT
+		I.REPORT_TITLE,
+		W.WEEK_NUM,
+		I.REPORT_START_DATE,
+		I.REPORT_END_DATE,
+		I.REPORT_CONTENT,
+		I.REPORT_FILE_CODE,
+		I.REPORT_CODE,
+        RS.REPORT_SUBMISSION_OPTION,
+        RF.REPORT_FILE_CODE AS REPORT_SUB_FILE_CODE,
+        RF.REPORT_FILE_NAME,
+        RF.USER_CODE
+		FROM
+		REPORT_INFO I JOIN COURSE_WEEKLY W
+		ON I.WEEK_CODE = W.WEEK_CODE
+		JOIN REPORT_SUBMISSION RS
+        ON RS.REPORT_CODE = I.REPORT_CODE
+        JOIN REPORT_FILE RF
+        ON RS.STUDENT_ID = RF.SUBMIT_ID
+		WHERE RS.REPORT_CODE = #{reportCode} AND RS.STUDENT_ID = #{studentId}
 	</select>
 
 

@@ -1,7 +1,5 @@
 package com.project.portal.myquestion.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.logging.Logger;
@@ -14,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.impl.BachelorNoticeServiceImpl;
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.web.myCourseController;
@@ -28,6 +29,8 @@ public class myQuestionController {
 	@Autowired
 	myQuestionService service;
 	@Autowired CourseServiceImpl courseService;
+	@Autowired
+	BachelorNoticeServiceImpl Bservice;
 	
 	@ModelAttribute("courseInfo")
 	public CourseVO course(HttpSession session) {
@@ -38,11 +41,13 @@ public class myQuestionController {
 	
 	// 학생 질문 목록
 	@RequestMapping("/student/eclass/courseQuestion")
-	public String getStuMyQuestion(myQuestionVO vo, Model model, HttpSession session) {
+	public String getStuMyQuestion(myQuestionVO vo, Model model, HttpSession session, Criteria cri) {
 		vo.setStudentId((int)session.getAttribute("id"));
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
+		//페이지
+		model.addAttribute("pageMaker", new PageDTO(Bservice.getTotal(),  cri.getAmount(), cri));
 		return "student/eclass/question/courseQuestion";
 	}
 	

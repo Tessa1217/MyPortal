@@ -24,10 +24,13 @@ public class ReportVO {
 	private int submitId;
 	private ReportFileVO reportFile; //  과제파일
 	private String courseCode;  // 강의 코드
-	private String weekNum; // 주차
+	private int weekNum; // 주차
 	private String reportSubmissionOption;// 과제 제출 여부
 	private int studentId;
 	private String reportSubmissionCode; // 과제 제출 코드
 	private String reportScoreObjectionApprovalOption; // 이의 신청 승인 여부
+	private String reportSubFileCode; //제출된 파일 코드
+	private String reportFileName; // 파일 이름
+	private int reportNo;// 과제순번
 
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.portal.bachelor.service.impl.BachelorNoticeServiceImpl;
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.report.service.ReportFileVO;
@@ -33,6 +37,8 @@ public class StudentReportController {
 	CourseServiceImpl courseService;
 	@Autowired
 	StudentReportServiceImpl service;
+	@Autowired
+	BachelorNoticeServiceImpl Bservice;
 
 	// 파일 다운로드 경로 가져오기
 	@Value("${spring.servlet.multipart.location}")
@@ -48,11 +54,14 @@ public class StudentReportController {
 
 	// 과제 리스트
 	@RequestMapping("/student/eclass/reportList")
-	public String getReportList(Model model, CourseVO vo, HttpSession session) {
-		vo = (CourseVO) model.getAttribute("courseInfo");
+	public String getReportList(Model model, CourseVO vo, ReportVO rvo, HttpSession session, Criteria cri) {
 		vo.setStudentId((int) session.getAttribute("id"));
-		List<ReportVO> reportList = service.getReportList(vo, null);
+		List<ReportVO> reportList = service.getReportList(vo, rvo, cri);
+
+		// 과제 리스트
 		model.addAttribute("reportList", reportList);
+		// paging
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo.getStudentId()), cri.getAmount(), cri));
 		return "student/eclass/report/reportList";
 	}
 
@@ -65,13 +74,21 @@ public class StudentReportController {
 		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
 		rsubvo = service.selectDetail(vo);
-		
-		
-		
-		
-
-		model.addAttribute("reportDetail", service.getReportDetail(vo.getReportCode()));
+		model.addAttribute("reportDetail", service.getReportDetail(vo));
 		return "student/eclass/report/submitReport";
+	}
+	
+	// 과제 수정 페이지 이동
+	@RequestMapping("/student/eclass/reportModify/{reportCode}")
+	public String reportModify(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo, HttpSession session,
+			ReportSubmissionVO rsubvo) {
+		int studentId = (int)session.getAttribute("id");
+		vo.setReportCode(reportCode);
+		vo.setStudentId(studentId);
+		// 과제 제출 내용 조회
+		rsubvo = service.selectDetail(vo);
+		model.addAttribute("reportDetail", service.getModDetail(vo));
+		return "student/eclass/report/reportModify";
 	}
 
 	// 과제 이의 신청 페이지 이동

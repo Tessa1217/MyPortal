@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ReportFileVO;
 import com.project.portal.report.service.ReportObjectionVO;
@@ -19,8 +20,8 @@ public class StudentReportServiceImpl implements StudentReportService {
 	@Autowired
 	StudentReportMapper mapper;
 	@Override
-	public List<ReportVO> getReportList(CourseVO vo, ReportVO report) {
-		return mapper.getReportList(vo, report);
+	public List<ReportVO> getReportList(CourseVO vo, ReportVO report , Criteria cri) {
+		return mapper.getReportList(vo, report ,cri);
 	}
 
 	@Override
@@ -34,9 +35,9 @@ public class StudentReportServiceImpl implements StudentReportService {
 	}
 
 	@Override
-	public ReportVO getReportDetail(String reportCode) {
+	public ReportVO getReportDetail(ReportVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.getReportDetail(reportCode);
+		return mapper.getReportDetail(vo);
 	}
 
 	@Override
@@ -74,6 +75,19 @@ public class StudentReportServiceImpl implements StudentReportService {
 		// TODO Auto-generated method stub
 		mapper.insertReportObjection(vo);
 	}
+
+	@Override
+	public ReportVO getModDetail(ReportVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getModDetail(vo);
+	}
+
+	@Override
+	public int getTotal(int studentId) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(studentId);
+	}
+
 
 
 }

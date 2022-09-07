@@ -10,7 +10,7 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2>과제 제출</h2>
+				<h2>과제 수정</h2>
 				<hr>
 				<div class="card">
 					<div class="card-body">
@@ -47,6 +47,14 @@
 								</tr>
 
 								<tr>
+									<td>제출한 첨부파일</td>
+									<td><a
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportDetail.reportFileCode}, userCode=${reportDetail.userCode})}"
+									th:text="${reportDetail.reportFileName}"
+									th:download="${reportDetail.reportFileName}"></a></td>
+								</tr>
+
+								<tr>
 									<td>과제 첨부파일</td>
 
 									<td><input type="file" name="rFile"></td>
@@ -58,7 +66,7 @@
 								class="saveBtn btn btn-primary me-1 mb-1 submitReport" th:if="${reportDetail.reportSubmissionOption == 'UNSUB'}"
 								>제출하기</button>
 							
-							<button type="button" th:if="${reportDetail.reportSubmissionOption == 'SUB'}"
+							<button type="submit" th:if="${reportDetail.reportSubmissionOption == 'SUB'}"
 								class="saveBtn btn btn-primary me-1 mb-1 modifyReport"
 								>수정하기</button>
 							<button type="button"
@@ -80,10 +88,6 @@
 
 			})
 
-			// 수정하기 버튼(수정 페이지로 이동)
-			$('.modifyReport').on("click", function() {
-
-			})
 
 			// courseCode 값 전송
 			$('#courseCode').val()
