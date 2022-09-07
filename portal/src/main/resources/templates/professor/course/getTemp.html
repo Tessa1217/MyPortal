@@ -23,6 +23,20 @@
 
 .hidden {
 	display: none;
+	
+	
+}
+
+#table12 thead{
+
+color : white;
+background-color : #768bd5 ;
+
+}
+
+#table12{
+
+text-align : center;
 }
 </style>
 </head>
@@ -45,7 +59,7 @@
 						<div class="card-header">
 							<h3>강의 계획서</h3>
 							<div align="center" style="margin:100px">
-							<table class="table">
+							<table class="table" id="table12">
 								<thead>
 									<tr>
 										<th>제출여부</th>
@@ -80,12 +94,11 @@
 											class="btn btn-secondary backReasonWhy" data-toggle="modal"
 											data-target="#backReasonWhy">비승인</button></td>
 										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
-												name="button1" class="btn btn-danger moddd"
+												name="button1" class="btn btn-primary moddd"
 												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
-												<td><button class="btn btn-warning deletee" th:data-coursecod="${tempcourse.courseCode}"
-									 th:disabled="${tempcourse.submitYes}=='SUB' or ${tempcourse.okayYes}=='A00'"
+											<td><button class="btn btn-danger deletee" th:data-coursecod="${tempcourse.courseCode}"
+									 th:disabled="${tempcourse.submitYes}=='SUB' and ${tempcourse.okayYes}=='A00' or ${tempcourse.okayYes}=='A01'"
 									 >삭제</button></td>
-									</tr>
 
 								</tbody>
 							</table>
@@ -234,8 +247,8 @@
 												type="button" class="btn btn-primary" id="mod" style="margin-right:30px;">수정하기</button>
 											<button type="button"
 												onclick="location.href='/professor/tempcourseList'"
-												class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-											<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
+												class="btn btn-secondary" style="margin-right:30px;">목록 보기</button>
+											<button type="reset" class="btn btn-dark" style="margin-right:30px;">취소</button>
 											
 										</div>
 
@@ -276,7 +289,7 @@
 
 									</thead>
 								</table> -->
-									<table class="table">
+									<table class="table" id="table12">
 										<thead>
 											<tr>
 												<th>주차</th>
@@ -367,17 +380,26 @@
 								<div class="card z-index-0 fadeIn3 fadeInBottom">
 									<div class="card-body">
 										<table class="table">
+										<div class="col-md-10 col-16">
 											<tr>
 												<th>비승인 사유</th>
+											
 											</tr>
-										
-										
+												
+												<br>
 											
 												
-												<tr>
-												<td id="backReason2"></td>
-												</tr>
+												</div>
+											<div class="col-md-10 col-16">
+											<tr>
+												<td id="backReason2" style="height:16em;"></td>
+												
 											
+												
+												
+												<!-- <td id="backReason3"></td> -->
+												</tr>
+											</div>
 										</table>
 									</div>
 								</div>

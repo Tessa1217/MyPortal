@@ -44,11 +44,7 @@ public class TempcourseController {
 	@RequestMapping("/professor/getTemp/{courseCode}")
 	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
 		vo = service.getTemp(courseCode);
-//		System.out.println(vo.getCourseCode());
-//		TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
-//		System.out.println(tempcourseTest);
-//		List<TempcourseweekVO> tempcourseweekList = service.getTempweek(vo.getCourseCode());
-//		System.out.println(tempcourseweekList);
+
 		
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);

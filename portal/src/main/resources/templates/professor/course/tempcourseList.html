@@ -3,17 +3,43 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/professor_layout}">
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+#table123 thead{
+
+color : white;
+/*  background-color : #94ADCF;  */
+ background-color : #768bd5 
+
+}
+
+#table123{
+
+text-align : center;
+}
+
+.card-body{
+
+background-color : white;
+}
+
+
+</style>
 </head>
+
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
 			<div>
 				<h2>강의 계획서 조회</h2>
 			</div>
-			<div class="card-body">
-				<form name="searchFrm" class="form-horizontal">
+			<br>
+			<br>
+			<br>
+			<form name="searchFrm" class="form-horizontal">
 					<select id="type" name="type">
 						<option value="course_year">개설연도</option>
 						<option value="course_semester">개설학기</option>
@@ -22,8 +48,12 @@
 
 				</form>
 				<br>
+				
+			<div class="card-body">
+				
 				<br>
-				<table class="table">
+				<br>
+				<table class="table" id="table123">
 					<thead>
 						<tr>
 							<th>년도</th>
@@ -69,46 +99,24 @@
 										class="btn btn-primary"></a></td>
 							<td><button th:disabled="${item.submitYes}=='SUB'"
 								
-									name="button1" class="btn btn-danger moddd"
+									name="button1" class="btn btn-primary moddd"
 									th:data-course="${item.courseCode}">제출하기</button></td>
 									
-									 <td><button class="btn btn-warning deletee" th:data-coursecod="${item.courseCode}"
-									 th:disabled="${item.submitYes}=='SUB' or ${item.okayYes}=='A00'"
+									 <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}"
+									 th:disabled="${item.submitYes}=='SUB' and ${item.okayYes}=='A00' or ${item.okayYes}=='A01'"
 									 >삭제</button></td>
 						</tr>
 
 					</tbody>
 				</table>
 				
-			<!-- 	 <nav aria-label="Page navigation example">
-            <ul class="pagination" style="place-content: center;">
-               <th:if test="${pageMaker.prev}">
-                  <li class="page-item"><a class="page-link" href="#"
-                     aria-label="Previous" onclick="goPage(${pageMaker.startPage-1})"
-                     
-                     >
-                        <span aria-hidden="true">&laquo;</span>
-                  </a></li>
-               </th:if>
-               <th:each begin="${pageMaker.startPage}" end="${pageMaker.endPage}"
-                  var="num">
-                  <li class="page-item"><a class="page-link" href="#"
-                     onclick="goPage(${num})">${num}</a></li>
-               </th:each>
-               <th:if test="${pageMaker.next}">
-                  <li class="page-item"><a class="page-link" href="#"
-                     aria-label="Next" onclick="goPage(${pageMaker.endPage+1})"> <span
-                        aria-hidden="true">&raquo;</span>
-                  </a></li>
-               </th:if>
-            </ul>
-         </nav> -->
+			
 				
 				
 				
 				<div align="right">
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
-				th:disabled="${bache.detailCode} == 'PROF00'" style="margin:5%;" >강의 계획서 등록</button>
+				th:disabled="${bache.detailCode} == 'PROF00'" style="margin-top:5%;" >강의 계획서 등록</button>
 					</div>
 			</div>
 		</div>
@@ -169,6 +177,11 @@
 				</div>
 			</div>
 		</div>
+
+
+  
+ 
+
 
 
 		<script th:inline="javascript">
