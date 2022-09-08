@@ -97,31 +97,34 @@
 	<!-- 학생 전체 조회(관리자) -->
 	<select id="studentList" resultType="com.project.portal.student.service.StudentVO">
 		select * 
-        from(select
+        from (                
+                select
                     ROWNUM r,
-                     i.student_id,
+                    i.student_id,
                     i.student_name,
                     i.student_phone,
                     i.student_gender,
-                    d.depart_name,
+                   s.depart_name,
                     s.student_grade, 
                     i.student_birth, 
                     s.student_status,
                     find_code(student_status) student_status_nm,
                     find_code(student_gender) student_gender_nm
                 from student_pri_info i
-                join student_study_info s
+                join (select rownum r, s.*,d.depart_name
+                        from student_study_info s
+                        join department d
+                        on s.department_code = d.depart_code) s
                 on i.student_id = s.student_id
-                join department d
-                on s.department_code = d.depart_code
 		<where>
 		
 		</where>
+		order by i.student_id asc
                 )
         <![CDATA[
-        WHERE R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
+        WHERE R BETWEEN (#{cri.pageNum}) * #{cri.amount} -9 AND #{cri.pageNum} * #{cri.amount}
         ]]>
-		order by student_id asc
+		
 	</select>
 	
 	<!-- 학생 정보 수정(학생) -->
