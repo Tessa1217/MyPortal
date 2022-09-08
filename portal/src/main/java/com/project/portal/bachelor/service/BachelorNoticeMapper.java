@@ -12,13 +12,13 @@ public interface BachelorNoticeMapper {
 	
 	List<BachelorNoticeVO> getNoticeList(@Param("notice") BachelorNoticeVO vo, 
 										@Param("cri") Criteria cri);
-	int getTotal();
+	int getTotal(Criteria cri);
 	void insertNotice(BachelorNoticeVO vo);
 	void updateNotice(BachelorNoticeVO vo);
 	void deleteNotice(BachelorNoticeVO vo);
 	BachelorNoticeFileVO getFile(BachelorNoticeVO vo);
 	void insertFile(BachelorNoticeFileVO vo);
-	void uploadFile(BachelorNoticeFileVO vo);
-	void deleteFile(BachelorNoticeFileVO vo);
+	void deleteFile(BachelorNoticeVO vo);
+	void hitIncrease(BachelorNoticeVO vo);
 
 }

@@ -8,54 +8,84 @@
 <body>
 	<th:block layout:fragment="scheduleContent">
 		<div id="main">
-			<div class="page-title">학사 공지사항</div>
+			<div class="page-title">
+				<h3>학사 공지사항</h3>
+			</div>
 			<div class="card">
-				<div class="card-body">
-					<table class="table">
+				<div class="card-body" style="height: 76vh;">
+					<th:block
+						th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
+						<form th:action="@{/{command}/notice(command = ${command})}"
+							method="GET">
+							<input type="hidden" name="pageNum" value="1">
+							<input type="hidden" name="amount" value="10">
+							<th:block th:with="cri = ${pageMaker.cri}">
+							<select class="form-select width-one inline" name="type">
+								<option value=""></option>
+								<option th:selected="${cri.type == 'number'}" value="number">번호</option>
+								<option th:selected="${cri.type == 'title'}" value="title">제목</option>
+								<option th:selected="${cri.type == 'content'}" value="content">내용</option>
+							</select> <input type="text" name="keyword"
+								th:value="${cri.keyword != null} ? ${pageMaker.cri.keyword} : ''"
+								class="form-control width-three inline">
+							<button type="submit" class="inline btn btn-sm btn-primary">검색</button>
+							</th:block>
+						</form>
+					</th:block>
+					<table class="table table-hover table-margin">
 						<thead>
 							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<th>수정일</th>
-								<th>상세보기</th>
+								<th class="center">번호</th>
+								<th class="center width-three">제목</th>
+								<th class="center">작성일</th>
+								<th class="center">수정일</th>
+								<th class="center">공개</th>
+								<th class="center">조회수</th>
 							</tr>
 						</thead>
 						<tbody>
-							<th:block th:each="notice, idx : ${noticeList}">
-								<tr th:object="${notice}">
-									<td th:text="${#strings.replace(notice.noticeNo, '0', '')}"></td>
+							<th:block th:each="notice, idx : ${noticeList}"
+							th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
+								<tr th:object="${notice}" th:onclick="|location.href='@{/{command}/detailNotice/{noticeNo}(command = ${command}, noticeNo = ${notice.noticeNo})}'|">
+									<td class="center" th:text="${notice.noticeNo}"></td>
 									<td th:text="*{noticeTitle}"></td>
-									<td th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
-									<td
-										th:text="${noticeModDate} != null ? ${#dates.format(noticeModDate, 'yyyy-MM-dd')} : '-'"></td>
-									<th:block th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
-									<td><button type="button"
-											class="btn btn-primary btn-sm rounded-pill" th:onclick="|location.href='@{/{command}/detailNotice/{noticeNo}(command = ${command}, noticeNo = ${notice.noticeNo})}'|">상세보기</button></td>
+									<td class="center"
+										th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
+									<td class="center"
+										th:text="*{noticeModDate} != null ? ${#dates.format(notice.noticeModDate, 'yyyy-MM-dd')} : '-'"></td>
+									<th:block th:each="open : ${codeMap.get('O01')}">
+									<td th:class="center" th:if="${open.detailCode == notice.noticePrivate}" th:text="${open.detailName}"></td>
 									</th:block>
+									<td class="center" th:text="${notice.noticeHit}"></td>
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
-					<div th:object="${pageMaker}">
+					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
 						<ul class="pagination justify-content-center">
-						<th:block th:if="${pageMaker.prev}">
-   						 <li class="page-item prev">
-        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.startPage - 1)}]])">이전</a>
-   						 </li>
-						</th:block>
-						<th:block th:with="pageMaker = ${pageMaker}">
-				    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-				        <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(num, pageMaker.cri.amount)}]])"></a>
-				        </li>
-				    </th:block>
-				    <th:block th:if="${pageMaker.next}">
-					    <li class="page-item next">
-					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.endPage + 1)}]])">다음</a>
-					    </li>
-						</th:block>
-						</th:block>
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
 						</ul>
 					</div>
 				</div>
@@ -63,10 +93,7 @@
 		</div>
 
 		<script th:inline="javascript">
-		$(function() {
-			movePagination(uri, queryString);
-		})
-		
+			
 		</script>
 	</th:block>
 </body>

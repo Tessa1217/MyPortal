@@ -8,15 +8,94 @@
 <body>
 	<th:block layout:fragment="scheduleContent">
 		<div id="main">
+			<div class="page-title">
+				<h3>공지사항</h3>
+				<div align="right" th:with="user = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
+						<button class="btn btn-primary btn-sm" th:onclick="|location.href='@{/{user}/notice(user = ${user})}'|">공지사항 목록</button>
+					</div>
+			</div>
 			<div class="card">
-				<div class="card-header">
-					<h4 th:text="${notice.noticeTitle}"></h4>
-				</div>
 				<div class="card-body">
-					<p th:utext="${notice.noticeContent}"></p>
+					<table class="table table-bordered mb-0">
+						<tbody>
+							<tr>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
+								<td th:text="${notice.noticeTitle}" colspan="3"></td>
+							</tr>
+							<tr>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">작성일자</td>
+								<td th:text="${#dates.format(notice.noticePostDate, 'yyyy/MM/dd')}" colspan="1"></td>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">수정일자</td>
+								<td th:text="${notice.noticeModDate != null} ? ${#dates.format(notice.noticeModDate, 'yyyy/MM/dd')} : '-'"colspan="1">1004</td>
+							</tr>
+							<tr>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">조회</td>
+								<th:block th:each="code : ${codeMap.get('S01')}">
+									<td th:if="${notice.noticeDivision == code.detailCode}"
+									th:text="${code.detailName}" colspan="1"></td>
+								</th:block>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
+								<td th:text="${notice.noticeHit}"colspan="1"></td>
+							</tr>
+							<tr>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
+								<td th:if="${notice.noticeFileCode != null} "colspan="4">
+									<a th:text="${notice.noticeFile.noticeFileName}" 
+									th:href="@{/notice/download/{noticeFileCode}(noticeFileCode = ${notice.noticeFileCode})}">
+									</a>
+								</td>
+								<td th:unless="${notice.noticeFileCode != null}"colspan="4">-</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="content" style="margin-top: 2.5rem;height: 43vh;overflow:scroll;">
+						<div th:utext="${notice.noticeContent}"></div>
+					</div>
+
+					<hr>
+					<div th:if="${command == 3}" align="center">
+						<button th:onclick="|location.href='@{/admin/updateNotice/{noticeNo}(noticeNo = ${notice.noticeNo})}'|" class="btn btn-primary">수정</button>
+						<button type="button" class="btn btn-danger" th:onclick="deleteNotice()">삭제</button>
+					</div>
 				</div>
+				<form id="form">
+					<input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
+					<input th:if="${notice.noticeFileCode != null}"
+					type="hidden" name="noticeFileCode" th:value="${notice.noticeFileCode}">
+				</form>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			function deleteNotice() {
+				fireSwal('info', '공지사항을 삭제하시겠습니까?')
+				.then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							method : 'DELETE',
+							url : `/admin/deleteNotice`,
+							data : $("#form").serialize(),
+							success : function(result) {
+								if (result == 'success') {
+									fireSwal('success', '삭제가 완료되었습니다.')
+										.then((result) => {
+											if (result.isConfirmed) {
+												location.href=`/admin/notice`
+											}
+										})
+								}
+							}
+						})
+					}
+				})
+			}
+		</script>
 	</th:block>
 </body>
 </html>

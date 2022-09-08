@@ -22,9 +22,8 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	public List<BachelorNoticeVO> getNoticeList(BachelorNoticeVO vo, Criteria cri) {
 		List<BachelorNoticeVO> noticeList = mapper.getNoticeList(vo, cri);
 		for (BachelorNoticeVO notice : noticeList) {
-			if (notice.getNoticeFile() != null) {
-				BachelorNoticeFileVO file = mapper.getFile(vo);
-				notice.setNoticeFile(file);
+			if (notice.getNoticeFileCode() != null) {
+				notice.setNoticeFile(mapper.getFile(notice));
 			}
 		}
 		return noticeList;
@@ -33,23 +32,31 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	@Override
 	@Transactional
 	public void insertNotice(BachelorNoticeVO vo) {
-		mapper.insertNotice(vo);
 		if (vo.getNoticeFile() != null) {
 			mapper.insertFile(vo.getNoticeFile());
 		}
+		vo.setNoticeFileCode(vo.getNoticeFile().getNoticeFileCode());
+		mapper.insertNotice(vo);
 	}
 
 	@Override
 	@Transactional
-	public void updateNotice(BachelorNoticeVO vo) {
+	public void updateNotice(BachelorNoticeVO vo, BachelorNoticeFileVO file) {
+		if (vo.getNoticeFileCode() != null) {
+			mapper.deleteFile(vo);
+		}
+		mapper.insertFile(file);
+		vo.setNoticeFileCode(file.getNoticeFileCode());
+		System.out.println(vo);
 		mapper.updateNotice(vo);
-		mapper.uploadFile(vo.getNoticeFile());
 	}
 
 	@Override
 	@Transactional
 	public void deleteNotice(BachelorNoticeVO vo) {
-		mapper.deleteFile(vo.getNoticeFile());
+		if (vo.getNoticeFileCode() != null) {
+			mapper.deleteFile(vo);
+		}
 		mapper.deleteNotice(vo);
 	}
 
@@ -64,8 +71,13 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	}
 
 	@Override
-	public int getTotal() {
-		return mapper.getTotal();
+	public int getTotal(Criteria cri) {
+		return mapper.getTotal(cri);
+	}
+
+	@Override
+	public void hitIncrease(BachelorNoticeVO vo) {
+		mapper.hitIncrease(vo);
 	}
 
 }

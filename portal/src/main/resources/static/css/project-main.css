@@ -1,7 +1,31 @@
+#headNav {
+	height: 60px;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+	width: 100%;
+	padding: 0% 3%;
+	box-shadow: 0px 5px 21px -5px #CDD1E1;
+}
+
+.table-hover {
+	cursor: pointer;
+}
+
+.originalFileBox {
+	border: 1px solid #ddd; 
+	padding: 1%;
+	margin-bottom:0;
+}
+
+.table-margin {
+	margin-top: 5%;
+}
+
 .page-title {
 	margin-left: 1%;
-	margin-top: 1%;
-	margin-bottom: 3%;
+	margin-top: 4.5%;
+	margin-bottom: 1.5%;
 }
 
 .lecture-title {
@@ -257,6 +281,10 @@ input[name=examQuestionPoint] {
 	width: 30%;
 }
 
+.width-four {
+	width: 40%;
+}
+
 .width-five {
 	width: 50%;
 }
@@ -279,6 +307,30 @@ input[name=examQuestionPoint] {
 
 .formrow div {
 	margin-bottom: 1%;
+}
+
+.height-ten {
+	height: 100vh;
+}
+
+.height-nine {
+	height: 90vh;
+}
+
+.height-eight {
+	height: 80vh;
+}
+
+.height-seven {
+	height: 70vh;
+}
+
+.height-six {
+	height: 60vh;
+}
+
+.height-five {
+	height: 50vh;
 }
 
 #bookmark {

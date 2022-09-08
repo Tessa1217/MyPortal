@@ -14,6 +14,7 @@ public class BachelorNoticeVO {
 	private Date noticePostDate;
 	private Date noticeModDate;
 	private String noticeFileCode;
+	private int noticeHit;
 	private BachelorNoticeFileVO noticeFile;
 	
 }

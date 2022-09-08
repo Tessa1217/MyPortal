@@ -19,15 +19,15 @@ import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.web.myCourseController;
 import com.project.portal.myquestion.service.myQuestionAnswerVO;
-import com.project.portal.myquestion.service.myQuestionService;
 import com.project.portal.myquestion.service.myQuestionVO;
+import com.project.portal.myquestion.service.impl.myQuestionServiceImpl;
 
 @Controller
 public class myQuestionController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 	
 	@Autowired
-	myQuestionService service;
+	myQuestionServiceImpl service;
 	@Autowired CourseServiceImpl courseService;
 	@Autowired
 	BachelorNoticeServiceImpl Bservice;
@@ -47,7 +47,7 @@ public class myQuestionController {
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
 		//페이지
-		model.addAttribute("pageMaker", new PageDTO(Bservice.getTotal(),  cri.getAmount(), cri));
+		//model.addAttribute("pageMaker", new PageDTO(Bservice.getTotal(cri),  cri.getAmount(), cri));
 		return "student/eclass/question/courseQuestion";
 	}
 	

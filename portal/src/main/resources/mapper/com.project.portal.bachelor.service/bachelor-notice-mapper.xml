@@ -3,81 +3,148 @@
 <mapper
 	namespace="com.project.portal.bachelor.service.BachelorNoticeMapper">
 	<select id="getNoticeList" resultType="BachelorNoticeVO">
-			SELECT
-				notice_no,
-				notice_title,
-				notice_content,
-				notice_private,
-				notice_division,
-				notice_post_date,
-				notice_mod_date,
-				notice_file_code
-				FROM (SELECT /*+ INDEX_DESC(BACHELOR_NOTICE B_NOTICE_PK) */ 
-										ROWNUM r, 
-										notice_no, 
-										notice_title,
-										notice_content,
-										notice_private,
-										notice_division,
-										notice_post_date,
-										notice_mod_date,
-										notice_file_code
-										FROM bachelor_notice
-										<if test="notice.noticeNo != null and notice.noticeNo != ''">
-											WHERE notice_no = #{notice.noticeNo}
-										</if>
-						)
-						<where>
-						<if test="cri != null and cri != ''">
-							<if test="cri.pageNum != null and cri.pageNum != 0">
-								AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
-							</if>
-						</if>
-						</where>
+		SELECT
+		TO_NUMBER(notice_no) notice_no,
+		notice_title,
+		notice_content,
+		notice_private,
+		notice_division,
+		notice_post_date,
+		notice_mod_date,
+		notice_file_code,
+		notice_hit
+		FROM (SELECT /*+ INDEX_DESC(BACHELOR_NOTICE B_NOTICE_PK) */
+		ROWNUM r,
+		notice_no,
+		notice_title,
+		notice_content,
+		notice_private,
+		notice_division,
+		notice_post_date,
+		notice_mod_date,
+		notice_file_code,
+		notice_hit
+		FROM bachelor_notice
+		<where>
+		<if test="notice.noticeNo != null and notice.noticeNo != ''">
+			AND notice_no = LPAD(#{notice.noticeNo}, 8, '0')
+		</if>
+		<if test="cri != null and cri != ''">
+				<if test="cri.type != null and cri.type != ''">
+					<if test="cri.type == 'title'">
+						AND notice_title LIKE '%'||#{cri.keyword}||'%'
+					</if>
+					<if test="cri.type == 'content'">
+						AND notice_content LIKE '%'||#{cri.keyword}||'%'
+					</if>
+					<if test="cri.type == 'number'">
+						AND notice_no = LPAD(#{cri.keyword}, 8, '0')
+					</if>
+				</if>
+			</if>
+			</where>
+		)
+		<where>
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != 0">
+					AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum}
+					* #{cri.amount}
+				</if>
+			</if>
+		</where>
 	</select>
-	<select id="getTotal" resultType="int">
+	
+	<select id="getTotal" parameterType="com.project.portal.common.Criteria" resultType="int">
 		SELECT COUNT(*)
-			FROM bachelor_notice
+		FROM bachelor_notice
+		<where>
+			<if test="type != null and type != ''">
+				<if test="type == 'title'">
+					AND notice_title LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="type == 'content'">
+					AND notice_content LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="type == 'number'">
+					AND notice_no = LPAD(#{keyword}, 8, '0')
+				</if>
+			</if>
+		</where>
 	</select>
 	<insert id="insertFile">
-		<selectKey keyProperty="noticeFileCode" resultType="String" order="BEFORE">
+		<selectKey keyProperty="noticeFileCode" resultType="String"
+			order="BEFORE">
 			SELECT 'NF'||LPAD(TO_CHAR(notice_file_seq.NEXTVAL), 18, '0')
-				FROM dual
+			FROM dual
 		</selectKey>
-		INSERT INTO BACHELOR_NOTICE_FILE
-			VALUES (#{noticeFileCode}, 
-							#{noticeFileName},
-							#{noticeFileStoredName},
-							#{noticeFileExtension},
-							#{noticeFilePath}) 
-	</insert> 
+			INSERT INTO BACHELOR_NOTICE_FILE
+			VALUES (#{noticeFileCode},
+			#{noticeFileName},
+			#{noticeFileStoredName},
+			#{noticeFileExtension},
+			#{noticeFilePath})
+	</insert>
 	<insert id="insertNotice">
-		<selectKey keyProperty="noticeNo" resultType="String" order="BEFORE">
+		<selectKey keyProperty="noticeNo" resultType="String"
+			order="BEFORE">
 			SELECT LPAD(TO_CHAR(NOTICE_SEQ.NEXTVAL), 8, '0')
-				FROM dual
+			FROM dual
 		</selectKey>
 		INSERT INTO BACHELOR_NOTICE(
-																notice_no,
-																notice_title,
-																notice_content,
-																notice_private,
-																notice_division,
-																notice_post_date,
-																notice_mod_date,
-																notice_file_code,
-																notice_hit	
-																)
-				
-			VALUES (
-							#{noticeNo},
-							#{noticeTitle},
-							#{noticeContent},
-							#{noticePrivate},
-							#{noticeDivision},
-							SYSDATE,
-							NULL,
-							#{noticeFileCode},
-							0
-							)
+		notice_no,
+		notice_title,
+		notice_content,
+		notice_private,
+		notice_division,
+		notice_post_date,
+		notice_mod_date,
+		notice_file_code,
+		notice_hit
+		)
+
+		VALUES (
+		#{noticeNo},
+		#{noticeTitle},
+		#{noticeContent},
+		#{noticePrivate},
+		#{noticeDivision},
+		SYSDATE,
+		NULL,
+		#{noticeFileCode},
+		0
+		)
 	</insert>
+	<select id="getFile" resultType="BachelorNoticeFileVO">
+		SELECT 
+			notice_file_code,
+			notice_file_name,
+			notice_file_stored_name,
+			notice_file_extension,
+			notice_file_path
+			FROM bachelor_notice_file
+			WHERE notice_file_code = #{noticeFileCode}
+	</select>
+	<update id="updateNotice">
+		UPDATE bachelor_notice
+			SET notice_title = #{noticeTitle},
+			notice_mod_date = SYSDATE,
+			notice_content = #{noticeContent},
+			notice_private = #{noticePrivate},
+			notice_division = #{noticeDivision},
+			notice_file_code = #{noticeFileCode}
+			WHERE notice_no = LPAD(#{noticeNo}, 8, '0')
+	</update>
+	<delete id="deleteFile">
+		DELETE FROM bachelor_notice_file
+			WHERE notice_file_code = #{noticeFileCode}
+	</delete>
+	<delete id="deleteNotice">
+		DELETE FROM bachelor_notice
+			WHERE notice_no = LPAD(#{noticeNo}, 8, '0')
+	</delete>
+	<update id="hitIncrease">
+		UPDATE bachelor_notice
+			SET notice_hit = notice_hit + 1
+			WHERE notice_no = LPAD(#{noticeNo}, 8, '0')
+	</update>
 </mapper>

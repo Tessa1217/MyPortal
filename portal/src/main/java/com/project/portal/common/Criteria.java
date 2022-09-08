@@ -30,6 +30,15 @@ public class Criteria {
 		return builder.toUriString();
 	}
 	
+	public String getLink(int pageNum, int amount, String type, String keyword) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+			.queryParam("pageNum", pageNum)
+			.queryParam("amount", amount)
+			.queryParam("type", type)
+			.queryParam("keyword", keyword);
+		return builder.toUriString();
+	}
+	
 	public String[] getTypeArr() {
 		return type == null ? new String[] {} : type.split("");
 	}

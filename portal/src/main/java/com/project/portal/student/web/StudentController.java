@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
 import com.project.portal.common.PageDTO;
-import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
-import com.project.portal.student.service.StudentService;
+import com.project.portal.common.service.impl.CodeServiceImpl;
 import com.project.portal.student.service.StudentVO;
+import com.project.portal.student.service.impl.StudentServiceImpl;
 import com.project.portal.tempcourse.web.TempcourseController;
 
 // 작성자: 김진형
@@ -37,8 +37,8 @@ public class StudentController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
 	
-	@Autowired StudentService service;
-	@Autowired CodeService codeService;
+	@Autowired StudentServiceImpl service;
+	@Autowired CodeServiceImpl codeService;
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
@@ -82,9 +82,11 @@ public class StudentController {
 	//학생 정보 수정(학생)
 	@RequestMapping("/student/studentInfoUpdate")
 	@ResponseBody
-	public StudentVO StudentInfoUpdate(StudentVO vo, Model model) {
+	public StudentVO StudentInfoUpdate(StudentVO vo, 
+										Model model,
+										HttpSession session) {
 		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
-		vo.setStudentId(22000001);
+		vo.setStudentId((int) session.getAttribute("id"));
 		return service.studentInfoUpdate(vo);
 	}
 	
