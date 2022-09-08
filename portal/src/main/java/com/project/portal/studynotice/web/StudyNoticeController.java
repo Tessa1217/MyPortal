@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.studynotice.service.StudyNoticeFileVO;
@@ -52,13 +54,12 @@ public class StudyNoticeController {
 
 	// 학생 강의 공지사항 조회
 	@RequestMapping("/student/eclass/eclassnotice")
-	public String selectStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model, HttpSession session) {
+	public String selectStudyNoticeList(StudyNoticeVO vo, Criteria cri, Model model, HttpSession session) {
 		
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
-		// List<StudyNoticeVO> studyNoticeList = service.selectStudyNoticeList(vo);
-		// System.out.println(studyNoticeList);
-
-		model.addAttribute("studyNoticeList", service.selectStudyNoticeList(vo));
+		
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), cri.getAmount(), cri));
+		model.addAttribute("studyNoticeList", service.selectStudyNoticeList(vo, cri));
 		return "student/eclass/notice/eclassnotice";
 	}
 

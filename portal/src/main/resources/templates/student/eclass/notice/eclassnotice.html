@@ -68,18 +68,39 @@ td {
 							</tr>
 						</tbody>
 					</table>
+						<div th:object="${pageMaker}">
+						<ul class="pagination justify-content-center">
+						<th:block th:if="${pageMaker.prev}">
+   						 <li class="page-item prev">
+        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.startPage - 1)}]])">이전</a>
+   						 </li>
+						</th:block>
+						<th:block th:with="pageMaker = ${pageMaker}">
+				    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+				        <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(num, pageMaker.cri.amount)}]])"></a>
+				        </li>
+				    </th:block>
+				    <th:block th:if="${pageMaker.next}">
+					    <li class="page-item next">
+					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.endPage + 1)}]])">다음</a>
+					    </li>
+						</th:block>
+						</th:block>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 
 
 		<script th:inline="javascript">
-		frmsearch.searchType.value = [[${search.searchType}]]
-		frmsearch.search.value = [[${search.search}]]
+		//frmsearch.searchType.value
+		//frmsearch.search.value
 		
 		
 		
-		  $(document).ready(function() {
+	/* 	  $(document).ready(function() {
 	          $('#tablepaging').DataTable({
 	            paging:true, //paging 처리
 	            searching:false, //검색 여부
@@ -92,7 +113,7 @@ td {
 	              zeroRecords: "검색 결과가 없습니다."
 	            }
 	          });
-	      });
+	      }); */
 		</script>
 
 

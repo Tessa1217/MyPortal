@@ -3,14 +3,47 @@
 <mapper
 	namespace="com.project.portal.studynotice.service.StudyNoticeMapper">
 	
-	<select id="selectStudyNoticeList" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
-		SELECT *
+	<select id="getTotal" resultType="integer">
+		SELECT count(*) AS notice_count
 		  FROM COURSE_NOTICE
 		 WHERE COURSE_CODE = #{courseCode}
 		 <if test="search != null and search !=''">
-				AND ${searchType} like '%'|| #{search} || '%'
-			</if>
-		ORDER BY 1 DESC
+							AND ${searchType} like '%'|| #{search} || '%'
+		</if>
+	
+	</select>
+	
+	<select id="selectStudyNoticeList" resultType="com.project.portal.studynotice.service.StudyNoticeVO">
+
+		
+		   select *
+     from (
+        SELECT a.*, ROWNUM notice_no
+		  FROM (SELECT 
+                       course_notice_no,
+                       course_code,
+                       course_notice_title,
+                       course_notice_content,
+                       course_notice_reg_date,
+                       course_notice_update_date,
+                       course_notice_attached_filename,
+                       course_notice_hit
+                       FROM course_notice
+                       WHERE COURSE_CODE = #{notice.courseCode}
+                        <if test="notice.search != null and notice.search !=''">
+							AND ${searchType} like '%'|| #{notice.search} || '%'
+						</if>
+                       ORDER BY 1 DESC
+                        ) a
+              
+                  )
+                   <where>
+						<if test="cri != null and cri != ''">
+							<if test="cri.pageNum != null and cri.pageNum != 0">
+								AND notice_no BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
+							</if>
+						</if>
+						</where>
 			
 	</select>
 	

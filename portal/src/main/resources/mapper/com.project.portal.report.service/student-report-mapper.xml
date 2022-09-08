@@ -62,56 +62,53 @@
 
 
 	<select id="getReportList" resultMap="reportMap">
-		select a.*, ROWNUM report_no
- 
-		from (       select 
-		ROWNUM report_no,
-		ri.report_code,
-		ri.week_code,
-		ri.report_title,
-		ri.report_start_date,
-		ri.report_end_date,
-		s.student_id,
-		s.report_score,
-		s.report_submission_option,
-		ri.report_file_code,
-        s.report_submission_code,
-        f.report_file_name,
-        f.report_file_path,
-        o.report_score_objection_approval_option,
-         w.week_num
- 
-		from report_info ri join report_submission s
-		on ri.report_code = s.report_code
-            join report_file f
-        on f.report_file_code = ri.report_file_code
-           left outer join report_score_objection o
-               on o.report_submission_code = s.report_submission_code
-               join course_weekly w
-               on w.week_code = ri.week_code
-
-		<where>
-			<if test="courseInfo.studentId != null and courseInfo.studentId != ''">
-				AND s.student_id = #{courseInfo.studentId}
-			</if>
-			<if test="courseInfo.courseCode != null and courseInfo.courseCode != ''">
-				AND r.course_code = #{courseInfo.courseCode}
-			</if>
-			<if test="report.reportCode != null and report.reportCode != ''">
-				AND r.report_code = #{report.reportCode}
-			</if>
-			<if test="courseInfo.weekNum != null and courseInfo.weekNum != ''">
-				AND w.week_num = #{courseInfo.weekNum}
-			</if>
-			<![CDATA[AND ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
-		</where>
-		
-		  ORDER BY 14 DESC
-		) a
-		
-		WHERE ROWNUM > (#{cri.pageNum} - 1) * #{cri.amount}
-		
-		      
+		select * from (
+		select a.* ,  ROWNUM report_no
+        FROM (select 
+                        r.report_code,
+                        r.week_code,
+                        r.report_title,
+                        r.report_start_date,
+                        r.report_end_date,
+                        s.student_id,
+                        s.report_score,
+                        s.report_submission_option,
+                        r.report_file_code,
+                        s.report_submission_code,
+                        f.report_file_name,
+                        f.report_file_path,
+                        o.report_score_objection_approval_option,
+                         w.week_num
+                        
+                    from report_info r 
+                    join report_submission s
+                    on r.report_code = s.report_code
+                    join report_file f
+                    on f.report_file_code = r.report_file_code
+                    left outer join report_score_objection o
+                    on o.report_submission_code = s.report_submission_code
+                    join course_weekly w
+                    on w.week_code = r.week_code
+                   <where>
+						<if test="courseInfo.studentId != null and courseInfo.studentId != ''">
+							AND s.student_id = #{courseInfo.studentId}
+						</if>
+						<if test="courseInfo.courseCode != null and courseInfo.courseCode != ''">
+							AND r.course_code = #{courseInfo.courseCode}
+						</if>
+						<if test="report.reportCode != null and report.reportCode != ''">
+							AND r.report_code = #{report.reportCode}
+						</if>
+						<if test="courseInfo.weekNum != null and courseInfo.weekNum != ''">
+							AND w.week_num = #{courseInfo.weekNum}
+						</if>
+					</where>
+                    
+                    ORDER BY 14 DESC) a
+               
+               where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
+              )
+              	WHERE report_no > (#{cri.pageNum} - 1) * #{cri.amount}
 	</select>
 
 	<select id="getReportDetail" resultType="ReportVO">

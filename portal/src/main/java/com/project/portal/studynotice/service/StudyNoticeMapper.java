@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.project.portal.common.Criteria;
 
@@ -11,7 +12,7 @@ import com.project.portal.common.Criteria;
 public interface StudyNoticeMapper {
 
 	// 학생 강의 공지사항 조회
-	public List<StudyNoticeVO> selectStudyNoticeList(StudyNoticeVO vo);
+	public List<StudyNoticeVO> selectStudyNoticeList(@Param("notice")StudyNoticeVO vo, @Param("cri") Criteria cri);
 	// 교수 강의 공지사항 조회
 	public List<StudyNoticeVO> selectProStudyNoticeList(StudyNoticeVO vo);
 	// 공지사항 상세 조회
@@ -36,6 +37,8 @@ public interface StudyNoticeMapper {
 	public StudyNoticeFileVO filedownload(String groupNo);
 	// 공지사항 조회수 업데이트
 	public void updateHit(String hit);
+	// 공지사항 게시글 개수 카운트
+	public int getTotal(StudyNoticeVO vo);
 
 	
 	

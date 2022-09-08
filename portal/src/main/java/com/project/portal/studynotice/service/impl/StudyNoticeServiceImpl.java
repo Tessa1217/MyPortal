@@ -19,9 +19,9 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	@Autowired StudyNoticeMapper mapper;
 	
 	@Override
-	public List<StudyNoticeVO> selectStudyNoticeList(StudyNoticeVO vo) {
+	public List<StudyNoticeVO> selectStudyNoticeList(StudyNoticeVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.selectStudyNoticeList(vo);
+		return mapper.selectStudyNoticeList(vo , cri);
 	}
 
 	@Override
@@ -117,7 +117,14 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	@Override
 	public void updateHit(String hit) {
 		// TODO Auto-generated method stub
-		mapper.updateHit(hit);;
+		mapper.updateHit(hit);
+	}
+
+	@Override
+	// 공지사항 게시글 개수 카운트
+	public int getTotal(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(vo);
 	}
 
 
