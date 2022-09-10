@@ -22,8 +22,8 @@ public class StudyNoticeVO {
 	
 	private int courseNoticeHit; // 공지사항 조회 수
 	private String professorName; // 교수이름
-	private String searchType; // 검색타입
-	private String search; // 검색 값
+	private String type; // 검색타입
+	private String keyword; // 검색 값
 	private String groupNo; // 파일 그룹번호
 	
 	

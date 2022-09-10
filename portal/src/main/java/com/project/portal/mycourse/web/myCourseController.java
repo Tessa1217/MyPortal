@@ -98,6 +98,7 @@ public class myCourseController {
 									HttpSession session) {
 		CourseVO course = new CourseVO();
 		course.setCourseCode(courseCode);
+		session.setAttribute("courseCode", courseCode);
 		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);

@@ -47,7 +47,6 @@ public class myQuestionController {
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
 		//페이지
-		//model.addAttribute("pageMaker", new PageDTO(Bservice.getTotal(cri),  cri.getAmount(), cri));
 		return "student/eclass/question/courseQuestion";
 	}
 	

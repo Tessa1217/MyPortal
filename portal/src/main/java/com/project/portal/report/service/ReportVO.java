@@ -25,6 +25,7 @@ public class ReportVO {
 	private ReportFileVO reportFile; //  과제파일
 	private String courseCode;  // 강의 코드
 	private int weekNum; // 주차
+	private String type;
 	private String reportSubmissionOption;// 과제 제출 여부
 	private int studentId;
 	private String reportSubmissionCode; // 과제 제출 코드

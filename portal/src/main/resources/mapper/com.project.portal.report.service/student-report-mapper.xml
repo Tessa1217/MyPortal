@@ -99,8 +99,8 @@
 						<if test="report.reportCode != null and report.reportCode != ''">
 							AND r.report_code = #{report.reportCode}
 						</if>
-						<if test="courseInfo.weekNum != null and courseInfo.weekNum != ''">
-							AND w.week_num = #{courseInfo.weekNum}
+						<if test="courseInfo.type != null and courseInfo.type != ''">
+							AND w.week_num = #{courseInfo.type}
 						</if>
 					</where>
                     

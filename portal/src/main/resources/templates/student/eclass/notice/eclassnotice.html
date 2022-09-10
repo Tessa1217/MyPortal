@@ -35,14 +35,18 @@ td {
 			<hr>
 			<div class="card">
 				<div class="card-body">
-					<form name="frmsearch">
-						<select id="searchType" name="searchType">
-							<option value="course_Notice_No" selected>번호</option>
-							<option value="course_Notice_Title">제목</option>
-							<option value="course_Notice_Content">내용</option>
-						</select> <input type="text" name="search" id="search">
-						<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
-						<button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button>
+					<form name="searchForm">
+						<select id="type" name="type">
+							<option value="">--</option>
+							<option th:selected="${pageMaker.cri.type} == 'course_Notice_No'" value="course_Notice_No">번호</option>
+							<option th:selected="${pageMaker.cri.type} == 'course_Notice_Title'" value="course_Notice_Title">제목</option>
+							<option th:selected="${pageMaker.cri.type} == 'course_Notice_Content'" value="course_Notice_Content">내용</option>
+						</select> 
+						<input type="text" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}">
+						<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+						<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
+						<!-- <button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button> -->
 					</form>
 
 
@@ -72,18 +76,18 @@ td {
 						<ul class="pagination justify-content-center">
 						<th:block th:if="${pageMaker.prev}">
    						 <li class="page-item prev">
-        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.startPage - 1)}]])">이전</a>
+        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.startPage - 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">이전</a>
    						 </li>
 						</th:block>
 						<th:block th:with="pageMaker = ${pageMaker}">
 				    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
 				        <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(num, pageMaker.cri.amount)}]])"></a>
+				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(num, pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])"></a>
 				        </li>
 				    </th:block>
 				    <th:block th:if="${pageMaker.next}">
 					    <li class="page-item next">
-					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getListLink(pageMaker.endPage + 1)}]])">다음</a>
+					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.endPage + 1, pageMaker.cri.type, pageMaker.cri.amount, pageMaker.cri.keyword)}]])">다음</a>
 					    </li>
 						</th:block>
 						</th:block>
@@ -98,6 +102,22 @@ td {
 		//frmsearch.searchType.value
 		//frmsearch.search.value
 		
+		
+		
+		// 폼 예외 처리
+
+	 	$('.search').on("click" , function() {
+			if($("option:selected").val() == null || $("option:selected").val() == '') {
+				alert("검색 종류를 선택하세요");
+				return false;
+			}
+			if($('input[name=keyword]').val() == null || $('input[name=keyword]').val() == '') {
+				alert("키워드를 입력하세요")
+				return false;
+			}
+			$('input[name=pageNum]').val('1')
+			searchForm.submit()
+		}) 
 		
 		
 	/* 	  $(document).ready(function() {
