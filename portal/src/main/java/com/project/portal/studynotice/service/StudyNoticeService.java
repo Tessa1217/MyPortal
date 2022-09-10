@@ -13,7 +13,7 @@ public interface StudyNoticeService {
 	// 학생 강의 공지사항 조회
 	public List<StudyNoticeVO> selectStudyNoticeList(@Param("notice")StudyNoticeVO vo, @Param("cri") Criteria cri);
 	// 교수 강의 공지사항 조회
-	public List<StudyNoticeVO> selectProStudyNoticeList(StudyNoticeVO vo);
+	public List<StudyNoticeVO> selectProStudyNoticeList(@Param("notice")StudyNoticeVO vo, @Param("cri") Criteria cri);
 	// 공지사항 상세 조회
 	public StudyNoticeVO selectDetailStudyNotice(StudyNoticeVO vo);
 	// 교수 공지사항 상세 조회

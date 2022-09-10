@@ -4,6 +4,9 @@ import java.util.List;
 
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.project.portal.common.Criteria;
 @Mapper
 public interface myQuestionMapper {
 	// 학생 질문 조회
@@ -13,10 +16,11 @@ public interface myQuestionMapper {
 	
 	
 	// 교수 질문 조회
-	public List<myQuestionVO> getProfMyQuestion(myQuestionVO vo);
+	public List<myQuestionVO> getProfMyQuestion(@Param("myQuestion") myQuestionVO vo , @Param("cri") Criteria cri);
 	
 	
-	
+	//교수 질문 개수
+	public int getProfTotal(String courseCode);
 	// 학생 질문 상세 조회
 	public myQuestionVO getStuMyQuestionDetail(String questionNum);
 	// 교수 질문 상세 조회

@@ -55,9 +55,9 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	}
 
 	@Override
-	public List<StudyNoticeVO> selectProStudyNoticeList(StudyNoticeVO vo) {
+	public List<StudyNoticeVO> selectProStudyNoticeList(StudyNoticeVO vo , Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.selectProStudyNoticeList(vo);
+		return mapper.selectProStudyNoticeList(vo, cri);
 	}
 
 	@Override

@@ -79,11 +79,11 @@ public class StudyNoticeController {
 
 	// 교수 강의 공지사항 조회
 	@RequestMapping("/professor/eclass/eclassnotice")
-	public String selectProStudyNoticeList(@ModelAttribute("search") StudyNoticeVO vo, Model model, HttpSession session) {
+	public String selectProStudyNoticeList(StudyNoticeVO vo, Criteria cri, Model model, HttpSession session) {
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 
-		model.addAttribute("studyNoticeList", service.selectProStudyNoticeList(vo));
-
+		model.addAttribute("studyNoticeList", service.selectProStudyNoticeList(vo, cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), cri.getAmount(), cri));
 		return "professor/eclass/notice/eclassnotice";
 	}
 

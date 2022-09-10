@@ -47,15 +47,17 @@ public class myQuestionController {
 		//질문 목록 조회
 		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
 		//페이지
+		
 		return "student/eclass/question/courseQuestion";
 	}
 	
 	
 	// 교수 질문 목록 조회
 	@RequestMapping("/professor/eclass/courseQuestion")
-	public String getProfMyQuestion(myQuestionVO vo, Model model, HttpSession session) {
+	public String getProfMyQuestion(myQuestionVO vo, Model model, HttpSession session, Criteria cri) {
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
-		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo));
+		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo, cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getProfTotal(vo.getCourseCode()), cri.getAmount(), cri));
 		return "professor/eclass/lecture/courseQuestion";
 	}
 	

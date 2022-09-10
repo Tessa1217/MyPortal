@@ -46,7 +46,11 @@
 	</select>
 	
 	<select id="getProfMyQuestion" resultType="com.project.portal.myquestion.service.myQuestionVO">
-		SELECT L.LECTURE_QUESTION_NUM,
+		SELECT * FROM (
+      SELECT A.*, ROWNUM question_no
+        FROM ( 
+       SELECT
+               L.LECTURE_QUESTION_NUM,
 		       L.LECTURE_QUESTION_TITLE,
 		       S.STUDENT_NAME,
 		       W.COURSE_CODE,
@@ -58,13 +62,27 @@
 		    ON L.STUDENT_ID = S.STUDENT_ID
           JOIN COURSE_WEEKLY W 
             ON L.WEEK_CODE = W.WEEK_CODE
-       WHERE W.COURSE_CODE = #{courseCode}
-        <if test="weekValue != null and weekValue !=''">
-				AND W.WEEK_NUM = #{weekValue} 
+       WHERE W.COURSE_CODE = #{myQuestion.courseCode}
+        <if test="cri.type != null and cri.type !=''">
+				AND W.WEEK_NUM = #{cri.type} 
 		</if>
-		ORDER BY 1 ASC
+       ORDER BY 5 ASC) A
+       
+       where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>)
+       	WHERE question_no > (#{cri.pageNum} - 1) * #{cri.amount}
+		
+		
 	</select>
 	
+	<select id="getProfTotal" resultType="integer">
+		SELECT count(*) AS total
+		FROM LECTURE_QUESTION L 
+		  JOIN STUDENT_PRI_INFO S
+		    ON L.STUDENT_ID = S.STUDENT_ID
+          JOIN COURSE_WEEKLY W 
+            ON L.WEEK_CODE = W.WEEK_CODE
+       WHERE W.COURSE_CODE = #{courseCode}
+	</select>
 	
 	<select id="getProfMyQuestionDetail" resultType="com.project.portal.myquestion.service.myQuestionVO">
 		SELECT Q.LECTURE_QUESTION_TITLE,
