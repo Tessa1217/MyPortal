@@ -10,47 +10,64 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 		<div class="page-title">
-			<h2 th:text="|${courseInfo.courseName} 영상 리스트|"></h2>
+			<h3>강의 리스트</h3>
 		</div>
-		<div class="card">
+		<div class="card height-sevenh">
 		<div class="card-body">
-			<table class="table" id="lectureTable">
-				<thead>
+			<table class="table table-hover">
+				<thead class="thead-primary">
 					<tr>
 						<th>강의 주차</th>
 						<th>강의 제목</th>
 						<th>강의 출석 기한</th>
 						<th class="width-one">인정 시간</th>
 						<th>강의 영상</th>
-						<th>상세보기</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr th:each="lec : ${lectureList}">
+				<tbody class="tbody-center">
+					<tr th:each="lec : ${lectureList}" th:onclick="|location.href='@{/professor/eclass/detailLecture/{lectureCode}(lectureCode = ${lec.lectureCode})}'|">
 						<td th:text="${#strings.substring(lec.weekCode, 8, 10)}"></td>
 						<td th:text="${lec.lectureTitle}"></td>
 						<td th:text="|${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></td>
 						<td th:text="|${lec.lectureAttTime/60}분|"></td>
-						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td>
-						<td><button type="button" class="btn btn-sm rounded-pill btn-primary"
-						th:onclick="|location.href='@{/professor/eclass/detailLecture/{lectureCode}(lectureCode = ${lec.lectureCode})}'|">상세보기</button></td>
+						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td> 
 					</tr>
 				</tbody>
 			</table>
+			<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+						<ul class="pagination justify-content-center">
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
 			</div>
 			</div>
 			</div>
 			<script th:inline="javascript">
 				$(function() {
-					dataTable();
+					stopFromMoving();
 				})
-				
-				// 데이터 테이블 생성
-				function dataTable() {
-					let lectureTable = $("#lectureTable");
-					let dataTable = new simpleDatatables.DataTable(lectureTable);
-				}
-		
 			</script>
 	</th:block>
 </body>

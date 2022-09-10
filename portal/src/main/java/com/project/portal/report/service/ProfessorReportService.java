@@ -2,13 +2,19 @@ package com.project.portal.report.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 
 public interface ProfessorReportService {
 	
 	// 과제 관련 
 	// 과제 목록 조회
-	List<ReportVO> getReportList(CourseVO vo, ReportVO report);
+	List<ReportVO> getReportList(CourseVO vo, ReportVO report, Criteria cri);
+	// 과제 수
+	int getTotal(CourseVO course, Criteria cri);
 	// 과제 등록
 	void insertReport(ReportVO vo);
 	// 과제 수정하기 (파일 수정을 동반)
@@ -26,5 +32,8 @@ public interface ProfessorReportService {
 	ReportFileVO getFile(String reportFileCode, String userCode);
 	
 	// 수강생 과제 제출 목록 조회
-	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report);
+	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, 
+												ReportVO report, Criteria cri);
+	
+	int getReportTotal(List<ReportVO> list, Criteria cri);
 }

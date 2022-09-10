@@ -13,31 +13,93 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2>수강생 과제 관리</h2>
+				<h3>수강생 과제 관리</h3>
 			</div>
-			<div id="studentScore" class="card">
+			<div class="card height-sevenh">
+			<div class="card-header">
+			<form th:action="@{/professor/eclass/studentScore}">
+			<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+			<input type="hidden" name="pageNum" value=1>
+			<select class="form-select" style="width: 20%; display:inline;" name="reportCode">
+				<option value="">과제</option>
+				<option th:each="week, idx : ${rList}" 
+				th:selected="${week.reportCode == reportCode}" 
+				th:value="${week.reportCode}"
+				th:text="|${#strings.substring(week.weekCode, 8, 10)}주차 ${week.reportTitle}|"></option>
+			</select>
+			<button type="submit" 
+			class="btn btn-md rounded-pill btn-primary">검색</button>
+			</form>
+			<button type="button" style="float:right;" id="weekComplete" class="btn btn-danger"
+			th:classappend="${reportCode == null or reportCode == ''} ? hidePage">
+			주차 과제 채점 완료
+			</button>
+		</div>
+		<div class="card-body board-scroll">
+			<table class="table">
+				<thead class="thead-primary">
+					<tr>
+						<th>과제 제목</th>
+						<th>학번</th>
+						<th>이름</th>
+						<th>과제 점수</th>
+						<th>첨부파일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="r : ${reportList}">
+						<td th:each="relem : ${rList}" th:if="${relem.reportCode == r.reportCode}" th:text="${relem.reportTitle}"></td>
+						<td th:text="${r.studentId}"></td>
+						<td th:text="${r.studentInfo.studentName}"></td>
+						<td class="width-four" th:if="${r.reportSubmissionOption == 'UNSUB'}">미제출</td>
+						<td class="width-four" th:unless="${r.reportSubmissionOption == 'UNSUB'}">
+						<label>과제 점수: </label>
+						<input type="number" class="form-control inline width-five"  th:id="|score-${r.reportCode}|" th:value="${r.reportScore != null} ? ${r.reportScore}" th:disabled="${r.reportScore}">
+						<button type="button" 
+						th:onclick="location.href='@{/professor/eclass/studentScore/{reportCode}(reportCode = ${r.reportCode})'"
+						th:text="${r.reportScore != null} ? '점수 입력'"
+						class="btn btn-sm rounded-pill btn-primary"></button>
+						</td>
+						<td th:if="${r.reportFileCode == null}">-</td>
+						<td th:if="${r.reportFileCode != null}"><a
+							th:href="@{/report/download/{reportFileCode}(reportFileCode = ${r.reportFileCode})}">과제 파일</a></td>
+					</tr>
+				</tbody>
+			</table>	
+			<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+						<ul class="pagination justify-content-center">
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
+		</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				getStudentScore();
 				complete();
 			})
-			
-			function getStudentScore() {
-				let data = {};
-				if ($("select[name=reportCode]").val() != '') {
-					data.reportCode = $("select[name=reportCode]").val();
-				}
-				$.ajax({
-					method : 'POST',
-					url : `/professor/eclass/studentScore`,
-					data : data,
-					success : function(fragment) {
-						$("#studentScore").replaceWith(fragment);
-					}
-				})
-			}
 			
 			function complete() {
 				console.log("hi");

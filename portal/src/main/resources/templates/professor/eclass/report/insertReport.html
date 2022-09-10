@@ -10,23 +10,23 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 		<div class="page-title">
-			<h2>강의 과제 등록하기</h2>
+			<h3>강의 과제 등록</h3>
 		</div>
 			<div class="cardForm card">
 			<div class="card-body">
 			<form name="reportFrm" th:action="@{/professor/eclass/insertReport}" method="POST" enctype="multipart/form-data">
-				<input type="hidden" name="courseCode" th:value="${courseInfo.courseCode}">
+				<input type="hidden" name="courseCode" th:value="${session.courseInfo.courseCode}">
 				<input type="hidden" name="professorId" th:value="${session.id}">
 				<table class="table">
 					<tr>
 						<th>과제명</th>
-						<td><input type="text" name="reportTitle"></td>
+						<td><input type="text" class="form-control" name="reportTitle"></td>
 					</tr>
 					<tr>
 						<th>강의주차</th>
-						<td><select name="weekCode">
+						<td><select class="form-select width-three" name="weekCode">
 							<option value="">주차</option>
-							<th:block th:each="week : ${courseInfo.weekPlans}">
+							<th:block th:each="week : ${session.courseInfo.weekPlans}">
 							<option th:value="${week.weekCode}"
 							th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
 							th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
@@ -36,20 +36,20 @@
 					</tr>
 					<tr>
 						<th>과제 시작일</th>
-						<td><input type="date" name="reportStartDate"></td>
-					</tr>
-					<tr>
-						<th>과제 제출 마감일</th>
-						<td><input type="date" name="reportEndDate"></td>
-					</tr>
+						<td><input type="date" class="inline form-control width-three" name="reportStartDate">
+							 ~ 
+							<input class="inline form-control width-three" type="date"
+							name="reportEndDate">
+							</td>
+						</tr>
 					<tr>
 						<th>과제 배점</th>
-						<td><input type="number" name="reportAssignedScore"> 점</td>
+						<td><input type="number" class="inline form-control width-three" name="reportAssignedScore"> 점</td>
 					</tr>
 					<tr>
 						<th>과제 첨부파일 업로드</th>
-						<td><input type="file" name="file">
-						<button type="button" id="getFiles" class="btn btn-primary">기본 정보 불러오기</button></td>
+						<td><input type="file" class="form-control width-six inline" name="file">
+						<button type="button" id="getFiles" class="inline btn btn-primary">기존 파일 불러오기</button></td>
 					</tr>
 					<tr>
 						<th>참고사항</th>
@@ -91,6 +91,7 @@
 				getFiles();
 				closeModal();
 				file();
+				cancelInsert();
 			})
 			
 			// 에디터 생성 
@@ -135,6 +136,15 @@
 				$("#file").on("click", function() {
 					let fileList = $("input[name=file]");
 					console.log(fileList);
+				})
+			}
+			
+			function cancelInsert() {
+				$(document).on("click", "#check", function() {
+					fireSwal('info', '등록을 취소하시겠습니까?')
+					.then((result) => {
+						location.href=`/professor/eclass/reportList`
+					})
 				})
 			}
 		</script>

@@ -1,6 +1,8 @@
 package com.project.portal.exam.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,5 +84,13 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 		for (ExamScoreVO student : studentList) {
 			mapper.insertExamScore(student);
 		}
+	}
+
+	@Override
+	public Map<String, CourseVO> getTestDate(CourseVO vo, String detailCode1, String detailCode2) {
+		Map<String, CourseVO> testDates = new HashMap<String, CourseVO>();
+		testDates.put("middle", mapper.getTestDate(vo, detailCode1));
+		testDates.put("final", mapper.getTestDate(vo, detailCode2));
+		return testDates;
 	}
 }

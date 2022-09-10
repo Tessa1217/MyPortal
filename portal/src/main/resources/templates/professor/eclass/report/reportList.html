@@ -10,10 +10,10 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 		<div class="page-title">
-			<h2 th:text="|${courseInfo.courseName} 과제 리스트|"></h2>
+			<h3>과제 목록</h3>
 		</div>
 			<div class="card">
-				<div class="card-body">
+				<div class="card-body height-sevenh">
 					<th:block th:if="${reportList.isEmpty()}">
 					<div class="center">
 						<h3>현재 등록된 과제가 없습니다.</h3>
@@ -25,42 +25,76 @@
 					</div>
 					</th:block>
 					<th:block th:unless="${reportList.isEmpty()}">
-						<table id="reportTable" class="table">
-							<thead>
+						<form th:action="@{/professor/eclass/reportList}">
+							<input type="hidden" value="1" name="pageNum">
+							<input type="hidden" th:value="${pageMaker.cri.amount}" name="amount">
+							<input type="hidden" value="weekCode" name="type">
+							<select name="keyword" class="form-select width-one inline">
+								<option value="">주차별</option>
+								<option th:each="week : ${session.courseInfo.weekPlans}" 
+								th:value="${week.weekCode}" 
+								th:text="|${week.weekNum}주차|"
+								th:selected="${pageMaker.cri.keyword != null && pageMaker.cri.keyword == week.weekCode}"></option>
+							</select>
+							<button class="inline btn btn-primary btn-sm">검색</button>
+						</form>
+						<table class="table table-hover table-margin">
+							<thead class="thead-primary">
 								<tr>
 									<th>과제 주차</th>
-									<th>과제 오픈일</th>
-									<th>과제 마감일</th>
+									<th>과제 기한</th>
+									<th>과제 배점</th>
 									<th>과제 첨부파일</th>
-									<th>상세보기</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="tbody-center">
 							<th:block th:each="r : ${reportList}">
-								<tr>
+								<tr th:onclick="|location.href='@{/professor/eclass/detailReport/{reportCode}(reportCode = ${r.reportCode})}'|">
 									<td th:text="|${#strings.substring(r.weekCode, 8, 10)}주차|"></td>
-									<td th:text="${#dates.format(r.reportStartDate, 'yyyy-MM-dd')}"></td>
-									<td th:text="${#dates.format(r.reportEndDate, 'yyyy-MM-dd')}"></td>
+									<td th:text="|${#dates.format(r.reportStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(r.reportEndDate, 'yyyy-MM-dd')}|"></td>
+									<td th:text="|${r.reportAssignedScore}점|"></td>
 									<td><a th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${r.reportFileCode}, userCode=${r.reportFile.userCode})}"
 									th:text="${r.reportFile.reportFileName}"
 									th:download="${r.reportFile.reportFileName}"></a></td>
-									<td><button class="btn btn-sm rounded-pill btn-primary" 
-									type="button"
-									th:onclick="|location.href='@{/professor/eclass/detailReport/{reportCode}(reportCode = ${r.reportCode})}'|">참고사항</button></td>
 								</tr>
 							</th:block>
 							</tbody>
 						</table>
+						<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+						<ul class="pagination justify-content-center">
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
 					</th:block>
 				</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				showDetail();
-				$("#reportTable").DataTable();
+				stopFromMoving();
 			})
-			
 		</script>
 	</th:block>
 </body>

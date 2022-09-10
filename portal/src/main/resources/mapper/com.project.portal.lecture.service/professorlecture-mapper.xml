@@ -18,6 +18,8 @@
 		</association>
 	</resultMap>
 	<select id="getLectureList" resultMap="lectureMap">
+		SELECT * FROM (
+		SELECT L.*, ROWNUM R FROM (
 		SELECT L.lecture_code,
 			L.week_code,
 			L.lecture_reg_date,
@@ -42,7 +44,41 @@
 			AND L.lecture_code = #{lecture.lectureCode}
 			</if>
 			</where>
-			ORDER BY L.week_code DESC
+			ORDER BY L.week_code DESC) L
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != ''">
+					WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+				</if>
+			</if>)
+		<if test="cri != null and cri != ''">
+			<if test="cri.pageNum != null and cri.pageNum != ''">
+				WHERE R > (#{cri.pageNum} - 1) * #{cri.amount} 
+			</if>
+		</if>
+	</select>
+	<select id="getLectureTotal" resultType="int">
+		SELECT COUNT(*) FROM (
+		SELECT L.lecture_code,
+			L.week_code,
+			L.lecture_reg_date,
+			L.lecture_start_date,
+			L.lecture_end_date,
+			L.lecture_att_time,
+			L.lecture_content,
+			L.video_code,
+			L.lecture_title,
+			L.course_code, 
+			V.video_name, 
+			V.video_file_path
+			FROM lecture L JOIN video V
+			ON L.video_code = V.video_code
+			<where>
+			<if test="courseCode != null and courseCode != ''">
+			AND L.week_code IN (SELECT week_code
+														FROM course_weekly
+														WHERE course_code = #{courseCode})
+			</if>
+			</where>)
 	</select>
 	<insert id="uploadVideo" parameterType="VideoVO">
 		INSERT INTO video (

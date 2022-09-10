@@ -218,4 +218,15 @@
 									'UNSUB'
 									)
 	</insert>
+		<select id="getTestDate" resultType="CourseVO">
+		  SELECT week_code
+			FROM course_weekly
+			WHERE course_code = 'SSPY0001'
+			AND week_start_date BETWEEN (SELECT schedule_start_date
+            FROM bachelor_schedule WHERE detail_code  = #{detailCode}
+            AND year = #{course.courseYear} and semester = #{course.courseSemester})
+            AND (SELECT schedule_end_date
+            FROM bachelor_schedule WHERE detail_code = #{detailCode}
+            AND year = #{course.courseYear} and semester = #{course.courseSemester})
+	</select>
 </mapper>

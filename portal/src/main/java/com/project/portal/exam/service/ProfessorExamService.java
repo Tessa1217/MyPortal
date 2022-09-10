@@ -1,6 +1,7 @@
 package com.project.portal.exam.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.project.portal.course.service.CourseVO;
 
@@ -16,4 +17,5 @@ public interface ProfessorExamService {
 	void createQuestion(QuestionVO vo);
 	void insertCourseExam(List<CourseExamVO> list);
 	void finalExamSubmit(ExamInfoVO vo, List<ExamScoreVO> studentList);
+	Map<String, CourseVO> getTestDate(CourseVO vo, String detailCode1, String detailCode2);
 }

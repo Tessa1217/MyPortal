@@ -1,11 +1,14 @@
 package com.project.portal.report.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ProfessorReportMapper;
 import com.project.portal.report.service.ProfessorReportService;
@@ -21,8 +24,8 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	ProfessorReportMapper mapper;
 	
 	@Override
-	public List<ReportVO> getReportList(CourseVO vo, ReportVO report) {
-		return mapper.getReportList(vo, report);
+	public List<ReportVO> getReportList(CourseVO vo, ReportVO report, Criteria cri) {
+		return mapper.getReportList(vo, report, cri);
 	}
 
 	@Override
@@ -59,9 +62,9 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	}
 
 	@Override
-	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report) {
-		List<ReportVO> list = mapper.getReportList(vo, report);
-		List<ReportSubmissionVO> subList = mapper.getStudentReportList(list);
+	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report, Criteria cri) {
+		List<ReportVO> list = mapper.getReportList(vo, report, null);
+		List<ReportSubmissionVO> subList = mapper.getStudentReportList(list, cri);
 		report = new ReportVO();
 		report.setCourseCode(vo.getCourseCode());
 		for (ReportSubmissionVO sub : subList) {
@@ -82,6 +85,16 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	@Override
 	public List<ReportFileVO> getProfWholeFile(ReportFileVO vo) {
 		return mapper.getProfWholeFile(vo);
+	}
+
+	@Override
+	public int getTotal(CourseVO course, Criteria cri) {
+		return mapper.getTotal(course, cri);
+	}
+
+	@Override
+	public int getReportTotal(List<ReportVO> list, Criteria cri) {
+		return mapper.getReportTotal(list, cri);
 	}
 
 }

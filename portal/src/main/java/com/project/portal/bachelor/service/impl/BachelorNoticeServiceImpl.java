@@ -18,6 +18,7 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	@Autowired
 	BachelorNoticeMapper mapper;
 	
+	// 공지사항 (단건, 목록) 조회 
 	@Override
 	public List<BachelorNoticeVO> getNoticeList(BachelorNoticeVO vo, Criteria cri) {
 		List<BachelorNoticeVO> noticeList = mapper.getNoticeList(vo, cri);
@@ -28,7 +29,8 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 		}
 		return noticeList;
 	}
-
+	
+	// 공지사항 등록 
 	@Override
 	@Transactional
 	public void insertNotice(BachelorNoticeVO vo) {
@@ -38,19 +40,22 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 		vo.setNoticeFileCode(vo.getNoticeFile().getNoticeFileCode());
 		mapper.insertNotice(vo);
 	}
-
+	
+	// 공지사항 수정
 	@Override
 	@Transactional
 	public void updateNotice(BachelorNoticeVO vo, BachelorNoticeFileVO file) {
 		if (vo.getNoticeFileCode() != null) {
 			mapper.deleteFile(vo);
 		}
-		mapper.insertFile(file);
+		if (file != null) {
+			mapper.insertFile(file);
+		}
 		vo.setNoticeFileCode(file.getNoticeFileCode());
-		System.out.println(vo);
 		mapper.updateNotice(vo);
 	}
 
+	// 공지사항 삭제
 	@Override
 	@Transactional
 	public void deleteNotice(BachelorNoticeVO vo) {
@@ -59,22 +64,20 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 		}
 		mapper.deleteNotice(vo);
 	}
-
-	@Override
-	public void updateNoticeOnly(BachelorNoticeVO vo) {
-		mapper.updateNotice(vo);
-	}
-
+	
+	// 공지사항 파일 가져오기 
 	@Override
 	public BachelorNoticeFileVO getFile(BachelorNoticeVO vo) {
 		return mapper.getFile(vo);
 	}
-
+	
+	// 공지사항 전체 수 
 	@Override
-	public int getTotal(Criteria cri) {
-		return mapper.getTotal(cri);
+	public int getTotal(BachelorNoticeVO vo, Criteria cri) {
+		return mapper.getTotal(vo, cri);
 	}
-
+	
+	// 공지사항 조회수 
 	@Override
 	public void hitIncrease(BachelorNoticeVO vo) {
 		mapper.hitIncrease(vo);

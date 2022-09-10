@@ -12,6 +12,16 @@
 	cursor: pointer;
 }
 
+.thead-primary th {
+	background: #435ebe;
+	color: white;
+	text-align: center;
+}
+
+.tbody-center td {
+	text-align: center;
+}
+
 .originalFileBox {
 	border: 1px solid #ddd; 
 	padding: 1%;
@@ -94,13 +104,13 @@ input[name="tabs"] {
 	color: #435ebe;
 	font-weight: bold;
 	text-align: center;
-	line-height: 50px;
+	line-height: 50px; 
 }
 
 .tabmenu:hover {
 	background: #435ebe;
 	color: #fff;
-	cursor: pointer;
+	cursor: pointer; 
 }
 
 .active {
@@ -273,6 +283,19 @@ input[name=examQuestionPoint] {
 	width: 15%;
 }
 
+.questionBox {
+	margin-bottom: 0px!important;
+	padding: 1%!important;
+}
+
+.newQuestion {
+	margin-bottom: 0px!important;
+}
+
+.newQuestion .form-control{
+	padding: 0px!important;
+}
+
 .width-one {
 	width: 10%;
 }
@@ -305,6 +328,10 @@ input[name=examQuestionPoint] {
 	width: 90%;
 }
 
+.height-e {
+	height: 80%;
+}
+
 .formrow div {
 	margin-bottom: 1%;
 }
@@ -325,12 +352,20 @@ input[name=examQuestionPoint] {
 	height: 70vh;
 }
 
+.height-sevenh {
+	height: 75vh;
+}
+
 .height-six {
 	height: 60vh;
 }
 
 .height-five {
 	height: 50vh;
+}
+
+.height-one {
+	height: 10vh;
 }
 
 #bookmark {

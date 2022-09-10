@@ -13,9 +13,9 @@
 		<div class="card-body">
 			<th:block th:each="option : ${question.optionList}">
 				<p>
-					<input type="radio"
+					<input class="inline" type="radio"
 						th:checked="${option.questionOptionNum == question.questionAnswer}">
-					<span
+					<span class="inline width-seven"
 						th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
 				</p>
 			</th:block>

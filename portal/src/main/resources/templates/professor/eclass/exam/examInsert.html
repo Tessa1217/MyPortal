@@ -23,7 +23,7 @@
 			<div>
 				<div class="row">
 					<div class="page-title">
-						<h2>시험 생성하기</h2>
+						<h3>시험 생성하기</h3>
 					</div>
 					<div class="right">
 						<input id="tab1" type="radio" name="tabs" checked> <label
@@ -34,9 +34,9 @@
 							class="tabmenu offPage">시험 문제 생성하기</label>
 					</div>
 					<th:block th:if="${command} == 1">
-						<div class="card paging">
+						<div class="card height-seven paging">
 							<th:block
-								th:replace="/layout/fragments/professor-eclass/newTestInfo :: testInfoFragment">
+								th:replace="/layout/fragments/professor-eclass/exam/newTestInfo :: testInfoFragment">
 							</th:block>
 						</div>
 					</th:block>
@@ -44,22 +44,23 @@
 						<th:block th:each="exam : ${examList}">
 							<div class="card paging">
 								<th:block
-									th:replace="/layout/fragments/professor-eclass/updateTestInfo :: testInfoFragment">
+									th:replace="/layout/fragments/professor-eclass/exam/updateTestInfo :: testInfoFragment">
 								</th:block>
 							</div>
 							<div class="card paging offPage">
 								<div class="row">
 									<th:block
-										th:replace="/layout/fragments/professor-eclass/testList :: testListFragment">
+										th:replace="/layout/fragments/professor-eclass/exam/testList :: testListFragment">
 									</th:block>
 								</div>
 							</div>
-							<div class="card paging offPage">
+							<div class="card paging offPage"
+							style="height:150vh;">
 								<th:block
-									th:replace="/layout/fragments/professor-eclass/makeTest :: makeTestFragment">
+									th:replace="/layout/fragments/professor-eclass/exam/makeTest :: makeTestFragment">
 								</th:block>
 							</div>
-						</th:block>
+						</th:block> 
 					</th:block>
 				</div>
 			</div>
@@ -88,21 +89,6 @@
 					}
 				})
 			})
-			}
-			
-			// 시험 정보 저장
-			function saveExamInfo() {
-				$(document).on("click", "#saveBtn", function() {
-					$.ajax({
-						type : 'POST',
-						url : 'examInsert',
-						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-						data : $("#examInfoForm").serialize(),
-						success : function(result) {
-							location.href=`/professor/eclass/examInsert/` + result.examCode;
-						}
-					})
-				})
 			}
 			</script>
 	</th:block>

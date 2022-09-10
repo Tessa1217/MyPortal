@@ -11,6 +11,16 @@ function movePage() {
 	})
 }
 
+// a 태그 tr 태그로부터 이벤트 전파 막기
+function stopFromMoving() {
+	const a = document.querySelectorAll("table a");
+	a.forEach((val) => {
+		val.addEventListener("click", (e) => {
+			e.stopPropagation();
+		})
+	})
+}
+
 function moveOmrPage() {
 	$(document).on("click", ".omrBtnContainer button", function(e) {
 		e.stopPropagation();
@@ -92,7 +102,7 @@ function monthlyCalendar() {
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 		editable: false,
 		initialView: 'dayGridMonth',
-		displayEventTime : false,
+		displayEventTime: false,
 		headerToolbar: {
 			left: '',
 			center: '',
@@ -123,5 +133,15 @@ function getCalendar() {
 
 // 페이지 이동 
 function movePagination(uri, queryString) {
-		location.href=uri + queryString;
+	location.href = uri + queryString;
+}
+
+function cancelUpdate() {
+	$(document).on("click", "#check", function() {
+		fireSwal('info', '수정을 취소하시겠습니까?')
+			.then((result) => {
+				$("#updateView").addClass("hidePage");
+				$("#detailView").removeClass("hidePage");
+			})
+	})
 }

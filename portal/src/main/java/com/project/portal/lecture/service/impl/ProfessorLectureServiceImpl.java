@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.lecture.service.ProfessorLectureMapper;
@@ -18,8 +19,8 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 	@Autowired ProfessorLectureMapper mapper;
 	
 	@Override
-	public List<LectureVO> getLectureList(CourseVO course, LectureVO lecture) {
-		return mapper.getLectureList(course, lecture);
+	public List<LectureVO> getLectureList(CourseVO course, LectureVO lecture, Criteria cri) {
+		return mapper.getLectureList(course, lecture, cri);
 	}
 	
 	@Override
@@ -60,6 +61,11 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 	@Override
 	public void updateLectureOnly(LectureVO vo) {
 		mapper.updateLecture(vo);
+	}
+
+	@Override
+	public int getLectureTotal(CourseVO course) {
+		return mapper.getLectureTotal(course);
 	}
 	
 	

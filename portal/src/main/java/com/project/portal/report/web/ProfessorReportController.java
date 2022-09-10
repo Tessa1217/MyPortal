@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.report.service.ReportFileVO;
@@ -38,23 +40,18 @@ public class ProfessorReportController {
 	@Autowired
 	CourseServiceImpl courseService;
 	
-	// 세션에 코스와 코스 주차 정보 담아서 사용 
-	@ModelAttribute("courseInfo")
-	public CourseVO course(HttpSession session) {
-		CourseVO course = new CourseVO();
-		course.setCourseCode((String) session.getAttribute("courseCode"));
-		return courseService.getWeeklyInfo(course);
-	}
-	
 	// 파일 다운로드 경로
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	
 	// 과제 리스트 
 	@RequestMapping("/professor/eclass/reportList")
-	public String getReportList(Model model) {
-		List<ReportVO> reportList = service.getReportList((CourseVO) model.getAttribute("courseInfo"), null);
+	public String getReportList(Model model, 
+								Criteria cri, 
+								HttpSession session) {
+		List<ReportVO> reportList = service.getReportList((CourseVO) session.getAttribute("courseInfo"), null, cri);
 		model.addAttribute("reportList", reportList);
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal((CourseVO) session.getAttribute("courseInfo"), cri), 10, cri));
 		return "professor/eclass/report/reportList";
 	}
 	
@@ -66,9 +63,11 @@ public class ProfessorReportController {
 	
 	// 과제 등록 
 	@PostMapping("/professor/eclass/insertReport")
-	public String insertReport(@RequestParam("file") MultipartFile file, ReportVO vo, Model model, HttpSession session) throws IllegalStateException, IOException {
-		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
-		course.setProfessorId((int) session.getAttribute("id"));
+	public String insertReport(@RequestParam("file") MultipartFile file, 
+								ReportVO vo, 
+								Model model, 
+								HttpSession session) throws IllegalStateException, IOException {
+		CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 		// 과제 등록하기 전 과제 파일 테이블 저장 위해 관련 데이터 setter 통해 담기 
 		ReportFileVO report = newFile(file, course);
 		vo.setReportFile(report);
@@ -93,10 +92,12 @@ public class ProfessorReportController {
 	
 	// 상세 보기 페이지 (ON/OFF 이용해서 상세 보기 + 수정 같이 한 페이지에서 처리)
 	@RequestMapping("/professor/eclass/detailReport/{reportCode}")
-	public String detailReport(@PathVariable String reportCode, ReportVO vo, Model model) {
+	public String detailReport(@PathVariable String reportCode, 
+								ReportVO vo, 
+								Model model) {
 		vo.setReportCode(reportCode);
 		model.addAttribute("command", 1);
-		model.addAttribute("report", service.getReportList(null, vo).get(0));
+		model.addAttribute("report", service.getReportList(null, vo, null).get(0));
 		return "professor/eclass/report/detailReport";
 	}
 	
@@ -113,8 +114,7 @@ public class ProfessorReportController {
 			if (storedFile.exists()) {
 				storedFile.delete();
 			}
-			CourseVO course = (CourseVO) model.getAttribute("courseInfo");
-			course.setProfessorId((int) session.getAttribute("id"));
+			CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 			ReportFileVO newFile = newFile(file, course);
 			vo.setReportFile(newFile);
 			service.updateReport(vo);
@@ -159,25 +159,24 @@ public class ProfessorReportController {
 	
 	// 수강생 과제 관리
 	@RequestMapping("/professor/eclass/studentScore")
-	public String studentScoreForm(Model model) {
-		return "professor/eclass/report/studentReportScore";
-	}
-	
-	// 수강생 과제 리스트 조회 
-	@PostMapping("/professor/eclass/studentScore")
-	public String weeklyStudentScore(Model model, String reportCode, CourseVO course) {
-		course = (CourseVO) model.getAttribute("courseInfo");
-		ReportVO vo = null;
-		if (reportCode != null) {
-			vo = new ReportVO();
-			vo.setReportCode(reportCode);
+	public String studentScoreForm(Model model,
+									CourseVO course,
+									Criteria cri,
+									String reportCode,
+									HttpSession session) {
+		ReportVO report = null;
+		if (reportCode != "" && reportCode != null) {
+			report = new ReportVO();
+			report.setReportCode(reportCode);
 		}
-		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, vo);
-		List<ReportVO> rList = service.getReportList(course, null);
+		course = (CourseVO) session.getAttribute("courseInfo");
+		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, report, cri);
+		List<ReportVO> rList = service.getReportList(course, null, null);
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("rList", rList);
 		model.addAttribute("reportCode", reportCode);
-		return "layout/fragments/professor-eclass/report/studentScoreFragment :: #studentScore";
+		model.addAttribute("pageMaker", new PageDTO(service.getReportTotal(service.getReportList(course, report, null), cri), cri.getAmount(), cri));
+		return "professor/eclass/report/studentReportScore";
 	}
 	
 	//@RequestMapping("/professor/eclass/studentScore/")

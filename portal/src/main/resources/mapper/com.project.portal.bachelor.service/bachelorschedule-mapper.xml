@@ -57,6 +57,4 @@
         AND detail_code NOT LIKE #{detailCode}||'%'
         </if>
 	</select>
-	
-	
 </mapper>

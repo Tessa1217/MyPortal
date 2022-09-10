@@ -14,7 +14,7 @@
 			</div>
 			<div class="card lecture-scroll">
 				<div class="card-header">
-					<h4 class="btnContainer" th:text="|${courseInfo.courseName} 강의 리스트|"></h4>
+					<h4 class="btnContainer"></h4>
 					<div class="card-body lecture-card row" th:each="lec : ${lectureList}">
 						<div class="learnInfo col-10">
 						<h4 th:text="|${#strings.substring(lec.weekCode, 8, 10)}주차 강의|"></h4>

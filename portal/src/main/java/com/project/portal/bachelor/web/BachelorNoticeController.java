@@ -48,12 +48,21 @@ public class BachelorNoticeController {
 	private String uploadPath;
 
 	@RequestMapping({ "/student/notice", "professor/notice", "/admin/notice" })
-	public String getNotice(HttpServletRequest request, Model model, Criteria cri) {
+	public String getNotice(HttpServletRequest request, 
+							Model model, 
+							Criteria cri) {
 		String requestURI = request.getRequestURI();
 		int command = setCommand(requestURI);
 		BachelorNoticeVO vo = new BachelorNoticeVO();
+		if (command == 1) {
+			vo.setNoticeDivision("PROF");
+			vo.setNoticePrivate("OP");
+		} else if (command == 2) {
+			vo.setNoticeDivision("STUD");
+			vo.setNoticePrivate("OP");
+		}
 		model.addAttribute("noticeList", service.getNoticeList(vo, cri));
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(cri), cri.getAmount(), cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		model.addAttribute("command", command);
 		return "common/notice";
 	}
@@ -128,9 +137,8 @@ public class BachelorNoticeController {
 				e.printStackTrace();
 			}
 		} else {
-			service.updateNoticeOnly(vo);
+			service.updateNotice(vo, null);
 		}
-		System.out.println(vo);
 		return "redirect:/admin/detailNotice/" + vo.getNoticeNo();
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 
 @Mapper
@@ -13,7 +14,11 @@ public interface ProfessorLectureMapper {
 	List<LectureVO> getLectureList(@Param("course") 
 								CourseVO course, 
 								@Param("lecture") 
-								LectureVO lecture);
+								LectureVO lecture,
+								@Param("cri")
+								Criteria cri);
+	// 강의 수
+	int getLectureTotal(CourseVO course);
 	// 강의 등록
 	void insertLecture(LectureVO vo);
 	// 비디오 업로드

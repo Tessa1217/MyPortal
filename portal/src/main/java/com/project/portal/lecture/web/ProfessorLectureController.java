@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.lecture.service.LectureVO;
@@ -39,23 +41,19 @@ public class ProfessorLectureController {
 	@Autowired CourseServiceImpl courseService;
 	@Autowired ProfessorLectureServiceImpl service;
 	
-	// 강의 정보 
-	@ModelAttribute("courseInfo")
-	public CourseVO course(HttpSession session) {
-		CourseVO course = new CourseVO();
-		course.setCourseCode((String) session.getAttribute("courseCode"));
-		return courseService.getWeeklyInfo(course);
-	}
-	
 	// 파일 업로드하는 상위 디렉토리
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	
 	// 강의 리스트 페이지 이동 
 	@RequestMapping("professor/eclass/lectureList")
-	public String lectureList(Model model) {
-		List<LectureVO> lectureList = service.getLectureList((CourseVO) model.getAttribute("courseInfo"), null);
+	public String lectureList(Model model, 
+								Criteria cri,
+								HttpSession session) {
+		CourseVO course = (CourseVO) session.getAttribute("courseInfo");
+		List<LectureVO> lectureList = service.getLectureList(course, null, cri);
 		model.addAttribute("lectureList", lectureList);
+		model.addAttribute("pageMaker", new PageDTO(service.getLectureTotal(course), cri.getAmount(), cri));
 		return "professor/eclass/lecture/lectureList";
 	}
 	
@@ -67,10 +65,14 @@ public class ProfessorLectureController {
 	
 	// 강의 등록
 	@PostMapping("professor/eclass/insertLecture")
-	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video, Model model) throws IllegalStateException, IOException {
+	public String loadedData(LectureVO lecture, 
+							MultipartFile file, 
+							VideoVO video, 
+							Model model,
+							HttpSession session) throws IllegalStateException, IOException {
 		
 		// 비디오 파일 테이블에 등록하기
-		CourseVO course = (CourseVO) model.getAttribute("courseInfo");
+		CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 		video.setVideoName(file.getOriginalFilename());
 		video.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
 		video.setVideoExtension(file.getContentType().substring(5));
@@ -98,12 +100,12 @@ public class ProfessorLectureController {
 	@RequestMapping("/professor/eclass/detailLecture/{lectureCode}")
 	public String detailLecture(@PathVariable String lectureCode, 
 								CourseVO course,
-								Model model) {
-		course = (CourseVO) model.getAttribute("courseInfo");
+								Model model,
+								HttpSession session) {
+		course = (CourseVO) session.getAttribute("courseInfo");
 		LectureVO vo = new LectureVO();
 		vo.setLectureCode(lectureCode);
-		List<LectureVO> lecture = service.getLectureList(course, vo);
-		System.out.println(lecture.get(0));
+		List<LectureVO> lecture = service.getLectureList(course, vo, null);
 		model.addAttribute("lecture", lecture.get(0));
 		return "professor/eclass/lecture/detailLecture";
 	}
@@ -125,7 +127,7 @@ public class ProfessorLectureController {
 			if (storedFile.exists()) {
 				storedFile.delete();
 			}
-			CourseVO course = (CourseVO) model.getAttribute("courseInfo");
+			CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 			VideoVO newFile = newFile(file, course, session);
 			service.updateLecture(vo, newFile);
 		} else {

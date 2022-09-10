@@ -6,7 +6,6 @@
 </head>
 <body>
 	<th:block th:fragment="makeTestFragment">
-		<h1>시험지</h1>
 		<div align="right">
 			<button type="button" id="tempBtn"
 				class="btn btn-primary btn-md">임시저장</button>
@@ -76,18 +75,18 @@
 			<div class="card newQuestion">
 				<div class="card-header">
 				<textarea class="form-control"
-				rows="3"
+				rows="2"
 				placeholder="문제를 입력하세요"></textarea>
 				</div>
 				<div class="card-body">
 					<th:block th:each="idx : ${#numbers.sequence(1, 4)}">
 					<label style="display:block;" class="col-form-label form-check-label">
-							<input type="radio" name="answer">
-							<input type="text" class="form-control" name="questionOptionContent">
+							<input class="inline height-e" type="radio" name="answer">
+							<input class="inline width-nine height-e form-control" type="text" name="questionOptionContent">
 					</label>
 					</th:block>
 				</div>
-				<div class="btnContainer">
+				<div align="center">
 					<button
 						class="createQuestionBtn btn btn-primary btn-sm rounded-pill"
 						type="button">문제 생성</button>

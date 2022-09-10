@@ -12,7 +12,8 @@ public interface BachelorNoticeMapper {
 	
 	List<BachelorNoticeVO> getNoticeList(@Param("notice") BachelorNoticeVO vo, 
 										@Param("cri") Criteria cri);
-	int getTotal(Criteria cri);
+	int getTotal(@Param("notice") BachelorNoticeVO vo, 
+				@Param("cri") Criteria cri);
 	void insertNotice(BachelorNoticeVO vo);
 	void updateNotice(BachelorNoticeVO vo);
 	void deleteNotice(BachelorNoticeVO vo);

@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.course.service.CourseVO;
@@ -34,13 +34,6 @@ public class myCourseController {
 	@Autowired CourseServiceImpl cservice;
 	@Autowired StudentServiceImpl studService;	
 	@Autowired CourseServiceImpl courseService;
-	
-	public CourseVO course(HttpSession session) {
-		CourseVO course = new CourseVO();
-		course.setCourseCode((String) session.getAttribute("courseCode"));
-		course.setCourseName(null);
-		return courseService.getWeeklyInfo(course);
-	}
 
 	// 학생 학업 정보 조회
 
@@ -91,9 +84,7 @@ public class myCourseController {
 		schedule.setDetailCode("BPLAN00");
 		CourseVO course = cservice.getYearSemester(schedule);
 		course.setProfessorId((int) session.getAttribute("id"));
-		
 		List<myProfCourseVO> mycourseList = service.getProfMyCourse(course);
-		System.out.println(mycourseList);
 		model.addAttribute("mycourseList", mycourseList);
 		return "professor/courseList";
 	}
@@ -105,32 +96,28 @@ public class myCourseController {
 									MyCourseMainVO vo, 
 									Model model,
 									HttpSession session) {
-		String getCourseCode = service.getCourseName(courseCode);
-		session.setAttribute("courseName", getCourseCode);
-		session.setAttribute("courseCode", courseCode);
-		
 		CourseVO course = new CourseVO();
 		course.setCourseCode(courseCode);
+		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
-		System.out.println(map);
 		StudentVO student = new StudentVO();
 		student.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("student", studService.studentInfoSelect(student));
-		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));
 		return "student/eclass/eclassmain";
 
 	}
 
 	// 교수 강좌 강의 lms 메인 페이지 이동
 	@RequestMapping("/professor/eclass/{courseCode}")
-	public String getProfMyCoursePage(@PathVariable String courseCode, MyCourseMainVO vo, Model model,
-			HttpSession session) {
-		String getCourseCode = service.getCourseName(courseCode);
-		session.setAttribute("courseName", getCourseCode);
+	public String getProfMyCoursePage(@PathVariable String courseCode, 
+									MyCourseMainVO vo, 
+									Model model,
+									HttpSession session) {
+		CourseVO course = new CourseVO();
+		course.setCourseCode(courseCode);
 		session.setAttribute("courseCode", courseCode);
-
-		// model.addAttribute("myCourseMain", service.getstuMyCoursePage(courseCode));
+		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
 		return "professor/eclass/eclassmain";
 
 	}

@@ -19,28 +19,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.service.CodeService;
+import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
-import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamFilterVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
+import com.project.portal.exam.service.ProfessorExamService;
 import com.project.portal.exam.service.QuestionVO;
 import com.project.portal.exam.service.SaveCourseExamVO;
-import com.project.portal.exam.service.impl.ProfessorExamServiceImpl;
-import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
+import com.project.portal.mycourse.service.MyCourseService;
 
 // 작성자: 권유진
 @Controller
 public class ProfessorExamController {
 	
 	@Autowired 
-	CourseServiceImpl courseService;
+	CourseService courseService;
 	@Autowired 
-	MyCourseServiceImpl mycourseService;
+	MyCourseService mycourseService;
 	@Autowired 
-	ProfessorExamServiceImpl examService;
+	ProfessorExamService examService;
+	@Autowired
+	CodeService codeService;
 	
 	// 강의 정보
 	@ModelAttribute("courseInfo")
@@ -75,7 +79,9 @@ public class ProfessorExamController {
 	
 	// 새로운 시험 생성 페이지 이동
 	@GetMapping("/professor/eclass/examInsert")
-	public String newExamInsert(Model model) {
+	public String newExamInsert(Model model, CourseVO vo) {
+		vo = (CourseVO) model.getAttribute("courseInfo");
+		model.addAttribute("testDates", examService.getTestDate(vo, "BPLAN04", "BPLAN05"));
 		model.addAttribute("command", "1");
 		return "professor/eclass/exam/examInsert";
 	}

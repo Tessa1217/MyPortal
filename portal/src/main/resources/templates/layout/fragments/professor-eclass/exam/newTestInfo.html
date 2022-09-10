@@ -10,6 +10,10 @@
 			<h4>시험 기본 정보</h4>
 		</div>
 		<div class="card-body" align="center">
+			<input type="hidden" id="middle" name="weekCode"
+			th:with="middle = ${testDates.get('middle')}" th:value="${middle.weekCode}">
+			<input type="hidden" id="final" name="weekCode"
+			th:with="final = ${testDates.get('final')}" th:value="${final.weekCode}">
 			<form id="examInfoForm" class="form form-horizontal">
 				<div class="form-body">
 					<div class="row inputBox">
@@ -31,46 +35,19 @@
 							</select>
 						</div>
 						<div class="col-md-4">
-							<label>시험 주차</label>
+							<label>시험 응시 시간(분)</label>
 						</div>
 						<div class="col-md-8 form-group">
-							<select class="form-select" name="weekCode">
-								<option value="">주차를 선택해주세요.</option>
-								<th:block th:each="week : ${courseInfo.weekPlans}">
-									<option
-										th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
-										th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
-										th:value="${week.weekCode}">[[${week.weekNum}]]주차</option>
-								</th:block>
-							</select>
-						</div>
-						<div class="col-md-4">
-							<label>시험 시작일</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="date" name="examStartDate"
-								required>
-						</div>
-						<div class="col-md-4">
-							<label>시험 마감일</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="date" name="examEndDate"
-								required>
-						</div>
-						<div class="col-md-4">
-							<label>시험 응시 시간</label>
-						</div>
-						<div class="col-md-8 form-group">
-							<input class="form-control" type="number" name="examDuration"
+							<input class="inline form-control" type="number" name="examDuration"
 								required value=0>
 						</div>
 						<div class="col-md-4">
 							<label>시험 총 문항수</label>
 						</div>
 						<div class="col-md-8 form-group">
-							<input class="form-control" type="number"
-								name="examTotalQuestion" required value=0>
+							<select class="form-select" name="examTotalQuestion">
+								<option th:each="idx : ${#numbers.sequence(5, 50, 5)}" th:value="${idx}" th:text="${idx}"></option>
+							</select>
 						</div>
 						<div class="col-md-4">
 							<label>시험 총 배점</label>
@@ -88,6 +65,28 @@
 				</div>
 			</form>
 		</div>
+		<script th:inline="javascript">
+		
+		function saveExamInfo() {
+			$(document).on("click", "#saveBtn", function() {
+				if ($("select[name=examCode]").val() == 'M') {
+					$("#examInfoForm").append($("#middle"));
+				} 
+				if ($("select[name=examCode]").val() == 'F') {
+					$("#examInfoForm").append($("#final"));
+				}
+				$.ajax({
+					type : 'POST',
+					url : 'examInsert',
+					contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+					data : $("#examInfoForm").serialize(),
+					success : function(result) {
+						location.href=`/professor/eclass/examInsert/` + result.examCode;
+					}
+				})
+			})
+		}
+		</script>
 	</th:block>
 </body>
 </html>

@@ -10,7 +10,7 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2 th:text="|${courseInfo.courseName} 강의 노트|"></h2>
+				<h2 th:text="|${session.courseInfo.courseName} 강의 노트|"></h2>
 			</div>
 			<div class="page-content">
 				<th:block th:if="${map.isEmpty()}">

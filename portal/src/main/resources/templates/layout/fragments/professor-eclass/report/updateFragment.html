@@ -7,7 +7,7 @@
 <body>
 	<th:block th:fragment="updateFragment">
 		<div class="page-title">
-			<h2>과제 수정하기</h2>
+			<h3>과제 수정하기</h3>
 		</div>
 		<div class="cardForm card">
 			<div class="card-body">
@@ -20,11 +20,11 @@
 					<table class="table">
 						<tr>
 							<th>과제명</th>
-							<td><input type="text" name="reportTitle" th:value="${report.reportTitle}"></td>
+							<td><input type="text" class="form-control" name="reportTitle" th:value="${report.reportTitle}"></td>
 						</tr>
 						<tr>
 							<th>과제주차</th>
-							<td><select name="weekCode">
+							<td><select class="form-select width-three" name="weekCode">
 							<option value="">주차</option>
 							<th:block th:each="week : ${courseInfo.weekPlans}">
 							<option th:value="${week.weekCode}"
@@ -36,19 +36,18 @@
 						</select></td>
 						</tr>
 						<tr>
-							<th>과제 시작일</th>
-							<td><input type="date" name="reportStartDate"
-							th:value="${#dates.format(report.reportStartDate, 'yyyy-MM-dd')}"></td>
-						</tr>
-						<tr>
-							<th>과제 제출 마감일</th>
-							<td><input type="date"
+							<th>과제 기한</th>
+							<td><input type="date" class="inline form-control width-three" name="reportStartDate"
+							th:value="${#dates.format(report.reportStartDate, 'yyyy-MM-dd')}">
+							 ~ 
+							<input class="inline form-control width-three" type="date"
 							name="reportEndDate" 
-							th:value="${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}"></td>
+							th:value="${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}">
+							</td>
 						</tr>
 						<tr>
 							<th>과제 배점</th>
-							<td><input type="number" name="reportAssignedScore" th:value="${report.reportAssignedScore}">점</td>
+							<td><input type="number" class="inline form-control width-three" name="reportAssignedScore" th:value="${report.reportAssignedScore}">점</td>
 						</tr>
 						<tr>
 							<th>원본 파일 확인하기</th>
@@ -60,7 +59,7 @@
 						</tr>
 						<tr>
 							<th>과제 첨부파일 업로드</th>
-							<td><input type="file" name="file"></td>
+							<td><input type="file" class="form-control" name="file"></td>
 						</tr>
 						<tr>
 							<th>참고사항</th>
@@ -75,6 +74,11 @@
 				</form>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			$(function() {
+				cancelUpdate();
+			})
+		</script>
 	</th:block>
 </body>
 </html>

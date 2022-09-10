@@ -1,10 +1,12 @@
 package com.project.portal.exam.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.course.service.CourseVO;
 
 @Mapper
@@ -36,4 +38,7 @@ public interface ProfessorExamMapper {
 	void updateCourseExamCompletion(ExamInfoVO vo);
 	// 시험지 등록 시 수강생 별로 시험에 관한 정보 등록
 	void insertExamScore(ExamScoreVO vo);
+	// 시험 일자
+	CourseVO getTestDate(@Param("course") CourseVO course, 
+							@Param("detailCode") String detailCode);
 }

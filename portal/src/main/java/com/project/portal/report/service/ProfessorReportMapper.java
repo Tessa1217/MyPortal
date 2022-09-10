@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.student.service.StudentVO;
 
@@ -14,7 +15,13 @@ public interface ProfessorReportMapper {
 	// 과제 관련 
 	
 	// 과제 리스트 가져오기
-	List<ReportVO> getReportList(@Param("course") CourseVO vo, @Param("report") ReportVO report);
+	List<ReportVO> getReportList(@Param("course") CourseVO vo, 
+								@Param("report") ReportVO report,
+								@Param("cri") Criteria cri);
+	
+	// 과제 수 가져오기 
+	int getTotal(@Param("course") CourseVO course, 
+				@Param("cri") Criteria cri);
 
 	// 과제 리스트 등록
 	void insertReport(ReportVO vo);
@@ -42,12 +49,16 @@ public interface ProfessorReportMapper {
 	// 수강생 과제 제출 관련 
 	
 	// 수강생 목록
-	List<StudentVO> getStudentList(@Param("report") ReportVO vo, @Param("submission") ReportSubmissionVO submission);
+	List<StudentVO> getStudentList(@Param("report") ReportVO vo, 
+								@Param("submission") ReportSubmissionVO submission);
 
 	// 수강생의 과제 제출 등록하기
 	void insertStudentSubmission(@Param("report") ReportVO vo, @Param("student") StudentVO student);
 
 	// 수강생의 과제 제출 목록
-	List<ReportSubmissionVO> getStudentReportList(List<ReportVO> list);
+	List<ReportSubmissionVO> getStudentReportList(@Param("list") List<ReportVO> list, @Param("cri") Criteria cri);
+	
+	// 과제 제출 수
+	int getReportTotal(@Param("list") List<ReportVO> list, @Param("cri") Criteria cri);
 
 }
