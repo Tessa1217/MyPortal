@@ -22,14 +22,34 @@
 .hidden {
 	display: none;
 }
+
+#table123 thead{
+
+color : white;
+/*  background-color : #94ADCF;  */
+ background-color : #768bd5 
+
+}
+
+#table123{
+
+text-align : center;
+}
+.card-body{
+
+background-color : white;
+}
 </style>
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
 		<div id="main">
-			<div>
+			<div class="page-title">
 				<h2>강의계획서 관리</h2>
 			</div>
+			<br>
+			<br>
+			
 			<div class="card-body">
 				<form name="searchForm" class="form-horizontal">
 					<select id="type" name="type">
@@ -39,9 +59,10 @@
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
 				</form>
+				
 				<br>
 				<br>
-				<table class="table">
+				<table class="table" id="table123">
 					<thead>
 						<tr>
 							<th>년도</th>

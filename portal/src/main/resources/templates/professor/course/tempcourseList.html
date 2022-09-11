@@ -5,7 +5,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>강의 계획서 조회</title>
 <style>
 
 #table123 thead{
@@ -33,12 +33,12 @@ background-color : white;
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
-			<div>
+			<div class="page-title">
 				<h2>강의 계획서 조회</h2>
 			</div>
 			<br>
 			<br>
-			<br>
+			<div class="card-body">
 			<form name="searchFrm" class="form-horizontal">
 					<select id="type" name="type">
 						<option value="course_year">개설연도</option>
@@ -47,9 +47,8 @@ background-color : white;
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
 				</form>
-				<br>
 				
-			<div class="card-body">
+			
 				
 				<br>
 				<br>
