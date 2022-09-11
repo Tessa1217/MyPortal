@@ -145,3 +145,7 @@ function cancelUpdate() {
 			})
 	})
 }
+
+function changePage(select) {
+	location.href = `/professor/eclass/` + select.value;
+}

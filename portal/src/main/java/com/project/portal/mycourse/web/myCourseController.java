@@ -25,7 +25,7 @@ import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
 import com.project.portal.student.service.StudentVO;
 import com.project.portal.student.service.impl.StudentServiceImpl;
 
-// 작성자: 김진형, 박근형
+// 작성자: 김진형, 박근형, 권유진 
 @Controller
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
@@ -61,15 +61,14 @@ public class myCourseController {
 
 	@RequestMapping("student/courseList")
 	public String getstuMyCourse(MyCourseVO vo, 
+								CourseVO course,
 								BachelorScheduleVO schedule,
 								Model model, 
 								HttpSession session) {
 		schedule.setDetailCode("BPLAN00");
-		CourseVO course = cservice.getYearSemester(schedule);
+		course = cservice.getYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
-		List<MyCourseVO> mycourseList = service.getstuMyCourse(vo, course);
-		logger.info(mycourseList.toString());
-		model.addAttribute("mycourseList", mycourseList);
+		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
 
 		return "student/courseList";
 	}
@@ -84,8 +83,7 @@ public class myCourseController {
 		schedule.setDetailCode("BPLAN00");
 		CourseVO course = cservice.getYearSemester(schedule);
 		course.setProfessorId((int) session.getAttribute("id"));
-		List<myProfCourseVO> mycourseList = service.getProfMyCourse(course);
-		model.addAttribute("mycourseList", mycourseList);
+		model.addAttribute("mycourseList", service.getProfMyCourse(course));
 		return "professor/courseList";
 	}
 
@@ -93,18 +91,33 @@ public class myCourseController {
 
 	@RequestMapping("/student/eclass/{courseCode}")
 	public String getstuMyCoursePage(@PathVariable String courseCode, 
+									CourseVO course,
 									MyCourseMainVO vo, 
+									MyCourseVO mycourse,
+									StudentVO student,
 									Model model,
-									HttpSession session) {
-		CourseVO course = new CourseVO();
+									HttpSession session, 
+									BachelorScheduleVO schedule) {
+		
+		// 강의 정보 
 		course.setCourseCode(courseCode);
 		session.setAttribute("courseCode", courseCode);
 		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
+		
+		// 주차별 과제, 강의, 시험 정보 
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
-		StudentVO student = new StudentVO();
+		
+		// 학생이 수강중인 전체 강의 목록 
+		schedule.setDetailCode("BPLAN00");
+		course = cservice.getYearSemester(schedule);
+		mycourse.setStudentId((int) session.getAttribute("id"));
+		session.setAttribute("courseList", service.getstuMyCourse(mycourse, course));
+		
+		// 학생 정보 
 		student.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("student", studService.studentInfoSelect(student));
+		
 		return "student/eclass/eclassmain";
 
 	}
@@ -112,13 +125,22 @@ public class myCourseController {
 	// 교수 강좌 강의 lms 메인 페이지 이동
 	@RequestMapping("/professor/eclass/{courseCode}")
 	public String getProfMyCoursePage(@PathVariable String courseCode, 
+									CourseVO course,
 									MyCourseMainVO vo, 
 									Model model,
-									HttpSession session) {
-		CourseVO course = new CourseVO();
+									HttpSession session, 
+									BachelorScheduleVO schedule) {
+		
+		// 강의 정보 
 		course.setCourseCode(courseCode);
 		session.setAttribute("courseCode", courseCode);
 		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
+		
+		// 전체 강의 목록 
+		schedule.setDetailCode("BPLAN00");
+		course = cservice.getYearSemester(schedule);
+		course.setProfessorId((int) session.getAttribute("id"));
+		session.setAttribute("courseList", service.getProfMyCourse(course));
 		return "professor/eclass/eclassmain";
 
 	}
