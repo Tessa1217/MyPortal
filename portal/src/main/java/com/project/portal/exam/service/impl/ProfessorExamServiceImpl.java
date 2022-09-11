@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
+import com.project.portal.course.service.CourseWeeklyVO;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
@@ -44,8 +46,8 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 	}
 
 	@Override
-	public List<ExamScoreVO> getExamScore(CourseVO vo) {
-		return mapper.getExamScore(vo);
+	public List<ExamScoreVO> getExamScore(CourseVO vo, Criteria cri) {
+		return mapper.getExamScore(vo, cri);
 	}
 
 	@Override
@@ -87,10 +89,26 @@ public class ProfessorExamServiceImpl implements ProfessorExamService {
 	}
 
 	@Override
-	public Map<String, CourseVO> getTestDate(CourseVO vo, String detailCode1, String detailCode2) {
-		Map<String, CourseVO> testDates = new HashMap<String, CourseVO>();
+	public Map<String, CourseWeeklyVO> getTestDate(CourseVO vo, String detailCode1, String detailCode2) {
+		Map<String, CourseWeeklyVO> testDates = new HashMap<String, CourseWeeklyVO>();
 		testDates.put("middle", mapper.getTestDate(vo, detailCode1));
 		testDates.put("final", mapper.getTestDate(vo, detailCode2));
 		return testDates;
+	}
+
+	@Override
+	public int getExamScoreTotal(CourseVO vo, Criteria cri) {
+		return mapper.getExamScoreTotal(vo, cri);
+	}
+
+	@Override
+	public void deleteQuestion(QuestionVO vo) {
+		mapper.deleteQuestion(vo);
+	}
+
+	@Override
+	public void updateQuestion(QuestionVO vo) {
+		mapper.updateQuestion(vo);
+		
 	}
 }

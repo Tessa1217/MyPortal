@@ -85,6 +85,10 @@
 	</select>
 	
 	<insert id="insertExam">
+		<selectKey keyProperty="exam.examCode" resultType="String" order="BEFORE">
+			SELECT #{exam.examCode}||#{course.courseCode}||SUBSTR(#{course.courseYear}, 3, 2)||#{course.courseSemester}
+				FROM dual
+		</selectKey>
 		INSERT INTO exam (
 											exam_code,
 											week_code,
@@ -98,7 +102,7 @@
 											course_code
 											)
 			VALUES (
-							#{exam.examCode}||#{course.courseCode}||SUBSTR(#{course.courseYear}, 3, 2)||#{course.courseSemester},
+							#{exam.examCode},
 							#{exam.weekCode},
 							SYSDATE,
 							#{exam.examStartDate},
@@ -109,22 +113,43 @@
 							DEFAULT,
 							#{course.courseCode}
 							)
-		<selectKey keyProperty="exam.examCode" resultType="String" order="AFTER">
-			SELECT exam_code 
-				FROM exam
-				WHERE week_code = #{exam.weekCode}
-		</selectKey>
 	</insert>
 	<select id="getExamScore" resultType="ExamScoreVO">
+		SELECT * FROM (
+			SELECT A.*, ROWNUM R FROM (
+				SELECT student_id,
+								exam_code,
+								exam_score,
+								exam_take
+					FROM exam_score
+					WHERE exam_code IN (SELECT exam_code
+															FROM exam
+															WHERE course_code = #{course.courseCode})
+					ORDER BY exam_code, student_id
+				) A
+				<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != ''">
+					WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+				</if>
+				</if>
+				)
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != ''">
+					WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
+				</if>
+			</if>
+	</select>
+	<select id="getExamScoreTotal" resultType="int">
+		SELECT COUNT(*) FROM (
 		SELECT student_id,
-						exam_code,
-						exam_score,
-						exam_take
-			FROM exam_score
-			WHERE exam_code IN (SELECT exam_code
-													FROM exam
-													WHERE course_code = #{courseCode})
-			ORDER BY exam_code
+								exam_code,
+								exam_score,
+								exam_take
+					FROM exam_score
+					WHERE exam_code IN (SELECT exam_code
+															FROM exam
+															WHERE course_code = #{course.courseCode})
+												)
 	</select>
 	<update id="updateExam">
 		UPDATE exam
@@ -141,6 +166,10 @@
 			WHERE exam_code = #{examCode}
 	</delete>
 	<insert id="insertQuestion">
+		<selectKey keyProperty="questionCode" resultType="String" order="BEFORE">
+			SELECT 'q'||LPAD(TO_CHAR(seq_q.NEXTVAL), 9, '0')
+				FROM dual
+		</selectKey>
 		INSERT INTO QUESTION 
 							(
 							question_code,
@@ -148,14 +177,20 @@
 							question_answer
 							)
 							VALUES (
-							'q'||LPAD(TO_CHAR(seq_q.NEXTVAL), 9, '0'),
+							#{questionCode},
 							#{questionContent}, 
 							#{questionAnswer})
-		<selectKey keyProperty="questionCode" resultType="String" order="AFTER">
-			SELECT MAX(question_code)
-				FROM question
-		</selectKey>
 	</insert>
+	<delete id="deleteQuestion" parameterType="QuestionVO">
+		DELETE FROM question
+			WHERE question_code = #{questionCode}
+	</delete>
+	<update id="updateQuestion" parameterType="QuestionVO">
+		UPDATE question
+			SET question_content = #{questionContent},
+			question_answer = #{questionAnswer}
+			WHERE question_code = #{questionCode}
+	</update>
 	<insert id="insertQuestionOption">
 		INSERT INTO QUESTION_OPTION (
 																question_code,
@@ -218,8 +253,10 @@
 									'UNSUB'
 									)
 	</insert>
-		<select id="getTestDate" resultType="CourseVO">
-		  SELECT week_code
+		<select id="getTestDate" resultType="CourseWeeklyVO">
+		  SELECT week_code,
+		  week_start_date,
+		  week_end_date
 			FROM course_weekly
 			WHERE course_code = 'SSPY0001'
 			AND week_start_date BETWEEN (SELECT schedule_start_date

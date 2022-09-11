@@ -33,6 +33,7 @@ import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
 // 작성자: 권유진 
 
 @Controller
+@RequestMapping("/professor/eclass")
 public class ProfessorReportController {
 	
 	@Autowired 
@@ -45,7 +46,7 @@ public class ProfessorReportController {
 	private String uploadPath;
 	
 	// 과제 리스트 
-	@RequestMapping("/professor/eclass/reportList")
+	@RequestMapping("/reportList")
 	public String getReportList(Model model, 
 								Criteria cri, 
 								HttpSession session) {
@@ -56,13 +57,13 @@ public class ProfessorReportController {
 	}
 	
 	// 과제 등록 페이지 이동 
-	@RequestMapping("/professor/eclass/insertReport")
+	@RequestMapping("/insertReport")
 	public String insertReportForm(Model model) {
 		return "professor/eclass/report/insertReport";
 	}
 	
 	// 과제 등록 
-	@PostMapping("/professor/eclass/insertReport")
+	@PostMapping("/insertReport")
 	public String insertReport(@RequestParam("file") MultipartFile file, 
 								ReportVO vo, 
 								Model model, 
@@ -84,14 +85,14 @@ public class ProfessorReportController {
 	}
 	
 	// 교수의 파일 전체 가져오기
-	@PostMapping("/professor/eclass/getWholeFile")
+	@PostMapping("/getWholeFile")
 	public String getWholeFile(ReportFileVO vo, Model model) {
 		model.addAttribute("fileList", service.getProfWholeFile(vo));
 		return "layout/fragments/professor-eclass/report/fileList :: #oldFileList";
 	}
 	
 	// 상세 보기 페이지 (ON/OFF 이용해서 상세 보기 + 수정 같이 한 페이지에서 처리)
-	@RequestMapping("/professor/eclass/detailReport/{reportCode}")
+	@RequestMapping("/detailReport/{reportCode}")
 	public String detailReport(@PathVariable String reportCode, 
 								ReportVO vo, 
 								Model model) {
@@ -102,7 +103,7 @@ public class ProfessorReportController {
 	}
 	
 	// 새로운 파일이 업로드 되어 MultipartFile이 존재할 경우 기존에 있는 파일은 지워줌
-	@PostMapping("/professor/eclass/updateReport")
+	@PostMapping("/updateReport")
 	public String updateReport(ReportVO vo, 
 								@RequestParam("file") MultipartFile file, 
 								HttpSession session, 
@@ -136,7 +137,7 @@ public class ProfessorReportController {
 		return "redirect:/professor/eclass/reportList";
 	}
 	
-	@DeleteMapping("/professor/eclass/deleteReport") 
+	@DeleteMapping("/deleteReport") 
 	@ResponseBody
 	private String deleteFile(@RequestBody ReportVO report) {
 		service.deleteReport(report);
@@ -158,7 +159,7 @@ public class ProfessorReportController {
 	}
 	
 	// 수강생 과제 관리
-	@RequestMapping("/professor/eclass/studentScore")
+	@RequestMapping("/studentScore")
 	public String studentScoreForm(Model model,
 									CourseVO course,
 									Criteria cri,

@@ -19,7 +19,7 @@
 <body>
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
-		<input type="hidden" name="professorId" th:value="${courseInfo.professorId}"> 
+		<input type="hidden" name="professorId" th:value="${session.courseInfo.professorId}"> 
 			<div>
 				<div class="row">
 					<div class="page-title">
@@ -69,7 +69,6 @@
 			
 			$(function() {
 				showPage();
-				saveExamInfo(); 
 				enterDate("examStartDate", "examEndDate"); 
 			})
 			

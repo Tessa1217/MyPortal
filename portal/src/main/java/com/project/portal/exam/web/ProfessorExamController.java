@@ -1,8 +1,6 @@
 package com.project.portal.exam.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,16 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeService;
-import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.CourseExamVO;
 import com.project.portal.exam.service.ExamFilterVO;
@@ -35,10 +32,9 @@ import com.project.portal.mycourse.service.MyCourseService;
 
 // 작성자: 권유진
 @Controller
+@RequestMapping("/professor/eclass")
 public class ProfessorExamController {
 	
-	@Autowired 
-	CourseService courseService;
 	@Autowired 
 	MyCourseService mycourseService;
 	@Autowired 
@@ -46,60 +42,56 @@ public class ProfessorExamController {
 	@Autowired
 	CodeService codeService;
 	
-	// 강의 정보
-	@ModelAttribute("courseInfo")
-	public CourseVO course(HttpSession session) {
-		CourseVO course = new CourseVO();
-		course.setCourseCode((String) session.getAttribute("courseCode"));
-		return courseService.getWeeklyInfo(course);
-	}
-	
 	// 강의 시험 리스트 페이지
-	@RequestMapping("/professor/eclass/examList")
-	public String courseExamList(Model model) {
-		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), null);
+	@RequestMapping("/examList")
+	public String courseExamList(Model model, HttpSession session) {
+		List<ExamVO> examList = examService.getExamList((CourseVO) session.getAttribute("courseInfo"), null);
 		model.addAttribute("examList", examList);
 		return "professor/eclass/exam/examList";
 	}
 	
-	// 수강생 성적 조회 페이지
-	@RequestMapping("/professor/eclass/examScore")
-	public String studentExamScore() {
+	// 수강생 성적 조회
+	@RequestMapping("/examScore")
+	public String studentExamScore(HttpSession session, 
+								Model model, 
+								Criteria cri, 
+								CourseVO course) {
+		course = (CourseVO) session.getAttribute("courseInfo");
+		List<ExamScoreVO> scores = examService.getExamScore(course, cri);
+		model.addAttribute("scores", scores);
+		System.out.println(scores);
+		model.addAttribute("pageMaker", new PageDTO(examService.getExamScoreTotal(course, cri), cri.getAmount(), cri));
 		return "professor/eclass/exam/examScore";
 	}
 	
-	// 수강생의 성적 응시와 점수 전달
-	@PostMapping(value = "/professor/eclass/examScore", produces = "application/json")
-	public @ResponseBody Object getExamScore(Model model) {
-		Map<String, Object> mp = new HashMap<String, Object>();
-		mp.put("data", examService.getExamScore((CourseVO) model.getAttribute("courseInfo")));
-		Object result = mp;
-		return result;
-	}
-	
 	// 새로운 시험 생성 페이지 이동
-	@GetMapping("/professor/eclass/examInsert")
-	public String newExamInsert(Model model, CourseVO vo) {
-		vo = (CourseVO) model.getAttribute("courseInfo");
+	@GetMapping("/examInsert")
+	public String newExamInsert(Model model, HttpSession session, CourseVO vo) {
+		vo = (CourseVO) session.getAttribute("courseInfo");
 		model.addAttribute("testDates", examService.getTestDate(vo, "BPLAN04", "BPLAN05"));
 		model.addAttribute("command", "1");
 		return "professor/eclass/exam/examInsert";
 	}
 	
 	// 새로운 시험 등록
-	@PostMapping("/professor/eclass/examInsert")
+	@PostMapping("/examInsert")
 	@ResponseBody
 	public ExamVO getExamList(CourseVO course, ExamVO exam) {
 		examService.insertExam(course, exam);
+		System.out.println(exam);
 		return exam;
 	}
 	
 	// 기존에 있는 시험 페이지 이동
-	@RequestMapping("/professor/eclass/examInsert/{examCode}")
-	public String examInsert(@PathVariable String examCode, ExamVO exam, ExamInfoVO vo, Model model) {
+	@RequestMapping("/examInsert/{examCode}")
+	public String examInsert(@PathVariable String examCode, 
+							ExamVO exam, 
+							ExamInfoVO vo, 
+							Model model,
+							HttpSession session) {
 		// 기존 시험 정보
 		exam.setExamCode(examCode);
-		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), exam);
+		List<ExamVO> examList = examService.getExamList((CourseVO) session.getAttribute("courseInfo"), exam);
 		model.addAttribute("examList", examList);
 		model.addAttribute("command", "2");
 		vo.setExamCode(examCode);
@@ -109,16 +101,16 @@ public class ProfessorExamController {
 	}
 	
 	// 기존에 생성된 시험 정보 변경
-	@PostMapping("/professor/eclass/examSubmit")
-	public String examInfoUpdate(ExamVO vo, Model model) {
+	@PostMapping("/examSubmit")
+	public String examInfoUpdate(ExamVO vo, Model model, HttpSession session) {
 		examService.updateExam(vo);
-		List<ExamVO> examList = examService.getExamList((CourseVO) model.getAttribute("courseInfo"), vo);
+		List<ExamVO> examList = examService.getExamList((CourseVO) session.getAttribute("courseInfo"), vo);
 		model.addAttribute("examList", examList);
 		return "/layout/fragments/professor-eclass/exam/updateForm :: #update-container";
 	}
 	
 	// 기존에 생성된 시험 정보 삭제
-	@DeleteMapping("/professor/eclass/examSubmit")
+	@DeleteMapping("/examSubmit")
 	@ResponseBody
 	public String examInfoDelete(ExamVO vo, Model model) {
 		examService.deleteExam(vo);
@@ -126,7 +118,7 @@ public class ProfessorExamController {
 	}
 	
 	// 참고하기 위한 이전 강의들 시험 리스트 호출
-	@PostMapping("/professor/eclass/prevExamList")
+	@PostMapping("/prevExamList")
 	public String prevExamList(ExamInfoVO vo, Model model) {
 		List<ExamInfoVO> examList = examService.getExamInfoList(vo);
 		model.addAttribute("examList", examList);
@@ -134,7 +126,7 @@ public class ProfessorExamController {
 	}
 	
 	// 이전 시험 리스트의 시험지 호출 
-	@PostMapping("/professor/eclass/getCourseExam")
+	@PostMapping("/getCourseExam")
 	public String getCourseExam(@RequestBody ExamFilterVO vo, Model model) {
 		List<CourseExamVO> courseExamInfo = examService.getCourseExam(vo.getExam(), vo.getFilterQuestions());
 		model.addAttribute("courseExam", courseExamInfo);
@@ -142,15 +134,32 @@ public class ProfessorExamController {
 	}
 	
 	// 새로운 시험 문제 생성
-	@PostMapping("/professor/eclass/createQuestion")
+	@PostMapping("/createQuestion")
 	public String createQuestion(@RequestBody QuestionVO vo, Model model) {
 		examService.createQuestion(vo);
 		model.addAttribute("question", vo);
 		return "/layout/fragments/professor-eclass/exam/newTestQuestion :: #newQuestion";
 	}
 	
+	// 시험 문제 삭제
+	@DeleteMapping("/deleteQuestion")
+	@ResponseBody
+	public String deleteQuestion(@RequestBody QuestionVO vo) {
+		examService.deleteQuestion(vo);
+		return "success";
+	}
+	
+	// 시험 문제 변경
+	@PostMapping("/updateQuestion")
+	@ResponseBody
+	public String updateQuestion(@RequestBody QuestionVO vo) {
+		examService.updateQuestion(vo);
+		return "success";
+	}
+	
+	
 	// 시험지 정보 저장 (임시저장, 시험지 생성하기)
-	@PostMapping("/professor/eclass/saveTest")
+	@PostMapping("/saveTest")
 	@ResponseBody
 	public String saveTestTemporary(@RequestBody SaveCourseExamVO vo) {
 		examService.insertCourseExam(vo.getCourseExamList());
@@ -164,7 +173,7 @@ public class ProfessorExamController {
 	}
 	
 	// 시험지 생성하면 미리보기
-	@RequestMapping({"/professor/eclass/generateTestPaper/{examCode}", 
+	@RequestMapping({"/generateTestPaper/{examCode}", 
 		"/professor/eclass/examCheck/{examCode}"})
 	public String generateTestPaper(@PathVariable String examCode, 
 									ExamInfoVO vo, 
@@ -188,7 +197,7 @@ public class ProfessorExamController {
 	}
 	
 	// 시험지 최종 제출 (제출 여부 변경하기)
-	@PostMapping("/professor/eclass/finalSubmit")
+	@PostMapping("/finalSubmit")
 	@ResponseBody
 	public String finalSubmit(ExamInfoVO vo, Model model) {
 		List<ExamScoreVO> studentList = mycourseService.getStudentList(vo);

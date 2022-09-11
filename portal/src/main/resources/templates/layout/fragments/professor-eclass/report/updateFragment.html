@@ -14,7 +14,7 @@
 				<form name="reportFrm" th:action="@{/professor/eclass/updateReport}"
 					method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="courseCode"
-						th:value="${courseInfo.courseCode}">
+						th:value="${session.courseInfo.courseCode}">
 					<input type="hidden" name="reportCode"
 						th:value="${report.reportCode}">
 					<table class="table">
@@ -26,7 +26,7 @@
 							<th>과제주차</th>
 							<td><select class="form-select width-three" name="weekCode">
 							<option value="">주차</option>
-							<th:block th:each="week : ${courseInfo.weekPlans}">
+							<th:block th:each="week : ${session.courseInfo.weekPlans}">
 							<option th:value="${week.weekCode}"
 							th:selected="${week.weekCode == report.weekCode}"
 							th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"

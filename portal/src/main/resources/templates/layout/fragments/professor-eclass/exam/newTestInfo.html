@@ -10,20 +10,33 @@
 			<h4>시험 기본 정보</h4>
 		</div>
 		<div class="card-body" align="center">
-			<input type="hidden" id="middle" name="weekCode"
-			th:with="middle = ${testDates.get('middle')}" th:value="${middle.weekCode}">
-			<input type="hidden" id="final" name="weekCode"
-			th:with="final = ${testDates.get('final')}" th:value="${final.weekCode}">
+			<div id="middle" th:with="middle = ${testDates.get('middle')}">
+				<input type="hidden" name="weekCode"
+				 th:value="${middle.weekCode}">
+				<input type="hidden" name="examStartDate"
+				th:value="${#dates.format(middle.weekStartDate, 'yyyy-MM-dd')}">
+				<input type="hidden" name="examEndDate"
+				th:value="${#dates.format(middle.weekEndDate, 'yyyy-MM-dd')}"				
+				>
+			</div>
+			<div id="final" th:with="final = ${testDates.get('final')}">
+				<input type="hidden" id="final" name="weekCode"
+				 th:value="${final.weekCode}">
+				 <input type="hidden" name="examStartDate"
+				 th:value="${#dates.format({final.weekStartDate}, 'yyyy-MM-dd')}">
+				 <input type="hidden" name="examEndDate"
+				 th:value="${#dates.format({final.weekEndDate}, 'yyyy-MM-dd')}">
+			</div>
 			<form id="examInfoForm" class="form form-horizontal">
 				<div class="form-body">
 					<div class="row inputBox">
 					<!-- 시험 코드 생성시 필요한 강의 정보 -->
 					<input type="hidden" class="form-control"
-						name="courseCode" th:value="${courseInfo.courseCode}">
+						name="courseCode" th:value="${session.courseInfo.courseCode}">
 					<input type="hidden" class="form-control" readonly
-						name="courseYear" th:value="${courseInfo.courseYear}">
+						name="courseYear" th:value="${session.courseInfo.courseYear}">
 					<input type="hidden" class="form-control" readonly
-						name="courseSemester" th:value="${courseInfo.courseSemester}">
+						name="courseSemester" th:value="${session.courseInfo.courseSemester}">
 						<div class="col-md-4">
 							<label>시험 종류</label>
 						</div>

@@ -35,7 +35,7 @@
 							<select class="form-select" name="weekCode"
 								th:value="${exam.weekCode}">
 								<option value="">주차를 선택해주세요.</option>
-								<th:block th:each="week : ${courseInfo.weekPlans}">
+								<th:block th:each="week : ${session.courseInfo.weekPlans}">
 									<option th:selected="${week.weekCode == exam.weekCode}"
 										th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
 										th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"

@@ -38,12 +38,22 @@
 	<th:block layout:fragment="professorEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2>수강생 시험 성적 조회</h2>
+				<h3>수강생 시험 성적 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-sevenh">
+				<div class="card-header">
+					<form th:action="@{/professor/eclass/examScore}" method="GET">
+						<input type="hidden" name="pageNum" value="1">
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+						<select class="inline form-control width-three">
+							<option value=""></option>
+						</select>
+						<button type="submit" class="inline btn-primary btn btn-sm">검색</button>
+					</form>
+				</div>
 				<div class="card-body">
 					<table class="table center" id="scoreTable">
-						<thead class="bg-primary">
+						<thead class="thead-primary">
 							<tr>
 								<th>학번</th>
 								<th>시험</th>
@@ -51,57 +61,45 @@
 								<th>성적</th>
 							</tr>
 						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="s : ${scores}">
+								<td th:text="${s.studentId}"></td>
+								<td th:text="${#strings.startsWith(s.examCode, 'M')} ? '중간' : '기말'"></td>
+								<td th:text="${s.examTake == 'SUB'} ? '응시' : '미응시'"></td>
+								<td th:text="${s.examScore != NULL} ? ${s.examScore} + '점' : '-'"></td>
+							</tr>
+						</tbody>
 					</table>
+					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+						<ul class="pagination justify-content-center">
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-		<script th:inline="javascript">
-			$(function() {
-				//dataTable();
-			})
-
-			// 데이터 테이블 생성
-			$(document).ready(function () {
-				let scoreTable = $("#scoreTable");
-				let table = $(scoreTable).DataTable({
-					ajax: {
-						method : 'POST',
-						url : /*@{/professor/eclass/examScore}*/'',
-						dataType : 'json'
-					},
-					pagingType : 'simple',
-					ordering : false,
-					language: {
-				        paginate: {
-				            previous: '<span><i class="fa-solid fa-angle-left"></i></span>',
-				            next: '<span><i class="fa-solid fa-angle-right"></i></span>'
-				        },
-				    },
-					columns: [
-						{'data' : 'studentId'},
-						{'data' : 'examCode',
-							"render" : function(data) {
-								if (data.startsWith('M')) {
-									data = '중간';
-								} else if (data.startsWith('F')) {
-									data = '기말';
-								}
-								return data;
-							}},
-						{'data' : 'examTake',
-							"render" : function(data, type, row) {
-								if (data == 'SUB') {
-									data = '응시'
-								} else if (data == 'UNSUB') {
-									data = '미응시'
-								}
-								return data;
-							}},
-						{'data' : 'examScore'}
-					]
-				})
-			})
-		</script>
 	</th:block>
 </body>
 </html>

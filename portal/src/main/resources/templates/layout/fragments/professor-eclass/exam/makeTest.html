@@ -7,12 +7,11 @@
 <body>
 	<th:block th:fragment="makeTestFragment">
 		<div align="right">
-			<button type="button" id="tempBtn"
-				class="btn btn-primary btn-md">임시저장</button>
-			<button type="button" id="submitBtn"
-				class="btn btn-danger btn-md">시험지 생성하기</button>
-			<button type="button" id="pointBtn"
-			class="btn btn-info btn-md" title="시험 총점에서 시험 문제 수만큼 나누어 자동적으로 배점을 나눕니다.">자동 배점</button>
+			<button type="button" id="tempBtn" class="btn btn-primary btn-md">임시저장</button>
+			<button type="button" id="submitBtn" class="btn btn-danger btn-md">시험지
+				생성하기</button>
+			<button type="button" id="pointBtn" class="btn btn-info btn-md"
+				title="시험 총점에서 시험 문제 수만큼 나누어 자동적으로 배점을 나눕니다.">자동 배점</button>
 		</div>
 		<div id="testPaperGenerated" class="card">
 			<div th:if="${exam.examTotalQuestion} == 0" id="defaultPaper"
@@ -27,27 +26,34 @@
 						<th:block
 							th:each="i : ${#numbers.sequence(0 + idx * 5, 4 + idx * 5)}">
 							<div class="col-md-6 col-12">
-								<div class="card questionBox">
+								<div class="card questionBox" th:id="${i}">
 									<th:block th:if="${examQuestions}">
-									<div class="card examquestion" th:if="${#lists.size(examQuestions) > i}"
-									th:id="${examQuestions[i].examQuestionNum}">
-										<div class="card-header" th:id="${examQuestions[i].questionCode}">
-											<span th:text="${examQuestions[i].examQuestion.questionContent}"></span>
-											<input type="number" th:value="${examQuestions[i].examQuestionPoint}" name="examQuestionPoint">
+										<div class="card examquestion"
+											th:if="${#lists.size(examQuestions) > i}"
+											th:id="${examQuestions[i].examQuestionNum}">
+											<div class="card-header"
+												th:id="${examQuestions[i].questionCode}">
+												<span
+													th:text="${examQuestions[i].examQuestion.questionContent}"></span>
+												<input type="number"
+													th:value="${examQuestions[i].examQuestionPoint}"
+													name="examQuestionPoint">
+											</div>
+											<div class="card-body">
+												<th:block
+													th:each="option : ${examQuestions[i].examQuestion.optionList}">
+													<p>
+														<input type="radio"
+															th:checked="${option.questionOptionNum == examQuestions[i].examQuestion.questionAnswer}">
+														<span
+															th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
+													</p>
+												</th:block>
+											</div>
 										</div>
-										<div class="card-body">
-											<th:block th:each="option : ${examQuestions[i].examQuestion.optionList}">
-												<p>
-													<input type="radio" th:checked="${option.questionOptionNum == examQuestions[i].examQuestion.questionAnswer}">
-													<span th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
-												</p>
-											</th:block>
-										</div>
-									</div>
-									<button th:if="${#lists.size(examQuestions) <= i}"
-										class="card-body btn btn-outline-primary addQuestionBtn"
-										th:id="${i}"
-										type="button">+</button>
+										<button th:if="${#lists.size(examQuestions) <= i}"
+											class="card-body btn btn-outline-primary addQuestionBtn"
+											type="button">+</button>
 									</th:block>
 								</div>
 							</div>
@@ -74,16 +80,16 @@
 		<div id="template" style="display: none;">
 			<div class="card newQuestion">
 				<div class="card-header">
-				<textarea class="form-control"
-				rows="2"
-				placeholder="문제를 입력하세요"></textarea>
+					<textarea class="form-control" rows="2" placeholder="문제를 입력하세요"></textarea>
 				</div>
 				<div class="card-body">
 					<th:block th:each="idx : ${#numbers.sequence(1, 4)}">
-					<label style="display:block;" class="col-form-label form-check-label">
-							<input class="inline height-e" type="radio" name="answer">
-							<input class="inline width-nine height-e form-control" type="text" name="questionOptionContent">
-					</label>
+						<label style="display: block;"
+							class="col-form-label form-check-label"> <input
+							class="inline height-e" type="radio" name="answer"> <input
+							class="inline width-nine height-e form-control" type="text"
+							name="questionOptionContent">
+						</label>
 					</th:block>
 				</div>
 				<div align="center">
@@ -138,6 +144,7 @@
 						$(emptyBox).eq(idx).parent()
 						.empty().append($(savedQuestions[idx]));
 				})
+				returnQuestion();
 				fireSwal('success', '문제 담기 완료');
 			})
 		}
@@ -145,16 +152,15 @@
 		// 문제 직접 입력하기
 		function addQuestions() {
 			$(document).on("click", ".addQuestionBtn", function(e) {
-				let id = $(this).attr("id");
-				$(this).parent().empty().append($("#template").children().clone())
-				.attr("id", id);
+				$(this).parent().empty().append($("#template")
+				.children().clone());
 			})
 		}
 		
 		// 입력 문제 생성
 		function createQuestion() {
 			$(document).on("click", ".createQuestionBtn", function(e) {
-				let id = $(this).parent().parent().parent().attr("id");
+				let id = $(this).parents(".questionBox").attr("id");
 				let div = $(this).parent().siblings();
 				let answer = $("input[name=answer]").index($("input[name=answer]:checked"));
 				if (answer == -1) {
@@ -174,16 +180,73 @@
 					optionList.push(option);
 				})
 				question.optionList = optionList;
-				$.ajax({
-					method : 'POST',
-					url : `/professor/eclass/createQuestion`,
-					contentType : 'application/json',
-					data : JSON.stringify(question)
-				})
-					.done(function(fragment) {
-						$($(".questionBox")[id]).html(fragment);
-					}) 
+				insertExam(id, question);
 			})
+		}
+		
+		// 문제 생성하는 AJAX 호출
+		function insertExam(id, question) {
+			$.ajax({
+				method : 'POST',
+				url : `/professor/eclass/createQuestion`,
+				contentType : 'application/json',
+				data : JSON.stringify(question)
+			})
+				.done(function(fragment) {
+					$("div.questionBox#" + id).html(fragment);
+					fireSwal('success', '문제 입력이 완료되었습니다.');
+				})
+		}
+		
+		// 문제 삭제하기 
+		function deleteQuestion(e) {
+				let questionBox = $(e).parents(".questionBox");
+				let data = {
+						questionCode : $(e).data("question")
+					};
+				$.ajax({
+					method : 'DELETE',
+					url : `/professor/eclass/deleteQuestion`,
+					contentType : 'application/json',
+					data : JSON.stringify(data),
+					success : function(result) {
+						if (result == 'success') {
+							fireSwal('success', '문제 삭제가 완료되었습니다.');
+							$(questionBox).empty().append(`<button class="card-body btn btn-outline-primary addQuestionBtn" type="button">+</button>`);
+						}
+					}
+				}) 
+		}
+		
+		// 문제 변경하기 
+		function updateQuestion(e) {
+			
+				updateQuestionContent(e);
+				/* $.ajax({
+					method : 'POST',
+					url : `/professor/eclass/updateQuestion`,
+					contentType : 'application/json',
+					data : JSON.stringify(data),
+					success : function(result) {
+						if (result == 'success') {
+							fireSwal('success', '수정이 완료되었습니다.');
+							
+						}
+					}
+				})  */
+
+		}
+		
+		
+		// 문제 변경 AJAX 호출
+		function updateQuestionContent(target) {
+			let data = {
+					questionCode : $(target).data("question")
+			};
+			console.log(target);
+			console.log($(target).parent(".card-header"));
+			console.log($(target).parents(".card"));
+			console.log($(target).parents(".card-body"));
 		}
 		
 		// 문제 자동 배점
@@ -221,7 +284,6 @@
 				courseExam.examQuestionNum = $(val).attr("id");
 				courseExam.questionCode = $(header).attr("id");
 				courseExam.examComplete = '0';
-				// 교수 아이디 나중에 세션 값으로 넣어야 함
 				courseExam.professorId = $("input[name=professorId]").val();
 				courseExamList.push(courseExam);
 			})
@@ -287,6 +349,7 @@
 				}
 			})
 		}
+		
 		// 문항수 확인
 		function countCheck(courseExamList) {
 			let totalQuestion = $("input[name=examTotalQuestion]").val();
@@ -299,6 +362,7 @@
 			}
 			return null;
 		}
+		
 		// 문제 배점 유무
 		function pointCheck(courseExamList) {
 			const noPoint = (element) => element.examQuestionPoint == 0 || element.examQuestionPoint == '';
@@ -312,6 +376,7 @@
 			}
 			return null;
 		}
+		
 		// 문제 배점 합 
 		function pointSumCheck(courseExamList) {
 			let pointChk = courseExamList.reduce(function(accum, curr) {
@@ -327,6 +392,24 @@
 				return msg;
 			}
 			return null;
+		}
+		
+		// 입력한 문제 다시 반환
+		function returnQuestion() {
+			$(".prevExamCheck").each((idx, val) => {
+				$(val).on("change", function() {
+					if ($(val).is(":checked") == false) {
+						let currentBox = $(val).parents(".questionBox");
+						let prevTest = $("#testQuestions .scroll");
+						let question = $(val).parents(".examquestion");
+						$(val).siblings("input[type=number]").remove();
+						$(question).removeClass("examquestion")
+						.addClass("question")
+						.appendTo(prevTest);
+						currentBox.append(`<button class="card-body btn btn-outline-primary addQuestionBtn" type="button">+</button>`);
+					}
+				})
+			})
 		}
 	</script>
 	</th:block>
