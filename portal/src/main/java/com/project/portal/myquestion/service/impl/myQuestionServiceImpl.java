@@ -18,9 +18,9 @@ public class myQuestionServiceImpl implements myQuestionService {
 	@Autowired
 	myQuestionMapper mapper;
 	@Override
-	public List<myQuestionVO> getStuMyQuestion(myQuestionVO vo) {
+	public List<myQuestionVO> getStuMyQuestion(myQuestionVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.getStuMyQuestion(vo);
+		return mapper.getStuMyQuestion(vo, cri);
 	}
 	@Override
 	public List<myQuestionVO> getProfMyQuestion(myQuestionVO vo , Criteria cri) {
@@ -55,9 +55,14 @@ public class myQuestionServiceImpl implements myQuestionService {
 		mapper.modifyProfMyQuestion(vo);
 	}
 	@Override
-	public int getProfTotal(String courseCode) {
+	public int getProfTotal(myQuestionVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.getProfTotal(courseCode);
+		return mapper.getProfTotal(vo);
+	}
+	@Override
+	public int getStuTotal(myQuestionVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getStuTotal(vo);	
 	}
 
 }

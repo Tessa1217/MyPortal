@@ -35,7 +35,8 @@
 	
 	
 	<select id="getTotal" resultType="int">
-		 SELECT COUNT(*) FROM ( SELECT R.REPORT_CODE,
+		 SELECT COUNT(*) 
+		 FROM ( SELECT R.REPORT_CODE,
 		R.WEEK_CODE,
 		R.REPORT_TITLE,
 		R.REPORT_START_DATE,
@@ -57,7 +58,11 @@
              ON O.REPORT_SUBMISSION_CODE = S.REPORT_SUBMISSION_CODE
             JOIN COURSE_WEEKLY W
                ON W.WEEK_CODE = R.WEEK_CODE 
-              WHERE S.STUDENT_ID = #{studentId})
+              WHERE S.STUDENT_ID = #{studentId}
+              <if test="type != null and type != ''">
+						AND w.week_num = #{type}
+				</if>
+              )
 	</select>
 
 

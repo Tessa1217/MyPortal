@@ -16,25 +16,28 @@
 			<div class="card">
 				<div class="card-body">
 		<form name="frmsearch" action="/student/eclass/courseQuestion">
-		<select id="weekValue"  name="weekValue">
-			<option value="1">1주차</option>
-			<option value="2">2주차</option>
-			<option value="3">3주차</option>
-			<option value="4">4주차</option>
-			<option value="5">5주차</option>
-			<option value="6">6주차</option>
-			<option value="7">7주차</option>
-			<option value="8">8주차</option>
-			<option value="9">9주차</option>
-			<option value="10">10주차</option>
-			<option value="11">11주차</option>
-			<option value="12">12주차</option>
-			<option value="13">13주차</option>
-			<option value="14">14주차</option>
-			<option value="15">15주차</option>
+		<select id="type"  name="type">
+			<option th:selected="${pageMaker.cri.type} == '1'" value="1">1주차</option>
+			<option th:selected="${pageMaker.cri.type} == '2'" value="2">2주차</option>
+			<option th:selected="${pageMaker.cri.type} == '3'" value="3">3주차</option>
+			<option th:selected="${pageMaker.cri.type} == '4'" value="4">4주차</option>
+			<option th:selected="${pageMaker.cri.type} == '5'" value="5">5주차</option>
+			<option th:selected="${pageMaker.cri.type} == '6'" value="6">6주차</option>
+			<option th:selected="${pageMaker.cri.type} == '7'" value="7">7주차</option>
+			<option th:selected="${pageMaker.cri.type} == '8'" value="8">8주차</option>
+			<option th:selected="${pageMaker.cri.type} == '9'" value="9">9주차</option>
+			<option th:selected="${pageMaker.cri.type} == '10'" value="10">10주차</option>
+			<option th:selected="${pageMaker.cri.type} == '11'" value="11">11주차</option>
+			<option th:selected="${pageMaker.cri.type} == '12'" value="12">12주차</option>
+			<option th:selected="${pageMaker.cri.type} == '13'" value="13">13주차</option>
+			<option th:selected="${pageMaker.cri.type} == '14'" value="14">14주차</option>
+			<option th:selected="${pageMaker.cri.type} == '15'" value="15">15주차</option>
 		</select>
 		
-		<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">검색</button>
+		<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+		<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+		
+		<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
 		<button type="button" class="saveBtn btn btn-primary me-1 mb-1"
 		onclick="location.href='/student/eclass/courseQuestion'">전체목록조회</button>
 		
@@ -56,8 +59,8 @@
 			</thead>
 			
 			<tbody>
-				<tr th:each="courseQuestion, idx: ${courseQuestion}">
-					<td th:text="${idx.index+1}"></td>
+				<tr th:each="courseQuestion: ${courseQuestion}">
+					<td th:text="${courseQuestion.questionNo}"></td>
 					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
 					<td th:text="${courseQuestion.weekNum}"></td>
@@ -68,6 +71,28 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<div th:object="${pageMaker}">
+						<ul class="pagination justify-content-center">
+						<th:block th:if="${pageMaker.prev}">
+   						 <li class="page-item prev">
+        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.startPage - 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">이전</a>
+   						 </li>
+						</th:block>
+						<th:block th:with="pageMaker = ${pageMaker}">
+				    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+				        <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(num, pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])"></a>
+				        </li>
+				    </th:block>
+				    <th:block th:if="${pageMaker.next}">
+					    <li class="page-item next">
+					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.endPage + 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">다음</a>
+					    </li>
+						</th:block>
+						</th:block>
+						</ul>
+					</div>
 	</div>
 </div>
 </div>
@@ -132,6 +157,12 @@
     </div>
     
     	<script th:inline="javascript"> 	
+    	
+    	// 검색 버튼 처리 
+		$('.search').on("click" , function() {
+			//(검색 처리시 페이지번호 1로 가도록)
+			$('input[name=pageNum]').val('1')
+		}) 
     	
     	
     	$(function () {

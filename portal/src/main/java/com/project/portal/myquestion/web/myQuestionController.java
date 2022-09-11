@@ -45,8 +45,9 @@ public class myQuestionController {
 		vo.setStudentId((int)session.getAttribute("id"));
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		//질문 목록 조회
-		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo));
+		model.addAttribute("courseQuestion" , service.getStuMyQuestion(vo, cri));
 		//페이지
+		model.addAttribute("pageMaker", new PageDTO(service.getStuTotal(vo), cri.getAmount(), cri));
 		
 		return "student/eclass/question/courseQuestion";
 	}
@@ -57,7 +58,7 @@ public class myQuestionController {
 	public String getProfMyQuestion(myQuestionVO vo, Model model, HttpSession session, Criteria cri) {
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		model.addAttribute("courseProfQuestion" , service.getProfMyQuestion(vo, cri));
-		model.addAttribute("pageMaker", new PageDTO(service.getProfTotal(vo.getCourseCode()), cri.getAmount(), cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getProfTotal(vo), cri.getAmount(), cri));
 		return "professor/eclass/lecture/courseQuestion";
 	}
 	

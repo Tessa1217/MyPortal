@@ -56,12 +56,13 @@ public class StudentReportController {
 	@RequestMapping("/student/eclass/reportList")
 	public String getReportList(Model model, CourseVO vo, ReportVO rvo, HttpSession session, Criteria cri) {
 		vo.setStudentId((int) session.getAttribute("id"));
+		rvo.setStudentId((int) session.getAttribute("id"));
 		List<ReportVO> reportList = service.getReportList(vo, rvo, cri);
 
 		// 과제 리스트
 		model.addAttribute("reportList", reportList);
 		// paging
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo.getStudentId()), cri.getAmount(), cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(rvo), cri.getAmount(), cri));
 		return "student/eclass/report/reportList";
 	}
 

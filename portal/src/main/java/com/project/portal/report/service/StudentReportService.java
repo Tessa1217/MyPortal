@@ -31,7 +31,7 @@ public interface StudentReportService {
 	// 이의 신청 등록
 	public void insertReportObjection(ReportObjectionVO vo);
 	// 과제 총 개수
-	public int getTotal(int studentId);
+	public int getTotal(ReportVO vo);
 
 
 }

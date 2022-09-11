@@ -7,15 +7,17 @@ import org.apache.ibatis.annotations.Param;
 import com.project.portal.common.Criteria;
 
 public interface myQuestionService {
-	// 학생 질문 조회
-	public List<myQuestionVO> getStuMyQuestion(myQuestionVO vo);
+	//학생 질문 조회
+	public List<myQuestionVO> getStuMyQuestion(@Param("myQuestion") myQuestionVO vo, @Param("cri") Criteria cri);
+	// 학생 질문 개수
+	public int getStuTotal(myQuestionVO vo);
 	// 학생 질문 답변여부
 	public myQuestionVO getStuMyQuestionCheck(String studentId);
 	// 교수 질문 조회
 	public List<myQuestionVO> getProfMyQuestion(@Param("myQuestion") myQuestionVO vo , @Param("cri") Criteria cri);
 	
 	//교수 질문 개수
-	public int getProfTotal(String courseCode);
+	public int getProfTotal(myQuestionVO vo);
 	
 	// 학생 질문 상세 조회
 	public myQuestionVO getStuMyQuestionDetail(String questionNum);

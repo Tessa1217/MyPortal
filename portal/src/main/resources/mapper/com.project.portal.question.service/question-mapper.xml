@@ -4,19 +4,40 @@
 	namespace="com.project.portal.myquestion.service.myQuestionMapper">
 	
 	<select id="getStuMyQuestion" resultType="com.project.portal.myquestion.service.myQuestionVO">
-		SELECT Q.LECTURE_QUESTION_NUM,
+		    SELECT * FROM (
+    SELECT A.* , ROWNUM question_no
+        FROM (
+            SELECT Q.LECTURE_QUESTION_NUM,
 		       Q.LECTURE_QUESTION_TITLE,
 		       Q.LECTURE_QUESTION_REG_DATE,
 		       W.WEEK_NUM,
 		       nvl((SELECT 'O' FROM LECTURE_ANSWER A WHERE A.LECTURE_QUESTION_NUM=Q.LECTURE_QUESTION_NUM)    , 'X') lecture_Question_Answer_Check
 		FROM LECTURE_QUESTION Q
 		JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
-		WHERE Q.STUDENT_ID = #{studentId} AND w.course_code = #{courseCode}
-		 <if test="weekValue != null and weekValue !=''">
-				AND W.WEEK_NUM = #{weekValue} 
+				
+		WHERE Q.STUDENT_ID = #{myQuestion.studentId} AND w.course_code = #{myQuestion.courseCode}
+		<if test="cri.type != null and cri.type !=''">
+				AND W.WEEK_NUM = #{cri.type} 
 		</if>
-		ORDER BY 1 ASC
+		ORDER BY 4 ASC ) A
+		
+		  where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
+		  )
+       	WHERE question_no > (#{cri.pageNum} - 1) * #{cri.amount}
+		
 	</select>
+	
+	<select id="getStuTotal" resultType="integer">
+		SELECT count(*) AS total
+		FROM LECTURE_QUESTION Q
+		JOIN COURSE_WEEKLY W ON Q.WEEK_CODE = W.WEEK_CODE
+		WHERE Q.STUDENT_ID = #{myQuestion.studentId} AND w.course_code = #{myQuestion.courseCode}
+		  <if test="type != null and type !=''">
+				AND W.WEEK_NUM = #{type} 
+		</if>
+	</select>
+	
+	
 	
 	<select id="getStuMyQuestionDetail" resultType="com.project.portal.myquestion.service.myQuestionVO">
 		SELECT Q.LECTURE_QUESTION_TITLE,
@@ -82,6 +103,9 @@
           JOIN COURSE_WEEKLY W 
             ON L.WEEK_CODE = W.WEEK_CODE
        WHERE W.COURSE_CODE = #{courseCode}
+       <if test="type != null and type !=''">
+				AND W.WEEK_NUM = #{type} 
+		</if>
 	</select>
 	
 	<select id="getProfMyQuestionDetail" resultType="com.project.portal.myquestion.service.myQuestionVO">

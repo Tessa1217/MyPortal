@@ -83,9 +83,9 @@ public class StudentReportServiceImpl implements StudentReportService {
 	}
 
 	@Override
-	public int getTotal(int studentId) {
+	public int getTotal(ReportVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.getTotal(studentId);
+		return mapper.getTotal(vo);
 	}
 
 
