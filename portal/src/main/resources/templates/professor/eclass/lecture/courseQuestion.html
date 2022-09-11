@@ -122,33 +122,39 @@
                                 <div class="card z-index-0 fadeIn3 fadeInBottom">
                                     <div class="card-body">
                                     <form id="frm" name="frm" action="/professor/eclass/courseQuestionInsert">
-                                    	<table class="table">
+                                    	<table class="table table-bordered mb-0">
                                     			<tr>
-                                    				<td width="200px">질문번호</td>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">질문번호</td>
                                     				<td id="questionnum"></td>
                                     			</tr> 
                                     			<tr>
-                                    				<td width="200px">제목</td>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
                                     				<td id="title"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td width="200px">주차</td>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
                                     				<td id="week"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td width="200px">질문 내용</td>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">질문 내용</td>
                                     				<td id="questioncontent"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td width="200px">질문 등록일</td>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">질문 등록일</td>
                                     				<td id="answerregdate"></td>
                                     			</tr>
                                     			
                                     			<tr>
-                                    				<td>답변 내용</td>
+                                    				<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">답변 내용</td>
                                     				<td>
                                     				<textarea class="form-control hidden" name="lectureAnswerContent" id="Answeredit" required></textarea>
                                     				<div id="answercontentview"></div>
@@ -160,6 +166,7 @@
                                     			
                                     			
                                     	</table>
+                                    	<br>
                                     	 <button type="button" class="btn btn-secondary courseProfQuestionAnswer" data-bs-dismiss="modal" aria-label="Close"
                                     	 id="AnswerReg">답변 등록</button>
                             			<button type="button" id="AnswerMod" class="btn btn-secondary hidden" data-bs-dismiss="modal"
@@ -194,6 +201,9 @@
 		courseQuestionDetail();
 		modalOff();
 	})
+	
+	
+	
 	// 검색 버튼 처리 
 			$('.search').on("click" , function() {
 				//(검색 처리시 페이지번호 1로 가도록)

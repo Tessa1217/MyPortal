@@ -6,40 +6,49 @@
 <script th:inline="javascript" src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
-<body>
-<th:block layout:fragment="professorEclassContent">
 <style>
 	.hidden {
 		display : none
 	}
 </style>
+</head>
+<body>
+<th:block layout:fragment="professorEclassContent">
+
 <div id="main">
-	<h1>공지사항 상세보기</h1>
-	<hr>
-	<table class="table">
+	<div class="page-title">
+	<h3>공지사항</h3>
+	</div>
+	<div class="card">
+				<div class="card-body">
+	<table class="table table-bordered mb-0">
 		<tbody>
 		<tr>
-			<td>제목</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
 			<td>
 			    <input class="form-control hidden" name="courseNoticeTitle" id="titleeditor" th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 			<div id="titleview" th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></div></td>
 			
-			<td>글번호</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
 			<td id="courseNoticeNo" th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
 		</tr>
 		
 		<tr>
-			<td>조회수</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
 			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
-			<td>등록일</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">등록일</td>
 			<td th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 		</tr>
 		
 		<tr>
-			<td>첨부파일</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
 			<div th:each="selectFile : ${selectFile}">
-			<td>
+			<td colspan="3">
 			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 			th:text="${selectFile.fileOriName}"></a>
 			</td>
@@ -56,7 +65,8 @@
 
 		
 		<tr>
-			<td>내용</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">내용</td>
 			<td colspan="3"><div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div>
 			          		 
 			    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}">
@@ -69,12 +79,14 @@
 		</tr>
 		</tbody>
 	</table>
-	
+	<br>
 	<button type="button" class="btn btn-primary" id="AllList">목록</button>
 	<button type="button" class="btn btn-primary" id="Delete">삭제</button>
 	<button type="button" class="btn btn-primary" id="Modify">수정</button>
 	<button type="button" class="btn btn-primary hidden" id="prev">이전</button>
 	<button type="button" class="btn btn-primary hidden" id="ModifySubmit">수정하기</button>
+</div>
+</div>
 </div>
 
 	<script th:inline="javascript">

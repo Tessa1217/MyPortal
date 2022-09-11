@@ -64,9 +64,7 @@ td {
  			 
             <textarea name="courseNoticeContent" id="courseNoticeContent" rows="10" cols="70" required>
             </textarea>
-            <script>
-                CKEDITOR.replace( 'courseNoticeContent' );
-            </script>
+
             
 
 
@@ -81,7 +79,22 @@ td {
 		
 		
 		<script th:inline="javascript">
+		$(function() {
+			editor();
+		})
 
+		function editor() {
+			tinymce.init({
+				selector : '#courseNoticeContent',
+				plugins : ['image', 'table'],
+				submit_patch : false,
+				setup : function(editor) {
+					editor.on('change', function() {
+						editor.save();
+					})
+				}
+			})
+		}
 		</script>
 		
 		

@@ -9,43 +9,48 @@
 <body>
 <th:block layout:fragment="studentEclassContent">
 <div id="main">
-	<h2>공지사항</h2>
-	<hr>
+<div class="page-title">
+	<h3>공지사항</h3>
+	</div>
 		<div class="card">
 				<div class="card-body">
-	<table class="table">
+	<table class="table table-bordered mb-0">
 		<tbody>
 		<tr>
-			<div class="card">
-				<div class="card-body">
-			<td>제목</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
 			<td th:text="${selectDetailStudyNotice.courseNoticeTitle}"></td>
-			<td>글번호</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
 			<td th:text="${selectDetailStudyNotice.courseNoticeNo}"></td>
 		</tr>
 		
 		<tr>
-			<td>조회수</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
 			<td th:text="${selectDetailStudyNotice.courseNoticeHit}"></td>
-			<td>등록일</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">등록일</td>
 			<td th:text="${#dates.format(selectDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 		</tr>
 		
 		<tr>
-			<td>첨부파일</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
 			<div th:each="selectFile : ${selectFile}">
-			<td><a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			<td colspan="3"><a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 			th:text="${selectFile.fileOriName}"></a></a></td>
 			
 		</tr>
 		
 		<tr>
-			<td>내용</td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">내용</td>
 			<td colspan="3" th:utext="${selectDetailStudyNotice.courseNoticeContent}"></td>
 		</tr>
 		</tbody>
 	</table>
-	
+	<br>
 	<button type="button" class="btn btn-primary" id="AllList">목록</button>
 </div>
 </div>
