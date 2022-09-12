@@ -17,8 +17,9 @@
 
 </style>
 	<div id="main">
-		<h2>질문 목록</h2>
-		<hr>
+		<div class="page-title">
+		<h3>질문 목록</h3>
+		</div>
 			<div class="card">
 				<div class="card-body">
 		<form name="frmsearch" action="/professor/eclass/courseQuestion">
@@ -123,11 +124,11 @@
                                     <div class="card-body">
                                     <form id="frm" name="frm" action="/professor/eclass/courseQuestionInsert">
                                     	<table class="table table-bordered mb-0">
-                                    			<tr>
+                                    			<!-- <tr>
                                     				<td width="200px" class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">질문번호</td>
                                     				<td id="questionnum"></td>
-                                    			</tr> 
+                                    			</tr>  -->
                                     			<tr>
                                     				<td width="200px" class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
@@ -167,6 +168,7 @@
                                     			
                                     	</table>
                                     	<br>
+                                    	<div style=" text-align: center;">
                                     	 <button type="button" class="btn btn-secondary courseProfQuestionAnswer" data-bs-dismiss="modal" aria-label="Close"
                                     	 id="AnswerReg">답변 등록</button>
                             			<button type="button" id="AnswerMod" class="btn btn-secondary hidden" data-bs-dismiss="modal"
@@ -176,6 +178,7 @@
                             			<button type="button" class="btn btn-primary" id="Modify" >수정</button>
                             			  <button id="closeModal" type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
+								</div>
                                     </form>
                                    
 

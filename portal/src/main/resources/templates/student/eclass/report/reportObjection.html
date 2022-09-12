@@ -11,44 +11,67 @@
 		<div id="main">
 			<div class="page-title">
 				<h2>과제 점수 이의 신청서</h2>
-				<hr>
+				</div>
+				
 				<div class="card">
 					<div class="card-body"></div>
 					<form th:action="@{/student/eclass/reportObjectionSubmit}" method="POST">
 					<input type="hidden" name="reportSubmissionCode"
 					th:value="${stureportobjectionscore.reportSubmissionCode}">
-					<table class="table">
+					<table class="table table-bordered mb-0">
 						<tr>
-							<td>과목명</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과목명</th>
 							<td th:text="${courseInfo.courseName}"></td>
-							<td>과제주차</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제주차</th>
 							<td th:text="${stureportobjectionscore.weekNum}"></td>
 						</tr>
 					
 						<tr>
-							<td>학년</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">학년</th>
 							<td th:text="${stuobjection.studentGrade}"></td>
-							<td>학번</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">학번</th>
 							<td th:text="${stuobjection.studentId}"></td>
 						</tr>
 						
 						<tr>
-							<td>작성자</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">작성자</th>
 							<td th:text="${stuobjection.studentName}"></td>
-							<td>과제 성적</td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제 성적</th>
 							<td th:text="${stureportobjectionscore.reportScore}"></td>
 							
 						</tr>
 						
 						<tr>
-							<td>이의 신청 사유</td>
-							<td><textarea name="reportScoreObjectionApplicationReason"></textarea></td>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제출한 파일</th>
+							<td colspan="3"><a
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${stureportobjectionscore.reportFileCode}, userCode=${stureportobjectionscore.userCode})}"
+									th:text="${stureportobjectionscore.reportFileName}"
+									th:download="${stureportobjectionscore.reportFileName}"></a> </td>
+							
+						</tr>
+						
+						<tr>
+							<th class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);" >이의 신청 사유</th>
+							<td colspan="3"><textarea id="reportScoreObjectionApplicationReason" name="reportScoreObjectionApplicationReason"></textarea></td>
 						</tr>
 						
 						
 					</table>
+					<br>
+					<div style=" text-align: center;">
 					<button type="submit" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
 					<button type="button" class="saveBtn btn btn-primary me-1 mb-1 List">목록</button>
+					</div>
+					
+					
 					</form>
 					
 				</div>
@@ -60,6 +83,25 @@
 		
 		
 		<script th:inline="javascript">
+			// 텍스트 에디터
+			$(function() {
+				editor();
+			})
+	
+			function editor() {
+				tinymce.init({
+					selector : '#reportScoreObjectionApplicationReason',
+					plugins : ['image', 'table'],
+					submit_patch : false,
+					setup : function(editor) {
+						editor.on('change', function() {
+							editor.save();
+						})
+					}
+				})
+			}
+		
+		
 			// 취소 버튼 (과제 리스트페이지로 이동)
 			$('.List').on("click", function() {
 				let reportCode = ($(this).data("reportcode"));

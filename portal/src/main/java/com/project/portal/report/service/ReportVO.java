@@ -33,5 +33,6 @@ public class ReportVO {
 	private String reportSubFileCode; //제출된 파일 코드
 	private String reportFileName; // 파일 이름
 	private int reportNo;// 과제순번
+	private int reportScore;// 과제 점수
 
 }

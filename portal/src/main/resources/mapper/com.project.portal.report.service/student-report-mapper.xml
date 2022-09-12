@@ -222,11 +222,14 @@
 		resultType="ReportObjectionVO">
 		select c.week_num,
 		s.report_score,
-		s.report_submission_code
+		s.report_submission_code,
+        rf.*
 		from report_info i join report_submission s
 		ON s.report_code = i.report_code
 		join course_weekly c
 		ON c.week_code = i.week_code
+		join report_file rf
+        ON s.report_file_code = rf.report_file_code
 		where i.report_code = #{reportCode} and s.student_id = #{studentId}
 	</select>
 

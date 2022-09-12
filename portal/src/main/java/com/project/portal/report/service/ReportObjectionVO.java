@@ -13,6 +13,10 @@ public class ReportObjectionVO {
 	private int weekNum; // 주차
 	private String courseName; // 강의명
 	private int reportScore; // 처음 평가된 과제 점수
+	private String userCode;
+	private String reportFileCode; // 과제파일 코드
+	private String reportSubFileCode; //제출된 파일 코드
+	private String reportFileName; // 파일 이름
 	
 	private String reportSubmissionCode; // 과제 제출코드
 	private String reportScoreObjectionApplicationReason;// 이의신청 사유

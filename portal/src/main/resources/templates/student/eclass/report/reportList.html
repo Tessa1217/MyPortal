@@ -45,7 +45,7 @@
 		
 		<br>
 		<br>
-						<table class="table">
+						<table class="table table-bordered mb-0" style="text-align : center; width:100%;">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -54,6 +54,7 @@
 								<th>과제마감일</th>
 								<th>제출</th>
 								<th>첨부파일</th>
+								<th>점수</th>
 								<th>이의신청</th>
 								<th>이의신청여부</th>
 							</tr>
@@ -96,6 +97,8 @@
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportList.reportFileCode}, userCode=${reportList.reportFile.userCode})}"
 									th:text="${reportList.reportFile.reportFileName}"
 									th:download="${reportList.reportFile.reportFileName}"></a></td>
+									
+								<td th:text="${reportList.reportScore}"></td>
 
 								<!-- 이의 신청 -->
 								<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
@@ -115,6 +118,7 @@
 
 
 						</table>
+						<br>
 				<div th:object="${pageMaker}">
 						<ul class="pagination justify-content-center">
 						<th:block th:if="${pageMaker.prev}">

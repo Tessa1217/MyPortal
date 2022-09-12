@@ -34,8 +34,11 @@ td {
 <body>
 	<th:block layout:fragment="professorEclassContent">
 	<div id="main">
-		<h2>강의 공지사항 등록</h2>
-		<hr>
+	<div class="page-title">
+		<h3>강의 공지사항 등록</h3>
+		</div>
+	<div class="card">
+				<div class="card-body">
       <div class="starter-template">
            <form class="form-horizontal" th:action="@{/professor/eclass/eclassnoticeinsert}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
@@ -66,7 +69,7 @@ td {
             </textarea>
 
             
-
+			<br>
 
             <div class="btn_wrap text-center">
             <button type="submit" class="btn btn-primary waves-effect waves-light">등록 하기</button>
@@ -75,6 +78,8 @@ td {
             </div>
            </form>
       </div>
+	</div>
+	</div>
 	</div>
 		
 		
