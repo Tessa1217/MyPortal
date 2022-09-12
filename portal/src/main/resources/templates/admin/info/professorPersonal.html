@@ -59,9 +59,19 @@
 					</tr>
 				</table>
 				</div>
+				<button class="btn btn-primary buttonmod" id="back">목록</button>
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+		$(function() {
+			$("#back").on("click", backList)
+			
+			function backList() {
+				location.href = "/admin/professorList"
+			}
+		});
+		</script>
 	</th:block>
 </body>
 </html>

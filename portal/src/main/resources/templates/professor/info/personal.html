@@ -85,12 +85,12 @@
 				fireSwal('info', '변경 내용을 저장하시겠습니까?')
 					.then(function(result) {
 						if (result.isConfirmed) {
-							studentInfoUpdate();
+							professorInfoUpdate();
 						}
 					})
 			}
 			
-			function studentInfoUpdate() {
+			function professorInfoUpdate() {
 				$.ajax({
 					url : "/professor/professorInfoUpdate",
 					method : "post",

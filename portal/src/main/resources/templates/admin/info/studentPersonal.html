@@ -116,11 +116,13 @@
 			/*<![CDATA[*/
 			$(function() {
 				$("#mod").on("click", confirmModal)
-				
 				function confirmModal() {
-					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-						studentInfoUpdate();
-					}
+					fireSwal('info', '변경 내용을 저장하시겠습니까?')
+						.then(function(result) {
+							if (result.isConfirmed) {
+								studentInfoUpdate();
+							}
+						})
 				}
 
 				function studentInfoUpdate() {

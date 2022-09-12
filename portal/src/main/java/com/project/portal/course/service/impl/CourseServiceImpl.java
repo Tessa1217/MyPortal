@@ -68,7 +68,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 	@Override
 	public int getTotal2(CourseVO vo) {
-		return mapper.getTotal(vo);
+		return mapper.getTotal2(vo);
 	}
 	
 }

@@ -12,15 +12,16 @@
 			<div>
 				<h2>학기별 성적 조회</h2>
 			</div>
-
 			<div class="card">
-				<form name="frm_search" action="/student/semesterGradeSelect" method="get">
-					<label for="courseYear">수강연도</label> <input type="number"
-						id="type" name="type" class="form-control inline width-three" th:value="${year}"> <label
-						for="keyword">수강학기</label> 
-					<select	id="keyword" class="form-select inline width-three" name="keyword">
-							<option th:selected="${semester} == '1'" value="1">1학기</option>
-							<option th:selected="${semester} == '2'" value="2">2학기</option>
+				<div class="card-body"></div>
+				<form name="frm_search" action="/student/semesterGradeSelect"
+					method="get">
+					<label for="courseYear">수강연도</label> <input type="number" id="type"
+						name="type" class="form-control inline width-three"
+						th:value="${year}"> <label for="keyword">수강학기</label> <select
+						id="keyword" class="form-select inline width-three" name="keyword">
+						<option th:selected="${semester} == '1'" value="1">1학기</option>
+						<option th:selected="${semester} == '2'" value="2">2학기</option>
 					</select>
 					<button class="btn btn-primary">검색</button>
 				</form>
@@ -51,11 +52,12 @@
 						<td th:if="${list.courseGrade} == '1.0'">D0</td>
 						<td th:if="${list.courseGrade} == '0.0'">F</td>
 						<td th:text="${list.courseGrade}"></td>
-					
+
 					</tr>
 
 				</table>
 			</div>
+		</div>
 		</div>
 	</th:block>
 

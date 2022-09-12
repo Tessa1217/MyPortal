@@ -27,7 +27,8 @@
 				<h2>내 정보 조회/수정</h2>
 			</div>
 			<div class="card">
-				<h5 style="float: left;">개인 정보</h5>
+			<div class="card-body">
+				<h5>개인 정보</h5>
 				<div class="row">
 				<div class="col-10">
 				<table class="table table2">
@@ -128,6 +129,7 @@
 				</table>
 				<button class="btn btn-primary buttonmod" id="mod">수정</button>
 			</div>
+			</div>
 		</div>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
@@ -135,10 +137,14 @@
 				$("#mod").on("click", confirmModal)
 
 				function confirmModal() {
-					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-						studentInfoUpdate();
-					}
-				}
+				fireSwal('info', '변경 내용을 저장하시겠습니까?')
+					.then(function(result) {
+						if (result.isConfirmed) {
+							studentInfoUpdate();
+						}
+					})
+			}
+				
 				function studentInfoUpdate() {
 					$.ajax({
 						url : "/student/studentInfoUpdate",

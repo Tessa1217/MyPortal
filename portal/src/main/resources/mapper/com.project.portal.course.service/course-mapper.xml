@@ -52,6 +52,16 @@
 	</select>
 	
 	<select id="allCourseList" resultType="com.project.portal.course.service.CourseVO">
+		select *
+		from(
+		select ROWNUM r,
+				professor_id, 
+				course_year, 
+				course_semester, 
+				course_sortation, 
+				course_name,
+				find_code(course_sortation) course_sortation_nm
+		from (
 		select professor_id, 
 				course_year, 
 				course_semester, 
@@ -59,6 +69,8 @@
 				course_name,
 				find_code(course_sortation) course_sortation_nm
 		from course
+		order by course_year desc, course_semester desc
+		)
 		<where>
 				professor_id = #{professorId}
 			<if test="keyword != '' and keyword != null or type != '' and type != null">
@@ -73,6 +85,8 @@
 				</if>
 			</if>
 		</where>
+		)
+				where R BETWEEN (#{pageNum}) * #{amount} -9 AND #{pageNum} * #{amount}
 		order by course_year desc, course_semester desc
 	</select>
 	
@@ -119,6 +133,19 @@
 	</select>
 	
 	<select id="surveyList" resultType="com.project.portal.course.service.CourseVO">
+		select * 
+from    (
+            select         ROWNUM r,
+                            course_code,
+                            course_year,
+                            course_semester,
+                            course_name, 
+                            course_credit, 
+                            REVIEW_SUB_COUNT, 
+                            COUNT_ALL_STUDENT,
+                            SURVEYAVG 
+            
+            from (
 		select c.course_code,
 				c.course_year,
 				c.course_semester,
@@ -155,6 +182,8 @@
 		</where>
 		group by c.course_code, c.course_year, c.course_semester, c.course_name, c.course_credit, SURVEYAVG
 		order by c.course_code
+		)
+		)
 		
 	</select>
 	
