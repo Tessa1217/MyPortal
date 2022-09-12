@@ -42,10 +42,10 @@ public class StudentController {
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
-	public String StudentList(Model model, Criteria cri) {
-		StudentVO vo = new StudentVO();
-		model.addAttribute("studentList", service.studentList(vo, cri));
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(), cri.getAmount(), cri));
+	public String StudentList(Model model, StudentVO vo) {
+//		StudentVO vo = new StudentVO();
+		model.addAttribute("studentList", service.studentList(vo));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "admin/info/studentList";
 	}
 	

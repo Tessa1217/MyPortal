@@ -10,7 +10,7 @@ import com.project.portal.common.Criteria;
 @Mapper
 public interface StudentMapper {
 	
-	public List<StudentVO> studentList(@Param("vo")StudentVO vo, @Param("cri")Criteria cri);
+	public List<StudentVO> studentList(StudentVO vo);
 
 	public StudentVO studentInfoSelect(StudentVO vo);
 	
@@ -20,6 +20,6 @@ public interface StudentMapper {
 
 	public int adminStudentInfoUpdate(StudentVO vo);
 
-	int getTotal();
+	int getTotal(StudentVO vo);
 
 }

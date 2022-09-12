@@ -6,7 +6,7 @@ import com.project.portal.common.Criteria;
 
 public interface StudentService {
 
-	public List<StudentVO> studentList(StudentVO vo,Criteria cri);
+	public List<StudentVO> studentList(StudentVO vo);
 
 	public StudentVO studentInfoSelect(StudentVO vo);
 
@@ -16,6 +16,8 @@ public interface StudentService {
 
 	public StudentVO adminStudentInfoUpdate(StudentVO vo);
 
-	int getTotal();
+//	int getTotal();
+
+	int getTotal(StudentVO vo);
 
 }

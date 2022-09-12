@@ -16,8 +16,8 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired StudentMapper mapper;
 
 	@Override
-	public List<StudentVO> studentList(StudentVO vo,Criteria cri) {
-		return mapper.studentList(vo, cri);
+	public List<StudentVO> studentList(StudentVO vo) {
+		return mapper.studentList(vo);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public int getTotal() {
-		return mapper.getTotal();
+	public int getTotal(StudentVO vo) {
+		return mapper.getTotal(vo);
 	}
 }

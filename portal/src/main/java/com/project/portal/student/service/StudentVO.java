@@ -2,10 +2,12 @@ package com.project.portal.student.service;
 
 import java.util.Date;
 
+import com.project.portal.common.Criteria;
+
 import lombok.Data;
 
 @Data
-public class StudentVO {
+public class StudentVO extends Criteria{
 	// 학업 정보
 	private int studentId;
 	private String departCode;

@@ -73,7 +73,7 @@
 		where i.student_id = #{studentId}
 	</select>
 	
-	<select id="getTotal" resultType="int">
+	<select id="getTotal" parameterType="com.project.portal.student.service.StudentVO" resultType="int">
 		SELECT COUNT(*) from (
 								select
 									 i.student_id,
@@ -92,6 +92,20 @@
 								join department d
 								on s.department_code = d.depart_code
 								)
+								<where>
+									<if test="keyword != '' and keyword != null or type != '' and type != null">
+										<if test="keyword == ''and type != ''">
+											student_name = #{keyword}	or depart_name = #{type}
+										</if>
+										<if test="keyword != '' and type == ''">
+											student_name = #{keyword}	or depart_name = #{type}
+										</if>
+										<if test="keyword != '' and type != ''">
+											student_name = #{keyword}	and depart_name = #{type}
+										</if>
+									</if>
+								</where>
+								<!-- where student_name = #{studentName}	or depart_name = #{departName} -->
 	</select>
 	
 	<!-- 학생 전체 조회(관리자) -->
@@ -116,13 +130,23 @@
                         join department d
                         on s.department_code = d.depart_code) s
                 on i.student_id = s.student_id
-		<where>
-		
-		</where>
+				<where>
+				<if test="keyword != '' and keyword != null or type != '' and type != null">
+					<if test="keyword == '' and type != ''">
+						i.student_name = #{keyword}	or s.depart_name = #{type}
+					</if>
+					<if test="keyword != '' and type == ''">
+						i.student_name = #{keyword}	or s.depart_name = #{type}
+					</if>
+					<if test="keyword != '' and type != ''">
+						i.student_name = #{keyword}	and s.depart_name = #{type}
+					</if>
+				</if>
+				</where> 
 		order by i.student_id asc
                 )
         <![CDATA[
-        WHERE R BETWEEN (#{cri.pageNum}) * #{cri.amount} -9 AND #{cri.pageNum} * #{cri.amount}
+        WHERE R BETWEEN (#{pageNum}) * #{amount} -9 AND #{pageNum} * #{amount}
         ]]>
 		
 	</select>

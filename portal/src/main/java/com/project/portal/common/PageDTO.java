@@ -33,8 +33,8 @@ public class PageDTO {
 			endPage = realEnd == 0 ? 1 : realEnd;
 		}
 		
-		prev = startPage > 1;
-		next = endPage < realEnd;
+		this.prev = this.startPage > 1;
+		this.next = this.endPage < realEnd;
 		
 	}
 
