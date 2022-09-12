@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseService;
@@ -27,6 +29,8 @@ public class CourseController {
 
 	@Autowired
 	CourseService service;
+	
+	@Autowired BachelorScheduleService schedule;
 
 	// 교수 자신의 강의리스트 조회
 	@RequestMapping("/professor/allCourseList")
@@ -40,11 +44,18 @@ public class CourseController {
 	@RequestMapping("/professor/surveyList")
 	
 	public String ServeyList(CourseVO vo, 
-							Model model, 
+							Model model,
+							BachelorScheduleVO voo,
 							HttpSession session) {
+		voo.setYear((int)session.getAttribute("year"));
+		voo.setSemester((int)session.getAttribute("semester"));
+		
 		vo.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("surveyList", service.surveyList(vo));
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
+		model.addAttribute("year", voo.getYear());
+		model.addAttribute("semester", voo.getSemester());
+		model.addAttribute("scheduleList", schedule.scheduleList(voo));
 		return "professor/course/surveyList";
 	}
 
