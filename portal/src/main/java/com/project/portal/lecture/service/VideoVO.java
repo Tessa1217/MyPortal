@@ -16,4 +16,10 @@ public class VideoVO {
 	private double videoPlayTime;
 	private String videoExtension;
 	
+	// 비디오 리스트 조회 시 필요한 필드 
+	private String courseCode;
+	private int courseYear;
+	private int courseSemester;
+	private String courseName;
+	
 }

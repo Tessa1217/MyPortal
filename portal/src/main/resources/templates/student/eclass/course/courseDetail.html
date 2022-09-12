@@ -12,22 +12,25 @@
 	<th:block layout:fragment="studentEclassContent">
 
 		<div id="main">
-			<h2>강의 계획서</h2>
-			<hr>
+			<div class="page-title">
+				<h3 class="inline">강의 계획서</h3>
+				<button type="button" class="inline btn btn-danger btn-sm"
+				th:onclick="|location.href='@{/student/eclass/pdf/{courseCode}(courseCode = ${courseDetail.courseCode})}'|">PDF 프린트</button>
+			</div>
 			<div class="card">
 				<div class="card-body">
-					<table class="table" style="width:90%">
+					<table class="table" style="width: 90%">
 						<tr>
-							<td style="width:25%">강의명</td>
+							<td style="width: 25%">강의명</td>
 							<td th:text="${courseDetail.courseName}"></td>
-							<td style="width:25%">이수구분</td>
+							<td style="width: 25%">이수구분</td>
 							<td th:text="${courseDetail.courseSortation}"></td>
 						</tr>
 
 						<tr>
-							<td style="width:25%">강의코드</td>
+							<td style="width: 25%">강의코드</td>
 							<td th:text="${courseDetail.courseCode}"></td>
-							<td style="width:25%">학과</td>
+							<td style="width: 25%">학과</td>
 							<td th:text="${courseDetail.departName}"></td>
 						</tr>
 
@@ -60,7 +63,7 @@
 					<h2>주별계획</h2>
 				</div>
 				<div class="card-body">
-					<table class="table" style="width:80%">
+					<table class="table" style="width: 80%">
 						<thead>
 							<tr>
 								<th width="20%">주차</th>
@@ -76,8 +79,8 @@
 				</div>
 			</div>
 		</div>
-		
-		<script th:inline="javascript"> 
+
+		<script th:inline="javascript">
 			
 		</script>
 

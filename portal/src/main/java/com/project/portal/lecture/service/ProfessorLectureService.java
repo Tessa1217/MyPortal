@@ -18,7 +18,11 @@ public interface ProfessorLectureService {
 	// 비디오 업로드 
 	void uploadVideo(VideoVO vo);
 	// 비디오 가져오기
-	VideoVO getVideo(@Param("videoCode") String videoCode);
+	VideoVO getVideo(String videoCode);
+	// 예전 비디오 리스트 가져오기
+	List<VideoVO> getVideoList(CourseVO course, Criteria cri);	
+	// 리스트 수
+	int getVideoTotal(CourseVO course, Criteria cri);
 	// 강의 삭제 
 	void deleteLecture(LectureVO vo);
 	// 강의 파일까지 변경

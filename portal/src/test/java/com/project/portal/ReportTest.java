@@ -20,7 +20,7 @@ public class ReportTest {
 	public void reportListTest() {
 		CourseVO course = new CourseVO();
 		course.setCourseCode("SSPY0001");
-		List<ReportSubmissionVO> list = service.getStudentReportList(course, null);
+		List<ReportSubmissionVO> list = service.getStudentReportList(course, null, null);
 		System.out.println(list);
 	}
 	

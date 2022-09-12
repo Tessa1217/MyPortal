@@ -49,8 +49,9 @@ dependencies {
 	// Mail
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.3'
 	//Jasper
-	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.17.0'
-	
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.19.0'
+	// https://mvnrepository.com/artifact/com.lowagie/itext
+	implementation group: 'com.lowagie', name: 'itext', version: '4.2.1'
 }
 
 tasks.named('test') {

@@ -157,4 +157,36 @@
 				video_code = #{videoCode}
 			WHERE lecture_code = #{lectureCode}
 	</update>
+	<select id="getVideoList" resultType="VideoVO">
+		SELECT * FROM (
+		SELECT V.*, ROWNUM R FROM (
+		SELECT v.video_code,
+					v.video_file_path,
+					v.professor_id,
+					v.video_name,
+					l.course_code,
+					c.course_year,
+					c.course_semester,
+					c.course_name
+					FROM video v JOIN lecture l
+					ON v.video_code = l.video_code
+					JOIN course c
+					ON l.course_code = c.course_code
+					WHERE v.professor_id = #{course.professorId}
+					ORDER BY c.course_year, c.course_semester DESC
+		) V
+		WHERE 
+		<if test="cri != null and cri != ''">
+			ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+		</if>
+		)
+		<if test="cri != null and cri != ''">
+			WHERE R > #{cri.pageNum} - 1 * #{cri.amount}
+		</if> 
+	</select>
+	<select id="getVideoTotal" resultType="int">
+		SELECT COUNT(*)
+			FROM video
+			WHERE professor_id = #{course.professorId}
+	</select>
 </mapper>

@@ -25,6 +25,12 @@ public interface ProfessorLectureMapper {
 	void uploadVideo(VideoVO vo);
 	// 비디오 가져오기
 	VideoVO getVideo(@Param("videoCode") String videoCode);
+	// 예전 등록 비디오 파일 가져오기
+	List<VideoVO> getVideoList(@Param("course") CourseVO course, 
+							@Param("cri") Criteria cri);	
+	// 비디오 수 
+	int getVideoTotal(@Param("course") CourseVO course,
+					@Param("cri") Criteria cri);
 	// 강의 삭제 
 	void deleteLecture(LectureVO vo);
 	// 비디오 삭제

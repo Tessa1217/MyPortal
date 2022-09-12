@@ -13,70 +13,99 @@
 				<h2>강의 등록하기</h2>
 			</div>
 			<div class="card">
-			<div class="card-body">
-			<form name="lectureFrm" 
-			th:action="@{/professor/eclass/insertLecture}" 
-			method="POST" enctype="multipart/form-data"
-			class="form form-horizontal">
-			<input type="hidden" name="courseCode" th:value="${session.courseCode}">
-				<div class="form-body width-nine">
-					<div class="row formrow">
-							<div class="col-md-4">
-								<label>강의명</label>
-							</div>
-							<div class="col-md-8">
-								<input type="text" name="lectureTitle" class="form-control width-nine">
-							</div>
-							<div class="col-md-4">
-								<label>강의 주차</label>
-							</div>
-							<div class="col-md-8">
-								<select name="weekCode" class="form-select width-three">
+				<div class="card-body">
+					<form name="lectureFrm"
+						th:action="@{/professor/eclass/insertLecture}" method="POST"
+						enctype="multipart/form-data" class="form form-horizontal">
+						<input type="hidden" name="courseCode"
+							th:value="${session.courseCode}">
+						<div class="form-body width-nine">
+							<div class="row formrow">
+								<div class="col-md-4">
+									<label>강의명</label>
+								</div>
+								<div class="col-md-8">
+									<input type="text" name="lectureTitle"
+										class="form-control width-nine">
+								</div>
+								<div class="col-md-4">
+									<label>강의 주차</label>
+								</div>
+								<div class="col-md-8">
+									<select name="weekCode" class="form-select width-three">
 										<option value="">주차</option>
 										<th:block th:each="week : ${session.courseInfo.weekPlans}">
-										<option th:value="${week.weekCode}"
-										th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
-										th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}"
-										>[[${week.weekNum}]]</option>
+											<option th:value="${week.weekCode}"
+												th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
+												th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}">[[${week.weekNum}]]</option>
 										</th:block>
-						</select>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label>강의 출석 인정 기간</label>
+								</div>
+								<div class="col-md-8">
+									<input type="date" name="lectureStartDate"
+										style="display: inline;" class="form-control width-three">
+									~ <input type="date" name="lectureEndDate"
+										style="display: inline;" class="form-control width-three">
+								</div>
+								<div class="col-md-4">
+									<label>출석 인정시간</label>
+								</div>
+								<div class="col-md-8">
+									<input type="number" name="lectureAttTime"
+										class="form-control width-nine">
+								</div>
+								<div class="col-md-4">
+									<label>강의 파일 업로드</label>
+								</div>
+								<div class="col-md-8">
+									<input type="file" class="form-control width-six"
+										style="display: inline;" th:onchange="getDuration()" name="file">
+									<button type="button" style="display: inline;"
+										class="btn btn-primary" th:onclick="showVideoFiles()">기본
+										정보 불러오기</button>
+									<input type="hidden" name="videoPlayTime">
+								</div>
+								<div class="col-md-4">
+									<label>강의 참고사항</label>
+								</div>
+								<div class="col-md-8">
+									<textarea id="lectureContent" name="lectureContent"></textarea>
+								</div>
 							</div>
-							<div class="col-md-4">
-								<label>강의 출석 인정 기간</label>
+							<div class="btnContainer">
+								<button class="btn btn-primary" type="submit">등록하기</button>
 							</div>
-							<div class="col-md-8">
-								<input type="date" name="lectureStartDate" 
-								style="display:inline;" class="form-control width-three">
-								 ~ <input type="date" name="lectureEndDate" 
-								style="display:inline;" class="form-control width-three">
-							</div>
-							<div class="col-md-4">
-								<label>출석 인정시간</label>
-							</div>
-							<div class="col-md-8">
-								<input type="number" name="lectureAttTime" class="form-control width-nine">
-							</div>
-							<div class="col-md-4">
-								<label>강의 파일 업로드</label>
-							</div>
-							<div class="col-md-8">
-									<input type="file" class="form-control width-six" style="display:inline;" th:onchange="getDuration" name="file">
-									<button type="button" style="display:inline;" class="btn btn-primary">기본 정보 불러오기</button>
-								<input type="hidden" name="videoPlayTime">
-							</div>
-							<div class="col-md-4">
-								<label>강의 참고사항</label>
-							</div>
-							<div class="col-md-8">
-								<textarea id="lectureContent" name="lectureContent"></textarea>
-							</div>
-					</div>
-					<div class="btnContainer">
-						<button class="btn btn-primary" type="submit">등록하기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal" id="fileModal" tabindex="100"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">기존 파일 목록</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true" th:onclick="modalClose()">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="modalBody"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal"
+								th:onclick="modalClose()">Close</button>
+							<button type="button" th:onclick="saveFileChoice()" class="btn btn-primary">Save
+								changes</button>
+						</div>
 					</div>
 				</div>
-			</form>
-			</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
@@ -123,6 +152,55 @@
 					}	
 				})
 			}
+			
+			// 기존 파일 목록에서 비디오 선택 
+			function chooseVideo(div) {
+				$(div).children('input[name=chooseVideo]').prop('checked', true);
+			}
+			
+			// AJAX 호출과 함께 모달 열기 
+			function showVideoFiles() {
+				getVideoList(1, 10);
+				modalOpen();
+			}
+			
+			// 모달 창 열기 
+			function modalOpen() {
+				$("#fileModal").show();
+			}
+			
+			// 비디오 리스트 가져오기 (페이징 처리)
+			function getVideoList(pageNum, amount, type, keyword) {
+				let data = {
+						pageNum : pageNum,
+						amount : amount,
+						type : (type != null) ? type : '',
+						keyword : (keyword != null) ? keyword : ''
+				}
+				$.ajax({
+					method : 'GET',
+					url : `/professor/eclass/videoList`,
+					data : data,
+					success : function(fragment) {
+						$("#modalBody").replaceWith(fragment);
+					}
+				})
+			}
+			
+			function saveFileChoice() {
+				let choice = $("input[name=chooseVideo]:checked");
+				if (choice.length == 0) {fireSwal('warning', '파일을 선택해주세요.')}
+				if (choice.length == 1) {
+					$("input[name=file]").files($(choice).data('path'));
+				}	
+			}
+			
+			// 모달 창 닫기 
+			function modalClose() {
+				$("#fileModal").hide();
+			}
+			
+			
 		</script>
 	</th:block>
 </body>

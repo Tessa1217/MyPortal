@@ -1,8 +1,10 @@
 package com.project.portal.mycourse.web;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.course.service.CourseVO;
@@ -154,6 +155,21 @@ public class myCourseController {
 		model.addAttribute("courseDetail", service.getstuMyCourseDetail(vo.getCourseCode()));
 		model.addAttribute("courseWeekDetail", service.getstuMyCourseWeekDetail(vo.getCourseCode()));
 		return "student/eclass/course/courseDetail";
+	}
+	
+	// 강의 계획서 pdf 
+	@RequestMapping("/student/eclass/pdf/{courseCode}")
+	public String pdfReport(HttpServletRequest request,
+							HttpServletResponse response,
+							@PathVariable String courseCode,
+							Model model) throws Exception {
+		model.addAttribute("filename", "/reports/course.jasper");
+		Map<String, Object> map = new HashMap<String, Object>();
+		CourseVO course = new CourseVO();
+		course.setCourseCode(courseCode);
+		map.put("param", course);
+		model.addAttribute("param", map);
+		return "pdfView";
 	}
 
 }

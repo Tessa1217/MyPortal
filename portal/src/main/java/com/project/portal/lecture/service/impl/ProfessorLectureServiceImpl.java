@@ -67,6 +67,16 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 	public int getLectureTotal(CourseVO course) {
 		return mapper.getLectureTotal(course);
 	}
+
+	@Override
+	public List<VideoVO> getVideoList(CourseVO course, Criteria cri) {
+		return mapper.getVideoList(course, cri);
+	}
+
+	@Override
+	public int getVideoTotal(CourseVO course, Criteria cri) {
+		return mapper.getVideoTotal(course, cri);
+	}
 	
 	
 

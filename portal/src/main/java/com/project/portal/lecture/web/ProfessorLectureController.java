@@ -110,6 +110,7 @@ public class ProfessorLectureController {
 		return "professor/eclass/lecture/detailLecture";
 	}
 	
+	// 강의 삭제 
 	@DeleteMapping("/professor/eclass/deleteLecture")
 	@ResponseBody
 	public String deleteLecture(@RequestBody LectureVO vo) {
@@ -117,6 +118,7 @@ public class ProfessorLectureController {
 		return "success";
 	}
 	
+	// 강의 수정 
 	@PostMapping("/professor/eclass/updateLecture")
 	public String updateLecture(@RequestParam("file") MultipartFile file, 
 											LectureVO vo,
@@ -134,6 +136,17 @@ public class ProfessorLectureController {
 			service.updateLectureOnly(vo);
 		}
 		return "redirect:/professor/eclass/lectureList";
+	}
+	
+	@RequestMapping("/professor/eclass/videoList")
+	public String getVideoList(CourseVO course, 
+								Criteria cri, 
+								HttpSession session, 
+								Model model) {
+		course.setProfessorId((int) session.getAttribute("id"));
+		model.addAttribute("fileList", service.getVideoList(course, cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getVideoTotal(course, cri), cri.getAmount(), cri));
+		return "/layout/fragments/professor-eclass/lecture/fileList :: #tableFragment";
 	}
 	
 	// 파일 세팅하는 메서드 

@@ -256,8 +256,38 @@ input[name="tabs"]+.tabmenu {
 	padding: 1%;
 }
 
+.grid-container-five {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto;
+	padding: 1%;
+}
+
 .grid-item {
 	margin: 2%;
+}
+
+.grid-border {
+	border: 0.5px solid #aaa;
+	height: 140px;
+	padding: 3%;
+	border-radius: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis " [..]";
+}
+
+.grid-border p {
+	margin-bottom: 0.2rem!important;
+}
+
+.grid-border:hover {
+	transform: scale(1.05);
+	transition: 0.5s;
+	cursor: pointer;
+}
+
+.grid-border a:hover {
+	text-decoration: underline;
 }
 
 .grid-item .card {

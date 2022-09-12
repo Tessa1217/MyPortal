@@ -34,6 +34,8 @@ public class PdfView extends AbstractView {
 		String reportFile = (String) model.get("filename");
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> map = (HashMap<String, Object>) model.get("param");
+		System.out.println("==========");
+		System.out.println(map);
 		InputStream jasperStream = getClass().getResourceAsStream(reportFile);
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
