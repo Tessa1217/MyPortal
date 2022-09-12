@@ -127,6 +127,12 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		return mapper.getTotal(vo);
 	}
 
+	@Override
+	public void modifyProfStudyNotice(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.modifyProfStudyNotice(vo);
+	}
+
 
 
 

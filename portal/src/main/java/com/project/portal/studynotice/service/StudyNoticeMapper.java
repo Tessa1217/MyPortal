@@ -25,8 +25,10 @@ public interface StudyNoticeMapper {
 	public void insertStudyNotice(StudyNoticeVO vo);
 	// 교수 공지사항 삭제
 	public void deleteStudyNotice(StudyNoticeVO vo);
-	// 교수 공지사항 수정
+	// 교수 공지사항 수정 페이지 이동
 	public void modifyStudyNotice(StudyNoticeVO vo);
+	// 교수 공지사항 수정 처리
+	public void modifyProfStudyNotice(StudyNoticeVO vo);
 	// 교수 공지사항 파일 업로드
 	public void fileUpload(StudyNoticeFileVO vo);
 	// 교수 파일 업로드 그룹번호 조회

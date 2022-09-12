@@ -92,7 +92,7 @@ public class StudyNoticeController {
 	public String selectProDetailStudyNotice(@PathVariable String courseNoticeNo,StudyNoticeFileVO filevo, StudyNoticeVO vo, Model model, HttpSession session) {
 
 		// 해당 공지사항글 번호
-		vo.setCourseCode((String)session.getAttribute("courseCode"));;
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		vo.setCourseNoticeNo(courseNoticeNo);
 		
 		service.updateHit(vo.getCourseNoticeNo());
@@ -164,14 +164,27 @@ public class StudyNoticeController {
 	}
 	
 	
-	// 교수 공지사항 수정 처리
-	@RequestMapping(value = "/professor/eclass/eclassnoticemodify", method = { RequestMethod.POST})
-	public String modifyStudyNotice(StudyNoticeVO vo , HttpSession session) {
-		//String courseCode = (String)session.getAttribute("courseCode");
-		vo.setCourseCode((String)session.getAttribute("courseCode"));
-		service.modifyStudyNotice(vo);
-		return "success";
+	
+	
+	// 교수 공지사항 수정페이지 이동
+	@RequestMapping("/professor/eclass/eclassnotice/{courseNoticeNo}/eclassnoticemodify")
+	public String modifyStudyNotice(@PathVariable String courseNoticeNo, StudyNoticeVO vo , HttpSession session,StudyNoticeFileVO filevo, Model model) {
+		// 해당 공지사항글 번호
+				vo.setCourseCode((String)session.getAttribute("courseCode"));
+				vo.setCourseNoticeNo(courseNoticeNo);
+				model.addAttribute("selectFile" , service.selectFile(vo));
+				model.addAttribute("selectProDetailStudyNotice", service.selectProDetailStudyNotice(vo));
+		return "professor/eclass/notice/eclassnoticemodify";
 		
+	}
+	
+	// 교수 공지사항 수정 처리
+	@RequestMapping("/professor/eclass/eclassnoticemodify")
+	public String modifyProfStudyNotice(StudyNoticeVO vo , HttpSession session,StudyNoticeFileVO filevo, Model model) {
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
+		
+		service.modifyProfStudyNotice(vo);		
+		return "redirect:/professor/eclass/eclassnotice";
 	}
 	
 

@@ -129,7 +129,7 @@
 	   
 	</delete>
 	
-	<update id="modifyStudyNotice" parameterType="StudyNoticeVO">
+	<update id="modifyProfStudyNotice" parameterType="StudyNoticeVO">
 		UPDATE COURSE_NOTICE
 		   SET COURSE_NOTICE_TITLE = #{courseNoticeTitle},
 		       COURSE_NOTICE_CONTENT = #{courseNoticeContent},
