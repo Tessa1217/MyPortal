@@ -34,4 +34,6 @@ public interface CourseMapper {
 	// 현재 학기와 년도 조회
 	CourseVO getYearSemester(BachelorScheduleVO vo);
 
+	int getTotal(CourseVO vo);
+
 }

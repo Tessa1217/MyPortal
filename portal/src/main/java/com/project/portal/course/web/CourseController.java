@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.web.myCourseController;
@@ -39,13 +40,11 @@ public class CourseController {
 	@RequestMapping("/professor/surveyList")
 	
 	public String ServeyList(CourseVO vo, 
-							SurveyVO voo, 
 							Model model, 
 							HttpSession session) {
 		vo.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("surveyList", service.surveyList(vo));
-//		voo.setCourseCode(vo.getCourseCode());
-//		model.addAttribute("surveySelect", service.surveySelect(voo));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "professor/course/surveyList";
 	}
 

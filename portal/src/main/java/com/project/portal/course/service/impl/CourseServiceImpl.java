@@ -61,5 +61,10 @@ public class CourseServiceImpl implements CourseService {
 	public CourseVO getYearSemester(BachelorScheduleVO vo) {
 		return mapper.getYearSemester(vo);
 	}
+
+	@Override
+	public int getTotal(CourseVO vo) {
+		return mapper.getTotal(vo);
+	}
 	
 }

@@ -35,6 +35,48 @@
 		order by course_year desc, course_semester desc
 	</select>
 	
+	<select id="getTotal" parameterType="com.project.portal.course.service.CourseVO" resultType="int">
+		select count(*)
+		from (
+				select c.course_code,
+				c.course_year,
+				c.course_semester,
+				c.course_name, 
+				c.course_credit, 
+				sum(nvl(m.REVIEW_SUB_COUNT,0)) as "REVIEW_SUB_COUNT", 
+				sum(m.COUNT_ALL_STUDENT) as "COUNT_ALL_STUDENT",
+				nvl(trunc(surveyAvg,1),0) as "SURVEYAVG"
+				from course c
+				join(select course_code, 
+				            case WHEN course_review_yn = 'SUB' THEN count(course_review_yn) end as "REVIEW_SUB_COUNT", 
+				            count(student_id) as "COUNT_ALL_STUDENT"
+				        from my_course
+				        group by course_code, course_review_yn) m
+				on c.course_code = m.course_code
+				left outer join(select course_code,(avg(survey_A1)+avg(survey_A2)+avg(survey_A3)+avg(survey_A4)+avg(survey_A5)+avg(survey_A6)
+				                    +avg(survey_A7)+avg(survey_A8)+avg(survey_A9)+avg(survey_A10))/10 AS surveyAvg
+				                    from course_rating
+				                    group by course_code) a
+				on m.course_code = a.course_code
+				where professor_id = #{professorId}
+				group by c.course_code, c.course_year, c.course_semester, c.course_name, c.course_credit, SURVEYAVG
+				order by c.course_code
+		)
+		<where>
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					course_semester = #{keyword}	and course_year = #{type}
+				</if>
+			</if>
+		</where>
+	</select>
+	
 	<select id="surveyList" resultType="com.project.portal.course.service.CourseVO">
 		select c.course_code,
 				c.course_year,
@@ -56,7 +98,20 @@
 		                    from course_rating
 		                    group by course_code) a
 		on m.course_code = a.course_code
-		where professor_id = #{professorId}
+		<where>
+					professor_id = #{professorId}
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					and course_semester = #{keyword}	and course_year = #{type}
+				</if>
+			</if>
+		</where>
 		group by c.course_code, c.course_year, c.course_semester, c.course_name, c.course_credit, SURVEYAVG
 		order by c.course_code
 		

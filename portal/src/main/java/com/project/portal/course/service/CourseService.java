@@ -23,4 +23,6 @@ public interface CourseService {
 	// 이번 년도와 학기 조회
 	CourseVO getYearSemester(BachelorScheduleVO vo);
 
+	int getTotal(CourseVO vo);
+
 }
