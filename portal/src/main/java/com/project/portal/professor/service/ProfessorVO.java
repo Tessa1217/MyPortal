@@ -2,10 +2,12 @@ package com.project.portal.professor.service;
 
 import java.util.Date;
 
+import com.project.portal.common.Criteria;
+
 import lombok.Data;
 
 @Data
-public class ProfessorVO {
+public class ProfessorVO extends Criteria {
 	private int professorId;
 	private String departCode;
 	private String departName;

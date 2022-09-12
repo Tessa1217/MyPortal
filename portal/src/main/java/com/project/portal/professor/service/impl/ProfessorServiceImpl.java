@@ -22,9 +22,9 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public List<ProfessorVO> professorList(Criteria cri) {
+	public List<ProfessorVO> professorList(ProfessorVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.professorList(cri);
+		return mapper.professorList(vo);
 	}
 
 	@Override
@@ -38,5 +38,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public ProfessorVO adminProfessorInfoSelect(ProfessorVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.adminProfessorInfoSelect(vo);
+	}
+
+	@Override
+	public int getTotal(ProfessorVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(vo);
 	}
 }

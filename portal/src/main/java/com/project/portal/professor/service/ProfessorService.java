@@ -8,9 +8,11 @@ public interface ProfessorService {
 	
 	public ProfessorVO professorInfo(ProfessorVO vo);
 
-	public List<ProfessorVO> professorList(Criteria cri);
+	public List<ProfessorVO> professorList(ProfessorVO vo);
 
 	public ProfessorVO professorInfoUpdate(ProfessorVO vo);
 
 	public ProfessorVO adminProfessorInfoSelect(ProfessorVO vo);
+	
+	int getTotal(ProfessorVO vo);
 }

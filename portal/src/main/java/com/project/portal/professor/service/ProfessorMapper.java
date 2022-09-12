@@ -10,9 +10,11 @@ import com.project.portal.common.Criteria;
 public interface ProfessorMapper {
 	public ProfessorVO professorInfo(ProfessorVO vo);
 
-	public List<ProfessorVO> professorList(Criteria cri);
+	public List<ProfessorVO> professorList(ProfessorVO vo);
 
 	public int professorInfoUpdate(ProfessorVO vo);
 
 	public ProfessorVO adminProfessorInfoSelect(ProfessorVO vo);
+
+	public int getTotal(ProfessorVO vo);
 	}

@@ -16,8 +16,6 @@ public interface StudentService {
 
 	public StudentVO adminStudentInfoUpdate(StudentVO vo);
 
-//	int getTotal();
-
 	int getTotal(StudentVO vo);
 
 }

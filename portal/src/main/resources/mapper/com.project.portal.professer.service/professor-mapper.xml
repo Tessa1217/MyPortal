@@ -18,11 +18,48 @@
 		where p.professor_id = #{professorId}
 	</select>
 	
+	<select id="getTotal" parameterType="com.project.portal.professor.service.ProfessorVO" resultType="int">
+		select count(*) 
+		from (
+			select *
+			from professor p
+			join department d
+			on p.depart_code = d.depart_code
+			)
+		<where>
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					professor_name = #{keyword}	or depart_name = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					professor_name = #{keyword}	or depart_name = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					professor_name = #{keyword}	and depart_name = #{type}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	
 	<select id="professorList" resultType="com.project.portal.professor.service.ProfessorVO">
 		select *
 		from professor p
 		join department d
 		on p.depart_code = d.depart_code
+		<where>
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					professor_name = #{keyword}	or depart_name = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					professor_name = #{keyword}	or depart_name = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					professor_name = #{keyword}	and depart_name = #{type}
+				</if>
+			</if>
+		</where>
 		order by professor_id asc
 	</select>
 	

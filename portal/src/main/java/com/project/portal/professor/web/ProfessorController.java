@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.web.TempcourseController;
@@ -26,8 +27,9 @@ public class ProfessorController {
 	
 	//교수 전체 조회(관리자)
 	@RequestMapping("/admin/professorList")
-	public String ProfessorList(ProfessorVO vo, Model model, Criteria cri) {
-		model.addAttribute("professorList", service.professorList(cri));
+	public String ProfessorList(ProfessorVO vo, Model model) {
+		model.addAttribute("professorList", service.professorList(vo));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "admin/info/professorList";
 	}
 	
