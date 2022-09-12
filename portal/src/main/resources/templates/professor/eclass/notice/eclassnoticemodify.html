@@ -28,6 +28,7 @@
 										name="courseNoticeTitle" id="titleeditor"
 										th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 										<input type="hidden" id="courseNoticeNo" name="courseNoticeNo" th:value="${selectProDetailStudyNotice.courseNoticeNo}">
+										<input type="hidden" id="courseNoticeAttachedFile" name="courseNoticeAttachedFile" th:value="${selectProDetailStudyNotice.courseNoticeAttachedFile}">
 									</td>
 
 									<td class="text-bold-500"
@@ -54,6 +55,14 @@
 											th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 											th:text="${selectFile.fileOriName}"></a></td>
 									</div>
+								</tr>
+									<td class="text-bold-500"
+										style="background-color: rgba(0, 0, 0, 0.05);">수정첨부파일</td>
+									<td colspan="3"> 
+									<input type="file" class="file-control" name="file">
+									</td>
+								<tr>
+									
 								</tr>
 
 

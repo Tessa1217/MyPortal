@@ -129,7 +129,7 @@ public class StudyNoticeController {
 			String fileNameExtension = fileOriName.substring(fileOriName.lastIndexOf("."));
 			// 랜덤 파일명 값 생성
 			String fileName = UUID.randomUUID().toString().replace("-","") + fileNameExtension;
-			// 파일 URL (년도랑 학기 넣어주세요~)
+			// 파일 URL
 			String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
 			// 파일객체생성
 			File uploadfile = new File(fileUrl);
@@ -149,6 +149,7 @@ public class StudyNoticeController {
 		// 그룹넘버 설정 및 게시글 insert
 		vo.setCourseNoticeAttachedFile(groupNum);
 		service.insertStudyNotice(vo);
+		
 		return "redirect:/professor/eclass/eclassnotice";
 	}
 	
@@ -180,10 +181,49 @@ public class StudyNoticeController {
 	
 	// 교수 공지사항 수정 처리
 	@RequestMapping("/professor/eclass/eclassnoticemodify")
-	public String modifyProfStudyNotice(StudyNoticeVO vo , HttpSession session,StudyNoticeFileVO filevo, Model model) {
+	public String modifyProfStudyNotice(@RequestParam("file") MultipartFile file, StudyNoticeVO vo ,
+			HttpSession session, Model model) throws IllegalStateException, IOException {
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		
-		service.modifyProfStudyNotice(vo);		
+		// 파일이 첨부 되었을때
+		if(!file.isEmpty()) {
+			// 게시물에 등록된 파일을 찾는다.
+			File storedFilePath = new File(service.getInsertFilePath(vo));
+			System.out.println(storedFilePath);
+			if(storedFilePath.exists()) {
+				storedFilePath.delete();
+			}
+		
+			
+			String fileOriName = file.getOriginalFilename();
+			// 확장자 추출
+			String fileNameExtension = fileOriName.substring(fileOriName.lastIndexOf("."));
+			// 랜덤 파일명 값 생성
+			String fileName = UUID.randomUUID().toString().replace("-","") + fileNameExtension;
+			// 파일 URL
+			String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
+			// 파일객체생성
+			File uploadfile = new File(fileUrl);
+			// 파일을 경로에 저장
+			file.transferTo(uploadfile);
+			vo.setFileName(fileName);
+			vo.setFileOriName(fileOriName);
+			vo.setFileUrl(fileUrl);
+			System.out.println(vo.getCourseNoticeAttachedFile());
+			//제목, 내용 , 파일 업데이트
+			service.modifyProfStudyNotice(vo);
+			service.modifyProfStudyNoticeFile(vo);
+			
+			
+		} else {
+			// 파일이 첨부 되지 않았을 때 제목, 내용만 업데이트
+			service.modifyProfStudyNotice(vo);	
+		}
+		
+		
+		
+		
+			
 		return "redirect:/professor/eclass/eclassnotice";
 	}
 	

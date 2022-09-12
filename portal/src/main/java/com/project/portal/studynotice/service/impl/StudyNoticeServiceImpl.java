@@ -133,6 +133,19 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		mapper.modifyProfStudyNotice(vo);
 	}
 
+	@Override
+	public String getInsertFilePath(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getInsertFilePath(vo);
+	}
+
+	@Override
+	public void modifyProfStudyNoticeFile(StudyNoticeVO vo) {
+		// TODO Auto-generated method stub
+		mapper.modifyProfStudyNoticeFile(vo);
+		
+	}
+
 
 
 
