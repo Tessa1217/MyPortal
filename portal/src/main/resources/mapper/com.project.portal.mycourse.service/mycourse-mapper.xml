@@ -79,10 +79,27 @@
 	</select>
 	
 	<select id="semesterGradeSelect" resultType="MyCourseVO">
-		select m.student_id, c.course_year,c.course_name, c.course_semester, c.course_sortation, c.course_credit, m.course_grade
-		from my_course m
-		join course c
-		on c.course_code = m.course_code
+		select * 
+		from (
+		    select ROWNUM r,
+		                student_id, 
+		                course_year, 
+		                course_name, 
+		                course_semester, 
+		                course_sortation, 
+		                course_credit, 
+		                course_grade
+		    from(
+		            select m.student_id, 
+		                        c.course_year,
+		                        c.course_name, 
+		                        c.course_semester, 
+		                        c.course_sortation, 
+		                        c.course_credit, 
+		                        m.course_grade
+		            from my_course m
+		            join course c
+		            on c.course_code = m.course_code
 		<where>
 				 student_id = #{studentId}
 			<if test="keyword == '' or keyword == null or type == '' or type == null">
@@ -100,6 +117,9 @@
 				</if>
 			</if>
 		</where>
+		order by course_year desc, course_semester desc
+		)
+	)
 	</select>
 	<select id="getStudentList" resultType="ExamScoreVO">
 		SELECT student_id, course_code
