@@ -1,6 +1,5 @@
 package com.project.portal.mycourse.web;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -12,28 +11,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.PageDTO;
+import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
-import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.service.MyCourseMainVO;
+import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
-import com.project.portal.mycourse.service.impl.MyCourseServiceImpl;
+import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
-import com.project.portal.student.service.impl.StudentServiceImpl;
 
 // 작성자: 김진형, 박근형, 권유진 
 @Controller
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 
-	@Autowired MyCourseServiceImpl service;
-	@Autowired CourseServiceImpl cservice;
-	@Autowired StudentServiceImpl studService;	
-	@Autowired CourseServiceImpl courseService;
+	@Autowired MyCourseService service;
+	@Autowired CourseService cservice;
+	@Autowired StudentService studService;	
+	@Autowired CourseService courseService;
 
 	// 학생 학업 정보 조회
 
@@ -49,11 +48,18 @@ public class myCourseController {
 	// 학기별 성적 조회
 	
 	@RequestMapping("/student/semesterGradeSelect")
-	public String SemesterGradeSelect(MyCourseVO vo, Model model, HttpSession session) {
+	public String SemesterGradeSelect(MyCourseVO vo, Model model, BachelorScheduleVO voo, HttpSession session) {
 		vo.setStudentId((int) session.getAttribute("id"));
-		vo.setCourseYear(2022);
-		vo.setCourseSemester(2);
+		voo.setYear((int)session.getAttribute("year"));
+		voo.setSemester((int)session.getAttribute("semester"));
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
+		model.addAttribute("year", voo.getYear());
+		model.addAttribute("semester", voo.getSemester());
+		System.out.println(voo);
+		System.out.println(vo);
+//		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "student/info/semesterGrade";
 	}
 

@@ -48,5 +48,7 @@ public interface MyCourseMapper {
 	
 	// 수강생 목록 조회하기
 	List<ExamScoreVO> getStudentList(ExamInfoVO vo);
+	
+//	public int getTotal(MyCourseVO vo);
 
 }

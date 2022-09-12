@@ -101,6 +101,11 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return mapper.getCourseName(courseCode);
 	}
 
+//	public int getTotal(MyCourseVO vo) {
+//		// TODO Auto-generated method stub
+//		return mapper.getTotal(vo);
+//	}
+
 	
 
 
