@@ -34,8 +34,13 @@ public class CourseController {
 
 	// 교수 자신의 강의리스트 조회
 	@RequestMapping("/professor/allCourseList")
-	public String CourseList(CourseVO vo, Model model, HttpSession session) {
+	public String CourseList(CourseVO vo, Model model, BachelorScheduleVO voo, HttpSession session) {
 		vo.setProfessorId((int) session.getAttribute("id"));
+		voo.setYear((int)session.getAttribute("year"));
+		voo.setSemester((int)session.getAttribute("semester"));
+		model.addAttribute("year", voo.getYear());
+		model.addAttribute("semester", voo.getSemester());
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal2(vo), vo.getAmount(), vo));
 		model.addAttribute("allCourseList", service.allCourseList(vo));
 		return "professor/course/courseList";
 	}
@@ -55,7 +60,6 @@ public class CourseController {
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		model.addAttribute("year", voo.getYear());
 		model.addAttribute("semester", voo.getSemester());
-		model.addAttribute("scheduleList", schedule.scheduleList(voo));
 		return "professor/course/surveyList";
 	}
 

@@ -23,6 +23,34 @@
 		WHERE course_code = #{courseCode}
 	</select>
 	
+	<select id="getTotal2" parameterType="com.project.portal.course.service.CourseVO" resultType="int">
+		select count(*)
+		from (
+				select professor_id, 
+				course_year, 
+				course_semester, 
+				course_sortation, 
+				course_name,
+				find_code(course_sortation) course_sortation_nm
+		from course
+		where professor_id = #{professorId}
+		order by course_year desc, course_semester desc
+		)
+		<where>
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					course_semester = #{keyword}	and course_year = #{type}
+				</if>
+			</if>
+		</where>
+	</select>
+	
 	<select id="allCourseList" resultType="com.project.portal.course.service.CourseVO">
 		select professor_id, 
 				course_year, 
@@ -31,7 +59,20 @@
 				course_name,
 				find_code(course_sortation) course_sortation_nm
 		from course
-		where professor_id = #{professorId}
+		<where>
+				professor_id = #{professorId}
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					and course_semester = #{keyword}	and course_year = #{type}
+				</if>
+			</if>
+		</where>
 		order by course_year desc, course_semester desc
 	</select>
 	
