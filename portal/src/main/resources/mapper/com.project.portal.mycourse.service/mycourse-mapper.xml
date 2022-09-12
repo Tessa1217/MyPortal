@@ -86,7 +86,8 @@
 		                course_year, 
 		                course_name, 
 		                course_semester, 
-		                course_sortation, 
+		                course_sortation,
+		                course_sortation_nm, 
 		                course_credit, 
 		                course_grade
 		    from(
@@ -94,7 +95,8 @@
 		                        c.course_year,
 		                        c.course_name, 
 		                        c.course_semester, 
-		                        c.course_sortation, 
+		                        c.course_sortation,
+		                        find_code(course_sortation) course_sortation_nm, 
 		                        c.course_credit, 
 		                        m.course_grade
 		            from my_course m

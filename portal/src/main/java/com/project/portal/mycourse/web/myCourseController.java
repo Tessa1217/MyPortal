@@ -1,5 +1,7 @@
 package com.project.portal.mycourse.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.PageDTO;
+import com.project.portal.common.service.CodeVO;
+import com.project.portal.common.service.impl.CodeServiceImpl;
 import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.service.MyCourseMainVO;
@@ -33,6 +37,7 @@ public class myCourseController {
 	@Autowired CourseService cservice;
 	@Autowired StudentService studService;	
 	@Autowired CourseService courseService;
+	@Autowired CodeServiceImpl codeService;
 
 	// 학생 학업 정보 조회
 
@@ -49,6 +54,9 @@ public class myCourseController {
 	
 	@RequestMapping("/student/semesterGradeSelect")
 	public String SemesterGradeSelect(MyCourseVO vo, Model model, BachelorScheduleVO voo, HttpSession session) {
+		
+		List<CodeVO> codeList = new ArrayList<CodeVO>();
+		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
 		voo.setYear((int)session.getAttribute("year"));
 		voo.setSemester((int)session.getAttribute("semester"));
