@@ -541,7 +541,7 @@ input[name=examQuestionPoint] {
 }
 
 .main-long-box {
-	height: 64vh;
+	height: 80vh;
 	background: white;
 	border-radius: 10px;
 }
