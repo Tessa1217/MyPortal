@@ -9,10 +9,10 @@
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
-			<div>
-				<h2>내 강의 목록 조회</h2>
+			<div class="page-title">
+				<h3>내 강의 목록 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/professor/allCourseList"
 						method="get">
@@ -28,18 +28,22 @@
 					</form>
 					<hr>
 					<table class="table">
-						<tr>
-							<th>년도</th>
-							<th>학기</th>
-							<th>이수구분</th>
-							<th>강의명</th>
-						</tr>
-						<tr th:each="list : ${allCourseList}">
-							<td th:text="${list.courseYear}"></td>
-							<td th:text="${list.courseSemester}"></td>
-							<td th:text="${list.courseSortationNm}"></td>
-							<td th:text="${list.courseName}"></td>
-						</tr>
+						<thead class="thead-primary">
+							<tr>
+								<th>년도</th>
+								<th>학기</th>
+								<th>이수구분</th>
+								<th>강의명</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="list : ${allCourseList}">
+								<td th:text="${list.courseYear}"></td>
+								<td th:text="${list.courseSemester}"></td>
+								<td th:text="${list.courseSortationNm}"></td>
+								<td th:text="${list.courseName}"></td>
+							</tr>
+						</tbody>
 					</table>
 					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
 						<ul class="pagination justify-content-center">

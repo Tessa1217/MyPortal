@@ -8,13 +8,19 @@
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
-#main {
-	display: inline-block;
-}
 
 .card .faceImg {
 	margin-right: 5%;
 	height: 100%
+}
+.table2 th {
+	background-color: #435ebe;
+	color: white;
+	text-align: center;
+	width : 20%;
+}
+.table2 td {
+	text-align: left;
 }
 </style>
 
@@ -22,10 +28,10 @@
 <body>
 	<th:block layout:fragment="studentContent">
 		<div id="main">
-			<div>
-				<h2>내 정보 조회/수정</h2>
+			<div class="page-title">
+				<h3>내 정보 조회/수정</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
 					<h5>개인 정보</h5>
 					<div class="row">
@@ -104,7 +110,7 @@
 					</div>
 					<hr>
 					<h5>보호자 정보</h5>
-					<table class="table">
+					<table class="table table2">
 						<tr>
 							<th>보호자 성명</th>
 							<td><input type="text" class="form-control"

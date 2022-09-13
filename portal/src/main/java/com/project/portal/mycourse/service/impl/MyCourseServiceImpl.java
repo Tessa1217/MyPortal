@@ -26,57 +26,47 @@ public class MyCourseServiceImpl implements MyCourseService {
 
 	@Override
 	public List<MyCourseVO> getstuMyCourse(MyCourseVO mycourse, CourseVO course) {
-		// TODO Auto-generated method stub
 		return mapper.getstuMyCourse(mycourse, course);
 	}
 
 	@Override
 	public MyCourseMainVO getstuMyCoursePage(String courseCode) {
-		// TODO Auto-generated method stub
 		return mapper.getstuMyCoursePage(courseCode);
 	}
 
 	@Override
 	public myCourseDetailVO getstuMyCourseDetail(String courseCode) {
-		// TODO Auto-generated method stub
 		return mapper.getstuMyCourseDetail(courseCode);
 	}
 
 	@Override
 	public List<myCourseDetailVO> getstuMyCourseWeekDetail(String courseCode) {
-		// TODO Auto-generated method stub
 		return mapper.getstuMyCourseWeekDetail(courseCode);
 	}
 	@Override
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.studentStudyList(vo);
 	}
 	@Override
 	public MyCourseVO studentCreditSum(MyCourseVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.studentCreditSum(vo);
 	}
 	@Override
 	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.studentSortationCredit(vo);
 	}
 	@Override
 	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.semesterGradeSelect(vo);
 	}
 
 	@Override
 	public List<myProfCourseVO> getProfMyCourse(CourseVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.getProfMyCourse(vo);
 	}
 
 	@Override
 	public MyCourseMainVO getProfMyCoursePage(String courseCode) {
-		// TODO Auto-generated method stub
 		return mapper.getProfMyCoursePage(courseCode);
 	}
 
@@ -97,12 +87,10 @@ public class MyCourseServiceImpl implements MyCourseService {
 
 	@Override
 	public String getCourseName(String courseCode) {
-		// TODO Auto-generated method stub
 		return mapper.getCourseName(courseCode);
 	}
 
 //	public int getTotal(MyCourseVO vo) {
-//		// TODO Auto-generated method stub
 //		return mapper.getTotal(vo);
 //	}
 

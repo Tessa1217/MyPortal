@@ -29,6 +29,17 @@
 	    and rownum = 1
 	</select>
 	
+	<select id="gradeYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
+		select year, semester
+	  	from bachelor_schedule
+	  	where schedule_start_date = (
+	            SELECT max(schedule_start_date)
+	            FROM bachelor_schedule
+	            WHERE detail_code = 'REG02'
+	                and sysdate  > schedule_start_date )
+	    and rownum = 1
+	</select>
+	
 	<insert id="scheduleAllInsert">
 		INSERT INTO bachelor_schedule
 		VALUES (

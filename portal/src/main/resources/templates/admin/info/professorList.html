@@ -9,10 +9,10 @@
 <body>
 	<th:block layout:fragment="adminContent">
 		<div id="main">
-			<div>
-				<h2>교직원 정보 조회</h2>
+			<div class="page-title">
+				<h3>교직원 정보 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/admin/professorList" method="get">
 						<input type="hidden" name="pageNum" value="1"> <input
@@ -29,7 +29,7 @@
 					</form>
 					<hr>
 					<table class="table">
-						<thead>
+						<thead class="thead-primary">
 							<tr>
 								<th>교번</th>
 								<th>이름</th>
@@ -40,7 +40,7 @@
 								<th>상세보기</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="tbody-center">
 							<tr th:each="list : ${professorList}">
 								<td th:text=${list.professorId}></td>
 								<td th:text=${list.professorName}></td>

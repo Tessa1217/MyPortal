@@ -18,65 +18,74 @@ tr td {
 }
 </style>
 		<div id="main">
-			<div>
-				<h2>학업 정보 조회</h2>
+			<div class="page-title">
+				<h3>학업 정보 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
+					<h4>이수 구분별 취득 학점</h4>
 					<table class="table">
-						<tr>
-							<th>이수구분</th>
-							<th>총 취득 학점</th>
-						</tr>
-						<tr th:each="list : ${studentSortationCredit}">
-							<td th:if="${list.courseSortation =='MAJOR'}">전공</td>
-							<td th:if="${list.courseSortation =='LIBERAL'}">교양</td>
-							<td th:text=${list.courseSortationCredit}></td>
-						</tr>
+						<thead class="thead-primary">
+							<tr>
+								<th>이수구분</th>
+								<th>취득 학점</th>
+							</tr>
+						</thead>
+						<tbody class=" tbody-center">
+							<tr th:each="list : ${studentSortationCredit}">
+								<td th:if="${list.courseSortation =='MAJOR'}">전공</td>
+								<td th:if="${list.courseSortation =='LIBERAL'}">교양</td>
+								<td th:text=${list.courseSortationCredit}></td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
-			</div>
-			<div class="card">
 				<div class="card-body">
-					<div style="overflow: auto; width: 100%; height: 50%;">
+					<h4>학기별 성적</h4>
+					<div style="overflow: auto; width: 100%; height: 80%;">
 						<table class="table">
-							<tr>
-								<th>년도</th>
-								<th>학기</th>
-								<th>신청 학점</th>
-								<th>취득 학점</th>
-								<th>점수 평균</th>
-								<th>평점 평균</th>
-							</tr>
-							<tr th:each="list : ${studentStudyList}">
-								<td th:text=${list.courseYear}>
-								<td th:text=${list.courseSemester}>
-								<td th:text=${list.semesterCredit1}>
-								<td th:text=${list.semesterCredit2}>
-								<td th:text=${list.gradeAvg}>
-								<td th:if="${list.gradeAvg} == '4.5'">100.00</td>
-								<td th:if="${list.gradeAvg} < '4.5'"
-									th:text=${list.semesterPercentage}></td>
+							<thead class="thead-primary">
+								<tr>
+									<th>년도</th>
+									<th>학기</th>
+									<th>신청 학점</th>
+									<th>취득 학점</th>
+									<th>점수 평균</th>
+									<th>평점 평균</th>
+								</tr>
+							</thead>
+							<tbody class=" tbody-center">
+								<tr th:each="list : ${studentStudyList}">
+									<td th:text=${list.courseYear}>
+									<td th:text=${list.courseSemester}>
+									<td th:text=${list.semesterCredit1}>
+									<td th:text=${list.semesterCredit2}>
+									<td th:text=${list.gradeAvg}>
+									<td th:if="${list.gradeAvg} == '4.5'">100.00</td>
+									<td th:if="${list.gradeAvg} < '4.5'"
+										th:text=${list.semesterPercentage}></td>
 
-							</tr>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 				</div>
-			</div>
-			<div class="card">
 				<div class="card-body">
+					<h4>총 취득 학점/점수 평균</h4>
 					<table class="table">
-						<tr>
-							<th>전체 취득 학점</th>
-							<th>전체 취득 학점</th>
-						</tr>
-						<tr>
-							<td th:text="${studentCreditSum.creditSum}"></td>
-							<td th:text="|${studentCreditSum.gradeAvg} / 4.50|">
-						</tr>
+						<thead class="thead-primary">
+							<tr>
+								<th>총 취득 학점</th>
+								<th>점수 평균</th>
+							</tr>
+						</thead>
+						<tbody class=" tbody-center">
+							<tr>
+								<td th:text="${studentCreditSum.creditSum}"></td>
+								<td th:text="|${studentCreditSum.gradeAvg} / 4.50|">
+							</tr>
+						</tbody>
 					</table>
-
-
 				</div>
 			</div>
 		</div>

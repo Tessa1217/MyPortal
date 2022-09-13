@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeVO;
@@ -37,6 +38,7 @@ public class myCourseController {
 	@Autowired CourseService cservice;
 	@Autowired StudentService studService;	
 	@Autowired CourseService courseService;
+	@Autowired BachelorScheduleService schedule;
 	@Autowired CodeServiceImpl codeService;
 
 	// 학생 학업 정보 조회
@@ -58,16 +60,9 @@ public class myCourseController {
 		List<CodeVO> codeList = new ArrayList<CodeVO>();
 		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
-		voo.setYear((int)session.getAttribute("year"));
-		voo.setSemester((int)session.getAttribute("semester"));
-		vo.setCourseYear((int)session.getAttribute("year"));
-		vo.setCourseSemester((int)session.getAttribute("semester"));
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
-		model.addAttribute("year", voo.getYear());
-		model.addAttribute("semester", voo.getSemester());
-		System.out.println(voo);
-		System.out.println(vo);
-//		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
+		model.addAttribute("gradeYearSemester", schedule.gradeYearSemester(voo));
+//		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
 		return "student/info/semesterGrade";
 	}
 

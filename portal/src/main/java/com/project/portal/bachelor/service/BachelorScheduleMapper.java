@@ -15,4 +15,6 @@ public interface BachelorScheduleMapper {
 	
 	List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo);
 
+	BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo);
+
 }

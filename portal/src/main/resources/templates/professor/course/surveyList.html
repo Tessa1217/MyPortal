@@ -13,10 +13,10 @@
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
-			<div>
-				<h2>강의 수강 후기</h2>
+			<div class="page-title">
+				<h3>강의 수강 후기</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/professor/surveyList" method="get">
 						<label for="type">개설연도</label> <input type="number" id="type"
@@ -32,30 +32,34 @@
 					</form>
 					<hr>
 					<table class="table">
-						<tr>
-							<th>년도</th>
-							<th>학기</th>
-							<th>강의명</th>
-							<th>강의코드</th>
-							<th>학점</th>
-							<th>참여인원</th>
-							<th>평점</th>
-							<th>상세보기</th>
-						</tr>
-						<tr th:each="list : ${surveyList}">
-							<td th:text="${list.courseYear}" th:value="${list.courseYear}"
-								class="ck"></td>
-							<td th:text="${list.courseSemester}"></td>
-							<td th:text="${list.courseName}"></td>
-							<td th:text="${list.courseCode}"></td>
-							<td th:text="${list.courseCredit}"></td>
-							<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
-							<td th:text="|${list.surveyAvg} / 5.0|"></td>
-							<td><button type="button" class="btn btn-primary"
-									data-bs-toggle="modal" data-bs-target=".myModal"
-									th:disabled="${list.surveyAvg} == '0.0'">상세보기</button></td>
+						<thead class="thead-primary">
+							<tr>
+								<th>년도</th>
+								<th>학기</th>
+								<th>강의명</th>
+								<th>강의코드</th>
+								<th>학점</th>
+								<th>참여인원</th>
+								<th>평점</th>
+								<th>상세보기</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="list : ${surveyList}">
+								<td th:text="${list.courseYear}" th:value="${list.courseYear}"
+									class="ck"></td>
+								<td th:text="${list.courseSemester}"></td>
+								<td th:text="${list.courseName}"></td>
+								<td th:text="${list.courseCode}"></td>
+								<td th:text="${list.courseCredit}"></td>
+								<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
+								<td th:text="|${list.surveyAvg} / 5.0|"></td>
+								<td><button type="button" class="btn btn-primary"
+										data-bs-toggle="modal" data-bs-target=".myModal"
+										th:disabled="${list.surveyAvg} == '0.0'">상세보기</button></td>
 
-						</tr>
+							</tr>
+						</tbody>
 					</table>
 					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
 						<ul class="pagination justify-content-center">

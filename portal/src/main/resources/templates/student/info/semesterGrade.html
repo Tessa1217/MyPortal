@@ -9,53 +9,60 @@
 <body>
 	<th:block layout:fragment="studentContent">
 		<div id="main">
-			<div>
-				<h2>학기별 성적 조회</h2>
+			<div class="page-title">
+				<h3>학기별 성적 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/student/semesterGradeSelect"
 						method="get">
 						<label for="courseYear">수강연도</label> <input type="number"
 							id="type" name="type" class="form-control inline width-three"
-							th:value="${year}"> <label for="keyword">수강학기</label> <select
-							id="keyword" class="form-select inline width-three"
-							name="keyword">
-							<option th:selected="${semester} == '1'" value="1">1학기</option>
-							<option th:selected="${semester} == '2'" value="2">2학기</option>
+							th:value="${gradeYearSemester.year}"> <label
+							for="keyword">수강학기</label> <select id="keyword"
+							class="form-select inline width-three" name="keyword">
+							<option th:selected="${gradeYearSemester.semester} == '1'"
+								value="1">1학기</option>
+							<option th:selected="${gradeYearSemester.semester} == '2'"
+								value="2">2학기</option>
 						</select>
 						<button class="btn btn-primary">검색</button>
 					</form>
 					<hr>
 					<table class="table">
-						<tr>
-							<th>년도</th>
-							<th>학기</th>
-							<th>이수영역</th>
-							<th>강의명</th>
-							<th>학점</th>
-							<th>등급</th>
-							<th>평점</th>
-						</tr>
-						<tr th:each="list : ${semesterGradeSelect}">
-							<td th:text="${list.courseYear}"></td>
-							<td th:text="${list.courseSemester}"></td>
-							<td th:text="${list.courseSortationNm}"></td>
-							<td th:text="${list.courseName}"></td>
-							<td th:text="${list.courseCredit}"></td>
-							<td th:if="${list.courseGrade} == '4.5'">A+</td>
-							<td th:if="${list.courseGrade} == '4.0'">A0</td>
-							<td th:if="${list.courseGrade} == '3.5'">B+</td>
-							<td th:if="${list.courseGrade} == '3.0'">B0</td>
-							<td th:if="${list.courseGrade} == '2.5'">C+</td>
-							<td th:if="${list.courseGrade} == '2.0'">C0</td>
-							<td th:if="${list.courseGrade} == '1.5'">D+</td>
-							<td th:if="${list.courseGrade} == '1.0'">D0</td>
-							<td th:if="${list.courseGrade} == '0.0'">F</td>
-							<td th:text="${list.courseGrade}"></td>
+						<thead class="thead-primary">
+							<tr>
+								<th>년도</th>
+								<th>학기</th>
+								<th>이수영역</th>
+								<th>강의명</th>
+								<th>학점</th>
+								<th>수강평등록여부(확인용)</th>
+								<th>등급</th>
+								<th>평점</th>
+							</tr>
+						</thead>
+						<tbody class=" tbody-center">
+							<tr th:each="list : ${semesterGradeSelect}">
+								<td th:text="${list.courseYear}"></td>
+								<td th:text="${list.courseSemester}"></td>
+								<td th:text="${list.courseSortationNm}"></td>
+								<td th:text="${list.courseName}"></td>
+								<td th:text="${list.courseCredit}"></td>
+								<td th:text="${list.courseReviewYn}"></td>
+								<td th:if="${list.courseGrade} == '4.5'">A+</td>
+								<td th:if="${list.courseGrade} == '4.0'">A0</td>
+								<td th:if="${list.courseGrade} == '3.5'">B+</td>
+								<td th:if="${list.courseGrade} == '3.0'">B0</td>
+								<td th:if="${list.courseGrade} == '2.5'">C+</td>
+								<td th:if="${list.courseGrade} == '2.0'">C0</td>
+								<td th:if="${list.courseGrade} == '1.5'">D+</td>
+								<td th:if="${list.courseGrade} == '1.0'">D0</td>
+								<td th:if="${list.courseGrade} == '0.0'">F</td>
+								<td th:text="${list.courseGrade}"></td>
 
-						</tr>
-
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>

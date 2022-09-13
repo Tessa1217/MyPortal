@@ -6,9 +6,6 @@
 <meta charset="UTF-8">
 <title>학생 정보 조회/수정</title>
 <style>
-#main {
-	display: inline-block;
-}
 
 .card .faceImg {
 	margin-right: 5%;
@@ -18,17 +15,26 @@
 #mod {
 	margin-bottom: 10px;
 }
+.table2 th {
+	background-color: #435ebe;
+	color: white;
+	text-align: center;
+	width : 20%;
+}
+.table2 td {
+	text-align: left;
+}
 </style>
 
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
 		<div id="main">
-			<div>
-				<h2>학생 정보 조회</h2>
+			<div class="page-title">
+				<h3>학생 정보 조회</h3>
 			</div>
-			<div class="card">
-				<p style="float: left;">개인 정보</p>
+			<div class="card height-eight">
+				<h5>개인 정보</h5>
 				<div class="row">
 					<div class="col-10">
 						<table class="table table2">
@@ -98,8 +104,8 @@
 						</table>
 					</div>
 				</div>
-				<p>보호자 정보</p>
-				<table class="table">
+				<h5>보호자 정보</h5>
+				<table class="table table2">
 					<tr>
 						<th>보호자 성명</th>
 						<td th:text="${adminStudentInfoSelect.parentsName}"></td>

@@ -5,27 +5,50 @@
 <head>
 <meta charset="UTF-8">
 <title>교수 정보 조회</title>
+<style>
+.table2 th {
+	background-color: #435ebe;
+	color: white;
+	text-align: center;
+	width : 20%;
+}
+.table2 td {
+	text-align: left;
+}
+</style>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
 		<div id="main">
-			<div>
-				<h2>교직원 정보 조회</h2>
+			<div class="page-title">
+				<h3>교직원 정보 조회</h3>
 			</div>
-			<div class="card">
+			<div class="card height-eight">
+				<div class="card-body">
+				
 				<div class="row">
 					<div class="col-10">
-						<table class="table">
+						<table class="table table2">
 							<tr>
-								<th>담당학과</th>
-								<td colspan="3" th:text="${adminProfessorInfoSelect.departName}"></td>
+								<th>교번</th>
+								<td colspan="3"
+									th:text="${adminProfessorInfoSelect.professorId}"></td>
 							</tr>
 							<tr>
 								<th>이름</th>
 								<td colspan="3"
 									th:text="${adminProfessorInfoSelect.professorName}"></td>
+							</tr>
+							<tr>
+								<th>담당학과</th>
+								<td colspan="3" th:text="${adminProfessorInfoSelect.departName}"></td>
+							</tr>
+							<tr>
+								<th>임용일자</th>
+								<td colspan="3"
+									th:text="${#dates.format(adminProfessorInfoSelect.registerDate, 'yyyy-MM-dd')}"></td>
 							</tr>
 							<tr>
 								<th>생년월일</th>
@@ -64,6 +87,7 @@
 							</tr>
 						</table>
 					</div>
+				</div>
 				</div>
 				<div class="btnContainer">
 					<button class="btn btn-primary buttonmod" id="back">목록</button>
