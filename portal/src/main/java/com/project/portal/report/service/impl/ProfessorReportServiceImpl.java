@@ -83,8 +83,8 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	}
 
 	@Override
-	public List<ReportFileVO> getProfWholeFile(ReportFileVO vo) {
-		return mapper.getProfWholeFile(vo);
+	public List<ReportFileVO> getProfWholeFile(ReportFileVO vo, Criteria cri) {
+		return mapper.getProfWholeFile(vo, cri);
 	}
 
 	@Override
@@ -102,6 +102,11 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		for (ReportSubmissionVO sub : subList) {
 			mapper.updateScore(sub);
 		}
+	}
+
+	@Override
+	public int getFileTotal(ReportFileVO vo, Criteria cri) {
+		return mapper.getFileTotal(vo, cri);
 	}
 
 }

@@ -35,7 +35,12 @@ public interface ProfessorReportMapper {
 	// 파일 관련 
 	
 	// 전체 파일 가져오기 
-	List<ReportFileVO> getProfWholeFile(ReportFileVO vo);
+	List<ReportFileVO> getProfWholeFile(@Param("file") ReportFileVO vo, 
+										@Param("cri") Criteria cri);
+	
+	// 파일 수 
+	int getFileTotal(@Param("file") ReportFileVO vo, 
+					@Param("cri") Criteria cri);	
 	
 	// 파일 업로드
 	void uploadFile(ReportFileVO vo);

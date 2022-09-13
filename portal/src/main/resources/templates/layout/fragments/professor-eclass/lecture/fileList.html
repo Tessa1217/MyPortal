@@ -11,8 +11,6 @@
 		<div class="grid-container-five">
 			<div th:each="f : ${fileList}" class="grid-item grid-border"
 			th:onclick="chooseVideo(this)">
-				<input type="radio" class="form-check" name="chooseVideo"
-				data-path="@{/video/download/{videoCode}(videoCode = ${f.videoCode})}">
 				<p th:text="|${f.courseYear}년 ${f.courseSemester}학기|"></p>
 				<p th:text="${f.courseName}"></p>
 				<p>

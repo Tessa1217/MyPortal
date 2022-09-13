@@ -1,50 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/admin_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<th:block layout:fragment="adminContent">
-			<div id="main">
-			<div class="grid-container">
-				<div class="grid-item">
-					<div class="main-box" style="background: white;"
-						th:onclick="|location.href='@{/admin/studentList}'|">
-						<h3>학생 정보 관리</h3>
-					</div>
+		<div id="main" class="page-title">
+			<div class="grid-container-four">
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/admin/studentList}'|">
+					<h3>학생 정보 관리</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: #435ebe;"
-						th:onclick="|location.href='@{/admin/professorList}'|">
-						<h3 style="color: white;">교직원 정보 관리</h3>
-					</div>
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/admin/professorList}'|">
+					<h3>교직원 정보 관리</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: #435ebe;"
-						th:onclick="|location.href='@{/admin/adminTempList}'|">
-						<h3 style="color: white;">강의 관리</h3>
-					</div>
+				<div class="grid-item gridImg"
+					th:onclick="|location.href='@{/admin/adminTempList}'|">
+					<h3>강의 관리</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: white"
-						th:onclick="|location.href='@{/admin/schedule}'|">
-						<h3>학사 일정 관리</h3>
-					</div>
+				<div class="grid-item gridImg"
+					th:onclick="|location.href='@{/admin/schedule}'|">
+					<h3>학사 일정 관리</h3>
 				</div>
 			</div>
 			<div class="grid-container-two">
 				<div class="grid-item">
-					<div class="main-long-box">
-						<h3>이번 달 학사 일정</h3>
-						<div id="calendar"></div>
+					<div class="card height-sixh">
+						<div class="card-header">
+							<h3>이번 달 학사 일정</h3>
+						</div>
+						<div class="card-body">
+							<div id="calendar"></div>
+						</div>
 					</div>
 				</div>
 				<div class="grid-item">
-					<div class="main-long-box">
+					<div class="card height-sixh">
+						<div class="card-header">
 						<h3>공지사항</h3>
+						</div>
+						<div class="card-body"></div>
 					</div>
 				</div>
 			</div>

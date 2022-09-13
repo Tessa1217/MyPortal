@@ -205,13 +205,6 @@
 				})
 			}
 			
-			function saveFileChoice() {
-				let choice = $("input[name=chooseVideo]:checked");
-				if (choice.length == 0) {fireSwal('warning', '파일을 선택해주세요.')}
-				if (choice.length == 1) {
-					$("input[name=file]").files($(choice).data('path'));
-				}	
-			}
 			
 			// 모달 창 닫기 
 			function modalClose() {

@@ -31,7 +31,10 @@ public interface ProfessorReportService {
 
 	// 파일 관련
 	// 전체 파일 가져오기
-	List<ReportFileVO> getProfWholeFile(ReportFileVO vo);
+	List<ReportFileVO> getProfWholeFile(ReportFileVO vo, Criteria cri);
+
+	// 파일 수
+	int getFileTotal(ReportFileVO vo, Criteria cri);
 
 	// 파일 가져오기
 	ReportFileVO getFile(String reportFileCode, String userCode);
@@ -41,7 +44,7 @@ public interface ProfessorReportService {
 
 	// 과제 수
 	int getReportTotal(List<ReportVO> list, Criteria cri);
-	
+
 	// 과제 성적 수정
 	void updateScore(List<ReportSubmissionVO> subList);
 }

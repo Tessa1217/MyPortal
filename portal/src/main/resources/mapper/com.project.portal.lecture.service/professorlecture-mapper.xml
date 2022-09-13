@@ -197,7 +197,7 @@
 		</if>
 		)
 		<if test="cri != null and cri != ''">
-			WHERE R > #{cri.pageNum} - 1 * #{cri.amount}
+			WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
 		</if> 
 	</select>
 	<select id="getVideoTotal" resultType="int">

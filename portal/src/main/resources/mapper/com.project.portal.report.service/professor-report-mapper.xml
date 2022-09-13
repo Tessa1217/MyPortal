@@ -11,16 +11,53 @@
 		AND user_code = #{userCode}
 	</select>
 	<select id="getProfWholeFile" resultType="ReportFileVO">
+		SELECT * FROM (
+		SELECT RF.*, ROWNUM R FROM (
 		SELECT
-		report_file_code,
-		report_file_path,
-		report_file_name,
-		user_code,
-		submit_id
-		FROM report_file
-		WHERE submit_id = #{submitId}
-		AND user_code =
-		#{userCode}
+		r.report_file_code,
+		r.report_file_path,
+		r.report_file_name,
+		r.user_code,
+		r.submit_id,
+		re.course_code,
+		c.course_year,
+		c.course_semester,
+		c.course_name
+		FROM report_file r JOIN report_info re
+		ON r.report_file_code = re.report_file_code
+		JOIN course c
+		ON re.course_code = c.course_code
+		WHERE submit_id = #{file.submitId}
+		AND user_code = #{file.userCode}
+		ORDER BY c.course_year, c.course_semester DESC
+		) RF
+		WHERE 
+		<if test="cri != null and cri != ''">
+			ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+		</if>
+		)
+		<if test="cri != null and cri != ''">
+			WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
+		</if> 
+	</select>
+	<select id="getFileTotal" resultType="int">
+		SELECT COUNT(*)
+			FROM (SELECT
+		r.report_file_code,
+		r.report_file_path,
+		r.report_file_name,
+		r.user_code,
+		r.submit_id,
+		re.course_code,
+		c.course_year,
+		c.course_semester,
+		c.course_name
+		FROM report_file r JOIN report_info re
+		ON r.report_file_code = re.report_file_code
+		JOIN course c
+		ON re.course_code = c.course_code
+		WHERE submit_id = #{file.submitId}
+		AND user_code = #{file.userCode})
 	</select>
 	<resultMap id="reportMap" type="ReportVO">
 		<id column="report_code" property="reportCode" />
@@ -87,7 +124,7 @@
 		</if>)
 		<if test="cri != null and cri != ''">
 			<if test="cri.pageNum != null and cri.pageNum != ''">
-				WHERE R > (#{cri.pageNum} - 1) * #{cri.amount} 
+				WHERE R > <![CDATA[(#{cri.pageNum} - 1)]]> * #{cri.amount} 
 			</if>
 		</if>
 		

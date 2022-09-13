@@ -49,7 +49,7 @@
 					<tr>
 						<th>과제 첨부파일 업로드</th>
 						<td><input type="file" class="form-control width-six inline" name="file">
-						<button type="button" id="getFiles" class="inline btn btn-primary">기존 파일 불러오기</button></td>
+						<button type="button" th:onclick="showReportFiles()" class="inline btn btn-primary">기존 파일 불러오기</button></td>
 					</tr>
 					<tr>
 						<th>참고사항</th>
@@ -61,36 +61,39 @@
 					<button type="submit" class="btn btn-danger">등록하기</button>
 					<button id="check" type="button" class="btn btn-primary">취소</button>
 				</div>
-				<div id="fileModal" class="modal" tabindex="-1"
-				aria-labelledby="fileModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <h5 class="modal-title">내 과제 파일 모아보기</h5>
-			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			      </div>
-			      <div class="modal-body">
-			        <div id="oldFileList">
-			        </div>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			        <button type="button" id="file" class="btn btn-primary">파일 적용하기</button>
-			      </div>
-			    </div>
-			  </div>
-			 </div>
 			</form>
 			</div>
+			</div>
+			<div class="modal" id="fileModal" tabindex="100"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">기존 파일 목록</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true" th:onclick="modalClose()">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="modalBody"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal"
+								th:onclick="modalClose()">Close</button>
+							<button type="button" th:onclick="saveFileChoice()" class="btn btn-primary">Save
+								changes</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
 			$(function() {
 				enterDate("reportStartDate", "reportEndDate");
 				editor();
-				getFiles();
-				closeModal();
-				file();
 				cancelInsert();
 			})
 			
@@ -107,35 +110,39 @@
 						}
 					})
 			}
+		
 			
-			function getFiles() {
-				$(document).on("click", "#getFiles", function() {
-					console.log($("input[name=professorId]").val());
-					$.ajax({
-						method : 'POST',
-						url : `/professor/eclass/getWholeFile`,
-						data : {
-							submitId : $("input[name=professorId]").val(),
-							userCode : '01'
-						},
-						success : function(result) {
-							$("#oldFileList").replaceWith(result);
-							$("#fileModal").show();
-						}
-					})
-				})
+			// 모달 창 열기 
+			function modalOpen() {
+				$("#fileModal").show();
 			}
 			
-			function closeModal() {
-				$("#close").on("click", function() {
-					$("#fileModal").hide();
-				})
+			// 모달 창 닫기 
+			function modalClose() {
+				$("#fileModal").hide();
 			}
 			
-			function file() {
-				$("#file").on("click", function() {
-					let fileList = $("input[name=file]");
-					console.log(fileList);
+			// AJAX 호출과 함께 모달 열기 
+			function showReportFiles() {
+				getReportFileList(1, 10);
+				modalOpen();
+			}
+			
+			// 비디오 리스트 가져오기 (페이징 처리)
+			function getReportFileList(pageNum, amount, type, keyword) {
+				let data = {
+						pageNum : pageNum,
+						amount : amount,
+						type : (type != null) ? type : '',
+						keyword : (keyword != null) ? keyword : ''
+				}
+				$.ajax({
+					method : 'POST',
+					url : `/professor/eclass/reportFileList`,
+					data : data,
+					success : function(fragment) {
+						$("#modalBody").replaceWith(fragment);
+					}
 				})
 			}
 			

@@ -84,10 +84,16 @@ public class ProfessorReportController {
 	}
 	
 	// 교수의 파일 전체 가져오기
-	@PostMapping("/getWholeFile")
-	public String getWholeFile(ReportFileVO vo, Model model) {
-		model.addAttribute("fileList", service.getProfWholeFile(vo));
-		return "layout/fragments/professor-eclass/report/fileList :: #oldFileList";
+	@PostMapping("/reportFileList")
+	public String getWholeFile(ReportFileVO vo, 
+							Criteria cri, 
+							Model model,
+							HttpSession session) {
+		vo.setSubmitId((int) session.getAttribute("id"));
+		vo.setUserCode("01");
+		model.addAttribute("fileList", service.getProfWholeFile(vo, cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getFileTotal(vo, cri), cri.getAmount(), cri));
+		return "layout/fragments/professor-eclass/report/fileList :: #tableFragment";
 	}
 	
 	// 상세 보기 페이지 (ON/OFF 이용해서 상세 보기 + 수정 같이 한 페이지에서 처리)

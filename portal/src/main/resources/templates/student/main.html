@@ -5,109 +5,53 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	.grid-container{
-  display: grid;
-  grid-template-columns: 0.8fr 0.8fr 1fr;
-  grid-template-rows: auto 300px 300px;
-  grid-gap: 15px;
-  /* text-align: center; */
-}
-
-.gridImg {
-	background-size: contain;
-	background-repeat: no-repeat;
-  background-position: center;
-	border-radius: 15px;
-	background-color: white;
-	/* text-align: center; */
-}
-
-.gridImg h3{
-	margin-top: 10px;
-	margin-left: 10px;
-}
-
-.gridImg:hover {
-	transform: scale(1.05);
-	transition: 0.5s;
-	cursor: pointer;
-}
-
-.grid-item1{
-  background-image: url(/images/btnImg/info3.png);
-  grid-column-start: 1;
-  grid-column-end: 2;
-	grid-row-start: 2;
-  grid-row-end: 3;
-}
-
-.grid-item2{
-  background-image: url(/images/btnImg/grade3.png);
-  grid-column-start: 2;
-  grid-column-end: 3;
-	grid-row-start: 2;
-  grid-row-end: 3;
-}
-
-.grid-item3 {
-  background-image: url(/images/btnImg/eclass2.png);
-  grid-column-start: 1;
-  grid-column-end: 2;
-}
-
-.grid-item4 {
-  background-image: url(/images/btnImg/calendar2.png);
-  grid-column-start: 2;
-  grid-column-end: 3;
-}
-
-.grid-item5 {
-	grid-column-start: 3;
-	grid-column-end: 4;
-	grid-row-start: 2;
-	grid-row-end: 4;
-	text-align: center;
-	border-radius: 15px;
-	background-color: white;
-}
-
-.grid-item6 {
-	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 1;
-	grid-row-end: 2;
-	text-align: center;
-	border-radius: 15px;
-	background-color: white;
-}
-
-</style>
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
 		<div id="main" class="page-title">
-			<div class="grid-container">
-				<div class="gridImg grid-item1" th:onclick="|location.href='@{/student/studentInfoSelect}'|">
-						<h3>내 정보</h3>
+			<div class="grid-container-four">
+				<div class="gridImg grid-item"
+					style="background-image: url(/images/btnImg/info3.png);"
+					th:onclick="|location.href='@{/student/studentInfoSelect}'|">
+					<h3>내 정보</h3>
 				</div>
-				<div class="gridImg grid-item2" th:onclick="|location.href='@{/student/semesterGradeSelect}'|">
-						<h3>성적 조회</h3>
+				<div class="gridImg grid-item"
+					style="background-image: url(/images/btnImg/grade3.png);"
+					th:onclick="|location.href='@{/student/semesterGradeSelect}'|">
+					<h3>성적 조회</h3>
 				</div>
-				<div class="gridImg grid-item3" th:onclick="|location.href='@{/student/courseList}'|">
+				<div class="gridImg grid-item"
+					style="background-image: url(/images/btnImg/eclass2.png);"
+					th:onclick="|location.href='@{/student/courseList}'|">
 					<h3>E-Class</h3>
 				</div>
-				<div class="gridImg grid-item4" th:onclick="|location.href='@{/student/schedule}'|">
+				<div class="gridImg grid-item"
+					style="background-image: url(/images/btnImg/calendar2.png);"
+					th:onclick="|location.href='@{/student/schedule}'|">
 					<h3>학 사</h3>
 				</div>
-				<div class="grid grid-item5">
-						<h3>이번 달 학사 일정</h3>
-						<div id="calendar"></div>
+			</div>
+			<div class="grid-container-two">
+				<div class="grid-item">
+					<div class="card height-sixh">
+						<div class="card-header">
+							<h3>이번 달 학사 일정</h3>
+						</div>
+						<div class="card-body">
+							<div id="calendar"></div>
+						</div>
+					</div>
 				</div>
-				<div class="grid grid-item6">
+				<div class="grid-item">
+					<div class="card height-sixh">
+						<div class="card-header">
 						<h3>공지 사항</h3>
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
 				</div>
-      </div>
+			</div>
 		</div>
 		<script th:inline="javascript">
 			$(function() {

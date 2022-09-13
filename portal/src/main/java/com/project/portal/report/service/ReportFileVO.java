@@ -14,4 +14,8 @@ public class ReportFileVO {
 	private String reportSubFileCode;
 	private int submitId;
 	private int studentId;
+	private String courseCode;
+	private int courseYear;
+	private int courseSemester;
+	private String courseName;
 }

@@ -5,26 +5,46 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="oldFileList">
-		<table class="table">
-			<thead>
-				<tr>
-					<th></th>
-					<th>파일 이름</th>
-					<th>파일 보기</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="file : ${fileList}">
-					<td><input type="radio" name="file"></td>
-					<td th:id="|name-${file.reportFileCode}|" 
-					th:text="${file.reportFileName}"></td>
-					<td><a th:text="${file.reportFileName}"
-					th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${file.reportFileCode}, userCode=${file.userCode})}">
-					</a></td>
-				</tr>
-			</tbody>
-		</table>
+	<div id="tableFragment">
+		<p th:text="${pageMaker.cri}"></p>
+		<div class="grid-container-five">
+			<div th:each="f : ${fileList}" class="grid-item grid-border"
+			th:onclick="chooseVideo(this)">
+				<p th:text="|${f.courseYear}년 ${f.courseSemester}학기|"></p>
+				<p th:text="${f.courseName}"></p>
+				<p>
+					<a
+						th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${f.reportFileCode}, userCode = ${f.userCode})}"
+						th:text="${f.reportFileName}" data-toggle="tooltip"
+						data-placement="bottom" title="파일 다운로드"></a>
+				</p>
+			</div>
+		</div><div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+			<ul class="pagination justify-content-center">
+				<th:block th:if="${pageMaker.prev}">
+					<li class="page-item prev"><a class="page-link"
+						href="javascript:void(0)"
+						th:onclick="getReportFileList([[${pageMaker.startPage - 1}]], [[${pageMaker.cri.amount}]])">이전</a>
+					</li>
+				</th:block>
+				<th:block th:with="pageMaker = ${pageMaker}">
+					<th:block
+						th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+						<li class="page-item"
+							th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+							<a class="page-link" href="javascript:void(0)" th:text="${num}"
+							th:onclick="getReportFileList([[${num}]], [[${pageMaker.cri.amount}]])"></a>
+						</li>
+					</th:block>
+					<th:block th:if="${pageMaker.next}">
+						<li class="page-item next"><a class="page-link"
+							href="javascript:void(0)"
+							th:onclick="getReportFileList([[${pageMaker.endPage + 1}]], [[${pageMaker.cri.amount}]])">다음</a>
+						</li>
+					</th:block>
+				</th:block>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>

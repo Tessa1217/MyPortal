@@ -8,51 +8,51 @@
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
-		<div id="main">
-			<div class="grid-container">
-				<div class="grid-item">
-					<div class="main-box" style="background: white;"
-						th:onclick="|location.href='@{/professor/professorInfo}'|">
-						<h3>내 정보</h3>
-					</div>
+		<div id="main" class="page-title">
+			<div class="grid-container-four">
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/professor/professorInfo}'|">
+					<h3>내 정보</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: #435ebe;"
-						th:onclick="|location.href='@{/professor/professor/allCourseList}'|">
-						<h3 style="color: white;">내 강의</h3>
-					</div>
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/professor/professor/allCourseList}'|">
+					<h3>내 강의</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: #435ebe;"
-						th:onclick="|location.href='@{/professor/courseList}'|">
-						<h3 style="color: white;">E-Class</h3>
-					</div>
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/professor/courseList}'|">
+					<h3>E-Class</h3>
 				</div>
-				<div class="grid-item">
-					<div class="main-box" style="background: white"
-						th:onclick="|location.href='@{/professor/schedule}'|">
-						<h3>학사</h3>
-					</div>
+				<div class="gridImg grid-item"
+					th:onclick="|location.href='@{/professor/schedule}'|">
+					<h3>학사</h3>
 				</div>
 			</div>
 			<div class="grid-container-two">
 				<div class="grid-item">
-					<div class="main-long-box">
-						<h3>이번 달 학사 일정</h3>
-						<div id="calendar"></div>
+					<div class="card height-sixh">
+						<div class="card-header">
+							<h3>이번 달 학사 일정</h3>
+						</div>
+						<div class="card-body">
+							<div id="calendar"></div>
+						</div>
 					</div>
 				</div>
 				<div class="grid-item">
-					<div class="main-long-box">
+					<div class="card height-sixh">
+						<div class="card-header">
 						<h3>공지사항</h3>
+						</div>
+						<div class="card-body">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
-		$(function() {
-			monthlyCalendar();
-		})	
+			$(function() {
+				monthlyCalendar();
+			})
 		</script>
 	</th:block>
 </body>
