@@ -16,5 +16,8 @@ public interface BachelorScheduleMapper {
 	List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo);
 
 	BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo);
+	
+	//강의계획서 날짜 불러오기
+		BachelorScheduleVO yearSemester(BachelorScheduleVO vo);
 
 }

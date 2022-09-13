@@ -42,4 +42,10 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return mapper.gradeYearSemester(vo);
 	}
 
+	@Override
+	public BachelorScheduleVO yearSemester(BachelorScheduleVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.yearSemester(vo);
+	}
+
 }

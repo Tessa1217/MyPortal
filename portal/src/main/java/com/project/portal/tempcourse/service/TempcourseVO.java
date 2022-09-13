@@ -29,6 +29,8 @@ public class TempcourseVO {
 	private String courseSortationName;
 	private String submitYesName;
 	private String okayYesName;
+	private String detailCode;
+	
 	
 	
 }

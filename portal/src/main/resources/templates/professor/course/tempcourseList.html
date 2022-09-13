@@ -49,6 +49,8 @@ text-align : center;
 				<h2>강의 계획서 조회</h2>
 			</div>
 			<br>
+			<h5 th:text="|강의계획서 신청일 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
+				<h5 th:text="|현재연도 학기  : ${yearSemester.year}년도 ${yearSemester.semester}학기|"></h5>
 			<div class="card-body">
 			<form name="searchFrm" class="form-horizontal">
 			<!-- <input type="hidden" name="pageNum" value="1"> <input
@@ -64,7 +66,7 @@ text-align : center;
 					
 					<label for="type">개설연도</label> <input type="number" id="type"
                      class="form-control inline width-three" name="type"
-                     th:value="${year}"> <label for="keyword">개설학기</label> <select
+                     th:value="${year}"  > <label for="keyword">개설학기</label> <select
                      id="keyword" class="form-select inline width-three"
                      name="keyword">
                      <option th:selected="${semester} == '1'" value="1">1학기</option>
@@ -171,9 +173,14 @@ text-align : center;
 				
 				
 				<div align="right">
+				
+				
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
-				th:disabled="${bache.detailCode} == 'PROF00'" style="margin-right:1%;" >강의 계획서 등록</button>
-					</div>
+				style="margin-right:1%;" th:if="1 == 2" >강의 계획서 등록</button>
+				
+				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
+				style="margin-right:1%;" th:unless="1 == 2" disabled>강의 계획서 등록</button>
+					</div>[[${#dates.createNow()}]] // [[${yearSemester.scheduleStartDate}]]
 			</div>
 		</div>
 		
@@ -376,7 +383,10 @@ text-align : center;
 			 		})
 			 	
 			 	
-			 	
+			 		
+	 	
+		
+		
 					
 				
 		</script>

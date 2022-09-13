@@ -279,7 +279,7 @@
 						<label class="modal-title" id="staticBackdropLabel">승인된 강의계획서 리스트</label>
 					</div>
 					<div class="modal-body">
-					<form name="searchForm" class="form-horizontal" >
+					<form name="searchFrm" id="searchFrm" class="form-horizontal">
 					<label for="type">개설연도</label> <input type="number" id="type"
                      class="form-control inline width-three" name="type"
                      th:value="${year}"> <label for="keyword">개설학기</label> <select
@@ -435,13 +435,22 @@
 			}
 			
 			
-			//모달창 검색 안꺼지게
-			function aaa() {
+			 //모달창 검색 안꺼지게
+		
 				$(".searchh").on("click", function(e) {
 					
 					$('#bringme').modal('show');
+					
 				})
-			}
+			
+			
+			
+			   /*  $('form').submit(function(e) {
+			        e.preventDefault();
+			        
+			        // 또는 return false;
+			    }); */
+			
 			
 			
 			//모달창 끄기
@@ -504,6 +513,9 @@
 					
 			});
 			
+			
+			
+		
 	
 			/* //주차 추가
 			let row = 1;
