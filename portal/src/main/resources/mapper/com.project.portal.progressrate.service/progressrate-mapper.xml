@@ -35,18 +35,32 @@
          ORDER BY 1 ASC
 	</select>
 	
-	<select id="selectReportProgressRate" resultType="Double">
-			SELECT  CW.WEEK_NUM,
+	<select id="selectReportProgressRate" resultType="ProgressRateVO">
+			  SELECT A.WEEK_NUM, A.ATT_OPTION , B.REPORT_RATE
+			FROM (
+					SELECT  DISTINCT W.WEEK_NUM,
+			                SUM(SL.ATT_OPTION) * 100 AS ATT_OPTION
+			          FROM  COURSE_WEEKLY W
+	                LEFT OUTER JOIN LECTURE L 
+	                     ON W.WEEK_CODE = L.WEEK_CODE
+                         LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
+	                     ON SL.LECTURE_CODE = L.LECTURE_CODE
+	               WHERE W.COURSE_CODE = #{courseCode} 
+	               GROUP BY W.WEEK_NUM
+                   ORDER BY 1) A,
+                (
+                  SELECT  CW.WEEK_NUM,
                            (SUM(CASE WHEN RS.REPORT_FILE_CODE IS NOT NULL THEN 1  ELSE 0 END) / COUNT(*)) * 100 REPORT_RATE 
-                      FROM COURSE_WEEKLY CW LEFT OUTER JOIN REPORT_INFO RI
-                        ON CW.WEEK_CODE = RI.WEEK_CODE
-                      LEFT OUTER JOIN REPORT_SUBMISSION RS
-                        ON RS.REPORT_CODE = RI.REPORT_CODE
-                     WHERE RS.STUDENT_ID = #{studentId}
-                     and ri.course_code = #{courseCode}
-                     
+                     FROM COURSE_WEEKLY CW LEFT OUTER JOIN REPORT_INFO RI
+                        ON CW.week_CODE = RI.week_CODE
+                        left outer join report_submission rs
+                        on rs.report_code = ri.report_code
+                        where cw.course_code = #{courseCode}
+                        and (rs.student_id is null or rs.student_id = #{studentId})
                      GROUP BY CW.WEEK_NUM
-                     ORDER BY 1
+                     ORDER BY 1) B
+                 WHERE A.WEEK_NUM = B.WEEK_NUM      
+  			ORDER BY 1 ASC
 	
 	</select>
 	

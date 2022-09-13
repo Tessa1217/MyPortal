@@ -37,18 +37,22 @@ caption {
 								</thead>
 								
 								<tbody class="tbody-center">
-								<tr th:each="attRate : ${attRate}" th:each="reportProgressRate : ${reportProgressRate}" >
+								<tr th:each="attRate : ${attRate}">
 									<td th:text="${attRate.weekNum}"></td>
 									<th:block>
 										<td th:text="${attRate.attOption} + '%'"></td>
 									</th:block>
-									<td>
+									
+									 <td>
+								
 										<div class="progress">
 											<div class="progress-bar bg-success" role="progressbar"
 												aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
-												th:style="'width:' + ${reportProgressRate.reportRate} + '%'"></div>
+												th:style="'width:' + ${attRate.reportRate} + '%'"></div>
+									
 										</div>
-									</td> 
+									</td>  
+									
 								</tr>
 								</tbody>
 							</table>
