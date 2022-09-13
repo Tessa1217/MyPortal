@@ -232,21 +232,6 @@
 				</textElement>
 				<text><![CDATA[세부내용]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="han_font" x="0" y="370" width="100" height="20" uuid="e7fb21bb-f1ec-4920-a383-65850871c7d8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
-				</textElement>
-				<text><![CDATA[주차 계획표]]></text>
-			</staticText>
-			<subreport>
-				<reportElement style="han_font" x="-20" y="390" width="595" height="280" uuid="c1c23278-6ddb-4a47-a166-d3ffb8df9dca"/>
-				<subreportParameter name="COURSE_CODE">
-					<subreportParameterExpression><![CDATA[$P{COURSE_CODE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["course_weekjrxml55.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 </jasperReport>

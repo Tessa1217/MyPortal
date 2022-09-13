@@ -51,7 +51,7 @@ dependencies {
 	//Jasper
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.19.0'
 	// https://mvnrepository.com/artifact/com.lowagie/itext
-	implementation group: 'com.lowagie', name: 'itext', version: '4.2.1'
+	implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
 }
 
 tasks.named('test') {

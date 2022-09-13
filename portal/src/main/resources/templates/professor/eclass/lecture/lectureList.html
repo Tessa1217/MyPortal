@@ -30,7 +30,8 @@
 						<td th:text="${lec.lectureTitle}"></td>
 						<td th:text="|${#dates.format(lec.lectureStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(lec.lectureEndDate, 'yyyy-MM-dd')}|"></td>
 						<td th:text="|${lec.lectureAttTime/60}분|"></td>
-						<td><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td> 
+						<td th:if="${lec.videoCode != null}"><a th:href="@{/video/download/{videoCode}(videoCode=${lec.videoCode})}">[[${lec.lectureFile.videoName}]]</a></td>
+						<td th:unless="${lec.videoCode != null}"><a th:href="${lec.lectureYoutubePath}" target="_blank">유튜브</a></td> 
 					</tr>
 				</tbody>
 			</table>

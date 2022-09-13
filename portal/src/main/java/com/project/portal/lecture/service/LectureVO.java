@@ -22,4 +22,5 @@ public class LectureVO {
 	private String lectureTitle;
 	private VideoVO lectureFile;
 	private String courseCode;
+	private String lectureYoutubePath;
 }

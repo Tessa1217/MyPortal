@@ -39,7 +39,7 @@
 								<th>이수영역</th>
 								<th>강의명</th>
 								<th>학점</th>
-								<th>수강평등록여부(확인용)</th>
+								<th th:if="${gradeYearSemester.scheduleEndDate} gt ${#dates.createNow()} and ${gradeYearSemester.scheduleStartDate} lt ${#dates.createNow()}">수강평등록여부(확인용)</th>
 								<th>등급</th>
 								<th>평점</th>
 							</tr>
@@ -51,7 +51,8 @@
 								<td th:text="${list.courseSortationNm}"></td>
 								<td th:text="${list.courseName}"></td>
 								<td th:text="${list.courseCredit}"></td>
-								<td th:text="${list.courseReviewYn}"></td>
+								<td th:if="${gradeYearSemester.scheduleEndDate} gt ${#dates.createNow()} and ${gradeYearSemester.scheduleStartDate} lt ${#dates.createNow()}" 
+								th:text="${list.courseReviewYn}"></td>
 								<td th:if="${list.courseGrade} == '4.5'">A+</td>
 								<td th:if="${list.courseGrade} == '4.0'">A0</td>
 								<td th:if="${list.courseGrade} == '3.5'">B+</td>
@@ -69,6 +70,5 @@
 			</div>
 		</div>
 	</th:block>
-
 </body>
 </html>

@@ -36,9 +36,9 @@
 					</tr>
 					<tr>
 						<th>강의 영상</th>
-						<td><a th:text="${lecture.lectureFile.videoName}"
-							th:download="${lecture.lectureFile.videoName}"
-							th:href="@{/video/download/{videoCode}(videoCode = ${lecture.videoCode})}"></a></td>
+						<td><a th:text="${lecture.videoCode != null} ? ${lecture.lectureFile.videoName} : '유튜브 영상'"
+							th:download="${lecture.videoCode != null} ? ${lecture.lectureFile.videoName}"
+							th:href="${lecture.videoCode != null} ? @{/video/download/{videoCode}(videoCode = ${lecture.videoCode})} : ${lecture.lectureYoutubePath}"></a></td>
 					</tr>
 					<tr>
 						<th>과제 참고사항</th>

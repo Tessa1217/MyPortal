@@ -52,7 +52,7 @@
 								type="number" name="lectureAttTime"
 								th:value="${lecture.lectureAttTime/60}">분</td>
 						</tr>
-						<tr>
+						<tr th:if="${lecture.videoCode != null}">
 							<th>원본 파일 확인하기</th>
 							<td><a th:text="${lecture.lectureFile.videoName}"
 								th:download="${lecture.lectureFile.videoName}"
@@ -60,9 +60,17 @@
 							</a> <input type="hidden" th:value="${lecture.videoCode}"
 								name="videoCode"></td>
 						</tr>
+						<tr th:unless="${lecture.videoCode != null}">
+							<th>유튜브 파일 확인하기</th>
+							<td><a th:href="${lecture.lectureYoutubePath}" target="_blank">유튜브 영상</a></td>
+						</tr>
 						<tr>
 							<th>과제 첨부파일 업로드</th>
 							<td><input class="file-control" type="file" name="file"></td>
+						</tr>
+						<tr>
+							<th>유튜브 업로드</th>
+							<td><input class="form-control" type="text" name="lectureYoutubePath"></td>
 						</tr>
 						<tr>
 							<th>참고사항</th>

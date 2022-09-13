@@ -66,26 +66,27 @@ public class ProfessorLectureController {
 	@PostMapping("professor/eclass/insertLecture")
 	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video, Model model, HttpSession session)
 			throws IllegalStateException, IOException {
+		if (!file.isEmpty()) {
+			// 비디오 파일 테이블에 등록하기
+			CourseVO course = (CourseVO) session.getAttribute("courseInfo");
+			video.setVideoName(file.getOriginalFilename());
+			video.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
+			video.setVideoExtension(file.getContentType().substring(5));
+			video.setVideoFilePath(uploadPath + "/video/" + course.getCourseYear() + "/" + course.getCourseSemester()
+					+ "/" + course.getCourseCode() + "/" + video.getVideoStoredName());
+			video.setProfessorId(course.getProfessorId());
+			service.uploadVideo(video);
 
-		// 비디오 파일 테이블에 등록하기
-		CourseVO course = (CourseVO) session.getAttribute("courseInfo");
-		video.setVideoName(file.getOriginalFilename());
-		video.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
-		video.setVideoExtension(file.getContentType().substring(5));
-		video.setVideoFilePath(uploadPath + "/video/" + course.getCourseYear() + "/" + course.getCourseSemester() + "/"
-				+ course.getCourseCode() + "/" + video.getVideoStoredName());
-		video.setProfessorId(course.getProfessorId());
-		service.uploadVideo(video);
+			// 비디오 실제 파일 업로드
+			File fileUpload = new File(video.getVideoFilePath());
 
-		// 비디오 실제 파일 업로드
-		File fileUpload = new File(video.getVideoFilePath());
+			// 부모 디렉토리가 존재하지 않을 경우 생성하여 오류 막는 부분
+			fileUpload.getParentFile().mkdirs();
+			file.transferTo(fileUpload);
 
-		// 부모 디렉토리가 존재하지 않을 경우 생성하여 오류 막는 부분
-		fileUpload.getParentFile().mkdirs();
-		file.transferTo(fileUpload);
-
-		// 비디오 코드 받아서 강의 영상 자료 정보 테이블에 등록해오기
-		lecture.setVideoCode(video.getVideoCode());
+			// 비디오 코드 받아서 강의 영상 자료 정보 테이블에 등록해오기
+			lecture.setVideoCode(video.getVideoCode());
+		}
 		service.insertLecture(lecture);
 
 		return "redirect:/professor/eclass/lectureList";
@@ -101,8 +102,8 @@ public class ProfessorLectureController {
 		model.addAttribute("lecture", lecture.get(0));
 		return "professor/eclass/lecture/detailLecture";
 	}
-	
-	// 강의 삭제 
+
+	// 강의 삭제
 	@DeleteMapping("/professor/eclass/deleteLecture")
 	@ResponseBody
 	public String deleteLecture(@RequestBody LectureVO vo) {
@@ -110,7 +111,7 @@ public class ProfessorLectureController {
 		return "success";
 	}
 
-	// 강의 수정 
+	// 강의 수정
 	@PostMapping("/professor/eclass/updateLecture")
 	public String updateLecture(@RequestParam("file") MultipartFile file, LectureVO vo, HttpSession session,
 			Model model) {
@@ -127,22 +128,17 @@ public class ProfessorLectureController {
 		}
 		return "redirect:/professor/eclass/lectureList";
 	}
-	
+
 	@RequestMapping("/professor/eclass/videoList")
-	public String getVideoList(CourseVO course, 
-								Criteria cri, 
-								HttpSession session, 
-								Model model) {
+	public String getVideoList(CourseVO course, Criteria cri, HttpSession session, Model model) {
 		course.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("fileList", service.getVideoList(course, cri));
 		model.addAttribute("pageMaker", new PageDTO(service.getVideoTotal(course, cri), cri.getAmount(), cri));
 		return "/layout/fragments/professor-eclass/lecture/fileList :: #tableFragment";
 	}
-	
-	// 파일 세팅하는 메서드 
-	private VideoVO newFile(MultipartFile file, 
-								CourseVO course, 
-								HttpSession session) {
+
+	// 파일 세팅하는 메서드
+	private VideoVO newFile(MultipartFile file, CourseVO course, HttpSession session) {
 		VideoVO newFile = new VideoVO();
 		newFile.setProfessorId((int) session.getAttribute("id"));
 		newFile.setVideoExtension(file.getContentType());

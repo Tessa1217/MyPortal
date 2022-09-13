@@ -12,6 +12,7 @@
 		<result column="lecture_content" property="lectureContent"/>
 		<result column="video_code" property="videoCode"/>
 		<result column="lecture_title" property="lectureTitle"/>
+		<result column="lecture_youtube_path" property="lectureYoutubePath"/>
 		<association property="lectureFile" javaType="VideoVO">
 			<result column="video_name" property="videoName"/>
 			<result column="video_stored_name" property="videoStoredName"/>
@@ -27,12 +28,13 @@
 			L.lecture_end_date,
 			L.lecture_att_time,
 			L.lecture_content,
+			L.lecture_youtube_path,
 			L.video_code,
 			L.lecture_title,
 			L.course_code, 
 			V.video_name, 
 			V.video_file_path
-			FROM lecture L JOIN video V
+			FROM lecture L LEFT OUTER JOIN video V
 			ON L.video_code = V.video_code
 			<where>
 			<if test="course != null and course != ''">
@@ -118,7 +120,8 @@
 												lecture_content,
 												video_code,
 												lecture_title,
-												course_code
+												course_code,
+												lecture_youtube_path
 												)
 												VALUES (
 																SUBSTR(#{weekCode}, 3, 2)||'L'||LPAD(TO_CHAR(lecture_seq.NEXTVAL), 7, '0'),
@@ -130,7 +133,8 @@
 																#{lectureContent},
 																#{videoCode},
 																#{lectureTitle},
-																#{courseCode})
+																#{courseCode},
+																#{lectureYoutubePath})
 	</insert>
 	<select id="getVideo" resultType="VideoVO">
 		SELECT * 
@@ -154,8 +158,14 @@
 				lecture_content = #{lectureContent},
 				lecture_start_date = #{lectureStartDate},
 				lecture_end_date = #{lectureEndDate},
-				video_code = #{videoCode}
-			WHERE lecture_code = #{lectureCode}
+				video_code = #{videoCode},
+				<if test="videoCode == null">
+				lecture_youtube_path = #{lectureYoutubePath}
+				</if>
+				<if test="videoCode != null">
+				lecture_youtube_path = NULL
+				</if>
+				WHERE lecture_code = #{lectureCode}
 	</update>
 	<select id="getVideoList" resultType="VideoVO">
 		SELECT * FROM (
