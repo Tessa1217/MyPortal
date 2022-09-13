@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
-import com.project.portal.common.PageDTO;
+import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
-import com.project.portal.common.service.impl.CodeServiceImpl;
 import com.project.portal.course.service.CourseService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.mycourse.service.MyCourseMainVO;
@@ -26,6 +25,8 @@ import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
+import com.project.portal.professor.service.ProfessorService;
+import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 
@@ -34,12 +35,20 @@ import com.project.portal.student.service.StudentVO;
 public class myCourseController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 
-	@Autowired MyCourseService service;
-	@Autowired CourseService cservice;
-	@Autowired StudentService studService;	
-	@Autowired CourseService courseService;
-	@Autowired BachelorScheduleService schedule;
-	@Autowired CodeServiceImpl codeService;
+	@Autowired
+	MyCourseService service;
+	@Autowired
+	CourseService cservice;
+	@Autowired
+	StudentService studService;
+	@Autowired
+	ProfessorService profService;
+	@Autowired
+	CourseService courseService;
+	@Autowired
+	BachelorScheduleService schedule;
+	@Autowired
+	CodeService codeService;
 
 	// 학생 학업 정보 조회
 
@@ -51,12 +60,12 @@ public class myCourseController {
 		model.addAttribute("studentSortationCredit", service.studentSortationCredit(vo)); // 이수구분 별 총 취득학점
 		return "student/info/grade";
 	}
-	
+
 	// 학기별 성적 조회
-	
+
 	@RequestMapping("/student/semesterGradeSelect")
 	public String SemesterGradeSelect(MyCourseVO vo, Model model, BachelorScheduleVO voo, HttpSession session) {
-		
+
 		List<CodeVO> codeList = new ArrayList<CodeVO>();
 		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
@@ -69,11 +78,8 @@ public class myCourseController {
 	// 학생 수강 목록 조회
 
 	@RequestMapping("student/courseList")
-	public String getstuMyCourse(MyCourseVO vo, 
-								CourseVO course,
-								BachelorScheduleVO schedule,
-								Model model, 
-								HttpSession session) {
+	public String getstuMyCourse(MyCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model,
+			HttpSession session) {
 		schedule.setDetailCode("BPLAN00");
 		course = cservice.getYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
@@ -84,11 +90,8 @@ public class myCourseController {
 
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
-	public String getProfMyCourse(myProfCourseVO vo, 
-									BachelorScheduleVO schedule,
-									Model model,
-									HttpSession session) {
-		
+	public String getProfMyCourse(myProfCourseVO vo, BachelorScheduleVO schedule, Model model, HttpSession session) {
+
 		schedule.setDetailCode("BPLAN00");
 		CourseVO course = cservice.getYearSemester(schedule);
 		course.setProfessorId((int) session.getAttribute("id"));
@@ -99,53 +102,51 @@ public class myCourseController {
 	// 수강 강의 lms 메인 페이지 이동
 
 	@RequestMapping("/student/eclass/{courseCode}")
-	public String getstuMyCoursePage(@PathVariable String courseCode, 
-									CourseVO course,
-									MyCourseMainVO vo, 
-									MyCourseVO mycourse,
-									StudentVO student,
-									Model model,
-									HttpSession session, 
-									BachelorScheduleVO schedule) {
-		
-		// 강의 정보 
+	public String getstuMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
+			MyCourseVO mycourse, StudentVO student, Model model, HttpSession session, BachelorScheduleVO schedule) {
+
+		// 강의 정보
 		course.setCourseCode(courseCode);
 		session.setAttribute("courseCode", courseCode);
 		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
-		
-		// 주차별 과제, 강의, 시험 정보 
+
+		// 주차별 과제, 강의, 시험 정보
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
-		
-		// 학생이 수강중인 전체 강의 목록 
+
+		// 학생이 수강중인 전체 강의 목록
 		schedule.setDetailCode("BPLAN00");
 		course = cservice.getYearSemester(schedule);
 		mycourse.setStudentId((int) session.getAttribute("id"));
 		session.setAttribute("courseList", service.getstuMyCourse(mycourse, course));
-		
-		// 학생 정보 
+
+		// 학생 정보
 		student.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("student", studService.studentInfoSelect(student));
-		
+
 		return "student/eclass/eclassmain";
 
 	}
 
 	// 교수 강좌 강의 lms 메인 페이지 이동
 	@RequestMapping("/professor/eclass/{courseCode}")
-	public String getProfMyCoursePage(@PathVariable String courseCode, 
-									CourseVO course,
-									MyCourseMainVO vo, 
-									Model model,
-									HttpSession session, 
-									BachelorScheduleVO schedule) {
-		
-		// 강의 정보 
+	public String getProfMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
+			ProfessorVO professor, Model model, HttpSession session, BachelorScheduleVO schedule) {
+
+		// 강의 정보
 		course.setCourseCode(courseCode);
 		session.setAttribute("courseCode", courseCode);
 		session.setAttribute("courseInfo", cservice.getWeeklyInfo(course));
-		
-		// 전체 강의 목록 
+
+		// 주차별 과제, 강의, 시험 정보
+		Map<String, Object> map = service.getWeeklyList(course);
+		model.addAttribute("map", map);
+
+		// 교수 정보
+		professor.setProfessorId((int) session.getAttribute("id"));
+		model.addAttribute("professor", profService.adminProfessorInfoSelect(professor));
+
+		// 전체 강의 목록
 		schedule.setDetailCode("BPLAN00");
 		course = cservice.getYearSemester(schedule);
 		course.setProfessorId((int) session.getAttribute("id"));
@@ -158,7 +159,7 @@ public class myCourseController {
 	@RequestMapping("/student/eclass/courseDetail")
 	public String selectCourseDetail(myCourseDetailVO vo, Model model, HttpSession session) {
 		// 과목코드 세션설정
-		String courseCode = (String)session.getAttribute("courseCode");
+		String courseCode = (String) session.getAttribute("courseCode");
 		vo.setCourseCode(courseCode);
 		model.addAttribute("courseDetail", service.getstuMyCourseDetail(vo.getCourseCode()));
 		model.addAttribute("courseWeekDetail", service.getstuMyCourseWeekDetail(vo.getCourseCode()));

@@ -94,9 +94,4 @@ public class MyCourseServiceImpl implements MyCourseService {
 //		return mapper.getTotal(vo);
 //	}
 
-	
-
-
-
-
 }

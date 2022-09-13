@@ -8,5 +8,5 @@ import com.project.portal.bachelor.service.BachelorScheduleVO;
 public interface ScheduleMapper {
 	void updateExamScore(BachelorScheduleVO vo);
 	void updateLectureScore(BachelorScheduleVO vo);
-	
+	void updateReportScore(BachelorScheduleVO vo);
 }

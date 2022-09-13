@@ -1,19 +1,220 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+</style>
 </head>
 <body>
-
-<th:block layout:fragment="professorEclassContent">
-<div id="main">
-<h2>메인페이지</h2>
-
-</div>
-</th:block>
-
+	<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+			<div class="row main-row">
+				<div class="col-12 col-lg-9">
+					<div class="row">
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card mainCard"
+								th:onclick="|location.href='@{/professor/eclass/lectureList}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon red">
+												<i class="fa-solid fa-video"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">강의 관리</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card mainCard"
+								th:onclick="|location.href='@{/professor/eclass/reportList}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon purple">
+												<i class="fa-solid fa-square-pen"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">과제 관리</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card mainCard"
+								th:onclick="|location.href='@{/professor/eclass/examList}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon blue">
+												<i class="fa-solid fa-list-check"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">시험 관리</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-lg-3 col-md-6">
+							<div class="card mainCard"
+								th:onclick="|location.href='@{/professor/eclass/eclassnotice}'|">
+								<div class="card-body px-3 py-4-5">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="stats-icon green">
+												<i class="fa-solid fa-bars-progress"></i>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h5 class="font-bold">공지사항 관리</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card height-seven">
+						<div class="card-header">
+							<h4>
+								<i class="fa-solid fa-list-ol"></i> 이번 주 예정
+							</h4>
+						</div>
+						<div class="card-body">
+							<div>
+								<div>
+									<h5>강의</h5>
+								</div>
+								<div th:if="${#lists.size(map.get('lectureList')) == 0}">
+									<div class="no-content-box">
+										<p>이번 주 예정된 강의가 없습니다.</p>
+									</div>
+								</div>
+								<div th:unless="${#lists.size(map.get('lectureList')) == 0}">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>주차</th>
+												<th>강의명</th>
+												<th>강의 기한</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="lecture : ${map.get('lectureList')}">
+												<td th:text="${#strings.substring(lecture.weekCode, 8, 10)}"></td>
+												<td th:text="${lecture.lectureTitle}"></td>
+												<td
+													th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
+												<td><button type="button"
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div>
+								<div>
+									<h5>과제</h5>
+								</div>
+								<div th:if="${#lists.size(map.get('reportList')) == 0}">
+									<div>
+										<p class="no-content-box">이번 주 예정된 과제가 없습니다.</p>
+									</div>
+								</div>
+								<div th:unless="${#lists.size(map.get('reportList')) == 0}">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>주차</th>
+												<th>과제명</th>
+												<th>과제 기한</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="report : ${map.get('reportList')}">
+												<td th:text="${#strings.substring(report.weekCode, 8, 10)}"></td>
+												<td th:text="${report.reportTitle}"></td>
+												<td
+													th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
+												<td><button type="button"
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div>
+								<div>
+									<h5>시험</h5>
+								</div>
+								<div th:if="${#lists.size(map.get('examList')) == 0}">
+									<div>
+										<p class="no-content-box">이번 주 예정된 시험이 없습니다.</p>
+									</div>
+								</div>
+								<div th:unless="${#lists.size(map.get('examList')) == 0}">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>시험</th>
+												<th>시험 기간</th>
+												<th>시험 문항수</th>
+												<th>시험 총점</th>
+												<th>바로가기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="exam : ${map.get('examList')}">
+												<td
+													th:text="${#strings.startsWith(exam.examCode, 'M')} ? 중간고사 : 기말고사"></td>
+												<td
+													th:text="|${#dates.format(exam.examStartDate, 'yyyy-MM-dd')} - ${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}|"></td>
+												<td th:text="|${exam.examTotalQuestion}문항|"></td>
+												<td th:text="|${exam.examTotalScore}점|"></td>
+												<td><button type="button"
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="card">
+						<div class="card-body py-4 px-3">
+							<div class="d-flex align-items-center">
+								<div class="avatar avatar-xl">
+									<img th:src="@{/download/{fileName}(fileName=${professor.professorImg})}" alt="Face 1">
+								</div>
+								<div class="ms-3 name">
+									<h5 class="font-bold" th:text="${professor.professorName}"></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card height-seven">
+						<div class="card-header">
+							<h5>공지사항</h5>
+						</div>
+						<div class="card-body"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
 </body>
 </html>

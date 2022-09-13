@@ -31,6 +31,11 @@ public class ScheduleController {
 	public void autoLectureScore() {
 		schedule = bservice.currentYearSemester(schedule);
 		service.updateLectureScore(schedule);
-		System.out.println(schedule);
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void autoUpdateScore() {
+		schedule = bservice.currentYearSemester(schedule);
+		service.updateReportScore(schedule);
 	}
 }

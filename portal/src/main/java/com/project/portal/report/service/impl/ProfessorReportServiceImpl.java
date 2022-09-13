@@ -97,4 +97,11 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		return mapper.getReportTotal(list, cri);
 	}
 
+	@Override
+	public void updateScore(List<ReportSubmissionVO> subList) {
+		for (ReportSubmissionVO sub : subList) {
+			mapper.updateScore(sub);
+		}
+	}
+
 }

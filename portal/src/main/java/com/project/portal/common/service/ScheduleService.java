@@ -6,5 +6,6 @@ public interface ScheduleService {
 	
 	void updateExamScore(BachelorScheduleVO vo);
 	void updateLectureScore(BachelorScheduleVO vo);
+	void updateReportScore(BachelorScheduleVO vo);
 
 }

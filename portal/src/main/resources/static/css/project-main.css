@@ -164,6 +164,17 @@ input[name="tabs"]+.tabmenu {
 	height: 95vh;
 }
 
+.no-content-box {
+	padding:  2%;
+	border: 1px solid #eee;
+	margin: 2%;
+	border-radius: 10px;
+}
+
+.main-row {
+	margin-top: 5%;
+}
+
 .horizontal-title {
 	display: inline-block;
 	padding-left: 1%;
@@ -360,6 +371,10 @@ input[name=examQuestionPoint] {
 	height: 60vh;
 }
 
+.height-sixh {
+	height: 65vh;
+}
+
 .height-five {
 	height: 50vh;
 }
@@ -469,8 +484,8 @@ input[name=examQuestionPoint] {
 }
 
 .lecture-scroll {
-	overflow: scroll;
-	height: 80vh;
+	overflow-y: scroll;
+	height: 75vh;
 }
 
 .main-box {

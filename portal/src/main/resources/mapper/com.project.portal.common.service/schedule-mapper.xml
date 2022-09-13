@@ -12,4 +12,9 @@
 			CALL lecture_score_procedure(#{year}, #{semester})
 		}
 	</update>
+	<update id="updateReportScore" statementType="CALLABLE">
+		{
+			CALL report_score_procedure(#{year}, #{semester})
+		}
+	</update>
 </mapper>
