@@ -20,10 +20,10 @@
 						<th:block th:with="cri = ${pageMaker.cri}">
 							<label for="type">학과</label>
 							<input type="text" id="type" name="type"
-								class="form-control inline width-three">
+								class="form-control inline width-three" th:value="${cri.type}">
 							<label for="keyword">이름</label>
 							<input type="text" id="keyword" name="keyword"
-								class="form-control inline width-three">
+								class="form-control inline width-three" th:value="${cri.keyword}">
 							<button type="submit" class="btn btn-primary adminStudentSearch">검색</button>
 						</th:block>
 					</form>

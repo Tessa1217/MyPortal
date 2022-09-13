@@ -14,6 +14,7 @@
 			</div>
 			<div class="card height-eight">
 				<div class="card-body">
+				<h5 th:text="|성적이의신청일 (확인용) ${#dates.format(gradeYearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(gradeYearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
 					<form name="frm_search" action="/student/semesterGradeSelect"
 						method="get">
 						<label for="courseYear">수강연도</label> <input type="number"

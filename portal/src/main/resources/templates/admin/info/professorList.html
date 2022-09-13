@@ -15,15 +15,13 @@
 			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/admin/professorList" method="get">
-						<input type="hidden" name="pageNum" value="1"> <input
-							type="hidden" name="amount" value="10">
+						<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}"> 
+						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 						<th:block th:with="cri = ${pageMaker.cri}">
 							<label for="type">학과</label>
-							<input type="text" id="type" name="type"
-								class="form-control inline width-three">
+							<input type="text" id="type" name="type" class="form-control inline width-three" th:value="${cri.type}">
 							<label for="keyword">이름</label>
-							<input type="text" id="keyword" name="keyword"
-								class="form-control inline width-three">
+							<input type="text" id="keyword" name="keyword" class="form-control inline width-three" th:value="${cri.keyword}">
 							<button class="btn btn-primary adminProfessorSearch">검색</button>
 						</th:block>
 					</form>
@@ -98,9 +96,11 @@
 					var pId = $(this).data("code")
 					frm_select.professorId.value = pId
 					frm_select.submit()
-				})
-
+				});
+				
 			});
+			
+			
 		</script>
 	</th:block>
 </body>
