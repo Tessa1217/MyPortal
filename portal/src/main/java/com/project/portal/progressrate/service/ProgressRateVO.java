@@ -31,6 +31,8 @@ public class ProgressRateVO {
 	private Date examEndDate; // 시험 종료날짜
 	private double reportRate; // 과제 진행률
 	private String lectureCode; // 강의영상코드
+	private int reportScore;
+	private String reportFileCode; //제출파일코드
 	
 	
 }

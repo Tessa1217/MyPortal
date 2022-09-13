@@ -48,5 +48,11 @@ public class ProgressRateServiceImpl implements ProgressRateService{
 		// TODO Auto-generated method stub
 		return mapper.selectFinalExamProgress(vo);
 	}
+
+	@Override
+	public List<ProgressRateVO> selectReportProgressRate(ProgressRateVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.selectReportProgressRate(vo);
+	}
 	
 }

@@ -23,17 +23,21 @@ caption {
 
 				<div class="card" style="width:90%">
 					<div class="card-body" >
-						<div style="width: 100%; height: 260px; overflow: auto ;">
-							<table class="table" style="text-align : center; width:100%">
-								<caption style="caption-side: top">출석</caption>
+					<h3>출석</h3>
+						<!-- <div style="width: 100%; height: 260px; overflow: auto ;"> -->
+						
+							<table class="table table-hover" style="text-align : center; width:100%">
+								<thead class="thead-primary">
 								<tr>
 									<th width="10%">주차</th>
 									<th width="20%">출석률</th>
 									<th width="50%">과제진행률</th>
 									
 								</tr>
+								</thead>
 								
-								<tr th:each="attRate : ${attRate}" >
+								<tbody class="tbody-center">
+								<tr th:each="attRate : ${attRate}" th:each="reportProgressRate : ${reportProgressRate}" >
 									<td th:text="${attRate.weekNum}"></td>
 									<th:block>
 										<td th:text="${attRate.attOption} + '%'"></td>
@@ -42,27 +46,29 @@ caption {
 										<div class="progress">
 											<div class="progress-bar bg-success" role="progressbar"
 												aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
-												th:style="'width:' + ${attRate.reportRate} + '%'"></div>
+												th:style="'width:' + ${reportProgressRate.reportRate} + '%'"></div>
 										</div>
-									</td>
+									</td> 
 								</tr>
+								</tbody>
 							</table>
-						</div>
+						<!-- </div> -->
 						
 						
 
 						<br> <br>
-
-						<div style="width: 100%; height: 260px; overflow: auto ;">
-							<table class="table" style="text-align : center; width:100%">
-							<caption style="caption-side: top">강의</caption>
-
+						<h3>강의</h3>
+						<!-- <div style="width: 100%; height: 260px; overflow: auto ;"> -->
+							<table class="table table-hover" style="text-align : center; width:100%">
+								<thead class="thead-primary">
 								<tr>
 									<th width="10%">주차</th>
 									<th width="20%">강의주제</th>
 									<th width="40%">강의 진행률</th>
 									<th width="30%">강의 보기</th>
 								</tr>
+								</thead>
+								<tbody class="tbody-center">
 								<tr th:each="courseRate : ${courseRate}">
 									<td th:text="${courseRate.weekNum}">주차</td>
 									<td th:text="${courseRate.lectureTitle}">강의주제</td>
@@ -79,58 +85,65 @@ caption {
 											th:data-lecturecode="${courseRate.lectureCode}">강의보러가기</button>
 									</td>
 								</tr>
+								</tbody>
 							</table>
-						</div>
+						<!-- </div> -->
 						<br> <br>
 
-
-						<div style="width :46%; height: 260px; overflow: auto; float:left;">
-							<table class="table" style="text-align : center; width:100%">
-							<caption style="caption-side: top">과제</caption>
+						<h3>과제</h3>
+						<!-- <div style="width :46%; height: 260px; overflow: auto; float:left;"> -->
+							<table class="table table-hover" style="text-align : center; width:100%">
+							<thead class="thead-primary">
 								<tr>
 									<th width="20%">주차</th>
 									<th width="25%">과제명</th>
 									<th width="20%">제출여부</th>
 									<th width="20%">제출</th>
 								</tr>
+								</thead>
+								<tbody class="tbody-center">
 								<tr th:each="reportRate : ${reportRate}">
 									<td th:text="${reportRate.weekNum}"></td>
 									<td th:text="${reportRate.reportTitle}"></td>								
 									<th:block>
-										<td	th:if="${reportRate.reportSubmissionOption == 'UNSUB'}">X</td>
-										<td th:if="${reportRate.reportSubmissionOption == 'SUB'}">O</td>
+										<td	th:if="${reportRate.reportFileCode == null}">X</td>
+										<td th:if="${reportRate.reportFileCode != null}">O</td>
 									</th:block>
 									
 									<!-- 제출기한 안일 때 -->
-									<th:block> 
-									<td th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<th:block th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"> 
+									<td th:if="${reportRate.reportFileCode != null}">
+										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">수정</button>
+									</td>
+									<td th:if="${reportRate.reportFileCode == null}">
 										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">제출</button>
-									</td>			
-									<td th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-									-
-									</td>			
+									</td>
 									</th:block>
-<!-- 
-									<td th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
-									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-										-
-									</td> -->
+																		
+									<th:block th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+										
+									<td>
+									-
+									</td>
 									
-									<!-- 과제 진행률 표시 -->
-									<!-- <td>-</td> -->
+									</th:block>
+									
 								</tr>
+								</tbody>
 							</table>
-						</div>
+						<!-- </div> -->
 						
-						<div style="width: 46%; height: 260px; overflow: auto; float:right;">
-							<table class="table" style="text-align : center; ">
-								<caption style="caption-side: top">시험</caption>
+						<h3>시험</h3>
+						<!-- <div style="width: 46%; height: 260px; overflow: auto; float:right;"> -->
+							<table class="table table-hover" style="text-align : center; ">
+							<thead class="thead-primary">
 								<tr>
 									<th width="100px">시험</th>
 									<th width="100px">점수</th>
 									<th width="100px">응시하기</th>
 								</tr>
-								
+								</thead>
+								<tbody class="tbody-center">
 								<tr>
 									<th>중간</th>
 									<td th:text="${examMidRate.examScore}"></td>
@@ -158,8 +171,9 @@ caption {
 									
 									</th:block>
 								</tr>
+								</tbody>
 								
-								<tr>
+								<!-- <tr>
 									<th>기말</th>
 									<td th:text="${examFinalRate.examScore}"></td>									
 									<th:block>
@@ -184,11 +198,11 @@ caption {
 										<button type="button" class="saveBtn btn btn-primary me-1 mb-1" disabled>응시</button>
 									</td>
 									</th:block>
-								</tr>
+								</tr> -->
 																
 						
 							</table>
-						</div>
+						<!-- </div>  -->
 					</div>
 
 				</div>
@@ -203,6 +217,12 @@ caption {
 				console.log(reportCode)
 				location.href = "/student/eclass/reportSubmit/" + reportCode
 
+			})
+			
+			// 수정 페이지 이동 버튼
+			$('.reportSubmitPage').on("click", function() {
+				let reportCode = ($(this).data("reportcode"));
+				location.href ="/student/eclass/reportModify/" + reportCode
 			})
 			
 			// 강의 보러가기 이동 버튼

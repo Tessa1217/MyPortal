@@ -14,7 +14,7 @@
             ON W.WEEK_CODE = L.WEEK_CODE
              LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
              ON L.LECTURE_CODE = SL.LECTURE_CODE
-            WHERE W.COURSE_CODE = #{courseCode}
+            WHERE W.COURSE_CODE = #{courseCode} and W.week_end_date > SYSDATE
          ORDER BY 1 ASC
 	</select>
 	
@@ -24,38 +24,43 @@
 		       RS.REPORT_SUBMISSION_OPTION,
 		       R.REPORT_CODE,
 		       R.REPORT_START_DATE,
-		       R.REPORT_END_DATE
+		       R.REPORT_END_DATE,
+               RS.REPORT_SCORE,
+               RS.REPORT_FILE_CODE
           FROM COURSE_WEEKLY W LEFT OUTER JOIN REPORT_INFO R
             ON W.WEEK_CODE = R.WEEK_CODE
           LEFT OUTER JOIN REPORT_SUBMISSION RS
             ON R.REPORT_CODE = RS.REPORT_CODE
-         WHERE W.COURSE_CODE =#{courseCode} AND RS.STUDENT_ID = #{studentId}
+         WHERE W.COURSE_CODE =#{courseCode} AND RS.STUDENT_ID = #{studentId} AND r.report_end_date > SYSDATE
          ORDER BY 1 ASC
 	</select>
 	
-	<select id="selectAttProgress" resultType="ProgressRateVO">
-		SELECT A.WEEK_NUM, A.ATT_OPTION , B.REPORT_RATE
-			FROM (
-					SELECT  W.WEEK_NUM,
-			                SUM(SL.ATT_OPTION) * 100 AS ATT_OPTION
-			          FROM  LECTURE L 
-	                LEFT OUTER JOIN COURSE_WEEKLY W
-	                     ON L.WEEK_CODE = W.WEEK_CODE
-	                LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
-	                     ON SL.LECTURE_CODE = L.LECTURE_CODE
-	               WHERE W.COURSE_CODE = #{courseCode} 
-	               GROUP BY W.WEEK_NUM ) A,
-                (
-                   SELECT  CW.WEEK_NUM,
-                           (SUM(CASE WHEN RS.REPORT_SUBMISSION_OPTION = 'SUB' THEN 1  ELSE 0 END) / COUNT(*)) * 100 REPORT_RATE 
-                      FROM REPORT_INFO RI JOIN COURSE_WEEKLY CW
-                        ON RI.WEEK_CODE = CW.WEEK_CODE
+	<select id="selectReportProgressRate" resultType="Double">
+			SELECT  CW.WEEK_NUM,
+                           (SUM(CASE WHEN RS.REPORT_FILE_CODE IS NOT NULL THEN 1  ELSE 0 END) / COUNT(*)) * 100 REPORT_RATE 
+                      FROM COURSE_WEEKLY CW LEFT OUTER JOIN REPORT_INFO RI
+                        ON CW.WEEK_CODE = RI.WEEK_CODE
                       LEFT OUTER JOIN REPORT_SUBMISSION RS
                         ON RS.REPORT_CODE = RI.REPORT_CODE
                      WHERE RS.STUDENT_ID = #{studentId}
-                     GROUP BY CW.WEEK_NUM ) B
-                 WHERE A.WEEK_NUM = B.WEEK_NUM      
-  			ORDER BY 1 ASC
+                     and ri.course_code = #{courseCode}
+                     
+                     GROUP BY CW.WEEK_NUM
+                     ORDER BY 1
+	
+	</select>
+	
+	<select id="selectAttProgress" resultType="ProgressRateVO">
+		 SELECT  DISTINCT W.WEEK_NUM,
+			                SUM(SL.ATT_OPTION) * 100 AS ATT_OPTION
+			          FROM  COURSE_WEEKLY W
+	                LEFT OUTER JOIN LECTURE L 
+	                     ON W.WEEK_CODE = L.WEEK_CODE
+                         LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
+	                     ON SL.LECTURE_CODE = L.LECTURE_CODE
+	               WHERE W.COURSE_CODE = #{courseCode} 
+	               GROUP BY W.WEEK_NUM
+                   ORDER BY 1
 	</select>
 	
 	<select id="selectMidExamProgress" resultType="ProgressRateVO">

@@ -29,7 +29,7 @@ public class ProgressRateController {
 		
 		// 과제 진행도 표시
 		model.addAttribute("reportRate", Pservice.selectReportProgress(vo));	
-		
+		model.addAttribute("reportProgressRate", Pservice.selectReportProgressRate(vo));
 		// 출석률 표시
 		model.addAttribute("attRate", Pservice.selectAttProgress(vo));
 		

@@ -76,6 +76,7 @@ public class StudentReportController {
 		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
 		rsubvo = service.selectDetail(vo);
+		model.addAttribute("profFile", service.getProfFileInfo(vo));
 		model.addAttribute("reportDetail", service.getReportDetail(vo));
 		return "student/eclass/report/submitReport";
 	}

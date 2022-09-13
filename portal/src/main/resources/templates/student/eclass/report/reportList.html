@@ -111,10 +111,14 @@
 										|| reportList.reportFileCode == null}"
 										th:data-reportcode="${reportList.reportCode}">이의신청</button>
 								</td>
+								<td th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									-
+								</td>
 
 								<th:block>
 									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A01'}">심사대기</td>
 									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A00'}">승인</td>
+									<td th:if="${reportList.reportScoreObjectionApprovalOption == null}">-</td>
 								</th:block>
 
 							</tr>

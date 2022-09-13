@@ -12,6 +12,7 @@ public interface ProgressRateMapper {
 	//강의 진행 정보 조회
 	public List<ProgressRateVO> selectLectureProgress(ProgressRateVO vo);
 	//과제 진행 정보 조회
+	public List<ProgressRateVO> selectReportProgressRate(ProgressRateVO vo);
 	public List<ProgressRateVO> selectReportProgress(ProgressRateVO vo);
 	//중간시험 진행 정보 조회
 	public ProgressRateVO selectMidExamProgress(ProgressRateVO vo);
