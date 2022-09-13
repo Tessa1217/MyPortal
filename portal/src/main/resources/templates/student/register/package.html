@@ -19,7 +19,8 @@
 		color: black;
 	}
 	#sInfo thead{
-		background-color: lightblue
+		background-color: #435ebe;
+		color: white;
 	}
 	#sInfo tbody{
 		background-color: white;
@@ -33,7 +34,8 @@
 	#pTable thead {
 		position: sticky; 
 		top: 0px;
-		background-color: lightblue !important;
+		background-color: #435ebe !important;
+		color: white;
 	}
 	#pTable tbody tr {
 		background-color: white;
@@ -51,7 +53,8 @@
 		color: black;
 	}
 	#inTable thead{
-		background-color: lightblue
+		background-color: #435ebe;
+		color: white;
 	}
 	#inTable tbody{
 		background-color: white;
@@ -60,7 +63,7 @@
 </head>
 <body>
 	<th:block layout:fragment="studentContent">
-		<div id="main">
+		<div id="main" class="page-title">
 			<h2>수강 꾸러미 신청</h2>
 			<hr>
 			<!-- 학생 정보 -->
@@ -145,7 +148,7 @@
 							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button"
-									class="buttonInsert"
+									class="buttonInsert btn rounded-pill btn-primary"
 									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">담기</button></td>
 						</tr>
 					</tbody>
@@ -178,7 +181,7 @@
 							<td th:text="${item.courseCredit}"></td>
 							<td th:text="${item.professorName}"></td>
 							<td><button type="button"
-									class="buttonDelete"
+									class="buttonDelete btn rounded-pill btn-primary"
 									th:data-code="${item.courseCode}">취소</button></td>
 						</tr>
 					</tbody>
@@ -259,7 +262,7 @@
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
-								<td><button type="button" class="buttonDelete" data-code="${item.courseCode}">취소</button></td>
+								<td><button type="button" class="buttonDelete btn rounded-pill btn-primary" data-code="${item.courseCode}">취소</button></td>
 								</tr>`;
 							$("#pBody").append(content);
 							setTotalData();

@@ -153,8 +153,8 @@
 					student_id
 				)
 		VALUES	(
-					REG_SEQ.nextval,
-					sysdate,
+					to_char(SYSDATE, 'YY') ||'0'|| #{courseSemester} || SUBSTR(#{courseCode}, 3,2)||LPAD(TO_CHAR(reg_seq.NEXTVAL), 10, '0'),
+					SYSDATE,
 					#{courseCode},
 					#{studentId}
 				)		

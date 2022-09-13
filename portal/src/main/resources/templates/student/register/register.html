@@ -10,15 +10,15 @@
 		table{
 			text-align: center;
 		}
-
+		
+		/* 스크롤 테이블 헤더 고정 */
 		table thead{
-			background-color: lightblue;
+			background-color: #435ebe;
 			position: sticky;
 			top: 0px;
-			color: black;
+			color: white;
 		}
 
-		/* 스크롤 테이블 헤더 고정 */
 		#regInsertButton:disabled {
 			background-color:#F0F0F0;
 		}
@@ -28,12 +28,16 @@
 			padding-left: 20px;
 			font-size: large;
 		}
+
+		.checkCode input{
+			border-radius: 8px;
+		}
 	</style>
 </head>
 
 <body>
 	<th:block layout:fragment="studentContent">
-		<div id="main">
+		<div id="main" class="page-title">
 			<h2>수강 신청</h2>
 			<hr>
 			<!-- 학생 정보 -->
@@ -94,7 +98,7 @@
 			</form>
 			<br>
 			<!-- 자동입력방지 코드 -->
-			<form name="frm">
+			<form name="frm" class="checkCode">
 				<input id="makeBtn" type="text" size="18" name="output" placeholder="자동신청 방지코드">
 				<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
 					class="btn rounded-pill btn-primary">
@@ -127,7 +131,7 @@
 							<td th:text="${item.professorName}"></td>
 							<td th:text="${item.studentCount}"></td>
 							<td th:text="${item.courseLimit}"></td>
-							<td><button type="button" class="regInsertButton" th:data-code="${item.courseCode}"
+							<td><button type="button" class="regInsertButton btn rounded-pill btn-primary" th:data-code="${item.courseCode}"
 									th:data-name="${item.courseName}" disabled>신청</button></td>
 						</tr>
 					</tbody>
@@ -163,7 +167,7 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
-								<td><button type="button" class="regInsertButton" th:data-code="${item.courseCode}"
+								<td><button type="button" class="regInsertButton btn rounded-pill btn-primary" th:data-code="${item.courseCode}"
 										th:data-name="${item.courseName}">신청</button></td>
 							</tr>
 						</tbody>
@@ -199,7 +203,7 @@
 								<td th:text="${item.professorName}"></td>
 								<td th:text="${item.studentCount}" hidden></td>
 								<td th:text="${item.courseLimit}" hidden></td>
-								<td><button type="button" class="regDeleteButton"
+								<td><button type="button" class="regDeleteButton btn rounded-pill btn-primary"
 										th:data-code="${item.courseCode}">취소</button></td>
 							</tr>
 						</tbody>
@@ -252,7 +256,7 @@
 			//입력방지 코드 일치 여부
 			function check() {
 				if (!document.frm.che.value) {
-					return alert('자동방지코드를 입력하세요');
+					return fireSwal('warning','자동방지코드를 입력하세요');
 				} else if (document.getElementById("makeBtn").value === document.frm.che.value) {
 					var rTable = document.getElementById("rTable");
 					var ableBtn = Array.from(rTable.children[1].children);
@@ -261,9 +265,9 @@
 						findDisabled.children[7].children[0].disabled = false;
 
 					});
-					return alert('인증 완료');
+					return fireSwal('success','인증 완료');
 				} else {
-					return alert('다시입력해주세요');
+					return fireSwal('warning', '다시입력해주세요');
 				}
 			}
 
@@ -281,18 +285,18 @@
 				const selectNum = parseInt(selectCode.children[3].textContent);
 
 				if ((allCourseCredit + selectNum) > 20) {
-					return alert("최대 학점을 초과할 수 없습니다.");
+					return fireSwal('warning','최대 학점을 초과할수없습니다.');
 				}
 
 				if ((selectCode.children[1].textContent).startsWith("L", "l")) {
 					let lSortationTotal = lSortationCheck();
 					if ((lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5) {
-						return alert("교양학점은 5점을 초과할 수 없습니다.");
+						return fireSwal('warning', '교양학점은 5점을 초과할 수 없습니다.');
 					}
 				}
 
 				if ((parseInt(selectCode.children[5].textContent)) >= (parseInt(selectCode.children[6].textContent))) {
-					return alert("수강 정원이 초과했습니다.")
+					return fireSwal('warning', '수강 정원이 초과했습니다.');
 				}
 				// 신청 버튼
 				$.ajax({
@@ -313,7 +317,7 @@
 							+ "<td>" + item.professorName + "</td>"
 							+ "<td hidden>" + item.studentCount + "</td>"
 							+ "<td hidden>" + item.courseLimit + "</td>"
-							+ "<td><button type='button'	class='regDeleteButton'	data-code= " + item.courseCode + ">취소</button></td></tr>";
+							+ "<td><button type='button'	class='regDeleteButton btn rounded-pill btn-primary'	data-code= " + item.courseCode + ">취소</button></td></tr>";
 						$("#rSuccessBody").append(content);
 						var rTable = document.getElementById("rTable");
 						var ableBtn = Array.from(rTable.children[1].children);
@@ -325,7 +329,7 @@
 						setTotalData();
 					},
 					error: function () {
-						alert('이전에 수강하신 강의입니다.');
+						fireSwal('warning', '이전에 수강하신 강의입니다.');
 					}
 
 				});
@@ -355,7 +359,7 @@
 								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[6].textContent + "</td>"
-								+ "<td><button type='button' class='regInsertButton'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
+								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
 							$("#rBody").append(cancel);
 							tr.remove();
 							setTotalData();
