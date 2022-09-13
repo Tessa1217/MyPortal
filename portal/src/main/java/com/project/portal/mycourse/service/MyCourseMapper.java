@@ -39,14 +39,18 @@ public interface MyCourseMapper {
 	// 이주 시험 조회
 	public List<ExamVO> getExamList(CourseVO vo);
 	
-	
+	// 학생 학업 정보 조회
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo);
-
+	// 학점 총계 조회
 	public MyCourseVO studentCreditSum(MyCourseVO vo);
+	// 이수구분별 학점 조회
 	public List<MyCourseVO> studentSortationCredit(MyCourseVO vo);
+	// 학생 학기별 성적 조회
 	public List<MyCourseVO> semesterGradeSelect(MyCourseVO vo);
 	
 	// 수강생 목록 조회하기
 	List<ExamScoreVO> getStudentList(ExamInfoVO vo);
+	
+//	public int getTotal(MyCourseVO vo);
 
 }

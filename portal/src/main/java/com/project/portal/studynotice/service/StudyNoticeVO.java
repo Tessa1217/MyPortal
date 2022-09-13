@@ -19,6 +19,9 @@ public class StudyNoticeVO {
 	private Date courseNoticeUpdateDate; // 강의 공지사항 변경일
 	
 	private String courseNoticeAttachedFile; // 강의 공지사항 첨부파일 그룹번호
+	private String fileUrl;
+	private String FileOriName;
+	private String FileName;
 	
 	private int courseNoticeHit; // 공지사항 조회 수
 	private String professorName; // 교수이름

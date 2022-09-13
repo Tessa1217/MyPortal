@@ -37,4 +37,9 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return mapper.getMonthlyList(vo);
 	}
 
+	@Override
+	public BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo) {
+		return mapper.gradeYearSemester(vo);
+	}
+
 }

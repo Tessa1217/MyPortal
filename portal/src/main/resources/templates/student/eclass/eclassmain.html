@@ -12,7 +12,7 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-content"></div>
-			<div class="row">
+			<div class="row main-row">
 				<div class="col-12 col-lg-9">
 					<div class="row">
 						<div class="col-6 col-lg-3 col-md-6">
@@ -82,21 +82,21 @@
 							</div>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card height-sixh">
 						<div class="card-header">
-							<h3><i class="fa-solid fa-list-ol"></i> Weekly ToDoList</h3>
+							<h4><i class="fa-solid fa-list-ol"></i> Weekly ToDoList</h4>
 						</div>
 						<div class="card-body">
 							<div>
 								<div>
 								  <h5>강의</h5>
 								</div>
-								<div th:unless="|${map.containsKey('lectureList')}|">
-									<div>
-										<h3>이번 주 예정된 강의가 없습니다.</h3>
+								<div th:if="${#lists.size(map.get('lectureList')) == 0}">
+									<div class="no-content-box">
+										<p>이번 주 예정된 강의가 없습니다.</p>
 									</div>
 								</div>
-								<div th:if="|${map.containsKey('lectureList')}|">
+								<div th:unless="${#lists.size(map.get('lectureList')) == 0}">
 									<table class="table">
 										<thead>	
 											<tr>
@@ -123,12 +123,12 @@
 								<div>
 								  <h5>과제</h5>
 								</div>
-								<div th:unless="${map.containsKey('reportList')}">
-									<div>
-										<h3>이번 주 예정된 과제가 없습니다.</h3>
+								<div th:if="${#lists.size(map.get('reportList')) == 0}">
+									<div class="no-content-box">
+										<p>이번 주 예정된 과제가 없습니다.</p>
 									</div>
 								</div>
-								<div th:if="${map.containsKey('reportList')}">
+								<div th:unless="${#lists.size(map.get('reportList')) == 0}">
 									<table class="table">
 										<thead>	
 											<tr>
@@ -155,12 +155,12 @@
 								<div>
 								  <h5>시험</h5>
 								</div>
-								<div th:unless="${map.containsKey('examList')}">
-									<div>
-										<h3>이번 주 예정된 시험이 없습니다.</h3>
+								<div th:if="${#lists.size(map.get('examList')) == 0}">
+									<div class="no-content-box">
+										<p>이번 주 예정된 시험이 없습니다.</p>
 									</div>
 								</div>
-								<div th:if="${map.containsKey('examList')}">
+								<div th:unless="${#lists.size(map.get('examList')) == 0}">
 									<table class="table">
 										<thead>	
 											<tr>
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card height-sixh">
 						<div class="card-header">
 							<h5>공지사항</h5>
 						</div>

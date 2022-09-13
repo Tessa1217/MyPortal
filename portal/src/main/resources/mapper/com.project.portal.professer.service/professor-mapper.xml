@@ -4,8 +4,10 @@
 	namespace="com.project.portal.professor.service.ProfessorMapper">
 	
 	<select id="professorInfo" resultType="com.project.portal.professor.service.ProfessorVO">
-		select p.professor_name,
+		select p.professor_id,
+				p.professor_name,
 				p.professor_birth,
+				p.register_date,
 				p.professor_addr,
 				p.professor_daddr,
 				p.professor_postal_code,
@@ -44,28 +46,59 @@
 	
 	<select id="professorList" resultType="com.project.portal.professor.service.ProfessorVO">
 		select *
-		from professor p
-		join department d
-		on p.depart_code = d.depart_code
-		<where>
-			<if test="keyword != '' and keyword != null or type != '' and type != null">
-				<if test="keyword == ''and type != ''">
-					professor_name = #{keyword}	or depart_name = #{type}
+		from (
+				select ROWNUM r,
+		                professor_id, 
+		                professor_name, 
+		                professor_birth, 
+		                professor_addr, 
+		                professor_daddr, 
+		                professor_postal_code, 
+		                professor_phone, 
+		                professor_email, 
+		                professor_img, 
+		                depart_name 
+		        from(
+				        select 
+				                p.professor_id, 
+				                p.professor_name, 
+				                p.professor_birth, 
+				                p.professor_addr, 
+				                p.professor_daddr, 
+				                p.professor_postal_code, 
+				                p.professor_phone, 
+				                p.professor_email, 
+				                p.professor_img, 
+				                d.depart_name 
+				        from professor p
+				        join department d
+				        on p.depart_code = d.depart_code
+				        order by professor_id
+		)
+			<where>
+				<if test="keyword != '' and keyword != null or type != '' and type != null">
+					<if test="keyword == ''and type != ''">
+						professor_name = #{keyword}	or depart_name = #{type}
+					</if>
+					<if test="keyword != '' and type == ''">
+						professor_name = #{keyword}	or depart_name = #{type}
+					</if>
+					<if test="keyword != '' and type != ''">
+						professor_name = #{keyword}	and depart_name = #{type}
+					</if>
 				</if>
-				<if test="keyword != '' and type == ''">
-					professor_name = #{keyword}	or depart_name = #{type}
-				</if>
-				<if test="keyword != '' and type != ''">
-					professor_name = #{keyword}	and depart_name = #{type}
-				</if>
-			</if>
-		</where>
-		order by professor_id asc
+			</where>
+		)
+		<![CDATA[
+        WHERE R BETWEEN (#{pageNum}) * #{amount} -9 AND #{pageNum} * #{amount}
+        ]]>
 	</select>
 	
 	<select id="adminProfessorInfoSelect" resultType="ProfessorVO">
-		select p.professor_name,
+		select p.professor_id,
+				p.professor_name,
 				p.professor_birth,
+				p.register_date,
 				p.professor_addr,
 				p.professor_daddr,
 				p.professor_postal_code,

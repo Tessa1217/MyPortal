@@ -25,4 +25,6 @@ public interface CourseService {
 
 	int getTotal(CourseVO vo);
 
+	int getTotal2(CourseVO vo);
+
 }

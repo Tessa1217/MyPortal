@@ -3,27 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+</style>
 </head>
 <body>
 	<th:block th:fragment="headingFragment">
 		<nav id="headNav" class="navbar navbar-white bg-white">
 			<div>
-			<a class="navbar-bard" href="#">My Portal</a>
+				<a class="navbar-bard" href="#">My Portal</a>
 			</div>
-			<ul class="navbar-nav navbar-nav-right">
-				<li class="nav-item nav-profile dropdown show"><a
-					class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-					id="profileDropdown" aria-expanded="true"> <img
-	 alt="profile">
-				</a>
-					<div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-						aria-labelledby="profileDropdown">
-						<a class="dropdown-item"> <i class="ti-settings text-primary"></i>
-							Settings
-						</a> <a class="dropdown-item"> <i
-							class="ti-power-off text-primary"></i> Logout
-						</a>
-					</div></li>
+			<ul class="navbar-nav navbar-nav-icons flex-row">
+				<li class="nav-item"
+					th:if="${#strings.contains(#httpServletRequest.requestURI, 'eclass')}">
+					<a class="nav-link"
+						th:with="user = ${#strings.contains(#httpServletRequest.requestURI, 'student')} ? 'student' : 'professor'"
+						th:onclick="|location.href='@{/{uri}(uri = ${user})}'|">
+						<i class="fa-solid fa-rotate-left"></i>Main  
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link"
+						th:onclick="|location.href='@{/logout}'|">
+						<i class="fa-solid fa-right-from-bracket"></i>Logout
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</th:block>

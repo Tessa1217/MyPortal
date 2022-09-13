@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -180,6 +179,11 @@ public class ProfessorReportController {
 		return "professor/eclass/report/studentReportScore";
 	}
 	
-	//@RequestMapping("/professor/eclass/studentScore/")
+	@PostMapping("/updateScore")
+	@ResponseBody
+	public String updateScore(@RequestBody List<ReportSubmissionVO> subList) {
+		service.updateScore(subList);
+		return "success";
+	}
 	
 }

@@ -60,5 +60,8 @@ public interface ProfessorReportMapper {
 	
 	// 과제 제출 수
 	int getReportTotal(@Param("list") List<ReportVO> list, @Param("cri") Criteria cri);
+	
+	// 과제 성적 수정
+	void updateScore(ReportSubmissionVO sub);
 
 }

@@ -158,8 +158,13 @@
 	</select>
 
 
-	<select id="getFile" resultType="ReportFileVO">
-
+	<select id="getFile" resultType="String">
+		select rf.report_file_path from 
+         report_info ri join report_submission rs
+         ON ri.report_code = rs.report_code
+         join report_file rf
+         ON rs.report_file_code = rf.report_file_code 
+         where rs.student_id = #{studentId} and rf.report_file_code = #{reportSubFileCode}
 	</select>
 
 	<insert id="uploadFile" parameterType="ReportFileVO">
@@ -189,6 +194,11 @@
 		</selectKey>
 	</insert>
 
+	<delete id="deleteReportFile" parameterType="ReportFileVO">
+	delete from report_file
+	where report_file_code = #{reportSubFileCode}
+	
+	</delete>
 
 	<update id="insertReportSubmission"
 		parameterType="ReportSubmissionVO">
@@ -197,6 +207,13 @@
 		REPORT_SUBMISSION_DATE = SYSDATE,
 		REPORT_FILE_CODE = #{reportFileCode}
 		WHERE STUDENT_ID = #{studentId} and report_code = #{reportCode}
+	</update>
+	
+	<update id="reportFileCodeUpdate" parameterType="ReportsubmissionVO">
+	    update report_submission
+        set report_file_code = (select max(Report_file_code) from report_file)
+        where report_code = #{reportCode} and student_id = #{studentId}
+	
 	</update>
 
 	<select id="selectDetail" resultType="ReportSubmissionVO">

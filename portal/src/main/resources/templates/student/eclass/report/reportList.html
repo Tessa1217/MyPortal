@@ -11,8 +11,9 @@
 		<div id="main">
 			<div class="page-title">
 				<h2>과제 목록</h2>
-				<hr>
+				</div>
 				<div class="card">
+				<div class="card height-sevenh">
 					<div class="card-body">
 					<form name="searchForm" action="/student/eclass/reportList">
 					
@@ -45,7 +46,8 @@
 		
 		<br>
 		<br>
-						<table class="table table-bordered mb-0" style="text-align : center; width:100%;">
+						<table class="table table-hover" style="text-align : center; width:100%;">
+							<thead class="thead-primary">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -58,7 +60,8 @@
 								<th>이의신청</th>
 								<th>이의신청여부</th>
 							</tr>
-
+							</thead>
+							<tbody class="tbody-center">
 							<tr th:each="reportList : ${reportList}">
 								<td th:text="${reportList.reportNo}"></td>
 								<td th:text="${reportList.reportTitle}"></td>
@@ -116,7 +119,7 @@
 
 							</tr>
 
-
+						</tbody>
 						</table>
 						<br>
 				<div th:object="${pageMaker}">

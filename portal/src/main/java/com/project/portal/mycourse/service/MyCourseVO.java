@@ -36,4 +36,8 @@ public class MyCourseVO extends Criteria {
 	private String courseSortation; // 이수구분
 	private int courseSortationCredit; // 이수구분별 학점 총계
 	
+	// 공통코드
+	private String courseSortationNm; // 강의 이수구분 공통코드
+	
+	
 }

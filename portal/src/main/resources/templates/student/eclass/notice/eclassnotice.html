@@ -31,9 +31,12 @@ td {
 <body>
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
+		<div class="page-title">
 			<h2>공지사항</h2>
-			<hr>
+			</div>
+			
 			<div class="card">
+			<div class="card height-sevenh">
 				<div class="card-body">
 					<form name="searchForm">
 						<select id="type" name="type">
@@ -48,11 +51,13 @@ td {
 						<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
 						<!-- <button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button> -->
 					</form>
+					
+					<br>
 
 
 
-					<table border="1" class="table" id="tablepaging">
-						<thead>
+					<table class="table table-hover" id="tablepaging">
+						<thead class="thead-primary">
 							<tr>
 								<th width="100px">번호</th>
 								<th width="300px">제목</th>
@@ -60,7 +65,7 @@ td {
 								<th width="100px">조회수</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="tbody-center">
 							<tr th:each="studyNoticeList : ${studyNoticeList}">
 								<td th:text="${studyNoticeList.courseNoticeNo}"></td>
 								<td><a th:text="${studyNoticeList.courseNoticeTitle}"
@@ -96,6 +101,7 @@ td {
 				</div>
 			</div>
 		</div>
+		</div>
 
 
 		<script th:inline="javascript">
@@ -119,21 +125,6 @@ td {
 			searchForm.submit()
 		}) 
 		
-		
-	/* 	  $(document).ready(function() {
-	          $('#tablepaging').DataTable({
-	            paging:true, //paging 처리
-	            searching:false, //검색 여부
-	            pagingType : "simple_numbers",
-	            language: { //언어 설정
-	              paginate: {
-	                previous: "Prev",
-	                next:"Next"
-	              },
-	              zeroRecords: "검색 결과가 없습니다."
-	            }
-	          });
-	      }); */
 		</script>
 
 

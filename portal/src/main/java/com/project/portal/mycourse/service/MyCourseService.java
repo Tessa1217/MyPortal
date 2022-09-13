@@ -40,5 +40,7 @@ public interface MyCourseService {
 	// 수강생 리스트 조회
 	List<ExamScoreVO> getStudentList(ExamInfoVO vo);
 	
+//	public int getTotal(MyCourseVO vo);
+	
 
 }

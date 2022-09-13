@@ -14,11 +14,17 @@ public interface StudentReportService {
 	public ReportVO getReportDetail(ReportVO vo);
 	// 과제 제출
 	public void insertReport(ReportSubmissionVO vo);
-	// 파일 읽어오기
-	ReportFileVO getFile(String reportFileCode);
+	// 과제 등록 파일 경로 가져오기
+	public String getFile(ReportFileVO vo);
 	// 과제 수정페이지 
 	public ReportVO getModDetail(ReportVO vo);
-	
+	// 과제 수정 처리
+	public void reportModify(String reportFileCode);
+	// 과제 파일 삭제
+	public void deleteReportFile(ReportFileVO vo);
+	// 파일 코드 업데이트
+	public void reportFileCodeUpdate(ReportSubmissionVO vo);
+
 	
 	void uploadFile(ReportFileVO vo);
 	

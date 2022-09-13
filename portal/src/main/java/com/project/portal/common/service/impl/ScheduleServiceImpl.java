@@ -23,6 +23,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 		mapper.updateLectureScore(vo);
 		
 	}
+
+	@Override
+	public void updateReportScore(BachelorScheduleVO vo) {
+		mapper.updateReportScore(vo);
+	}
 	
 	
 

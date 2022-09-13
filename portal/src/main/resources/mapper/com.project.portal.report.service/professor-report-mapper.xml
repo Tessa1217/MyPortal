@@ -257,4 +257,9 @@
 			#{item.reportCode}
 		</foreach>)
 	</select>
+	<update id="updateScore" parameterType="ReportSubmissionVO">
+		UPDATE report_submission
+			SET report_score = #{reportScore}
+			WHERE report_submission_code = #{reportSubmissionCode}
+	</update>
 </mapper>

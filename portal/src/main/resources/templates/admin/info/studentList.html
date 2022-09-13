@@ -9,53 +9,58 @@
 <body>
 	<th:block layout:fragment="adminContent">
 		<div id="main">
-			<div>
+			<div class="page-title">
 				<h2>학생 정보 조회</h2>
 			</div>
-			<div class="card">
-				<form name="frm_search" action="/admin/studentList" method="get">
-					<input type="hidden" name="pageNum" value="1">
-					<input type="hidden" name="amount" value="10">
-					<th:block th:with="cri = ${pageMaker.cri}">
-						<label for="type">학과</label> 
-						<input type="text" id="type" name="type"> 
-						<label for="keyword">이름</label> 
-						<input type="text" id="keyword" name="keyword">
-						<button type="submit" class="btn btn-primary adminStudentSearch">검색</button>
-					</th:block>
-				</form>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>학번</th>
-							<th>이름</th>
-							<th>학과</th>
-							<th>학년</th>
-							<th>상태</th>
-							<th>성별</th>
-							<th>생년월일</th>
-							<th>연락처</th>
-							<th>상세보기</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="list : ${studentList}">
-							<td th:text=${list.studentId}></td>
-							<td th:text=${list.studentName}></td>
-							<td th:text=${list.departName}></td>
-							<td th:text=${list.studentGrade}></td>
-							<td th:text=${list.studentStatusNm}></td>
-							<td th:text=${list.studentGenderNm}></td>
-							<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
-							<td th:text=${list.studentPhone}></td>
-							<td>
-								
-								 <button type="button" class="btn btn-primary btn-sm adminStudentSelect"
-									th:data-code="${list.studentId}">상세보기</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="card height-eight">
+				<div class="card-body">
+					<form name="frm_search" action="/admin/studentList" method="get">
+						<input type="hidden" name="pageNum" value="1"> <input
+							type="hidden" name="amount" value="10">
+						<th:block th:with="cri = ${pageMaker.cri}">
+							<label for="type">학과</label>
+							<input type="text" id="type" name="type"
+								class="form-control inline width-three">
+							<label for="keyword">이름</label>
+							<input type="text" id="keyword" name="keyword"
+								class="form-control inline width-three">
+							<button type="submit" class="btn btn-primary adminStudentSearch">검색</button>
+						</th:block>
+					</form>
+					<hr>
+					<table class="table">
+						<thead class="thead-primary">
+							<tr>
+								<th>학번</th>
+								<th>이름</th>
+								<th>학과</th>
+								<th>학년</th>
+								<th>상태</th>
+								<th>성별</th>
+								<th>생년월일</th>
+								<th>연락처</th>
+								<th>상세보기</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="list : ${studentList}">
+								<td th:text=${list.studentId}></td>
+								<td th:text=${list.studentName}></td>
+								<td th:text=${list.departName}></td>
+								<td th:text=${list.studentGrade}></td>
+								<td th:text=${list.studentStatusNm}></td>
+								<td th:text=${list.studentGenderNm}></td>
+								<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
+								<td th:text=${list.studentPhone}></td>
+								<td>
+
+									<button type="button"
+										class="btn btn-primary btn-sm adminStudentSelect"
+										th:data-code="${list.studentId}">상세보기</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
 						<ul class="pagination justify-content-center">
 							<th:block th:if="${pageMaker.prev}">
@@ -83,21 +88,22 @@
 							</th:block>
 						</ul>
 					</div>
-					<form name="frm_select" action="/admin/adminStudentInfoSelect" method="post">
+					<form name="frm_select" action="/admin/adminStudentInfoSelect"
+						method="post">
 						<input type="hidden" name="studentId" id="studentId" />
 					</form>
+				</div>
 			</div>
 		</div>
 		<script th:inline="javascript">
-		$(function(){
-			 $(".adminStudentSelect").on("click", function(){
-				var sId = $(this).data("code") 
-				frm_select.studentId.value = sId
-				frm_select.submit()
-			 })
-			
-		});
-		
+			$(function() {
+				$(".adminStudentSelect").on("click", function() {
+					var sId = $(this).data("code")
+					frm_select.studentId.value = sId
+					frm_select.submit()
+				})
+
+			});
 		</script>
 	</th:block>
 </body>
