@@ -15,6 +15,7 @@
 			<div class="card height-eight">
 				<div class="card-body">
 				<h5 th:text="|성적이의신청일 (확인용) ${#dates.format(gradeYearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(gradeYearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
+				<h5 th:text="|현재연도 학기 (확인용) ${gradeYearSemester.year}년도 ${gradeYearSemester.semester}학기|"></h5>
 					<form name="frm_search" action="/student/semesterGradeSelect"
 						method="get">
 						<label for="courseYear">수강연도</label> <input type="number"
@@ -61,7 +62,6 @@
 								<td th:if="${list.courseGrade} == '1.0'">D0</td>
 								<td th:if="${list.courseGrade} == '0.0'">F</td>
 								<td th:text="${list.courseGrade}"></td>
-
 							</tr>
 						</tbody>
 					</table>
