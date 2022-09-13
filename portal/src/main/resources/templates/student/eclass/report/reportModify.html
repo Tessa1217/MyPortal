@@ -54,6 +54,15 @@
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 내용</td>
 									<td th:utext="${reportDetail.reportContent}"></td>
 								</tr>
+								
+								<tr>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
+									<td><a
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${profFile.reportFileCode}, userCode=${profFile.userCode})}"
+									th:text="${profFile.reportFileName}"
+									th:download="${profFile.reportFileName}"></a></td>
+								</tr>
 
 								<tr>
 									<td class="text-bold-500"
@@ -66,7 +75,7 @@
 
 								<tr>
 									<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
+									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
 
 									<td><input type="file" name="file"></td>
 								</tr>

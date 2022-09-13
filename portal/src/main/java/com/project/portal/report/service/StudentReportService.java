@@ -24,6 +24,8 @@ public interface StudentReportService {
 	public void deleteReportFile(ReportFileVO vo);
 	// 파일 코드 업데이트
 	public void reportFileCodeUpdate(ReportSubmissionVO vo);
+	// 교수가 제출한 파일 정보 가져오기
+	public ReportVO getProfFileInfo(ReportVO vo);
 
 	
 	void uploadFile(ReportFileVO vo);

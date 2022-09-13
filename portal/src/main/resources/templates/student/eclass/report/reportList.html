@@ -92,14 +92,14 @@
 								<th:block
 									th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
 									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-									<td th:if="${reportList.reportSubmissionOption == 'UNSUB'}">X</td>
-									<td th:if="${reportList.reportSubmissionOption == 'SUB'}">O</td>
+									<td th:if="${reportList.reportFileCode == null}">X</td>
+									<td th:if="${reportList.reportFileCode != null}">O</td>
 								</th:block>
 
 								<td><a
-									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportList.reportFileCode}, userCode=${reportList.reportFile.userCode})}"
-									th:text="${reportList.reportFile.reportFileName}"
-									th:download="${reportList.reportFile.reportFileName}"></a></td>
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportList.reportFileCode}, userCode=${reportList.userCode})}"
+									th:text="${reportList.reportFileName}"
+									th:download="${reportList.reportFileName}"></a></td>
 									
 								<td th:text="${reportList.reportScore}"></td>
 
@@ -108,7 +108,7 @@
 									<button
 										class="saveBtn btn btn-primary me-1 mb-1 reportObjection"
 										th:disabled="${reportList.reportScoreObjectionApprovalOption == 'A01' || reportList.reportScoreObjectionApprovalOption == 'A00'
-										|| reportList.reportSubmissionOption == 'UNSUB'}"
+										|| reportList.reportFileCode == null}"
 										th:data-reportcode="${reportList.reportCode}">이의신청</button>
 								</td>
 

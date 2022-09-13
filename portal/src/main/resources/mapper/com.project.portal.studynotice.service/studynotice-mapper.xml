@@ -33,7 +33,7 @@
                         <if test="notice.keyword != null and notice.keyword !=''">
 							AND ${notice.type} like '%'|| #{notice.keyword} || '%'
 						</if>	
-                       ORDER BY 1 DESC
+                       ORDER BY TO_NUMBER(COURSE_NOTICE_NO) DESC
                         ) a
               
                   )
@@ -73,7 +73,7 @@
                         <if test="notice.keyword != null and notice.keyword !=''">
 							AND ${notice.type} like '%'|| #{notice.keyword} || '%'
 						</if>	
-                       ORDER BY 1 DESC
+                       ORDER BY TO_NUMBER(COURSE_NOTICE_NO) DESC
                         ) a
               
                   )

@@ -19,27 +19,40 @@
 		<tr>
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-			<td th:text="${selectDetailStudyNotice.courseNoticeTitle}"></td>
-			<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
-			<td th:text="${selectDetailStudyNotice.courseNoticeNo}"></td>
+			<td colspan="3" th:text="${selectDetailStudyNotice.courseNoticeTitle}"></td>
+			
 		</tr>
 		
 		<tr>
-			<td class="text-bold-500"
+		<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
+			<td th:text="${selectDetailStudyNotice.courseNoticeNo}"></td>
+			
+				<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
 			<td th:text="${selectDetailStudyNotice.courseNoticeHit}"></td>
+		</tr>
+		
+		<tr>
+		
 			<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">등록일</td>
+									style="background-color: rgba(0, 0, 0, 0.05);">작성일자</td>
 			<td th:text="${#dates.format(selectDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">수정일자</td>
+			<td th:text="${#dates.format(selectDetailStudyNotice.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
 		</tr>
 		
 		<tr>
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
-			<div th:each="selectFile : ${selectFile}">
-			<td colspan="3"><a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
-			th:text="${selectFile.fileOriName}"></a></a></td>
+			<td colspan="3">
+			<th:block th:each="selectFile : ${selectFile}">
+			<a style="display:block;" th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			th:text="${selectFile.fileOriName}"></a>
+			</th:block>
+			</td>
+		
 			
 		</tr>
 		

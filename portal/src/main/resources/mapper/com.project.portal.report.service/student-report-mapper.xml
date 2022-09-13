@@ -20,6 +20,9 @@
 			<result column="report_submission_code" property="reportSubmissionCode"/>
 			<result column="report_score_objection_approval_option" property="reportScoreObjectionApprovalOption"/>
 			<result column="report_no" property="reportNo"/>
+			<result column="report_score" property="reportScore"/>
+			<result column="user_code" property="userCode"/>
+			<result column="report_file_name" property="reportFileName" />
 		<association property="reportFile" javaType="ReportFileVO">
 			<id column="report_file_code" property="reportFileCode" />
 			<result column="report_file_name" property="reportFileName" />
@@ -78,22 +81,23 @@
                         s.student_id,
                         s.report_score,
                         s.report_submission_option,
-                        r.report_file_code,
                         s.report_submission_code,
                         f.report_file_name,
                         f.report_file_path,
                         o.report_score_objection_approval_option,
-                         w.week_num
+                         w.week_num,
+                        s.report_file_code,
+                         f.user_code
                         
                     from report_info r 
                     join report_submission s
                     on r.report_code = s.report_code
-                    join report_file f
-                    on f.report_file_code = r.report_file_code
+                    left outer join report_file f
+                    on f.report_file_code = s.report_file_code
                     left outer join report_score_objection o
                     on o.report_submission_code = s.report_submission_code
-                    join course_weekly w
-                    on w.week_code = r.week_code
+                  join course_weekly w
+                  on w.week_code = r.week_code
                    <where>
 						<if test="courseInfo.studentId != null and courseInfo.studentId != ''">
 							AND s.student_id = #{courseInfo.studentId}
@@ -109,7 +113,7 @@
 						</if>
 					</where>
                     
-                    ORDER BY 14 DESC) a
+                    ORDER BY 13 DESC) a
                
                where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
               )
@@ -132,6 +136,14 @@
 		JOIN REPORT_SUBMISSION RS
         ON RS.REPORT_CODE = I.REPORT_CODE
 		WHERE RS.REPORT_CODE = #{reportCode} AND RS.STUDENT_ID = #{studentId}
+	</select>
+	
+	<select id="getProfFileInfo" resultType="ReportVO">
+		select  rf.*
+        from report_info ri
+        join report_file rf
+        on ri.report_file_code = rf.report_file_code
+        where ri.report_code = #{reportCode}
 	</select>
 	
 	<select id="getModDetail" resultType="ReportVO">
@@ -245,7 +257,7 @@
 		ON s.report_code = i.report_code
 		join course_weekly c
 		ON c.week_code = i.week_code
-		join report_file rf
+		left outer join report_file rf
         ON s.report_file_code = rf.report_file_code
 		where i.report_code = #{reportCode} and s.student_id = #{studentId}
 	</select>
