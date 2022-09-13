@@ -30,6 +30,8 @@ public interface StudyNoticeService {
 	public void modifyProfStudyNotice(StudyNoticeVO vo);
 	// 교수 공지사항 수정 처리(파일 수정포함)
 	public void modifyProfStudyNoticeFile(StudyNoticeVO vo);
+	// 교수 공지사항 파일 삭제
+	public void deleteProfStudyNoticeFile(String fileUrl);
 	// 교수 공지사항 파일 업로드
 	public void fileUpload(StudyNoticeFileVO vo);
 	// 교수 파일 업로드 그룹번호 조회
@@ -43,7 +45,7 @@ public interface StudyNoticeService {
 	// 공지사항 게시글 개수 카운트
 	public int getTotal(StudyNoticeVO vo);
 	// 게시글에 등록된 파일경로 읽기
-	public String getInsertFilePath(StudyNoticeVO vo);
+	public String[] getInsertFilePath(StudyNoticeVO vo);
 	
 
 	

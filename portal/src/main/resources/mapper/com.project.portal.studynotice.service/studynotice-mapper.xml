@@ -129,6 +129,11 @@
 	   
 	</delete>
 	
+	<delete id="deleteProfStudyNoticeFile" parameterType="String">
+		         delete from course_notice_file
+         where fileURL =  #{fileUrl}
+	</delete>
+	
 	<update id="modifyProfStudyNotice" parameterType="StudyNoticeVO">
 		UPDATE COURSE_NOTICE
 		   SET COURSE_NOTICE_TITLE = #{courseNoticeTitle},
@@ -173,6 +178,8 @@
          where C.course_notice_no = #{courseNoticeNo}
 	
 	</select>
+	
+	
 	
 	
 	

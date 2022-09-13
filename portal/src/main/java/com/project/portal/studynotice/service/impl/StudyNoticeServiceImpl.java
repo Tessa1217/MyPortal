@@ -134,7 +134,7 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 	}
 
 	@Override
-	public String getInsertFilePath(StudyNoticeVO vo) {
+	public String[] getInsertFilePath(StudyNoticeVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.getInsertFilePath(vo);
 	}
@@ -144,6 +144,12 @@ public class StudyNoticeServiceImpl implements StudyNoticeService{
 		// TODO Auto-generated method stub
 		mapper.modifyProfStudyNoticeFile(vo);
 		
+	}
+
+	@Override
+	public void deleteProfStudyNoticeFile(String fileUrl) {
+		// TODO Auto-generated method stub
+		mapper.deleteProfStudyNoticeFile(fileUrl);
 	}
 
 
