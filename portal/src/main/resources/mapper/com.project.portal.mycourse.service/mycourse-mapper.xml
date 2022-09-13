@@ -90,6 +90,7 @@
 		                course_sortation_nm, 
 		                course_credit, 
 		                course_grade,
+		                course_grade_nm,
 		                course_review_yn
 		    from(
 		            select m.student_id, 
@@ -100,6 +101,7 @@
 		                        find_code(course_sortation) course_sortation_nm, 
 		                        c.course_credit, 
 		                        m.course_grade,
+		                        find_grade(course_grade) course_grade_nm,
 		                        m.course_review_yn
 		            from my_course m
 		            join course c
