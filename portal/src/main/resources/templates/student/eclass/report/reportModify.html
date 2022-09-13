@@ -15,10 +15,13 @@
 				
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{#}" method="POST"
+						<form th:action="@{/student/eclass/reportModify}" method="POST"
 							enctype="multipart/form-data">
 							<input type="hidden" name="reportCode"
 								th:value="${reportDetail.reportCode}">
+									<input type="hidden" name="reportSubFileCode"
+								th:value="${reportDetail.reportSubFileCode}">
+							
 							<table class="table table-bordered mb-0">
 								<tr>
 									<td class="text-bold-500"
@@ -65,7 +68,7 @@
 									<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
 
-									<td><input type="file" name="rFile"></td>
+									<td><input type="file" name="file"></td>
 								</tr>
 
 							</table>
@@ -87,7 +90,6 @@
 
 				</div>
 			</div>
-		</div>
 
 		<script th:inline="javascript">
 			// 취소 버튼 (과제 리스트페이지로 이동)

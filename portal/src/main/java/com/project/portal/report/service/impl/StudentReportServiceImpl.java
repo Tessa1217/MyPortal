@@ -30,8 +30,8 @@ public class StudentReportServiceImpl implements StudentReportService {
 	}
 
 	@Override
-	public ReportFileVO getFile(String reportFileCode) {
-		return mapper.getFile(reportFileCode);
+	public String getFile(ReportFileVO vo) {
+		return mapper.getFile(vo);
 	}
 
 	@Override
@@ -86,6 +86,24 @@ public class StudentReportServiceImpl implements StudentReportService {
 	public int getTotal(ReportVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.getTotal(vo);
+	}
+
+	@Override
+	public void reportModify(String reportFileCode) {
+		// TODO Auto-generated method stub
+		mapper.reportModify(reportFileCode);
+	}
+
+	@Override
+	public void deleteReportFile(ReportFileVO vo) {
+		// TODO Auto-generated method stub
+		mapper.deleteReportFile(vo);
+	}
+
+	@Override
+	public void reportFileCodeUpdate(ReportSubmissionVO vo) {
+		// TODO Auto-generated method stub
+		mapper.reportFileCodeUpdate(vo);
 	}
 
 

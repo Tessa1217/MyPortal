@@ -68,9 +68,9 @@ public class StudentReportController {
 
 	// 과제 제출 페이지 이동
 	@RequestMapping("/student/eclass/reportSubmit/{reportCode}")
-	public String reportSubmit(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo, HttpSession session,
-			ReportSubmissionVO rsubvo) {
-		int studentId = (int)session.getAttribute("id");
+	public String reportSubmit(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo,
+			HttpSession session, ReportSubmissionVO rsubvo) {
+		int studentId = (int) session.getAttribute("id");
 		vo.setReportCode(reportCode);
 		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
@@ -78,12 +78,12 @@ public class StudentReportController {
 		model.addAttribute("reportDetail", service.getReportDetail(vo));
 		return "student/eclass/report/submitReport";
 	}
-	
+
 	// 과제 수정 페이지 이동
 	@RequestMapping("/student/eclass/reportModify/{reportCode}")
-	public String reportModify(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo, HttpSession session,
-			ReportSubmissionVO rsubvo) {
-		int studentId = (int)session.getAttribute("id");
+	public String reportModify(@PathVariable String reportCode, Model model, ReportVO vo, ReportFileVO filevo,
+			HttpSession session, ReportSubmissionVO rsubvo) {
+		int studentId = (int) session.getAttribute("id");
 		vo.setReportCode(reportCode);
 		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
@@ -94,19 +94,20 @@ public class StudentReportController {
 
 	// 과제 이의 신청 페이지 이동
 	@RequestMapping("/student/eclass/reportObjection/{reportCode}")
-	public String reportObjection(@PathVariable String reportCode, Model model, HttpSession session, ReportVO vo, CourseVO cvo) {
+	public String reportObjection(@PathVariable String reportCode, Model model, HttpSession session, ReportVO vo,
+			CourseVO cvo) {
 		int studentId = (int) session.getAttribute("id");
 		String courseCode = (String) session.getAttribute("courseCode");
 		vo.setStudentId(studentId);
 		vo.setReportCode(reportCode);
 		cvo = (CourseVO) model.getAttribute("courseInfo");
 		System.out.println(cvo);
-		model.addAttribute("stuobjection" , service.selectStuObjection(studentId));
+		model.addAttribute("stuobjection", service.selectStuObjection(studentId));
 		model.addAttribute("stureportobjectionscore", service.selectStuReportObjection(vo));
-		
+
 		return "student/eclass/report/reportObjection";
 	}
-	
+
 	// 과제 이의 신청 처리
 	@RequestMapping("/student/eclass/reportObjectionSubmit")
 	public String insertReportObjection(ReportObjectionVO vo, HttpSession session) {
@@ -114,7 +115,7 @@ public class StudentReportController {
 		vo.setStudentId(studentId);
 		System.out.println(vo);
 		service.insertReportObjection(vo);
-		
+
 		return "redirect:/student/eclass/reportList";
 	}
 
@@ -158,6 +159,76 @@ public class StudentReportController {
 		resub.setReportFileCode(filevo.getReportFileCode());
 		resub.setStudentId(studentId); // 학번
 		service.insertReportSubmission(resub);
+
+		return "redirect:/student/eclass/reportList";
+	}
+
+	// 과제 수정 처리
+	@PostMapping("/student/eclass/reportModify")
+	public String reportModify(@RequestParam("file") MultipartFile file, HttpSession session, ReportSubmissionVO vo,
+			ReportFileVO filevo) throws IllegalStateException, IOException {
+		// 세션 설정
+		int studentId = (int) session.getAttribute("id");
+		String courseCode = (String) session.getAttribute("courseCode");
+		vo.setStudentId(studentId);
+		filevo.setStudentId(studentId);
+		
+		// 파일이 첨부 되었을때
+		if (!file.isEmpty()) {
+			// 등록된 첨부파일 경로 가져옴.
+			String storedFilePath = service.getFile(filevo);
+			System.out.println("등록된 첨부파일 경로: " + storedFilePath);
+			// 파일 객체 생성후 존재 시 경로를 찾아가 파일 삭제
+			File storedFile = new File(storedFilePath);
+			// DB에서 파일 삭제
+			service.deleteReportFile(filevo);
+			if (storedFile.exists()) {
+				storedFile.delete();
+				System.out.println("파일 경로 찾아가 삭제 완료!!");
+			}
+		}
+		
+		// 파일이 첨부되었을때 새로 등록하는 과정
+		if(!file.isEmpty()) {
+		// 원본 파일명 추출
+					String fileOriName = file.getOriginalFilename();
+					// 확장자 추출
+					String fileNameExtension = fileOriName.substring(fileOriName.lastIndexOf("."));
+					// 랜덤 파일명 값 생성
+					String fileName = UUID.randomUUID().toString().replace("-", "") + fileNameExtension;
+					// 파일 URL
+					String fileUrl = filelocation + "/report/" + courseCode + "/" + fileName;
+					System.out.println("새로운 파일 경로 생성 : " + fileUrl);
+					// 파일객체생성
+					File uploadfile = new File(fileUrl);
+					
+					// 파일을 경로에 저장
+					file.transferTo(uploadfile);
+					System.out.println("새로운 파일 경로 저장 완료!!");
+					
+
+					// 파일 테이블에 insert 하기 위해 필요한 정보 set
+					filevo.setReportFileExtension(fileNameExtension); // 확장자
+					filevo.setReportFileName(fileOriName); // 원본파일이름
+					filevo.setReportFilePath(fileUrl); // 파일 경로
+					filevo.setReportFileStoredName(fileName); // uuid 랜덤 파일명
+					filevo.setSubmitId(studentId); // 학번
+					filevo.setUserCode("02"); // 학생 유저코드 02
+
+					// 파일 테이블 insert
+					service.uploadFile(filevo);
+					
+					// 변경된 파일 코드를 Report_submission 테이블에 업데이트
+					service.reportFileCodeUpdate(vo);
+		}
+
+		
+		
+		//
+		if (file.isEmpty()) {
+			// 파일이 첨부 되지 않았을 때
+
+		}
 
 		return "redirect:/student/eclass/reportList";
 	}

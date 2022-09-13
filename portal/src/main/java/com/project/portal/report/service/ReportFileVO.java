@@ -10,5 +10,8 @@ public class ReportFileVO {
 	private String reportFileExtension;
 	private String reportFilePath;
 	private String userCode;
+	private String reportCode;
+	private String reportSubFileCode;
 	private int submitId;
+	private int studentId;
 }

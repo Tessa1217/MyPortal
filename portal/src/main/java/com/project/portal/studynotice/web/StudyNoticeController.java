@@ -226,15 +226,7 @@ public class StudyNoticeController {
 				// 제목, 내용 , 파일 업데이트
 				service.modifyProfStudyNotice(vo);
 				service.fileUpload(filevo);
-				
-				
-
 			}
-			
-
-		
-		
-
 		return "redirect:/professor/eclass/eclassnotice";
 	}
 

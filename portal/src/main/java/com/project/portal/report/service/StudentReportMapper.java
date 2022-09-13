@@ -24,8 +24,14 @@ public interface StudentReportMapper {
 	public void insertReport(ReportSubmissionVO vo);
 	// 과제 수정페이지 
 	public ReportVO getModDetail(ReportVO vo);
-	// 파일 읽어오기
-	ReportFileVO getFile(String reportFileCode);
+	// 과제 수정 처리
+	public void reportModify(String reportFileCode);
+	// 과제 등록 파일 경로 가져오기
+	public String getFile(ReportFileVO vo);
+	// 파일 코드 업데이트
+	public void reportFileCodeUpdate(ReportSubmissionVO vo);
+	// 과제 파일 삭제
+	public void deleteReportFile(ReportFileVO vo);
 	// 과제 제출 상세 조회
 	public ReportSubmissionVO selectDetail(ReportVO vo); 
 	// 이의 신청 학생 정보 조회
