@@ -52,10 +52,21 @@ background-color : white;
 			
 			<div class="card-body">
 				<form name="searchForm" class="form-horizontal">
+				<!-- <input type="hidden" name="pageNum" value="1"> <input
+                     type="hidden" name="amount" value="10">
 					<select id="type" name="type">
 						<option value="course_year">개설연도</option>
 						<option value="course_semester">개설학기</option>
-					</select> <input type="number" name="keyword" id="keyword">
+					</select> <input type="number" name="keyword" id="keyword"> -->
+					
+					<label for="type">개설연도</label> <input type="number" id="type"
+                     class="form-control inline width-three" name="type"
+                     th:value="${year}"> <label for="keyword">개설학기</label> <select
+                     id="keyword" class="form-select inline width-three"
+                     name="keyword">
+                     <option th:selected="${semester} == '1'" value="1">1학기</option>
+                     <option th:selected="${semester} == '2'" value="2">2학기</option>
+                  </select>
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
 				</form>
@@ -63,8 +74,9 @@ background-color : white;
 				<br>
 				<br>
 				<table class="table" id="table123">
-					<thead>
+					<thead class="thead-primary">
 						<tr>
+							<th>강의코드</th>
 							<th>년도</th>
 							<th>학기</th>
 							<th>이수단위</th>
@@ -79,10 +91,10 @@ background-color : white;
 
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="tbody-center">
 
 						<tr th:each="item:${tempcourseList}">
-							<td  class="hidden" th:text="${item.courseCode}" id="courseCode"
+							<td  th:text="${item.courseCode}" id="courseCode"
 							th:data-coursecode="${item.courseCode}"
 							></td>
 							<td th:text="${item.courseYear}"></td>
@@ -104,14 +116,14 @@ background-color : white;
 							<td><a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button
 										th:text="상세보기" th:data-courseName="${item.courseCode}"
 										class="btn btn-primary"></button></a></td>
-							<td><button th:disabled="${item.okayYes}=='A00'"
+							<td><button th:disabled="${item.okayYes}=='A00' or ${bache.detailCode} == 'PROF00'"
 									name="button1" class="btn btn-danger moddd"
 									th:data-course="${item.courseCode}">승인</button>
 									
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									
 							<button type="button"
-									th:disabled="${item.backReason}=='비승인'" name="button1"
+									th:disabled="${item.backReason}=='비승인' or ${bache.detailCode} == 'PROF00'" name="button1"
 									class="btn btn-secondary backReasonWhy" th:data-coded="${item.backReason}"
 									th:data-course="${item.courseCode}" data-toggle="modal"
 									>비승인</button></td>
@@ -119,6 +131,34 @@ background-color : white;
 
 					</tbody>
 				</table>
+				
+				<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+                  <ul class="pagination justify-content-center">
+                     <th:block th:if="${pageMaker.prev}">
+                        <li class="page-item prev"><a class="page-link"
+                           href="javascript:void(0)"
+                           th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+                        </li>
+                     </th:block>
+                     <th:block th:with="pageMaker = ${pageMaker}">
+                        <th:block
+                           th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                           <li class="page-item"
+                              th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+                              <a class="page-link" href="javascript:void(0)"
+                              th:text="${num}"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+                           </li>
+                        </th:block>
+                        <th:block th:if="${pageMaker.next}">
+                           <li class="page-item next"><a class="page-link"
+                              href="javascript:void(0)"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+                           </li>
+                        </th:block>
+                     </th:block>
+                  </ul>
+               </div>
 
 				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button> -->
 
@@ -133,7 +173,7 @@ background-color : white;
 					<div class="modal-content">
 
 						<div class="modal-header">
-							<label class="modal-title" id="staticBackdropLabel">질문 답변</label>
+							<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
 						</div>
 						<div class="modal-body">
 							<div class="container my-auto">
@@ -163,13 +203,14 @@ background-color : white;
 														
 														
 														<textarea id="backReason3" name ="backReason3" class="form-control"
-														style="height:8em;"
+														style="height:8em;" required
 														></textarea>
+														<br><br><br>
 														</td>
 														
 													</tr>
 														</div>
-
+												<br><br><br>
 												</table>
 												
 												<div align="right">

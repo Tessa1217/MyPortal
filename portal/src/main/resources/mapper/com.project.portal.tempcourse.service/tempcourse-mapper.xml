@@ -16,24 +16,87 @@
 
 	</select>
 	
-	
+	<select id="getTotal" resultType="int">
+		select count(*) 
+		from(
+			select t.*,
+			       find_code(course_sortation) as course_sortation_name,
+			       find_code(submit_yes) as submit_yes_name,
+			       find_code(okay_yes) as okay_yes_name
+			from temp_course t
+			 <!-- where course_code =#{courseCode} -->
+			where professor_id = #{vo.professorId}
+			
+			<if test="cri.keyword != null and cri.keyword != ''">
+				and ${cri.type} = ${cri.keyword}
+				 
+			</if>
+			order by course_code desc
+		)
+	</select>
 
 	<select id="tempcourseList"
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
-
-		select t.*,
-		       find_code(course_sortation) as course_sortation_name,
-		       find_code(submit_yes) as submit_yes_name,
-		       find_code(okay_yes) as okay_yes_name
-		from temp_course t
-		 <!-- where course_code =#{courseCode} -->
-		where professor_id = #{vo.professorId}
+		  select * 
+		from(
+			select
+                    ROWNUM r,
+                    t.course_code,
+                    t.course_year,
+                    t.course_semester,
+                    t.course_name,
+                    t.course_sortation,
+                    t.course_credit,
+                    t.course_limit,
+                    t.professor_id,
+                    t.course_summary,
+                    t.textbook_reference,
+                    t.course_notes,
+                    t.report_assigned_score,
+                    t.midterm_assigned_score,
+                    t.final_assigned_score,
+                    t.att_assigned_score,
+                    t.survey_code,
+                    t.okay_yes,
+                    t.submit_yes,
+                    t.back_reason,
+                    t.depart_code,
+                    find_code(course_sortation) as course_sortation_name,
+                    find_code(submit_yes) as submit_yes_name,
+                    find_code(okay_yes) as okay_yes_name
+			from temp_course t 
+			<!-- where professor_id = #{vo.professorId}
+			
+			<if test="cri.keyword != null and cri.keyword != ''">
+				and ${cri.type} = ${cri.keyword}
+				 
+			</if> -->
+			
+			  <where>
+               professor_id = #{vo.professorId}
+         <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
+            <if test="cri.keyword == ''and cri.type != ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type == ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type != ''">
+               and course_semester = #{cri.keyword}   and course_year = #{cri.type}
+            </if>
+         </if>
+      </where>
+			order by course_code desc
+		)
 		
-		<if test="cri.keyword != null and cri.keyword != ''">
-			and ${cri.type} = ${cri.keyword}
-			 
-		</if>
-		order by course_code desc
+		<where>
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != 0">
+					AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum}
+					* #{cri.amount}
+				</if>
+			</if>
+		</where>
 		
 	</select>
 
@@ -320,22 +383,61 @@ select week_num,
 	<select id="adminTempList"
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
 
-		select t.*,
-		       find_code(course_sortation) as course_sortation_name,
-		       find_code(submit_yes) as submit_yes_name,
-		       find_code(okay_yes) as okay_yes_name
-		from temp_course t
-		 <!-- where course_code =#{courseCode} -->
+		  select * 
+		from(
+			select
+                    ROWNUM r,
+                    t.course_code,
+                    t.course_year,
+                    t.course_semester,
+                    t.course_name,
+                    t.course_sortation,
+                    t.course_credit,
+                    t.course_limit,
+                    t.professor_id,
+                    t.course_summary,
+                    t.textbook_reference,
+                    t.course_notes,
+                    t.report_assigned_score,
+                    t.midterm_assigned_score,
+                    t.final_assigned_score,
+                    t.att_assigned_score,
+                    t.survey_code,
+                    t.okay_yes,
+                    t.submit_yes,
+                    t.back_reason,
+                    t.depart_code,
+                    find_code(course_sortation) as course_sortation_name,
+                    find_code(submit_yes) as submit_yes_name,
+                    find_code(okay_yes) as okay_yes_name
+			from temp_course t 
 		
+			<where>
+		 submit_yes = 'SUB' and okay_yes = 'A01'
+		 <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
+            <if test="cri.keyword == ''and cri.type != ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type == ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type != ''">
+               and course_semester = #{cri.keyword}   and course_year = #{cri.type}
+            </if>
+         </if>
+	</where>
 		
-		where submit_yes = 'SUB' and okay_yes = 'A01'
-		<if test="cri.keyword != null and cri.keyword != ''">
-			and ${cri.type} = ${cri.keyword}
-			 
-		</if>
-	
+		order by course_code desc)
 		
-		order by course_code desc
+		<where>
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != 0">
+					AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum}
+					* #{cri.amount}
+				</if>
+			</if>
+		</where>
+		
 	</select>
 	
 	<select id="backReasonWhy" resultType="com.project.portal.tempcourse.service.TempcourseVO">
@@ -352,19 +454,75 @@ select week_num,
 	
 	<select id="bringme" resultType="TempcourseVO">
 		
-		select t.*,
+	<!-- 	select t.*,
 		       find_code(course_sortation) as course_sortation_name,
 		       find_code(submit_yes) as submit_yes_name,
 		       find_code(okay_yes) as okay_yes_name
 		from temp_course t
-		 <!-- where course_code =#{courseCode} -->
 		where professor_id = #{vo.professorId} and okay_yes = 'A00'
 		
 		<if test="cri.keyword != null and cri.keyword != ''">
 			and ${cri.type} = ${cri.keyword}
 			 
 		</if>
-		order by course_code desc
+		order by course_code desc -->
+		
+		  select * 
+		from(
+			select
+                    ROWNUM r,
+                    t.course_code,
+                    t.course_year,
+                    t.course_semester,
+                    t.course_name,
+                    t.course_sortation,
+                    t.course_credit,
+                    t.course_limit,
+                    t.professor_id,
+                    t.course_summary,
+                    t.textbook_reference,
+                    t.course_notes,
+                    t.report_assigned_score,
+                    t.midterm_assigned_score,
+                    t.final_assigned_score,
+                    t.att_assigned_score,
+                    t.survey_code,
+                    t.okay_yes,
+                    t.submit_yes,
+                    t.back_reason,
+                    t.depart_code,
+                    find_code(course_sortation) as course_sortation_name,
+                    find_code(submit_yes) as submit_yes_name,
+                    find_code(okay_yes) as okay_yes_name
+			from temp_course t 
+			
+			
+			  <where>
+               professor_id = #{vo.professorId} and okay_yes = 'A00'
+               
+         <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
+            <if test="cri.keyword == ''and cri.type != ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type == ''">
+               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+            </if>
+            <if test="cri.keyword != '' and cri.type != ''">
+               and course_semester = #{cri.keyword}   and course_year = #{cri.type}
+            </if>
+         </if>
+      </where>
+			order by course_code desc
+		)
+		
+		<where>
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != 0">
+					AND R BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum}
+					* #{cri.amount}
+				</if>
+			</if>
+		</where>
 	
 	</select>
 	

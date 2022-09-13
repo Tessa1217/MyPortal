@@ -38,6 +38,19 @@ background-color : #768bd5 ;
 
 text-align : center;
 }
+
+
+thead{
+color : #768bd5;
+
+text-align : center;
+}
+
+tbody{
+
+text-align : center;
+
+}
 </style>
 </head>
 <body>
@@ -57,10 +70,14 @@ text-align : center;
 					</div>
 					<div class="card paging name">
 						<div class="card-header">
-							<h3>강의 계획서</h3>
-							<div align="center" style="margin:50px">
+							<h4>강의 계획서</h4>
+							<br>
+							<div style="margin:0%" align="center">
+							<h3>[[${tempcourse.courseName}]]</h3>
+							</div>
+							<div align="center" style="margin:20px">
 							<table class="table" id="table12">
-								<thead>
+								<thead class="thead-primary">
 									<tr>
 										<th>제출여부</th>
 										<th>승인여부</th>
@@ -69,7 +86,7 @@ text-align : center;
 										<th>강의계획서 삭제</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody class="tbody-center">
 
 									<tr>
 										<!-- <td th:if="${tempcourse.submitYes == 'SUB'}"
@@ -93,7 +110,7 @@ text-align : center;
 											th:data-code="비승인"
 											class="btn btn-secondary backReasonWhy" data-toggle="modal"
 											data-target="#backReasonWhy">비승인</button></td>
-										<td><button th:disabled="${tempcourse.submitYes}=='SUB'"
+										<td><button th:disabled="${tempcourse.submitYes}=='SUB' or ${bache.detailCode} == 'PROF00'"
 												name="button1" class="btn btn-primary moddd"
 												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
 											<td><button class="btn btn-danger deletee" th:data-coursecod="${tempcourse.courseCode}"
@@ -114,6 +131,13 @@ text-align : center;
 
 
 										<div class="col-md-6 col-12">
+										<div class="col-md-4">
+											<label>강의코드</label>
+										</div>
+										<div class="col-md-10">
+											<input th:value="${tempcourse.courseCode}"
+												class="form-control" id="courseCode" name="courseCode" readonly/>
+										</div>
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
@@ -224,7 +248,7 @@ text-align : center;
 										<div class="col-md-12 form-group">
 											<textarea th:value="${tempcourse.textbookReference}"
 												id="textbookReference" name="textbookReference"
-												class="form-control" style="height:6em;">[[${tempcourse.textbookReference}]]</textarea>
+												class="form-control" style="height:8em;">[[${tempcourse.textbookReference}]]</textarea>
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
@@ -238,7 +262,7 @@ text-align : center;
 										</div>
 										<div class="col-md-12 form-group">
 											<textarea th:value="${tempcourse.courseNotes}" id="courseNotes"
-												name="courseNotes" class="form-control" style="height:6em;">[[${tempcourse.courseNotes}]]</textarea>
+												name="courseNotes" class="form-control" style="height:9em;">[[${tempcourse.courseNotes}]]</textarea>
 										</div>
 										</div>
 										<div class="col-sm-12" align="right">
@@ -350,8 +374,8 @@ text-align : center;
 											type="button" class="btn btn-primary" onclick="message()" style="margin-right:30px;">수정하기</button>
 										<button type="button"
 											onclick="location.href='/professor/tempcourseList'"
-											class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-										<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
+											class="btn btn-secondary" style="margin-right:30px;">목록 보기</button>
+										<button type="reset" class="btn btn-dark" style="margin-right:30px;">취소</button>
 										
 									</div>
 								</form>

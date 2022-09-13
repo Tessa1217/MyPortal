@@ -26,6 +26,18 @@ text-align : center;
 background-color : white;
 }
 
+thead{
+color : #768bd5;
+
+text-align : center;
+}
+
+tbody{
+
+text-align : center;
+
+}
+
 
 </style>
 </head>
@@ -37,13 +49,27 @@ background-color : white;
 				<h2>강의 계획서 조회</h2>
 			</div>
 			<br>
-			<br>
 			<div class="card-body">
 			<form name="searchFrm" class="form-horizontal">
-					<select id="type" name="type">
+			<!-- <input type="hidden" name="pageNum" value="1"> <input
+                     type="hidden" name="amount" value="10">
+					 <select id="type" name="type">
 						<option value="course_year">개설연도</option>
 						<option value="course_semester">개설학기</option>
-					</select> <input type="number" name="keyword" id="keyword">
+					</select>  
+					
+					
+					
+					<input type="number" name="keyword" id="keyword"> -->
+					
+					<label for="type">개설연도</label> <input type="number" id="type"
+                     class="form-control inline width-three" name="type"
+                     th:value="${year}"> <label for="keyword">개설학기</label> <select
+                     id="keyword" class="form-select inline width-three"
+                     name="keyword">
+                     <option th:selected="${semester} == '1'" value="1">1학기</option>
+                     <option th:selected="${semester} == '2'" value="2">2학기</option>
+                  </select>
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
 				</form>
@@ -53,8 +79,9 @@ background-color : white;
 				<br>
 				<br>
 				<table class="table" id="table123">
-					<thead>
+					<thead class="thead-primary">
 						<tr>
+							<th>강의코드</th>
 							<th>년도</th>
 							<th>학기</th>
 							<th>이수단위</th>
@@ -70,9 +97,10 @@ background-color : white;
 
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="tbody-center">
 
 						<tr th:each="item:${tempcourseList}">
+							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
@@ -96,7 +124,7 @@ background-color : white;
 							<td><a th:href="|/professor/getTemp/${item.courseCode}|"
 										th:text="상세보기" th:data-courseName="${item.courseCode}"
 										class="btn btn-primary"></a></td>
-							<td><button th:disabled="${item.submitYes}=='SUB'"
+							<td><button th:disabled="${item.submitYes}=='SUB' or ${bache.detailCode} == 'PROF00'"
 								
 									name="button1" class="btn btn-primary moddd"
 									th:data-course="${item.courseCode}">제출하기</button></td>
@@ -110,12 +138,41 @@ background-color : white;
 				</table>
 				
 			
+			<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+                  <ul class="pagination justify-content-center">
+                     <th:block th:if="${pageMaker.prev}">
+                        <li class="page-item prev"><a class="page-link"
+                           href="javascript:void(0)"
+                           th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+                        </li>
+                     </th:block>
+                     <th:block th:with="pageMaker = ${pageMaker}">
+                        <th:block
+                           th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                           <li class="page-item"
+                              th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+                              <a class="page-link" href="javascript:void(0)"
+                              th:text="${num}"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+                           </li>
+                        </th:block>
+                        <th:block th:if="${pageMaker.next}">
+                           <li class="page-item next"><a class="page-link"
+                              href="javascript:void(0)"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+                           </li>
+                        </th:block>
+                     </th:block>
+                  </ul>
+               </div>
+			
+			
 				
 				
 				
 				<div align="right">
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
-				th:disabled="${bache.detailCode} == 'PROF00'" style="margin-top:5%;" >강의 계획서 등록</button>
+				th:disabled="${bache.detailCode} == 'PROF00'" style="margin-right:1%;" >강의 계획서 등록</button>
 					</div>
 			</div>
 		</div>
@@ -152,7 +209,7 @@ background-color : white;
 												</div>
 											<div class="col-md-10 col-16">
 											<tr>
-												<td id="backReason2" style="height:8em;"></td>
+												<td id="backReason2" style="height:16em;"></td>
 												
 											
 												

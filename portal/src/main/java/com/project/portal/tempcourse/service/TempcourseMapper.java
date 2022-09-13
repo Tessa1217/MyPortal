@@ -34,4 +34,5 @@ public interface TempcourseMapper {
 	public int tempDelete(TempcourseVO vo); //강의계획서 삭제
 	public TempcourseVO getUpdateTemp(String no); //승인된 강의계획서 상세정보 불러오기
 	public void tempInsertWith(TempcourseweekVO voo);
+	int getTotal(@Param("vo") TempcourseVO vo, @Param("cri") Criteria cri);
 }

@@ -284,6 +284,18 @@ public class TempcourseServiceImpl implements TempcourseService{
 		// TODO Auto-generated method stub
 		
 		mapper.tempInsertWith(voo);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int getTotal(TempcourseVO vo, Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(vo, cri);
 	} 
 
 

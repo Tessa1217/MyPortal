@@ -57,13 +57,14 @@ text-align : center;
 					</div>
 					<div class="card paging name">
 						<div class="card-header">
-							<h3>강의 계획서</h3>
+							<h4>강의 계획서</h4>
+							<br>
 							<div style="margin:0%" align="center">
 							<h3>[[${tempcourse.courseName}]]</h3>
 							</div>
 							<div align="center" style="margin:20px">
 							<table class="table" id="table12">
-								<thead>
+								<thead class="thead-primary">
 									<tr>
 										
 										<th>승인여부</th>
@@ -84,11 +85,11 @@ text-align : center;
 										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
 											th:data-code="비승인">비승인</td>
 											
-										<td><button th:disabled="${tempcourse.okayYes}=='A00'"
+										<td><button th:disabled="${tempcourse.okayYes}=='A00' or ${bache.detailCode} == 'PROF00'"
 												name="button1" class="btn btn-danger moddd"
 												th:data-course="${tempcourse.courseCode}">승인</button>
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<button th:disabled="${tempcourse.backReason}=='비승인'"
+										<button th:disabled="${tempcourse.backReason}=='비승인' or ${bache.detailCode} == 'PROF00'"
 												name="button1" class="btn btn-secondary backReasonWhy"
 												th:data-course="${tempcourse.courseCode}">비승인</button></td>
 									</tr>
@@ -105,8 +106,15 @@ text-align : center;
 										<!-- <input type="hidden" name="departCode" th:value="${departInsert.departCode}">
 									<input type="hidden" name="professorId" th:value="${departInsert.professorId}"> -->
 
-
+										
 										<div class="col-md-6 col-12">
+										<div class="col-md-4">
+											<label>강의코드</label>
+										</div>
+										<div class="col-md-10 form-group">
+											<input th:value="${tempcourse.courseCode}"
+												class="form-control" id="courseCode" name="courseCode" readonly/>
+										</div>
 										<div class="col-md-4">
 											<label>강의명</label>
 										</div>
@@ -208,7 +216,7 @@ text-align : center;
 										<div class="col-md-12 form-group">
 											<textarea th:value="${tempcourse.textbookReference}"
 												id="textbookReference" name="textbookReference"
-												class="form-control" style="height:6em;" readonly>[[${tempcourse.textbookReference}]]</textarea>
+												class="form-control" style="height:8em;" readonly>[[${tempcourse.textbookReference}]]</textarea>
 										</div>
 										<div class="col-md-4">
 											<label>강의 개요</label>
@@ -222,7 +230,7 @@ text-align : center;
 										</div>
 										<div class="col-md-12 form-group">
 											<textarea th:value="${tempcourse.courseNotes}" id="courseNotes"
-												name="courseNotes" class="form-control" style="height:6em;" readonly>[[${tempcourse.courseNotes}]]</textarea>
+												name="courseNotes" class="form-control" style="height:9em;" readonly>[[${tempcourse.courseNotes}]]</textarea>
 										</div>
 										</div>
 										<div class="col-sm-12" align="right">
@@ -230,8 +238,8 @@ text-align : center;
 											
 											<button type="button"
 												onclick="location.href='/admin/adminTempList'"
-												class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-											<button type="reset" class="btn btn-secondary">취소</button>
+												class="btn btn-secondary" style="margin-right:30px;">목록 보기</button>
+											<button type="reset" class="btn btn-dark">취소</button>
 										</div>
 
 
@@ -293,8 +301,8 @@ text-align : center;
 										
 										<button type="button"
 											onclick="location.href='/admin/adminTempList'"
-											class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-										<button type="reset" class="btn btn-secondary">취소</button>
+											class="btn btn-secondary" style="margin-right:30px;">목록 보기</button>
+										<button type="reset" class="btn btn-dark">취소</button>
 									</div>
 								</form>
 							</div>
@@ -316,7 +324,7 @@ text-align : center;
 					<div class="modal-content">
 
 						<div class="modal-header">
-							<label class="modal-title" id="staticBackdropLabel">질문 답변</label>
+							<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
 						</div>
 						<div class="modal-body">
 							<div class="container my-auto">
@@ -347,19 +355,20 @@ text-align : center;
 														
 														
 														<textarea id="backReason3" name ="backReason3" class="form-control"
-														style="height:8em;"
+														style="height:8em;" required
 														></textarea>
+														<br><br><br>
 														</td>
 														
 													</tr>
 														</div>
-
+												<br><br><br>
 												</table>
 												
 												<div align="right">
 												<button type="submit"
 													class="btn btn-primary backReasonWhy2"
-													data-bs-dismiss="modal" aria-label="Close" style="margin-right:40%;">답변등록</button>
+													data-bs-dismiss="modal" aria-label="Close" style="margin-right:40%;">비승인하기</button>
 													
 													
 												<button id="closeModal" type="button"

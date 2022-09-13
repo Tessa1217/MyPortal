@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
+import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.professor.service.ProfessorVO;
@@ -45,12 +46,13 @@ public class TempcourseController {
 	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
 		vo = service.getTemp(courseCode);
 
-		
+		BachelorScheduleVO bac = new BachelorScheduleVO();
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList(); 
 
+		model.addAttribute("bache", bac); //날짜 비활성화
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
 		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기
@@ -81,6 +83,10 @@ public class TempcourseController {
 		vo.setCourseYear((int)session.getAttribute("year"));
 		vo.setCourseSemester((int)session.getAttribute("semester"));
 		
+		
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
+		model.addAttribute("year", vo.getCourseYear());
+	    model.addAttribute("semester", vo.getCourseSemester());
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("bache", bac);
@@ -97,7 +103,12 @@ public class TempcourseController {
 		pvo = service.getInfo(pvo);
 		vooo.setYear((int)session.getAttribute("year"));
 		vooo.setSemester((int)session.getAttribute("semester"));
-
+		
+		
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
+		model.addAttribute("year", vo.getCourseYear());
+	    model.addAttribute("semester", vo.getCourseSemester());
+		
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
@@ -209,11 +220,18 @@ public class TempcourseController {
 
 	// 괸라자 강의계획서 목록(GET)
 	@RequestMapping("/admin/adminTempList")
-	public String adminTempList(Model model, TempcourseVO vo, Criteria cri) {
+	public String adminTempList(Model model, TempcourseVO vo, Criteria cri, HttpSession session) {
 
 		List<TempcourseVO> tempcourseList = service.adminTempList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
-
+		vo.setCourseYear((int)session.getAttribute("year"));
+		vo.setCourseSemester((int)session.getAttribute("semester"));
+		BachelorScheduleVO bac = new BachelorScheduleVO();
+		
+		model.addAttribute("bache", bac);
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
+		model.addAttribute("year", vo.getCourseYear());
+	    model.addAttribute("semester", vo.getCourseSemester());
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		System.out.println(tempcourseList);
@@ -231,8 +249,11 @@ public class TempcourseController {
 //			System.out.println(tempcourseweekList);
 //			List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 //			int total = service.tempcourseListCount(vo, cri);
-
 //			model.addAttribute("tempcourseList", tempcourseList);
+			
+			BachelorScheduleVO bac = new BachelorScheduleVO();
+			
+			model.addAttribute("bache", bac);
 			model.addAttribute("Sortation", codeService.getDetailList("C01"));
 			model.addAttribute("submitYes", codeService.getDetailList("S02"));
 			model.addAttribute("okayYes", codeService.getDetailList("A01"));

@@ -280,18 +280,23 @@
 					</div>
 					<div class="modal-body">
 					<form name="searchForm" class="form-horizontal" >
-					<select id="type" name="type">
-						<option value="course_year">개설연도</option>
-						<option value="course_semester">개설학기</option>
-					</select> <input type="number" name="keyword" id="keyword">
-					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+					<label for="type">개설연도</label> <input type="number" id="type"
+                     class="form-control inline width-three" name="type"
+                     th:value="${year}"> <label for="keyword">개설학기</label> <select
+                     id="keyword" class="form-select inline width-three"
+                     name="keyword">
+                     <option th:selected="${semester} == '1'" value="1">1학기</option>
+                     <option th:selected="${semester} == '2'" value="2">2학기</option>
+                  </select>
+					<button class="btn rounded-pill btn-primary searchh" type="submit">검색</button>
 
 				</form>
-					
+					<br>
 					
 						<table class="table">
-					<thead>
+					<thead class="thead-primary">
 						<tr>
+							<th>강의코드</th>
 							<th>년도</th>
 							<th>학기</th>
 							<th>이수단위</th>
@@ -305,9 +310,10 @@
 
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="tbody-center">
 
 						<tr th:each="item:${tempcourseList}">
+							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
 							<!-- <td th:text="${item.courseCredit}"></td> -->
@@ -344,6 +350,33 @@
 
 					</tbody>
 				</table>
+					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+                  <ul class="pagination justify-content-center">
+                     <th:block th:if="${pageMaker.prev}">
+                        <li class="page-item prev"><a class="page-link"
+                           href="javascript:void(0)"
+                           th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+                        </li>
+                     </th:block>
+                     <th:block th:with="pageMaker = ${pageMaker}">
+                        <th:block
+                           th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                           <li class="page-item"
+                              th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+                              <a class="page-link" href="javascript:void(0)"
+                              th:text="${num}"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+                           </li>
+                        </th:block>
+                        <th:block th:if="${pageMaker.next}">
+                           <li class="page-item next"><a class="page-link"
+                              href="javascript:void(0)"
+                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+                           </li>
+                        </th:block>
+                     </th:block>
+                  </ul>
+               </div>
 				
 						<div class="input-container modal-footer">
 							<!-- <button type="button" class="btn btn-outline-danger"
@@ -364,7 +397,8 @@
 				showPage();
 				aaaaa();
 				modalOff();
-				 
+				aaa();
+
 			})
 			
 			// 탭 형식으로 보이기
@@ -385,7 +419,8 @@
 			})
 			}
 			
-		
+			
+			
 			
 			//모달창 띄우기
 			function aaaaa () {
@@ -394,6 +429,15 @@
 					
 					
 					
+					
+					$('#bringme').modal('show');
+				})
+			}
+			
+			
+			//모달창 검색 안꺼지게
+			function aaa() {
+				$(".searchh").on("click", function(e) {
 					
 					$('#bringme').modal('show');
 				})
