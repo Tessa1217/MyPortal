@@ -58,6 +58,7 @@ public class StudentReportController {
 		vo.setStudentId((int) session.getAttribute("id"));
 		rvo.setStudentId((int) session.getAttribute("id"));
 		List<ReportVO> reportList = service.getReportList(vo, rvo, cri);
+		
 
 		// 과제 리스트
 		model.addAttribute("reportList", reportList);
@@ -88,6 +89,7 @@ public class StudentReportController {
 		vo.setStudentId(studentId);
 		// 과제 제출 내용 조회
 		rsubvo = service.selectDetail(vo);
+		model.addAttribute("profFile", service.getProfFileInfo(vo));
 		model.addAttribute("reportDetail", service.getModDetail(vo));
 		return "student/eclass/report/reportModify";
 	}

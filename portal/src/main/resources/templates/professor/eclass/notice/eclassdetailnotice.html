@@ -23,36 +23,48 @@
 				<div class="card-body">
 	<table class="table table-bordered mb-0">
 		<tbody>
+		
+	
 		<tr>
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-			<td>
+			<td colspan="3">
 			    <input class="form-control hidden" name="courseNoticeTitle" id="titleeditor" th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 			<div id="titleview" th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></div></td>
 			
-			<td class="text-bold-500"
+		</tr>
+		
+				<tr>
+		<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
-			<td id="courseNoticeNo" th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
+			<td th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
+			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
+			
 		</tr>
 		
 		<tr>
 			<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
-			<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">등록일</td>
+									style="background-color: rgba(0, 0, 0, 0.05);">작성일자</td>
 			<td th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+			<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">수정일자</td>
+			<td th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
 		</tr>
+		
+	
 		
 		<tr>
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
-			<div th:each="selectFile : ${selectFile}">
 			<td colspan="3">
-			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			<th:block th:each="selectFile : ${selectFile}">
+			<a style="display:block;" th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
 			th:text="${selectFile.fileOriName}"></a>
+			</th:block>
 			</td>
-			</div>
+			
 		</tr>
 
 		<!-- <td>

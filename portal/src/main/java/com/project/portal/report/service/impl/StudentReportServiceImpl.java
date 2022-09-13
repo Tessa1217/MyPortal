@@ -106,6 +106,12 @@ public class StudentReportServiceImpl implements StudentReportService {
 		mapper.reportFileCodeUpdate(vo);
 	}
 
+	@Override
+	public ReportVO getProfFileInfo(ReportVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getProfFileInfo(vo);
+	}
+
 
 
 }
