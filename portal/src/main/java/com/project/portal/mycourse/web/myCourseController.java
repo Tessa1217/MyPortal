@@ -1,8 +1,7 @@
 package com.project.portal.mycourse.web;
 
-import java.io.InputStream;
-import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.PdfView;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.course.service.CourseService;
@@ -34,12 +34,6 @@ import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
-
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 
 // 작성자: 김진형, 박근형, 권유진 
 @Controller
@@ -176,23 +170,19 @@ public class myCourseController {
 		model.addAttribute("courseWeekDetail", service.getstuMyCourseWeekDetail(vo.getCourseCode()));
 		return "student/eclass/course/courseDetail";
 	}
-	
-	@Autowired
-	DataSource datasource;
+
 	
 	// 강의 계획서 pdf 
 	@RequestMapping("/student/eclass/pdf/{courseCode}")
-	public void pdfReport(HttpServletRequest request,
+	public PdfView pdfReport(HttpServletRequest request,
 							HttpServletResponse response,
 							@PathVariable String courseCode,
 							Model model) throws Exception {
-		
-		Connection conn = datasource.getConnection();
-		
-		InputStream stream = getClass().getResourceAsStream("/reports/test.jrxml");
-		JasperReport jasperReport = JasperCompileManager.compileReport(stream);
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, conn);
-		JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+		model.addAttribute("filename", "/reports/course.jasper");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("courseCode", courseCode);
+		model.addAttribute("param", map);
+		return new PdfView(); 
 		
 	}
 

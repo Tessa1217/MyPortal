@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:fragment="videoFragment">
+		<div class="card col-8">
+			<div class="card-body">
+				<input type="hidden" id="videoId" th:value="${lecture.youtubeId}">
+				<div id="player"></div>
+			</div>
+		</div>
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script th:inline="javascript">
+			$(function() {
+				insertRecord();
+			})
+			var youtubePlayer;
+			function onYouTubeIframeAPIReady() {
+				youtubePlayer = new YT.Player('player', {
+					width : '100%',
+					height : '100%',
+					videoId : $("#videoId").val(),
+					playerVars : {
+						rel : 0
+					//관련영상 표시하지 않기.
+					},
+					events : {
+						'onReady' : onPlayerReady, //로딩할때 이벤트 실행
+						'onStateChange' : onPlayerStateChange
+					//플레이어 상태 변화시 이벤트실행
+					}
+				});
+			}
+
+			function onPlayerReady(event) {
+				event.target.playVideo();//자동재생
+			}
+
+			var done = false;
+			function onPlayerStateChange(event) {
+				if (event.data === YT.PlayerState.PLAYING && !done) {
+					// setTimeout(stopVideo, 6000);
+					done = true;
+					console.log("HI");
+					updateRecord();
+				}
+				if (event.data === YT.PlayerState.PAUSED) {
+					done = false;
+					stopUpdate();
+				}
+				if (event.data === YT.PlayerState.ENDED) {
+					done = false;
+					stopUpdate();
+				}
+			}
+
+			function beforeExit() {
+				$(document).on("beforeunload", function() {
+					fireSwal('warning', '시청 기록이 저장되지 않았습니다. 그대로 나가시겠습니까?')
+				})
+			}
+
+			// 5초마다 갱신
+			function updateRecord() {
+				videoTimer = setInterval(function() {
+					let record = {
+						studentId : $("input[name=studentId]").val(),
+						lectureCode : $("input[name=lectureCode]").val(),
+						lectureAttTime : $("input[name=lectureAttTime]").val(),
+						watchAccumTime : 0,
+						cmd : 'update'
+					}
+					$.ajax({
+						method : 'POST',
+						url : '/student/eclass/watchLecture',
+						contentType : 'application/json',
+						data : JSON.stringify(record)
+					})
+				}, 5000);
+			}
+
+			// 비디오 멈추면 갱신 종료
+			function stopUpdate() {
+				clearInterval(videoTimer);
+			}
+
+			function insertRecord() {
+				// 레코드 객체 생성
+				let record = {
+					studentId : $("input[name=studentId]").val(),
+					lectureCode : $("input[name=lectureCode]").val(),
+					watchAccumTime : 0,
+					cmd : "insert"
+				}
+
+				// 페이지 들어가면 인서트
+				$.ajax({
+					method : 'POST',
+					url : '/student/eclass/watchLecture',
+					contentType : 'application/json',
+					data : JSON.stringify(record)
+				})
+			}
+		</script>
+	</th:block>
+</body>
+</html>

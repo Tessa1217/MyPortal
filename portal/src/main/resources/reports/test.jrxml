@@ -23,7 +23,7 @@
 		JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
 		JOIN DEPARTMENT D ON
 		D.DEPART_CODE = P.DEPART_CODE
-		WHERE C.COURSE_CODE =  'SSPY0001']]>
+		WHERE C.COURSE_CODE =  $P{COURSE_CODE}]]>
 	</queryString>
 	<field name="COURSE_NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="COURSE_NAME"/>

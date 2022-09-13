@@ -116,9 +116,11 @@ public class ProfessorLectureController {
 	public String updateLecture(@RequestParam("file") MultipartFile file, LectureVO vo, HttpSession session,
 			Model model) {
 		if (!file.isEmpty()) {
-			File storedFile = new File(service.getVideo(vo.getVideoCode()).getVideoFilePath());
-			if (storedFile.exists()) {
-				storedFile.delete();
+			if (vo.getVideoCode() != null) {
+				File storedFile = new File(service.getVideo(vo.getVideoCode()).getVideoFilePath());
+				if (storedFile.exists()) {
+					storedFile.delete();
+				}
 			}
 			CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 			VideoVO newFile = newFile(file, course, session);

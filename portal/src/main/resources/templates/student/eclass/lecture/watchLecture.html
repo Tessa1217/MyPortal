@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/no-nav_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/no-nav_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -9,25 +9,35 @@
 .offPage {
 	display: none;
 }
-
 </style>
 </head>
 <body>
 	<th:block layout:fragment="bodyContent">
 		<div id="app">
 			<div class="horizontal-title">
-				<span><a th:href="@{/student/eclass/lectureList}">강의 홈</a></span>
-				<span><a href="#">[[${lecture.lectureTitle}]]</a></span>
-				<button type="button" class="btn btn-primary" th:onclick="|location.href='@{/student/eclass/lectureList}'|">나가기</button>
+				<span><a th:href="@{/student/eclass/lectureList}">강의 홈</a></span> <span><a
+					href="#">[[${lecture.lectureTitle}]]</a></span>
+				<button type="button" class="btn btn-primary"
+					th:onclick="|location.href='@{/student/eclass/lectureList}'|">나가기</button>
 			</div>
 			<div class="row lecture-box">
-			<input type="hidden" name="lectureCode" th:value="${lecture.lectureCode}">
-			<input type="hidden" name="studentId" th:value="${session.id}">
-			<input type="hidden" name="lectureAttTime" th:value="${lecture.lectureAttTime}">
-			<input type="hidden" id="review" th:value="${#dates.createNow()} gt ${lecture.lectureEndDate} ? 1 : 0">
-				<th:block
-					th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">
-				</th:block>
+				<input type="hidden" name="lectureCode"
+					th:value="${lecture.lectureCode}"> <input type="hidden"
+					name="studentId" th:value="${session.id}"> <input
+					type="hidden" name="lectureAttTime"
+					th:value="${lecture.lectureAttTime}"> <input type="hidden"
+					id="review"
+					th:value="${#dates.createNow()} gt ${lecture.lectureEndDate} ? 1 : 0">
+					<th:block th:if="${lecture.videoCode == null}">
+						<div class="card col-8"
+							th:replace="/layout/fragments/student-eclass/iframeComponent :: videoFragment">
+						</div>
+					</th:block>
+					<th:block th:unless="${lecture.videoCode == null}">
+						<div class="card col-8"
+							th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">
+						</div>
+					</th:block>
 				<th:block
 					th:replace="/layout/fragments/student-eclass/boardComponent :: boardFragment">
 				</th:block>

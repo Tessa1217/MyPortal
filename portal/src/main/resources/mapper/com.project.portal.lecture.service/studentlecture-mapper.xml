@@ -20,6 +20,8 @@
 		<id column="lecture_code" property="lectureCode"/>
 		<result column="video_code" property="videoCode"/>
 		<result column="lecture_title" property="lectureTitle"/>
+		<result column="lecture_youtube_path" property="lectureYoutubePath"/>
+		<result column="youtube_id" property="youtubeId"/>
 		<result column="week_code" property="weekCode"/>
 		<association property="lectureFile" javaType="VideoVO">
 			<result column="video_file_path" property="videoFilePath"/>
@@ -33,6 +35,7 @@
 		SELECT 
 				L.LECTURE_CODE, 
 				L.LECTURE_TITLE,
+				L.LECTURE_YOUTUBE_PATH,
 				L.WEEK_CODE,
 				L.VIDEO_CODE, 
 				V.VIDEO_FILE_PATH,
@@ -40,7 +43,7 @@
 				V.VIDEO_PLAY_TIME,
 				V.VIDEO_EXTENSION,
 				V.VIDEO_STORED_NAME
-		FROM LECTURE L JOIN VIDEO V
+		FROM LECTURE L LEFT OUTER JOIN VIDEO V
 		ON L.VIDEO_CODE = V.VIDEO_CODE
 		WHERE L.WEEK_CODE = #{weekCode}
 	</select>

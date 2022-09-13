@@ -245,7 +245,7 @@
 					<subreportParameterExpression><![CDATA[$P{COURSE_CODE}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["course_weekjrxml55.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["/reports/course_weekjrxml.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

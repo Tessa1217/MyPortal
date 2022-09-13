@@ -60,7 +60,15 @@ public class ProfessorLectureServiceImpl implements ProfessorLectureService {
 
 	@Override
 	public void updateLectureOnly(LectureVO vo) {
+		VideoVO video = new VideoVO();
+		if (vo.getVideoCode() != null && vo.getLectureYoutubePath() != null) {
+			video = new VideoVO();
+			video.setVideoCode(vo.getVideoCode());
+			vo.setVideoCode(null);
+		}
 		mapper.updateLecture(vo);
+		mapper.deleteVideo(video);
+		
 	}
 
 	@Override

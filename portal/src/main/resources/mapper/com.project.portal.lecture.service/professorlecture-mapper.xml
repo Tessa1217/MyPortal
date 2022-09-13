@@ -29,6 +29,7 @@
 			L.lecture_att_time,
 			L.lecture_content,
 			L.lecture_youtube_path,
+			L.youtube_id,
 			L.video_code,
 			L.lecture_title,
 			L.course_code, 
@@ -121,7 +122,8 @@
 												video_code,
 												lecture_title,
 												course_code,
-												lecture_youtube_path
+												lecture_youtube_path,
+												youtube_id
 												)
 												VALUES (
 																SUBSTR(#{weekCode}, 3, 2)||'L'||LPAD(TO_CHAR(lecture_seq.NEXTVAL), 7, '0'),
@@ -134,7 +136,9 @@
 																#{videoCode},
 																#{lectureTitle},
 																#{courseCode},
-																#{lectureYoutubePath})
+																#{lectureYoutubePath},
+																#{youtubeId}
+																)
 	</insert>
 	<select id="getVideo" resultType="VideoVO">
 		SELECT * 
@@ -160,10 +164,12 @@
 				lecture_end_date = #{lectureEndDate},
 				video_code = #{videoCode},
 				<if test="videoCode == null">
-				lecture_youtube_path = #{lectureYoutubePath}
+				lecture_youtube_path = #{lectureYoutubePath},
+				youtube_id = #{youtubeId}
 				</if>
 				<if test="videoCode != null">
-				lecture_youtube_path = NULL
+				lecture_youtube_path = NULL,
+				youtube_id = NULL
 				</if>
 				WHERE lecture_code = #{lectureCode}
 	</update>
