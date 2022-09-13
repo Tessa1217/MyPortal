@@ -14,4 +14,7 @@ public interface BachelorScheduleService {
 	BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo);
 	// 성적이의신청일 기준 현재연도 학기
 	BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo);
+	
+	//강의계획서 날짜 불러오기
+	BachelorScheduleVO yearSemester(BachelorScheduleVO vo);
 }

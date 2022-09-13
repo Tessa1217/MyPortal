@@ -1,5 +1,6 @@
 package com.project.portal.tempcourse.web;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.common.PageDTO;
@@ -38,7 +40,8 @@ public class TempcourseController {
 	TempcourseService service;
 	@Autowired
 	CodeService codeService;
-
+	@Autowired
+	BachelorScheduleService schedule;
 	
 	
 	// 단건조회(상세보기)(GET)
@@ -73,7 +76,7 @@ public class TempcourseController {
 
 	// 교수 강의계획서 리스트목록(GET)
 	@RequestMapping(value={"/professor/tempcourseList", "/professor/tempInsert/tempList" })
-	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri, HttpSession session, Authentication authentication) {
+	public String tempcourseList(Model model, TempcourseVO vo, Criteria cri, HttpSession session, Authentication authentication, BachelorScheduleVO voo) {
 		
 		vo.setProfessorId((int) session.getAttribute("id"));
 		System.out.println(vo.getProfessorId());
@@ -82,7 +85,7 @@ public class TempcourseController {
 		BachelorScheduleVO bac = new BachelorScheduleVO();
 		vo.setCourseYear((int)session.getAttribute("year"));
 		vo.setCourseSemester((int)session.getAttribute("semester"));
-		
+		Date dat = new Date();
 		
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		model.addAttribute("year", vo.getCourseYear());
@@ -90,7 +93,9 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("bache", bac);
+		model.addAttribute("yearSemester", schedule.yearSemester(voo));
 		System.out.println(tempcourseList);
+		
 		return "/professor/course/tempcourseList";
 	}
 

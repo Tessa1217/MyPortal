@@ -296,7 +296,12 @@ public class TempcourseServiceImpl implements TempcourseService{
 	public int getTotal(TempcourseVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.getTotal(vo, cri);
-	} 
+	}
+
+
+
+
+
 
 
 

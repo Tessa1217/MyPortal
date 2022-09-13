@@ -35,5 +35,4 @@ public interface TempcourseService {
 	public TempcourseVO getUpdateTemp(String no); //승인된 강의계획서 상세정보 불러오기
 	public void tempInsertWith(TempcourseweekVO voo);
 	int getTotal(TempcourseVO vo, Criteria cri);
-	
 }
