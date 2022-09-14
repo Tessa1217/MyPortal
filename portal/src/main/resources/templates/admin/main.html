@@ -41,9 +41,12 @@
 				<div class="grid-item">
 					<div class="card height-sixh">
 						<div class="card-header">
-						<h3>공지사항</h3>
+							<h3>공지사항</h3>
 						</div>
-						<div class="card-body"></div>
+						<div class="card-body">
+							<div id="noticeFragment">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -51,7 +54,16 @@
 		<script th:inline="javascript">
 			$(function() {
 				monthlyCalendar();
+				getNotice("admin");
 			})
+
+			// 이달의 정보 
+			function getCalendar() {
+				return $.ajax({
+					method : 'POST',
+					url : `/admin/getMonthly`,
+				})
+			}
 		</script>
 	</th:block>
 </body>

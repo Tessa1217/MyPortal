@@ -123,11 +123,14 @@ function monthlyCalendar() {
 	})
 }
 
-// 이달의 정보 
-function getCalendar() {
-	return $.ajax({
-		method: 'POST',
-		url: `/getMonthly`,
+// 공지사항 목록 
+function getNotice(uri) {
+	$.ajax({
+		method : 'POST',
+		url : '/' + uri + '/getNotice',
+		success : function(fragment) {
+			$("#noticeFragment").replaceWith(fragment);
+		}
 	})
 }
 

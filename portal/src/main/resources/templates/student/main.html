@@ -48,6 +48,8 @@
 						<h3>공지 사항</h3>
 						</div>
 						<div class="card-body">
+							<div id="noticeFragment">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -56,7 +58,17 @@
 		<script th:inline="javascript">
 			$(function() {
 				monthlyCalendar();
+				getNotice("student");
 			})
+			
+			// 이달의 정보 
+			function getCalendar() {
+				return $.ajax({
+					method: 'POST',
+					url: `/student/getMonthly`,
+				})
+			}
+			
 		</script>
 	</th:block>
 </body>

@@ -3,6 +3,7 @@ package com.project.portal.common.web;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.admin.service.AdminService;
 import com.project.portal.admin.service.AdminVO;
+import com.project.portal.bachelor.service.BachelorNoticeService;
+import com.project.portal.bachelor.service.BachelorNoticeVO;
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.Criteria;
 import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
@@ -24,15 +28,22 @@ import com.project.portal.student.service.StudentVO;
 @Controller
 // 작성사: 권유진
 public class MainController {
-
+	
+	// 사용자 
 	@Autowired
 	StudentService studentService;
 	@Autowired
 	ProfessorService professorService;
 	@Autowired
-	BachelorScheduleService scheduleService;
-	@Autowired
 	AdminService adminService;
+	
+	// 학사 일정 
+	@Autowired
+	BachelorScheduleService scheduleService;
+	// 학사 공지
+	@Autowired
+	BachelorNoticeService noticeService;
+	
 
 	@ModelAttribute("schedule")
 	public BachelorScheduleVO getMonth() {
@@ -62,7 +73,7 @@ public class MainController {
 		return "professor/main";
 	}
 	
-	// 관리자 VO 생성 필요
+	// 관리자 메인 페이지
 	@RequestMapping("/admin")
 	public String Ahome(HttpSession session) {
 		AdminVO admin = new AdminVO();
@@ -71,13 +82,37 @@ public class MainController {
 		return "admin/main";
 	}
 
-	@RequestMapping("/getMonthly")
+	// 이달의 일정
+	@RequestMapping({"/student/getMonthly", 
+					"/professor/getMonthly",
+					"/admin/getMonthly"})
 	@ResponseBody
-	public List<BachelorScheduleVO> getMonthlySchedule(Model model) {
+	public List<BachelorScheduleVO> getMonthlySchedule(HttpServletRequest request,
+														Model model) {
 		BachelorScheduleVO schedule = (BachelorScheduleVO) model.getAttribute("schedule");
-		schedule.setDetailCode("STUD");
+		if (request.getRequestURI().contains("student")) {
+			schedule.setDetailCode("PROF");
+		} else if (request.getRequestURI().contains("professor")) {
+			schedule.setDetailCode("STUD");
+		}
 		return scheduleService.getMonthlyList(schedule);
 	}
-
+	
+	@RequestMapping({"/student/getNotice",
+					"/professor/getNotice",
+					"/admin/getNotice"})
+	public String getNotice(HttpServletRequest request, 
+							Model model, 
+							Criteria cri) {
+		BachelorNoticeVO notice = new BachelorNoticeVO();
+		notice.setNoticePrivate("OP");
+		if (request.getRequestURI().contains("student")) {
+			notice.setNoticeDivision("PROF");
+		} else if (request.getRequestURI().contains("professor")) {
+			notice.setNoticeDivision("STUD");
+		}
+		model.addAttribute("noticeList", noticeService.getNoticeList(notice, cri));
+		return "/layout/fragments/common/notice :: #noticeFragment";
+	}
 
 }

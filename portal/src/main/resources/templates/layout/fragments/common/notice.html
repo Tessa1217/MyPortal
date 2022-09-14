@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+</head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+</style>
+</head>
+<body>
+	<div id="noticeFragment">
+			<p th:each="notice, idx : ${noticeList}"
+			th:text="${notice.noticeTitle}">
+			<p>
+	</div>
+</body>
+</html>
