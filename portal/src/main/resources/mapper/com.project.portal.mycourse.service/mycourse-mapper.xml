@@ -181,4 +181,19 @@
 		select course_name from course
 		where course_code = #{courseCode}
 	</select>
+	
+	
+	<select id="getStudyNoticeList" resultType="StudyNoticeVO">
+		 select *
+            from (
+            select  A.* , rownum r
+            from (
+            select 
+            TO_NUMBER(COURSE_NOTICE_NO) AS course_notice_no, course_notice_title
+            from course_notice
+            where course_code = #{courseCode}
+            order by 1 desc) A
+            )
+            where r between 1 and 10
+	</select>
 </mapper>

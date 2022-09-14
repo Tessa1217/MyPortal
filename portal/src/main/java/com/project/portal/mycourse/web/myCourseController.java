@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,7 @@ import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
+import com.project.portal.studynotice.service.StudyNoticeVO;
 
 // 작성자: 김진형, 박근형, 권유진 
 @Controller
@@ -108,7 +108,7 @@ public class myCourseController {
 
 	@RequestMapping("/student/eclass/{courseCode}")
 	public String getstuMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
-			MyCourseVO mycourse, StudentVO student, Model model, HttpSession session, BachelorScheduleVO schedule) {
+			MyCourseVO mycourse, StudyNoticeVO svo, StudentVO student, Model model, HttpSession session, BachelorScheduleVO schedule) {
 
 		// 강의 정보
 		course.setCourseCode(courseCode);
@@ -118,6 +118,10 @@ public class myCourseController {
 		// 주차별 과제, 강의, 시험 정보
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
+		
+		// 최근 강의 공지사항 정보 조회
+		System.out.println(service.getStudyNoticeList(courseCode));
+		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
 
 		// 학생이 수강중인 전체 강의 목록
 		schedule.setDetailCode("BPLAN00");
@@ -136,7 +140,7 @@ public class myCourseController {
 	// 교수 강좌 강의 lms 메인 페이지 이동
 	@RequestMapping("/professor/eclass/{courseCode}")
 	public String getProfMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
-			ProfessorVO professor, Model model, HttpSession session, BachelorScheduleVO schedule) {
+			ProfessorVO professor, StudyNoticeVO svo , Model model, HttpSession session, BachelorScheduleVO schedule) {
 
 		// 강의 정보
 		course.setCourseCode(courseCode);
@@ -146,6 +150,10 @@ public class myCourseController {
 		// 주차별 과제, 강의, 시험 정보
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
+		
+		// 최근 강의 공지사항 정보 조회
+		System.out.println(service.getStudyNoticeList(courseCode));
+		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
 
 		// 교수 정보
 		professor.setProfessorId((int) session.getAttribute("id"));
