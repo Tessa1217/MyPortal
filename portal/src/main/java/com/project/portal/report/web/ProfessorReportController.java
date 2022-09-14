@@ -25,6 +25,7 @@ import com.project.portal.common.PageDTO;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportObjectionVO;
 import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
@@ -192,13 +193,38 @@ public class ProfessorReportController {
 		return "success";
 	}
 	
-	//과제 이의신청 관리
+	//과제 이의신청 관리 리스트
 	@RequestMapping("/reportObjection")
-	public String getStudentObjectionList (Model model, HttpSession session) {
+	public String getStudentObjectionList (ReportObjectionVO vo , Model model, HttpSession session) {
 		
-		
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
+		model.addAttribute("reportObjection", service.getStudentObjectionList(vo));
 		
 		return "professor/eclass/report/reportObjection";
 	}
 	
+	//과제 이의신청 상세조회
+	@RequestMapping("/report/reportObjectionDetail/{reportSubmissionCode}")
+	public String getStudentObjectionDetail (@PathVariable String reportSubmissionCode , ReportObjectionVO vo , Model model, HttpSession session) {
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
+		vo.setReportSubmissionCode(reportSubmissionCode);
+		System.out.println(service.getStudentObjectionDetail(vo));
+		model.addAttribute("reportObjectionDetail", service.getStudentObjectionDetail(vo));
+		
+		
+		
+		
+		return "professor/eclass/report/reportObjectionDetail"; 
+	}
+	
+	// 과제 이의신청 업데이트
+	@PostMapping("/updateObjection")
+	public String updateObjection (ReportObjectionVO vo , Model model, HttpSession session) {
+		
+		System.out.println("컨트롤러 탐?");
+		
+		service.updateObjection(vo);
+		service.updateObjectionScore(vo);
+		return "redirect:/professor/eclass/reportObjection";
+	}
 }

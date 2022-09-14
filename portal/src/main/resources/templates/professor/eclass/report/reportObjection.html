@@ -10,9 +10,48 @@
 <th:block layout:fragment="professorEclassContent">
 		<div id="main">
 		<div class="page-title">
-		<h3>과제 이의 신청 목록</h3>
+		<h2>과제 이의 신청 목록</h2>
+		</div>
 		<div class="card">
 				<div class="card-body height-sevenh">
+				<div class="card-body">
+				
+				<table class="table table-hover" style="text-align : center; width:100%;">
+				
+					<thead class="thead-primary">
+						<tr>
+							<th>학번</th>
+							<th>이름</th>
+							<th>과제제목</th>
+							<th>주차</th>
+							<th>이의신청여부</th>
+							<th>답변하기</th>
+						</tr>
+					</thead>
+					<tbody class="tbody-center">
+					<tr th:each="reportObjection : ${reportObjection}">
+						
+						<td th:text="${reportObjection.studentId}">
+						</td>
+						
+						<td th:text="${reportObjection.studentName}"></td>
+						<td th:text="${reportObjection.reportTitle}"></td>
+						<td th:text="${reportObjection.weekNum}"></td>
+						<th:block>
+						<td th:if="${reportObjection.reportScoreObjectionApprovalOption == 'A01'}">심사대기</td>
+						<td th:if="${reportObjection.reportScoreObjectionApprovalOption == 'A02'}">심사완료</td>
+						</th:block>
+						<th:block>
+						<td th:if="${reportObjection.reportScoreObjectionApprovalOption == 'A01'}">
+						<button type="button" class="saveBtn btn btn-primary me-1 mb-1 reportObjectionAnswer"
+						th:data-reportCode="${reportObjection.reportSubmissionCode}">답변하기</button></td>
+						<td th:if="${reportObjection.reportScoreObjectionApprovalOption != 'A01'}">
+						-</td>
+						</th:block>
+						<!-- <td><input type="hidden" class="reportSubmissionCode" th:value="${reportObjection.reportSubmissionCode}"></td> -->
+					</tr>
+					</tbody>
+				</table>
 				
 				</div>
 				
@@ -20,6 +59,16 @@
 		</div>
 		
 		</div>
+		
+		<script th:inline="javascript">
+		// 답변 페이지 이동
+		$('.reportObjectionAnswer').on("click", function() {
+			let reportCode = ($(this).data("reportcode"));
+			location.href = "/professor/eclass/report/reportObjectionDetail/" + reportCode;
+
+		})
+
+		</script>
 		
 		</th:block>
 

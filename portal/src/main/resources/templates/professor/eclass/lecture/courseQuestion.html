@@ -1,205 +1,214 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/professor-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-<th:block layout:fragment="professorEclassContent">
-<style>
+	<th:block layout:fragment="professorEclassContent">
+		<style>
 .hidden {
-	display : none
+	display: none
 }
-
-
 </style>
-	<div id="main">
-		<div class="page-title">
-		<h3>질문 목록</h3>
-		</div>
+		<div id="main">
+			<div class="page-title">
+				<h3>질문 목록</h3>
+			</div>
 			<div class="card">
-			<div class="card height-sevenh">
-				<div class="card-body">
-		<form name="frmsearch" action="/professor/eclass/courseQuestion">
-		<select id="type"  name="type">
-			<option th:selected="${pageMaker.cri.type} == '1'" value="1">1주차</option>
-			<option th:selected="${pageMaker.cri.type} == '2'" value="2">2주차</option>
-			<option th:selected="${pageMaker.cri.type} == '3'" value="3">3주차</option>
-			<option th:selected="${pageMaker.cri.type} == '4'" value="4">4주차</option>
-			<option th:selected="${pageMaker.cri.type} == '5'" value="5">5주차</option>
-			<option th:selected="${pageMaker.cri.type} == '6'" value="6">6주차</option>
-			<option th:selected="${pageMaker.cri.type} == '7'" value="7">7주차</option>
-			<option th:selected="${pageMaker.cri.type} == '8'" value="8">8주차</option>
-			<option th:selected="${pageMaker.cri.type} == '9'" value="9">9주차</option>
-			<option th:selected="${pageMaker.cri.type} == '10'" value="10">10주차</option>
-			<option th:selected="${pageMaker.cri.type} == '11'" value="11">11주차</option>
-			<option th:selected="${pageMaker.cri.type} == '12'" value="12">12주차</option>
-			<option th:selected="${pageMaker.cri.type} == '13'" value="13">13주차</option>
-			<option th:selected="${pageMaker.cri.type} == '14'" value="14">14주차</option>
-			<option th:selected="${pageMaker.cri.type} == '15'" value="15">15주차</option>
-		</select>
-		
-		<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
-		<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
-		
-		<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
-		<button type="button" class="saveBtn btn btn-primary me-1 mb-1"
-		onclick="location.href='/professor/eclass/courseQuestion'">전체목록조회</button>
-		
-		</form>
-		
-		<br>
-		<br>
-		
-		<table class="table table-hover">
-			<thead class="thead-primary">
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>주차</th>
-					<th>답변 여부</th>
-					<th>답변 하기</th>
-				</tr>
-			</thead>
-			
-			<tbody class="tbody-center">
-				<tr th:each="courseProfQuestion : ${courseProfQuestion}">
-					<td th:text="${courseProfQuestion.questionNo}"></td>
-					<td th:text="${courseProfQuestion.lectureQuestionTitle}"></td>
-					<td th:text="${courseProfQuestion.studentName}"></td>
-					<td th:text="${courseProfQuestion.weekNum}"></td>
-					<td th:text="${courseProfQuestion.lectureQuestionAnswerCheck}"></td>
-					<td>
-					<button type="button" class="btn btn-primary courseProfQuestion" 
-					th:data-code="${courseProfQuestion.lectureQuestionNum}">답변하기</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		
-				<div th:object="${pageMaker}">
-						<ul class="pagination justify-content-center">
-						<th:block th:if="${pageMaker.prev}">
-   						 <li class="page-item prev">
-        				<a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.startPage - 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">이전</a>
-   						 </li>
-						</th:block>
-						<th:block th:with="pageMaker = ${pageMaker}">
-				    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-				        <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-				            <a class="page-link" href="javascript:void(0)" th:text="${num}" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(num, pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])"></a>
-				        </li>
-				    </th:block>
-				    <th:block th:if="${pageMaker.next}">
-					    <li class="page-item next">
-					        <a class="page-link" href="javascript:void(0)" th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.endPage + 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">다음</a>
-					    </li>
-						</th:block>
-						</th:block>
-						</ul>
-					</div>
-	</div>
-	</div>
-	</div>
-	
-	
-		<!-- 모달창 -->
-	<div class="modal-dialog modal-xl">	
-	 <div class="modal fade" id="courseQuestionDetail" data-bs-backdrop="static" tabindex="-1"
-         aria-labelledby="staticBackdropLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
+				<div class="card height-sevenh">
+					<div class="card-body">
+						<form name="frmsearch" action="/professor/eclass/courseQuestion">
+							<select id="type" name="type">
+								<option th:selected="${pageMaker.cri.type} == '1'" value="1">1주차</option>
+								<option th:selected="${pageMaker.cri.type} == '2'" value="2">2주차</option>
+								<option th:selected="${pageMaker.cri.type} == '3'" value="3">3주차</option>
+								<option th:selected="${pageMaker.cri.type} == '4'" value="4">4주차</option>
+								<option th:selected="${pageMaker.cri.type} == '5'" value="5">5주차</option>
+								<option th:selected="${pageMaker.cri.type} == '6'" value="6">6주차</option>
+								<option th:selected="${pageMaker.cri.type} == '7'" value="7">7주차</option>
+								<option th:selected="${pageMaker.cri.type} == '8'" value="8">8주차</option>
+								<option th:selected="${pageMaker.cri.type} == '9'" value="9">9주차</option>
+								<option th:selected="${pageMaker.cri.type} == '10'" value="10">10주차</option>
+								<option th:selected="${pageMaker.cri.type} == '11'" value="11">11주차</option>
+								<option th:selected="${pageMaker.cri.type} == '12'" value="12">12주차</option>
+								<option th:selected="${pageMaker.cri.type} == '13'" value="13">13주차</option>
+								<option th:selected="${pageMaker.cri.type} == '14'" value="14">14주차</option>
+								<option th:selected="${pageMaker.cri.type} == '15'" value="15">15주차</option>
+							</select> <input type="hidden" name="pageNum"
+								th:value="${pageMaker.cri.pageNum}"> <input
+								type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 
-                <div class="modal-header">
-                    <label class="modal-title" id="staticBackdropLabel">질문 답변</label>
-                </div>
-                <div class="modal-body">
-                        <div class="container my-auto">
-                            <div class="row">
-                                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                                    <div class="card-body">
-                                    <form id="frm" name="frm" action="/professor/eclass/courseQuestionInsert">
-                                    	<table class="table table-bordered mb-0">
-                                    			<!-- <tr>
-                                    				<td width="200px" class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">질문번호</td>
-                                    				<td id="questionnum"></td>
-                                    			</tr>  -->
-                                    			<tr>
-                                    				<td width="200px" class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-                                    				<td id="title"></td>
-                                    			</tr>
-                                    			
-                                    			<tr>
-                                    				<td width="200px" class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
-                                    				<td id="week"></td>
-                                    			</tr>
-                                    			
-                                    			<tr>
-                                    				<td width="200px" class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">질문 내용</td>
-                                    				<td id="questioncontent"></td>
-                                    			</tr>
-                                    			
-                                    			<tr>
-                                    				<td width="200px" class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">질문 등록일</td>
-                                    				<td id="answerregdate"></td>
-                                    			</tr>
-                                    			
-                                    			<tr>
-                                    				<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">답변 내용</td>
-                                    				<td>
-                                    				<textarea class="form-control hidden" name="lectureAnswerContent" id="Answeredit" required></textarea>
-                                    				<div id="answercontentview"></div>
-                                    				</td>
-                                    				<!-- <td colspan="3">
+							<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
+							<button type="button" class="saveBtn btn btn-primary me-1 mb-1"
+								onclick="location.href='/professor/eclass/courseQuestion'">전체목록조회</button>
+
+						</form>
+
+						<br> <br>
+
+						<table class="table table-hover">
+							<thead class="thead-primary">
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>주차</th>
+									<th>답변 여부</th>
+									<th>답변 하기</th>
+								</tr>
+							</thead>
+
+							<tbody class="tbody-center">
+								<tr th:each="courseProfQuestion : ${courseProfQuestion}">
+									<td th:text="${courseProfQuestion.questionNo}"></td>
+									<td th:text="${courseProfQuestion.lectureQuestionTitle}"></td>
+									<td th:text="${courseProfQuestion.studentName}"></td>
+									<td th:text="${courseProfQuestion.weekNum}"></td>
+									<td th:text="${courseProfQuestion.lectureQuestionAnswerCheck}"></td>
+									<td>
+										<button type="button"
+											class="btn btn-primary courseProfQuestion"
+											th:data-code="${courseProfQuestion.lectureQuestionNum}">답변하기</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div th:object="${pageMaker}">
+							<ul class="pagination justify-content-center">
+								<th:block th:if="${pageMaker.prev}">
+									<li class="page-item prev"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.startPage - 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">이전</a>
+									</li>
+								</th:block>
+								<th:block th:with="pageMaker = ${pageMaker}">
+									<th:block
+										th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+										<li class="page-item"
+											th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+											<a class="page-link" href="javascript:void(0)"
+											th:text="${num}"
+											th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(num, pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])"></a>
+										</li>
+									</th:block>
+									<th:block th:if="${pageMaker.next}">
+										<li class="page-item next"><a class="page-link"
+											href="javascript:void(0)"
+											th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${pageMaker.cri.getLink(pageMaker.endPage + 1 , pageMaker.cri.amount, pageMaker.cri.type, pageMaker.cri.keyword)}]])">다음</a>
+										</li>
+									</th:block>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 모달창 -->
+			<div class="modal-dialog modal-xl">
+				<div class="modal fade" id="courseQuestionDetail"
+					data-bs-backdrop="static" tabindex="-1"
+					aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+						<div class="modal-content">
+
+							<div class="modal-header">
+								<label class="modal-title" id="staticBackdropLabel">질문
+									답변</label>
+							</div>
+							<div class="modal-body">
+								<div class="container my-auto">
+									<div class="row">
+										<div class="card z-index-0 fadeIn3 fadeInBottom">
+											<div class="card-body">
+												<form id="frm" name="frm"
+													action="/professor/eclass/courseQuestionInsert">
+													<table class="table table-bordered mb-0">
+														<tr class="hidePage">
+															<td width="200px" class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">질문번호</td>
+															<td id="questionnum"></td>
+														</tr>
+														<tr>
+															<td width="200px" class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
+															<td id="title"></td>
+														</tr>
+
+														<tr>
+															<td width="200px" class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
+															<td id="week"></td>
+														</tr>
+
+														<tr>
+															<td width="200px" class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">질문
+																내용</td>
+															<td id="questioncontent"></td>
+														</tr>
+
+														<tr>
+															<td width="200px" class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">질문
+																등록일</td>
+															<td id="answerregdate"></td>
+														</tr>
+
+														<tr>
+															<td class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05);">답변
+																내용</td>
+															<td><textarea class="form-control hidden"
+																	name="lectureAnswerContent" id="Answeredit" required></textarea>
+																<div id="answercontentview"></div></td>
+															<!-- <td colspan="3">
 			   									    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></textarea>
 													<div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div></td> -->
-                                    			</tr>
-                                    			
-                                    			
-                                    	</table>
-                                    	<br>
-                                    	<div style=" text-align: center;">
-                                    	 <button type="button" class="btn btn-secondary courseProfQuestionAnswer" data-bs-dismiss="modal" aria-label="Close"
-                                    	 id="AnswerReg">답변 등록</button>
-                            			<button type="button" id="AnswerMod" class="btn btn-secondary hidden" data-bs-dismiss="modal"
-                            			th:onclick="modifyAnswer()">답변 수정</button>
-                            			
-                            			<button type="button" class="btn btn-primary hidden" id="Prev">이전</button>
-                            			<button type="button" class="btn btn-primary" id="Modify" >수정</button>
-                            			  <button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+														</tr>
+
+
+													</table>
+													<br>
+													<div style="text-align: center;">
+														<button type="button"
+															class="btn btn-secondary courseProfQuestionAnswer"
+															data-bs-dismiss="modal" aria-label="Close" id="AnswerReg">답변
+															등록</button>
+														<button type="button" id="AnswerMod"
+															class="btn btn-secondary hidden" data-bs-dismiss="modal"
+															th:onclick="modifyAnswer()">답변 수정</button>
+
+														<button type="button" class="btn btn-primary hidden"
+															id="Prev">이전</button>
+														<button type="button" class="btn btn-primary" id="Modify">수정</button>
+														<button id="closeModal" type="button"
+															class="btn btn-secondary" data-dismiss="modal">Close</button>
+													</div>
+												</form>
+
+
+
+											</div>
+										</div>
+									</div>
 								</div>
-                                    </form>
-                                   
 
+								<div class="input-container modal-footer"></div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-container modal-footer">
-                           
-                          
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-   </div>
-    <script th:inline="javascript">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script th:inline="javascript">
     	
     $(function () {
 		courseQuestionDetail();
@@ -375,7 +384,6 @@
 		
 		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val() // 답변 내용
  		let lectureQuestionNum = $('#questionnum').text() //
- 		
  		  $.ajax({
  				type : "POST",  // 요청 타입
  	            url : "/professor/eclass/courseQuestionUpdate",
@@ -383,16 +391,20 @@
  	            	{ lectureAnswerContent : lectureAnswerContent,
  	            	  lectureQuestionNum : lectureQuestionNum} ,
  	            success : function(success) {
- 	            	console.log(success)
- 	            	alert('수정되었습니다.')
- 	            	location.href="/professor/eclass/courseQuestion"
+ 	            	console.log(success);
+ 	            	fireSwal('success', '답변이 수정되었습니다.')
+ 	            	.then((result) => {
+ 	            		if (result.isConfirmed) {
+ 	            			location.href="/professor/eclass/courseQuestion"
+ 	            		}
+ 	            	})
+ 	            	
  	            }
  	 		})  
  	}
     </script>
+	</th:block>
 
-</th:block>
-	
 
 
 </body>

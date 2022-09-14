@@ -116,4 +116,23 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		return mapper.getStudentObjectionList(vo);
 	}
 
+	@Override
+	public ReportObjectionVO getStudentObjectionDetail(ReportObjectionVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getStudentObjectionDetail(vo);
+	}
+
+	@Override
+	public void updateObjection(ReportObjectionVO vo) {
+		// TODO Auto-generated method stub
+		mapper.updateObjection(vo);
+	}
+
+	@Override
+	public void updateObjectionScore(ReportObjectionVO vo) {
+		// TODO Auto-generated method stub
+		mapper.updateObjectionScore(vo);
+		
+	}
+
 }

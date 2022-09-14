@@ -17,8 +17,13 @@ public class ReportObjectionVO {
 	private String reportFileCode; // 과제파일 코드
 	private String reportSubFileCode; //제출된 파일 코드
 	private String reportFileName; // 파일 이름
+	private String courseCode;
+	private String reportTitle;
+	private String reportScoreObjectionApprovalOption;
 	
 	private String reportSubmissionCode; // 과제 제출코드
 	private String reportScoreObjectionApplicationReason;// 이의신청 사유
+	private String reportScoreObjectionRejectionReason;
+
 	
 }

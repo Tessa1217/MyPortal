@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/professor-eclass_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block layout:fragment="professorEclassContent">
+		<div id="main">
+		<div class="page-title">
+		<h2>과제 이의 신청 상세보기</h2>
+		</div>
+		<div class="card">
+					<div class="card-body">
+						<form th:action="@{/professor/eclass/updateObjection}" method="POST">
+							<input type="hidden" th:value="${reportObjectionDetail.reportSubmissionCode}" name="reportSubmissionCode">
+					
+							<table class="table table-bordered mb-0">
+								<tr th:each="reportObjectionDetail : ${reportObjectionDetail}">
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">학생 이름</td>
+									<td th:text="${reportObjectionDetail.studentName}"></td>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">학번</td>
+									<td th:text="${reportObjectionDetail.studentId}"></td>
+								</tr>
+
+								<tr>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
+									<td th:text="${reportObjectionDetail.reportTitle}"></td>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
+									<td th:text="${reportObjectionDetail.weekNum}"></td>
+								</tr>
+
+								<tr>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
+									<td><a
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportObjectionDetail.reportFileCode}, userCode=${reportObjectionDetail.userCode})}"
+									th:text="${reportObjectionDetail.reportFileName}"
+									th:download="${reportObjectionDetail.reportFileName}"></a></td>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제점수</td>
+									<td th:text="${reportObjectionDetail.reportScore}">
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">이의신청 사유</td>
+									<td th:utext="${reportObjectionDetail.reportScoreObjectionApplicationReason}"> </td>
+									<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제변경점수</td>
+									<td><input type="number" id="reportScore" name="reportScore"></td>
+								</tr>
+								
+								<tr>
+								<td class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">답변 내용</td>
+								  <td colspan="3"><textarea name="reportScoreObjectionRejectionReason" id="reportScoreObjectionRejectionReason" rows="10" cols="70" required></textarea></td>
+								</tr>
+
+							
+							</table>
+							<br>
+							<div style=" text-align: center;">
+							<button type="submit"
+								class="saveBtn btn btn-primary me-1 mb-1" 
+								>제출하기</button>
+							<button type="button"
+								class="saveBtn btn btn-primary me-1 mb-1 submitObjectionClose">취소</button>
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+		
+		</div>
+		
+			<script th:inline="javascript">
+		$(function() {
+			editor();
+		})
+		
+		
+		$('.submitObjectionClose').on("click", function() {
+			location.href='/professor/eclass/reportObjection'
+		})
+
+		function editor() {
+			tinymce.init({
+				selector : '#reportScoreObjectionRejectionReason',
+				plugins : ['image', 'table'],
+				submit_patch : false,
+				setup : function(editor) {
+					editor.on('change', function() {
+						editor.save();
+					})
+				}
+			})
+		}
+		</script>
+		
+		</th:block>
+
+</body>
+</html>
