@@ -80,4 +80,11 @@ public class BachelorController {
 		}
 		return command;
 	}
+	
+	@RequestMapping("/admin/getYearSemester")
+	@ResponseBody
+	public BachelorScheduleVO getYearSemester(BachelorScheduleVO vo, Model model) {
+		;
+		return service.getYearSemester(vo);
+	}
 }

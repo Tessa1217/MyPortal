@@ -9,6 +9,7 @@ public class BachelorScheduleVO {
 	private String scheduleCode;
 	private String scheduleContent;
 	private Date scheduleStartDate;
+	private Date scheduleStartDate2;
 	private Date scheduleEndDate;
 	private int year;
 	private String detailCode;

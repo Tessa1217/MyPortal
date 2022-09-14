@@ -18,6 +18,13 @@
 		order by schedule_start_date
 	</select>
 	
+	<select id="getYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
+		select year, semester
+		from bachelor_schedule
+		where detail_code in (select detail_code from bachelor_detail where group_code = 'SEME')
+		and #{scheduleStartDate} between schedule_start_date and schedule_end_date
+	</select>
+	
 	<select id="currentYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
 		select year, semester
 	  	from bachelor_schedule

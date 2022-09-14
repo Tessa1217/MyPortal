@@ -89,18 +89,16 @@
 											id="scheduleEndDate" name="scheduleEndDate">
 										<hr>
 										<label for="year">연도</label>
-										<input type="number" class="form-control" name="year" id="year" style="width : 40%; display: inline">
+										<input type="text" class="form-control" name="year" id="year" style="width : 40%; display: inline" readonly>
 										<label for="semester" style="margin-left: 15px">학기</label>
-										<input type="number" class="form-control" name="semester" id="semester"style="width : 40%; display : inline">
+										<input type="text" class="form-control" name="semester" id="semester"style="width : 40%; display : inline" readonly>
 										<hr>
 										<label for="detailCode">분류</label>
 										<select name="detailCode" id="detailCode" class="form-control">
-											<th:block>
-												<optgroup label="신청">
-												
-												</optgroup>
-												<optgroup label="공휴일">
-												
+											<th:block th:each="list : ${codeList}">
+												<optgroup th:label="${list.groupName}">
+													<option th:each="detail : ${list.detailList}"
+													th:value="${detail.detailCode}" th:text="${detail.detailName}"></option>
 												</optgroup>
 											</th:block>
 										</select>
@@ -144,6 +142,12 @@
 					<div class="col-12">
 						<div id='fullCalendar'></div>
 					</div>
+					<div>
+						<table>
+							<tr>
+								
+						</table>
+					</div>
 				</div>
 			</div>
 			
@@ -161,13 +165,15 @@
 			// 시작일 기준 연도, 학기 받아오기
 			function insertYearSem() {
 				$("input[name=scheduleStartDate]").on("change", function(e) {
-					let start = $(e.target).val();
+					let start = new Date($(e.target).val());
+					console.log(typeof(start));
 					$.ajax({
 						method : 'POST',
-						url : ``,
+						url : "/admin/getYearSemester",
 						data : {scheduleStartDate : start},
 						success : function(result) {
-							$("input[name=year]").val(result.year);
+							console.log(result);
+							$("input[name=year]").eq(1).val(result.year);
 							$("input[name=semester]").val(result.semester);
 						}
 					})

@@ -45,19 +45,22 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 
 	@Override
 	public BachelorScheduleVO yearSemester(BachelorScheduleVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.yearSemester(vo);
 	}
 
 	@Override
 	public BachelorScheduleVO packageDate(BachelorScheduleVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.packageDate(vo);
 	}
 
 	@Override
 	public List<BachelorGroupVO> getScheduleCode() {
 		return mapper.getScheduleCode();
+	}
+
+	@Override
+	public BachelorScheduleVO getYearSemester(BachelorScheduleVO vo) {
+		return mapper.getYearSemester(vo);
 	}
 
 }

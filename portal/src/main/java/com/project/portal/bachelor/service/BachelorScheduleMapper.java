@@ -25,4 +25,6 @@ public interface BachelorScheduleMapper {
 	// 강의 관련 코드 받아오기
 	List<BachelorGroupVO> getScheduleCode();
 
+	BachelorScheduleVO getYearSemester(BachelorScheduleVO vo);
+
 }
