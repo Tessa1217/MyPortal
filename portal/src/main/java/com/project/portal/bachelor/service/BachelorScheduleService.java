@@ -28,4 +28,6 @@ public interface BachelorScheduleService {
 
 	// 시작일 기준 연도 학기 구 구하기
 	BachelorScheduleVO getYearSemester(BachelorScheduleVO vo);
+	
+	void scheduleInsert(BachelorScheduleVO vo);
 }

@@ -69,6 +69,15 @@ public class BachelorController {
 		return "success";
 	}
 	
+	// 학사일정 단건 등록
+		@RequestMapping("/admin/scheduleInsert")
+		@ResponseBody
+		public String scheduleInsert(BachelorScheduleVO vo, Model model) {
+			System.out.println(vo);
+			service.scheduleInsert(vo);
+			return "success";
+		}
+	
 	private int setCommand(String requestURI) {
 		int command = 0;
 		if (requestURI.equals("/professor/schedule")) {

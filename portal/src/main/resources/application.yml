@@ -37,6 +37,7 @@ mybatis:
     map-underscore-to-camel-case: true
     jdbc-type-for-null: VARCHAR
   type-aliases-package: com.project.portal.*.service
+  type-handlers-package: springboot.mybatis.typehandler
   mapper-locations: mapper/**/*.xml
 
 logging:

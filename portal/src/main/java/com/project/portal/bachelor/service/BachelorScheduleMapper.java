@@ -28,4 +28,6 @@ public interface BachelorScheduleMapper {
 	List<BachelorGroupVO> getScheduleCode();
 
 	BachelorScheduleVO getYearSemester(BachelorScheduleVO vo);
+	
+	void scheduleInsert(BachelorScheduleVO vo);
 }

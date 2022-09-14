@@ -2,14 +2,17 @@ package com.project.portal.bachelor.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
 public class BachelorScheduleVO {
 	private String scheduleCode;
 	private String scheduleContent;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date scheduleStartDate;
-	private Date scheduleStartDate2;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date scheduleEndDate;
 	private int year;
 	private String detailCode;

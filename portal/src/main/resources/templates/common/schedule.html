@@ -22,7 +22,7 @@
 						<option>일정</option>
 					</select>
 				</div>
-				<div class="row cal">
+				<div class="row hidePage cal">
 					<div class="col-12 padding-ten">
 						<br>
 						<form name="frm_year">
@@ -89,7 +89,7 @@
 											id="scheduleEndDate" name="scheduleEndDate">
 										<hr>
 										<label for="year">연도</label>
-										<input type="text" class="form-control" name="year" id="year" style="width : 40%; display: inline" readonly>
+										<input type="text" class="form-control" name="year" id="insertyear" style="width : 40%; display: inline" readonly>
 										<label for="semester" style="margin-left: 15px">학기</label>
 										<input type="text" class="form-control" name="semester" id="semester"style="width : 40%; display : inline" readonly>
 										<hr>
@@ -107,8 +107,7 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
+									<button type="button" class="btn btn-primary" th:onclick="Inputdata()">등록</button>
 								</div>
 							</div>
 						</div>
@@ -138,7 +137,7 @@
 					</div>
 					<!-- 일괄등록 모달 end-->
 				</div>
-				<div class="row hidePage cal">
+				<div class="row cal">
 					<div class="col-12">
 						<div id='fullCalendar'></div>
 					</div>
@@ -165,14 +164,12 @@
 			// 시작일 기준 연도, 학기 받아오기
 			function insertYearSem() {
 				$("input[name=scheduleStartDate]").on("change", function(e) {
-					let start = new Date($(e.target).val());
-					console.log(typeof(start));
+					let start = $(e.target).val();
 					$.ajax({
 						method : 'POST',
 						url : "/admin/getYearSemester",
 						data : {scheduleStartDate : start},
 						success : function(result) {
-							console.log(result);
 							$("input[name=year]").eq(1).val(result.year);
 							$("input[name=semester]").val(result.semester);
 						}
@@ -180,19 +177,11 @@
 				})
 			}
 		
-			// 
+			// id view select태그에서 변경이 있을시 숨어있는 페이지 토글
 				function changeView() {
 					$(document).on('change', '#view', function() {
 						$(".cal").each((idx, val) => {
 							$(val).toggleClass('hidePage');
-						})
-					})
-				}
-				
-				function ToggleView() {
-					$(document).on('click', '.prevButton', function() {
-						$(".cal").each((idx, val) => {
-							$(val).toggleClass('hidePage')
 						})
 					})
 				}
@@ -229,20 +218,17 @@
 					})
 				}
 
+			// ◁ 버튼 클릭시 년도 -1
 				function prevYear() {
 					$('#year').val(parseInt($("#year").val()) - 1);
-					document.frm_year.submit()
-					changeView();
-					$("#view").trigger('change');
+					document.frm_year.submit();
 				}
-
+			// ▷ 버튼 클릭시 년도 +1
 				function nextYear() {
 					if ($('#year').val() < year) {
 						$('#year').val(parseInt($("#year").val()) + 1);
 						console.log($("#year").val());
 						document.frm_year.submit()
-						changeView();
-						$("#view").trigger('change');
 					} else {
 						alert("현재년도 입니다.")
 					}
@@ -285,6 +271,31 @@
 						}
 					})
 
+				}
+				
+				
+				
+				function Inputdata() {
+					let data = {
+							"scheduleContent" : $("#scheduleContent").val(),
+							"scheduleStartDate" : $("#scheduleStartDate").val(),
+							"scheduleEndDate" : $("#scheduleStartDate").val(),
+							"year" : $("#insertyear").val(),
+							"semester" : $("#semester").val(),
+							"detailCode" : $("#detailCode").val(),
+						}
+							console.log(data);
+					
+					 $.ajax({
+						url : "/admin/scheduleInsert",
+						method : "post",
+						data : data,
+						success : function(result) {
+							$("#insertModal").modal("hide");
+							location.reload();
+						// console.log(result);
+						}
+					}) 
 				}
 			</script>
 		</div>

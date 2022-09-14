@@ -60,6 +60,22 @@
 		            )
 	</insert>
 	
+	<insert id="scheduleInsert">
+		INSERT INTO bachelor_schedule
+		VALUES (
+		            'SC'||LPAD(
+		                        TO_CHAR(schedule_seq.NEXTVAL), 18, '0'
+		                        
+		                                    ),
+		                                   #{scheduleContent},
+		                                    #{scheduleStartDate, typeHandler=org.apache.ibatis.type.DateOnlyTypeHandler}, 
+		                                    #{scheduleEndDate, typeHandler=org.apache.ibatis.type.DateOnlyTypeHandler},
+		                                    #{year},
+		                                    #{detailCode},
+		                                    #{semester}
+		            )
+	</insert>
+	
 	<select id="getMonthlyList" resultType="BachelorScheduleVO">
 		SELECT
 				schedule_code,
