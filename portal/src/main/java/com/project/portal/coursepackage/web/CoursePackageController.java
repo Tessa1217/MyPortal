@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.coursepackage.service.CoursePackageService;
 import com.project.portal.coursepackage.service.CoursePackageVO;
+import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 
 /*
@@ -27,10 +29,14 @@ public class CoursePackageController {
 
 	@Autowired
 	CoursePackageService service;
+	@Autowired
+	StudentService studentService;
+	@Autowired
+	BachelorScheduleService scheduleService;
 
 	
 	@RequestMapping("/student/coursePackage")
-	public String coursePackage(Model model, CoursePackageVO vo, HttpSession session) {
+	public String coursePackage(Model model, CoursePackageVO vo, HttpSession session, BachelorScheduleVO bvo) {
 		vo.setStudentId((int)session.getAttribute("id"));
 		vo.setCourseYear((int)session.getAttribute("year"));
 		vo.setCourseSemester((int)session.getAttribute("semester"));
@@ -50,6 +56,13 @@ public class CoursePackageController {
 		// 담은 꾸러미 학점
 		CoursePackageVO coursePackagePoint = service.coursePackagePoint(vo);
 		model.addAttribute("coursePackagePoint", coursePackagePoint);
+		
+//		BachelorScheduleVO packageDate = scheduleService.packageDate(bvo);
+//		model.addAttribute("packageDate", packageDate);
+//		
+//		BachelorScheduleVO registerDate = scheduleService.registerDate(bvo);
+//		model.addAttribute("registerDate", registerDate);
+
 		return "student/register/package";
 	}
 

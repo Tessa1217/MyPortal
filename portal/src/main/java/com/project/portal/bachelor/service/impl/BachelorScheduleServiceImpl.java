@@ -54,4 +54,10 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return mapper.packageDate(vo);
 	}
 
+	@Override
+	public BachelorScheduleVO registerDate(BachelorScheduleVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.registerDate(vo);
+	}
+
 }

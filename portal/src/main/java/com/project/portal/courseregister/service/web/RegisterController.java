@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.courseregister.service.RegisterService;
 import com.project.portal.courseregister.service.RegisterVO;
@@ -27,15 +28,18 @@ public class RegisterController {
 
 	@Autowired
 	RegisterService service;
+	@Autowired
+	BachelorScheduleService scheduleService;
+	
 
 	// 학생 정보, 강의 리스트, 신청한 강의 리스트
 	@RequestMapping("/student/courseRegister")
-	public String Register(Model model, RegisterVO vo, HttpSession session) {
+	public String Register(Model model, RegisterVO vo, HttpSession session, BachelorScheduleVO bvo) {
 
 		vo.setStudentId((int) session.getAttribute("id"));
 		vo.setCourseYear((int) session.getAttribute("year"));
 		vo.setCourseSemester((int) session.getAttribute("semester"));
-		
+		System.out.println(vo);
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
 
@@ -50,6 +54,12 @@ public class RegisterController {
 
 		RegisterVO registerAllCredit = service.registerAllCredit(vo);
 		model.addAttribute("registerAllCredit", registerAllCredit);
+		
+//		BachelorScheduleVO packageDate = scheduleService.packageDate(bvo);
+//		model.addAttribute("packageDate", packageDate);
+//		
+//		BachelorScheduleVO registerDate = scheduleService.registerDate(bvo);
+//		model.addAttribute("registerDate", registerDate);
 		
 		return "student/register/register";
 	}

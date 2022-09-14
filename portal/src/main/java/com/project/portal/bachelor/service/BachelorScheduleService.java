@@ -18,6 +18,9 @@ public interface BachelorScheduleService {
 	//강의계획서 날짜 불러오기
 	BachelorScheduleVO yearSemester(BachelorScheduleVO vo);
 	
-	//수강꾸러미
+	// 수강꾸러미 날짜 불러오기
 	BachelorScheduleVO packageDate(BachelorScheduleVO vo);
+	
+	// 수강신청 날짜 불러오기
+	BachelorScheduleVO registerDate(BachelorScheduleVO vo);
 }

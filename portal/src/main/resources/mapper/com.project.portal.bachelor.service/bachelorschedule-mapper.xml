@@ -97,7 +97,21 @@
 	            FROM bachelor_schedule
 	            WHERE detail_code = 'REG00'
 	                AND SYSDATE  > schedule_start_date )
-	    AND ROWNUM = 1
+	       AND ROWNUM = 1
+	</select>
+	
+	<select id="registerDate" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
+		SELECT  year, 
+				semester,
+				schedule_start_date, 
+				schedule_end_date
+	  	  FROM bachelor_schedule
+	  	 WHERE schedule_start_date = (
+	            SELECT MAX(schedule_start_date)
+	            FROM bachelor_schedule
+	            WHERE detail_code = 'REG01'
+	                AND SYSDATE  > schedule_start_date )
+	       AND ROWNUM = 1
 	</select>
 	
 	
