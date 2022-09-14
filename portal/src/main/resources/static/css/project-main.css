@@ -8,6 +8,24 @@
 	box-shadow: 0px 5px 21px -5px #CDD1E1;
 }
 
+#headNav ul {
+	width: 18%;
+}
+
+#headNav li {
+	width: 50%;
+	margin: 2%;
+	padding: 0%;
+	border: 1px solid #435ebe;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#headNav i, #headNav a {
+	font-weight: bold;
+	font-size: small;
+}
+
 #noticeFragment ul {
 	padding: 0;
 	list-style: none;
@@ -311,8 +329,9 @@ input[name="tabs"]+.tabmenu {
 
 .grid-container-five {
 	display: grid;
-	grid-template-columns: auto auto auto auto auto;
+	grid-template-columns: 20% 20% 20% 20% 20%;
 	padding: 1%;
+	min-height: 40vh;
 }
 
 .grid-item {
@@ -326,11 +345,20 @@ input[name="tabs"]+.tabmenu {
 	border-radius: 5px;
 	overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis " [..]";
+	text-overflow: ellipsis;
 }
 
 .grid-border p {
 	margin-bottom: 0.2rem !important;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.grid-border a {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .grid-border:hover {

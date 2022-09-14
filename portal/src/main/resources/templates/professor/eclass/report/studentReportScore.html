@@ -15,7 +15,7 @@
 			<div class="page-title">
 				<h3>수강생 과제 관리</h3>
 			</div>
-			<div class="card height-sevenh">
+			<div class="card height-eight">
 				<div class="card-header">
 					<form th:action="@{/professor/eclass/studentScore}">
 						<input type="hidden" name="amount"
@@ -37,7 +37,7 @@
 						th:classappend="${reportCode == null or reportCode == ''} ? hidePage">
 						일괄 입력</button>
 				</div>
-				<div class="card-body board-scroll">
+				<div class="card-body">
 					<table class="table">
 						<thead class="thead-primary">
 							<tr>
@@ -144,6 +144,10 @@
 			function updateWeekScore() {
 				let subList = [];
 				let score = false;
+				if ($(".scoreBtn").length == 0) {
+					fireSwal("warning", "성적을 입력할 학생이 없습니다.");
+					score = true;
+				}
 				$(".scoreBtn").each((idx, val) => {
 					let code = $(val).data("code");
 					let subScore = $("#score-" + code).val();

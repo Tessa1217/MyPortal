@@ -77,7 +77,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<div id="modalBody"></div>
+							<div id="tableFragment"></div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -141,7 +141,7 @@
 					url : `/professor/eclass/reportFileList`,
 					data : data,
 					success : function(fragment) {
-						$("#modalBody").replaceWith(fragment);
+						$("#tableFragment").replaceWith(fragment);
 					}
 				})
 			}
