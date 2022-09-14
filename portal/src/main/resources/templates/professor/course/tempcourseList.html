@@ -48,22 +48,13 @@ text-align : center;
 			<div class="page-title">
 				<h2>강의 계획서 조회</h2>
 			</div>
-			<br>
+			<br><br>
+			
 			<h5 th:text="|강의계획서 등록 및 제출기간 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
 				<h5 th:text="|현재년도 학기  : ${yearSemester.year}년도 ${yearSemester.semester}학기|"></h5>
-			<div class="card-body">
+				<div class="card">
+			<div class="card-header">
 			<form name="searchFrm" class="form-horizontal">
-			<!-- <input type="hidden" name="pageNum" value="1"> <input
-                     type="hidden" name="amount" value="10">
-					 <select id="type" name="type">
-						<option value="course_year">개설연도</option>
-						<option value="course_semester">개설학기</option>
-					</select>  
-					
-					
-					
-					<input type="number" name="keyword" id="keyword"> -->
-					
 					<label for="type">개설연도</label> <input type="number" id="type"
                      class="form-control inline width-three" name="type"
                      th:value="${year}"  > <label for="keyword">개설학기</label> <select
@@ -76,11 +67,10 @@ text-align : center;
 
 				</form>
 				
-			
+			</div>
 				
-				<br>
-				<br>
-				<table class="table" id="table123">
+				<div class="card-body"></div>
+				<table class="table table-hover" id="table123">
 					<thead class="thead-primary">
 						<tr>
 							<th>강의코드</th>
@@ -92,16 +82,15 @@ text-align : center;
 							<th>제출여부</th>
 							<th>승인여부</th>
 							<th>비승인 사유</th>
-							<th>상세보기</th>
-							<th>제출하기</th>
-							<th>강의계획서 삭제</th>
 							
 
 						</tr>
 					</thead>
 					<tbody class="tbody-center">
 
-						<tr th:each="item:${tempcourseList}">
+						<tr th:each="item:${tempcourseList}"
+						th:onclick="|location.href='@{/professor/getTemp/{courseCode}(courseCode = ${item.courseCode})}'|"
+						>
 							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseYear}"></td>
 							<td th:text="${item.courseSemester}"></td>
@@ -120,21 +109,8 @@ text-align : center;
 							<button th:if="${item.backReason != null}" id="backReason"
 								th:data-coursecod="${item.courseCode}"
 								th:data-code="비승인"
-								class="btn btn-secondary backReasonWhy" data-toggle="modal"
+								class="btn btn-secondary btn-sm backReasonWhy" data-toggle="modal"
 								data-target="#backReasonWhy">비승인</button></td>
-
-							<td><a th:href="|/professor/getTemp/${item.courseCode}|"
-										th:text="상세보기" th:data-courseName="${item.courseCode}"
-										class="btn btn-primary"></a></td>
-							<td><button th:disabled="${item.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
-									name="button1" class="btn btn-primary moddd"
-									th:data-course="${item.courseCode}">제출하기</button></td>
-									
-									
-									 <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}"
-									 th:disabled="${item.submitYes}=='SUB' and ${item.okayYes}=='A00' or ${item.okayYes}=='A01'"
-									 >삭제</button></td>
-									 
 						</tr>
 
 					</tbody>
@@ -170,10 +146,9 @@ text-align : center;
                </div>
 			
 			
+				</div>
 				
 				
-				
-				<div align="right">
 				
 				
 				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
@@ -181,9 +156,7 @@ text-align : center;
 				
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
 				style="margin-right:1%;" th:disabled="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의 계획서 등록</button>
-					</div>
 			</div>
-		</div>
 		
 
 		
@@ -312,7 +285,9 @@ text-align : center;
 			
 				//비승인 사유 모달창  열기
 				 function backReasonWhy(){
-					$(".backReasonWhy").on("click", function(){
+					$(".backReasonWhy").on("click", function(e){
+						
+						e.stopPropagation();
 						let courseCode = $(this).data("coursecod")
 						
 					$.ajax({
