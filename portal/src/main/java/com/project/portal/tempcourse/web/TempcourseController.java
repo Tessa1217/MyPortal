@@ -120,7 +120,7 @@ public class TempcourseController {
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
 		model.addAttribute("year", vooo.getYear());
 		model.addAttribute("semester", vooo.getSemester());
-		
+		model.addAttribute("yearSemester", schedule.yearSemester(vooo));
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); //강의계획서불러오기
 		model.addAttribute("tempcourseweekListList", list4); //SemesterVO에서 가져오기

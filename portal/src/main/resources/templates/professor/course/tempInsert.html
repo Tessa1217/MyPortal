@@ -72,7 +72,7 @@
 											<label>강의 년도</label>
 										</div>
 										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" name="courseYear" required th:value="${year}">
+											<input type="number" class="form-control" name="courseYear" required th:value="${yearSemester.year}">
 										</div>
 										<div class="col-md-4">
 											<label>강의 학기</label>
@@ -82,8 +82,8 @@
 													class="form-control" required>
 													<option class="hidden" value=""
 														th:text="선택"></option>
-													<option th:value="1" th:text="1학기" th:selected="${semester==1}"></option>
-													<option th:value="2" th:text="2학기" th:selected="${semester==2}"></option>
+													<option th:value="1" th:text="1학기" th:selected="${yearSemester.semester==1}"></option>
+													<option th:value="2" th:text="2학기" th:selected="${yearSemester.semester==2}"></option>
 												</select>
 										</div>
 										
@@ -149,7 +149,7 @@
 										</div>
 										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" name="courseLimit"
-											id="courseLimit"	min='0' max='200' required>
+											id="courseLimit"	min='1' max='200' required>
 										</div>
 										</div>
 										</div>
@@ -279,7 +279,7 @@
 						<label class="modal-title" id="staticBackdropLabel">승인된 강의계획서 리스트</label>
 					</div>
 					<div class="modal-body">
-					<form name="searchFrm" id="searchFrm" class="form-horizontal">
+					<form name="searchFrm" id="searchFrm" class="form-horizontal searchFrm">
 					<label for="type">개설연도</label> <input type="number" id="type"
                      class="form-control inline width-three" name="type"
                      th:value="${year}"> <label for="keyword">개설학기</label> <select
@@ -397,7 +397,6 @@
 				showPage();
 				aaaaa();
 				modalOff();
-				aaa();
 
 			})
 			
@@ -437,7 +436,7 @@
 			
 			 //모달창 검색 안꺼지게
 		
-				$(".searchh").on("click", function(e) {
+				$(".searchFrm").on("submit", function() {
 					
 					$('#bringme').modal('show');
 					
