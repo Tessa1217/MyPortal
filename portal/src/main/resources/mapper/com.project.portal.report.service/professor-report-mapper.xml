@@ -299,4 +299,9 @@
 			SET report_score = #{reportScore}
 			WHERE report_submission_code = #{reportSubmissionCode}
 	</update>
+	
+	
+	<select id="getStudentObjectionList" resultType="ReportObjectionVO">
+	
+	</select>
 </mapper>

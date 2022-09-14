@@ -13,6 +13,7 @@ import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ProfessorReportMapper;
 import com.project.portal.report.service.ProfessorReportService;
 import com.project.portal.report.service.ReportFileVO;
+import com.project.portal.report.service.ReportObjectionVO;
 import com.project.portal.report.service.ReportSubmissionVO;
 import com.project.portal.report.service.ReportVO;
 import com.project.portal.student.service.StudentVO;
@@ -107,6 +108,12 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	@Override
 	public int getFileTotal(ReportFileVO vo, Criteria cri) {
 		return mapper.getFileTotal(vo, cri);
+	}
+
+	@Override
+	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getStudentObjectionList(vo);
 	}
 
 }
