@@ -7,8 +7,6 @@ public interface AdminMapper {
 	
 	AdminVO adminInfoSelect(AdminVO vo);
 	
-	void updateAdminInfo(AdminVO vo);
-	
 	int adminInfoUpdate(AdminVO vo);
 	
 }
