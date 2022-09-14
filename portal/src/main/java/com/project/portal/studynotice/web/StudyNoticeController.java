@@ -167,6 +167,7 @@ public class StudyNoticeController {
 		// 해당 공지사항글 번호
 		vo.setCourseCode((String) session.getAttribute("courseCode"));
 		vo.setCourseNoticeNo(courseNoticeNo);
+		System.out.println(service.selectProDetailStudyNotice(vo));
 		model.addAttribute("selectFile", service.selectFile(vo));
 		model.addAttribute("selectProDetailStudyNotice", service.selectProDetailStudyNotice(vo));
 		return "professor/eclass/notice/eclassnoticemodify";
