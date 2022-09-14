@@ -8,6 +8,37 @@
 	box-shadow: 0px 5px 21px -5px #CDD1E1;
 }
 
+#noticeFragment ul {
+	padding: 0;
+	list-style: none;
+}
+
+#noticeFragment li {
+	border-bottom: 1px solid #eee;
+}
+
+#noticeFragment li:last-of-type {
+	border: none;
+}
+
+#noticeFragment .div-label {
+	display: block;
+	width: 20%;
+	background: #004c86;
+	color: white;
+	text-align: center;
+	margin-bottom: 0.5%;
+}
+
+#noticeFragment .date {
+	float: right;
+}
+
+#noticeFragment a {
+	text-decoration: none;
+	color: #25396f;
+}
+
 .table-hover {
 	cursor: pointer;
 }
@@ -23,13 +54,24 @@
 }
 
 .originalFileBox {
-	border: 1px solid #ddd; 
+	border: 1px solid #ddd;
 	padding: 1%;
-	margin-bottom:0;
+	margin-bottom: 0;
 }
 
 .table-margin {
 	margin-top: 5%;
+}
+
+.no-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 50vh;
+}
+
+.left {
+	text-align: left;
 }
 
 .page-title {
@@ -104,13 +146,13 @@ input[name="tabs"] {
 	color: #435ebe;
 	font-weight: bold;
 	text-align: center;
-	line-height: 50px; 
+	line-height: 50px;
 }
 
 .tabmenu:hover {
 	background: #435ebe;
 	color: #fff;
-	cursor: pointer; 
+	cursor: pointer;
 }
 
 .active {
@@ -165,7 +207,7 @@ input[name="tabs"]+.tabmenu {
 }
 
 .no-content-box {
-	padding:  2%;
+	padding: 2%;
 	border: 1px solid #eee;
 	margin: 2%;
 	border-radius: 10px;
@@ -288,7 +330,7 @@ input[name="tabs"]+.tabmenu {
 }
 
 .grid-border p {
-	margin-bottom: 0.2rem!important;
+	margin-bottom: 0.2rem !important;
 }
 
 .grid-border:hover {
@@ -330,10 +372,8 @@ input[name="tabs"]+.tabmenu {
 	transform: scale(1.05);
 	transition-duration: 0.5s;
 } */
-
 .cardForm {
-	height : 95vh;
-	
+	height: 95vh;
 }
 
 .testContainer {
@@ -346,16 +386,16 @@ input[name=examQuestionPoint] {
 }
 
 .questionBox {
-	margin-bottom: 0px!important;
-	padding: 1%!important;
+	margin-bottom: 0px !important;
+	padding: 1% !important;
 }
 
 .newQuestion {
-	margin-bottom: 0px!important;
+	margin-bottom: 0px !important;
 }
 
-.newQuestion .form-control{
-	padding: 0px!important;
+.newQuestion .form-control {
+	padding: 0px !important;
 }
 
 .width-one {
@@ -435,10 +475,10 @@ input[name=examQuestionPoint] {
 }
 
 #bookmark {
-	position: fixed; 
-	top: 10%; 
+	position: fixed;
+	top: 10%;
 	left: 80%;
-	border-left : 3px solid #25396f;
+	border-left: 3px solid #25396f;
 }
 
 #bookmark h6 {
@@ -447,8 +487,8 @@ input[name=examQuestionPoint] {
 }
 
 #bookmark a {
-	text-decoration : nonte;
-	color : #25396f;
+	text-decoration: nonte;
+	color: #25396f;
 }
 
 .lectureNoteCard {
@@ -514,13 +554,13 @@ input[name=examQuestionPoint] {
 }
 
 .mainCard:hover {
-	transform : scale(1.1);
-	transition : 1s;
+	transform: scale(1.1);
+	transition: 1s;
 	cursor: pointer;
 }
 
 #goOutContainer {
-	float:right;
+	float: right;
 	margin: 2%;
 }
 
@@ -577,7 +617,7 @@ input[name=examQuestionPoint] {
 .padding-ten {
 	padding-left: 10%;
 	padding-right: 10%;
-	padding-top : 3%;
+	padding-top: 3%;
 	padding-bottom: 3%;
 }
 
@@ -590,4 +630,3 @@ form[name=frm_year] {
 	width: 100%;
 	padding: 3%;
 }
-

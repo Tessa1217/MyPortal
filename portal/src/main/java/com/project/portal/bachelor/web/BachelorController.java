@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.portal.bachelor.service.BachelorGroupVO;
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.service.impl.CodeServiceImpl;
@@ -29,6 +31,11 @@ public class BachelorController {
 	@Autowired BachelorScheduleService service;
 	@Autowired CodeServiceImpl codeService;
 	
+	@ModelAttribute("codeList")
+	public List<BachelorGroupVO> getCodeList() {
+		return service.getScheduleCode();
+	}
+	
 	// 학사일정 조회
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
 	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo, HttpSession session) {
@@ -39,7 +46,6 @@ public class BachelorController {
 			vo.setSemester((int)session.getAttribute("semester"));
 		}
 		int command = setCommand(requestURI);
-		
 		model.addAttribute("command", command);
 		model.addAttribute("year", vo.getYear());
 		model.addAttribute("scheduleList", service.scheduleList(vo));

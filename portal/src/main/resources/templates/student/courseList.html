@@ -17,8 +17,10 @@
 
 			<!-- 수강중인 강의 리스트가 없는 경우 -->
 			<div th:if="${mycourseList.isEmpty()}">
-				<div class="card">
-					<h3>수강중인 강의가 없습니다.</h3>
+				<div class="card height-five">
+					<div class="card-body no-content">
+						<h4>수강중인 강의가 없습니다.</h4>
+					</div>
 				</div>
 			</div>
 

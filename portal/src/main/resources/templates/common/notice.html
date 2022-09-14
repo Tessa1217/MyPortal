@@ -33,30 +33,30 @@
 						</form>
 					</th:block>
 					<table class="table table-hover table-margin">
-						<thead>
+						<thead class="thead-primary">
 							<tr>
 								<th class="center">번호</th>
 								<th class="center width-three">제목</th>
 								<th class="center">작성일</th>
 								<th class="center">수정일</th>
-								<th class="center">공개</th>
+								<th th:if="${command == 3}"class="center">공개</th>
 								<th class="center">조회수</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="tbody-center">
 							<th:block th:each="notice, idx : ${noticeList}"
 							th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
 								<tr th:object="${notice}" th:onclick="|location.href='@{/{command}/detailNotice/{noticeNo}(command = ${command}, noticeNo = ${notice.noticeNo})}'|">
-									<td class="center" th:text="${notice.noticeNo}"></td>
-									<td th:text="*{noticeTitle}"></td>
-									<td class="center"
+									<td th:text="${notice.noticeNo}"></td>
+									<td class="left" th:text="*{noticeTitle}"></td>
+									<td 
 										th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
-									<td class="center"
+									<td 
 										th:text="*{noticeModDate} != null ? ${#dates.format(notice.noticeModDate, 'yyyy-MM-dd')} : '-'"></td>
-									<th:block th:each="open : ${codeMap.get('O01')}">
-									<td th:class="center" th:if="${open.detailCode == notice.noticePrivate}" th:text="${open.detailName}"></td>
+									<th:block th:if="${command == 'admin'}" th:each="open : ${codeMap.get('O01')}">
+										<td th:if="${open.detailCode == notice.noticePrivate}" th:text="${open.detailName}"></td>
 									</th:block>
-									<td class="center" th:text="${notice.noticeHit}"></td>
+									<td th:text="${notice.noticeHit}"></td>
 								</tr>
 							</th:block>
 						</tbody>

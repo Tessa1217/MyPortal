@@ -20,4 +20,6 @@ public interface BachelorScheduleService {
 	
 	//수강꾸러미
 	BachelorScheduleVO packageDate(BachelorScheduleVO vo);
+	
+	List<BachelorGroupVO> getScheduleCode();
 }

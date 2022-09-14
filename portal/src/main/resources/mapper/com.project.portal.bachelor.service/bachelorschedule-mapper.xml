@@ -99,6 +99,27 @@
 	                AND SYSDATE  > schedule_start_date )
 	    AND ROWNUM = 1
 	</select>
-	
-	
+	<resultMap id="scheduleMap" type="BachelorGroupVO">
+		<id property="groupCode" column="group_code"/>
+		<result property="groupName" column="group_name"/>
+		<result property="groupDescription" column="group_description"/>
+		<collection property="detailList" ofType="BachelorDetailVO">
+			<id property="detailCode" column="detail_code"/>
+			<result property="detailName" column="detail_name"/>
+			<result property="detailDescription" column="detail_description"/>
+			<result property="groupCode" column="group_code"/>
+		</collection>
+	</resultMap>
+	<select id="getScheduleCode" resultMap="scheduleMap">
+		SELECT 
+			g.group_code,
+			g.group_name,
+			g.group_description,
+			d.detail_code,
+			d.detail_name,
+			d.detail_description,
+			d.group_code
+			FROM bachelor_group G JOIN bachelor_detail D
+			ON g.group_code = d.group_code
+	</select>
 </mapper>

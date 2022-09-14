@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.portal.bachelor.service.BachelorGroupVO;
 import com.project.portal.bachelor.service.BachelorScheduleMapper;
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
@@ -52,6 +53,11 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	public BachelorScheduleVO packageDate(BachelorScheduleVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.packageDate(vo);
+	}
+
+	@Override
+	public List<BachelorGroupVO> getScheduleCode() {
+		return mapper.getScheduleCode();
 	}
 
 }
