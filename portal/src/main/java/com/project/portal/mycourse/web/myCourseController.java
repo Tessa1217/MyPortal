@@ -51,7 +51,7 @@ public class myCourseController {
 	@Autowired
 	CourseService courseService;
 	@Autowired
-	BachelorScheduleService schedule;
+	BachelorScheduleService scheduleService;
 	@Autowired
 	CodeService codeService;
 
@@ -75,7 +75,7 @@ public class myCourseController {
 		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
-		model.addAttribute("gradeYearSemester", schedule.gradeYearSemester(voo));
+		model.addAttribute("gradeYearSemester", scheduleService.gradeYearSemester(voo));
 //		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
 		return "student/info/semesterGrade";
 	}
@@ -85,22 +85,22 @@ public class myCourseController {
 	@RequestMapping("student/courseList")
 	public String getstuMyCourse(MyCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model,
 			HttpSession session) {
-		schedule.setDetailCode("BPLAN00");
-		course = cservice.getYearSemester(schedule);
+		schedule = scheduleService.currentYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
-		System.out.println(service.getstuMyCourse(vo, course));
+		course.setCourseYear(schedule.getYear());
+		course.setCourseSemester(schedule.getSemester());
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
-
 		return "student/courseList";
 	}
 
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
-	public String getProfMyCourse(myProfCourseVO vo, BachelorScheduleVO schedule, Model model, HttpSession session) {
+	public String getProfMyCourse(myProfCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model, HttpSession session) {
 
-		schedule.setDetailCode("BPLAN00");
-		CourseVO course = cservice.getYearSemester(schedule);
+		schedule = scheduleService.currentYearSemester(schedule);		
 		course.setProfessorId((int) session.getAttribute("id"));
+		course.setCourseYear(schedule.getYear());
+		course.setCourseSemester(schedule.getSemester());
 		model.addAttribute("mycourseList", service.getProfMyCourse(course));
 		return "professor/courseList";
 	}

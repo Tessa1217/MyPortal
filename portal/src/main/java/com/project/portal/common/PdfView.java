@@ -32,7 +32,7 @@ public class PdfView extends AbstractView {
 											HttpServletRequest request,
 											HttpServletResponse response) throws Exception {
 		
-		String url = "jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal";
+		String url = "jdbc:oracle:thin:@portal_high?TNS_ADMIN=/Users/tessa/Wallet_portal";
 		String id = "ADMIN";
 		String pw = "finalProject@1234";
 		
