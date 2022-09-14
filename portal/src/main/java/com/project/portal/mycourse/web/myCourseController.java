@@ -88,6 +88,7 @@ public class myCourseController {
 		schedule.setDetailCode("BPLAN00");
 		course = cservice.getYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
+		System.out.println(service.getstuMyCourse(vo, course));
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
 
 		return "student/courseList";
