@@ -334,8 +334,13 @@
             	} ,
 
             success : function(data) {
-            	alert('답변이 등록 되었습니다.')
-            	location.href="/professor/eclass/courseQuestion"
+            	fireSwal('success', '답변이 등록되었습니다.')
+	            	.then((result) => {
+	            		if (result.isConfirmed) {
+	            			location.href="/professor/eclass/courseQuestion"
+	            		}
+	            	})
+            	
             }
  		}) 
  	})
