@@ -84,9 +84,9 @@
 										<label for="scheduleContent">일정</label>
 										<input type="text" class="form-control" name="scheduleContent" id="scheduleContent">
 										<label for="scheduleStartDate">시작일</label> <input class="form-control" type="date"
-											id="scheduleStartDate" name="schedule_start_date"> <label
+											id="scheduleStartDate" name="scheduleStartDate"> <label
 											for="scheduleEndDate">마감일</label> <input class="form-control" type="date"
-											id="scheduleEndDate" name="schedule_end_date">
+											id="scheduleEndDate" name="scheduleEndDate">
 										<hr>
 										<label for="year">연도</label>
 										<input type="number" class="form-control" name="year" id="year" style="width : 40%; display: inline">
@@ -155,7 +155,24 @@
 			$(function() {
 				changeView();
 				$("#view").trigger('change');
+				insertYearSem();
 			})
+			
+			// 시작일 기준 연도, 학기 받아오기
+			function insertYearSem() {
+				$("input[name=scheduleStartDate]").on("change", function(e) {
+					let start = $(e.target).val();
+					$.ajax({
+						method : 'POST',
+						url : ``,
+						data : {scheduleStartDate : start},
+						success : function(result) {
+							$("input[name=year]").val(result.year);
+							$("input[name=semester]").val(result.semester);
+						}
+					})
+				})
+			}
 		
 			// 
 				function changeView() {
