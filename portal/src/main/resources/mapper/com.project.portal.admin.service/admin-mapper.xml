@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.project.portal.admin.service.AdminMapper">
+	<select id="adminInfoSelect" resultType="AdminVO">
+		SELECT admin_id,
+						admin_name,
+						admin_addr,
+						admin_daddr,
+						admin_postal_code,
+						admin_phone,
+						admin_email
+						FROM ADMIN
+						WHERE admin_id = #{adminId}
+	</select>
+	<update id="updateAdminInfo" parameterType="AdminVO">
+		UPDATE
+			ADMIN
+			SET admin_addr = #{adminAddr},
+					admin_daddr = #{adminDaddr},
+					admin_postal_code = #{adminPostalCode},
+					admin_phone = #{adminPhone},
+					admin_email = #{adminEmail}
+			WHERE admin_id = #{adminId}
+	</update>
+</mapper>
