@@ -16,6 +16,7 @@ import com.project.portal.mycourse.service.MyCourseService;
 import com.project.portal.mycourse.service.MyCourseVO;
 import com.project.portal.mycourse.service.myCourseDetailVO;
 import com.project.portal.mycourse.service.myProfCourseVO;
+import com.project.portal.studynotice.service.StudyNoticeVO;
 
 
 @Service
@@ -88,6 +89,12 @@ public class MyCourseServiceImpl implements MyCourseService {
 	@Override
 	public String getCourseName(String courseCode) {
 		return mapper.getCourseName(courseCode);
+	}
+
+	@Override
+	public List<StudyNoticeVO> getStudyNoticeList(String courseCode) {
+		// TODO Auto-generated method stub
+		return mapper.getStudyNoticeList(courseCode);
 	}
 
 //	public int getTotal(MyCourseVO vo) {

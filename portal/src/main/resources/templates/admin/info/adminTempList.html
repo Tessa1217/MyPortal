@@ -116,7 +116,7 @@ background-color : white;
 							<td><a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button
 										th:text="상세보기" th:data-courseName="${item.courseCode}"
 										class="btn btn-primary"></button></a></td>
-							<td><button th:disabled="${item.okayYes}=='A00' or ${bache.detailCode} == 'PROF00'"
+							<td><button th:disabled="${item.okayYes}=='A00' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 									name="button1" class="btn btn-danger moddd"
 									th:data-course="${item.courseCode}">승인</button>
 									

@@ -85,11 +85,11 @@ text-align : center;
 										<td th:if="${tempcourse.backReason == '비승인'}" id="backReason"
 											th:data-code="비승인">비승인</td>
 											
-										<td><button th:disabled="${tempcourse.okayYes}=='A00' or ${bache.detailCode} == 'PROF00'"
+										<td><button th:disabled="${tempcourse.okayYes}=='A00' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 												name="button1" class="btn btn-danger moddd"
 												th:data-course="${tempcourse.courseCode}">승인</button>
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<button th:disabled="${tempcourse.backReason}=='비승인' or ${bache.detailCode} == 'PROF00'"
+										<button th:disabled="${tempcourse.backReason}=='비승인'"
 												name="button1" class="btn btn-secondary backReasonWhy"
 												th:data-course="${tempcourse.courseCode}">비승인</button></td>
 									</tr>

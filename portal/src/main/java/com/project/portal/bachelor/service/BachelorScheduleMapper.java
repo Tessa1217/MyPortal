@@ -19,5 +19,7 @@ public interface BachelorScheduleMapper {
 	
 	//강의계획서 날짜 불러오기
 		BachelorScheduleVO yearSemester(BachelorScheduleVO vo);
+		
+		BachelorScheduleVO packageDate(BachelorScheduleVO vo);
 
 }

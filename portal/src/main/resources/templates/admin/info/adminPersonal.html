@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin_layout}">
+<head>
+<meta charset="UTF-8">
+<title>관리자 정보 조회</title>
+<style>
+.table2 th {
+	background-color: #435ebe;
+	color: white;
+	text-align: center;
+	width: 20%;
+}
+
+.table2 td {
+	text-align: left;
+}
+</style>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+	<th:block layout:fragment="adminContent">
+		<div id="main">
+			<div class="page-title">
+				<h3>관리자 정보 조회</h3>
+			</div>
+			<div class="card height-eight">
+				<div class="card-body">
+
+					<table class="table table2">
+						<tr>
+							<th>관리자번호</th>
+							<td colspan="3" th:text="${adminInfo.adminId}"></td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td colspan="3" th:text="${adminInfo.adminName}"></td>
+						</tr>
+						<tr>
+							<th>연락처</th>
+							<td colspan="3"><input type="text"
+								class="form-control phoneNumber" name="adminPhoneUpdate"
+								id="adminPhoneUpdate" th:value="${adminInfo.adminPhone}"></td>
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<td colspan="3"><input type="text" class="form-control"
+								name="adminEmailUpdate" id="adminEmailUpdate"
+								th:value="${adminInfo.adminEmail}"></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td colspan="3"><input type="text" onclick="kakaopost()"
+								class="form-control" name="adminAddrUpdate" id="adminAddrUpdate"
+								th:value="${adminInfo.adminAddr}"></td>
+						</tr>
+						<tr>
+							<th>상세주소</th>
+							<td><input type="text" class="form-control"
+								name="adminDaddrUpdate" id="adminDaddrUpdate"
+								th:value="${adminInfo.adminDaddr}"></td>
+							<th>우편번호</th>
+							<td><input type="text" class="form-control"
+								name="adminPostalCodeUpdate" id="adminPostalCodeUpdate"
+								th:value="${adminInfo.adminPostalCode}"></td>
+						</tr>
+					</table>
+					<div class="btnContainer">
+						<button class="btn btn-primary buttonmod" id="mod">수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(function() {
+				$("#mod").on("click", confirmModal)
+
+				function confirmModal() {
+					fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
+						if (result.isConfirmed) {
+							adminInfoUpdate();
+						}
+					})
+				}
+
+				function adminInfoUpdate() {
+					$.ajax({
+						url : "/admin/adminInfoUpdate",
+						method : "post",
+						dataType : "json",
+						data : {
+							"adminPhone" : $("#adminPhoneUpdate").val(),
+							"adminEmail" : $("#adminEmailUpdate").val(),
+							"adminAddr" : $("#adminAddrUpdate").val(),
+							"adminDaddr" : $("#adminDaddrUpdate").val(),
+							"adminPostalCode" : $("#adminPostalCodeUpdate")
+									.val(),
+						},
+						dataType : "json",
+						success : function(result) {
+							fireSwal('success', '수정이 완료되었습니다.');
+						}
+					});
+				}
+				$(document)
+						.on(
+								"keyup",
+								".phoneNumber",
+								function() {
+									$(this)
+											.val(
+													$(this)
+															.val()
+															.replace(/[^0-9]/g,
+																	"")
+															.replace(
+																	/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
+																	"$1-$2-$3")
+															.replace("--", "-"));
+								});
+
+			});
+
+			function kakaopost() {
+				new daum.Postcode({
+					oncomplete : function(data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+						// 예제를 참고하여 다양한 활용법을 확인해 보세요.
+						//선택시 입력값 세팅
+						$("input[name=adminAddrUpdate]").val(data.address);
+						$("input[name=adminDaddrUpdate]")
+								.val(data.buildingName);
+						$("input[name=adminPostalCodeUpdate]").val(
+								data.zonecode);
+					}
+				}).open();
+			}
+		</script>
+	</th:block>
+</body>
+</html>

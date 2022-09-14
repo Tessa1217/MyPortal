@@ -18,9 +18,15 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.adminInfoSelect(vo);
 	}
 
+//	@Override
+//	public void updateAdminInfo(AdminVO vo) {
+//		mapper.updateAdminInfo(vo);
+//	}
+
 	@Override
-	public void updateAdminInfo(AdminVO vo) {
-		mapper.updateAdminInfo(vo);
+	public AdminVO adminInfoUpdate(AdminVO vo) {
+		mapper.adminInfoUpdate(vo);
+		return mapper.adminInfoSelect(vo);
 	}
 	
 }

@@ -46,7 +46,7 @@ public class TempcourseController {
 	
 	// 단건조회(상세보기)(GET)
 	@RequestMapping("/professor/getTemp/{courseCode}")
-	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication) {
+	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,Criteria cri, HttpSession session, Authentication authentication, BachelorScheduleVO vooo) {
 		vo = service.getTemp(courseCode);
 
 		BachelorScheduleVO bac = new BachelorScheduleVO();
@@ -67,7 +67,8 @@ public class TempcourseController {
 		model.addAttribute("okayYes", codeService.getDetailList("A01"));
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-
+		model.addAttribute("yearSemester", schedule.yearSemester(vooo));
+		
 		logger.info(vo.getCourseCode());
 		return "/professor/course/getTemp";
 	}
@@ -85,7 +86,6 @@ public class TempcourseController {
 		BachelorScheduleVO bac = new BachelorScheduleVO();
 		vo.setCourseYear((int)session.getAttribute("year"));
 		vo.setCourseSemester((int)session.getAttribute("semester"));
-		Date dat = new Date();
 		
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		model.addAttribute("year", vo.getCourseYear());
@@ -225,7 +225,7 @@ public class TempcourseController {
 
 	// 괸라자 강의계획서 목록(GET)
 	@RequestMapping("/admin/adminTempList")
-	public String adminTempList(Model model, TempcourseVO vo, Criteria cri, HttpSession session) {
+	public String adminTempList(Model model, TempcourseVO vo, Criteria cri, HttpSession session, BachelorScheduleVO vooo) {
 
 		List<TempcourseVO> tempcourseList = service.adminTempList(vo, cri);
 		int total = service.tempcourseListCount(vo, cri);
@@ -239,13 +239,14 @@ public class TempcourseController {
 	    model.addAttribute("semester", vo.getCourseSemester());
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+		model.addAttribute("yearSemester", schedule.yearSemester(vooo));
 		System.out.println(tempcourseList);
 		return "/admin/info/adminTempList";
 	}
 
 	// 관리자 강의계획서 상세보기
 	@RequestMapping("/admin/adminGetTemp/{courseCode}")
-	public String adminGetTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo, Criteria cri) {
+	public String adminGetTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo, Criteria cri, BachelorScheduleVO vooo) {
 			vo = service.getTemp(courseCode);
 //			System.out.println(vo.getCourseCode());
 //			TempcourseVO tempcourseTest = service.getTemp(vo.getCourseCode());
@@ -264,7 +265,8 @@ public class TempcourseController {
 			model.addAttribute("okayYes", codeService.getDetailList("A01"));
 			model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 			model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-
+			model.addAttribute("yearSemester", schedule.yearSemester(vooo));
+			
 		logger.info(vo.getCourseCode());
 		return "/admin/info/adminGetTemp";
 	}
