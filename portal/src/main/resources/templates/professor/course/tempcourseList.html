@@ -153,9 +153,10 @@ text-align : center;
 				
 				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
 				style="margin-right:1%;" th:if="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의 계획서 등록</button> -->
-				
+				<div class="right">
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
 				style="margin-right:1%;" th:disabled="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의 계획서 등록</button>
+				</div>
 			</div>
 		
 

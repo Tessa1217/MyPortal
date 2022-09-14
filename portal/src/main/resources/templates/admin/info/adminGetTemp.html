@@ -49,12 +49,28 @@
 				<div class="card name">
 					<div class="card-header center">
 						<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
-						<div align="right">
-							<button type="button" style="margin-right: 2.5%;"
-								class="moddd btn btn-primary rounded-pill btn-md">승인</button>
-							<button type="button" style="margin-right: 10%;"
-								class="backReasonWhy btn btn-danger rounded-pill btn-md">비승인</button>
-						</div>
+						<table class="table">
+						<thead class="thead">
+									<tr>
+										<th>승인</th>
+										<th>비승인</th>
+										
+									</tr>
+								</thead>
+						<tbody class="tbody-center">
+						<tr>
+						<td><button type="button"
+								class="moddd btn btn-primary rounded-pill btn-md">승인</button></td>
+							<td><button type="button" 
+								class="backReasonWhy btn btn-danger rounded-pill btn-md">비승인</button></td>
+						
+						</tr>
+						</tbody>
+						
+						</table>
+						
+							
+						
 					</div>
 					<div class="card-body height-thirteen paging">
 						<form id="tempInfoForm" class="form form-horizontal">
@@ -188,6 +204,11 @@
 								</div>
 							</div>
 						</form>
+							<div class="card-footer center">
+						<button type="button"
+							onclick="location.href='/admin/adminTempList'"
+							class="btn btn-secondary">목록</button>
+					</div>
 					</div>
 					<div class="card-body height-thirteen paging hidePage">
 						<form
@@ -209,12 +230,13 @@
 								</tbody>
 							</table>
 						</form>
-					</div>
-					<div class="card-footer center">
+						<div class="card-footer center">
 						<button type="button"
 							onclick="location.href='/admin/adminTempList'"
 							class="btn btn-secondary">목록</button>
 					</div>
+					</div>
+					
 				</div>
 
 			</div>
