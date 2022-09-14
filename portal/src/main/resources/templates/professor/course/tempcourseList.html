@@ -162,51 +162,49 @@ text-align : center;
 
 		
 
-		<!-- 모달창 -->
-		<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
-			tabindex="-1" aria-labelledby="staticBackdropLabel"
-			aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-				<div class="modal-content">
+	<!-- 비승인 사유 모달창 -->
+      <div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+         tabindex="-1" aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+         <div
+            class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
 
-					<div class="modal-header">
-						<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
-					</div>
-					<div class="modal-body">
-						<div class="container my-auto">
-							<div class="row">
-								<div class="card z-index-0 fadeIn3 fadeInBottom">
-									<div class="card-body">
-										<table class="table">
-											<tr>
-												<th>비승인 사유</th>
-											
-											
-												<td id="backReason3"></td>
-												
-												<td id="backReason2" style="height:10em;"></td>
-												
-											
-												
-												
-												</tr>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
+               <div class="modal-header">
+                  <label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
+               </div>
+               <div class="modal-body">
+                  <div class="container my-auto">
+                     <div class="row">
+                        <div class="card z-index-0 fadeIn3 fadeInBottom">
+                           <div class="card-body">
+                              <table class="table table-bordered">   
+                              <div class="col-md-10 col-16">
+                                 <tr>
+                                    <th>비승인 사유</th>
+                                    <th>세부 내용</th>
+                                 </tr>
+                                 <tr>
+                                    <td id="backReason3" width="30%"></td>
+                                    <td id="backReason2" style="height:auto;"></td>
+                                    <!-- <td id="backReason3"></td> -->
+                                    </tr>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-						<div class="input-container modal-footer" align="center">
-							<!-- <button type="button" class="btn btn-outline-danger"
-								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
-							<button id="closeModal" type="button" class="btn btn-dark"
-								data-dismiss="modal">닫기</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                  <div class="input-container modal-footer">
+                     <!-- <button type="button" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal" aria-label="Close">확인</button> -->
+                     <button id="closeModal" type="button" class="btn btn-dark"
+                        data-dismiss="modal">닫기</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
 
 
   
