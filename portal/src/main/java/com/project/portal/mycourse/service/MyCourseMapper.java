@@ -11,6 +11,7 @@ import com.project.portal.exam.service.ExamScoreVO;
 import com.project.portal.exam.service.ExamVO;
 import com.project.portal.lecture.service.LectureVO;
 import com.project.portal.report.service.ReportVO;
+import com.project.portal.studynotice.service.StudyNoticeVO;
 
 @Mapper
 public interface MyCourseMapper {
@@ -38,6 +39,8 @@ public interface MyCourseMapper {
 	public List<ReportVO> getReportList(CourseVO vo);
 	// 이주 시험 조회
 	public List<ExamVO> getExamList(CourseVO vo);
+	// 최근 강의 공지사항 조회
+	public List<StudyNoticeVO> getStudyNoticeList(String courseCode);
 	
 	// 학생 학업 정보 조회
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo);

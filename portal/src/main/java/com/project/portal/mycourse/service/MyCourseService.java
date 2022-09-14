@@ -6,6 +6,7 @@ import java.util.Map;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.exam.service.ExamInfoVO;
 import com.project.portal.exam.service.ExamScoreVO;
+import com.project.portal.studynotice.service.StudyNoticeVO;
 
 public interface MyCourseService {
 	//학생 수강 조회
@@ -28,6 +29,8 @@ public interface MyCourseService {
 	public String getCourseName(String courseCode);
 	// 이주 게획 조회
 	public Map<String, Object> getWeeklyList(CourseVO vo);
+	// 최근 강의 공지사항 조회
+	public List<StudyNoticeVO> getStudyNoticeList(String courseCode);
 	
 	public List<MyCourseVO> studentStudyList(MyCourseVO vo);
 

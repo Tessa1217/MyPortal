@@ -32,7 +32,7 @@ public class ProgressRateController {
 		//model.addAttribute("reportProgressRate", Pservice.selectReportProgressRate(vo));
 		// 출석률 표시
 		System.out.println(Pservice.selectAttProgress(vo));
-		model.addAttribute("attRate", Pservice.selectAttProgress(vo));
+		model.addAttribute("attRate", Pservice.selectReportProgressRate(vo));
 		
 		// 시험정보 표시
 		model.addAttribute("examMidRate", Pservice.selectMidExamProgress(vo));

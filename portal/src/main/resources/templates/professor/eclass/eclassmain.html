@@ -210,7 +210,16 @@
 						<div class="card-header">
 							<h5>공지사항</h5>
 						</div>
-						<div class="card-body"></div>
+						<div class="card-body">
+							<ul th:each="courseNotice : ${courseNotice}">
+								<li>
+								<a th:text="${courseNotice.courseNoticeTitle}"
+								th:href="@{/professor/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}"></a>
+								</li>
+							</ul>
+						</div>
+						
+						
 					</div>
 				</div>
 			</div>
