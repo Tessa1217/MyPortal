@@ -148,6 +148,7 @@
 					fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
 						if (result.isConfirmed) {
 							studentInfoUpdate();
+							location.reload();
 						}
 					})
 				}
@@ -169,7 +170,9 @@
 							"parentsRel" : $("#parentsRelUpdate").val(),
 						},
 						success : function(result) {
-
+							location.reload();
+							fireSwal('success', '수정이 완료되었습니다.');
+						
 						}
 					});
 				}

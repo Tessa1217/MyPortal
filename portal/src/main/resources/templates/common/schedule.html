@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 
 
@@ -47,7 +48,9 @@
 							<dd>
 								<th:block th:each="list : ${scheduleList}">
 									<ul th:if="${list.month == i}">
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'"
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
 											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
 									</ul>
 								</th:block>
@@ -60,7 +63,9 @@
 							<dd>
 								<th:block th:each="list : ${scheduleList}">
 									<ul th:if="${list.month == i}">
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'"
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
 											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
 									</ul>
 								</th:block>
@@ -281,7 +286,9 @@
 						data : JSON.stringify(inputdata),
 						success : function(res) {
 						//	console.log(res)
+							fireSwal('success', '입력이 완료되었습니다.');
 							$("#allInsertModal").modal("hide");
+							location.reload();
 						},
 						error : function(err) {
 							$("#allInsertModal").modal("hide");
@@ -308,6 +315,7 @@
 						method : "post",
 						data : data,
 						success : function(result) {
+							fireSwal('success', '입력이 완료되었습니다.');
 							$("#insertModal").modal("hide");
 							location.reload();
 						// console.log(result);
