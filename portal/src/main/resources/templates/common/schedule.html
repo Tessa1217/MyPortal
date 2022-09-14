@@ -27,12 +27,12 @@
 						<br>
 						<form name="frm_year">
 							<!-- Button trigger modal -->
-							<button th:if="${command == 3}" type="button" class="btn btn-primary"
-								data-bs-toggle="modal" style="margin-right: 15px"
-								data-bs-target="#insertModal">등록</button>
-							<button th:if="${command == 3}" type="button" class="btn btn-primary"
-								data-bs-toggle="modal" style="margin-right: 15px"
-								data-bs-target="#allInsertModal">일괄등록</button>
+							<button th:if="${command == 3}" type="button"
+								class="btn btn-primary" data-bs-toggle="modal"
+								style="margin-right: 15px" data-bs-target="#insertModal">등록</button>
+							<button th:if="${command == 3}" type="button"
+								class="btn btn-primary" data-bs-toggle="modal"
+								style="margin-right: 15px" data-bs-target="#allInsertModal">일괄등록</button>
 							<button type="button" class="btn btn-primary prevButton"
 								th:onclick="prevYear()">◁</button>
 							<input type="number" name="year" id="year" th:value='${year}'
@@ -81,24 +81,28 @@
 								</div>
 								<div class="modal-body">
 									<form name="frm_insert">
-										<label for="scheduleContent">일정</label>
-										<input type="text" class="form-control" name="scheduleContent" id="scheduleContent">
-										<label for="scheduleStartDate">시작일</label> <input class="form-control" type="date"
-											id="scheduleStartDate" name="scheduleStartDate"> <label
-											for="scheduleEndDate">마감일</label> <input class="form-control" type="date"
-											id="scheduleEndDate" name="scheduleEndDate">
+										<label for="scheduleContent">일정</label> <input type="text"
+											class="form-control" name="scheduleContent"
+											id="scheduleContent"> <label for="scheduleStartDate">시작일</label>
+										<input class="form-control" type="date" id="scheduleStartDate"
+											name="scheduleStartDate"> <label
+											for="scheduleEndDate">마감일</label> <input class="form-control"
+											type="date" id="scheduleEndDate" name="scheduleEndDate">
 										<hr>
-										<label for="year">연도</label>
-										<input type="text" class="form-control" name="year" id="insertyear" style="width : 40%; display: inline" readonly>
-										<label for="semester" style="margin-left: 15px">학기</label>
-										<input type="text" class="form-control" name="semester" id="semester"style="width : 40%; display : inline" readonly>
+										<label for="year">연도</label> <input type="text"
+											class="form-control" name="year" id="insertyear"
+											style="width: 40%; display: inline" readonly> <label
+											for="semester" style="margin-left: 15px">학기</label> <input
+											type="text" class="form-control" name="semester"
+											id="semester" style="width: 40%; display: inline" readonly>
 										<hr>
-										<label for="detailCode">분류</label>
-										<select name="detailCode" id="detailCode" class="form-control">
+										<label for="detailCode">분류</label> <select name="detailCode"
+											id="detailCode" class="form-control">
 											<th:block th:each="list : ${codeList}">
 												<optgroup th:label="${list.groupName}">
 													<option th:each="detail : ${list.detailList}"
-													th:value="${detail.detailCode}" th:text="${detail.detailName}"></option>
+														th:value="${detail.detailCode}"
+														th:text="${detail.detailName}"></option>
 												</optgroup>
 											</th:block>
 										</select>
@@ -107,7 +111,8 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" th:onclick="Inputdata()">등록</button>
+									<button type="button" class="btn btn-primary"
+										th:onclick="Inputdata()">등록</button>
 								</div>
 							</div>
 						</div>
@@ -144,21 +149,21 @@
 					<div>
 						<table>
 							<tr>
-								
 						</table>
 					</div>
 				</div>
 			</div>
-			
+
 
 			<script
 				src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
-			
+
 			<script th:inline="javascript">
 			$(function() {
 				changeView();
 				$("#view").trigger('change');
 				insertYearSem();
+				banDate();
 			})
 			
 			// 시작일 기준 연도, 학기 받아오기
@@ -174,6 +179,18 @@
 							$("input[name=semester]").val(result.semester);
 						}
 					})
+				})
+			}
+			
+			function banDate() {
+				$("input[name=scheduleEndDate]").on("change", function(e) {
+					let start = $(e.target).val();
+					console.log($("#scheduleStartDate").val());
+					console.log(start);
+				if (start < $("#scheduleStartDate").val()) {
+					fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
+					$("#scheduleEndDate").val('')
+				}
 				})
 			}
 		
@@ -300,6 +317,6 @@
 			</script>
 		</div>
 	</th:block>
-	
+
 </body>
 </html>
