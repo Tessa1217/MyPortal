@@ -18,8 +18,8 @@
 			<div class="card">
 				<div class="card-header">
 					<select id="view" class="form-select width-three">
-						<option>달력</option>
 						<option>일정</option>
+						<option>달력</option>
 					</select>
 				</div>
 				<div class="row hidePage cal">
@@ -183,11 +183,8 @@
 						$(".cal").each((idx, val) => {
 							$(val).toggleClass('hidePage');
 						})
-					})
-				}
-			
 				// Fullcalendar
-				document.addEventListener('DOMContentLoaded', function() {
+			//	document.addEventListener('DOMContentLoaded', function() {
 					
 					var calendarEl = document.getElementById('fullCalendar');
 					var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -209,7 +206,7 @@
 					let aaa = parseInt($('#year').val()) + 1;
 					$('#plusYear').text(aaa + ' 년도');
 					
-				});
+			//	});
 				
 				function getData() {
 					return $.ajax({
@@ -217,6 +214,9 @@
 						url : `/getCalendar`
 					})
 				}
+					})
+				}
+			
 
 			// ◁ 버튼 클릭시 년도 -1
 				function prevYear() {
