@@ -3,15 +3,18 @@
 </head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-
-</style>
 </head>
 <body>
 	<div id="noticeFragment">
-			<p th:each="notice, idx : ${noticeList}"
-			th:text="${notice.noticeTitle}">
-			<p>
+		<ul>
+			<li th:each="notice, idx : ${noticeList}">
+				<span class="div-label" th:text="${notice.noticeDivision}"></span>
+				<a th:href="|@{{uri}/detailNotice/{noticeNo}(uri = ${#strings.replace(#request.requestURI, '/getNotice', '')}, noticeNo = ${notice.noticeNo})}|">
+					<span th:text="${notice.noticeTitle}"></span>
+					<span class="date" th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></span>
+				</a>
+			</li>
+		</ul>
 	</div>
 </body>
 </html>

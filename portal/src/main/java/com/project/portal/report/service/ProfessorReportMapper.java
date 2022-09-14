@@ -68,5 +68,8 @@ public interface ProfessorReportMapper {
 	
 	// 과제 성적 수정
 	void updateScore(ReportSubmissionVO sub);
+	
+	// 과제 이의신청 목록 조회
+	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo);
 
 }

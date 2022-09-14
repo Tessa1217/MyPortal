@@ -203,7 +203,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.reportAssignedScore}"
 													id="reportAssignedScore" name="reportAssignedScore"
-													class="form-control">
+													class="form-control" min='0' max='100' type="number">
 											</div>
 											<div class="col-md-4">
 												<label>출결 배점</label>
@@ -211,7 +211,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.attAssignedScore}"
 													id="attAssignedScore" name="attAssignedScore"
-													class="form-control">
+													class="form-control" min='0' max='100' type="number">
 											</div>
 										
 										
@@ -221,7 +221,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.midtermAssignedScore}"
 													id="midtermAssignedScore" name="midtermAssignedScore"
-													class="form-control">
+													class="form-control" min='0' max='100' type="number">
 											</div>
 											<div class="col-md-4">
 												<label>기말고사배점</label>
@@ -229,7 +229,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.finalAssignedScore}"
 													id="finalAssignedScore" name="finalAssignedScore"
-													class="form-control">
+													class="form-control" min='0' max='100' type="number">
 											</div>
 										
 										<div class="col-md-4">
@@ -237,7 +237,7 @@ text-align : center;
 										</div>
 										<div class="col-md-10 form-group">
 											<input th:value="${tempcourse.courseLimit}" id="courseLimit"
-												name="courseLimit" class="form-control">
+												name="courseLimit" class="form-control" min='1' max='200' type="number">
 										</div>
 										</div>
 										</div>
@@ -416,7 +416,7 @@ text-align : center;
 												</div>
 											<div class="col-md-10 col-16">
 											<tr>
-												<td id="backReason2" style="height:16em;"></td>
+												<td id="backReason2" style="height:10em;"></td>
 												
 											
 												
@@ -433,7 +433,7 @@ text-align : center;
 						<div class="input-container modal-footer">
 							<!-- <button type="button" class="btn btn-outline-danger"
 								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
-							<button id="closeModal" type="button" class="btn btn-secondary"
+							<button id="closeModal" type="button" class="btn btn-dark"
 								data-dismiss="modal">닫기</button>
 						</div>
 					</div>

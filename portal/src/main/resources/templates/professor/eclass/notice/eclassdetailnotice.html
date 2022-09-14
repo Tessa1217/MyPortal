@@ -36,8 +36,16 @@
 		
 				<tr>
 		<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
+									style="background-color: rgba(0, 0, 0, 0.05);">
+									<input type="hidden" id="courseNoticeNo" th:value="${selectProDetailStudyNotice.courseNoticeNo}">글번호</td>
+			<td th:text="${selectProDetailStudyNotice.courseNoticeNo}">
+			
+			</td>
+			
+	
+			
+		
+			
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
 			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
@@ -108,7 +116,7 @@
 		
 		// 삭제 버튼 처리
 		$('#Delete').click(function() {
-			var courseNoticeNo = $('#courseNoticeNo').text();
+			var courseNoticeNo = $('#courseNoticeNo').val();
 			console.log(courseNoticeNo)
 			$.ajax({
 				type : 'POST',
@@ -123,8 +131,8 @@
 		
 		// 수정 버튼 처리 (수정페이지로 이동)
 		$('#Modify').click(function() {
-			var courseNoticeNo = $('#courseNoticeNo').text();
-			location.href ="/professor/eclass/eclassnotice/" + courseNoticeNo + "/eclassnoticemodify" 
+			var courseNoticeNo = $('#courseNoticeNo').val();
+			location.href ='/professor/eclass/eclassnotice/' + courseNoticeNo + '/eclassnoticemodify' 
 		})
 		
 	</script>

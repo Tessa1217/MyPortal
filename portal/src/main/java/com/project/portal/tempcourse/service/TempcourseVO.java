@@ -30,6 +30,7 @@ public class TempcourseVO {
 	private String submitYesName;
 	private String okayYesName;
 	private String detailCode;
+	private String rejectionDetailCode;
 	
 	
 	
