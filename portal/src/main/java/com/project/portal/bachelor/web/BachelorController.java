@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.service.impl.CodeServiceImpl;
 import com.project.portal.tempcourse.web.TempcourseController;
 
 // 작성자: 김진형
@@ -26,6 +27,7 @@ public class BachelorController {
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
 	
 	@Autowired BachelorScheduleService service;
+	@Autowired CodeServiceImpl codeService;
 	
 	// 학사일정 조회
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})

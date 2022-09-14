@@ -192,4 +192,13 @@ public class ProfessorReportController {
 		return "success";
 	}
 	
+	//과제 이의신청 관리
+	@RequestMapping("/reportObjection")
+	public String getStudentObjectionList (Model model, HttpSession session) {
+		
+		
+		
+		return "professor/eclass/report/reportObjection";
+	}
+	
 }

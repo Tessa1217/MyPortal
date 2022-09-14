@@ -87,17 +87,17 @@
 	</select>
 	
 	<select id="packageDate" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		select year, 
+		SELECT  year, 
 				semester,
 				schedule_start_date, 
 				schedule_end_date
-	  	from bachelor_schedule
-	  	where schedule_start_date = (
-	            SELECT max(schedule_start_date)
+	  	  FROM bachelor_schedule
+	  	 WHERE schedule_start_date = (
+	            SELECT MAX(schedule_start_date)
 	            FROM bachelor_schedule
 	            WHERE detail_code = 'REG00'
-	                and sysdate  > schedule_start_date )
-	    and rownum = 1
+	                AND SYSDATE  > schedule_start_date )
+	    AND ROWNUM = 1
 	</select>
 	
 	

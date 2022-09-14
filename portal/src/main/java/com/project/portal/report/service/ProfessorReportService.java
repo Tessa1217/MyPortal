@@ -47,4 +47,7 @@ public interface ProfessorReportService {
 
 	// 과제 성적 수정
 	void updateScore(List<ReportSubmissionVO> subList);
+	
+	// 과제 이의신청 목록 조회
+	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo);
 }
