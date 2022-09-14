@@ -69,6 +69,7 @@
 						</dl>
 					</div>
 					<!-- Modal -->
+					<!-- 일정 단건 등록 모달 -->
 					<div class="modal fade" id="insertModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -80,10 +81,29 @@
 								</div>
 								<div class="modal-body">
 									<form name="frm_insert">
-										<label for="scheduleStartDate">시작일</label> <input type="date"
+										<label for="scheduleContent">일정</label>
+										<input type="text" class="form-control" name="scheduleContent" id="scheduleContent">
+										<label for="scheduleStartDate">시작일</label> <input class="form-control" type="date"
 											id="scheduleStartDate" name="schedule_start_date"> <label
-											for="scheduleEndDate">마감일</label> <input type="date"
+											for="scheduleEndDate">마감일</label> <input class="form-control" type="date"
 											id="scheduleEndDate" name="schedule_end_date">
+										<hr>
+										<label for="year">연도</label>
+										<input type="number" class="form-control" name="year" id="year" style="width : 40%; display: inline">
+										<label for="semester" style="margin-left: 15px">학기</label>
+										<input type="number" class="form-control" name="semester" id="semester"style="width : 40%; display : inline">
+										<hr>
+										<label for="detailCode">분류</label>
+										<select name="detailCode" id="detailCode" class="form-control">
+											<th:block>
+												<optgroup label="신청">
+												
+												</optgroup>
+												<optgroup label="공휴일">
+												
+												</optgroup>
+											</th:block>
+										</select>
 									</form>
 								</div>
 								<div class="modal-footer">
@@ -95,6 +115,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- 일정 단건 등록 모달 end -->
 					<!-- 일괄등록 모달 -->
 					<div class="modal fade" id="allInsertModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,6 +138,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- 일괄등록 모달 end-->
 				</div>
 				<div class="row hidePage cal">
 					<div class="col-12">
@@ -135,7 +157,7 @@
 				$("#view").trigger('change');
 			})
 		
-			
+			// 
 				function changeView() {
 					$(document).on('change', '#view', function() {
 						$(".cal").each((idx, val) => {
@@ -223,7 +245,7 @@
 					};
 					reader.readAsBinaryString(input.files[0]);
 				}
-
+				// 일괄 등록 ajax
 				function allInputdata() {
 					/* console.log(inputdata[0].detailCode); */
 					$.ajax({
