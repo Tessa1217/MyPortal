@@ -213,7 +213,7 @@
 		</div>
 		<script th:inline="javascript">
 
-			function creditTotalSum() {
+			function registerCreditTotalSum() {
 				let creditCount = 0;
 
 				Array.from(rSuccessBody.children).forEach(function (item) {
@@ -222,8 +222,8 @@
 				return creditCount;
 			}
 
-			function setTotalData() {
-				const creditCount = creditTotalSum();
+			function setRegisterTotalData() {
+				const creditCount = registerCreditTotalSum();
 				document.getElementById("cTotal").innerHTML = (20 - creditCount);
 			}
 
@@ -238,7 +238,7 @@
 				return creditCount;
 			}
 			// $(function(){
-			// 	setTotalData();
+			// 	setRegisterTotalData();
 			// })
 			// 자동입력방지 코드 생성
 			var keyList = "abcdefghABCDEFGH0123456789"
@@ -280,7 +280,7 @@
 				let that = oThis instanceof jQuery.Event ? $(this) : oThis;
 				let code = oThis instanceof jQuery.Event ? that.data("code") : that.getAttribute("th:data-code");
 				let name = oThis instanceof jQuery.Event ? that.data("name") : that.getAttribute("th:data-name");
-				let allCourseCredit = creditTotalSum();
+				let allCourseCredit = registerCreditTotalSum();
 				const selectCode = $(that)[0].parentElement.parentElement;
 				const selectNum = parseInt(selectCode.children[3].textContent);
 
@@ -319,6 +319,7 @@
 							+ "<td hidden>" + item.courseLimit + "</td>"
 							+ "<td><button type='button'	class='regDeleteButton btn rounded-pill btn-primary'	data-code= " + item.courseCode + ">취소</button></td></tr>";
 						$("#rSuccessBody").append(content);
+						setRegisterTotalData();
 						var rTable = document.getElementById("rTable");
 						var ableBtn = Array.from(rTable.children[1].children);
 						ableBtn.forEach(function (findDisabled) {
@@ -326,7 +327,6 @@
 								findDisabled.remove();
 							}
 						});
-						setTotalData();
 					},
 					error: function () {
 						fireSwal('warning', '이전에 수강하신 강의입니다.');
@@ -362,7 +362,7 @@
 								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
 							$("#rBody").append(cancel);
 							tr.remove();
-							setTotalData();
+							setRegisterTotalData();
 						}
 					});
 				}

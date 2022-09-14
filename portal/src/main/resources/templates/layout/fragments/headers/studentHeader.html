@@ -40,13 +40,17 @@
 						</a>
 							<ul class="submenu">
 								<li class="submenu-item">
-									<th:block th:if="${#dates.createNow()} ge ${session.packageDate.scheduleStartDate} and ${#dates.createNow()} le ${session.packageDate.scheduleEndDate}">
-									<a th:href="@{/student/coursePackage}" >수강꾸러미</a>
-									</th:block>
+									<!-- <th:block th:if="${#dates.createNow()} ge ${session.packageDate.scheduleStartDate} and ${#dates.createNow()} le ${session.packageDate.scheduleEndDate}"> -->
+										<a th:href="@{/student/coursePackage}" >수강꾸러미</a>
+									<!-- </th:block> -->
 								</li>
-								<li class="submenu-item "><a th:href="@{/student/courseRegister}">수강
-										신청</a></li>
-							</ul></li>
+								<li class="submenu-item ">
+									<!-- <th:block th:if="${#dates.createNow()} ge ${session.registerDate.scheduleStartDate} and ${#dates.createNow()} le ${session.registerDate.scheduleEndDate}"> -->
+										<a th:href="@{/student/courseRegister}">수강신청</a>
+									<!-- </th:block> -->
+								</li>
+							</ul>
+						</li>
 
 						<li class="sidebar-item"><a th:href="@{/student/courseList}"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>E-Class</span>

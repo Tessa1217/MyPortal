@@ -198,7 +198,7 @@
 		</div>
 		<script th:inline="javascript">
 
-			function creditTotalSum(){
+			function packageCreditTotalSum(){
 				let creditCount = 0;
 
 				Array.from(pBody.children).forEach(function(item) {
@@ -207,8 +207,8 @@
 				return creditCount;
 			}
 
-			function setTotalData() {
-				const creditCount = creditTotalSum();
+			function setPackageTotalData() {
+				const creditCount = packageCreditTotalSum();
 				document.getElementById("total").innerHTML = (20 - creditCount);
 			}
 
@@ -227,7 +227,7 @@
 				function coursePackageInsert(){
 					let code = $(this).data("code");
 					let name = $(this).data("name");
-					let allCourseCredit = creditTotalSum();
+					let allCourseCredit = packageCreditTotalSum();
 					var pTable = document.getElementById("pTable");
 					var moveTr = Array.from(pTable.children[1].children);
 					const selectCode = $(this)[0].parentElement.parentElement;
@@ -265,7 +265,7 @@
 								<td><button type="button" class="buttonDelete btn rounded-pill btn-primary" data-code="${item.courseCode}">취소</button></td>
 								</tr>`;
 							$("#pBody").append(content);
-							setTotalData();
+							setPackageTotalData();
 						},
 						error:function(){
 							fireSwal('warning', '이전에 수강하신 강의입니다.');
@@ -291,7 +291,7 @@
 							success:function(item){
 									tr.remove();
 
-									setTotalData();
+									setPackageTotalData();
 							}
 						});
 				}
