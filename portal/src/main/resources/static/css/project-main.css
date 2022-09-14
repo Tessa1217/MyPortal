@@ -438,6 +438,14 @@ input[name=examQuestionPoint] {
 	margin-bottom: 1%;
 }
 
+.height-thirteen {
+	height: 130vh;
+}
+
+.height-elevenh {
+	height: 115vh;
+}
+
 .height-ten {
 	height: 100vh;
 }

@@ -23,21 +23,18 @@
 	display: none;
 }
 
-#table123 thead{
-
-color : white;
-/*  background-color : #94ADCF;  */
- background-color : #768bd5 
-
+#table123 thead {
+	color: white;
+	/*  background-color : #94ADCF;  */
+	background-color: #768bd5
 }
 
-#table123{
-
-text-align : center;
+#table123 {
+	text-align: center;
 }
-.card-body{
 
-background-color : white;
+.card-body {
+	background-color: white;
 }
 </style>
 </head>
@@ -47,195 +44,158 @@ background-color : white;
 			<div class="page-title">
 				<h2>강의계획서 관리</h2>
 			</div>
-			<br>
-			<br>
-			
-			<div class="card-body">
-				<form name="searchForm" class="form-horizontal">
-				<!-- <input type="hidden" name="pageNum" value="1"> <input
-                     type="hidden" name="amount" value="10">
-					<select id="type" name="type">
-						<option value="course_year">개설연도</option>
-						<option value="course_semester">개설학기</option>
-					</select> <input type="number" name="keyword" id="keyword"> -->
-					
-					<label for="type">개설연도</label> <input type="number" id="type"
-                     class="form-control inline width-three" name="type"
-                     th:value="${year}"> <label for="keyword">개설학기</label> <select
-                     id="keyword" class="form-select inline width-three"
-                     name="keyword">
-                     <option th:selected="${semester} == '1'" value="1">1학기</option>
-                     <option th:selected="${semester} == '2'" value="2">2학기</option>
-                  </select>
-					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+			<br> <br>
+			<div class="card">
+				<div class="card-header">
+					<form name="searchForm" class="form-horizontal">
+						<label for="type">개설연도</label> <input type="number" id="type"
+							class="form-control inline width-three" name="type"
+							th:value="${year}"> <label for="keyword">개설학기</label> <select
+							id="keyword" class="form-select inline width-three"
+							name="keyword">
+							<option th:selected="${semester} == '1'" value="1">1학기</option>
+							<option th:selected="${semester} == '2'" value="2">2학기</option>
+						</select>
+						<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
-				</form>
-				
-				<br>
-				<br>
-				<table class="table" id="table123">
-					<thead class="thead-primary">
-						<tr>
-							<th>강의코드</th>
-							<th>년도</th>
-							<th>학기</th>
-							<th>이수단위</th>
-							<th>이수구분</th>
-							<th>강의명</th>
+					</form>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover" id="table123">
+						<thead class="thead-primary">
+							<tr>
+								<th>강의코드</th>
+								<th>년도</th>
+								<th>학기</th>
+								<th>이수단위</th>
+								<th>이수구분</th>
+								<th>강의명</th>
+								<th>승인여부</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
 
-							<th>승인여부</th>
-							<th>비승인 여부</th>
-							<th>상세보기</th>
-							<th>승인 및 비승인</th>
-							
+							<tr th:each="item:${tempcourseList}"
+								th:onclick="|location.href='@{/admin/adminGetTemp/{courseCode}(courseCode = ${item.courseCode})}'|">
+								<td th:text="${item.courseCode}" id="courseCode"
+									th:data-coursecode="${item.courseCode}"></td>
+								<td th:text="${item.courseYear}"></td>
+								<td th:text="${item.courseSemester}"></td>
+								<td>[[${item.courseCredit}]]학점</td>
+								<td th:text="${item.courseSortationName}"></td>
+								<td th:text="${item.courseName}"></td>
+								<td class="hidden" th:text="${item.submitYesName}"
+									id="submitYes" th:data-codee="${item.submitYes}"></td>
 
-						</tr>
-					</thead>
-					<tbody class="tbody-center">
+								<td th:text="${item.okayYesName}" id="okayYes"
+									th:data-back="${item.okayYes}"></td>
+							</tr>
 
-						<tr th:each="item:${tempcourseList}">
-							<td  th:text="${item.courseCode}" id="courseCode"
-							th:data-coursecode="${item.courseCode}"
-							></td>
-							<td th:text="${item.courseYear}"></td>
-							<td th:text="${item.courseSemester}"></td>
-							<!-- <td th:text="${item.courseCredit}"></td> -->
-							<td>[[${item.courseCredit}]]학점</td>
-							<!-- <td th:text="${item.courseSortation}"></td> -->
-							<td th:text="${item.courseSortationName}"></td>
-							<td th:text="${item.courseName}"></td>
-							<td class="hidden" th:text="${item.submitYesName}" id="submitYes"
-								th:data-codee="${item.submitYes}"></td>
+						</tbody>
+					</table>
 
-							<td th:text="${item.okayYesName}" id="okayYes"
-								th:data-back="${item.okayYes}"></td>
-							<td th:if="${item.backReason == null}" id="backReason"
-								th:data-code="null"></td>
-							<td th:if="${item.backReason != null}" id="backReason"
-								th:data-code="null">비승인</td>
-							<td><a th:href="|/admin/adminGetTemp/${item.courseCode}|"><button
-										th:text="상세보기" th:data-courseName="${item.courseCode}"
-										class="btn btn-primary"></button></a></td>
-							<td><button th:disabled="${item.okayYes}=='A00' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
-									name="button1" class="btn btn-danger moddd"
-									th:data-course="${item.courseCode}">승인</button>
-									
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									
-							<button type="button"
-									th:disabled="${item.backReason}=='비승인' or ${bache.detailCode} == 'PROF00'" name="button1"
-									class="btn btn-secondary backReasonWhy" th:data-coded="${item.backReason}"
-									th:data-course="${item.courseCode}" data-toggle="modal"
-									>비승인</button></td>
-						</tr>
+					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+						<ul class="pagination justify-content-center">
+							<th:block th:if="${pageMaker.prev}">
+								<li class="page-item prev"><a class="page-link"
+									href="javascript:void(0)"
+									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+								</li>
+							</th:block>
+							<th:block th:with="pageMaker = ${pageMaker}">
+								<th:block
+									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+									<li class="page-item"
+										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+										<a class="page-link" href="javascript:void(0)"
+										th:text="${num}"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+									</li>
+								</th:block>
+								<th:block th:if="${pageMaker.next}">
+									<li class="page-item next"><a class="page-link"
+										href="javascript:void(0)"
+										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+									</li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
 
-					</tbody>
-				</table>
-				
-				<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
-                  <ul class="pagination justify-content-center">
-                     <th:block th:if="${pageMaker.prev}">
-                        <li class="page-item prev"><a class="page-link"
-                           href="javascript:void(0)"
-                           th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
-                        </li>
-                     </th:block>
-                     <th:block th:with="pageMaker = ${pageMaker}">
-                        <th:block
-                           th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                           <li class="page-item"
-                              th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-                              <a class="page-link" href="javascript:void(0)"
-                              th:text="${num}"
-                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
-                           </li>
-                        </th:block>
-                        <th:block th:if="${pageMaker.next}">
-                           <li class="page-item next"><a class="page-link"
-                              href="javascript:void(0)"
-                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
-                           </li>
-                        </th:block>
-                     </th:block>
-                  </ul>
-               </div>
-
-				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button> -->
-
+					<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()">등록</button> -->
+				</div>
 			</div>
-					<!-- 모달창 -->
-		<div class="modal-dialog modal-xl">
-			<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
-				tabindex="-1" aria-labelledby="staticBackdropLabel"
-				>
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-					<div class="modal-content">
+			<!-- 모달창 -->
+			<div class="modal-dialog modal-xl">
+				<div class="modal fade" id="backReasonWhy" data-bs-backdrop="static"
+					tabindex="-1" aria-labelledby="staticBackdropLabel">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+						<div class="modal-content">
 
-						<div class="modal-header">
-							<label class="modal-title" id="staticBackdropLabel">비승인 사유</label>
-						</div>
-						<div class="modal-body">
-							<div class="container my-auto">
-								<div class="row">
-									<div class="card z-index-0 fadeIn3 fadeInBottom">
-										<div class="card-body">
-											<input type="hidden" id="tt" name="courseCode">
-												
+							<div class="modal-header">
+								<label class="modal-title" id="staticBackdropLabel">비승인
+									사유</label>
+							</div>
+							<div class="modal-body">
+								<div class="container my-auto">
+									<div class="row">
+										<div class="card z-index-0 fadeIn3 fadeInBottom">
+											<div class="card-body">
+												<input type="hidden" id="tt" name="courseCode">
+
 												<table class="table">
 													<tr>
-														
+
 														<th>비승인 사유</th>
-														
-														
-														<td>
-														<select class="form-control" name="backReason2" id="backReason2" required>
-															<option value="" disabled selected th:text="선택하세요">선택하세요</option>
-															<option value="오타 문제&nbsp&nbsp:&nbsp&nbsp">오타 문제</option>
-															<option value="중복 문제&nbsp&nbsp:&nbsp&nbsp">중복 문제 </option>
-															<option value="부적절한 내용 문제&nbsp&nbsp:&nbsp&nbsp">부적절한 내용 문제</option>
-															<option value="기타 문제&nbsp&nbsp:&nbsp&nbsp">기타 문제</option>
-														</select>
-														
-														
-														<br>
-														
-														
-														<textarea id="backReason3" name ="backReason3" class="form-control"
-														style="height:8em;" required
-														></textarea>
-														<br><br>
-														</td>
-														
+
+
+														<td><select class="form-control" name="backReason2"
+															id="backReason2" required>
+																<option value="" disabled selected th:text="선택하세요">선택하세요</option>
+																<option value="오타 문제&nbsp&nbsp:&nbsp&nbsp">오타
+																	문제</option>
+																<option value="중복 문제&nbsp&nbsp:&nbsp&nbsp">중복
+																	문제</option>
+																<option value="부적절한 내용 문제&nbsp&nbsp:&nbsp&nbsp">부적절한
+																	내용 문제</option>
+																<option value="기타 문제&nbsp&nbsp:&nbsp&nbsp">기타
+																	문제</option>
+														</select> <br> <textarea id="backReason3" name="backReason3"
+																class="form-control" style="height: 8em;" required></textarea>
+															<br>
+														<br></td>
+
 													</tr>
 												</table>
-												
+
 												<div align="right">
-												<button type="submit"
-													class="btn btn-secondary backReasonWhy2"
-													data-bs-dismiss="modal" aria-label="Close" style="margin-right:37%;">비승인하기</button>
-													
-													
-												<button id="closeModal" type="button"
-													class="btn btn-dark" data-dismiss="modal">닫기</button>
-													</div>
+													<button type="submit"
+														class="btn btn-secondary backReasonWhy2"
+														data-bs-dismiss="modal" aria-label="Close"
+														style="margin-right: 37%;">비승인하기</button>
+
+
+													<button id="closeModal" type="button" class="btn btn-dark"
+														data-dismiss="modal">닫기</button>
+												</div>
 
 
 
 
 
+											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="input-container modal-footer"></div>
+
 							</div>
-
-							<div class="input-container modal-footer"></div>
-
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 
 
@@ -244,31 +204,31 @@ background-color : white;
 		<script th:inline="javascript">
 			$(function() {
 
-				
 				aaaaa();
 				modalOff();
 
 			})
-			
+
 			//모달창 띄우기
-			function aaaaa () {
-				$(".backReasonWhy").on("click", function() {
-					let courseCode = $(this).data("course")
-					let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-					
-					$('#tt').val(courseCode)
-					
-					
-					$('#backReasonWhy').modal('show');
-				})
+			function aaaaa() {
+				$(".backReasonWhy").on(
+						"click",
+						function() {
+							let courseCode = $(this).data("course")
+							let submitYes = $(this).closest("tr").find(
+									"#submitYes").data("codee")
+							let okayYes = $(this).closest("tr")
+									.find("#okayYes").data("back")
+
+							$('#tt').val(courseCode)
+
+							$('#backReasonWhy').modal('show');
+						})
 			}
 
-			
-			
-		
 			//관리자 승인기능
-			$(".moddd").on("click",
+			$(".moddd").on(
+					"click",
 					function() {
 						if (window.confirm("정말로 승인하시겠습니까?")) {
 							let submitYes = $(this).closest("tr").find(
@@ -301,55 +261,48 @@ background-color : white;
 						}
 					})
 
-					
-		
-				
-					
-					
-					//비승인 사유 등록
-					
-		
-				$(".backReasonWhy2").on("click",
-						function() {
-							if (window.confirm("정말로 비승인하시겠습니까?")) {
-								let submitYes = $(this).closest("tr").find("#submitYes").data("codee")
-								let backReason = $("#backReason2 option:selected").val() + $('#backReason3').val()
-								let okayYes = $(this).closest("tr").find("#okayYes").data("back")
-								let courseCode = $('input[name=courseCode]').val()
-								if(backReason != null || backReason==null){
-								
+			//비승인 사유 등록
+
+			$(".backReasonWhy2").on(
+					"click",
+					function() {
+						if (window.confirm("정말로 비승인하시겠습니까?")) {
+							let submitYes = $(this).closest("tr").find(
+									"#submitYes").data("codee")
+							let backReason = $("#backReason2 option:selected")
+									.val()
+									+ $('#backReason3').val()
+							let okayYes = $(this).closest("tr")
+									.find("#okayYes").data("back")
+							let courseCode = $('input[name=courseCode]').val()
+							if (backReason != null || backReason == null) {
+
 								submitYes = 'UNSUB'
 								okayYes = ''
-								
-								}else{
-									return false;
-								}
-									
-							
-								$.ajax({
-									url : `/admin/adminTempList/backTemp`,
-									method : "post",
-									dataType : "json",
-									data : {
-										"submitYes" : submitYes,
-										"backReason" : backReason,
-										"okayYes" : okayYes,
-										"courseCode" : courseCode
-									},
-									dataType : "json",
-									success : function(data) {
 
-										alert('비승인되었습니다')
-										location.reload();
-									}
-								});
+							} else {
+								return false;
 							}
-						})
-	
-						
-						
-			
-			
+
+							$.ajax({
+								url : `/admin/adminTempList/backTemp`,
+								method : "post",
+								dataType : "json",
+								data : {
+									"submitYes" : submitYes,
+									"backReason" : backReason,
+									"okayYes" : okayYes,
+									"courseCode" : courseCode
+								},
+								dataType : "json",
+								success : function(data) {
+
+									alert('비승인되었습니다')
+									location.reload();
+								}
+							});
+						}
+					})
 
 			//모달창 끄기
 			function modalOff() {
@@ -357,9 +310,7 @@ background-color : white;
 					$('#backReasonWhy').modal('hide');
 				})
 			}
-			
-			
-			
+
 			/* $(".backReasonWhy2").on(
 					"click",
 					function() {

@@ -1,3 +1,21 @@
+// 탭 형식으로 보이기
+			function showPage() {
+			let icons = $("input[name=tabs]");
+			$(icons).each((index, val) => {
+				$(val).on("click", function(e) {
+					$(icons).siblings("label").removeClass("active");
+					if ($(val).is(":checked")) {
+						$(val).next().addClass("active");
+						let page = $(".paging");
+						$(page).each((idx, val) => {
+							$(val).addClass('hidePage');
+						})
+						$(page[index]).removeClass("hidePage");
+					}
+				})
+			})
+		}
+
 // 페이지 이동하는 함수
 function movePage() {
 	$(document).on("click", ".pageBtnContainer button", function(e) {

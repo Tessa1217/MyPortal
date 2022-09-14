@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.offPage {
-	display: none;
-}
-
 .card {
 	padding: 3%;
 }
@@ -29,9 +25,9 @@
 						<input id="tab1" type="radio" name="tabs" checked> <label
 							for="tab1" class="tabmenu active">시험 기본 정보</label> <input id="tab2"
 							type="radio" name="tabs"> <label for="tab2"
-							class="tabmenu offPage">시험지 정보 불러오기</label> <input id="tab3"
+							class="tabmenu hidePage">시험지 정보 불러오기</label> <input id="tab3"
 							type="radio" name="tabs"> <label for="tab3"
-							class="tabmenu offPage">시험 문제 생성하기</label>
+							class="tabmenu hidePage">시험 문제 생성하기</label>
 					</div>
 					<th:block th:if="${command} == 1">
 						<div class="card height-seven paging">
@@ -72,23 +68,6 @@
 				enterDate("examStartDate", "examEndDate"); 
 			})
 			
-			// 탭 형식으로 보이기
-			function showPage() {
-			let icons = $("input[name=tabs]");
-			$(icons).each((index, val) => {
-				$(val).on("click", function(e) {
-					$(icons).siblings("label").removeClass("active");
-					if ($(val).is(":checked")) {
-						$(val).next().addClass("active");
-						let page = $(".paging");
-						$(page).each((idx, val) => {
-							$(val).addClass('offPage');
-						})
-						$(page[index]).removeClass("offPage");
-					}
-				})
-			})
-			}
 			</script>
 	</th:block>
 </body>
