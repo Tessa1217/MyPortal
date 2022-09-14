@@ -44,6 +44,7 @@ public class MainController {
 	@Autowired
 	BachelorNoticeService noticeService;
 	
+	
 
 	@ModelAttribute("schedule")
 	public BachelorScheduleVO getMonth() {
@@ -56,11 +57,13 @@ public class MainController {
 
 	// 학생 메인 페이지
 	@RequestMapping("/student")
-	public String home(HttpSession session) {
+	public String home(HttpSession session, BachelorScheduleVO vo, Model model) {
 		StudentVO student = new StudentVO();
 		student.setStudentId((int) session.getAttribute("id"));
 		student = studentService.studentInfoSelect(student);
 		session.setAttribute("student", student);
+		BachelorScheduleVO packageDate = scheduleService.packageDate(vo);
+		model.addAttribute("packageDate", packageDate);
 		return "student/main";
 	}
 
