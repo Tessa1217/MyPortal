@@ -31,6 +31,7 @@ public class TempcourseVO {
 	private String okayYesName;
 	private String detailCode;
 	private String rejectionDetailCode;
+	private String rejectionDetailCodeName;
 	
 	
 	

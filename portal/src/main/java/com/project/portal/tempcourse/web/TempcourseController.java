@@ -67,6 +67,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 		model.addAttribute("yearSemester", schedule.yearSemester(vooo));
+		model.addAttribute("reList", codeService.getDetailList("R03"));
 
 		logger.info(vo.getCourseCode());
 		return "/professor/course/getTemp";
@@ -92,6 +93,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("bache", bac);
 		model.addAttribute("yearSemester", schedule.yearSemester(voo));
+		model.addAttribute("reList", codeService.getDetailList("R03"));
 		System.out.println(tempcourseList);
 
 		return "/professor/course/tempcourseList";

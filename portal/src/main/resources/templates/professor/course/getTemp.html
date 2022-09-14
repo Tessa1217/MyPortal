@@ -64,7 +64,7 @@ text-align : center;
 					<div class="right">
 
 						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu">기본 정보</label> <input id="tab2"
+							for="tab1" class="tabmenu active">기본 정보</label> <input id="tab2"
 							type="radio" name="tabs"> <label for="tab2"
 							class="tabmenu">주차 계획</label>
 					</div>
@@ -288,7 +288,7 @@ text-align : center;
 
 					<div class="row">
 					<div class="col-md-22 col-12">
-						<div class="card paging name offPage">
+						<div class="card-body height-thirteen paging hidePage">
 							<div class="card-body">
 								<form name="frm"
 									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
@@ -414,8 +414,8 @@ text-align : center;
 											
 												
 												</div>
-											<div class="col-md-10 col-16">
 											<tr>
+												<td id="backReason3"></td>
 												<td id="backReason2" style="height:10em;"></td>
 												
 											
@@ -423,7 +423,6 @@ text-align : center;
 												
 												<!-- <td id="backReason3"></td> -->
 												</tr>
-											</div>
 										</table>
 									</div>
 								</div>
@@ -466,7 +465,7 @@ text-align : center;
 				
 			}
 			
-			// 탭 형식으로 보이기
+		/* 	// 탭 형식으로 보이기
 			function showPage() {
 			let icons = $("input[name=tabs]");
 			$(icons).each((index, val) => {
@@ -480,7 +479,7 @@ text-align : center;
 					}
 				})
 			})
-			}
+			} */
 			
 			
 			
@@ -580,6 +579,7 @@ text-align : center;
 					dataType : "json",
 					success : function(data){
 						
+						$("#backReason3").text(data.rejectionDetailCodeName)
 						$("#backReason2").text(data.backReason)
 						$('#backReasonWhy').modal('show');
 						

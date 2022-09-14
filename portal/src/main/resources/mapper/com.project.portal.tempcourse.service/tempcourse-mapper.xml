@@ -124,7 +124,8 @@
 		select t.*,
 		       find_code(course_sortation) as course_sortation_name,
 		       find_code(submit_yes) as submit_yes_name,
-		       find_code(okay_yes) as okay_yes_name
+		       find_code(okay_yes) as okay_yes_name,
+		       find_code(rejection_detail_code) as rejection_detail_code_name
 		from temp_course t
 		where course_code = #{courseCode}
 	</select>
@@ -446,6 +447,7 @@ select week_num,
 	<select id="backReasonWhy" resultType="com.project.portal.tempcourse.service.TempcourseVO">
 	select 
 		rejection_detail_code,
+		 find_code(rejection_detail_code) as rejection_detail_code_name,
 		back_reason 
 	from temp_course 
 	where course_code = #{courseCode}

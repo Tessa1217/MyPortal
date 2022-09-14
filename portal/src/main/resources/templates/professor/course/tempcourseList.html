@@ -134,6 +134,7 @@ text-align : center;
 									 <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}"
 									 th:disabled="${item.submitYes}=='SUB' and ${item.okayYes}=='A00' or ${item.okayYes}=='A01'"
 									 >삭제</button></td>
+									 
 						</tr>
 
 					</tbody>
@@ -204,26 +205,18 @@ text-align : center;
 								<div class="card z-index-0 fadeIn3 fadeInBottom">
 									<div class="card-body">
 										<table class="table">
-										<div class="col-md-10 col-16">
 											<tr>
 												<th>비승인 사유</th>
 											
-											</tr>
-												
-												<br>
 											
+												<td id="backReason3"></td>
 												
-												</div>
-											<div class="col-md-10 col-16">
-											<tr>
 												<td id="backReason2" style="height:10em;"></td>
 												
 											
 												
 												
-												<!-- <td id="backReason3"></td> -->
 												</tr>
-											</div>
 										</table>
 									</div>
 								</div>
@@ -335,6 +328,7 @@ text-align : center;
 						dataType : "json",
 						success : function(data){
 							
+							$("#backReason3").text(data.rejectionDetailCodeName)
 							$("#backReason2").text(data.backReason)
 							$('#backReasonWhy').modal('show');
 							
