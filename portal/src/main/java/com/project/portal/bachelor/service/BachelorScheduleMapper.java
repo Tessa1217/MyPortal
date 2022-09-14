@@ -17,14 +17,15 @@ public interface BachelorScheduleMapper {
 
 	BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo);
 
-	// 강의계획서 날짜 불러오기
+	//강의계획서 날짜 불러오기
 	BachelorScheduleVO yearSemester(BachelorScheduleVO vo);
-
+		
 	BachelorScheduleVO packageDate(BachelorScheduleVO vo);
+		
+	BachelorScheduleVO registerDate(BachelorScheduleVO vo);
 	
 	// 강의 관련 코드 받아오기
 	List<BachelorGroupVO> getScheduleCode();
 
 	BachelorScheduleVO getYearSemester(BachelorScheduleVO vo);
-
 }

@@ -38,8 +38,11 @@
 						<li class="sidebar-item  has-sub"><a href="#"
 							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>수강</span>
 						</a>
-							<ul class="submenu ">
-								<li class="submenu-item "><a th:href="@{/student/coursePackage}">수강꾸러미</a>
+							<ul class="submenu">
+								<li class="submenu-item">
+									<th:block th:if="${#dates.createNow()} ge ${session.packageDate.scheduleStartDate} and ${#dates.createNow()} le ${session.packageDate.scheduleEndDate}">
+									<a th:href="@{/student/coursePackage}" >수강꾸러미</a>
+									</th:block>
 								</li>
 								<li class="submenu-item "><a th:href="@{/student/courseRegister}">수강
 										신청</a></li>

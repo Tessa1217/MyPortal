@@ -62,8 +62,12 @@ public class MainController {
 		student.setStudentId((int) session.getAttribute("id"));
 		student = studentService.studentInfoSelect(student);
 		session.setAttribute("student", student);
-		BachelorScheduleVO packageDate = scheduleService.packageDate(vo);
-		model.addAttribute("packageDate", packageDate);
+		
+		BachelorScheduleVO schedule = new BachelorScheduleVO();
+		BachelorScheduleVO packageDate = scheduleService.packageDate(schedule);
+		session.setAttribute("packageDate", packageDate);
+		BachelorScheduleVO registerDate = scheduleService.registerDate(schedule);
+		session.setAttribute("registerDate", registerDate);
 		return "student/main";
 	}
 

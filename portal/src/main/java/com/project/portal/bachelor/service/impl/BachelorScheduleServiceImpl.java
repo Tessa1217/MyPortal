@@ -54,6 +54,10 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	}
 
 	@Override
+	public BachelorScheduleVO registerDate(BachelorScheduleVO vo) {
+		return mapper.registerDate(vo);
+	}
+
 	public List<BachelorGroupVO> getScheduleCode() {
 		return mapper.getScheduleCode();
 	}
@@ -61,6 +65,7 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	@Override
 	public BachelorScheduleVO getYearSemester(BachelorScheduleVO vo) {
 		return mapper.getYearSemester(vo);
+
 	}
 
 }
