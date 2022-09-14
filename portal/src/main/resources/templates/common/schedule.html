@@ -33,7 +33,7 @@
 							<button th:if="${command == 3}" type="button" class="btn btn-primary"
 								data-bs-toggle="modal" style="margin-right: 15px"
 								data-bs-target="#allInsertModal">일괄등록</button>
-							<button type="button" class="btn btn-primary"
+							<button type="button" class="btn btn-primary prevButton"
 								th:onclick="prevYear()">◁</button>
 							<input type="number" name="year" id="year" th:value='${year}'
 								readonly style="text-align: center; width: 80px">
@@ -143,6 +143,14 @@
 						})
 					})
 				}
+				
+				function ToggleView() {
+					$(document).on('click', '.prevButton', function() {
+						$(".cal").each((idx, val) => {
+							$(val).toggleClass('hidePage')
+						})
+					})
+				}
 			
 				// Fullcalendar
 				document.addEventListener('DOMContentLoaded', function() {
@@ -179,6 +187,8 @@
 				function prevYear() {
 					$('#year').val(parseInt($("#year").val()) - 1);
 					document.frm_year.submit()
+					changeView();
+					$("#view").trigger('change');
 				}
 
 				function nextYear() {
@@ -186,6 +196,8 @@
 						$('#year').val(parseInt($("#year").val()) + 1);
 						console.log($("#year").val());
 						document.frm_year.submit()
+						changeView();
+						$("#view").trigger('change');
 					} else {
 						alert("현재년도 입니다.")
 					}

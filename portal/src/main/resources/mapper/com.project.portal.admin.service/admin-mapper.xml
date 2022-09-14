@@ -13,7 +13,7 @@
 						FROM ADMIN
 						WHERE admin_id = #{adminId}
 	</select>
-	<update id="updateAdminInfo" parameterType="AdminVO">
+	<update id="adminInfoUpdate" parameterType="AdminVO">
 		UPDATE
 			ADMIN
 			SET admin_addr = #{adminAddr},
