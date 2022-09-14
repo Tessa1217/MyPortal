@@ -110,7 +110,7 @@ text-align : center;
 											th:data-code="비승인"
 											class="btn btn-secondary backReasonWhy" data-toggle="modal"
 											data-target="#backReasonWhy">비승인</button></td>
-										<td><button th:disabled="${tempcourse.submitYes}=='SUB' or ${bache.detailCode} == 'PROF00'"
+										<td><button th:disabled="${tempcourse.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 												name="button1" class="btn btn-primary moddd"
 												th:data-course="${tempcourse.courseCode}">제출하기</button></td>
 											<td><button class="btn btn-danger deletee" th:data-coursecod="${tempcourse.courseCode}"

@@ -85,4 +85,20 @@
 	                and sysdate  > schedule_start_date )
 	    and rownum = 1
 	</select>
+	
+	<select id="packageDate" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
+		select year, 
+				semester,
+				schedule_start_date, 
+				schedule_end_date
+	  	from bachelor_schedule
+	  	where schedule_start_date = (
+	            SELECT max(schedule_start_date)
+	            FROM bachelor_schedule
+	            WHERE detail_code = 'REG00'
+	                and sysdate  > schedule_start_date )
+	    and rownum = 1
+	</select>
+	
+	
 </mapper>

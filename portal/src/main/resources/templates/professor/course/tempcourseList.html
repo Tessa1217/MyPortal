@@ -49,8 +49,8 @@ text-align : center;
 				<h2>강의 계획서 조회</h2>
 			</div>
 			<br>
-			<h5 th:text="|강의계획서 신청일 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
-				<h5 th:text="|현재연도 학기  : ${yearSemester.year}년도 ${yearSemester.semester}학기|"></h5>
+			<h5 th:text="|강의계획서 등록 및 제출기간 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
+				<h5 th:text="|현재년도 학기  : ${yearSemester.year}년도 ${yearSemester.semester}학기|"></h5>
 			<div class="card-body">
 			<form name="searchFrm" class="form-horizontal">
 			<!-- <input type="hidden" name="pageNum" value="1"> <input
@@ -126,10 +126,10 @@ text-align : center;
 							<td><a th:href="|/professor/getTemp/${item.courseCode}|"
 										th:text="상세보기" th:data-courseName="${item.courseCode}"
 										class="btn btn-primary"></a></td>
-							<td><button th:disabled="${item.submitYes}=='SUB' or ${bache.detailCode} == 'PROF00'"
-								
+							<td><button th:disabled="${item.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 									name="button1" class="btn btn-primary moddd"
 									th:data-course="${item.courseCode}">제출하기</button></td>
+									
 									
 									 <td><button class="btn btn-danger deletee" th:data-coursecod="${item.courseCode}"
 									 th:disabled="${item.submitYes}=='SUB' and ${item.okayYes}=='A00' or ${item.okayYes}=='A01'"
@@ -175,12 +175,12 @@ text-align : center;
 				<div align="right">
 				
 				
-				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
-				style="margin-right:1%;" th:if="1 == 2" >강의 계획서 등록</button>
+				<!-- <button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
+				style="margin-right:1%;" th:if="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의 계획서 등록</button> -->
 				
 				<button class="btn rounded-pill btn-primary" onclick="tempInsert()" 
-				style="margin-right:1%;" th:unless="1 == 2" disabled>강의 계획서 등록</button>
-					</div>[[${#dates.createNow()}]] // [[${yearSemester.scheduleStartDate}]]
+				style="margin-right:1%;" th:disabled="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의 계획서 등록</button>
+					</div>
 			</div>
 		</div>
 		
