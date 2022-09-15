@@ -31,6 +31,8 @@
 #table12 {
 	text-align: center;
 }
+br
+{mso-data-placement:same-cell;}
 </style>
 </head>
 <body>
@@ -49,26 +51,24 @@
 				<div class="card name">
 					<div class="card-header center">
 						<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
+						<div class="right">
+						<button type="button"
+								class="moddd btn btn-primary rounded-pill btn-md" style="width:7%; margin-right:2%">승인</button></td>
+							<button type="button" 
+								class="backReasonWhy btn btn-danger rounded-pill btn-md" style="width:7%; margin-right:10%">비승인</button></td>
 						<table class="table">
 						<thead class="thead">
-									<tr>
-										<th>승인</th>
-										<th>비승인</th>
-										
-									</tr>
+								
 								</thead>
-						<tbody class="tbody-center">
-						<tr>
-						<td><button type="button"
-								class="moddd btn btn-primary rounded-pill btn-md" style="width:15%">승인</button></td>
-							<td><button type="button" 
-								class="backReasonWhy btn btn-danger rounded-pill btn-md" style="width:15%">비승인</button></td>
+						<tbody class="tbody">
 						
-						</tr>
+						
+						
+						
 						</tbody>
 						
 						</table>
-						
+						</div>
 							
 						
 					</div>
