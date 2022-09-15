@@ -6,9 +6,28 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
- a {
+ #noticeherf {
  	text-decoration : none;
  	 color: black;
+ }
+ 
+ 
+ ul {
+  padding-left : 0px;
+ }
+ li {
+ list-style : none;
+ line-height : 10px;
+
+ }
+ 
+ .date {
+ 	font-size : 12px;
+ 	position:absolute;
+ 	right:0;
+ 	margin-right : 20px;
+ 	
+ 	
  }
 </style>
 </head>
@@ -216,9 +235,11 @@
 						<div class="card-body">
 							<ul th:each="courseNotice : ${courseNotice}">
 								<li>
-								<a th:text="${courseNotice.courseNoticeTitle}"
+								<a id="noticeherf" th:text="${courseNotice.courseNoticeTitle}"
 								th:href="@{/professor/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}"></a>
+								<span class="date" th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
 								</li>
+								<hr>
 							</ul>
 						</div>
 						

@@ -126,45 +126,45 @@
 											<div class="card-body">
 												<form id="frm" name="frm"
 													action="/professor/eclass/courseQuestionInsert">
-													<table class="table table-bordered mb-0">
-														<tr class="hidePage">
-															<td width="200px" class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">질문번호</td>
-															<td id="questionnum"></td>
+													<table class="table table-bordered mb-0" >
+														<tr class="hidePage" >
+															<td class="text-bold-500" 
+																style="background-color: rgba(0, 0, 0, 0.05); width:20%">질문번호</td>
+															<td id="questionnum" style="word-break:break-all"></td>
 														</tr>
 														<tr>
-															<td width="200px" class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-															<td id="title"></td>
-														</tr>
-
-														<tr>
-															<td width="200px" class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
-															<td id="week"></td>
+															<td  class="text-bold-500 col-2"
+																style="background-color: rgba(0, 0, 0, 0.05);" >제목</td>
+															<td id="title" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
-															<td width="200px" class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">질문
+															<td  class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05); ">주차</td>
+															<td id="week" style="word-break:break-all"></td>
+														</tr>
+
+														<tr>
+															<td  class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05); ">질문
 																내용</td>
-															<td id="questioncontent"></td>
+															<td id="questioncontent" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
-															<td width="200px" class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">질문
+															<td  class="text-bold-500"
+																style="background-color: rgba(0, 0, 0, 0.05); ">질문
 																등록일</td>
-															<td id="answerregdate"></td>
+															<td id="answerregdate" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
 															<td class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05);">답변
+																style="background-color: rgba(0, 0, 0, 0.05); word-break:break-all; table-layout:fixed;">답변
 																내용</td>
 															<td><textarea class="form-control hidden"
 																	name="lectureAnswerContent" id="Answeredit" required></textarea>
-																<div id="answercontentview"></div></td>
+																<div id="answercontentview" style="word-break:break-all"></div></td>
 															<!-- <td colspan="3">
 			   									    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></textarea>
 													<div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div></td> -->
@@ -236,25 +236,15 @@
                 	// 질문 등록일 데이터 처리
                 	let questionRegDate = data.lectureQuestionRegDate.substring(0,10)
 					// 태그 제거하고 출력
-					let questionContent
-					let questionAnswerContent
-					if(data.lectureQuestionContent != null) {
-						questionContent = data.lectureQuestionContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
-					
-					}
-                	if(data.lectureAnswerContent != null) {
-                		questionAnswerContent = data.lectureAnswerContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
-                		 
-                		console.log(questionAnswerContent)
-                	}
                 
+                	console.log(data.lectureAnswerContent)
                 	
                 	 $("#questionnum").text(data.lectureQuestionNum)
                 	 $("#title").text(data.lectureQuestionTitle)
 	                 $("#week").text(data.weekNum)
-	                 $('#answercontentview').text(questionAnswerContent)
-	                 $('#Answeredit').text(questionAnswerContent)
-	                 $("#questioncontent").text(questionContent)
+	                 $('#answercontentview').html(data.lectureAnswerContent)
+	                 $('#Answeredit').html(data.lectureAnswerContent)
+	                 $("#questioncontent").html(data.lectureQuestionContent)
 	                 $("#answerregdate").text(questionRegDate)
 	                
 	                 
@@ -317,8 +307,12 @@
  		//질문 번호, 답변 내용
  		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val()
  		let lectureQuestionNum = $('#questionnum').text()
+ 		lectureAnswerContent.replace('\n' , '<br>')
+ 		
  		console.log(lectureAnswerContent);
  		console.log(lectureQuestionNum);
+ 		
+ 		
  		
  		
  		  $.ajax({
@@ -385,6 +379,7 @@
 		
 		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val() // 답변 내용
  		let lectureQuestionNum = $('#questionnum').text() //
+ 		lectureAnswerContent = lectureAnswerContent.replace(/\n/g , '<br>')
  		  $.ajax({
  				type : "POST",  // 요청 타입
  	            url : "/professor/eclass/courseQuestionUpdate",
@@ -396,7 +391,7 @@
  	            	fireSwal('success', '답변이 수정되었습니다.')
  	            	.then((result) => {
  	            		if (result.isConfirmed) {
- 	            			location.href="/professor/eclass/courseQuestion"
+ 	            		  location.href="/professor/eclass/courseQuestion"
  	            		}
  	            	})
  	            	

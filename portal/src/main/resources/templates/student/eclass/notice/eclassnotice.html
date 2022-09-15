@@ -31,7 +31,6 @@
 						<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
 						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 						<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
-						<!-- <button type="reset" class="saveBtn btn btn-primary me-1 mb-1">리셋</button> -->
 					</form>
 					
 					<br>
@@ -90,11 +89,6 @@
 
 
 		<script th:inline="javascript">
-		//frmsearch.searchType.value
-		//frmsearch.search.value
-		
-		
-		
 		// 폼 예외 처리
 
 	 	$('.search').on("click" , function() {

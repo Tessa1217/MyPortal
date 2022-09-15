@@ -97,7 +97,7 @@
 									<button
 										class="saveBtn btn btn-primary me-1 mb-1 reportObjection"
 										th:disabled="${reportList.reportScoreObjectionApprovalOption == 'A01' || reportList.reportScoreObjectionApprovalOption == 'A00'
-										|| reportList.reportFileCode == null}"
+										|| reportList.reportFileCode == null  || reportList.reportScoreObjectionApprovalOption == 'A02'}"
 										th:data-reportcode="${reportList.reportCode}">이의신청</button>
 								</td>
 								<td th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
@@ -106,8 +106,8 @@
 
 								<th:block>
 									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A01'}">심사대기</td>
-									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A00'}">승인</td>
-									<td th:if="${reportList.reportScoreObjectionApprovalOption == null}">-</td>
+									<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A02'}">심사완료</td>
+									<td th:if="${reportList.reportScoreObjectionApprovalOption != 'A01' && reportList.reportScoreObjectionApprovalOption != 'A02'}">-</td>
 								</th:block>
 
 							</tr>
