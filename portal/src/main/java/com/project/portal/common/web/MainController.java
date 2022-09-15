@@ -1,7 +1,9 @@
 package com.project.portal.common.web;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -63,11 +65,14 @@ public class MainController {
 		student = studentService.studentInfoSelect(student);
 		session.setAttribute("student", student);
 		
-		BachelorScheduleVO schedule = new BachelorScheduleVO();
-		BachelorScheduleVO packageDate = scheduleService.packageDate(schedule);
-		session.setAttribute("packageDate", packageDate);
-		BachelorScheduleVO registerDate = scheduleService.registerDate(schedule);
-		session.setAttribute("registerDate", registerDate);
+		// 수강신청, 수강꾸러미 날짜
+		Map<String, BachelorScheduleVO> scheduleMap = new HashMap<String, BachelorScheduleVO>();
+		vo.setDetailCode("REG00");
+		scheduleMap.put("pkg", scheduleService.getScheduleInfo(vo));
+		vo.setDetailCode("REG01");
+		scheduleMap.put("reg", scheduleService.getScheduleInfo(vo));
+		session.setAttribute("scheduleMap", scheduleMap);
+		
 		return "student/main";
 	}
 
@@ -77,6 +82,9 @@ public class MainController {
 		ProfessorVO professor = new ProfessorVO();
 		professor.setProfessorId((int) session.getAttribute("id"));
 		session.setAttribute("professor", professorService.professorInfo(professor));
+		
+		// 강의 계획서 날짜
+
 		return "professor/main";
 	}
 	

@@ -3,7 +3,6 @@
 <mapper
 	namespace="com.project.portal.bachelor.service.BachelorScheduleMapper">
 	
-	
 	<select id="scheduleList" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
 		select schedule_code,
 				schedule_content,
@@ -18,36 +17,31 @@
 		order by schedule_start_date
 	</select>
 	
+	<select id="getScheduleInfo" resultType="BachelorScheduleVO">
+		SELECT 
+			year,
+			semester,
+			schedule_start_date,
+			schedule_end_date
+		FROM bachelor_schedule
+		WHERE schedule_start_date = (
+																SELECT MAX(schedule_start_date)
+																FROM bachelor_schedule
+																WHERE detail_code = #{detailCode}
+																AND SYSDATE > schedule_start_date
+																)
+									AND ROWNUM = 1	
+	</select>
+	
 	<select id="getYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		select year, semester
-		from bachelor_schedule
-		where detail_code in (select detail_code from bachelor_detail where group_code = 'SEME')
-		and #{scheduleStartDate} between schedule_start_date and schedule_end_date
-	</select>
-	
-	<select id="currentYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		select year, semester
-	  	from bachelor_schedule
-	  	where schedule_start_date = (
-	            SELECT max(schedule_start_date)
-	            FROM bachelor_schedule
-	            WHERE detail_code = 'BPLAN00'
-	                and sysdate  > schedule_start_date )
-	    and rownum = 1
-	</select>
-	
-	<select id="gradeYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		select year, 
-				semester,
-				schedule_start_date, 
-				schedule_end_date
-	  	from bachelor_schedule
-	  	where schedule_start_date = (
-	            SELECT max(schedule_start_date)
-	            FROM bachelor_schedule
-	            WHERE detail_code = 'REG02'
-	                and sysdate  > schedule_start_date )
-	    and rownum = 1
+			SELECT YEAR, SEMESTER
+			FROM BACHELOR_SCHEDULE
+			WHERE DETAIL_CODE IN
+			(SELECT DETAIL_CODE
+			FROM BACHELOR_DETAIL
+			WHERE GROUP_CODE = 'SEME')
+			AND #{scheduleStartDate} BETWEEN
+			SCHEDULE_START_DATE AND SCHEDULE_END_DATE
 	</select>
 	
 	<insert id="scheduleAllInsert">
@@ -95,47 +89,6 @@
         </if>
 	</select>
 	
-	<select id="yearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		select year, 
-				semester,
-				schedule_start_date, 
-				schedule_end_date
-	  	from bachelor_schedule
-	  	where schedule_start_date = (
-	            SELECT max(schedule_start_date)
-	            FROM bachelor_schedule
-	            WHERE detail_code = 'PROF00'
-	                and sysdate  > schedule_start_date )
-	    and rownum = 1
-	</select>
-	
-	<select id="packageDate" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		SELECT  year, 
-				semester,
-				schedule_start_date, 
-				schedule_end_date
-	  	  FROM bachelor_schedule
-	  	 WHERE schedule_start_date = (
-	            SELECT MAX(schedule_start_date)
-	            FROM bachelor_schedule
-	            WHERE detail_code = 'REG00'
-	                AND SYSDATE  > schedule_start_date )
-	       AND ROWNUM = 1
-	</select>
-	
-	<select id="registerDate" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
-		SELECT  year, 
-				semester,
-				schedule_start_date, 
-				schedule_end_date
-	  	  FROM bachelor_schedule
-	  	 WHERE schedule_start_date = (
-	            SELECT MAX(schedule_start_date)
-	            FROM bachelor_schedule
-	            WHERE detail_code = 'REG01'
-	                AND SYSDATE  > schedule_start_date )
-	       AND ROWNUM = 1
-	</select>
 	<resultMap id="scheduleMap" type="BachelorGroupVO">
 		<id property="groupCode" column="group_code"/>
 		<result property="groupName" column="group_name"/>

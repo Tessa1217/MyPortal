@@ -1,7 +1,5 @@
 package com.project.portal.login.web;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,6 +18,8 @@ import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.login.service.User;
 
 @Controller
+// 작성자: 권유진
+
 public class UserController {
 	
 	@Autowired BachelorScheduleService service;
@@ -37,11 +37,17 @@ public class UserController {
 	@PostMapping("/login_success_handler")
 	public String userAccess(HttpSession session, Authentication authentication, BachelorScheduleVO vo) {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		// 유저 아이디 세션 등록
 		User user = (User) authentication.getPrincipal();
 		session.setAttribute("id", Integer.parseInt(user.getId()));
-		BachelorScheduleVO svo = service.currentYearSemester(vo);
+		
+		// 현재 년도 학기 세션 등록
+		vo.setDetailCode("BPLAN00");
+		BachelorScheduleVO svo = service.getScheduleInfo(vo);
 		session.setAttribute("year", svo.getYear());
 		session.setAttribute("semester", svo.getSemester());
+		
 		if (user.getUserAuthority().equals("STUDENT")) {
 			return "redirect:/student";
 		} else if (user.getUserAuthority().equals("PROFESSOR")) {
@@ -49,6 +55,7 @@ public class UserController {
 		} else if (user.getUserAuthority().equals("ADMIN")) {
 			return "redirect:/admin";
 		}
+		
 		return "login/userAccess";
 	}
 	

@@ -21,11 +21,6 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	}
 
 	@Override
-	public BachelorScheduleVO currentYearSemester(BachelorScheduleVO vo) {
-		return mapper.currentYearSemester(vo);
-	}
-
-	@Override
 	public String scheduleAllInsert(List<BachelorScheduleVO> list) {
 		for(BachelorScheduleVO vo : list) {
 			mapper.scheduleAllInsert(vo);
@@ -36,26 +31,6 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	@Override
 	public List<BachelorScheduleVO> getMonthlyList(BachelorScheduleVO vo) {
 		return mapper.getMonthlyList(vo);
-	}
-
-	@Override
-	public BachelorScheduleVO gradeYearSemester(BachelorScheduleVO vo) {
-		return mapper.gradeYearSemester(vo);
-	}
-
-	@Override
-	public BachelorScheduleVO yearSemester(BachelorScheduleVO vo) {
-		return mapper.yearSemester(vo);
-	}
-
-	@Override
-	public BachelorScheduleVO packageDate(BachelorScheduleVO vo) {
-		return mapper.packageDate(vo);
-	}
-
-	@Override
-	public BachelorScheduleVO registerDate(BachelorScheduleVO vo) {
-		return mapper.registerDate(vo);
 	}
 
 	public List<BachelorGroupVO> getScheduleCode() {
@@ -71,6 +46,11 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	@Override
 	public void scheduleInsert(BachelorScheduleVO vo) {
 		mapper.scheduleInsert(vo);
+	}
+
+	@Override
+	public BachelorScheduleVO getScheduleInfo(BachelorScheduleVO vo) {
+		return mapper.getScheduleInfo(vo);
 	}
 
 }

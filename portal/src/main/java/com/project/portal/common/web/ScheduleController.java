@@ -23,19 +23,22 @@ public class ScheduleController {
 	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void autoExamScore() {
-		schedule = bservice.currentYearSemester(schedule);
+		schedule.setDetailCode("BPLAN00");
+		schedule = bservice.getScheduleInfo(schedule);
 		service.updateExamScore(schedule);
 	}
 	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void autoLectureScore() {
-		schedule = bservice.currentYearSemester(schedule);
+		schedule.setDetailCode("BPLAN00");
+		schedule = bservice.getScheduleInfo(schedule);
 		service.updateLectureScore(schedule);
 	}
 	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void autoUpdateScore() {
-		schedule = bservice.currentYearSemester(schedule);
+		schedule.setDetailCode("BPLAN00");
+		schedule = bservice.getScheduleInfo(schedule);
 		service.updateReportScore(schedule);
 	}
 }

@@ -34,23 +34,27 @@
 								<li class="submenu-item "><a
 									th:href="@{/student/semesterGradeSelect}">학기 성적 조회</a></li>
 							</ul></li>
-
-						<li class="sidebar-item  has-sub"><a href="#"
-							class='sidebar-link'> <i class="bi bi-collection-fill"></i> <span>수강</span>
-						</a>
+						
+						<th:block th:with="pkg=${session.scheduleMap.get('pkg')},reg=${session.scheduleMap.get('reg')}">
+						<li th:if="${#dates.createNow()} ge ${pkg.scheduleStartDate} and ${#dates.createNow()} lt ${reg.scheduleEndDate}"
+						class="sidebar-item  has-sub">
+							<a href="#" class='sidebar-link'> 
+								<i class="bi bi-collection-fill"></i> <span>수강</span>
+							</a>
 							<ul class="submenu">
 								<li class="submenu-item">
-									<!-- <th:block th:if="${#dates.createNow()} ge ${session.packageDate.scheduleStartDate} and ${#dates.createNow()} le ${session.packageDate.scheduleEndDate}"> -->
-										<a th:href="@{/student/coursePackage}" >수강꾸러미</a>
-									<!-- </th:block> -->
+										<a
+										th:if="${#dates.createNow()} ge ${pkg.scheduleStartDate} and ${#dates.createNow()} lt ${pkg.scheduleEndDate}" 
+										th:href="@{/student/coursePackage}" >수강꾸러미</a>
 								</li>
 								<li class="submenu-item ">
-									<!-- <th:block th:if="${#dates.createNow()} ge ${session.registerDate.scheduleStartDate} and ${#dates.createNow()} le ${session.registerDate.scheduleEndDate}"> -->
-										<a th:href="@{/student/courseRegister}">수강신청</a>
-									<!-- </th:block> -->
+										<a th:href="@{/student/courseRegister}"
+										th:if="${#dates.createNow()} ge ${reg.scheduleStartDate} and ${#dates.createNow()} lt ${reg.scheduleEndDate}"
+										>수강신청</a>
 								</li>
 							</ul>
 						</li>
+						</th:block>
 
 						<li class="sidebar-item"><a th:href="@{/student/courseList}"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>E-Class</span>

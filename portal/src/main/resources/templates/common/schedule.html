@@ -360,14 +360,12 @@ span {
 				}
 				// 일괄 등록 ajax
 				function allInputdata() {
-					/* console.log(inputdata[0].detailCode); */
 					$.ajax({
 						url : "/admin/scheduleAllInsert",
 						method : "post",
 						contentType : "application/json",
 						data : JSON.stringify(inputdata),
 						success : function(res) {
-						//	console.log(res)
 							fireSwal('success', '입력이 완료되었습니다.');
 							$("#allInsertModal").modal("hide");
 							location.reload();
@@ -420,14 +418,18 @@ span {
 						method : "post",
 						data : data,
 						success : function(result) {
-							fireSwal('success', '입력이 완료되었습니다.')
-								.then()
-							$("#insertModal").modal("hide");
-							location.reload();
-						}
+						fireSwal('success', '입력이 완료되었습니다.')
+	                     .then((result) => {
+	                        if (result.isConfirmed) {
+	                           location.reload();
+	                        }
+	                     
 					}) 
 					}
+					})
 				}
+				}
+				
 			</script>
 		</div>
 	</th:block>

@@ -9,7 +9,7 @@ import lombok.Data;
 
 
 @Data
-public class CourseVO extends Criteria{
+public class CourseVO extends Criteria {
 	
 	private String courseCode;
 	private int courseYear;	// 강의 연도
@@ -41,6 +41,7 @@ public class CourseVO extends Criteria{
 	
 	// 주차 계획 정보
 	private List<CourseWeeklyVO> weekPlans;
+	
 	// 주차 정보
 	private String weekCode;
 	private int weekNum;
