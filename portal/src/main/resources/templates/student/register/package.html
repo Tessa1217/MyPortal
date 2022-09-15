@@ -72,11 +72,11 @@
 				<table class="table table-bordered" id="sInfo">
 					<thead>
 						<tr>
-							<th>학번</th>
-							<th>성명</th>
-							<th>학년</th>
-							<th>대학</th>
-							<th>전공</th>
+							<th>학 번</th>
+							<th>성 명</th>
+							<th>학 년</th>
+							<th>대 학</th>
+							<th>전 공</th>
 							<th>신청 가능학점</th>
 							<th>교양 신청 가능학점</th>
 						</tr>
@@ -133,7 +133,7 @@
 							<th>강의 코드</th>
 							<th>이수 구분</th>
 							<th>강의 명</th>
-							<th>학점</th>
+							<th>학 점</th>
 							<th>담당 교수</th>
 							<th>수강 정원</th>
 							<th>담 기</th>
@@ -149,7 +149,7 @@
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button"
 									class="buttonInsert btn rounded-pill btn-primary"
-									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">담기</button></td>
+									th:data-code="${item.courseCode}" th:data-name="${item.courseName}">담 기</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -167,10 +167,10 @@
 						<tr>
 							<th>강의 코드</th>
 							<th>이수 구분</th>
-							<th>강의명</th>
-							<th>학점</th>
+							<th>강의 명</th>
+							<th>학 점</th>
 							<th>담당 교수</th>
-							<th>취소</th>
+							<th>취 소</th>
 						</tr>
 					</thead>
 					<tbody id="pBody">
@@ -182,7 +182,7 @@
 							<td th:text="${item.professorName}"></td>
 							<td><button type="button"
 									class="buttonDelete btn rounded-pill btn-primary"
-									th:data-code="${item.courseCode}">취소</button></td>
+									th:data-code="${item.courseCode}">취 소</button></td>
 						</tr>
 					</tbody>
 				</table>

@@ -7,20 +7,52 @@
 	<title>Insert title here</title>
 	<style>
 
+		/* 전체 테이블 */
 		table{
 			text-align: center;
 		}
-		
+
+		/* 학생정보 테이블 */
+		#sInfo{
+			margin: auto;
+			color: black;
+		}
+		#sInfo thead{
+			background-color: #435ebe;
+			color: white;
+		}
+		#sInfo tbody{
+			background-color: white;
+		}
+			
 		/* 스크롤 테이블 헤더 고정 */
-		table thead{
+		#rTable {
+			color: black;
+		}
+
+		#rTable thead{
 			background-color: #435ebe;
 			position: sticky;
 			top: 0px;
 			color: white;
 		}
 
-		#regInsertButton:disabled {
-			background-color:#F0F0F0;
+		#pfTable {
+			color: black;
+		}
+
+		#pfTable thead {
+			background-color: #435ebe;
+			color: white;
+		}
+
+		#rsTable {
+			color: black;
+		}
+
+		#rsTable thead {
+			background-color: #435ebe;
+			color: white;
 		}
 
 		p{
@@ -43,14 +75,14 @@
 			<!-- 학생 정보 -->
 			<div class="card">
 			<div class="card-body">
-				<table class="table table-bordered">
+				<table class="table table-bordered" id="sInfo">
 					<thead>
 						<tr>
-							<th>학번</th>
-							<th>성명</th>
-							<th>학년</th>
-							<th>대학</th>
-							<th>전공</th>
+							<th>학 번</th>
+							<th>성 명</th>
+							<th>학 년</th>
+							<th>대 학</th>
+							<th>전 공</th>
 							<th>신청 가능학점</th>
 							<th>교양 신청 가능학점</th>
 						</tr>
@@ -114,12 +146,12 @@
 						<tr>
 							<th>강의 코드</th>
 							<th>이수 구분</th>
-							<th>강의명</th>
-							<th>학점</th>
+							<th>강의 명</th>
+							<th>학 점</th>
 							<th>담당 교수</th>
 							<th>신청 인원</th>
 							<th>수강 정원</th>
-							<th>신청</th>
+							<th>신 청</th>
 						</tr>
 					</thead>
 					<tbody id="rBody">
@@ -132,7 +164,7 @@
 							<td th:text="${item.studentCount}"></td>
 							<td th:text="${item.courseLimit}"></td>
 							<td><button type="button" class="regInsertButton btn rounded-pill btn-primary" th:data-code="${item.courseCode}"
-									th:data-name="${item.courseName}" disabled>신청</button></td>
+									th:data-name="${item.courseName}" disabled>신 청</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -145,17 +177,17 @@
 			<h4>수강꾸러미 내역</h4>
 			<div class="card">
 				<div class="card-body">
-					<table class="table table-bordered">
+					<table class="table table-bordered" id="pfTable">
 						<thead>
 							<tr>
 								<th>과목 코드</th>
 								<th>이수 구분</th>
-								<th>강의명</th>
-								<th>학점</th>
+								<th>강의 명</th>
+								<th>학 점</th>
 								<th>담당 교수</th>
 								<th>신청 인원</th>
 								<th>수강 정원</th>
-								<th>신청</th>
+								<th>신 청</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,7 +200,7 @@
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
 								<td><button type="button" class="regInsertButton btn rounded-pill btn-primary" th:data-code="${item.courseCode}"
-										th:data-name="${item.courseName}">신청</button></td>
+										th:data-name="${item.courseName}">신 청</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -186,8 +218,8 @@
 							<tr>
 								<th>강의 코드</th>
 								<th>이수 구분</th>
-								<th>강의명</th>
-								<th>학점</th>
+								<th>강의 명</th>
+								<th>학 점</th>
 								<th>담당 교수</th>
 								<th hidden>신청 인원</th>
 								<th hidden>수강 정원</th>
@@ -204,7 +236,7 @@
 								<td th:text="${item.studentCount}" hidden></td>
 								<td th:text="${item.courseLimit}" hidden></td>
 								<td><button type="button" class="regDeleteButton btn rounded-pill btn-primary"
-										th:data-code="${item.courseCode}">취소</button></td>
+										th:data-code="${item.courseCode}">취 소</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -237,9 +269,7 @@
 				});
 				return creditCount;
 			}
-			// $(function(){
-			// 	setRegisterTotalData();
-			// })
+
 			// 자동입력방지 코드 생성
 			var keyList = "abcdefghABCDEFGH0123456789"
 			var temp = ''
@@ -317,7 +347,7 @@
 							+ "<td>" + item.professorName + "</td>"
 							+ "<td hidden>" + item.studentCount + "</td>"
 							+ "<td hidden>" + item.courseLimit + "</td>"
-							+ "<td><button type='button'	class='regDeleteButton btn rounded-pill btn-primary'	data-code= " + item.courseCode + ">취소</button></td></tr>";
+							+ "<td><button type='button'	class='regDeleteButton btn rounded-pill btn-primary'	data-code= " + item.courseCode + ">취 소</button></td></tr>";
 						$("#rSuccessBody").append(content);
 						setRegisterTotalData();
 						var rTable = document.getElementById("rTable");
@@ -359,7 +389,7 @@
 								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[6].textContent + "</td>"
-								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)'>신청</button></td></tr>"
+								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)' disabled>신 청</button></td></tr>"
 							$("#rBody").append(cancel);
 							tr.remove();
 							setRegisterTotalData();
