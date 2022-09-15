@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -55,6 +56,14 @@ public class myCourseController {
 	@Autowired
 	CodeService codeService;
 
+	
+	@ModelAttribute("schedule")
+	public BachelorScheduleVO getSchedule() {
+		BachelorScheduleVO schedule = new BachelorScheduleVO();
+		schedule.setDetailCode("BPLAN00");
+		return scheduleService.getScheduleInfo(schedule);
+	}
+	
 	// 학생 학업 정보 조회
 
 	@RequestMapping("/student/studentStudyList")
@@ -75,7 +84,11 @@ public class myCourseController {
 		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
-		model.addAttribute("gradeYearSemester", scheduleService.gradeYearSemester(voo));
+		
+		// 성적 이의 신청 기간 
+		voo.setDetailCode("REG02");
+		model.addAttribute("gradeYearSemester", scheduleService.getScheduleInfo(voo));
+		
 //		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
 		return "student/info/semesterGrade";
 	}
@@ -85,8 +98,8 @@ public class myCourseController {
 	@RequestMapping("student/courseList")
 	public String getstuMyCourse(MyCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model,
 			HttpSession session) {
-		schedule = scheduleService.currentYearSemester(schedule);
 		vo.setStudentId((int) session.getAttribute("id"));
+		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
 		course.setCourseYear(schedule.getYear());
 		course.setCourseSemester(schedule.getSemester());
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
@@ -95,10 +108,13 @@ public class myCourseController {
 
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
-	public String getProfMyCourse(myProfCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model, HttpSession session) {
-
-		schedule = scheduleService.currentYearSemester(schedule);		
+	public String getProfMyCourse(myProfCourseVO vo, 
+									CourseVO course, 
+									BachelorScheduleVO schedule, 
+									Model model, 
+									HttpSession session) {
 		course.setProfessorId((int) session.getAttribute("id"));
+		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
 		course.setCourseYear(schedule.getYear());
 		course.setCourseSemester(schedule.getSemester());
 		model.addAttribute("mycourseList", service.getProfMyCourse(course));
