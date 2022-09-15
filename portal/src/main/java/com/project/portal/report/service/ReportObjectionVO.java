@@ -20,6 +20,8 @@ public class ReportObjectionVO {
 	private String courseCode;
 	private String reportTitle;
 	private String reportScoreObjectionApprovalOption;
+	private int total;
+	private String type;
 	
 	private String reportSubmissionCode; // 과제 제출코드
 	private String reportScoreObjectionApplicationReason;// 이의신청 사유

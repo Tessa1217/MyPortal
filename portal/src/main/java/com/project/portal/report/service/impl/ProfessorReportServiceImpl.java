@@ -111,9 +111,9 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	}
 
 	@Override
-	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo) {
+	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.getStudentObjectionList(vo);
+		return mapper.getStudentObjectionList(vo, cri);
 	}
 
 	@Override
@@ -133,6 +133,12 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		// TODO Auto-generated method stub
 		mapper.updateObjectionScore(vo);
 		
+	}
+
+	@Override
+	public int getReportObjectionTotal() {
+		// TODO Auto-generated method stub
+		return mapper.getReportObjectionTotal();
 	}
 
 }

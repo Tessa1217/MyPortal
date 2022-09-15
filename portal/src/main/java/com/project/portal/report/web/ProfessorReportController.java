@@ -195,10 +195,11 @@ public class ProfessorReportController {
 	
 	//과제 이의신청 관리 리스트
 	@RequestMapping("/reportObjection")
-	public String getStudentObjectionList (ReportObjectionVO vo , Model model, HttpSession session) {
+	public String getStudentObjectionList (ReportObjectionVO vo , Model model, HttpSession session , Criteria cri) {
 		
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
-		model.addAttribute("reportObjection", service.getStudentObjectionList(vo));
+		model.addAttribute("reportObjection", service.getStudentObjectionList(vo , cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getReportObjectionTotal(), cri.getAmount(), cri));
 		
 		return "professor/eclass/report/reportObjection";
 	}
@@ -221,7 +222,6 @@ public class ProfessorReportController {
 	@PostMapping("/updateObjection")
 	public String updateObjection (ReportObjectionVO vo , Model model, HttpSession session) {
 		
-		System.out.println("컨트롤러 탐?");
 		
 		service.updateObjection(vo);
 		service.updateObjectionScore(vo);

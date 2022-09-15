@@ -19,21 +19,10 @@
 				<div class="card-body">
 		<form name="frmsearch" action="/student/eclass/courseQuestion">
 		<select id="type"  name="type">
-			<option th:selected="${pageMaker.cri.type} == '1'" value="1">1주차</option>
-			<option th:selected="${pageMaker.cri.type} == '2'" value="2">2주차</option>
-			<option th:selected="${pageMaker.cri.type} == '3'" value="3">3주차</option>
-			<option th:selected="${pageMaker.cri.type} == '4'" value="4">4주차</option>
-			<option th:selected="${pageMaker.cri.type} == '5'" value="5">5주차</option>
-			<option th:selected="${pageMaker.cri.type} == '6'" value="6">6주차</option>
-			<option th:selected="${pageMaker.cri.type} == '7'" value="7">7주차</option>
-			<option th:selected="${pageMaker.cri.type} == '8'" value="8">8주차</option>
-			<option th:selected="${pageMaker.cri.type} == '9'" value="9">9주차</option>
-			<option th:selected="${pageMaker.cri.type} == '10'" value="10">10주차</option>
-			<option th:selected="${pageMaker.cri.type} == '11'" value="11">11주차</option>
-			<option th:selected="${pageMaker.cri.type} == '12'" value="12">12주차</option>
-			<option th:selected="${pageMaker.cri.type} == '13'" value="13">13주차</option>
-			<option th:selected="${pageMaker.cri.type} == '14'" value="14">14주차</option>
-			<option th:selected="${pageMaker.cri.type} == '15'" value="15">15주차</option>
+		<option th:each="week : ${session.courseInfo.weekPlans}" 
+								th:value="${week.weekNum}" 
+								th:text="|${week.weekNum}주차|"
+								th:selected="${pageMaker.cri.keyword != null && pageMaker.cri.keyword == week.weekCode}"></option>
 		</select>
 		
 		<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">

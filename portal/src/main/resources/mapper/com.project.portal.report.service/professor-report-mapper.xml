@@ -302,6 +302,10 @@
 	
 	
 	<select id="getStudentObjectionList" resultType="ReportObjectionVO">
+	select *
+from (
+select a.*, ROWNUM objection_no
+from (
 	select spi.student_id , spi.student_name ,  ri.report_title, cw.week_num, ro.REPORT_SCORE_OBJECTION_APPROVAL_OPTION, RS.REPORT_SUBMISSION_cODE
            from report_score_objection ro join student_study_info si
           ON  ro.student_id = si.student_id
@@ -313,7 +317,21 @@
           ON ri.report_code = rs.report_code
           join course_weekly cw
           ON ri.week_code = cw.week_code
-          where ri.course_code = #{courseCode}
+          where ri.course_code = #{reportObjection.courseCode}
+          <if test="cri.type != null and cri.type !=''">
+				AND cW.WEEK_NUM = #{cri.type} 
+		</if>
+          
+           ORDER BY 4 DESC) a
+          )
+          
+            <where>
+					<if test="cri != null and cri != ''">
+						<if test="cri.pageNum != null and cri.pageNum != 0">
+							AND objection_no BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
+						</if>
+					</if>
+			</where> 
 	</select>
 	
 	<select id="getStudentObjectionDetail" resultType="ReportObjectionVO">
@@ -358,6 +376,14 @@
 		       set report_score = #{reportScore}
           where report_submission_code = #{reportSubmissionCode}
 	</update>
+	
+	<select id="getReportObjectionTotal" resultType="integer">
+	select count(*) as total
+	 from report_score_objection
+	 <where>
+	 	
+	 </where>
+	</select>
 	
 	
 	
