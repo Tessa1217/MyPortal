@@ -5,7 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<style>
+span {
+	font-size: 20px
+}
+</style>
 </head>
 
 
@@ -48,10 +52,39 @@
 							<dd>
 								<th:block th:each="list : ${scheduleList}">
 									<ul th:if="${list.month == i}">
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+										<!-- <li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li> -->
+										<li>
+											<div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
+												<div
+													th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
+													<div class="row">
+														<div class="col-5">
+															<span
+																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
+														</div>
+														<div class="col-7">
+															<span th:text="|${list.scheduleContent}|"></span>
+														</div>
+													</div>
+												</div>
+												<div
+													th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
+													<div class="row">
+														<div class="col-5">
+															<span
+																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
+														</div>
+														<div class="col-7">
+															<span th:text="|${list.scheduleContent}|"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</li>
+										<!-- <li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
+											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li> -->
 									</ul>
 								</th:block>
 							</dd>
@@ -63,10 +96,35 @@
 							<dd>
 								<th:block th:each="list : ${scheduleList}">
 									<ul th:if="${list.month == i}">
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
-										<li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li>
+										<li>
+											<div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
+												<div
+													th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
+													<div class="row">
+														<div class="col-5">
+															<span
+																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
+														</div>
+														<div class="col-7">
+															<span th:text="|${list.scheduleContent}|"></span>
+														</div>
+													</div>
+												</div>
+												<div
+													th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
+													<div class="row">
+														<div class="col-5">
+															<span
+																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
+														</div>
+														<div class="col-7">
+															<span th:text="|${list.scheduleContent}|"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</li>
 									</ul>
 								</th:block>
 							</dd>
@@ -88,11 +146,13 @@
 									<form name="frm_insert">
 										<label for="scheduleContent">일정</label> <input type="text"
 											class="form-control" name="scheduleContent"
-											id="scheduleContent"> <label for="scheduleStartDate">시작일</label>
-										<input class="form-control" type="date" id="scheduleStartDate"
-											name="scheduleStartDate"> <label
+											id="scheduleContent" required> <label
+											for="scheduleStartDate">시작일</label> <input
+											class="form-control" type="date" id="scheduleStartDate"
+											name="scheduleStartDate" required> <label
 											for="scheduleEndDate">마감일</label> <input class="form-control"
-											type="date" id="scheduleEndDate" name="scheduleEndDate">
+											type="date" id="scheduleEndDate" name="scheduleEndDate"
+											required>
 										<hr>
 										<label for="year">연도</label> <input type="text"
 											class="form-control" name="year" id="insertyear"
@@ -169,6 +229,7 @@
 				$("#view").trigger('change');
 				insertYearSem();
 				banDate();
+				banDate2();
 			})
 			
 			// 시작일 기준 연도, 학기 받아오기
@@ -192,9 +253,30 @@
 					let start = $(e.target).val();
 					console.log($("#scheduleStartDate").val());
 					console.log(start);
+				if ($("#scheduleStartDate").val() == '') {
+					fireSwal('info', '시작일 먼저 지정해주세요.')
+					$("#scheduleEndDate").val('')
+				}
 				if (start < $("#scheduleStartDate").val()) {
 					fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
 					$("#scheduleEndDate").val('')
+				}
+				})
+			}
+			function banDate2() {
+				$("input[name=scheduleStartDate]").on("change", function(e) {
+					let start2 = new Date($(e.target).val());
+					let today = new Date();
+				if (start2 < today) {
+					fireSwal('info', '시작일은 금일 이후로 지정해주세요.')
+					$("#scheduleStartDate").val('')
+				}
+				if($("#scheduleEndDate").val() != '') {
+					if ($("#scheduleEndDate").val() < $("#scheduleStartDate").val()) {
+						fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
+						$("#scheduleEndDate").val('')
+					}
+					
 				}
 				})
 			}
@@ -297,30 +379,54 @@
 
 				}
 				
+				function contentCheck() {
+					if ($("input[name=scheduleContent]").val() == '') {
+						return true;
+					}
+					return false;
+				}
 				
+				function startCheck() {
+					if ($("input[name=scheduleStartDate]").val() == '') {
+						return true;
+					} 
+					return false;
+				}
+				
+				function completeCheck() {
+					let check1 = contentCheck();
+					let check2 = startCheck();
+					return (check1 == false && check2 == false) ? true : false;
+				}
 				
 				function Inputdata() {
+
+					if (!completeCheck()) {
+						fireSwal('warning', '내용을 모두 입력해주세요.');
+						return;
+					} else {
+					
 					let data = {
 							"scheduleContent" : $("#scheduleContent").val(),
 							"scheduleStartDate" : $("#scheduleStartDate").val(),
-							"scheduleEndDate" : $("#scheduleStartDate").val(),
+							"scheduleEndDate" : $("#scheduleEndDate").val(),
 							"year" : $("#insertyear").val(),
 							"semester" : $("#semester").val(),
 							"detailCode" : $("#detailCode").val(),
 						}
-							console.log(data);
-					
+				
 					 $.ajax({
 						url : "/admin/scheduleInsert",
 						method : "post",
 						data : data,
 						success : function(result) {
-							fireSwal('success', '입력이 완료되었습니다.');
+							fireSwal('success', '입력이 완료되었습니다.')
+								.then()
 							$("#insertModal").modal("hide");
 							location.reload();
-						// console.log(result);
 						}
 					}) 
+					}
 				}
 			</script>
 		</div>
