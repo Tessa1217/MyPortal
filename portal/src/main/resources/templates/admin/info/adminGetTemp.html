@@ -60,9 +60,9 @@
 						<tbody class="tbody-center">
 						<tr>
 						<td><button type="button"
-								class="moddd btn btn-primary rounded-pill btn-md">승인</button></td>
+								class="moddd btn btn-primary rounded-pill btn-md" style="width:15%">승인</button></td>
 							<td><button type="button" 
-								class="backReasonWhy btn btn-danger rounded-pill btn-md">비승인</button></td>
+								class="backReasonWhy btn btn-danger rounded-pill btn-md" style="width:15%">비승인</button></td>
 						
 						</tr>
 						</tbody>
@@ -72,7 +72,7 @@
 							
 						
 					</div>
-					<div class="card-body height-thirteen paging">
+					<div class="card-body height-elevenh paging">
 						<form id="tempInfoForm" class="form form-horizontal">
 							<div class="form">
 								<div class="row inputBox">
@@ -207,14 +207,14 @@
 							<div class="card-footer center">
 						<button type="button"
 							onclick="location.href='/admin/adminTempList'"
-							class="btn btn-secondary">목록</button>
+							class="btn btn-secondary" style="width:8%" >목 록</button>
 					</div>
 					</div>
-					<div class="card-body height-thirteen paging hidePage">
+					<div class="card-body height-elevenh paging hidePage">
 						<form
 							th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
 							method="POST">
-							<table class="table">
+							<table class="table table-bordered">
 								<thead class="thead-primary">
 									<tr>
 										<th>주차</th>
@@ -233,7 +233,7 @@
 						<div class="card-footer center">
 						<button type="button"
 							onclick="location.href='/admin/adminTempList'"
-							class="btn btn-secondary">목록</button>
+							class="btn btn-secondary" style="width:8%">목 록</button>
 					</div>
 					</div>
 					

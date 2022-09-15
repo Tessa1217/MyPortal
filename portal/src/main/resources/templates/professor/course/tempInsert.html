@@ -53,7 +53,7 @@
 							<button type="button" class="btn btn-primary bringme" data-toggle="modal" style="margin-right:10%">승인된 강의계획서 불러오기</button>
 							</div>
 						</div>
-						<div class="card-body name">
+						<div class="card-body height-ten paging">
 							<form id="tempInfoForm" class="form form-horizontal"
 								th:action="@{/tempInsertProc}" method="POST"  onsubmit="return message();">
 								<div class="form-body">
@@ -182,10 +182,10 @@
 									
 									</div>
 										<div class="input-container modal-footer"
-								style="justify-content: center !important">
-											<button type="submit" class="btn btn-primary" style="margin-left:2%;" >강의계획서 등록하기</button>
-											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-secondary" style="margin-left:2%;">목록</button>
-											<button type="reset" class="btn btn-dark" style="margin-left:2%;">취소</button>
+								style="justify-content: right !important">
+											<button type="submit" class="btn btn-primary" style="margin-right:2%;" >강의계획서 등록하기</button>
+											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-secondary" style="margin-right:2%;">목록</button>
+											<button type="reset" class="btn btn-secondary" style="margin-right:10%;">취소</button>
 										</div>
 								</div>
 								
@@ -465,7 +465,6 @@
 					alert("등록되었습니다. 주차별 강의계획을 작성해주세요.")
 					frm.submit()
 				}else{
-					
 					
 					return false;
 					

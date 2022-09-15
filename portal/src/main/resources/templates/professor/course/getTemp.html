@@ -115,7 +115,7 @@ text-align : center;
 							</table>
 							</div>
 						</div>
-						<div class="card-body height-thirteen paging">
+						<div class="card-body height-ten paging">
 							<form id="tempInfoForm" class="form form-horizontal">
 								<div class="form">
 									<div class="row inputBox">
@@ -193,7 +193,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.reportAssignedScore}"
 													id="reportAssignedScore" name="reportAssignedScore"
-													class="form-control" min='0' max='100' type="number">
+													class="form-control" min='0' max='50' type="number">
 											</div>
 											<div class="col-md-4">
 												<label>출결 배점</label>
@@ -201,7 +201,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.attAssignedScore}"
 													id="attAssignedScore" name="attAssignedScore"
-													class="form-control" min='0' max='100' type="number">
+													class="form-control" min='0' max='50' type="number">
 											</div>
 										
 										
@@ -211,7 +211,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.midtermAssignedScore}"
 													id="midtermAssignedScore" name="midtermAssignedScore"
-													class="form-control" min='0' max='100' type="number">
+													class="form-control" min='0' max='50' type="number">
 											</div>
 											<div class="col-md-4">
 												<label>기말고사배점</label>
@@ -219,7 +219,7 @@ text-align : center;
 											<div class="col-md-10 form-group">
 												<input th:value="${tempcourse.finalAssignedScore}"
 													id="finalAssignedScore" name="finalAssignedScore"
-													class="form-control" min='0' max='100' type="number">
+													class="form-control" min='0' max='50' type="number">
 											</div>
 										
 										<div class="col-md-4">
@@ -254,26 +254,26 @@ text-align : center;
 												name="courseNotes" class="form-control" style="height:9em;">[[${tempcourse.courseNotes}]]</textarea>
 										</div>
 										</div>
-										<div class="card-footer center">
+										<div class="card-footer right">
 
 											<button th:disabled="${tempcourse.submitYes}=='SUB'"
 												type="button" class="btn btn-primary" id="mod" style="margin-right:30px;">수정하기</button>
 											<button type="button"
 												onclick="location.href='/professor/tempcourseList'"
 												class="btn btn-secondary" style="margin-right:30px;">목록</button>
-											<button type="reset" class="btn btn-dark" style="margin-right:30px;">취소</button>
+											<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
 										</div>
 									</div>
 								</div>
 							</form>
 						</div>
 
-						<div class="card-body height-thirteen paging hidePage">
+						<div class="card-body height-elevenh paging hidePage">
 								<form name="frm"
 									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
 									method="POST">
 									
-									<table class="table">
+									<table class="table table-bordered">
 										<thead class="thead-primary">
 											<tr>
 												<th>주차</th>
@@ -297,13 +297,13 @@ text-align : center;
 
 										</tbody>
 									</table>
-									<div class="card-footer center">
+									<div class="card-footer right">
 										<button th:disabled="${tempcourse.submitYes}=='SUB'"
 											type="button" class="btn btn-primary" onclick="message()" style="margin-right:30px;">수정하기</button>
 										<button type="button"
 											onclick="location.href='/professor/tempcourseList'"
 											class="btn btn-secondary" style="margin-right:30px;">목록</button>
-										<button type="reset" class="btn btn-dark" style="margin-right:30px;">취소</button>
+										<button type="reset" class="btn btn-secondary" style="margin-right:30px;">취소</button>
 										
 									</div>
 								</form>
@@ -348,7 +348,7 @@ text-align : center;
                   <div class="input-container modal-footer">
                      <!-- <button type="button" class="btn btn-outline-danger"
                         data-bs-dismiss="modal" aria-label="Close">확인</button> -->
-                     <button id="closeModal" type="button" class="btn btn-dark"
+                     <button id="closeModal" type="button" class="btn btn-secondary"
                         data-dismiss="modal">닫기</button>
                   </div>
                </div>
@@ -431,6 +431,14 @@ text-align : center;
 				
 				function updateTemp() {
 					let courseCode =  [[${tempcourse.courseCode}]]
+					let data = {
+							"reportAssignedScore" : $("#reportAssignedScore").val(),
+							"attAssignedScore" : $("#attAssignedScore").val(),
+							"midtermAssignedScore" : $("#midtermAssignedScore").val(),
+							"finalAssignedScore" : $("#finalAssignedScore").val(),
+							
+					}
+					
 					$.ajax({
 						url : `/professor/getTemp/${courseCode}/updateTemp`,
 						method : "post",
@@ -464,6 +472,7 @@ text-align : center;
 						}
 						
 					});
+					
 				}
 				
 			});
@@ -581,6 +590,8 @@ text-align : center;
 	 		}
 	 		})
 			
+	 		
+	 		
 			
 			
 			//텍스트 에디터
