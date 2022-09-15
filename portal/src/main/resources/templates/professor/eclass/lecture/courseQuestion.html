@@ -22,7 +22,7 @@
 				<div class="card height-sevenh">
 					<div class="card-body">
 						<form name="frmsearch" action="/professor/eclass/courseQuestion">
-							<select id="type" name="type">
+							<select id="type" name="type" class="form-select width-one inline">
 								<option th:each="week : ${session.courseInfo.weekPlans}" 
 								th:value="${week.weekNum}" 
 								th:text="|${week.weekNum}주차|"
@@ -58,11 +58,18 @@
 									<td th:text="${courseProfQuestion.studentName}"></td>
 									<td th:text="${courseProfQuestion.weekNum}"></td>
 									<td th:text="${courseProfQuestion.lectureQuestionAnswerCheck}"></td>
-									<td>
+									<th:block>
+									<td th:if="${courseProfQuestion.lectureQuestionAnswerCheck} == 'X'">
 										<button type="button"
 											class="btn btn-primary courseProfQuestion"
 											th:data-code="${courseProfQuestion.lectureQuestionNum}">답변하기</button>
 									</td>
+									<td th:if="${courseProfQuestion.lectureQuestionAnswerCheck} == 'O'">
+										<button type="button"
+											class="btn btn-primary courseProfQuestion"
+											th:data-code="${courseProfQuestion.lectureQuestionNum}">수정하기</button>
+									</td>
+									</th:block>
 								</tr>
 							</tbody>
 						</table>

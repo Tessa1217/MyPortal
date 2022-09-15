@@ -49,11 +49,10 @@
 							</tr>
 						</thead>
 						<tbody class="tbody-center">
-							<tr th:each="studyNoticeList : ${studyNoticeList}">
+							<tr th:each="studyNoticeList : ${studyNoticeList}"
+							th:onclick="|location.href='@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${studyNoticeList.courseNoticeNo})}'|">
 								<td th:text="${studyNoticeList.courseNoticeNo}"></td>
-								<td><a th:text="${studyNoticeList.courseNoticeTitle}"
-									th:href="|/student/eclass/eclassnotice/${studyNoticeList.courseNoticeNo}|"></a>
-								</td>
+								<td th:text="${studyNoticeList.courseNoticeTitle}"></td>
 								<td th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 								<th:block>
 								<td th:if="${studyNoticeList.courseNoticeUpdateDate == 'null'}">-</td>

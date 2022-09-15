@@ -189,7 +189,7 @@
             select  A.* , rownum r
             from (
             select 
-            TO_NUMBER(COURSE_NOTICE_NO) AS course_notice_no, course_notice_title
+            TO_NUMBER(COURSE_NOTICE_NO) AS course_notice_no, course_notice_title, course_notice_reg_date
             from course_notice
             where course_code = #{courseCode}
             order by 1 desc) A

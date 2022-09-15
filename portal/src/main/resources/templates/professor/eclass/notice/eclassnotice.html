@@ -65,11 +65,10 @@ td {
 							</tr>
 						</thead>
 						<tbody class="tbody-center">
-							<tr th:each="studyNoticeList : ${studyNoticeList}">
+							<tr th:each="studyNoticeList : ${studyNoticeList}"
+							th:onclick="|location.href='@{/professor/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${studyNoticeList.courseNoticeNo})}'|">
 								<td th:text="${studyNoticeList.courseNoticeNo}"></td>
-								<td><a th:text="${studyNoticeList.courseNoticeTitle}"
-									th:href="|/professor/eclass/eclassnotice/${studyNoticeList.courseNoticeNo}|"></a>
-								</td>
+								<td th:text="${studyNoticeList.courseNoticeTitle}"></td>
 								<td
 									th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 									<th:block>
@@ -115,6 +114,12 @@ td {
 		$('#write').click(function() {
 			location.href="/professor/eclass/eclassnoticewrite"
 		})
+		
+		// 상세보기 이동
+		function detail() {
+			alert('클릭됨?')
+		}
+		
 		// 폼 예외 처리
 		 	$('.search').on("click" , function() {
 			if($("option:selected").val() == null || $("option:selected").val() == '') {

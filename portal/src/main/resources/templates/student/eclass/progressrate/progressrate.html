@@ -117,7 +117,7 @@ caption {
 									<!-- 제출기한 안일 때 -->
 									<th:block th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"> 
 									<td th:if="${reportRate.reportFileCode != null}">
-										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">수정</button>
+										<button	class="saveBtn btn btn-primary me-1 mb-1 reportModifyPage" th:data-reportcode="${reportRate.reportCode}">수정</button>
 									</td>
 									<td th:if="${reportRate.reportFileCode == null}">
 										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">제출</button>
@@ -224,7 +224,7 @@ caption {
 			})
 			
 			// 수정 페이지 이동 버튼
-			$('.reportSubmitPage').on("click", function() {
+			$('.reportModifyPage').on("click", function() {
 				let reportCode = ($(this).data("reportcode"));
 				location.href ="/student/eclass/reportModify/" + reportCode
 			})

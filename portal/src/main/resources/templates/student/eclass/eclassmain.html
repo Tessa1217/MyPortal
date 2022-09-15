@@ -6,9 +6,28 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
- a {
+ #noticeherf {
  	text-decoration : none;
  	 color: black;
+ }
+ 
+ 
+ ul {
+  padding-left : 0px;
+ }
+ li {
+ list-style : none;
+ line-height : 10px;
+
+ }
+ 
+ .date {
+ 	font-size : 12px;
+ 	position:absolute;
+ 	right:0;
+ 	margin-right : 20px;
+ 	
+ 	
  }
 </style>
 </head>
@@ -39,7 +58,8 @@
 							</div>
 						</div>
 						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card mainCard">
+							<div class="card mainCard"
+								th:onclick="|location.href='@{/student/eclass/reportList}'|">
 								<div class="card-body px-3 py-4-5">
 									<div class="row">
 										<div class="col-md-4">
@@ -72,7 +92,8 @@
 							</div>
 						</div>
 						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card mainCard">
+							<div class="card mainCard"
+							th:onclick="|location.href='@{/student/eclass/progressRate}'|">
 								<div class="card-body px-3 py-4-5">
 									<div class="row">
 										<div class="col-md-4">
@@ -209,15 +230,18 @@
 					</div>
 					<div class="card height-sixh">
 						<div class="card-header">
-							<h5>공지사항</h5>
+							<h5>  공지사항</h5>
 						</div>
 						<div class="card-body">
 						
 							<ul th:each="courseNotice : ${courseNotice}">
 								<li>
-								<a th:text="${courseNotice.courseNoticeTitle}"
-								th:href="@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}"></a>
+								<a id="noticeherf" th:text="${courseNotice.courseNoticeTitle}"
+								th:href="@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}">
+								</a>
+								<span class="date" th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
 								</li>
+								<hr>
 							</ul>
 						
 						</div>
