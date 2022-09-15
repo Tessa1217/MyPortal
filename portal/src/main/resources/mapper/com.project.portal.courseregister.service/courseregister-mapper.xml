@@ -147,15 +147,17 @@
 	<insert id="registerInsert" parameterType="com.project.portal.courseregister.service.RegisterVO">
 		INSERT INTO my_course
 				(
-					course_reg_code,
-					apply_date,
-					course_code,
-					student_id
+					COURSE_REG_CODE,
+					APPLY_DATE,
+					COURSE_CODE,
+					COURSE_REVIEW_YN,
+					STUDENT_ID
 				)
 		VALUES	(
 					to_char(SYSDATE, 'YY') ||'0'|| #{courseSemester} || SUBSTR(#{courseCode}, 3,2)||LPAD(TO_CHAR(reg_seq.NEXTVAL), 10, '0'),
 					SYSDATE,
 					#{courseCode},
+					'UNSUB',
 					#{studentId}
 				)		
 	</insert>
