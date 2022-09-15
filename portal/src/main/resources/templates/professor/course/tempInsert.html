@@ -117,14 +117,14 @@
 										</div>
 										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" id="reportAssignedScore"
-												name="reportAssignedScore" min='0' max='100'>
+												name="reportAssignedScore" min='0' max='50' required>
 										</div>
 										<div class="col-md-4">
 											<label>출결 배점</label>
 										</div>
 										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" id="attAssignedScore"
-												name="attAssignedScore" min='0' max='100'>
+												name="attAssignedScore" min='0' max='50' required>
 										</div>
 										
 										
@@ -133,14 +133,14 @@
 										</div>
 										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" id="midtermAssignedScore"
-												name="midtermAssignedScore" min='0' max='100'>
+												name="midtermAssignedScore" min='0' max='50' required>
 										</div>
 										<div class="col-md-4">
 											<label>기말고사배점</label>
 										</div>
 										<div class="col-md-10 form-group">
 											<input type="number" class="form-control" id="finalAssignedScore"
-												name="finalAssignedScore" min='0' max='100'>
+												name="finalAssignedScore" min='0' max='50' required>
 										</div>
 										
 										<div class="col-md-4">
@@ -466,7 +466,7 @@
 					frm.submit()
 				}else{
 					
-					alert("등록이 취소되었습니다")
+					
 					return false;
 					
 				}
@@ -505,9 +505,14 @@
 						tinyMCE.activeEditor.setContent(courseSummary);
 						$("#courseNotes").val(courseNotes);
 						
-						alert('해당 강의계획서 정보를 가져오는데 성공했습니다')
+						fireSwal('success', '정보를 가져오는데 성공했습니다.')
+						.then((result) => {
+							if (result.isConfirmed) {
+								$('#bringme').modal('hide');
+							}
+						})
 						
-						$('#bringme').modal('hide');
+						
 					}
 					
 			});

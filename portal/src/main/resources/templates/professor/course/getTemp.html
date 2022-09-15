@@ -374,10 +374,23 @@ text-align : center;
 			})
 			
 			function message(){
-				if(confirm("변경 내용을 저장하시겠습니까?")){
-					alert("수정되었습니다")
+				
+				fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
+					if (result.isConfirmed) {
+						fireSwal('success', '수정이 완료되었습니다.')
+						.then((result) => {
+							if (result.isConfirmed) {
+								frm.submit()
+							}
+						})
+						
+					}
+				})
+				
+				/* if(confirm("변경 내용을 저장하시겠습니까?")){
+					fireSwal('success', '수정되었습니다.');
 					frm.submit()
-				}
+				} */
 				
 			}
 			
@@ -405,11 +418,17 @@ text-align : center;
 			$(function() {
 				$("#mod").on("click", confirmModal)
 
-				function confirmModal() {
-					if (window.confirm("변경 내용을 저장하시겠습니까?")) {
-						updateTemp();
-					}
-				}
+				  function confirmModal() {
+					fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
+						if (result.isConfirmed) {
+							updateTemp();
+						}
+					})
+				}  
+				
+				
+				
+				
 				function updateTemp() {
 					let courseCode =  [[${tempcourse.courseCode}]]
 					$.ajax({
@@ -435,8 +454,13 @@ text-align : center;
 						dataType : "json",
 						success : function(result) {
 							
-							alert('수정되었습니다')
-							location.reload();
+							fireSwal('success', '수정이 완료되었습니다.')
+							.then((result) => {
+								if (result.isConfirmed) {
+									location.reload();
+								}
+							})
+							
 						}
 						
 					});
@@ -448,6 +472,8 @@ text-align : center;
 			
 			// 교수 제출기능
 			$(".moddd").on("click", function () {
+					
+			
 				if (window.confirm("정말로 제출하시겠습니까?")) {
 					let submistYes = $(this).closest("tr").find("#submitYes").data("codee")
 					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
@@ -470,8 +496,12 @@ text-align : center;
 						success : function(result) {
 							
 							 
-							alert('제출되었습니다')
-							location.reload();
+							fireSwal('success', '제출되었습니다.')
+							.then((result) => {
+								if (result.isConfirmed) {
+									location.reload();
+								}
+							})
 						} 
 					});
 				}
@@ -537,8 +567,15 @@ text-align : center;
 	 				dataType : "json",
 	 				success : function(result){
 	 					
-	 					alert('삭제되었습니다')
-	 					location.replace('/professor/tempcourseList');
+	 					fireSwal('success', '삭제되었습니다.')
+						.then((result) => {
+							if (result.isConfirmed) {
+								location.replace('/professor/tempcourseList');
+							}
+						})
+	 					
+	 					
+	 					
 	 				}
 	 			});
 	 		}
