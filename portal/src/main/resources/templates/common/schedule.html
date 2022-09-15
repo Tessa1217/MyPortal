@@ -324,17 +324,23 @@ span {
 
 			// ◁ 버튼 클릭시 년도 -1
 				function prevYear() {
+					let year = new Date().getFullYear();
+					if($('#year').val() > 2020) {
 					$('#year').val(parseInt($("#year").val()) - 1);
 					document.frm_year.submit();
+					} else {
+						fireSwal('info', '2020년 이전년도 일정은 존재하지 않습니다.')
+					} 
 				}
 			// ▷ 버튼 클릭시 년도 +1
 				function nextYear() {
-					if ($('#year').val() < year) {
+					let year = new Date().getFullYear();
+					if ($('#year').val() < year+1) {
 						$('#year').val(parseInt($("#year").val()) + 1);
 						console.log($("#year").val());
 						document.frm_year.submit()
 					} else {
-						alert("현재년도 입니다.")
+						fireSwal('info', year+1 +'년 일정까지 확인할 수 있습니다.')
 					}
 				}
 
