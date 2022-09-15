@@ -70,12 +70,14 @@ public interface ProfessorReportMapper {
 	void updateScore(ReportSubmissionVO sub);
 	
 	// 과제 이의신청 목록 조회
-	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo);
+	public List<ReportObjectionVO> getStudentObjectionList(@Param("reportObjection") ReportObjectionVO vo, @Param("cri") Criteria cri);
 	// 과제 이의신청 상세 조회
 	public ReportObjectionVO getStudentObjectionDetail(ReportObjectionVO vo);
 	// 과제 이의신청 처리
 	public void updateObjection(ReportObjectionVO vo);
 	// 과제 점수 update
 	public void updateObjectionScore(ReportObjectionVO vo);
+	// 과제 이의신청 총 개수 조회(페이징 처리)
+	public int getReportObjectionTotal();
 
 }

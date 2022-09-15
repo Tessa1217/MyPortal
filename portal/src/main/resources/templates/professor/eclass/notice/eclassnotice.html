@@ -59,7 +59,8 @@ td {
 							<tr>
 								<th width="100px">번호</th>
 								<th width="300px">제목</th>
-								<th width="100px">등록일자</th>
+								<th width="100px">등록일</th>
+								<th width="100px">수정일</th>
 								<th width="100px">조회수</th>
 							</tr>
 						</thead>
@@ -71,6 +72,10 @@ td {
 								</td>
 								<td
 									th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
+									<th:block>
+								<td th:if="${studyNoticeList.courseNoticeUpdateDate == 'null'}">-</td>
+								<td th:if="${studyNoticeList.courseNoticeUpdateDate != 'null'}" th:text="${#dates.format(studyNoticeList.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
+								</th:block>
 								<td th:text="${studyNoticeList.courseNoticeHit}"></td>
 							</tr>
 						</tbody>
