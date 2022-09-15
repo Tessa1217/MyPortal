@@ -9,10 +9,12 @@
 		<ul>
 			<li th:each="notice, idx : ${noticeList}">
 				<span class="div-label" th:text="${notice.noticeDivision}"></span>
+				<p>
 				<a th:href="|@{{uri}/detailNotice/{noticeNo}(uri = ${#strings.replace(#request.requestURI, '/getNotice', '')}, noticeNo = ${notice.noticeNo})}|">
 					<span th:text="${notice.noticeTitle}"></span>
-					<span class="date" th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></span>
 				</a>
+					<span class="date" th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></span>
+				</p>
 			</li>
 		</ul>
 	</div>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
+<!-- Created with Jaspersoft Studio version 7.2.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="course_weekjrxml" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bf6b8a87-3bf7-40b5-b8a7-77dd14d46a3b">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Portal Adapter"/>
-	<parameter name="COURSE_CODE" class="java.lang.String"/>
+	<parameter name="courseCode" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
-FROM COURSE_WEEKLY 
-WHERE COURSE_CODE = $P{COURSE_CODE} 
-ORDER BY WEEK_NUM ASC]]>
+				FROM COURSE_WEEKLY 
+				WHERE COURSE_CODE =  $P{courseCode} 
+				ORDER BY WEEK_NUM ASC]]>
 	</queryString>
 	<field name="WEEK_CODE" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="WEEK_CODE"/>
@@ -45,12 +45,12 @@ ORDER BY WEEK_NUM ASC]]>
 			<rectangle>
 				<reportElement x="122" y="0" width="430" height="30" uuid="38808ec6-3903-45bf-bcc8-7968765e37e4"/>
 			</rectangle>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="2" y="-1" width="120" height="30" uuid="44ba0090-aa6b-4b6e-84c9-257a9892fe2f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none"/>
 				<textFieldExpression><![CDATA[$F{WEEK_NUM}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="122" y="0" width="430" height="30" uuid="53f4fa0a-ac8d-4895-bb19-7f1d8345e90e">
 					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>

@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 <style>
 caption {
-	font-size : 1.5em;
-	color : black;
-	font-weight : bold;
+	font-size: 1.5em;
+	color: black;
+	font-weight: bold;
 }
 </style>
 </head>
@@ -18,203 +18,228 @@ caption {
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2>학습 진척도</h2>
-				<hr>
+				<h3>학습 진척도</h3>
+			</div>
+			<div class="right">
+				<input id="tab1" type="radio" name="tabs" checked> <label
+					for="tab1" class="tabmenu active">출석</label> <input id="tab2"
+					type="radio" name="tabs"> <label for="tab2" class="tabmenu">강의</label>
+				<input id="tab3" type="radio" name="tabs"><label for="tab3"
+					class="tabmenu">과제/시험</label>
+			</div>
 
-				<div class="card" style="width:90%">
-					<div class="card-body" >
-					<h3>출석</h3>
-						<!-- <div style="width: 100%; height: 260px; overflow: auto ;"> -->
-						
-							<table class="table table-hover" style="text-align : center; width:100%">
-								<thead class="thead-primary">
-								<tr>
-									<th width="10%">주차</th>
-									<th width="20%">출석률</th>
-									<th width="50%">과제진행률</th>
-									
-								</tr>
-								</thead>
-								
-								<tbody class="tbody-center">
-								<tr th:each="attRate : ${attRate}">
-									<td th:text="${attRate.weekNum}"></td>
-									<th:block>
-										<td th:text="${attRate.attOption} + '%'"></td>
-									</th:block>
-									
-									 <td>
-								
-										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar"
-												aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
-												th:style="'width:' + ${attRate.reportRate} + '%'"></div>
-									
-										</div>
-									</td>  
-									
-								</tr>
-								</tbody>
-							</table>
-						<!-- </div> -->
-						
-						
-
-						<br> <br>
-						<h3>강의</h3>
-						<!-- <div style="width: 100%; height: 260px; overflow: auto ;"> -->
-							<table class="table table-hover" style="text-align : center; width:100%">
-								<thead class="thead-primary">
-								<tr>
-									<th width="10%">주차</th>
-									<th width="20%">강의주제</th>
-									<th width="40%">강의 진행률</th>
-									<th width="30%">강의 보기</th>
-								</tr>
-								</thead>
-								<tbody class="tbody-center">
-								<tr th:each="courseRate : ${courseRate}">
-									<td th:text="${courseRate.weekNum}">주차</td>
-									<td th:text="${courseRate.lectureTitle}">강의주제</td>
-									<td>
-										<div class="progress">
-											<div class="progress-bar bg-success" role="progressbar"
-												aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
-												th:style="'width:' + ${courseRate.lecProgressRate} + '%'"></div>
-										</div>
-									</td>
-									<td>
-										<button type="button"
-											class="saveBtn btn btn-primary me-1 mb-1 lectureStudy"
-											th:data-lecturecode="${courseRate.lectureCode}">강의보러가기</button>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						<!-- </div> -->
-						<br> <br>
-
-						<h3>과제</h3>
-						<!-- <div style="width :46%; height: 260px; overflow: auto; float:left;"> -->
-							<table class="table table-hover" style="text-align : center; width:100%">
-							<thead class="thead-primary">
-								<tr>
-									<th width="20%">주차</th>
-									<th width="25%">과제명</th>
-									<th width="20%">제출여부</th>
-									<th width="20%">제출</th>
-								</tr>
-								</thead>
-								<tbody class="tbody-center">
-								<tr th:each="reportRate : ${reportRate}">
-									<td th:text="${reportRate.weekNum}"></td>
-									<td th:text="${reportRate.reportTitle}"></td>								
-									<th:block>
-										<td	th:if="${reportRate.reportFileCode == null}">X</td>
-										<td th:if="${reportRate.reportFileCode != null}">O</td>
-									</th:block>
-									
-									<!-- 제출기한 안일 때 -->
-									<th:block th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"> 
+			<div class="card paging height-ten">
+				<div class="card-header">
+					<h4 class="center">나의 출석률</h4>
+				</div>
+				<div class="card-body">
+					<table class="table" style="text-align: center; width: 100%">
+						<thead class="thead-primary">
+							<tr>
+								<th width="10%">주차</th>
+								<th width="20%">강의출석률</th>
+								<th width="50%">과제진행률</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="attRate : ${attRate}">
+								<td th:text="${attRate.weekNum}"></td>
+								<th:block>
+									<td th:text="${attRate.attOption} + '%'"></td>
+								</th:block>
+								<td>
+									<div class="progress">
+										<div class="progress-bar bg-success" role="progressbar"
+											aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
+											th:style="'width:' + ${attRate.reportRate} + '%'"></div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card paging hidePage height-ten">
+				<div class="card-header">
+					<h4 class="center">진행 중인 강의</h4>
+				</div>
+				<div class="card-body">
+					<table class="table" style="text-align: center; width: 100%">
+						<thead class="thead-primary">
+							<tr>
+								<th width="10%">주차</th>
+								<th width="20%">강의주제</th>
+								<th width="40%">강의 진행률</th>
+								<th width="30%">강의 보기</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="courseRate : ${courseRate}">
+								<td th:text="${courseRate.weekNum}">주차</td>
+								<td th:text="${courseRate.lectureTitle}">강의주제</td>
+								<td>
+									<div class="progress">
+										<div class="progress-bar bg-success" role="progressbar"
+											aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
+											th:style="'width:' + ${courseRate.lecProgressRate} + '%'"></div>
+									</div>
+								</td>
+								<td>
+									<button type="button"
+										class="saveBtn btn btn-primary me-1 mb-1 lectureStudy"
+										th:data-lecturecode="${courseRate.lectureCode}">보러가기</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card paging hidePage height-ten">
+				<div class="card-header">
+					<h4 class="center">진행 중인 과제</h4>
+				</div>
+				<div class="card-body">
+					<table class="table" style="text-align: center; width: 100%">
+						<thead class="thead-primary">
+							<tr>
+								<th width="20%">주차</th>
+								<th width="25%">과제명</th>
+								<th width="20%">제출여부</th>
+								<th width="20%">제출</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-center">
+							<tr th:each="reportRate : ${reportRate}">
+								<td th:text="${reportRate.weekNum}"></td>
+								<td th:text="${reportRate.reportTitle}"></td>
+								<th:block>
+									<td th:if="${reportRate.reportFileCode == null}">X</td>
+									<td th:if="${reportRate.reportFileCode != null}">O</td>
+								</th:block>
+								<!-- 제출기한 안일 때 -->
+								<th:block
+									th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<td th:if="${reportRate.reportFileCode != null}">
-										<button	class="saveBtn btn btn-primary me-1 mb-1 reportModifyPage" th:data-reportcode="${reportRate.reportCode}">수정</button>
+										<button
+											class="saveBtn btn btn-primary me-1 mb-1 reportModifyPage"
+											th:data-reportcode="${reportRate.reportCode}">수정</button>
 									</td>
 									<td th:if="${reportRate.reportFileCode == null}">
-										<button	class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage" th:data-reportcode="${reportRate.reportCode}">제출</button>
+										<button
+											class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
+											th:data-reportcode="${reportRate.reportCode}">제출</button>
 									</td>
-									</th:block>
-																		
-									<th:block th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-										
-									<td>
-									-
-									</td>
-									
-									</th:block>
-									
-								</tr>
-								</tbody>
-							</table>
-						<!-- </div> -->
-						
-						<h3>시험</h3>
-						<!-- <div style="width: 46%; height: 260px; overflow: auto; float:right;"> -->
-							<!-- <table class="table table-hover" style="text-align : center; ">
+								</th:block>
+								<th:block
+									th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<td>-</td>
+								</th:block>
+							</tr>
+						</tbody>
+					</table>
+					<div style="margin: 2% 0% 3% 0%;">
+						<h4 class="center" style="font-size:1.2rem;">강의 시험</h4>
+					</div>
+					<div>
+						<table class="table">
 							<thead class="thead-primary">
 								<tr>
 									<th width="100px">시험</th>
 									<th width="100px">점수</th>
 									<th width="100px">응시하기</th>
 								</tr>
-								</thead>
-								<tbody class="tbody-center">
+							</thead>
+							<tbody class="tbody-center">
 								<tr>
 									<th>중간</th>
-									<td th:text="${examMidRate.examScore}"></td>
-									<th:block>
-									<input type="hidden" id="midExamCode" name="examCode" th:value="${examMidRate.examCode}">
-									<input type="hidden" id="midExamDuration" name="examDuration" th:value="${examMidRate.examDuration}">
-									<td th:if="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
+									<th:block th:if="${examMidRate != null}">
+										<td
+											th:text="${examMidRate.examScore != null} ? ${examMidRate.examScore} : '-'"></td>
+										<th:block>
+											<input type="hidden" id="midExamCode" name="examCode"
+												th:value="${examMidRate.examCode}">
+											<input type="hidden" id="midExamDuration" name="examDuration"
+												th:value="${examMidRate.examDuration}">
+											<td
+												th:if="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examMidRate.examStartDate, 'yyyy-MM-dd')} 
-									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" >
-										<button type="button" class="saveBtn btn btn-primary me-1 mb-1 midTest">응시</button>
-									</td>
-									<td th:unless="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
+									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+												<button type="button"
+													class="saveBtn btn btn-primary me-1 mb-1 midTest">응시</button>
+											</td>
+											<td
+												th:unless="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examMidRate.examStartDate, 'yyyy-MM-dd')} 
 									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">-
-									</td>
-									
-									<td th:if="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
+											</td>
+
+											<td
+												th:if="${#dates.format(examMidRate.examEndDate, 'yyyy-MM-dd')} 
 									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examMidRate.examStartDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-										<button type="button" class="saveBtn btn btn-primary me-1 mb-1" disabled>응시</button>
-									</td>
-									
+												<button type="button"
+													class="saveBtn btn btn-primary me-1 mb-1" disabled>응시</button>
+											</td>
+										</th:block>
+									</th:block>
+									<th:block th:unless="${examMidRate != null}">
+										<td>-</td>
+										<td>-</td>
 									</th:block>
 								</tr>
-								</tbody>
-								
 								<tr>
 									<th>기말</th>
-									<td th:text="${examFinalRate.examScore}"></td>									
-									<th:block>
-									<input type="hidden" id="finalExamCode" name="examCode" th:value="${examFinalRate.examCode}">
-									<input type="hidden" id="finalExamDuration" name="examDuration" th:value="${examFinalRate.examDuration}">
-									<td th:if="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
+									<th:block th:if="${examFinalRate != null}">
+										<td
+											th:text="${examFinalRate.examScore != null} ? ${examFinalRate.examScore} : '-'"></td>
+										<th:block>
+											<input type="hidden" id="finalExamCode" name="examCode"
+												th:value="${examFinalRate.examCode}">
+											<input type="hidden" id="finalExamDuration"
+												name="examDuration" th:value="${examFinalRate.examDuration}">
+											<td
+												th:if="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examFinalRate.examStartDate, 'yyyy-MM-dd')} 
-									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" >
-										<button type="button" class="saveBtn btn btn-primary me-1 mb-1 FinalTest">응시</button>
-									</td>
-									<td th:unless="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
+									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+												<button type="button"
+													class="saveBtn btn btn-primary me-1 mb-1 FinalTest">응시</button>
+											</td>
+											<td
+												th:unless="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examFinalRate.examStartDate, 'yyyy-MM-dd')} 
 									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">-
-									</td>
-									
-									<td th:if="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
+											</td>
+											<td
+												th:if="${#dates.format(examFinalRate.examEndDate, 'yyyy-MM-dd')} 
 									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')} 
 									and ${#dates.format(examFinalRate.examStartDate, 'yyyy-MM-dd')} 
 									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-										<button type="button" class="saveBtn btn btn-primary me-1 mb-1" disabled>응시</button>
-									</td>
+												<button type="button"
+													class="saveBtn btn btn-primary me-1 mb-1" disabled>응시</button>
+											</td>
+										</th:block>
+									</th:block>
+									<th:block th:if="${examFinalRate == null}">
+										<td>-</td>
+										<td>-</td>
 									</th:block>
 								</tr>
-																
-						
-							</table> -->
-						<!-- </div>  -->
+							</tbody>
+						</table>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 
 		<script th:inline="javascript">
+			$(function() {
+				showPage();
+			})
 			// 제출 페이지 이동 버튼
 			$('.reportSubmitPage').on("click", function() {
 				let reportCode = ($(this).data("reportcode"));
@@ -222,21 +247,25 @@ caption {
 				location.href = "/student/eclass/reportSubmit/" + reportCode
 
 			})
-			
+
 			// 수정 페이지 이동 버튼
 			$('.reportModifyPage').on("click", function() {
 				let reportCode = ($(this).data("reportcode"));
-				location.href ="/student/eclass/reportModify/" + reportCode
+				location.href = "/student/eclass/reportModify/" + reportCode
 			})
-			
+
 			// 강의 보러가기 이동 버튼
-			$('.lectureStudy').on("click", function() {
-				let lectureCode = ($(this).data("lecturecode"));
-				console.log(lectureCode)
-				location.href = "/student/eclass/watchLecture?lectureCode=" + lectureCode
-			})
-			
-				// 중간시험 보러가기 이동 버튼
+			$('.lectureStudy')
+					.on(
+							"click",
+							function() {
+								let lectureCode = ($(this).data("lecturecode"));
+								console.log(lectureCode)
+								location.href = "/student/eclass/watchLecture?lectureCode="
+										+ lectureCode
+							})
+
+			// 중간시험 보러가기 이동 버튼
 			$('.midTest').on("click", function() {
 				let midExamCode = $('#midExamCode').val()
 				let midExamDuration = $('#midExamDuration').val()
@@ -244,18 +273,22 @@ caption {
 				console.log(midExamDuration)
 				location.href = "/student/eclass/examList/"
 			})
-			
+
 			// 기말시험 보러가기 이동 버튼
-			$('.FinalTest').on("click" , function() {
-				let finalExamCode = $('#finalExamCode').val()
-				let finalExamDuration = $('#finalExamDuration').val()
-				console.log(finalExamCode)
-				console.log(finalExamDuration)
-				alert('기말시험을 시작합니다. \n시험시간은' + (finalExamDuration/60) +'분입니다. \n확인을 누르면 시작합니다.')
-				
-				location.href = "/student/eclass/examTake?examCode=" + finalExamCode +"&examDuration=" + finalExamDuration
-			})
-			
+			$('.FinalTest').on(
+					"click",
+					function() {
+						let finalExamCode = $('#finalExamCode').val()
+						let finalExamDuration = $('#finalExamDuration').val()
+						console.log(finalExamCode)
+						console.log(finalExamDuration)
+						alert('기말시험을 시작합니다. \n시험시간은' + (finalExamDuration / 60)
+								+ '분입니다. \n확인을 누르면 시작합니다.')
+
+						location.href = "/student/eclass/examTake?examCode="
+								+ finalExamCode + "&examDuration="
+								+ finalExamDuration
+					})
 		</script>
 	</th:block>
 

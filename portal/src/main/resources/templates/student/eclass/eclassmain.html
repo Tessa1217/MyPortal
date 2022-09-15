@@ -6,29 +6,33 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
- #noticeherf {
- 	text-decoration : none;
- 	 color: black;
- }
- 
- 
- ul {
-  padding-left : 0px;
- }
- li {
- list-style : none;
- line-height : 10px;
+/* #noticeherf {
+	text-decoration: none;
+	color: black;
+}
 
- }
- 
- .date {
- 	font-size : 12px;
- 	position:absolute;
- 	right:0;
- 	margin-right : 20px;
- 	
- 	
- }
+#notice ul {
+	padding-left: 0px;
+}
+
+#notice li {
+	list-style: none;
+	line-height: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+#notice a {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.date {
+	font-size: 12px;
+	position: absolute;
+	right: 0;
+	margin-right: 20px;
+} */
 </style>
 </head>
 
@@ -93,7 +97,7 @@
 						</div>
 						<div class="col-6 col-lg-3 col-md-6">
 							<div class="card mainCard"
-							th:onclick="|location.href='@{/student/eclass/progressRate}'|">
+								th:onclick="|location.href='@{/student/eclass/progressRate}'|">
 								<div class="card-body px-3 py-4-5">
 									<div class="row">
 										<div class="col-md-4">
@@ -111,12 +115,14 @@
 					</div>
 					<div class="card height-sixh">
 						<div class="card-header">
-							<h4><i class="fa-solid fa-list-ol"></i> Weekly ToDoList</h4>
+							<h4>
+								<i class="fa-solid fa-list-ol"></i> Weekly ToDoList
+							</h4>
 						</div>
 						<div class="card-body">
 							<div>
 								<div>
-								  <h5>강의</h5>
+									<h5>강의</h5>
 								</div>
 								<div th:if="${#lists.size(map.get('lectureList')) == 0}">
 									<div class="no-content-box">
@@ -125,7 +131,7 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('lectureList')) == 0}">
 									<table class="table">
-										<thead>	
+										<thead>
 											<tr>
 												<th>주차</th>
 												<th>강의명</th>
@@ -137,10 +143,10 @@
 											<tr th:each="lecture : ${map.get('lectureList')}">
 												<td th:text="${#strings.substring(lecture.weekCode, 8, 10)}"></td>
 												<td th:text="${lecture.lectureTitle}"></td>
-												<td th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
+												<td
+													th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
 												<td><button type="button"
-												class="btn btn-sm btn-primary rounded-pill"
-												>바로가기</button></td>
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -148,7 +154,7 @@
 							</div>
 							<div>
 								<div>
-								  <h5>과제</h5>
+									<h5>과제</h5>
 								</div>
 								<div th:if="${#lists.size(map.get('reportList')) == 0}">
 									<div class="no-content-box">
@@ -157,7 +163,7 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('reportList')) == 0}">
 									<table class="table">
-										<thead>	
+										<thead>
 											<tr>
 												<th>주차</th>
 												<th>과제명</th>
@@ -169,10 +175,10 @@
 											<tr th:each="report : ${map.get('reportList')}">
 												<td th:text="${#strings.substring(report.weekCode, 8, 10)}"></td>
 												<td th:text="${report.reportTitle}"></td>
-												<td th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
+												<td
+													th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
 												<td><button type="button"
-												class="btn btn-sm btn-primary rounded-pill"
-												>바로가기</button></td>
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -180,7 +186,7 @@
 							</div>
 							<div>
 								<div>
-								  <h5>시험</h5>
+									<h5>시험</h5>
 								</div>
 								<div th:if="${#lists.size(map.get('examList')) == 0}">
 									<div class="no-content-box">
@@ -189,7 +195,7 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('examList')) == 0}">
 									<table class="table">
-										<thead>	
+										<thead>
 											<tr>
 												<th>시험</th>
 												<th>시험 기간</th>
@@ -200,13 +206,14 @@
 										</thead>
 										<tbody>
 											<tr th:each="exam : ${map.get('examList')}">
-												<td th:text="${#strings.startsWith(exam.examCode, 'M')} ? 중간고사 : 기말고사"></td>
-												<td th:text="|${#dates.format(exam.examStartDate, 'yyyy-MM-dd')} - ${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}|"></td>
+												<td
+													th:text="${#strings.startsWith(exam.examCode, 'M')} ? 중간고사 : 기말고사"></td>
+												<td
+													th:text="|${#dates.format(exam.examStartDate, 'yyyy-MM-dd')} - ${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}|"></td>
 												<td th:text="|${exam.examTotalQuestion}문항|"></td>
 												<td th:text="|${exam.examTotalScore}점|"></td>
 												<td><button type="button"
-												class="btn btn-sm btn-primary rounded-pill"
-												>바로가기</button></td>
+														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -220,7 +227,9 @@
 						<div class="card-body py-4 px-3">
 							<div class="d-flex align-items-center">
 								<div class="avatar avatar-xl">
-									<img th:src="@{/download/{fileName}(fileName=${student.studentImg})}" alt="Face 1">
+									<img
+										th:src="@{/download/{fileName}(fileName=${student.studentImg})}"
+										alt="Face 1">
 								</div>
 								<div class="ms-3 name">
 									<h5 class="font-bold" th:text="${student.studentName}"></h5>
@@ -230,20 +239,19 @@
 					</div>
 					<div class="card height-sixh">
 						<div class="card-header">
-							<h5>  공지사항</h5>
+							<h5>공지사항</h5>
 						</div>
-						<div class="card-body">
-						
-							<ul th:each="courseNotice : ${courseNotice}">
-								<li>
-								<a id="noticeherf" th:text="${courseNotice.courseNoticeTitle}"
-								th:href="@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}">
-								</a>
-								<span class="date" th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
+						<div class="card-body" id="noticeFragment">
+							<ul>
+								<li style="margin:5% 0%;" th:each="courseNotice : ${courseNotice}">
+								<a id="noticeherf"
+									th:href="@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}">
+									<span th:text="${courseNotice.courseNoticeTitle}"></span>
+									</a>
+									<span class="date"
+									th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
 								</li>
-								<hr>
 							</ul>
-						
 						</div>
 					</div>
 				</div>

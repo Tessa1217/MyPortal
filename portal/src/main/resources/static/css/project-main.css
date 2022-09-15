@@ -32,7 +32,11 @@
 }
 
 #noticeFragment li {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #eee!important;
+	margin: 1%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #noticeFragment li:last-of-type {
@@ -49,12 +53,19 @@
 }
 
 #noticeFragment .date {
-	float: right;
+	position: absolute;
+	right: 6%;
 }
 
 #noticeFragment a {
 	text-decoration: none;
 	color: #25396f;
+	position: relative;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 70%;
+	float: left;
 }
 
 .table-hover {
@@ -67,7 +78,7 @@
 	text-align: center;
 }
 
-.tbody-center td {
+.tbody-center th, .tbody-center td {
 	text-align: center;
 }
 

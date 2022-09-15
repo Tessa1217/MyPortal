@@ -1,5 +1,7 @@
 package com.project.portal.mycourse.web;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
-import com.project.portal.common.PdfView;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.course.service.CourseService;
@@ -35,6 +37,12 @@ import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
 import com.project.portal.student.service.StudentVO;
 import com.project.portal.studynotice.service.StudyNoticeVO;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 // 작성자: 김진형, 박근형, 권유진 
 @Controller
@@ -197,18 +205,26 @@ public class myCourseController {
 	}
 
 	
+	@Autowired
+	DataSource datasource;
+	
 	// 강의 계획서 pdf 
 	@RequestMapping("/student/eclass/pdf/{courseCode}")
-	public PdfView pdfReport(HttpServletRequest request,
+	public void pdfReport(HttpServletRequest request,
 							HttpServletResponse response,
 							@PathVariable String courseCode,
 							Model model) throws Exception {
-		model.addAttribute("filename", "/reports/course.jasper");
-		Map<String, Object> map = new HashMap<String, Object>();
+		Connection conn = datasource.getConnection();
+		InputStream stream1 = getClass().getResourceAsStream("/reports/course.jrxml");
+		InputStream stream2 = getClass().getResourceAsStream("/reports/course_weekjrxml.jrxml");
+		response.setContentType("application/pdf");
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("courseCode", courseCode);
-		model.addAttribute("param", map);
-		return new PdfView(); 
-		
+		JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
+		JasperReport subReport = JasperCompileManager.compileReport(stream2);
+		map.put("subReport", subReport);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+		JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 	}
 
 }
