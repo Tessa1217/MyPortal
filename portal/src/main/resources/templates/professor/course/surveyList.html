@@ -19,13 +19,19 @@
 			<div class="card height-eight">
 				<div class="card-body">
 					<form name="frm_search" action="/professor/surveyList" method="get">
-						<label for="type">개설연도</label> <input type="number" id="type"
-							class="form-control inline width-two" name="type"
-							th:value="${year}"> <label for="keyword">개설학기</label> <select
-							id="keyword" class="form-select inline width-two"
-							name="keyword">
-							<option th:selected="${semester} == '1'" value="1">1학기</option>
-							<option th:selected="${semester} == '2'" value="2">2학기</option>
+						<label for="type">개설연도</label> 
+						<input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${pageMaker.cri.type}"> 
+						<input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${year}"> 
+							<label for="keyword">개설학기</label> 
+						<select id="keyword" class="form-select inline width-two"	name="keyword">
+							<option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
+								th:selected="${pageMaker.cri.keyword} == ${i}"
+								th:value="${i}"
+								th:text="|${i}학기|"></option>
+							 <option th:if="${pageMaker.cri.keyword} == null" th:each="i : ${#numbers.sequence(1, 2)}"
+								th:selected="${i} == ${semester}"
+								th:value="${i}"
+								th:text="|${i}학기|"></option>
 						</select>
 
 						<button class="btn btn-primary">검색</button>
