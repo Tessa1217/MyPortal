@@ -11,7 +11,7 @@
 		order by course_code desc
 </sql>
 	<select id="getInfo" resultType="ProfessorVO">
-		select depart_code, professor_id
+		select depart_code, professor_id, professor_name
 		from professor where professor_id = #{professorId}
 
 	</select>

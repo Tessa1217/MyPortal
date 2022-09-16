@@ -69,6 +69,7 @@ text-align : center;
 					<div class="card name">
 						<div class="card-header center">
 							<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
+							<h4 th:text="|담당교수: ${professorInfo.professorName}|"></h4>
 							<div class="right">
 							<button th:disabled="${tempcourse.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 												name="button1" class="btn btn-primary moddd"
@@ -381,6 +382,7 @@ text-align : center;
 				
 			})
 			
+			//주차별 계획 수정 할때 메세지
 			function message(){
 				
 				fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
@@ -400,6 +402,7 @@ text-align : center;
 				
 			}
 			
+			//주차별 계획 등록할때 메세지
 	function message2(){
 				
 				fireSwal('info', '주차별 계획을 등록하시겠습니까?').then(function(result) {
@@ -448,7 +451,13 @@ text-align : center;
 							"courseLimit" : $("#courseLimit").val(),
 							"courseName" : $("#courseName").val(),
 					}
-					if(data.reportAssignedScore <= 50 && data.attAssignedScore <= 50  && data.midtermAssignedScore <= 50 && data.finalAssignedScore <= 50 && data.courseName != ""){
+					
+					const r = parseInt(data.reportAssignedScore)
+					const a = parseInt(data.attAssignedScore)
+					const m = parseInt(data.midtermAssignedScore)
+					const f = parseInt(data.finalAssignedScore)
+					
+					if(r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 150){
 					
 					$.ajax({
 						url : `/professor/getTemp/${courseCode}/updateTemp`,
@@ -483,14 +492,17 @@ text-align : center;
 						}
 						
 					});
-					}else if(data.reportAssignedScore > 50 || data.attAssignedScore > 50  || data.midtermAssignedScore > 50 || data.finalAssignedScore > 50 ){
-						fireSwal('warning',"배점 값을 0~50 사이로 입력해주세요.")
+					}else if(r + a + m + f != 100 ){
+						fireSwal('warning',"총 배점 값을 100으로 맞춰주세요.")
 					
 					}else if(data.courseName == ""){
 						fireSwal('warning',"강의명을 입력해주세요.")
 					
-					}
-				
+					}else if(data.courseLimit > 150){
+						fireSwal('warning',"수강인원은 최대 150명입니다.")
+				}else if(data.courseLimit == 0){
+					fireSwal('warning',"수강인원은 0명이 될 수 없습니다.")
+				}
 				}
 				
 			});

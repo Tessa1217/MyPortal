@@ -25,6 +25,7 @@ import com.project.portal.common.Criteria;
 import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
+import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.tempcourse.service.TempcourseListVO;
 import com.project.portal.tempcourse.service.TempcourseService;
@@ -43,6 +44,8 @@ public class TempcourseController {
 	CodeService codeService;
 	@Autowired
 	BachelorScheduleService schedule;
+	@Autowired 
+	ProfessorService proService;
 	
 	@ModelAttribute("Sortation")
 	public List<CodeVO> getSortationCodeList() {
@@ -75,13 +78,16 @@ public class TempcourseController {
 	@RequestMapping("/professor/getTemp/{courseCode}")
 	public String tempcourse(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,
 			Criteria cri, HttpSession session, Authentication authentication, BachelorScheduleVO vooo) {
+		ProfessorVO pvo = new ProfessorVO();
 		vo = service.getTemp(courseCode);
-
+		vo.setProfessorId((int) session.getAttribute("id"));
+		pvo.setProfessorId((int) session.getAttribute("id"));
+		pvo = service.getInfo(pvo);
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
-
+		
 		model.addAttribute("tempcourseLis", list);
 		model.addAttribute("tempcourseList", list2); // 강의계획서불러오기
 		model.addAttribute("tempcourseweekListList", list4); // SemesterVO에서 가져오기
@@ -90,6 +96,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
+		model.addAttribute("professorInfo", proService.professorInfo(pvo));
 
 		logger.info(vo.getCourseCode());
 		return "professor/course/getTemp";
@@ -196,6 +203,8 @@ public class TempcourseController {
 	public String adminTempList(Model model, TempcourseVO vo, Criteria cri, HttpSession session,
 			BachelorScheduleVO vooo) {
 		List<TempcourseVO> tempcourseList = service.adminTempList(vo, cri);
+		ProfessorVO pvo = new ProfessorVO();
+		
 		int total = service.tempcourseListCount(vo, cri);
 		vo.setCourseYear((int) session.getAttribute("year"));
 		vo.setCourseSemester((int) session.getAttribute("semester"));
@@ -211,9 +220,12 @@ public class TempcourseController {
 	@RequestMapping("/admin/adminGetTemp/{courseCode}")
 	public String adminGetTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,
 			Criteria cri, BachelorScheduleVO vooo) {
+		ProfessorVO pvo = new ProfessorVO();
 		vo = service.getTemp(courseCode);
+		pvo.setProfessorId(vo.getProfessorId());
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
+		model.addAttribute("professorInfo", proService.professorInfo(pvo));
 		logger.info(vo.getCourseCode());
 		return "admin/info/adminGetTemp";
 	}
@@ -273,32 +285,6 @@ public class TempcourseController {
 		return service.tempDelete(vo);
 	}
 
-	// 모달창에서 승인된 강의계획서 바로가기에서 수정기능되는 페이지
-	@RequestMapping("/professor/getUpdateTemp/{courseCode}")
-	public String getUpdateTemp(@PathVariable String courseCode, TempcourseVO vo, Model model, TempcourseweekVO voo,
-			Criteria cri, HttpSession session, Authentication authentication) {
-		vo = service.getTemp(courseCode);
-		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
-		model.addAttribute("tempcourseList", tempcourseList);
-		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-		logger.info(vo.getCourseCode());
-		return "professor/course/getUpdateTemp";
-	}
+	
 
-	// 승인된 강의계획서 주차별 강의 수정기능
-	@RequestMapping("/professor/getUpdateTemp/{courseCode}/updateweekTemp")
-	public String updateweekTempU(@PathVariable String courseCode, @RequestParam Map map, Model model,
-			TempcourseweekVO voo, TempcourseVO vo) {
-		TempcourseVO vol = new TempcourseVO();
-		model.addAttribute("tempcourseList", vol);
-		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-		for (int j = 1; j <= 16; j++) {
-			voo.setWeekNum(j);
-			voo.setWeekContent((String) map.get("weekContent" + j));
-			service.updateweekTemp(voo);
-		}
-		return "redirect:/professor/getUpdateTemp/" + courseCode;
-	}
 }

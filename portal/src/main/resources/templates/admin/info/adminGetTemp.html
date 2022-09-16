@@ -50,12 +50,22 @@ br
 				</div>
 				<div class="card name">
 					<div class="card-header center">
+					<div style="margin-top:50px">
 						<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
+						<div class="right" style="margin-right:10%">
+						<h5 th:text="|담당교수: ${professorInfo.professorName}|"></h5>
+						</div>
+						</div>
+						<hr>
 						<div class="right">
 						<button type="button"
-								class="moddd btn btn-primary rounded-pill btn-md" style="width:7%; margin-right:2%">승인</button></td>
+								class="moddd btn btn-primary rounded-pill btn-md" style="width:100px; margin-right:2%">승인</button>
 							<button type="button" 
-								class="backReasonWhy btn btn-danger rounded-pill btn-md" style="width:100px; margin-right:10%">비승인</button></td>
+								class="backReasonWhy btn btn-danger rounded-pill btn-md" style="width:100px; margin-right:10%">비승인</button>
+								</div>
+						<hr>
+						<div class="right">
+						
 						<table class="table">
 						<thead class="thead">
 								
@@ -261,7 +271,7 @@ br
 
 											<input type="hidden" id="tt" name="courseCode"> <select
 												class="form-select width-three" style="margin-bottom: 3%;"
-												name="rejectionDetailCode" id="backReason2" required>
+												name="rejectionDetailCode" id="backReason2">
 												<option value="">비승인 사유</option>
 												<option th:each="re : ${reList}" th:value="${re.detailCode}"
 													th:text="${re.detailName}">
@@ -385,6 +395,7 @@ br
 								backReason : $("textarea[name=backReason]").val(), // 반려 사유
 								courseCode : $("input[name=courseCode]").val() // 강의 코드
 							}
+							if(data.rejectionDetailCode != ''){
 	 							$.ajax({
 									url : `/admin/adminTempList/backTemp`,
 									method : "post",
@@ -399,7 +410,10 @@ br
 												}
 											})
 									}
-								}); 
+								});
+							}else if(data.rejectionDetailCode == ''){
+								fireSwal('warning',"비승인 사유를 선택해주세요.")
+							}
 							}
 						})
 		
