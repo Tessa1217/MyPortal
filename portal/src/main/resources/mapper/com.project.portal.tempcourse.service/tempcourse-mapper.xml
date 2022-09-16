@@ -317,38 +317,7 @@ select week_num,
 	</update>
 	
 	<update id="updateweekTemp" parameterType="com.project.portal.tempcourse.service.TempcourseweekVO">
-	 <!-- merge into temp_course_weekly w using dual on (
-		
-		
-		w.week_start_date is not null
-		
-		
-		) when matched then
-
-		update 
-		set w.week_content = #{weekContent}
-		where w.week_code = #{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0') 
-		and w.course_code = #{courseCode}
-		
-		 when not matched then
-		
-		 insert (
-		w.week_num,
-		w.week_content,
-		w.week_code,
-		w.course_code,
-		w.week_start_date,
-		w.week_end_date
-		)
-		values
-		( 
-		#{weekNum},
-		#{weekContent},
-		#{courseCode}||LPAD(TO_CHAR(#{weekNum}), 2, '0'),
-		#{courseCode},
-		#{weekStartDate},
-		#{weekEndDate}
-		)  -->
+	
 		
 			
 		 update temp_course_weekly
@@ -624,6 +593,44 @@ select week_num,
 		
 		
 	  from temp_course where course_code = #{courseCode} -->
+	
+	</insert>
+	
+	
+	<insert id="okayTempCourseWeek" parameterType="TempcourseweekVO">
+	 
+	   merge into course_weekly c using temp_course_weekly t
+	   
+	   on 
+	   (c.course_code = t.course_code and c.week_code = t.week_code) 
+	   when matched then 
+		update  
+		   set  
+		c.week_content = t.week_content
+		
+		where c.week_code = t.week_code
+		
+		
+		when not matched then 
+
+		insert (
+	 	c.week_code,
+		c.course_code,
+		c.week_num,
+		c.week_content,
+		c.week_start_date,
+		c.week_end_date
+	)
+		values(
+		t.week_code,
+		t.course_code,
+		t.week_num,
+		t.week_content,
+		t.week_start_date,
+		t.week_end_date
+		
+		)
+	 
 	
 	</insert>
 	

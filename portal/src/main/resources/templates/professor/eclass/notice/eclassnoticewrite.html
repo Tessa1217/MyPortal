@@ -59,14 +59,18 @@ td {
                  <div class="form-group">
                <label style="float: left" for="content" class="col-sm-2 control-label">첨부파일</label>
                <div class="col-sm-10">
-                  <input type="file" name="courseNoticeAttachedFileName" multiple>
+                  <input type="file" name="courseNoticeAttachedFileName" class="form-control" multiple>
                </div>
                
  			 </div>
  			 
- 			 
-            <textarea name="courseNoticeContent" id="courseNoticeContent" rows="10" cols="70" required>
+ 			   <div class="form-group">
+ 			    <label style="float: left" for="content" class="col-sm-2 control-label">내용</label><br>
+ 			     <div class="col-sm-10" style="margin-top: 10px;">
+            <textarea name="courseNoticeContent" id="courseNoticeContent" rows="10" cols="70"  class="form-control" required>
             </textarea>
+            </div>
+            </div>
 
             
 			<br>

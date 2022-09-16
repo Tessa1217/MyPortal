@@ -9,8 +9,10 @@
 <body>
 	<th:block layout:fragment="professorContent">
 		<div id="main">
+		<div class="page-title">
 			<h3>나의 강의과목</h3>
-			<hr>
+			</div>
+			
 
 			<!-- 교수 강의 리스트가 없는 경우 -->
 			<div th:if="${mycourseList.isEmpty()}">
@@ -19,15 +21,23 @@
 
 			<!-- 교수 강의 리스트가 있는 경우 -->
 			<div th:unless="${mycourseList.isEmpty()}">
+					<div class="divider">
+						<div class="divider-text">
+							2022-2학기 수강과목
+						</div>
+					</div>
+			
 				<div class="grid-container">
 					<div class="grid-item" th:each="mycourse : ${mycourseList}">
 						<div class="card"
 							th:onclick="|location.href='@{/professor/eclass/{courseCode}(courseCode=${mycourse.courseCode})}'|">
-							<div class="card-body">
-								<h5 class="card-title">강의명 :</h5>
-								<p th:text="${mycourse.courseName}"></p>
-								<h5 class="card-title">교수명 :</h5>
-								<p th:text="${mycourse.professorName}"></p>
+							<div class="card-body height-">
+							
+								<span  class="card-title fw-bold">강의명 :</span>
+								<span class="fw-bold" th:text="${mycourse.courseName}"></span>
+								<br>
+								<span  class="card-title fw-bold">교수명 :</span>
+								<span class="fw-bold" th:text="${mycourse.professorName}"></span>
 							</div>
 						</div>
 					</div>

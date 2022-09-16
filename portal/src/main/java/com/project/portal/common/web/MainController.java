@@ -78,13 +78,17 @@ public class MainController {
 
 	// 교수 메인 페이지
 	@RequestMapping("/professor")
-	public String Phome(HttpSession session, Model model) {
+	public String Phome(HttpSession session, BachelorScheduleVO vo, Model model) {
 		ProfessorVO professor = new ProfessorVO();
 		professor.setProfessorId((int) session.getAttribute("id"));
 		session.setAttribute("professor", professorService.professorInfo(professor));
 		
 		// 강의 계획서 날짜
-
+		Map<String, BachelorScheduleVO> scheduleMap = new HashMap<String, BachelorScheduleVO>();
+		vo.setDetailCode("PROF00");
+		scheduleMap.put("yearSemester", scheduleService.getScheduleInfo(vo));
+		session.setAttribute("scheduleMap", scheduleMap);
+		
 		return "professor/main";
 	}
 	
