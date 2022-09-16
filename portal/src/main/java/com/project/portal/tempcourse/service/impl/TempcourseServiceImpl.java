@@ -148,8 +148,10 @@ public class TempcourseServiceImpl implements TempcourseService{
 	@Transactional
 	public int okayTemp(TempcourseVO vo) {
 		// TODO Auto-generated method stub
+		TempcourseweekVO voo = new TempcourseweekVO();
 		int update= mapper.okayTemp(vo);
 		mapper.okayTempCourse(vo);
+		mapper.okayTempCourseWeek(voo);
 		return update;
 	}
 
@@ -296,6 +298,18 @@ public class TempcourseServiceImpl implements TempcourseService{
 	public int getTotal(TempcourseVO vo, Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.getTotal(vo, cri);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int okayTempCourseWeek(TempcourseweekVO voo) {
+		// TODO Auto-generated method stub
+		return mapper.okayTempCourseWeek(voo);
 	}
 
 
