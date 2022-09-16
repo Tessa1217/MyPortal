@@ -36,14 +36,16 @@
 									강의</span>
 						</a>
 							<ul class="submenu ">
+							<th:block th:with="yearSemester=${session.scheduleMap.get('yearSemester')}">
 								<li class="submenu-item "><a
 									th:href="@{/professor/allCourseList}">내 강의 목록 조회</a></li>
 								<li class="submenu-item "><a th:href="@{/professor/surveyList}">강의
 										수강 후기</a></li>
 								<li class="submenu-item "><a
-									href="/professor/tempcourseList">강의 계획서 조회</a></li>
-								<li class="submenu-item "><a href="@{/professor/tempInsert}">강의
-										계획서 등록</a></li>
+									th:href="@{/professor/tempcourseList}">강의 계획서 조회</a></li>
+									
+								<li class="submenu-item "><a th:href="@{/professor/tempInsert}" th:if="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의
+										계획서 등록</a></li></th:block>
 							</ul></li>
 
 						<li class="sidebar-item"><a
