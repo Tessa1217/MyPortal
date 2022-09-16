@@ -96,13 +96,14 @@
 			</div>
 		</div>
 			<hr>
-			<br>
+
 			<h3>개설강의 LIST</h3>
+			<!-- 학과별 강의 검색 -->
 			<div class="card">
 				<div class="card-body">
-			<!-- 학과별 강의 검색 -->
 			<form name="frmchoice">
 				<select id="departCode" name="departCode">
+						<option value="">전체 강의</option>
 					<option selected>--- 학과선택 ---</option>
 					<optgroup label="인문대학">
 						<option value="JAPA">일어일문학과</option>
@@ -121,10 +122,8 @@
 					</optgroup>
 				</select>
 				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
-				<button class="btn rounded-pill btn-primary" type="button"
-					onclick="location.href='coursePackage'">초기화</button>
 			</form>
-			<br>
+
 			<!-- 강의 목록 -->
 			<div class="overflow-auto" style="max-height: 300px;">
 				<table class="table table-bordered table-hover" id="pTable">

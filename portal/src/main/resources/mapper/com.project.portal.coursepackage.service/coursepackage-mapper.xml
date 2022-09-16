@@ -21,12 +21,12 @@
 		  	ON a.professor_id = b.professor_id
 		WHERE course_year = #{courseYear} 
 		  AND course_semester = #{courseSemester} 
+		<if test="departCode != null and departCode !=''">
+		  AND a.depart_code = #{departCode}
+		</if>
 		  AND a.course_code NOT IN (SELECT course_code 
 		                              FROM course_package 
 		                             WHERE student_id = #{studentId})
-			<!-- <if test="departCode != null and departCode !=''">
-				a.depart_code = #{departCode}
-			</if> -->
 		  ORDER BY course_code ASC
 	</select>
 
