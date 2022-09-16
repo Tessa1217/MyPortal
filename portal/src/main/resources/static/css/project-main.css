@@ -441,6 +441,10 @@ input[name=examQuestionPoint] {
 	width: 10%;
 }
 
+.width-two {
+	width: 20%;
+}
+
 .width-three {
 	width: 30%;
 }

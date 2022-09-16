@@ -40,7 +40,6 @@ public class BachelorController {
 	@RequestMapping({"/student/schedule", "/professor/schedule", "/admin/schedule"})
 	public String getSchedule(HttpServletRequest request, Model model, BachelorScheduleVO vo, HttpSession session) {
 		String requestURI = request.getRequestURI();
-		
 		if(vo.getYear() == 0 ) {
 			vo.setYear((int)session.getAttribute("year"));
 			vo.setSemester((int)session.getAttribute("semester"));
@@ -89,6 +88,7 @@ public class BachelorController {
 		}
 		return command;
 	}
+	
 	
 	@RequestMapping("/admin/getYearSemester")
 	@ResponseBody

@@ -5,30 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>강의 계획서 등록</title>
-<style>
-.offPage {
-	display: none;
-}
-
-.scroll {
-	overflow: scroll;
-	height: 600px;
-}
-
-.name {
-	
-	height : 100%;
-	
-}
-.hidden {
-
-    display:none;
-
-}
-
-
-
-</style>
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
@@ -40,186 +16,207 @@
 					</div>
 					<div class="right">
 						<input id="tab1" type="radio" name="tabs" checked> <label
-							for="tab1" class="tabmenu active">기본 정보</label> 
-							<input id="tab2" type="radio" name="tabs"> <label for="tab2"
-							class="tabmenu offPage">주차 계획</label>
+							for="tab1" class="tabmenu active">기본 정보</label> <input id="tab2"
+							type="radio" name="tabs"> <label for="tab2"
+							class="tabmenu hidePage">주차 계획</label>
 					</div>
-					
+
 					<div class="card paging name" id="tab11">
 						<div class="card-header" align="left">
 							<h3>강의 계획서</h3>
 							<div align="right">
-							
-							<button type="button" class="btn btn-primary bringme" data-toggle="modal" style="margin-right:10%">승인된 강의계획서 불러오기</button>
+
+								<button type="button" class="btn btn-primary bringme"
+									data-toggle="modal" style="margin-right: 10%">승인된
+									강의계획서 불러오기</button>
 							</div>
 						</div>
 						<div class="card-body height-ten paging">
 							<form id="tempInfoForm" class="form form-horizontal"
-								th:action="@{/tempInsertProc}" method="POST"  onsubmit="return message();">
+								th:action="@{/tempInsertProc}" method="POST"
+								onsubmit="return message();">
 								<div class="form-body">
 									<div class="row inputBox">
-									<input type="hidden" name="departCode" th:value="${departInsert.departCode}">
-									<input type="hidden" name="professorId" th:value="${departInsert.professorId}">
-									<div class="col-md-6 col-12">
-										<div class="col-md-4">
-											<label>강의명</label>
-										</div>
-										<div class="col-md-10">
-											<input type="text" class="form-control" name="courseName"  id="courseName" required >
-										</div>
-										
-										<div class="col-md-4">
-											<label>강의 년도</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" name="courseYear" required th:value="${yearSemester.year}">
-										</div>
-										<div class="col-md-4">
-											<label>강의 학기</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<select id="courseSemester" name="courseSemester"
+										<input type="hidden" name="departCode"
+											th:value="${departInsert.departCode}"> <input
+											type="hidden" name="professorId"
+											th:value="${departInsert.professorId}">
+										<div class="col-md-6 col-12">
+											<div class="col-md-4">
+												<label>강의명</label>
+											</div>
+											<div class="col-md-10">
+												<input type="text" class="form-control" name="courseName"
+													id="courseName" required>
+											</div>
+
+											<div class="col-md-4">
+												<label>강의 년도</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control" name="courseYear"
+													required th:value="${yearSemester.year}">
+											</div>
+											<div class="col-md-4">
+												<label>강의 학기</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<select id="courseSemester" name="courseSemester"
 													class="form-control" required>
-													<option class="hidden" value=""
-														th:text="선택"></option>
-													<option th:value="1" th:text="1학기" th:selected="${yearSemester.semester==1}"></option>
-													<option th:value="2" th:text="2학기" th:selected="${yearSemester.semester==2}"></option>
+													<option class="hidden" value="" th:text="선택"></option>
+													<option th:value="1" th:text="1학기"
+														th:selected="${yearSemester.semester==1}"></option>
+													<option th:value="2" th:text="2학기"
+														th:selected="${yearSemester.semester==2}"></option>
 												</select>
-										</div>
-										
-										
-										<div class="col-md-4">
-											<label>이수 구분</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<select class="form-control" name="courseSortation" id="courseSortation" required>
-												<option value="" disabled selected th:text="선택"></option>
-												<option value="L01">교양필수</option>
-												<option value="L02">교양</option>
-												<option value="M01">전공필수</option>
-												<option value="M02">전공</option>
-											</select>
-										</div>
-										<div class="col-md-4">
-											<label>이수 단위</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<select class="form-control" name="courseCredit" id="courseCredit"required>
-												<option value="" disabled selected th:text="선택"></option>
-												<option value="1" th:text="1학점"></option>
-												<option value="2" th:text="2학점"></option>
-												<option value="3" th:text="3학점"></option>
-											</select>
-										</div>
-										
-										<div class="col-md-4">
-											<label>과제 배점</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" id="reportAssignedScore"
-												name="reportAssignedScore" min='0' max='50' required>
-										</div>
-										<div class="col-md-4">
-											<label>출결 배점</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" id="attAssignedScore"
-												name="attAssignedScore" min='0' max='50' required>
-										</div>
-										
-										
-										<div class="col-md-4">
-											<label>중간고사배점</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" id="midtermAssignedScore"
-												name="midtermAssignedScore" min='0' max='50' required>
-										</div>
-										<div class="col-md-4">
-											<label>기말고사배점</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" id="finalAssignedScore"
-												name="finalAssignedScore" min='0' max='50' required>
-										</div>
-										
-										<div class="col-md-4">
-											<label>수강 인원</label>
-										</div>
-										<div class="col-md-10 form-group">
-											<input type="number" class="form-control" name="courseLimit"
-											id="courseLimit"	min='1' max='200' required>
-										</div>
+											</div>
+
+
+											<div class="col-md-4">
+												<label>이수 구분</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<select class="form-control" name="courseSortation"
+													id="courseSortation" required>
+													<option value="" disabled selected th:text="선택"></option>
+													<option value="L01">교양필수</option>
+													<option value="L02">교양</option>
+													<option value="M01">전공필수</option>
+													<option value="M02">전공</option>
+												</select>
+											</div>
+											<div class="col-md-4">
+												<label>이수 단위</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<select class="form-control" name="courseCredit"
+													id="courseCredit" required>
+													<option value="" disabled selected th:text="선택"></option>
+													<option value="1" th:text="1학점"></option>
+													<option value="2" th:text="2학점"></option>
+													<option value="3" th:text="3학점"></option>
+												</select>
+											</div>
+
+											<div class="col-md-4">
+												<label>과제 배점</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control"
+													id="reportAssignedScore" name="reportAssignedScore" min='0'
+													max='50' required>
+											</div>
+											<div class="col-md-4">
+												<label>출결 배점</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control"
+													id="attAssignedScore" name="attAssignedScore" min='0'
+													max='50' required>
+											</div>
+
+
+											<div class="col-md-4">
+												<label>중간고사배점</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control"
+													id="midtermAssignedScore" name="midtermAssignedScore"
+													min='0' max='50' required>
+											</div>
+											<div class="col-md-4">
+												<label>기말고사배점</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control"
+													id="finalAssignedScore" name="finalAssignedScore" min='0'
+													max='50' required>
+											</div>
+
+											<div class="col-md-4">
+												<label>수강 인원</label>
+											</div>
+											<div class="col-md-10 form-group">
+												<input type="number" class="form-control" name="courseLimit"
+													id="courseLimit" min='1' max='200' required>
+											</div>
 										</div>
 										<div class="col-md-6 col-16">
-										<div class="col-md-4">
-											<label>교재 및 참고문헌</label>
-										</div>
-										<div class="col-md-12 form-group">
-											<textarea class="form-control" id="textbookReference"
-												name="textbookReference" style="height:6em;"></textarea>
-										</div>
-										<div class="col-md-4">
-											<label>강의 개요</label>
-										</div>
-										<div class="col-md-12 form-group">
-											
-											
-											<textarea  class="form-control" name="courseSummary" id="courseSummary"></textarea>
-											
-											
-										</div>
-										<div class="col-md-4">
-											<label>강의 참고사항</label>
-										</div>
-										<div class="col-md-12 form-group">
-											<textarea class="form-control"id="courseNotes" name="courseNotes" style="height:6em;"></textarea>
-										</div>
-										</div>
-									
-										
+											<div class="col-md-4">
+												<label>교재 및 참고문헌</label>
+											</div>
+											<div class="col-md-12 form-group">
+												<textarea class="form-control" id="textbookReference"
+													name="textbookReference" style="height: 6em;"></textarea>
+											</div>
+											<div class="col-md-4">
+												<label>강의 개요</label>
+											</div>
+											<div class="col-md-12 form-group">
 
-									
-									</div>
-										<div class="input-container modal-footer"
-								style="justify-content: right !important">
-											<button type="submit" class="btn btn-primary" style="margin-right:2%;" >강의계획서 등록하기</button>
-											<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-secondary" style="margin-right:2%;">목록</button>
-											<button type="reset" class="btn btn-secondary" style="margin-right:10%;">취소</button>
+
+												<textarea class="form-control" name="courseSummary"
+													id="courseSummary"></textarea>
+
+
+											</div>
+											<div class="col-md-4">
+												<label>강의 참고사항</label>
+											</div>
+											<div class="col-md-12 form-group">
+												<textarea class="form-control" id="courseNotes"
+													name="courseNotes" style="height: 6em;"></textarea>
+											</div>
 										</div>
+
+
+
+
+									</div>
+									<div class="input-container modal-footer"
+										style="justify-content: right !important">
+										<button type="submit" class="btn btn-primary"
+											style="margin-right: 2%;">강의계획서 등록하기</button>
+										<button type="button"
+											onclick="location.href='/professor/tempcourseList'"
+											class="btn btn-secondary" style="margin-right: 2%;">목록</button>
+										<button type="reset" class="btn btn-secondary"
+											style="margin-right: 10%;">취소</button>
+									</div>
 								</div>
-								
+
 							</form>
 						</div>
 					</div>
-					
-					
-					
+
+
+
 					<div class="row">
-					<div class="col-md-22 col-12">
-					<div class="card paging name offPage" id="tab22">
-						<div class="card-body">
-							<form th:action="@{/tempweekInsertProc}" method="POST">
-							
-							<h2>주차별 강의 내용</h2>
-									
-									
-							 	<select name="courseCode">
-							 		<option th:each="item:${tempcourseLis}" th:text="${item.courseName}" th:value="${item.courseCode}"></option>
-							 	</select>
-							 
-							 <!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
-								<div>
-									<table class="table">
-										<thead>
-											<tr>
-												<th>주차</th>
-												<th>내용</th>
-											</tr>
-										</thead>
-										<tbody id="tbody">
-											
-											<!-- <th:block th:each="num : ${#numbers.sequence(1,15)}">
+						<div class="col-md-22 col-12">
+							<div class="card paging name hidePage" id="tab22">
+								<div class="card-body">
+									<form th:action="@{/tempweekInsertProc}" method="POST">
+
+										<h2>주차별 강의 내용</h2>
+
+
+										<select name="courseCode">
+											<option th:each="item:${tempcourseLis}"
+												th:text="${item.courseName}" th:value="${item.courseCode}"></option>
+										</select>
+
+										<!-- 	<button  class="btn btn-primary" type="button" onclick="tableAdd()">주차 추가</button> -->
+										<div>
+											<table class="table">
+												<thead>
+													<tr>
+														<th>주차</th>
+														<th>내용</th>
+													</tr>
+												</thead>
+												<tbody id="tbody">
+
+													<!-- <th:block th:each="num : ${#numbers.sequence(1,15)}">
 											<tr>
 												<td th:text="${num}">
 												
@@ -228,45 +225,52 @@
 												<input th:name="|weekContent${num}|" class="form-control">
 												</td>
 											</tr> -->
-											<th:block th:each="week:${tempcourseweekListList}">
-											<tr>
-												 <td th:text="${week.weekNum}" th:value="${week.weekNum}">
-												</td>
-												
-												<td >			
-												
-																				
-												<input th:name="|list[${weekStat.index}].weekContent|" class="form-control">
-												</td>
-												
-												
-											<td><input type="hidden" th:name="|list[${weekStat.index}].weekNum|" th:value="${week.weekNum}" class="form-control">
-											
-												<input class="form-control hidden" type="date" th:name="|list[${weekStat.index}].weekStartDate|" th:value="${week.weekStartDate}" readonly/>
-											
-												<input  class="form-control hidden" type="date" th:name="|list[${weekStat.index}].weekEndDate|" th:value="${week.weekEndDate}" readonly/>
-											</td>
-											
-											</tr>
-											</th:block>
-										</tbody>
-									</table>
-								</div> 
-								<div class="col-sm-12" align="right">
-									<button type="button" class="btn btn-danger" onclick="message()" style="margin-right:30px;">강의 계획서 등록하기</button>
-									<button type="button" onclick="location.href='/professor/tempcourseList'" class="btn btn-info" style="margin-right:30px;">목록 보기</button>
-									<button type="reset" class="btn btn-secondary">취소</button>
+													<th:block th:each="week:${tempcourseweekListList}">
+														<tr>
+															<td th:text="${week.weekNum}" th:value="${week.weekNum}">
+															</td>
+
+															<td><input
+																th:name="|list[${weekStat.index}].weekContent|"
+																class="form-control"></td>
+
+
+															<td><input type="hidden"
+																th:name="|list[${weekStat.index}].weekNum|"
+																th:value="${week.weekNum}" class="form-control">
+
+																<input class="form-control hidden" type="date"
+																th:name="|list[${weekStat.index}].weekStartDate|"
+																th:value="${week.weekStartDate}" readonly /> <input
+																class="form-control hidden" type="date"
+																th:name="|list[${weekStat.index}].weekEndDate|"
+																th:value="${week.weekEndDate}" readonly /></td>
+
+														</tr>
+													</th:block>
+												</tbody>
+											</table>
+										</div>
+										<div class="col-sm-12" align="right">
+											<button type="button" class="btn btn-danger"
+												onclick="message()" style="margin-right: 30px;">강의
+												계획서 등록하기</button>
+											<button type="button"
+												onclick="location.href='/professor/tempcourseList'"
+												class="btn btn-info" style="margin-right: 30px;">목록
+												보기</button>
+											<button type="reset" class="btn btn-secondary">취소</button>
+										</div>
+
+									</form>
 								</div>
-								
-							</form>
+							</div>
 						</div>
-					</div>
-					</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- 강의계획서 불러오기 모달창 -->
 		<div class="modal fade" id="bringme" data-bs-backdrop="static"
 			tabindex="-1" aria-labelledby="staticBackdropLabel"
@@ -276,121 +280,18 @@
 				<div class="modal-content">
 
 					<div class="modal-header">
-						<label class="modal-title" id="staticBackdropLabel">승인된 강의계획서 리스트</label>
+						<label class="modal-title" id="staticBackdropLabel">승인된
+							강의계획서 리스트</label>
 					</div>
 					<div class="modal-body">
-					<form name="searchFrm" id="searchFrm" class="form-horizontal searchFrm">
-					<label for="type">개설연도</label> <input type="number" id="type"
-                     class="form-control inline width-three" name="type"
-                     th:value="${year}"> <label for="keyword">개설학기</label> <select
-                     id="keyword" class="form-select inline width-three"
-                     name="keyword">
-                     <option th:selected="${semester} == '1'" value="1">1학기</option>
-                     <option th:selected="${semester} == '2'" value="2">2학기</option>
-                  </select>
-					<button class="btn rounded-pill btn-primary searchh" type="submit" >검색</button>
-
-				</form>
-					<br>
-					
-						<table class="table">
-					<thead class="thead-primary">
-						<tr>
-							<th>강의코드</th>
-							<th>년도</th>
-							<th>학기</th>
-							<th>이수단위</th>
-							<th>이수구분</th>
-							<th>강의명</th>
-							<th>제출여부</th>
-							<th>승인여부</th>
-							
-							<th>기본정보 담기</th>
-							
-
-						</tr>
-					</thead>
-					<tbody class="tbody-center">
-
-						<tr th:each="item:${tempcourseList}">
-							<td th:text="${item.courseCode}"></td>
-							<td th:text="${item.courseYear}"></td>
-							<td th:text="${item.courseSemester}"></td>
-							<!-- <td th:text="${item.courseCredit}"></td> -->
-							<td>[[${item.courseCredit}]]학점</td>
-							<td th:text="${item.courseSortationName}"></td>
-							<td th:text="${item.courseName}"></td>
-							<td th:text="${item.submitYesName}" id="submitYes"
-								th:data-codee="${item.submitYes}"></td>
-							<td th:text="${item.okayYesName}" id="okayYes"
-								th:data-back="${item.okayYes}"></td>
-
-							
-
-							<!-- <td><a th:href="|/professor/getUpdateTemp/${item.courseCode}|"><button
-										th:text="바로가기" th:data-courseName="${item.courseCode}"
-										class="btn btn-primary"></button></a></td> -->
-										<td><button
-										th:text="기본정보담기" 
-										th:data-coursecode="${item.courseCode}"
-										th:data-coursename="${item.courseName}"
-										th:data-coursesortation="${item.courseSortation}"
-										th:data-coursecredit="${item.courseCredit}"
-										th:data-reportassignedscore="${item.reportAssignedScore}"
-										th:data-attassignedscore="${item.attAssignedScore}"
-										th:data-finalassignedscore="${item.finalAssignedScore}"
-										th:data-midtermassignedscore="${item.midtermAssignedScore}"
-										th:data-courselimit="${item.courseLimit}"
-										th:data-textbookreference="${item.textbookReference}"
-										th:data-coursesummary="${item.courseSummary}"
-										th:data-coursenotes="${item.courseNotes}"
-										class="btn btn-primary passtext" ></button></td>
-							
-						</tr>
-
-					</tbody>
-				</table>
-					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
-                  <ul class="pagination justify-content-center">
-                     <th:block th:if="${pageMaker.prev}">
-                        <li class="page-item prev"><a class="page-link"
-                           href="javascript:void(0)"
-                           th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
-                        </li>
-                     </th:block>
-                     <th:block th:with="pageMaker = ${pageMaker}">
-                        <th:block
-                           th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                           <li class="page-item"
-                              th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-                              <a class="page-link" href="javascript:void(0)"
-                              th:text="${num}"
-                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
-                           </li>
-                        </th:block>
-                        <th:block th:if="${pageMaker.next}">
-                           <li class="page-item next"><a class="page-link"
-                              href="javascript:void(0)"
-                              th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
-                           </li>
-                        </th:block>
-                     </th:block>
-                  </ul>
-               </div>
-				
-						<div class="input-container modal-footer">
-							<!-- <button type="button" class="btn btn-outline-danger"
-								data-bs-dismiss="modal" aria-label="Close">확인</button> -->
-							<button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">닫기</button>
-						</div>
+						<div id="confirmFragment"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		
-		
+
+
+
 		<script th:inline="javascript">
 			
 			$(function() {
@@ -400,35 +301,10 @@
 
 			})
 			
-			// 탭 형식으로 보이기
-			function showPage() {
-			let icons = $("input[name=tabs]");
-			$(icons).each((index, val) => {
-				$(val).on("click", function(e) {
-					$(icons).siblings("label").removeClass("active");
-					if ($(val).is(":checked")) {
-						$(val).next().addClass("active");
-						let page = $(".paging");
-						$(page).each((idx, val) => {
-							$(val).addClass('offPage');
-						})
-						$(page[index]).removeClass("offPage");
-					}
-				})
-			})
-			}
-			
-			
-			
-			
 			//모달창 띄우기
 			function aaaaa () {
 				$(".bringme").on("click", function() {
-					
-					
-					
-					
-					
+					aaa();
 					$('#bringme').modal('show');
 				})
 			}
@@ -442,12 +318,11 @@
 					url : "/professor/tempInsert/bringme",
 					type : 'POST',
 					data: $('#searchFrm').serialize(),
-				 	dataType : 'json',
-	                success: function(data) {
-	                       console.log(data)
-	                  }
-	                ,error: function(result) {
-	                 }
+	       	success: function(fragment) {
+	       			$("#confirmFragment").replaceWith(fragment);
+	        }
+	        , error: function(result) {
+	           }
 				 })
 				
 			 }

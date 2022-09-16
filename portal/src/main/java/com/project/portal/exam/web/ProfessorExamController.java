@@ -172,7 +172,7 @@ public class ProfessorExamController {
 	
 	// 시험지 생성하면 미리보기
 	@RequestMapping({"/generateTestPaper/{examCode}", 
-		"/professor/eclass/examCheck/{examCode}"})
+		"/examCheck/{examCode}"})
 	public String generateTestPaper(@PathVariable String examCode, 
 									ExamInfoVO vo, 
 									ExamVO examVO, 

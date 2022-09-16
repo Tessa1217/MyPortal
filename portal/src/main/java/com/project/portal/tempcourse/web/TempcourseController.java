@@ -258,7 +258,7 @@ public class TempcourseController {
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		return "professor/tempInsert";
+		return "layout/fragments/professor/course/confirmList :: #confirmFragment";
 	}
 
 	// 강의계획서 삭제기능
