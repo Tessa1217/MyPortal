@@ -298,7 +298,7 @@
  		var frmContent = frm.lectureAnswerContent.value
 	 	//답변 내용이 있는지 확인
 	 	if(frmContent == '' || frmContent == null) {
-	 		alert('답변 내용이 없습니다.')
+	 		fireSwal('error', '답변 내용을 입력하세요.')
 	 		return false;
 	 	}
 	 	
@@ -366,7 +366,7 @@
 		var frmContent = frm.lectureAnswerContent.value.trim()
 	 	//답변 내용이 있는지 확인
 	 	if(frmContent == '' || frmContent == null) {
-	 		window.alert('답변 내용이 없습니다.')
+	 		fireSwal('error', '답변 내용을 입력하세요.')
 	 		$('#answercontent').hide()  //답변 내용
 	 		$('#AnswerReg').hide() //답변 등록
 	 		$('#AnswerMod').hide() // 답변 수정

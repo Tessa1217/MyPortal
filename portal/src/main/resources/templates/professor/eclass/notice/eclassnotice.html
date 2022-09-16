@@ -6,27 +6,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<style>
-table {
-	border-collapse: collapse;
-	border: 0;
-}
-
-th {
-	border: 1px solid #aaa;
-	background-clip: padding-box;
-	scroll-snap-align: start;
-	text-align: center;
-	background-color: skyblue;
-}
-
-td {
-	border: 1px solid #aaa;
-	background-clip: padding-box;
-	scroll-snap-align: start;
-	text-align: center;
-}
-</style>
 </head>
 <body>
 	<th:block layout:fragment="professorEclassContent">
@@ -38,13 +17,13 @@ td {
 			<div class="card height-sevenh">
 				<div class="card-body">
 						<form name="searchForm">
-						<select id="type" name="type">
+						<select id="type" name="type" class="form-select width-one inline">
 							<option value="">--</option>
 							<option th:selected="${pageMaker.cri.type} == 'course_Notice_No'" value="course_Notice_No">번호</option>
 							<option th:selected="${pageMaker.cri.type} == 'course_Notice_Title'" value="course_Notice_Title">제목</option>
 							<option th:selected="${pageMaker.cri.type} == 'course_Notice_Content'" value="course_Notice_Content">내용</option>
 						</select> 
-						<input type="text" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}">
+						<input type="text" name="keyword" id="keyword" class="form-control width-three inline" th:value="${pageMaker.cri.keyword}" >
 						<input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
 						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 						<button class="saveBtn btn btn-primary me-1 mb-1 search">검색</button>
@@ -72,8 +51,8 @@ td {
 								<td
 									th:text="${#dates.format(studyNoticeList.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 									<th:block>
-								<td th:if="${studyNoticeList.courseNoticeUpdateDate == 'null'}">-</td>
-								<td th:if="${studyNoticeList.courseNoticeUpdateDate != 'null'}" th:text="${#dates.format(studyNoticeList.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
+								<td th:if="${studyNoticeList.courseNoticeUpdateDate == null}">-</td>
+								<td th:if="${studyNoticeList.courseNoticeUpdateDate != null}" th:text="${#dates.format(studyNoticeList.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
 								</th:block>
 								<td th:text="${studyNoticeList.courseNoticeHit}"></td>
 							</tr>
@@ -108,6 +87,7 @@ td {
 				</div>
 			</div>
 		</div>
+		</div>
 
 		<script th:inline="javascript">
 		//글쓰기 이동
@@ -115,19 +95,15 @@ td {
 			location.href="/professor/eclass/eclassnoticewrite"
 		})
 		
-		// 상세보기 이동
-		function detail() {
-			alert('클릭됨?')
-		}
 		
 		// 폼 예외 처리
 		 	$('.search').on("click" , function() {
 			if($("option:selected").val() == null || $("option:selected").val() == '') {
-				alert("검색 종류를 선택하세요");
+				fireSwal("error" , '검색 종류를 선택하세요.');
 				return false;
 			}
 			if($('input[name=keyword]').val() == null || $('input[name=keyword]').val() == '') {
-				alert("키워드를 입력하세요")
+				fireSwal("error" , '키워드를 입력하세요.');
 				return false;
 			}
 			$('input[name=pageNum]').val('1')
