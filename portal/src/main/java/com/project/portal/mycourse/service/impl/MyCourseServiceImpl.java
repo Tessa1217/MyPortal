@@ -109,4 +109,10 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return mapper.getProfMyCourseSemester(professorId);
 	}
 
+	@Override
+	public int getTotal(MyCourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(vo);
+	}
+
 }
