@@ -136,7 +136,7 @@ public class ProfessorLectureController {
 		course.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("fileList", service.getVideoList(course, cri));
 		model.addAttribute("pageMaker", new PageDTO(service.getVideoTotal(course, cri), cri.getAmount(), cri));
-		return "/layout/fragments/professor-eclass/lecture/fileList :: #tableFragment";
+		return "layout/fragments/professor-eclass/lecture/fileList :: #tableFragment";
 	}
 
 	// 파일 세팅하는 메서드

@@ -1,12 +1,12 @@
 server:
-  port: 80
+  port: 81
 
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     # driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:log4jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
-    # url: jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
+    url: jdbc:log4jdbc:oracle:thin:@portal_high?TNS_ADMIN=/home/Wallet_portal
+    # url: jdbc:log4jdbc:oracle:thin:@portal_high?TNS_ADMIN=C:////Wallet_portal
     username: ADMIN
     password: finalProject@1234
     hikari:

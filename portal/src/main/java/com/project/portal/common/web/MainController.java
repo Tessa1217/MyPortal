@@ -127,7 +127,7 @@ public class MainController {
 			notice.setNoticeDivision("STUD");
 		}
 		model.addAttribute("noticeList", noticeService.getNoticeList(notice, cri));
-		return "/layout/fragments/common/notice :: #noticeFragment";
+		return "layout/fragments/common/notice :: #noticeFragment";
 	}
 
 }
