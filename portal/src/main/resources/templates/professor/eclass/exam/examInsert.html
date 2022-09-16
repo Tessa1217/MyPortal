@@ -32,7 +32,7 @@
 					<th:block th:if="${command} == 1">
 						<div class="card height-seven paging">
 							<th:block
-								th:replace="/layout/fragments/professor-eclass/exam/newTestInfo :: testInfoFragment">
+								th:replace="layout/fragments/professor-eclass/exam/newTestInfo :: testInfoFragment">
 							</th:block>
 						</div>
 					</th:block>
@@ -40,20 +40,20 @@
 						<th:block th:each="exam : ${examList}">
 							<div class="card paging">
 								<th:block
-									th:replace="/layout/fragments/professor-eclass/exam/updateTestInfo :: testInfoFragment">
+									th:replace="layout/fragments/professor-eclass/exam/updateTestInfo :: testInfoFragment">
 								</th:block>
 							</div>
 							<div class="card paging offPage">
 								<div class="row">
 									<th:block
-										th:replace="/layout/fragments/professor-eclass/exam/testList :: testListFragment">
+										th:replace="layout/fragments/professor-eclass/exam/testList :: testListFragment">
 									</th:block>
 								</div>
 							</div>
 							<div class="card paging offPage"
 							style="height:150vh;">
 								<th:block
-									th:replace="/layout/fragments/professor-eclass/exam/makeTest :: makeTestFragment">
+									th:replace="layout/fragments/professor-eclass/exam/makeTest :: makeTestFragment">
 								</th:block>
 							</div>
 						</th:block> 

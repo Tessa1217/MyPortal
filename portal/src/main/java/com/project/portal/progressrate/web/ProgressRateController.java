@@ -37,7 +37,7 @@ public class ProgressRateController {
 		// 시험정보 표시
 		model.addAttribute("examMidRate", Pservice.selectMidExamProgress(vo));
 		model.addAttribute("examFinalRate", Pservice.selectFinalExamProgress(vo));
-		return "/student/eclass/progressrate/progressrate";
+		return "student/eclass/progressrate/progressrate";
 		
 		
 	}

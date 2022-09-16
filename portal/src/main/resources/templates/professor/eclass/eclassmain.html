@@ -228,22 +228,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="card height-seven">
+					<div class="card height-sixh">
 						<div class="card-header">
 							<h5>공지사항</h5>
 						</div>
-						<div class="card-body">
-							<ul th:each="courseNotice : ${courseNotice}">
-								<li>
-								<a id="noticeherf" th:text="${courseNotice.courseNoticeTitle}"
-								th:href="@{/professor/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}"></a>
-								<span class="date" th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
+						<div class="card-body" id="noticeFragment">
+							<ul>
+								<li style="margin:5% 0%;" th:each="courseNotice : ${courseNotice}">
+								<a id="noticeherf" 
+								th:href="@{/professor/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}">
+								<span th:text="${courseNotice.courseNoticeTitle}"></span>
+								</a>
+								<span class="date" 
+								th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
 								</li>
-								<hr>
 							</ul>
 						</div>
-						
-						
 					</div>
 				</div>
 			</div>

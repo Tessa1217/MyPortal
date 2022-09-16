@@ -21,7 +21,7 @@ public class AdminController {
 	public String AdminInfo(AdminVO vo, Model model, HttpSession session) {
 		vo.setAdminId((int) session.getAttribute("id"));
 		model.addAttribute("adminInfo", service.adminInfoSelect(vo));
-		return "admin/info/AdminPersonal";
+		return "admin/info/adminPersonal";
 	}
 	
 	@RequestMapping("/admin/adminInfoUpdate")
