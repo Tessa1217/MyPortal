@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
+import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeService;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.course.service.CourseService;
@@ -97,7 +98,7 @@ public class myCourseController {
 		voo.setDetailCode("REG02");
 		model.addAttribute("gradeYearSemester", scheduleService.getScheduleInfo(voo));
 		
-//		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
 		return "student/info/semesterGrade";
 	}
 

@@ -77,6 +77,59 @@
 		group by course_sortation,course_sortation_credit
 		order by course_sortation desc
 	</select>
+	<select id="getTotal" resultType="int">
+		select count(*)
+		from (
+		select * 
+		from (
+		    select ROWNUM r,
+		                student_id, 
+		                course_year, 
+		                course_name, 
+		                course_semester, 
+		                course_sortation,
+		                course_sortation_nm, 
+		                course_credit, 
+		                course_grade,
+		                course_grade_nm,
+		                course_review_yn
+		    from(
+		            select m.student_id, 
+		                        c.course_year,
+		                        c.course_name, 
+		                        c.course_semester, 
+		                        c.course_sortation,
+		                        find_code(course_sortation) course_sortation_nm, 
+		                        c.course_credit, 
+		                        m.course_grade,
+		                        find_grade(course_grade) course_grade_nm,
+		                        m.course_review_yn
+		            from my_course m
+		            join course c
+		            on c.course_code = m.course_code
+		<where>
+				 student_id = #{studentId}
+			<if test="keyword == '' or keyword == null or type == '' or type == null">
+				and course_semester = #{courseSemester}	and course_year = #{courseYear}
+			</if>
+			<if test="keyword != '' and keyword != null or type != '' and type != null">
+				<if test="keyword == ''and type != ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type == ''">
+					and course_semester = #{keyword}	or course_year = #{type}
+				</if>
+				<if test="keyword != '' and type != ''">
+					and course_semester = #{keyword}	and course_year = #{type}
+				</if>
+			</if>
+		</where>
+		order by course_year desc, course_semester desc
+		)
+	)
+		
+		)
+	</select>
 	
 	<select id="semesterGradeSelect" resultType="MyCourseVO">
 		select * 

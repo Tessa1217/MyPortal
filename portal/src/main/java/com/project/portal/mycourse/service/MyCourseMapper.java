@@ -58,5 +58,6 @@ public interface MyCourseMapper {
 	// 교수의 등록된 강의 년도 조회
 	public List<myProfCourseVO> getProfMyCourseSemester(int professorId);
 //	public int getTotal(MyCourseVO vo);
+	public int getTotal(MyCourseVO vo);
 
 }
