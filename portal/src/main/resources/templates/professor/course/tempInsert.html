@@ -297,7 +297,7 @@
 			$(function() {
 				showPage();
 				aaaaa();
-				modalOff();
+				
 
 			})
 			
@@ -316,7 +316,7 @@
 				 
 				 $.ajax({
 					url : "/professor/tempInsert/bringme",
-					type : 'POST',
+					type : 'GET',
 					data: $('#searchFrm').serialize(),
 	       	success: function(fragment) {
 	       			$("#confirmFragment").replaceWith(fragment);
@@ -339,9 +339,9 @@
 			
 			//모달창 끄기
 			function modalOff() {
-				$("#closeModal").on("click", function() {
+				
 					$('#bringme').modal('hide');
-				})
+				
 			}
 			
 			//등록버튼시 알람
@@ -358,23 +358,24 @@
 			}
 			
 			//모달창에서 정보 옮기기
-			$(".passtext").on("click", 
-					function(){
+					function passtext(e){
+					console.log(e)
 					if(window.confirm("해당 강의계획서 정보를 가져오시겠습니까?")){
 						
+						console.log(e.target.dataset.coursecode)
 						
-						let courseCode = $(this).data("coursecode")
-						let courseName = $(this).data("coursename")
-						let courseSortation = $(this).data("coursesortation")
-						let courseCredit = $(this).data("coursecredit")
-						let reportAssignedScore = $(this).data("reportassignedscore")
-						let attAssignedScore = $(this).data("attassignedscore")
-						let finalAssignedScore = $(this).data("finalassignedscore")
-						let midtermAssignedScore = $(this).data("midtermassignedscore")
-						let courseLimit = $(this).data("courselimit")
-						let textbookReference = $(this).data("textbookreference")
-						let courseSummary = $(this).data("coursesummary")
-						let courseNotes = $(this).data("coursenotes")
+						let courseCode = e.target.dataset.coursecode
+						let courseName = e.target.dataset.coursename
+						let courseSortation = e.target.dataset.coursesortation
+						let courseCredit = e.target.dataset.coursecredit
+						let reportAssignedScore = e.target.dataset.reportassignedscore
+						let attAssignedScore = e.target.dataset.attassignedscore
+						let finalAssignedScore = e.target.dataset.finalassignedscore
+						let midtermAssignedScore = e.target.dataset.midtermassignedscore
+						let courseLimit = e.target.dataset.courselimit
+						let textbookReference = e.target.dataset.textbookreference
+						let courseSummary = e.target.dataset.coursesummary
+						let courseNotes = e.target.dataset.coursenotes
 						
 						console.log(courseCode);
 						$("#courseName").val(courseName);
@@ -399,7 +400,7 @@
 						
 					}
 					
-			});
+			};
 			
 			
 			

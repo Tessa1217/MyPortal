@@ -15,7 +15,8 @@
 				<option th:selected="${semester} == '1'" value="1">1학기</option>
 				<option th:selected="${semester} == '2'" value="2">2학기</option>
 			</select>
-			<button class="btn rounded-pill btn-primary searchh" type="submit">검색</button>
+			<button class="btn rounded-pill btn-primary searchh" type="button"
+			th:onclick="aaa()">검색</button>
 		</form>
 		<table class="table">
 			<thead class="thead-primary">
@@ -56,7 +57,7 @@
 							th:data-textbookreference="${item.textbookReference}"
 							th:data-coursesummary="${item.courseSummary}"
 							th:data-coursenotes="${item.courseNotes}"
-							class="btn btn-primary passtext"></button></td>
+							class="btn btn-primary passtext" th:onclick="passtext(event)"></button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -88,8 +89,10 @@
 		</div>
 		<div class="input-container modal-footer">
 			<button id="closeModal" type="button" class="btn btn-secondary"
-				data-dismiss="modal">닫기</button>
+				data-dismiss="modal" th:onclick="modalOff()">닫기</button>
 		</div>
 	</div>
+	
+	
 </body>
 </html>

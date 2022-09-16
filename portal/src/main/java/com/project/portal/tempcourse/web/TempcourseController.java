@@ -258,6 +258,7 @@ public class TempcourseController {
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		return "layout/fragments/professor/course/confirmList :: #confirmFragment";
 	}
 
