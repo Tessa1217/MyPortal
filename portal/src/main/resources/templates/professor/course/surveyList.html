@@ -312,7 +312,6 @@
 			// 모달 종료 시 첫번째 모달 입력값 초기화
 			function rollbackModal() {
 				$('.myModal').on('hidden.bs.modal', function(e) {
-					console.log('modal close');
 					$('#surveyData').children().remove();
 
 				});

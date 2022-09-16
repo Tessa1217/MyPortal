@@ -133,7 +133,7 @@
 					</div>
 					<!-- Modal -->
 					<!-- 일정 단건 등록 모달 -->
-					<div class="modal fade" id="insertModal" tabindex="-1"
+					<div class="modal fade modalClean" id="insertModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -184,7 +184,7 @@
 					</div>
 					<!-- 일정 단건 등록 모달 end -->
 					<!-- 일괄등록 모달 -->
-					<div class="modal fade" id="allInsertModal" tabindex="-1"
+					<div class="modal fade modalClean" id="allInsertModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -230,6 +230,7 @@
 				insertYearSem();
 				banDate();
 				banDate2();
+				ModalClean();
 			})
 			
 			// 시작일 기준 연도, 학기 받아오기
@@ -294,14 +295,19 @@
 					var calendar = new FullCalendar.Calendar(calendarEl, {
 						initialView : 'dayGridMonth',
 						displayEventTime : false
+						
 					});
+					
 					calendar.render();
 				 	getData().then((result) => {
 						result.forEach((val) => {
+							
 							let event = {
 									title : val.scheduleContent,
 									start : val.scheduleStartDate,
-									end : val.scheduleEndDate,								
+									end : val.scheduleEndDate,
+									
+									
 							}
 							calendar.addEvent(event);
 						})
@@ -391,7 +397,7 @@
 				}
 				
 				function startCheck() {
-					if ($("input[name=scheduleStartDate]").val() == '') {
+					if ($("input[name=scheduleEndDate]").val() == '') {
 						return true;
 					} 
 					return false;
@@ -409,7 +415,6 @@
 						fireSwal('warning', '내용을 모두 입력해주세요.');
 						return;
 					} else {
-					
 					let data = {
 							"scheduleContent" : $("#scheduleContent").val(),
 							"scheduleStartDate" : $("#scheduleStartDate").val(),
@@ -434,6 +439,19 @@
 					}
 					})
 				}
+				}
+				
+				//id_file_upload
+				// 단건등록 모달창 닫힐때 인풋창 초기화
+				function ModalClean() {
+					$('.modalClean').on('hidden.bs.modal', function(e){
+						$("input[name=scheduleContent]").val('')
+						$("input[name=scheduleStartDate]").val('')
+						$("input[name=scheduleEndDate]").val('')
+						$("#insertyear").val('')
+						$("#semester").val('')
+						$("#id_file_upload").val('')
+					})
 				}
 				
 			</script>
