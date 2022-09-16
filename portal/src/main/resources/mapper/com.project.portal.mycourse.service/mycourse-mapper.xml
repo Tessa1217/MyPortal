@@ -61,7 +61,7 @@
 	</select>
 	<select id="studentCreditSum"
 		resultType="MyCourseVO">
-		select trunc(sum(semester_credit2),0) AS "credit_sum",trunc(sum(credit_sum)/sum(semester_credit2),2) AS "grade_avg"
+		select trunc(sum(semester_credit2),0) AS "credit_sum",trunc(nvl(sum(credit_sum)/decode(sum(semester_credit2),0,null,sum(semester_credit2)),0),2) AS "grade_avg"
 		from s_g_vu
 		where student_id = #{studentId}
 	</select>
