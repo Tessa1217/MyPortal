@@ -9,4 +9,6 @@ public class myProfCourseVO {
 	private String courseRegCode;
 	private String courseCode;  // 강의코드
 	private int professorId; // 교수코드
+	private String year;
+	private String semester;
 }

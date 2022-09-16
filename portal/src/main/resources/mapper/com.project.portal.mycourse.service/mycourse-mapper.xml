@@ -196,4 +196,14 @@
             )
             where r between 1 and 10
 	</select>
+	
+	<select id="getProfMyCourseYear" resultType="myProfCourseVO">
+		select distinct course_year from course
+ 		where professor_id = #{value}
+	</select>
+	
+	<select id="getProfMyCourseSemester" resultType="myProfCourseVO">
+		select distinct course_semester from course
+ 		where professor_id = #{value}
+	</select>
 </mapper>

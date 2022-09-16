@@ -125,6 +125,14 @@ public class myCourseController {
 		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
 		course.setCourseYear(schedule.getYear());
 		course.setCourseSemester(schedule.getSemester());
+		int profId = (int)session.getAttribute("id");
+		
+		/*
+		 * model.addAttribute("year", service.getProfMyCourseYear(profId));
+		 * System.out.println(service.getProfMyCourseYear(profId));
+		 * model.addAttribute("semester", service.getProfMyCourseSemester(profId));
+		 * System.out.println(service.getProfMyCourseSemester(profId));
+		 */
 		model.addAttribute("mycourseList", service.getProfMyCourse(course));
 		return "professor/courseList";
 	}

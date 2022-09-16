@@ -97,8 +97,16 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return mapper.getStudyNoticeList(courseCode);
 	}
 
-//	public int getTotal(MyCourseVO vo) {
-//		return mapper.getTotal(vo);
-//	}
+	@Override
+	public List<myProfCourseVO> getProfMyCourseYear(int professorId) {
+		// TODO Auto-generated method stub
+		return mapper.getProfMyCourseYear(professorId);
+	}
+
+	@Override
+	public List<myProfCourseVO> getProfMyCourseSemester(int professorId) {
+		// TODO Auto-generated method stub
+		return mapper.getProfMyCourseSemester(professorId);
+	}
 
 }
