@@ -33,7 +33,7 @@ public class SurveyController {
 		model.addAttribute("surveyState", service.selectSurveyState(coursevo));
 		model.addAttribute("surveyContent" , service.selectSurvey(vo));
 		
-		return "/student/eclass/survey/courseSurvey";
+		return "student/eclass/survey/courseSurvey";
 			
 	}
 	

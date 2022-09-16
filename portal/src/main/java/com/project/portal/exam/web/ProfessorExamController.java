@@ -59,7 +59,6 @@ public class ProfessorExamController {
 		course = (CourseVO) session.getAttribute("courseInfo");
 		List<ExamScoreVO> scores = examService.getExamScore(course, cri);
 		model.addAttribute("scores", scores);
-		System.out.println(scores);
 		model.addAttribute("pageMaker", new PageDTO(examService.getExamScoreTotal(course, cri), cri.getAmount(), cri));
 		return "professor/eclass/exam/examScore";
 	}
@@ -78,7 +77,6 @@ public class ProfessorExamController {
 	@ResponseBody
 	public ExamVO getExamList(CourseVO course, ExamVO exam) {
 		examService.insertExam(course, exam);
-		System.out.println(exam);
 		return exam;
 	}
 	
@@ -106,7 +104,7 @@ public class ProfessorExamController {
 		examService.updateExam(vo);
 		List<ExamVO> examList = examService.getExamList((CourseVO) session.getAttribute("courseInfo"), vo);
 		model.addAttribute("examList", examList);
-		return "/layout/fragments/professor-eclass/exam/updateForm :: #update-container";
+		return "layout/fragments/professor-eclass/exam/updateForm :: #update-container";
 	}
 	
 	// 기존에 생성된 시험 정보 삭제
@@ -138,7 +136,7 @@ public class ProfessorExamController {
 	public String createQuestion(@RequestBody QuestionVO vo, Model model) {
 		examService.createQuestion(vo);
 		model.addAttribute("question", vo);
-		return "/layout/fragments/professor-eclass/exam/newTestQuestion :: #newQuestion";
+		return "layout/fragments/professor-eclass/exam/newTestQuestion :: #newQuestion";
 	}
 	
 	// 시험 문제 삭제

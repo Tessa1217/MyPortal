@@ -92,7 +92,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 
 		logger.info(vo.getCourseCode());
-		return "/professor/course/getTemp";
+		return "professor/course/getTemp";
 	}
 
 	// 교수 강의계획서 리스트목록(GET)
@@ -112,7 +112,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 
-		return "/professor/course/tempcourseList";
+		return "professor/course/tempcourseList";
 	}
 
 	// 강의계획서 등록페이지
@@ -141,7 +141,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseweekList", list3); // 강의계획서 주차별 정보 가져오기
 		model.addAttribute("departInsert", pvo);
 
-		return "/professor/course/tempInsert";
+		return "professor/course/tempInsert";
 	}
 
 	// 강의계획서 기본정보 등록 처리(POST)
@@ -204,7 +204,7 @@ public class TempcourseController {
 		model.addAttribute("semester", vo.getCourseSemester());
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		return "/admin/info/adminTempList";
+		return "admin/info/adminTempList";
 	}
 
 	// 관리자 강의계획서 상세보기
@@ -215,7 +215,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 		logger.info(vo.getCourseCode());
-		return "/admin/info/adminGetTemp";
+		return "admin/info/adminGetTemp";
 	}
 
 	// 관리자 강의계획서 승인기능
@@ -258,7 +258,7 @@ public class TempcourseController {
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
 		model.addAttribute("tempcourseList", tempcourseList);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
-		return "/professor/tempInsert";
+		return "professor/tempInsert";
 	}
 
 	// 강의계획서 삭제기능
@@ -278,7 +278,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 		logger.info(vo.getCourseCode());
-		return "/professor/course/getUpdateTemp";
+		return "professor/course/getUpdateTemp";
 	}
 
 	// 승인된 강의계획서 주차별 강의 수정기능

@@ -30,16 +30,16 @@
 					th:value="${#dates.createNow()} gt ${lecture.lectureEndDate} ? 1 : 0">
 					<th:block th:if="${lecture.videoCode == null}">
 						<div class="card col-8"
-							th:replace="/layout/fragments/student-eclass/iframeComponent :: videoFragment">
+							th:replace="layout/fragments/student-eclass/iframeComponent :: videoFragment">
 						</div>
 					</th:block>
 					<th:block th:unless="${lecture.videoCode == null}">
 						<div class="card col-8"
-							th:replace="/layout/fragments/student-eclass/videoComponent :: videoFragment">
+							th:replace="layout/fragments/student-eclass/videoComponent :: videoFragment">
 						</div>
 					</th:block>
 				<th:block
-					th:replace="/layout/fragments/student-eclass/boardComponent :: boardFragment">
+					th:replace="layout/fragments/student-eclass/boardComponent :: boardFragment">
 				</th:block>
 			</div>
 		</div>
