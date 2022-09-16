@@ -255,8 +255,12 @@ public class TempcourseController {
 	public String bringme(Model model, TempcourseVO vo, Criteria cri, HttpSession session,
 			Authentication authentication) {
 		vo.setProfessorId((int) session.getAttribute("id"));
-		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
-		model.addAttribute("tempcourseList", tempcourseList);
+		List<TempcourseVO> tempcourseListOkay = service.bringme(vo, cri);
+		vo.setCourseYear((int) session.getAttribute("year"));
+		vo.setCourseSemester((int) session.getAttribute("semester"));
+		model.addAttribute("year", vo.getCourseYear());
+		model.addAttribute("semester", vo.getCourseSemester());
+		model.addAttribute("tempcourseList", tempcourseListOkay);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		return "layout/fragments/professor/course/confirmList :: #confirmFragment";

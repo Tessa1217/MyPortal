@@ -120,7 +120,7 @@ text-align : center;
 							
 							</div>
 						</div>
-						<div class="card-body height-ten paging">
+						<div class="card-body height-thirteen paging">
 							<form id="tempInfoForm" class="form form-horizontal">
 								<div class="form">
 									<div class="row inputBox">
@@ -273,7 +273,7 @@ text-align : center;
 							</form>
 						</div>
 
-						<div class="card-body height-elevenh paging hidePage">
+						<div class="card-body height-thirteen paging hidePage">
 								<form name="frm"
 									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
 									method="POST">
@@ -292,9 +292,9 @@ text-align : center;
 												
 											   <tr th:each="items:${tempcourseweek}">
 											   
-												<td th:text="${items.weekNum}" th:value="${items.weekNum}"></td>
+												<td th:text="${items.weekNum}" th:value="${items.weekNum}" id="weekNum"></td>
 												<td><input th:name="|weekContent${items.weekNum}|"
-													class="form-control" th:value="${items.weekContent}"></td>
+													class="form-control" th:value="${items.weekContent}" id="weekContent"></td>
 													</tr>
 												<th:block th:each="week:${tempcourseweekListList}">
 												<tr>
@@ -303,6 +303,8 @@ text-align : center;
 										</tbody>
 									</table>
 									<div class="card-footer right">
+									<button th:disabled="${tempcourse.submitYes}=='SUB'"
+											type="button" class="btn btn-primary" onclick="message2()" style="margin-right:30px;">주차별 계획 등록하기</button>
 										<button th:disabled="${tempcourse.submitYes}=='SUB'"
 											type="button" class="btn btn-primary" onclick="message()" style="margin-right:30px;">수정하기</button>
 										<button type="button"
@@ -382,6 +384,7 @@ text-align : center;
 			function message(){
 				
 				fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
+						
 					if (result.isConfirmed) {
 						fireSwal('success', '수정이 완료되었습니다.')
 						.then((result) => {
@@ -393,10 +396,26 @@ text-align : center;
 					}
 				})
 				
-				/* if(confirm("변경 내용을 저장하시겠습니까?")){
-					fireSwal('success', '수정되었습니다.');
-					frm.submit()
-				} */
+				
+				
+			}
+			
+	function message2(){
+				
+				fireSwal('info', '주차별 계획을 등록하시겠습니까?').then(function(result) {
+						
+					if (result.isConfirmed) {
+						fireSwal('success', '등록되었습니다.')
+						.then((result) => {
+							if (result.isConfirmed) {
+								frm.submit()
+							}
+						})
+						
+					}
+				})
+				
+				
 				
 			}
 			
@@ -483,9 +502,17 @@ text-align : center;
 					
 			
 				if (window.confirm("정말로 제출하시겠습니까?")) {
+					
+					let data = {
+							"weekContent" : $("#weekContent").val(),
+						
+					}
 					let submistYes = $(this).closest("tr").find("#submitYes").data("codee")
 					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 					let courseCode = $(this).data("course")
+					if(data.weekContent != ''){
+						
+					
 					// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  
 					/* if(submitYes=='SUB'||submitYes=='UNSUB'){ */
 						submitYes = 'SUB'
@@ -512,6 +539,9 @@ text-align : center;
 							})
 						} 
 					});
+					}else{
+						fireSwal('warning',"주차별 계획을 완성해주세요.")
+					}
 				}
 			})
 			

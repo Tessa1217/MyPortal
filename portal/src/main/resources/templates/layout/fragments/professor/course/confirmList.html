@@ -7,7 +7,7 @@
 <body>
 	<div id="confirmFragment">
 		<form name="searchFrm" id="searchFrm"
-			class="form-horizontal searchFrm">
+			class="form-horizontal searchFrm" onkeydown="return event.key != 'Enter';">
 			<label for="type">개설연도</label> <input type="number" id="type"
 				class="form-control inline width-three" name="type"
 				th:value="${year}"> <label for="keyword">개설학기</label> <select
