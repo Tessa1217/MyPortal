@@ -17,14 +17,14 @@ public class CodeTest {
 	CodeServiceImpl service;
 	
 	// 단건의 그룹코드로 상세 코드 리스트 조회
-	@Test
+	//@Test
 	public void codeTest() {
 		List<CodeVO> codeList = service.getDetailList("C01");
 		System.out.println(codeList);
 	}
 	
 	// 여러 건의 그룹코드로 관련 그룹코드의 상세 코드 리스트 전부 조회
-	@Test
+	//@Test
 	public void codeListTest() {
 		Map<String, List<CodeVO>> map = service.getAllDetailList("C01", "S01");
 		System.out.println(map.get("C01"));

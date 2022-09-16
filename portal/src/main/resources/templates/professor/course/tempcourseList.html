@@ -38,6 +38,9 @@ text-align : center;
 
 }
 
+br
+{mso-data-placement:same-cell;}
+
 
 </style>
 </head>
@@ -50,8 +53,7 @@ text-align : center;
 			</div>
 			<br><br>
 			
-			<h5 th:text="|강의계획서 등록 및 제출기간 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
-				<h5 th:text="|현재년도 학기  : ${yearSemester.year}년도 ${yearSemester.semester}학기|"></h5>
+			
 				<div class="card height-eight">
 			<div class="card-header">
 			<form name="searchFrm" class="form-horizontal">
@@ -65,8 +67,8 @@ text-align : center;
                   </select>
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
-				</form>
-				
+				</form><br>
+				<h6 th:text="|강의계획서 등록 및 제출기간 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h6>
 			</div>
 				<div class="card-body">
 				<table class="table table-hover" id="table123">
@@ -178,14 +180,14 @@ text-align : center;
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                            <div class="card-body">
                               <table class="table table-bordered">   
-                              <div class="col-md-10 col-16">
                                  <tr>
                                     <th>비승인 사유</th>
                                     <th>세부 내용</th>
                                  </tr>
                                  <tr>
                                     <td id="backReason3" width="30%"></td>
-                                    <td id="backReason2" style="height:auto;"></td>
+                                   <td> <pre id="backReason2" style="height:auto; width:700px; word-break:break-all; table-layout: fixed;">
+                                    </pre></td>
                                     <!-- <td id="backReason3"></td> -->
                                     </tr>
                               </table>

@@ -175,7 +175,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", vol);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-		for (int j = 1; j <= 15; j++) {
+		for (int j = 1; j <= 16; j++) {
 			voo.setWeekNum(j);
 			voo.setWeekContent((String) map.get("weekContent" + j));
 			service.updateweekTemp(voo);
@@ -289,7 +289,7 @@ public class TempcourseController {
 		model.addAttribute("tempcourseList", vol);
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
-		for (int j = 1; j <= 15; j++) {
+		for (int j = 1; j <= 16; j++) {
 			voo.setWeekNum(j);
 			voo.setWeekContent((String) map.get("weekContent" + j));
 			service.updateweekTemp(voo);

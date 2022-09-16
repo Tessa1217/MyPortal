@@ -288,7 +288,7 @@
                      <option th:selected="${semester} == '1'" value="1">1학기</option>
                      <option th:selected="${semester} == '2'" value="2">2학기</option>
                   </select>
-					<button class="btn rounded-pill btn-primary searchh" type="submit">검색</button>
+					<button class="btn rounded-pill btn-primary searchh" type="submit" >검색</button>
 
 				</form>
 					<br>
@@ -436,11 +436,21 @@
 			
 			 //모달창 검색 안꺼지게
 		
-				$(".searchFrm").on("submit", function() {
-					
-					$('#bringme').modal('show');
-					
-				})
+				function aaa(){
+				 
+				 $.ajax({
+					url : "/professor/tempInsert/bringme",
+					type : 'POST',
+					data: $('#searchFrm').serialize(),
+				 	dataType : 'json',
+	                success: function(data) {
+	                       console.log(data)
+	                  }
+	                ,error: function(result) {
+	                 }
+				 })
+				
+			 }
 			
 			
 			

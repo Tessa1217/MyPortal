@@ -2,7 +2,6 @@ package com.project.portal;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,7 +15,6 @@ public class ReportTest {
 	@Autowired
 	ProfessorReportServiceImpl service;
 	
-	@Test
 	public void reportListTest() {
 		CourseVO course = new CourseVO();
 		course.setCourseCode("SSPY0001");

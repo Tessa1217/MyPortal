@@ -17,7 +17,6 @@ public class StudentExamTest {
 	@Autowired
 	StudentExamMapper mapper;
 	
-	//@Test
 	public void test2() {
 		ExamVO vo = new ExamVO();
 		vo.setExamCode("MSSPY0001222");
@@ -25,7 +24,6 @@ public class StudentExamTest {
 		System.out.println(list);
 	}
 	
-	@Test
 	public void resultTest() {
 		ExamVO vo = new ExamVO();
 		vo.setExamCode("MSSPY0001222");

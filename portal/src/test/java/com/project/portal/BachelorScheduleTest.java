@@ -29,7 +29,6 @@ public class BachelorScheduleTest {
 		}
 	}
 	
-	@Test
 	public void dateTest() {
 		BachelorScheduleVO vo = new BachelorScheduleVO();
 		Map<String, BachelorScheduleVO> scheduleMap = new HashMap<String, BachelorScheduleVO>();
