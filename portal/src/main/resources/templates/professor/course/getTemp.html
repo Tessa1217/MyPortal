@@ -277,7 +277,7 @@ text-align : center;
 						<div class="card-body height-thirteen paging hidePage">
 								<form name="frm"
 									th:action="@{|/professor/getTemp/${tempcourse.courseCode}/updateweekTemp|}"
-									method="POST">
+									method="POST" id="frm">
 									
 									<table class="table table-bordered">
 										<thead class="thead-primary">
@@ -307,7 +307,7 @@ text-align : center;
 									<button th:disabled="${tempcourse.submitYes}=='SUB'"
 											type="button" class="btn btn-primary" onclick="message2()" style="margin-right:30px;">주차별 계획 등록하기</button>
 										<button th:disabled="${tempcourse.submitYes}=='SUB'"
-											type="button" class="btn btn-primary" onclick="message()" style="margin-right:30px;">수정하기</button>
+											type="button" class="btn btn-primary" onclick="message()" style="margin-right:30px;">임시저장</button>
 										<button type="button"
 											onclick="location.href='/professor/tempcourseList'"
 											class="btn btn-secondary" style="margin-right:30px;">목록</button>
@@ -385,10 +385,12 @@ text-align : center;
 			//주차별 계획 수정 할때 메세지
 			function message(){
 				
-				fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
-						
+				fireSwal('info', '내용을 저장하시겠습니까?').then(function(result) {
+					
+					
+					
 					if (result.isConfirmed) {
-						fireSwal('success', '수정이 완료되었습니다.')
+						fireSwal('success', '내용이 저장되었습니다.')
 						.then((result) => {
 							if (result.isConfirmed) {
 								frm.submit()
@@ -396,6 +398,7 @@ text-align : center;
 						})
 						
 					}
+					
 				})
 				
 				
@@ -406,7 +409,41 @@ text-align : center;
 	function message2(){
 				
 				fireSwal('info', '주차별 계획을 등록하시겠습니까?').then(function(result) {
-						
+					let data = {
+							"weekContent1" : $('input[name=weekContent1]').val(),
+							"weekContent2" : $('input[name=weekContent2]').val(),
+							"weekContent3" : $('input[name=weekContent3]').val(),
+							"weekContent4" : $('input[name=weekContent4]').val(),
+							"weekContent5" : $('input[name=weekContent5]').val(),
+							"weekContent6" : $('input[name=weekContent6]').val(),
+							"weekContent7" : $('input[name=weekContent7]').val(),
+							"weekContent8" : $('input[name=weekContent8]').val(),
+							"weekContent9" : $('input[name=weekContent9]').val(),
+							"weekContent10" : $('input[name=weekContent10]').val(),
+							"weekContent11" : $('input[name=weekContent11]').val(),
+							"weekContent12" : $('input[name=weekContent12]').val(),
+							"weekContent13" : $('input[name=weekContent13]').val(),
+							"weekContent14" : $('input[name=weekContent14]').val(),
+							"weekContent15" : $('input[name=weekContent15]').val(),
+							"weekContent16" : $('input[name=weekContent16]').val(),
+					}
+					if(data.weekContent1  != '' &&
+						data.weekContent2  != '' &&
+						data.weekContent3  != '' &&
+						data.weekContent4  != '' &&
+						data.weekContent5  != '' &&
+						data.weekContent6  != '' &&
+						data.weekContent7  != '' &&
+						data.weekContent8  != '' &&
+						data.weekContent9  != '' &&
+						data.weekContent10  != '' &&
+						data.weekContent11  != '' &&
+						data.weekContent12  != '' &&
+						data.weekContent13  != '' &&
+						data.weekContent14  != '' &&
+						data.weekContent15  != '' &&
+						data.weekContent16  != ''
+						){
 					if (result.isConfirmed) {
 						fireSwal('success', '등록되었습니다.')
 						.then((result) => {
@@ -415,6 +452,9 @@ text-align : center;
 							}
 						})
 						
+					}
+					}else{
+						fireSwal('warning',"주차별 계획 내용을 완성해주세요.")
 					}
 				})
 				
@@ -457,7 +497,7 @@ text-align : center;
 					const m = parseInt(data.midtermAssignedScore)
 					const f = parseInt(data.finalAssignedScore)
 					
-					if(r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 150){
+					if(r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 150 && r != 100 && a != 100 && m != 100 && f != 100){
 					
 					$.ajax({
 						url : `/professor/getTemp/${courseCode}/updateTemp`,
@@ -502,6 +542,8 @@ text-align : center;
 						fireSwal('warning',"수강인원은 최대 150명입니다.")
 				}else if(data.courseLimit == 0){
 					fireSwal('warning',"수강인원은 0명이 될 수 없습니다.")
+				}else if(r == 100 || a == 100 || m == 100 || f == 100){
+					fireSwal('warning',"배점은 0~99 사이로 작성해주세요.")
 				}
 				}
 				
@@ -514,15 +556,62 @@ text-align : center;
 					
 			
 				if (window.confirm("정말로 제출하시겠습니까?")) {
+				
 					
 					let data = {
-							"weekContent" : $("#weekContent").val(),
+							"weekContent1" : $('input[name=weekContent1]').attr('value'),
+							"weekContent2" : $('input[name=weekContent2]').attr('value'),
+							"weekContent3" : $('input[name=weekContent3]').attr('value'),
+							"weekContent4" : $('input[name=weekContent4]').attr('value'),
+							"weekContent5" : $('input[name=weekContent5]').attr('value'),
+							"weekContent6" : $('input[name=weekContent6]').attr('value'),
+							"weekContent7" : $('input[name=weekContent7]').attr('value'),
+							"weekContent8" : $('input[name=weekContent8]').attr('value'),
+							"weekContent9" : $('input[name=weekContent9]').attr('value'),
+							"weekContent10" : $('input[name=weekContent10]').attr('value'),
+							"weekContent11" : $('input[name=weekContent11]').attr('value'),
+							"weekContent12" : $('input[name=weekContent12]').attr('value'),
+							"weekContent13" : $('input[name=weekContent13]').attr('value'),
+							"weekContent14" : $('input[name=weekContent14]').attr('value'),
+							"weekContent15" : $('input[name=weekContent15]').attr('value'),
+							"weekContent16" : $('input[name=weekContent16]').attr('value'),
+							"reportAssignedScore" : $("#reportAssignedScore").attr('value'),
+							"attAssignedScore" : $("#attAssignedScore").attr('value'),
+							"midtermAssignedScore" : $("#midtermAssignedScore").attr('value'),
+							"finalAssignedScore" : $("#finalAssignedScore").attr('value'),
+							"courseLimit" : $("#courseLimit").attr('value'),
+							"courseName" : $("#courseName").attr('value'),
+							"textbookReference" : $("#textbookReference").attr('value'),
+							"courseSummary" : tinyMCE.activeEditor.getContent(),
+							"courseNotes" : $("#courseNotes").attr('value'),
 						
 					}
+					const r = parseInt(data.reportAssignedScore)
+					const a = parseInt(data.attAssignedScore)
+					const m = parseInt(data.midtermAssignedScore)
+					const f = parseInt(data.finalAssignedScore)
+					
 					let submistYes = $(this).closest("tr").find("#submitYes").data("codee")
 					let okayYes = $(this).closest("tr").find("#okayYes").data("back")
 					let courseCode = $(this).data("course")
-					if(data.weekContent != ''){
+					if(data.weekContent1  != '' &&
+							data.weekContent2  != '' &&
+							data.weekContent3  != '' &&
+							data.weekContent4  != '' &&
+							data.weekContent5  != '' &&
+							data.weekContent6  != '' &&
+							data.weekContent7  != '' &&
+							data.weekContent8  != '' &&
+							data.weekContent9  != '' &&
+							data.weekContent10  != '' &&
+							data.weekContent11  != '' &&
+							data.weekContent12  != '' &&
+							data.weekContent13  != '' &&
+							data.weekContent14  != '' &&
+							data.weekContent15  != '' &&
+							data.weekContent16  != '' &&
+							r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 150
+							){
 						
 					
 					// 미제출 -> 제출  SUB로 변환  ,   null -> 심사대기 A01로 변환  
@@ -551,8 +640,34 @@ text-align : center;
 							})
 						} 
 					});
-					}else{
-						fireSwal('warning',"주차별 계획을 완성해주세요.")
+					}else if(r + a + m + f != 100 ){
+						fireSwal('warning',"총 배점 값을 100으로 맞춰주세요.")
+					
+					}else if(data.courseName == ""){
+						fireSwal('warning',"강의명을 입력해주세요.")
+					
+					}else if(data.courseLimit > 150){
+						fireSwal('warning',"수강인원은 최대 150명입니다.")
+				}else if(data.courseLimit == 0){
+					fireSwal('warning',"수강인원은 0명이 될 수 없습니다.")
+				
+					}else if(data.weekContent1  == '' ||
+							data.weekContent2  == '' ||
+							data.weekContent3  == '' ||
+							data.weekContent4  == '' ||
+							data.weekContent5  == '' ||
+							data.weekContent6  == '' ||
+							data.weekContent7  == '' ||
+							data.weekContent8  == '' ||
+							data.weekContent9  == '' ||
+							data.weekContent10  == '' ||
+							data.weekContent11  == '' ||
+							data.weekContent12  == '' ||
+							data.weekContent13  == '' ||
+							data.weekContent14  == '' ||
+							data.weekContent15  == '' ||
+							data.weekContent16  == ''){
+						fireSwal('warning',"주차별 계획을 등록해주세요.")
 					}
 				}
 			})

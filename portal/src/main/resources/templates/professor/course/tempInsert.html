@@ -104,7 +104,7 @@
 											<div class="col-md-10 form-group">
 												<input type="number" class="form-control"
 													id="reportAssignedScore" name="reportAssignedScore" min='0'
-													max='50' required>
+													max='99' required>
 											</div>
 											<div class="col-md-4">
 												<label>출결 배점</label>
@@ -112,7 +112,7 @@
 											<div class="col-md-10 form-group">
 												<input type="number" class="form-control"
 													id="attAssignedScore" name="attAssignedScore" min='0'
-													max='50' required>
+													max='99' required>
 											</div>
 
 
@@ -122,7 +122,7 @@
 											<div class="col-md-10 form-group">
 												<input type="number" class="form-control"
 													id="midtermAssignedScore" name="midtermAssignedScore"
-													min='0' max='50' required>
+													min='0' max='99' required>
 											</div>
 											<div class="col-md-4">
 												<label>기말고사배점</label>
@@ -130,7 +130,7 @@
 											<div class="col-md-10 form-group">
 												<input type="number" class="form-control"
 													id="finalAssignedScore" name="finalAssignedScore" min='0'
-													max='50' required>
+													max='99' required>
 											</div>
 
 											<div class="col-md-4">
@@ -138,7 +138,7 @@
 											</div>
 											<div class="col-md-10 form-group">
 												<input type="number" class="form-control" name="courseLimit"
-													id="courseLimit" min='1' max='200' required>
+													id="courseLimit" min='1' max='150' required>
 											</div>
 										</div>
 										<div class="col-md-6 col-16">
@@ -346,9 +346,35 @@
 			
 			//등록버튼시 알람
 			function message(){
+				
+				let data = {
+						"reportAssignedScore" : $("#reportAssignedScore").val(),
+						"attAssignedScore" : $("#attAssignedScore").val(),
+						"midtermAssignedScore" : $("#midtermAssignedScore").val(),
+						"finalAssignedScore" : $("#finalAssignedScore").val(),
+						"courseLimit" : $("#courseLimit").val(),
+						"courseName" : $("#courseName").val(),
+				}
+				const r = parseInt(data.reportAssignedScore)
+				const a = parseInt(data.attAssignedScore)
+				const m = parseInt(data.midtermAssignedScore)
+				const f = parseInt(data.finalAssignedScore)
+				
 				if(confirm("입력한 내용을 등록하시겠습니까?")){
+					
+					if(r + a + m + f == 100 && r != 100 && a != 100 && m != 100 && f != 100){
+					
+					
 					alert("등록되었습니다. 주차별 강의계획을 작성해주세요.")
 					frm.submit()
+					
+					
+					}else if(r + a + m + f != 100){
+						fireSwal('warning',"총 배점 값을 100으로 맞춰주세요.")
+						return false;
+					}else if(r == 100 || a == 100 || m == 100 || f == 100){
+						fireSwal('warning',"배점은 0~99 사이로 작성해주세요.")
+					}
 				}else{
 					
 					return false;
