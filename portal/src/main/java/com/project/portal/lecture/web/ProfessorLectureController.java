@@ -33,6 +33,7 @@ import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
 // 작성자: 권유진 
 
 @Controller
+@RequestMapping("/professor/eclass")
 public class ProfessorLectureController {
 
 	Logger log = LoggerFactory.getLogger(ProfessorLectureController.class);
@@ -47,7 +48,7 @@ public class ProfessorLectureController {
 	private String uploadPath;
 
 	// 강의 리스트 페이지 이동
-	@RequestMapping("professor/eclass/lectureList")
+	@RequestMapping("/lectureList")
 	public String lectureList(Model model, Criteria cri, HttpSession session) {
 		CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 		List<LectureVO> lectureList = service.getLectureList(course, null, cri);
@@ -57,13 +58,13 @@ public class ProfessorLectureController {
 	}
 
 	// 강의 등록 페이지
-	@RequestMapping("professor/eclass/insertLecture")
+	@RequestMapping("/insertLecture")
 	public String insertLecture(CourseVO vo, Model model) {
 		return "professor/eclass/lecture/insertLecture";
 	}
 
 	// 강의 등록
-	@PostMapping("professor/eclass/insertLecture")
+	@PostMapping("/insertLecture")
 	public String loadedData(LectureVO lecture, MultipartFile file, VideoVO video, Model model, HttpSession session)
 			throws IllegalStateException, IOException {
 		if (!file.isEmpty()) {
@@ -93,7 +94,7 @@ public class ProfessorLectureController {
 	}
 
 	// 강의 상세보기 & 수정하기 페이지 이동
-	@RequestMapping("/professor/eclass/detailLecture/{lectureCode}")
+	@RequestMapping("/detailLecture/{lectureCode}")
 	public String detailLecture(@PathVariable String lectureCode, CourseVO course, Model model, HttpSession session) {
 		course = (CourseVO) session.getAttribute("courseInfo");
 		LectureVO vo = new LectureVO();
@@ -104,7 +105,7 @@ public class ProfessorLectureController {
 	}
 
 	// 강의 삭제
-	@DeleteMapping("/professor/eclass/deleteLecture")
+	@DeleteMapping("/deleteLecture")
 	@ResponseBody
 	public String deleteLecture(@RequestBody LectureVO vo) {
 		service.deleteLecture(vo);
@@ -112,7 +113,7 @@ public class ProfessorLectureController {
 	}
 
 	// 강의 수정
-	@PostMapping("/professor/eclass/updateLecture")
+	@PostMapping("/updateLecture")
 	public String updateLecture(@RequestParam("file") MultipartFile file, LectureVO vo, HttpSession session,
 			Model model) {
 		if (!file.isEmpty()) {
@@ -131,7 +132,7 @@ public class ProfessorLectureController {
 		return "redirect:/professor/eclass/lectureList";
 	}
 
-	@RequestMapping("/professor/eclass/videoList")
+	@RequestMapping("/videoList")
 	public String getVideoList(CourseVO course, Criteria cri, HttpSession session, Model model) {
 		course.setProfessorId((int) session.getAttribute("id"));
 		model.addAttribute("fileList", service.getVideoList(course, cri));
