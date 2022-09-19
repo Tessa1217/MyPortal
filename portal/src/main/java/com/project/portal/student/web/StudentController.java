@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.portal.common.Criteria;
 import com.project.portal.common.PageDTO;
 import com.project.portal.common.service.CodeVO;
 import com.project.portal.common.service.impl.CodeServiceImpl;
@@ -39,6 +39,10 @@ public class StudentController {
 	
 	@Autowired StudentServiceImpl service;
 	@Autowired CodeServiceImpl codeService;
+	
+	// 파일 다운로드 경로
+		@Value("${spring.servlet.multipart.location}")
+		private String uploadPath;
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
@@ -95,11 +99,11 @@ public class StudentController {
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @PathVariable String fileName) throws UnsupportedEncodingException {
-		Resource resource = new FileSystemResource("c:\\faces\\" + fileName);
+//		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
+		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-//		String resourceName = resource.getFilename();
 		
 		HttpHeaders headers = new HttpHeaders();
 		
