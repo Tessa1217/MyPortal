@@ -4,60 +4,65 @@
 	namespace="com.project.portal.report.service.ProfessorReportMapper">
 	<select id="getFile" parameterType="String"
 		resultType="ReportFileVO">
-		SELECT report_file_path
-		FROM report_file
+		SELECT REPORT_FILE_PATH
+		FROM REPORT_FILE
 		WHERE
-		report_file_code = #{reportFileCode}
-		AND user_code = #{userCode}
+		REPORT_FILE_CODE = #{reportFileCode}
+		AND USER_CODE = #{userCode}
 	</select>
 	<select id="getProfWholeFile" resultType="ReportFileVO">
 		SELECT * FROM (
 		SELECT RF.*, ROWNUM R FROM (
 		SELECT
-		r.report_file_code,
-		r.report_file_path,
-		r.report_file_name,
-		r.user_code,
-		r.submit_id,
-		re.course_code,
-		c.course_year,
-		c.course_semester,
-		c.course_name
-		FROM report_file r JOIN report_info re
-		ON r.report_file_code = re.report_file_code
-		JOIN course c
-		ON re.course_code = c.course_code
-		WHERE submit_id = #{file.submitId}
-		AND user_code = #{file.userCode}
-		ORDER BY c.course_year, c.course_semester DESC
+		R.REPORT_FILE_CODE,
+		R.REPORT_FILE_PATH,
+		R.REPORT_FILE_NAME,
+		R.USER_CODE,
+		R.SUBMIT_ID,
+		RE.COURSE_CODE,
+		C.COURSE_YEAR,
+		C.COURSE_SEMESTER,
+		C.COURSE_NAME
+		FROM
+		REPORT_FILE R JOIN REPORT_INFO RE
+		ON R.REPORT_FILE_CODE =
+		RE.REPORT_FILE_CODE
+		JOIN COURSE C
+		ON RE.COURSE_CODE = C.COURSE_CODE
+		WHERE SUBMIT_ID = #{file.submitId}
+		AND USER_CODE = #{file.userCode}
+		ORDER BY C.COURSE_YEAR, C.COURSE_SEMESTER DESC
 		) RF
-		WHERE 
+		WHERE
 		<if test="cri != null and cri != ''">
-			ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+			ROWNUM <![CDATA[<=]]>
+			#{cri.pageNum} * #{cri.amount}
 		</if>
 		)
 		<if test="cri != null and cri != ''">
 			WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
-		</if> 
+		</if>
 	</select>
 	<select id="getFileTotal" resultType="int">
 		SELECT COUNT(*)
-			FROM (SELECT
-		r.report_file_code,
-		r.report_file_path,
-		r.report_file_name,
-		r.user_code,
-		r.submit_id,
-		re.course_code,
-		c.course_year,
-		c.course_semester,
-		c.course_name
-		FROM report_file r JOIN report_info re
-		ON r.report_file_code = re.report_file_code
-		JOIN course c
-		ON re.course_code = c.course_code
-		WHERE submit_id = #{file.submitId}
-		AND user_code = #{file.userCode})
+		FROM (SELECT
+		R.REPORT_FILE_CODE,
+		R.REPORT_FILE_PATH,
+		R.REPORT_FILE_NAME,
+		R.USER_CODE,
+		R.SUBMIT_ID,
+		RE.COURSE_CODE,
+		C.COURSE_YEAR,
+		C.COURSE_SEMESTER,
+		C.COURSE_NAME
+		FROM REPORT_FILE R JOIN REPORT_INFO RE
+		ON R.REPORT_FILE_CODE = RE.REPORT_FILE_CODE
+		JOIN COURSE C
+		ON
+		RE.COURSE_CODE = C.COURSE_CODE
+		WHERE SUBMIT_ID = #{file.submitId}
+		AND
+		USER_CODE = #{file.userCode})
 	</select>
 	<resultMap id="reportMap" type="ReportVO">
 		<id column="report_code" property="reportCode" />
@@ -85,73 +90,80 @@
 	</resultMap>
 	<select id="getReportList" resultMap="reportMap">
 		SELECT * FROM (
-		SELECT A.*, ROWNUM r FROM (
+		SELECT A.*, ROWNUM R FROM (
 		SELECT
-			i.report_code,
-			i.week_code,
-			i.report_reg_date,
-			i.report_start_date,
-			i.report_end_date,
-			i.report_title,
-			i.report_content,
-			i.report_assigned_score,
-			i.report_file_code,
-			i.course_code,
-			f.report_file_name,
-			f.report_file_path,
-			f.user_code,
-			f.submit_id
-			FROM report_info i JOIN report_file f
-			ON i.report_file_code = f.report_file_code
-			<where>
+		I.REPORT_CODE,
+		I.WEEK_CODE,
+		I.REPORT_REG_DATE,
+		I.REPORT_START_DATE,
+		I.REPORT_END_DATE,
+		I.REPORT_TITLE,
+		I.REPORT_CONTENT,
+		I.REPORT_ASSIGNED_SCORE,
+		I.REPORT_FILE_CODE,
+		I.COURSE_CODE,
+		F.REPORT_FILE_NAME,
+		F.REPORT_FILE_PATH,
+		F.USER_CODE,
+		F.SUBMIT_ID
+		FROM REPORT_INFO I JOIN REPORT_FILE F
+		ON I.REPORT_FILE_CODE = F.REPORT_FILE_CODE
+		<where>
 			<if test="course != null and course != ''">
-				AND i.course_code = #{course.courseCode}
+				AND I.COURSE_CODE = #{course.courseCode}
 			</if>
 			<if test="report != null and report != ''">
-				AND i.report_code = #{report.reportCode}
+				AND I.REPORT_CODE = #{report.reportCode}
 			</if>
 			<if test="cri != null and cri != ''">
 				<if test="cri.keyword != null and cri.keyword != ''">
-					AND i.week_code = #{cri.keyword}
+					AND I.WEEK_CODE = #{cri.keyword}
 				</if>
 			</if>
 		</where>
-		ORDER BY i.week_code DESC) A
+		ORDER BY I.WEEK_CODE DESC) A
 		<if test="cri != null and cri != ''">
 			<if test="cri.pageNum != null and cri.pageNum != ''">
-		WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
-			</if>
-		</if>)
-		<if test="cri != null and cri != ''">
-			<if test="cri.pageNum != null and cri.pageNum != ''">
-				WHERE R > <![CDATA[(#{cri.pageNum} - 1)]]> * #{cri.amount} 
+				WHERE ROWNUM <![CDATA[<=]]>
+				#{cri.pageNum} * #{cri.amount}
 			</if>
 		</if>
-		
+		)
+		<if test="cri != null and cri != ''">
+			<if test="cri.pageNum != null and cri.pageNum != ''">
+				WHERE R > <![CDATA[(#{cri.pageNum} - 1)]]>
+				* #{cri.amount}
+			</if>
+		</if>
+
 	</select>
 	<select id="getTotal"
 		parameterType="com.project.portal.common.Criteria" resultType="int">
 		SELECT COUNT(*)
-		FROM report_info
-		WHERE course_code = #{course.courseCode}
+		FROM REPORT_INFO
+		WHERE COURSE_CODE = #{course.courseCode}
 		<if test="cri != null and cri != ''">
 			<if test="cri.keyword != null and cri.keyword != ''">
-				AND week_code = #{cri.keyword}
+				AND WEEK_CODE = #{cri.keyword}
 			</if>
 		</if>
 	</select>
 	<insert id="uploadFile" parameterType="ReportFileVO">
-		INSERT INTO report_file (
-		report_file_code,
-		report_file_name,
-		report_file_stored_name,
-		report_file_extension,
-		report_file_path,
-		user_code,
-		submit_id
+		<selectKey keyProperty="reportFileCode" resultType="String" order="BEFORE">
+			SELECT 'RPF'||LPAD(TO_CHAR(report_file_seq.NEXTVAL), 17, '0')
+			FROM DUAL
+		</selectKey>
+		INSERT INTO REPORT_FILE (
+		REPORT_FILE_CODE,
+		REPORT_FILE_NAME,
+		REPORT_FILE_STORED_NAME,
+		REPORT_FILE_EXTENSION,
+		REPORT_FILE_PATH,
+		USER_CODE,
+		SUBMIT_ID
 		)
 		VALUES (
-		'RPF'||LPAD(TO_CHAR(report_file_seq.NEXTVAL), 17, '0'),
+		#{reportFileCode},
 		#{reportFileName},
 		#{reportFileStoredName},
 		#{reportFileExtension},
@@ -159,28 +171,22 @@
 		#{userCode},
 		#{submitId}
 		)
-		<selectKey keyProperty="reportFileCode" resultType="String"
-			order="AFTER">
-			SELECT MAX(report_file_code)
-			FROM report_file
-		</selectKey>
 	</insert>
 	<insert id="insertReport" parameterType="ReportVO">
-		<selectKey keyProperty="reportCode" resultType="String"
-			order="BEFORE">
+		<selectKey keyProperty="reportCode" resultType="String" order="BEFORE">
 			SELECT #{weekCode}||LPAD(TO_CHAR(report_seq.NEXTVAL), 8, '0')
-			FROM dual
+			FROM DUAL
 		</selectKey>
-		INSERT INTO report_info (report_code,
-		week_code,
-		report_reg_date,
-		report_start_date,
-		report_end_date,
-		report_title,
-		report_content,
-		report_assigned_score,
-		course_code,
-		report_file_code
+		INSERT INTO REPORT_INFO (REPORT_CODE,
+		WEEK_CODE,
+		REPORT_REG_DATE,
+		REPORT_START_DATE,
+		REPORT_END_DATE,
+		REPORT_TITLE,
+		REPORT_CONTENT,
+		REPORT_ASSIGNED_SCORE,
+		COURSE_CODE,
+		REPORT_FILE_CODE
 		)
 		VALUES (
 		#{reportCode},
@@ -196,25 +202,25 @@
 		)
 	</insert>
 	<select id="getStudentList" resultType="StudentVO">
-		SELECT m.student_id, s.student_name
-		FROM my_course m JOIN
-		student_pri_info s
-		ON m.student_id = s.student_id
+		SELECT M.STUDENT_ID, S.STUDENT_NAME
+		FROM MY_COURSE M JOIN
+		STUDENT_PRI_INFO S
+		ON M.STUDENT_ID = S.STUDENT_ID
 		<where>
 			<if test="report != null and report != ''">
-				AND m.course_code = #{report.courseCode}
+				AND M.COURSE_CODE = #{report.courseCode}
 			</if>
 			<if test="submission != null and submission != ''">
-				AND m.student_id = #{submission.studentId}
+				AND M.STUDENT_ID = #{submission.studentId}
 			</if>
 		</where>
 	</select>
 	<insert id="insertStudentSubmission">
-		INSERT INTO report_submission (
-		report_submission_code,
-		report_code,
-		student_id,
-		report_submission_option
+		INSERT INTO REPORT_SUBMISSION (
+		REPORT_SUBMISSION_CODE,
+		REPORT_CODE,
+		STUDENT_ID,
+		REPORT_SUBMISSION_OPTION
 		)
 		VALUES (
 		'RSUB'||LPAD(TO_CHAR(REPORT_SUB_SEQ.NEXTVAL), 6, '0'),
@@ -224,168 +230,179 @@
 		)
 	</insert>
 	<delete id="deleteFile" parameterType="ReportFileVO">
-		DELETE FROM report_file
-		WHERE report_file_code = #{reportFileCode}
+		DELETE FROM REPORT_FILE
+		WHERE REPORT_FILE_CODE = #{reportFileCode}
 	</delete>
 	<update id="updateReport" parameterType="ReportVO">
-		UPDATE report_info
+		UPDATE REPORT_INFO
 		SET
-		week_code = #{weekCode},
-		report_start_date = #{reportStartDate},
-		report_end_date = #{reportEndDate},
-		report_title = #{reportTitle},
-		report_content = #{reportContent},
-		report_assigned_score =
-		#{reportAssignedScore},
-		report_file_code = #{reportFileCode}
+		WEEK_CODE = #{weekCode},
+		REPORT_START_DATE = #{reportStartDate},
+		REPORT_END_DATE = #{reportEndDate},
+		REPORT_TITLE = #{reportTitle},
+		REPORT_CONTENT = #{reportContent},
+		REPORT_ASSIGNED_SCORE = #{reportAssignedScore},
+		REPORT_FILE_CODE = #{reportFileCode}
 		WHERE
-		report_code = #{reportCode}
+		REPORT_CODE = #{reportCode}
 	</update>
 	<select id="getStudentReportList"
 		resultType="ReportSubmissionVO">
 		SELECT * FROM(
 		SELECT A.*, ROWNUM R FROM
 		(SELECT
-		report_submission_code,
-		report_code,
-		report_submission_date,
-		report_score,
-		student_id,
-		report_submission_option,
-		report_file_code
+		REPORT_SUBMISSION_CODE,
+		REPORT_CODE,
+		REPORT_SUBMISSION_DATE,
+		REPORT_SCORE,
+		STUDENT_ID,
+		REPORT_SUBMISSION_OPTION,
+		REPORT_FILE_CODE
 		FROM
-		report_submission
-		WHERE report_code IN
-		<foreach collection="list" item="item" open="(" separator=","
-			close=")">
-			#{item.reportCode}
-		</foreach>
-		ORDER BY report_code DESC) A
+		REPORT_SUBMISSION
+		<if test="list != null and !list.isEmpty()">
+			WHERE REPORT_CODE IN
+			<foreach collection="list" item="item" open="(" separator=","
+				close=")">
+				#{item.reportCode}
+			</foreach>
+		</if>
+		ORDER BY REPORT_CODE DESC) A
 		<if test="cri != null and cri != ''">
 			<if test="cri.pageNum != null and cri.pageNum != ''">
-		WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+				WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
 			</if>
-		</if>)
+		</if>
+		)
 		<if test="cri != null and cri != ''">
 			<if test="cri.pageNum != null and cri.pageNum != ''">
-				WHERE R > (#{cri.pageNum} - 1) * #{cri.amount} 
+				WHERE R > (#{cri.pageNum} - 1) * #{cri.amount}
 			</if>
 		</if>
 	</select>
 	<delete id="deleteReport">
-		DELETE FROM report_info
-		WHERE report_code = #{reportCode}
+		DELETE FROM REPORT_INFO
+		WHERE REPORT_CODE = #{reportCode}
 	</delete>
 	<select id="getReportTotal" resultType="int">
 		SELECT COUNT(*) FROM (
 		SELECT
-		report_submission_code,
-		report_code,
-		report_submission_date,
-		report_score,
-		student_id,
-		report_submission_option,
-		report_file_code
+		REPORT_SUBMISSION_CODE,
+		REPORT_CODE,
+		REPORT_SUBMISSION_DATE,
+		REPORT_SCORE,
+		STUDENT_ID,
+		REPORT_SUBMISSION_OPTION,
+		REPORT_FILE_CODE
 		FROM
-		report_submission
-		WHERE report_code IN
-		<foreach collection="list" item="item" open="(" separator=","
-			close=")">
-			#{item.reportCode}
-		</foreach>)
+		REPORT_SUBMISSION
+		<if test="list != null and !list.isEmpty()">
+			WHERE REPORT_CODE IN
+			<foreach collection="list" item="item" open="(" separator=","
+				close=")">
+				#{item.reportCode}
+			</foreach>
+		</if>
+		)
 	</select>
 	<update id="updateScore" parameterType="ReportSubmissionVO">
-		UPDATE report_submission
-			SET report_score = #{reportScore}
-			WHERE report_submission_code = #{reportSubmissionCode}
+		UPDATE REPORT_SUBMISSION
+		SET REPORT_SCORE = #{reportScore}
+		WHERE REPORT_SUBMISSION_CODE = #{reportSubmissionCode}
 	</update>
-	
-	
-	<select id="getStudentObjectionList" resultType="ReportObjectionVO">
-	select *
-from (
-select a.*, ROWNUM objection_no
-from (
-	select spi.student_id , spi.student_name ,  ri.report_title, cw.week_num, ro.REPORT_SCORE_OBJECTION_APPROVAL_OPTION, RS.REPORT_SUBMISSION_cODE
-           from report_score_objection ro join student_study_info si
-          ON  ro.student_id = si.student_id
-          join student_pri_info spi
-          ON spi.student_id = si.student_id
-          join report_submission rs
-          ON rs.report_submission_code = ro.report_submission_code
-          join report_info ri
-          ON ri.report_code = rs.report_code
-          join course_weekly cw
-          ON ri.week_code = cw.week_code
-          where ri.course_code = #{reportObjection.courseCode}
-          <if test="cri.type != null and cri.type !=''">
-				AND cW.WEEK_NUM = #{cri.type} 
+	<select id="getStudentObjectionList"
+		resultType="ReportObjectionVO">
+		SELECT *
+		FROM (
+		SELECT A.*, ROWNUM OBJECTION_NO
+		FROM (
+		SELECT SPI.STUDENT_ID , 
+		SPI.STUDENT_NAME , 
+		RI.REPORT_TITLE, 
+		CW.WEEK_NUM,
+		RO.REPORT_SCORE_OBJECTION_APPROVAL_OPTION, 
+		RS.REPORT_SUBMISSION_CODE
+		FROM REPORT_SCORE_OBJECTION RO JOIN STUDENT_STUDY_INFO SI
+		ON RO.STUDENT_ID = SI.STUDENT_ID
+		JOIN STUDENT_PRI_INFO SPI
+		ON SPI.STUDENT_ID = SI.STUDENT_ID
+		JOIN REPORT_SUBMISSION RS
+		ON RS.REPORT_SUBMISSION_CODE = RO.REPORT_SUBMISSION_CODE
+		JOIN REPORT_INFO RI
+		ON RI.REPORT_CODE = RS.REPORT_CODE
+		JOIN COURSE_WEEKLY CW
+		ON RI.WEEK_CODE = CW.WEEK_CODE
+		WHERE RI.COURSE_CODE = #{reportObjection.courseCode}
+		<if test="cri.type != null and cri.type !=''">
+			AND CW.WEEK_NUM = #{cri.type}
 		</if>
-          
-           ORDER BY 4 DESC) a
-          )
-          
-            <where>
-					<if test="cri != null and cri != ''">
-						<if test="cri.pageNum != null and cri.pageNum != 0">
-							AND objection_no BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND #{cri.pageNum} * #{cri.amount}
-						</if>
-					</if>
-			</where> 
+
+		ORDER BY 4 DESC) a
+		)
+
+		<where>
+			<if test="cri != null and cri != ''">
+				<if test="cri.pageNum != null and cri.pageNum != 0">
+					AND objection_no BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} AND
+					#{cri.pageNum} * #{cri.amount}
+				</if>
+			</if>
+		</where>
 	</select>
-	
-	<select id="getStudentObjectionDetail" resultType="ReportObjectionVO">
-		
-           SELECT 
-           SPI.STUDENT_ID ,
-           SPI.STUDENT_NAME , 
-           RI.REPORT_TITLE,
-           CW.WEEK_NUM,
-           RO.REPORT_SCORE_OBJECTION_APPROVAL_OPTION,
-           RS.REPORT_SUBMISSION_CODE,
-           RO.REPORT_SCORE_OBJECTION_APPLICATION_REASON,
-           RS.REPORT_FILE_CODE,
-           RF.REPORT_FILE_NAME,
-           RF.REPORT_FILE_PATH,
-           RF.USER_CODE,
-           RS.REPORT_SCORE
-           FROM REPORT_SCORE_OBJECTION RO JOIN STUDENT_STUDY_INFO SI
-          ON  RO.STUDENT_ID = SI.STUDENT_ID
-          JOIN STUDENT_PRI_INFO SPI
-          ON SPI.STUDENT_ID = SI.STUDENT_ID
-          JOIN REPORT_SUBMISSION RS
-          ON RS.REPORT_SUBMISSION_CODE = RO.REPORT_SUBMISSION_CODE
-          JOIN REPORT_INFO RI
-          ON RI.REPORT_CODE = RS.REPORT_CODE
-          JOIN COURSE_WEEKLY CW
-          ON RI.WEEK_CODE = CW.WEEK_CODE
-          JOIN REPORT_FILE RF
-          ON RF.REPORT_FILE_CODE = RS.REPORT_FILE_CODE
-          WHERE RI.COURSE_CODE = #{courseCode} AND RS.REPORT_SUBMISSION_CODE= #{reportSubmissionCode}
+
+	<select id="getStudentObjectionDetail"
+		resultType="ReportObjectionVO">
+
+		SELECT
+		SPI.STUDENT_ID ,
+		SPI.STUDENT_NAME ,
+		RI.REPORT_TITLE,
+		CW.WEEK_NUM,
+		RO.REPORT_SCORE_OBJECTION_APPROVAL_OPTION,
+		RS.REPORT_SUBMISSION_CODE,
+		RO.REPORT_SCORE_OBJECTION_APPLICATION_REASON,
+		RS.REPORT_FILE_CODE,
+		RF.REPORT_FILE_NAME,
+		RF.REPORT_FILE_PATH,
+		RF.USER_CODE,
+		RS.REPORT_SCORE
+		FROM REPORT_SCORE_OBJECTION RO JOIN STUDENT_STUDY_INFO SI
+		ON RO.STUDENT_ID = SI.STUDENT_ID
+		JOIN STUDENT_PRI_INFO SPI
+		ON SPI.STUDENT_ID = SI.STUDENT_ID
+		JOIN REPORT_SUBMISSION RS
+		ON RS.REPORT_SUBMISSION_CODE = RO.REPORT_SUBMISSION_CODE
+		JOIN REPORT_INFO RI
+		ON RI.REPORT_CODE = RS.REPORT_CODE
+		JOIN COURSE_WEEKLY CW
+		ON RI.WEEK_CODE = CW.WEEK_CODE
+		JOIN REPORT_FILE RF
+		ON RF.REPORT_FILE_CODE = RS.REPORT_FILE_CODE
+		WHERE RI.COURSE_CODE = #{courseCode} AND RS.REPORT_SUBMISSION_CODE=
+		#{reportSubmissionCode}
 	</select>
-	
+
 	<update id="updateObjection" parameterType="ReportObjectionVO">
-		update report_score_objection 
-        set REPORT_SCORE_objection_approval_option = 'A02'
-        , report_score_objection_rejection_reason = #{reportScoreObjectionRejectionReason}
-        where report_submission_code = #{reportSubmissionCode}
+		update
+		report_score_objection
+		set REPORT_SCORE_objection_approval_option = 'A02'
+		, report_score_objection_rejection_reason =
+		#{reportScoreObjectionRejectionReason}
+		where report_submission_code = #{reportSubmissionCode}
 	</update>
-	
-	<update id="updateObjectionScore" parameterType="ReportObjectionVO">
-		      update report_submission
-		       set report_score = #{reportScore}
-          where report_submission_code = #{reportSubmissionCode}
+
+	<update id="updateObjectionScore"
+		parameterType="ReportObjectionVO">
+		update report_submission
+		set report_score = #{reportScore}
+		where report_submission_code = #{reportSubmissionCode}
 	</update>
-	
+
 	<select id="getReportObjectionTotal" resultType="integer">
-	select count(*) as total
-	 from report_score_objection
-	 <where>
-	 	
-	 </where>
+		select count(*) as total
+		from report_score_objection
+		<where>
+
+		</where>
 	</select>
-	
-	
-	
-	
 </mapper>

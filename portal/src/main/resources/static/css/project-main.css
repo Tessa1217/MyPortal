@@ -99,6 +99,12 @@
 	min-height: 50vh;
 }
 
+.content-no {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .left {
 	text-align: left;
 }
@@ -537,6 +543,14 @@ input[name=examQuestionPoint] {
 
 .height-five {
 	height: 50vh;
+}
+
+.height-four {
+	height: 40vh;
+}
+
+.height-three {
+	height: 30vh;
 }
 
 .height-one {

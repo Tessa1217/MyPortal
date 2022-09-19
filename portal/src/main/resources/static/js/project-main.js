@@ -1,20 +1,20 @@
 // 탭 형식으로 보이기
-			function showPage() {
-			let icons = $("input[name=tabs]");
-			$(icons).each((index, val) => {
-				$(val).on("click", function(e) {
-					$(icons).siblings("label").removeClass("active");
-					if ($(val).is(":checked")) {
-						$(val).next().addClass("active");
-						let page = $(".paging");
-						$(page).each((idx, val) => {
-							$(val).addClass('hidePage');
-						})
-						$(page[index]).removeClass("hidePage");
-					}
+function showPage() {
+	let icons = $("input[name=tabs]");
+	$(icons).each((index, val) => {
+		$(val).on("click", function(e) {
+			$(icons).siblings("label").removeClass("active");
+			if ($(val).is(":checked")) {
+				$(val).next().addClass("active");
+				let page = $(".paging");
+				$(page).each((idx, val) => {
+					$(val).addClass('hidePage');
 				})
-			})
-		}
+				$(page[index]).removeClass("hidePage");
+			}
+		})
+	})
+}
 
 // 페이지 이동하는 함수
 function movePage() {
@@ -114,14 +114,36 @@ function updateEditor() {
 	})
 }
 
-// Full Calendar 하루 더하기
-Date.prototype.addDay = function() {
-		let date = new Date(this.valueOf());
-		date.setDate(date.getDate() + 1);
-		return date;
+function initiateEditor(editorName) {
+	tinymce.init({
+		selector: '#' + editorName,
+		submit_path: false,
+		setup: function(editor) {
+			editor.on('change', function() {
+				editor.save();
+			})
+		}
+	})
 }
 
-// 캘린더 
+// Criteria Data 만들기
+function makeCriData(pageNum, amount, type, keyword) {
+	return data = {
+		pageNum: pageNum,
+		amount: amount,
+		type: (type != null) ? type : '',
+		keyword: (keyword != null) ? keyword : ''
+	}
+}
+
+// Full Calendar 하루 더하기
+Date.prototype.addDay = function() {
+	let date = new Date(this.valueOf());
+	date.setDate(date.getDate() + 1);
+	return date;
+}
+
+// 캘린더 생성
 function monthlyCalendar() {
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -164,15 +186,15 @@ function getColor(code) {
 		return 'yellow';
 	} else if (code.startsWith('SEME')) {
 		return 'skyblue';
-	} 
+	}
 }
 
 // 공지사항 목록 
 function getNotice(uri) {
 	$.ajax({
-		method : 'POST',
-		url : '/' + uri + '/getNotice',
-		success : function(fragment) {
+		method: 'POST',
+		url: '/' + uri + '/getNotice',
+		success: function(fragment) {
 			$("#noticeFragment").replaceWith(fragment);
 		}
 	})
@@ -183,6 +205,7 @@ function movePagination(uri, queryString) {
 	location.href = uri + queryString;
 }
 
+// 수정 취소
 function cancelUpdate() {
 	$(document).on("click", "#check", function() {
 		fireSwal('info', '수정을 취소하시겠습니까?')
@@ -193,7 +216,17 @@ function cancelUpdate() {
 	})
 }
 
+// 페이지 이동 (path variable)
 function changePage(select) {
 	location.href = `/professor/eclass/` + select.value;
 }
 
+// 모달 창 열기
+function modalOpen(modalName) {
+	$("#" + modalName).show();
+}
+
+// 모달 창 닫기
+function modalClose(modalName) {
+	$("#" + modalName).hide();
+}

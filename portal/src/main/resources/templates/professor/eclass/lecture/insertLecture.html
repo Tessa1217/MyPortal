@@ -26,13 +26,14 @@
 								</div>
 								<div class="col-md-8">
 									<input type="text" name="lectureTitle"
-										class="form-control width-nine">
+										class="form-control width-nine" required>
 								</div>
 								<div class="col-md-4">
 									<label>강의 주차</label>
 								</div>
 								<div class="col-md-8">
-									<select name="weekCode" class="form-select width-three">
+									<select name="weekCode" class="form-select width-three"
+										required>
 										<option value="">주차</option>
 										<th:block th:each="week : ${session.courseInfo.weekPlans}">
 											<option th:value="${week.weekCode}"
@@ -46,34 +47,35 @@
 								</div>
 								<div class="col-md-8">
 									<input type="date" name="lectureStartDate"
-										style="display: inline;" class="form-control width-three">
-									~ <input type="date" name="lectureEndDate"
-										style="display: inline;" class="form-control width-three">
+										style="display: inline;" class="form-control width-three"
+										required> ~ <input type="date" name="lectureEndDate"
+										style="display: inline;" class="form-control width-three"
+										required>
 								</div>
 								<div class="col-md-4">
 									<label>출석 인정시간</label>
 								</div>
 								<div class="col-md-8">
 									<input type="number" name="lectureAttTime"
-										class="form-control width-nine">
+										class="form-control width-nine" required>
 								</div>
 								<div class="col-md-4">
 									<label>강의 파일 업로드</label>
 								</div>
 								<div class="col-md-8">
-									<input type="file" class="form-control width-six"
-										style="display: inline;" th:onchange="getDuration()" name="file">
-									<button type="button" style="display: inline;"
-										class="btn btn-primary" th:onclick="showVideoFiles()">기본
-										정보 불러오기</button>
+									<input type="file" class="form-control width-six inline"
+										th:onchange="getDuration()" name="file" required>
+									<button type="button" class="btn btn-primary inline"
+										th:onclick="showVideoFiles()">기본 정보 불러오기</button>
 									<input type="hidden" name="videoPlayTime" value=0>
 								</div>
 								<div class="col-md-4">
 									<label>유튜브 소스</label>
 								</div>
 								<div class="col-md-8">
-									<input type="text" class="form-control" name="lectureYoutubePath">
-									<input type="hidden" name="youtubeId">
+									<input type="text" class="form-control"
+										name="lectureYoutubePath" required> <input
+										type="hidden" name="youtubeId">
 								</div>
 								<div class="col-md-4">
 									<label>강의 참고사항</label>
@@ -89,10 +91,10 @@
 					</form>
 				</div>
 			</div>
-			<div class="modal" id="fileModal" tabindex="100"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal" id="fileModal" tabindex="100" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg"
+					role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLongTitle">기존 파일 목록</h5>
@@ -106,10 +108,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal"
-								th:onclick="modalClose()">Close</button>
-							<button type="button" th:onclick="saveFileChoice()" class="btn btn-primary">Save
-								changes</button>
+								data-dismiss="modal" th:onclick="modalClose('fileModal')">닫기</button>
 						</div>
 					</div>
 				</div>
@@ -117,36 +116,35 @@
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				enterDate("lectureStartDate", "lectureEndDate");
-				getDuration();
-				getVideoId();
+				enterDate("lectureStartDate", "lectureEndDate"); // 주차 자동 불러오기
+				getVideoId(); // 유튜브 비디오
+				initiateEditor('lectureContent'); // 에디터 
 			})
-			
-			// 에디터
-			tinymce.
-					init({
-						selector : '#lectureContent',
-						submit_patch : false,
-						setup: function(editor) {
-							editor.on('change', function() {
-								editor.save();
-							})
-						}
-					})
 			
 			// 유튜브 비디오 아이디 
 			function getVideoId() {
 				$("input[name='lectureYoutubePath']").on("change", function() {
+					$("input[name='youtubeId']").val('');
+					mediaCheck();
 					let fullSrc = $("input[name='lectureYoutubePath']").val();
-					let id = fullSrc.substring(fullSrc.indexOf("v=") + 2);
-					$("input[name='youtubeId']").val(id);
+					if (fullSrc != '') {
+						$("input[name=file]").attr("required", false);
+						let id = fullSrc.substring(fullSrc.indexOf("v=") + 2);
+						$("input[name='youtubeId']").val(id);
+					} else {
+						$("input[name=file]").attr("required", true);
+					}
 				})
 			}
 					
-					
 			// 비디오 업로드 시 비디오 재생시간 구하기
 			function getDuration() {
-				$(document).on("change", $("input[type=file]"), function() {
+					mediaCheck();
+					// 값 초기화
+					document.querySelector("input[name=lectureAttTime]").value = '';
+					document.querySelector("input[name=videoPlayTime]").value = 0;
+					if ($("input[type=file]").val()) {
+					$("input[type=lectureYoutubePath]").attr("required", false);
 					// 업로드한 파일 
 					let file = document.querySelector("input[type=file]").files[0];
 					// 비디오 태그 생성
@@ -168,33 +166,20 @@
 							document.querySelector("input[name=videoPlayTime]").value = duration;
 						})
 					}	
-				})
-			}
-			
-			// 기존 파일 목록에서 비디오 선택 
-			function chooseVideo(div) {
-				$(div).children('input[name=chooseVideo]').prop('checked', true);
+					} else {
+						$("input[type=lectureYoutubePath]").attr("required", true);
+					}
 			}
 			
 			// AJAX 호출과 함께 모달 열기 
 			function showVideoFiles() {
 				getVideoList(1, 10);
-				modalOpen();
-			}
-			
-			// 모달 창 열기 
-			function modalOpen() {
-				$("#fileModal").show();
+				modalOpen('fileModal');
 			}
 			
 			// 비디오 리스트 가져오기 (페이징 처리)
 			function getVideoList(pageNum, amount, type, keyword) {
-				let data = {
-						pageNum : pageNum,
-						amount : amount,
-						type : (type != null) ? type : '',
-						keyword : (keyword != null) ? keyword : ''
-				}
+				let data = makeCriData(pageNum, amount, type, keyword);
 				$.ajax({
 					method : 'GET',
 					url : `/professor/eclass/videoList`,
@@ -205,12 +190,28 @@
 				})
 			}
 			
-			
-			// 모달 창 닫기 
-			function modalClose() {
-				$("#fileModal").hide();
+			// 비디오와 유튜브 두 개 중 한가지만 선택
+			function mediaCheck() {
+				let youtube = $("input[name=lectureYoutubePath]");
+				let file = $("input[name=file]");
+				if ($(youtube).val() != '' && $(file).val() != '') {
+					Swal.fire({
+						icon : 'warning',
+						html: '<p>비디오와 유튜브 중 한 가지 미디어만 선택해주세요.</p>',
+						confirmButtonText : '비디오 삭제',
+						showDenyButton : true,
+						denyButtonText : '유튜브 삭제'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$("input[name=file]").val('');
+							$("input[name=file]").trigger('change');
+						} else if (result.isDenied) {
+							$("input[name=lectureYoutubePath]").val('');
+							$("input[name=lectureYoutubePath]").trigger('change');
+						}
+					})
+				}
 			}
-			
 			
 		</script>
 	</th:block>

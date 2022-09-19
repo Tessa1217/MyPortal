@@ -20,11 +20,11 @@
 				<table class="table">
 					<tr>
 						<th>과제명</th>
-						<td><input type="text" class="form-control" name="reportTitle"></td>
+						<td><input type="text" class="form-control" name="reportTitle" required></td>
 					</tr>
 					<tr>
 						<th>강의주차</th>
-						<td><select class="form-select width-three" name="weekCode">
+						<td><select class="form-select width-three" name="weekCode" required>
 							<option value="">주차</option>
 							<th:block th:each="week : ${session.courseInfo.weekPlans}">
 							<option th:value="${week.weekCode}"
@@ -36,19 +36,19 @@
 					</tr>
 					<tr>
 						<th>과제 시작일</th>
-						<td><input type="date" class="inline form-control width-three" name="reportStartDate">
+						<td><input type="date" class="inline form-control width-three" name="reportStartDate" required>
 							 ~ 
 							<input class="inline form-control width-three" type="date"
-							name="reportEndDate">
+							name="reportEndDate" required>
 							</td>
 						</tr>
 					<tr>
 						<th>과제 배점</th>
-						<td><input type="number" class="inline form-control width-three" name="reportAssignedScore"> 점</td>
+						<td><input type="number" class="inline form-control width-three" name="reportAssignedScore" required> 점</td>
 					</tr>
 					<tr>
 						<th>과제 첨부파일 업로드</th>
-						<td><input type="file" class="form-control width-six inline" name="file">
+						<td><input type="file" class="form-control width-six inline" name="file" required>
 						<button type="button" th:onclick="showReportFiles()" class="inline btn btn-primary">기존 파일 불러오기</button></td>
 					</tr>
 					<tr>
@@ -82,9 +82,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal"
-								th:onclick="modalClose()">Close</button>
-							<button type="button" th:onclick="saveFileChoice()" class="btn btn-primary">Save
-								changes</button>
+								th:onclick="modalClose('fileModal')">닫기</button>
 						</div>
 					</div>
 				</div>
@@ -93,49 +91,19 @@
 		<script th:inline="javascript">
 			$(function() {
 				enterDate("reportStartDate", "reportEndDate");
-				editor();
 				cancelInsert();
+				initiateEditor('reportContent');
 			})
-			
-			// 에디터 생성 
-			function editor() {
-				tinymce.
-					init({
-						selector : '#reportContent',
-						submit_patch : false,
-						setup: function(editor) {
-							editor.on('change', function() {
-								editor.save();
-							})
-						}
-					})
-			}
-		
-			
-			// 모달 창 열기 
-			function modalOpen() {
-				$("#fileModal").show();
-			}
-			
-			// 모달 창 닫기 
-			function modalClose() {
-				$("#fileModal").hide();
-			}
 			
 			// AJAX 호출과 함께 모달 열기 
 			function showReportFiles() {
 				getReportFileList(1, 10);
-				modalOpen();
+				modalOpen('fileModal');
 			}
 			
 			// 비디오 리스트 가져오기 (페이징 처리)
 			function getReportFileList(pageNum, amount, type, keyword) {
-				let data = {
-						pageNum : pageNum,
-						amount : amount,
-						type : (type != null) ? type : '',
-						keyword : (keyword != null) ? keyword : ''
-				}
+				let data = makeCriData(pageNum, amount, type, keyword);
 				$.ajax({
 					method : 'POST',
 					url : `/professor/eclass/reportFileList`,

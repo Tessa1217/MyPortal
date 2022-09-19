@@ -6,9 +6,12 @@
 </head>
 <body>
 	<div id="tableFragment">
-		<div class="grid-container-five">
+		<div th:if="${fileList.isEmpty()}" class="content-no height-three">
+			<h4>기존에 불러올 파일이 존재하지 않습니다.</h4>
+		</div>
+		<div th:unless="${fileList.isEmpty()}" class="grid-container-five">
 			<div th:each="f : ${fileList}" class="grid-item grid-border"
-			th:onclick="chooseVideo(this)">
+				th:onclick="chooseVideo(this)">
 				<p th:text="|${f.courseYear}년 ${f.courseSemester}학기|"></p>
 				<p th:text="${f.courseName}"></p>
 				<p>
@@ -18,31 +21,32 @@
 						data-placement="bottom" title="파일 다운로드"></a>
 				</p>
 			</div>
-		</div><div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
-			<ul class="pagination justify-content-center">
-				<th:block th:if="${pageMaker.prev}">
-					<li class="page-item prev"><a class="page-link"
-						href="javascript:void(0)"
-						th:onclick="getReportFileList([[${pageMaker.startPage - 1}]], [[${pageMaker.cri.amount}]])">이전</a>
-					</li>
-				</th:block>
-				<th:block th:with="pageMaker = ${pageMaker}">
-					<th:block
-						th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-						<li class="page-item"
-							th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-							<a class="page-link" href="javascript:void(0)" th:text="${num}"
-							th:onclick="getReportFileList([[${num}]], [[${pageMaker.cri.amount}]])"></a>
-						</li>
-					</th:block>
-					<th:block th:if="${pageMaker.next}">
-						<li class="page-item next"><a class="page-link"
+			<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+				<ul class="pagination justify-content-center">
+					<th:block th:if="${pageMaker.prev}">
+						<li class="page-item prev"><a class="page-link"
 							href="javascript:void(0)"
-							th:onclick="getReportFileList([[${pageMaker.endPage + 1}]], [[${pageMaker.cri.amount}]])">다음</a>
+							th:onclick="getReportFileList([[${pageMaker.startPage - 1}]], [[${pageMaker.cri.amount}]])">이전</a>
 						</li>
 					</th:block>
-				</th:block>
-			</ul>
+					<th:block th:with="pageMaker = ${pageMaker}">
+						<th:block
+							th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+							<li class="page-item"
+								th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+								<a class="page-link" href="javascript:void(0)" th:text="${num}"
+								th:onclick="getReportFileList([[${num}]], [[${pageMaker.cri.amount}]])"></a>
+							</li>
+						</th:block>
+						<th:block th:if="${pageMaker.next}">
+							<li class="page-item next"><a class="page-link"
+								href="javascript:void(0)"
+								th:onclick="getReportFileList([[${pageMaker.endPage + 1}]], [[${pageMaker.cri.amount}]])">다음</a>
+							</li>
+						</th:block>
+					</th:block>
+				</ul>
+			</div>
 		</div>
 	</div>
 </body>
