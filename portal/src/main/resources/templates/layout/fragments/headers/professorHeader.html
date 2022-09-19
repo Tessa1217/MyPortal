@@ -43,7 +43,6 @@
 										수강 후기</a></li>
 								<li class="submenu-item "><a
 									th:href="@{/professor/tempcourseList}">강의 계획서 조회</a></li>
-									
 								<li class="submenu-item "><a th:href="@{/professor/tempInsert}" th:if="${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}">강의
 										계획서 등록</a></li></th:block>
 							</ul></li>

@@ -30,7 +30,7 @@
 																WHERE detail_code = #{detailCode}
 																AND SYSDATE > schedule_start_date
 																)
-									AND ROWNUM = 1	
+				and	detail_code = #{detailCode}		AND ROWNUM = 1	
 	</select>
 	
 	<select id="getYearSemester" resultType="com.project.portal.bachelor.service.BachelorScheduleVO">
