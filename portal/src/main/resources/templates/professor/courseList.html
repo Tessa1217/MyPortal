@@ -5,6 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#card {
+	border : 1px solid #E2E2E2
+}
+.card-body {
+	height : 200px;
+	
+}
+
+#cardBottom {
+ position: absolute;
+ bottom: 20px;
+}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="professorContent">
@@ -21,24 +35,23 @@
 
 			<!-- 교수 강의 리스트가 있는 경우 -->
 			<div th:unless="${mycourseList.isEmpty()}">
-			
+					<div class="card height-sevenh">
+					<div class="card-body">
 					<form name="searchForm">
-					<label>년도</label>	
+					<label>년도  </label>	
 						<select id="searchYear" name="searchYear" class="form-select width-one inline">
-							<option value="">--</option>
 							<option 
 							th:each="year : ${year}" th:value="${year.courseYear}" 
 							th:text="${year.courseYear}"
-							th:selected="${searchYearVal != null} ? ${searchYear} == ${year.courseYear} : ${session.year} == ${year.courseYear}"></option>
+							th:selected="${searchYearVal != null} ? ${searchYearVal} == ${year.courseYear} : ${session.year} == ${year.courseYear}"></option>
 						</select> 		
 					
-						<label>학기</label>
+						<label>학기  </label>
 						<select id="searchSemester" name="searchSemester" class="form-select width-one inline">
-							<option value="">--</option>
 							<option 
 							th:each="semester : ${semester}" th:value="${semester.courseSemester}"
 							th:text="${semester.courseSemester}"
-							th:selected="${searchSemesterVal != null} ? ${searchSemester} == ${semester.courseSemester} : ${session.semester} == ${semester.courseSemester}"
+							th:selected="${searchSemesterVal != null} ? ${searchSemesterVal} == ${semester.courseSemester} : ${session.semester} == ${semester.courseSemester}"
 							></option>
 						</select>  
 						
@@ -47,13 +60,13 @@
 						<div class="divider-text">
 						<!-- 여기 년도 학기 세션값 가져와서 출력 해야함.  -->
 							<th:block>
-								<span th:if="${searchYearVal == null} or ${searchSemesterVal} == null">
+								<h5 class="font-bold" th:if="${searchYearVal == null} or ${searchSemesterVal} == null">
 							 	[[${session.year}]]년-[[${session.semester}]]학기 수강과목
-							 	</span>
+							 	</h5>
 							 	
-							 	<span th:if="${searchYearVal != null} or ${searchSemesterVal != null}">
+							 	<h5 class="font-bold" th:if="${searchYearVal != null} or ${searchSemesterVal != null}">
 								 [[${searchYearVal}]]년-[[${searchSemesterVal}]]학기 수강과목
-								 </span>
+								 </h5>
 							 </th:block>
 						</div>
 					</div>
@@ -62,22 +75,28 @@
 					</form>
 				
 			
-				<div class="grid-container">
+				<div class="grid-container-three">
 					<div class="grid-item" th:each="mycourse : ${mycourseList}">
-						<div class="card"
+						<div class="card" id="card"
 							th:onclick="|location.href='@{/professor/eclass/{courseCode}(courseCode=${mycourse.courseCode})}'|">
-							<div class="card-body height-">
-							
-								<span  class="card-title fw-bold">강의명 :</span>
-								<span class="fw-bold" th:text="${mycourse.courseName}"></span>
+						 	<div class="card-body">
+								<div>
+								<span class="card-title fw-bold">강의명 :</span>
+								<i class="bi bi-pencil-square fs-5" style="float:right "></i>
+								<span class="card-title fw-bold" th:text="${mycourse.courseName}"></span>
+								</div>
 								<br>
-								<span  class="card-title fw-bold">교수명 :</span>
-								<span class="fw-bold" th:text="${mycourse.professorName}"></span>
-							</div>
+								<div id="cardBottom">
+								<span  class="card-title font-bold">교수명 :</span>
+								<span class="card-title font-bold" th:text="${mycourse.professorName}"></span>
+								</div>
+							</div> 
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		</div>
 		</div>
 
 		<script th:inline="javascript">
