@@ -113,10 +113,13 @@ public class myCourseController {
 
 		int studId = (int) session.getAttribute("id");
 
-		model.addAttribute("year", service.getProfMyCourseYear(studId));
-		System.out.println(service.getProfMyCourseYear(studId));
-		model.addAttribute("semester", service.getProfMyCourseSemester(studId));
-		System.out.println(service.getProfMyCourseSemester(studId));
+		
+		model.addAttribute("searchYearVal", course.getSearchYear());
+		model.addAttribute("searchSemesterVal", course.getSearchSemester());
+		
+		
+		model.addAttribute("year", service.getStuCourseYear(studId));
+		model.addAttribute("semester", service.getStuCourseSemester(studId));
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
 		return "student/courseList";
 	}

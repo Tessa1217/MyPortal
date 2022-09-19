@@ -115,4 +115,16 @@ public class MyCourseServiceImpl implements MyCourseService {
 		return mapper.getTotal(vo);
 	}
 
+	@Override
+	public List<MyCourseVO> getStuCourseYear(int studentId) {
+		// TODO Auto-generated method stub
+		return mapper.getStuCourseYear(studentId);
+	}
+
+	@Override
+	public List<MyCourseVO> getStuCourseSemester(int studentId) {
+		// TODO Auto-generated method stub
+		return mapper.getStuCourseSemester(studentId);
+	}
+
 }
