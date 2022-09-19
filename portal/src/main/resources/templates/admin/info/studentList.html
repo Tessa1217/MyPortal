@@ -20,15 +20,15 @@
 						<th:block th:with="cri = ${pageMaker.cri}">
 							<label for="type">학과</label>
 							<input type="text" id="type" name="type"
-								class="form-control inline width-three" th:value="${cri.type}">
+								class="form-control inline width-two" th:value="${cri.type}">
 							<label for="keyword">이름</label>
 							<input type="text" id="keyword" name="keyword"
-								class="form-control inline width-three" th:value="${cri.keyword}">
+								class="form-control inline width-two" th:value="${cri.keyword}">
 							<button type="submit" class="btn btn-primary adminStudentSearch">검색</button>
 						</th:block>
 					</form>
 					<hr>
-					<table class="table">
+					<table class="table table-hover">
 						<thead class="thead-primary">
 							<tr>
 								<th>학번</th>
@@ -39,11 +39,11 @@
 								<th>성별</th>
 								<th>생년월일</th>
 								<th>연락처</th>
-								<th>상세보기</th>
 							</tr>
 						</thead>
 						<tbody class="tbody-center">
-							<tr th:each="list : ${studentList}">
+							<tr th:each="list : ${studentList}"
+							th:onclick="detailStudent([[${list.studentId}]])">
 								<td th:text=${list.studentId}></td>
 								<td th:text=${list.studentName}></td>
 								<td th:text=${list.departName}></td>
@@ -52,12 +52,6 @@
 								<td th:text=${list.studentGenderNm}></td>
 								<td th:text="${#dates.format(list.studentBirth, 'yyyy-MM-dd')}"></td>
 								<td th:text=${list.studentPhone}></td>
-								<td>
-
-									<button type="button"
-										class="btn btn-primary btn-sm adminStudentSelect"
-										th:data-code="${list.studentId}">상세보기</button>
-								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -96,14 +90,9 @@
 			</div>
 		</div>
 		<script th:inline="javascript">
-			$(function() {
-				$(".adminStudentSelect").on("click", function() {
-					var sId = $(this).data("code")
-					frm_select.studentId.value = sId
-					frm_select.submit()
-				})
-
-			});
+			function detailStudent (data) {
+				location.href=`/admin/adminStudentInfoSelect?studentId=` + data;
+			}
 		</script>
 	</th:block>
 </body>

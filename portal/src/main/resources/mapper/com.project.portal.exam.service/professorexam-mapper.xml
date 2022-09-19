@@ -258,7 +258,7 @@
 		  week_start_date,
 		  week_end_date
 			FROM course_weekly
-			WHERE course_code = 'SSPY0001'
+			WHERE course_code = #{course.courseCode}
 			AND week_start_date BETWEEN (SELECT schedule_start_date
             FROM bachelor_schedule WHERE detail_code  = #{detailCode}
             AND year = #{course.courseYear} and semester = #{course.courseSemester})
