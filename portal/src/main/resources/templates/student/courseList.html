@@ -26,6 +26,39 @@
 
 			<!-- 수강중인 강의 리스트가 있는 경우 -->
 			<div th:unless="${mycourseList.isEmpty()}">
+			
+				<form name="searchForm">
+					<label>년도</label>	
+						<select id="searchYear" name="searchYear" class="form-select width-one inline">
+							<option value="">--</option>
+							<option 
+							th:each="year : ${year}" th:value="${year.courseYear}" 
+							th:text="${year.courseYear}"
+							th:selected="${searchYear == year.searchYear}"></option>
+						</select> 		
+					
+						<label>학기</label>
+						<select id="searchSemester" name="searchSemester" class="form-select width-one inline">
+							<option value="">--</option>
+							<option 
+							th:each="semester : ${semester}" th:value="${semester.courseSemester}"
+							th:text="${semester.courseSemester}"
+							th:selected="${searchSemester == semester.searchSemester}"></option>
+						</select>  
+						
+						<button type="submit" class="saveBtn btn btn-primary me-1 mb-1" >검색</button>
+							<div class="divider">
+						<div class="divider-text">
+						<!-- 여기 년도 학기 세션값 가져와서 출력 해야함.  -->
+							<th:block>
+							 	[[${session.year}]]년-[[${session.semester}]]학기 수강과목
+							 </th:block>
+						</div>
+					</div>
+						
+					
+					</form>
+			
 				<div class="grid-container">
 					<div th:each="mycourse, idx : ${mycourseList}">
 						<div class="grid-item">

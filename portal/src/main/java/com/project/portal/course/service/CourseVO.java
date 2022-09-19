@@ -47,6 +47,10 @@ public class CourseVO extends Criteria {
 	private int weekNum;
 	private String type;
 	
+	// 수강 강의 목록 검색 조건 정보
+	private String searchYear;
+	private String searchSemester;
+	
 //	// 강의별 강의평가 평균점수
 //	private List<CourseSurveyAvgVO> courseSurveyAvg;
 
