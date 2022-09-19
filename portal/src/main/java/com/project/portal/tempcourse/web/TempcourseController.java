@@ -279,7 +279,7 @@ public class TempcourseController {
 	}
 
 	// 강의계획서 삭제기능
-	@PostMapping(value = { "/professor/getTemp/tempDelete", "/professor/tempcourseList/tempDelete" })
+	@PostMapping(value = { "/professor/getTemp/tempDelete"})
 	@ResponseBody
 	public int tempDelete(TempcourseVO vo, Model model) {
 		return service.tempDelete(vo);

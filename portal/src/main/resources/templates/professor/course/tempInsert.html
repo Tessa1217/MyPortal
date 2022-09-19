@@ -326,6 +326,19 @@
 				 })
 				
 			 }
+			 
+			 function moving(){
+				 $.ajax({
+						url : "/professor/tempInsert/bringme",
+						type : 'GET',
+						data: $('#searchFrm').serialize(),
+		       	success: function(fragment) {
+		       			$("#confirmFragment").replaceWith(fragment);
+		        }
+		        , error: function(result) {
+		           }
+					 })
+			 }
 			
 			
 			

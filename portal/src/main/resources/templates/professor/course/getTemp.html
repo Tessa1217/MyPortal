@@ -69,7 +69,10 @@ text-align : center;
 					<div class="card name">
 						<div class="card-header center">
 							<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
+							<div class="right" style="margin-right:8%">
 							<h4 th:text="|담당교수: ${professorInfo.professorName}|"></h4>
+							</div>
+							<hr>
 							<div class="right">
 							<button th:disabled="${tempcourse.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
 												name="button1" class="btn btn-primary moddd"

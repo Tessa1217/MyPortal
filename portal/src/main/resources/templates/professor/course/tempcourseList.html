@@ -56,7 +56,7 @@ br
 			
 				<div class="card height-eight">
 			<div class="card-header">
-			<form name="searchFrm" class="form-horizontal">
+			<!-- <form name="searchFrm" class="form-horizontal">
 					<label for="type">개설연도</label> <input type="number" id="type"
                      class="form-control inline width-two" name="type"
                      th:value="${year}"  > <label for="keyword">개설학기</label> <select
@@ -67,7 +67,26 @@ br
                   </select>
 					<button class="btn rounded-pill btn-primary" type="submit">검색</button>
 
-				</form><br>
+				</form> -->
+				<form name="frm_search"
+						method="get">
+						<label for="type">개설연도</label> 
+						<input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${pageMaker.cri.type}"> 
+						<input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${year}"> 
+							<label for="keyword">개설학기</label> 
+						<select id="keyword" class="form-select inline width-two"	name="keyword">
+							<option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
+								th:selected="${pageMaker.cri.keyword} == ${i}"
+								th:value="${i}"
+								th:text="|${i}학기|"></option>
+							 <option th:if="${pageMaker.cri.keyword} == null" th:each="i : ${#numbers.sequence(1, 2)}"
+								th:selected="${i} == ${semester}"
+								th:value="${i}"
+								th:text="|${i}학기|"></option>
+						</select>
+						
+						<button class="btn btn-primary">검색</button>
+					</form><br>
 				<h6 th:text="|강의계획서 등록 및 제출기간 : ${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h6>
 			</div>
 				<div class="card-body">
