@@ -192,7 +192,7 @@ public class TempcourseController {
 	}
 
 	// 강의계획서 제출기능
-	@RequestMapping(value = {"/professor/getTemp/submitTemp" })
+	@RequestMapping("/professor/getTemp/submitTemp")
 	@ResponseBody
 	public int submitTemp(TempcourseVO vo, Model model) {
 		return service.submitTemp(vo);
