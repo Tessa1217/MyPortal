@@ -68,9 +68,11 @@ text-align : center;
 					</div>
 					<div class="card name">
 						<div class="card-header center">
+						<div style="padding-top:2%">
 							<h3 th:text="|강의명: ${tempcourse.courseName}|"></h3>
 							<div class="right" style="margin-right:8%">
 							<h4 th:text="|담당교수: ${professorInfo.professorName}|"></h4>
+							</div>
 							</div>
 							<div class="right">
 							<button th:unless="${tempcourse.submitYes}=='SUB' or ${#dates.createNow()} >= ${yearSemester.scheduleStartDate} and ${#dates.createNow()} <= ${yearSemester.scheduleEndDate}"
@@ -292,7 +294,7 @@ text-align : center;
 												
 											   <tr th:each="items:${tempcourseweek}">
 											   
-												<td th:text="${items.weekNum}" th:value="${items.weekNum}" id="weekNum"></td>
+												<td th:text="|${items.weekNum}주차|" th:value="${items.weekNum}" id="weekNum"></td>
 												<td><input th:name="|weekContent${items.weekNum}|"
 													class="form-control" th:value="${items.weekContent}" id="weekContent"></td>
 													</tr>
