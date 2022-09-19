@@ -12,8 +12,12 @@
 		JOIN COURSE C ON M.COURSE_CODE = C.COURSE_CODE
 		JOIN PROFESSOR P ON P.PROFESSOR_ID = C.PROFESSOR_ID
 		WHERE M.STUDENT_ID = #{my.studentId}
-		AND C.COURSE_YEAR = #{course.courseYear}
-		AND C.COURSE_SEMESTER = #{course.courseSemester}
+		<if test="course.searchYear == '' or course.searchYear == null or course.searchSemester == '' or course.searchSemester == null">
+		AND C.COURSE_YEAR = #{course.courseYear} AND C.COURSE_SEMESTER = #{course.courseSemester}
+		</if>
+		<if test="course.searchYear != '' and course.searchYear != null or course.searchSemester != '' and course.searchSemester != null">
+		AND C.COURSE_YEAR = #{course.searchYear} AND C.COURSE_SEMESTER = #{course.searchSemester}
+		</if>
 	</select>
 
 	<select id="getstuMyCourseDetail"
@@ -265,5 +269,20 @@
 	<select id="getProfMyCourseSemester" resultType="myProfCourseVO">
 		select distinct course_semester from course
  		where professor_id = #{value}
+	</select>
+	
+	<select id="getStuCourseYear" resultType="MyCourseVO">
+	select distinct c.course_year
+		from my_course m join course c
+		on m.course_code = c.course_code
+ 		where m.student_id = #{value}
+	</select>
+	
+	
+	<select id="getStuCourseSemester" resultType="MyCourseVO">
+	        select distinct c.course_semester
+			from my_course m join course c
+			on m.course_code = c.course_code
+ 			where m.student_id = #{value}
 	</select>
 </mapper>

@@ -39,6 +39,9 @@ public class MyCourseVO extends Criteria {
 	// 공통코드
 	private String courseSortationNm; // 강의 이수구분 공통코드
 	private String courseGradeNm; // 강의 성적 평점 공통코드
+	// 검색 년도 학기
+	private int searchYear;
+	private int searchSemester;
 	
 	
 }

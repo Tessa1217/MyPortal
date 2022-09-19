@@ -45,9 +45,12 @@ public interface MyCourseService {
 	
 	// 교수의 등록된 강의 년도 조회
 	public List<myProfCourseVO> getProfMyCourseYear(int professorId);
-	// 교수의 등록된 강의 년도 조회
+	// 교수의 등록된 강의 학기 조회
 	public List<myProfCourseVO> getProfMyCourseSemester(int professorId);
-
+	// 학생의 등록된 강의 년도 조회
+	public List<MyCourseVO> getStuCourseYear(int studentId);
+	// 학생의 등록된 강의 학기 조회
+	public List<MyCourseVO> getStuCourseSemester(int studentId);
 	
 	
 	public int getTotal(MyCourseVO vo);
