@@ -60,8 +60,7 @@
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
 									<td><a
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${profFile.reportFileCode}, userCode=${profFile.userCode})}"
-									th:text="${profFile.reportFileName}"
-									th:download="${profFile.reportFileName}"></a></td>
+									th:text="${profFile.reportFileName}"></a></td>
 								</tr>
 
 								<tr>
@@ -69,8 +68,7 @@
 									style="background-color: rgba(0, 0, 0, 0.05);">제출한 첨부파일</td>
 									<td><a
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportDetail.reportFileCode}, userCode=${reportDetail.userCode})}"
-									th:text="${reportDetail.reportFileName}"
-									th:download="${reportDetail.reportFileName}"></a></td>
+									th:text="${reportDetail.reportFileName}"></a></td>
 								</tr>
 
 								<tr>

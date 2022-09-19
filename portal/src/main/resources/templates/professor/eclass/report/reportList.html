@@ -54,8 +54,7 @@
 									<td th:text="|${#dates.format(r.reportStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(r.reportEndDate, 'yyyy-MM-dd')}|"></td>
 									<td th:text="|${r.reportAssignedScore}점|"></td>
 									<td><a th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${r.reportFileCode}, userCode=${r.reportFile.userCode})}"
-									th:text="${r.reportFile.reportFileName}"
-									th:download="${r.reportFile.reportFileName}"></a></td>
+									th:text="${r.reportFile.reportFileName}"></a></td>
 								</tr>
 							</th:block>
 							</tbody>

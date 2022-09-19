@@ -38,7 +38,6 @@
 					<tr>
 						<th>과제 첨부파일</th>
 						<td><a th:text="${report.reportFile.reportFileName}"
-							th:download="${report.reportFile.reportFileName}"
 							th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${report.reportFileCode}, userCode = ${report.reportFile.userCode})}"></a></td>
 					</tr>
 					<tr>
