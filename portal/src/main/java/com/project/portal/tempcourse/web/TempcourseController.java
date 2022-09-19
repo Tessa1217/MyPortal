@@ -166,8 +166,8 @@ public class TempcourseController {
 	}
 
 	// 강의계획서 기본정보 수정기능
-	@RequestMapping(value = { "/professor/getTemp/{courseCode}/updateTemp",
-			"/professor/getUpdateTemp/{courseCode}/updateTemp" })
+	@RequestMapping(value = { "/professor/getTemp/{courseCode}/updateTemp"
+			})
 	@ResponseBody
 	public int tempUpdate(@PathVariable String courseCode, TempcourseVO vo, Model model) {
 		vo.setCourseCode(courseCode);
@@ -192,7 +192,7 @@ public class TempcourseController {
 	}
 
 	// 강의계획서 제출기능
-	@RequestMapping(value = { "/professor/tempcourseList/submitTemp", "/professor/getTemp/submitTemp" })
+	@RequestMapping(value = {"/professor/getTemp/submitTemp" })
 	@ResponseBody
 	public int submitTemp(TempcourseVO vo, Model model) {
 		return service.submitTemp(vo);
@@ -231,21 +231,21 @@ public class TempcourseController {
 	}
 
 	// 관리자 강의계획서 승인기능
-	@RequestMapping(value = { "/admin/adminTempList/okayTemp", "/admin/adminGetTemp/okayTemp" })
+	@RequestMapping(value = {"/admin/adminGetTemp/okayTemp" })
 	@ResponseBody
 	public int okayTemp(TempcourseVO vo, Model model) {
 		return service.okayTemp(vo);
 	}
 
 	// 관리자가 강의계획서 승인시 course 테이블로 강의 이관
-	@RequestMapping(value = { "/admin/adminTempList/okayTempCourse", "/admin/adminGetTemp/okayTempCourse" })
+	@RequestMapping(value = {"/admin/adminGetTemp/okayTempCourse" })
 	@ResponseBody
 	public int okayTempCourse(TempcourseVO vo, Model model) {
 		return service.okayTempCourse(vo);
 	}
 
 	// 관리자 강의계획서 비승인 기능
-	@PostMapping(value = { "/admin/adminTempList/backTemp", "/admin/adminGetTemp/backTemp" })
+	@PostMapping(value = {"/admin/adminGetTemp/backTemp" })
 	@ResponseBody
 	public String backTemp(@RequestBody TempcourseVO vo, Model model) {
 		service.backTemp(vo);
@@ -253,7 +253,7 @@ public class TempcourseController {
 	}
 
 	// 비승인 사유(교수)
-	@PostMapping(value = { "/professor/tempcourseList/backReasonWhy", 
+	@PostMapping(value = {"/professor/tempcourseList/backReasonWhy", 
 			"/professor/getTemp/{courseCode}/backReasonWhy",
 			"/admin/adminTempList/backReasonWhy" })
 	@ResponseBody
