@@ -176,7 +176,7 @@
 									<div class="input-container modal-footer"
 										style="justify-content: right !important">
 										<button type="submit" class="btn btn-primary"
-											style="margin-right: 2%;">강의계획서 등록하기</button>
+											style="margin-right: 2%;">등록</button>
 										<button type="button"
 											onclick="location.href='/professor/tempcourseList'"
 											class="btn btn-secondary" style="margin-right: 2%;">목록</button>
@@ -253,12 +253,10 @@
 										</div>
 										<div class="col-sm-12" align="right">
 											<button type="button" class="btn btn-danger"
-												onclick="message()" style="margin-right: 30px;">강의
-												계획서 등록하기</button>
+												onclick="message()" style="margin-right: 30px;">등록</button>
 											<button type="button"
 												onclick="location.href='/professor/tempcourseList'"
-												class="btn btn-info" style="margin-right: 30px;">목록
-												보기</button>
+												class="btn btn-info" style="margin-right: 30px;">목록</button>
 											<button type="reset" class="btn btn-secondary">취소</button>
 										</div>
 
@@ -313,8 +311,7 @@
 			 //모달창 검색 안꺼지게
 		
 				function aaa(){
-				 
-				 $.ajax({
+					$.ajax({
 					url : "/professor/tempInsert/bringme",
 					type : 'GET',
 					data: $('#searchFrm').serialize(),
@@ -327,11 +324,18 @@
 				
 			 }
 			 
-			 function moving(){
+			 function moving(num, amount, type, keyword){
+				 let data = {
+						 pageNum : num,
+						 amount : amount,
+						 type : type,
+						 keyword : keyword
+				 }
+				 console.log(data);
 				 $.ajax({
 						url : "/professor/tempInsert/bringme",
 						type : 'GET',
-						data: $('#searchFrm').serialize(),
+						data: data,
 		       	success: function(fragment) {
 		       			$("#confirmFragment").replaceWith(fragment);
 		        }

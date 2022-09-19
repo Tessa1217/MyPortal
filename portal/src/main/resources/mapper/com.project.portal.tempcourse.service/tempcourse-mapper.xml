@@ -27,9 +27,11 @@
 			 <!-- where course_code =#{courseCode} -->
 			where professor_id = #{vo.professorId}
 			
+			<if test="cri.type != null and cri.type != ''">
+				and COURSE_YEAR = #{cri.type}
+			</if>
 			<if test="cri.keyword != null and cri.keyword != ''">
-				and ${cri.type} = ${cri.keyword}
-				 
+				AND COURSE_SEMESTER = #{cri.keyword}
 			</if>
 			order by course_code desc
 		)
@@ -472,22 +474,19 @@ select week_num,
                     find_code(submit_yes) as submit_yes_name,
                     find_code(okay_yes) as okay_yes_name
 			from temp_course t 
-			
-			
 			  <where>
                professor_id = #{vo.professorId} and okay_yes = 'A00'
-               
-         <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
+        <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
             <if test="cri.keyword == ''and cri.type != ''">
-               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+               and course_semester =  #{cri.keyword}   or course_year = #{cri.type}
             </if>
             <if test="cri.keyword != '' and cri.type == ''">
-               and course_semester = #{cri.keyword}   or course_year = #{cri.type}
+               and course_semester =  #{cri.keyword}   or course_year = #{cri.type}
             </if>
             <if test="cri.keyword != '' and cri.type != ''">
-               and course_semester = #{cri.keyword}   and course_year = #{cri.type}
+               and course_semester =  #{cri.keyword}  and course_year = #{cri.type}
             </if>
-         </if>
+         </if> 
       </where>
 			order by course_code desc
 		)

@@ -22,6 +22,8 @@ import com.project.portal.bachelor.service.BachelorNoticeVO;
 import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
+import com.project.portal.common.service.CodeService;
+import com.project.portal.common.service.CodeVO;
 import com.project.portal.professor.service.ProfessorService;
 import com.project.portal.professor.service.ProfessorVO;
 import com.project.portal.student.service.StudentService;
@@ -38,7 +40,9 @@ public class MainController {
 	ProfessorService professorService;
 	@Autowired
 	AdminService adminService;
-	
+	// 코드
+	@Autowired
+	CodeService codeService;
 	// 학사 일정 
 	@Autowired
 	BachelorScheduleService scheduleService;
@@ -124,6 +128,8 @@ public class MainController {
 							Model model, 
 							Criteria cri) {
 		BachelorNoticeVO notice = new BachelorNoticeVO();
+		List<CodeVO> codeList = codeService.getDetailList(null); 
+		
 		notice.setNoticePrivate("OP");
 		if (request.getRequestURI().contains("student")) {
 			notice.setNoticeDivision("PROF");

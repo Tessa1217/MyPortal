@@ -6,118 +6,99 @@
 </head>
 <body>
 	<div id="confirmFragment">
-		 <!-- <form name="searchFrm" id="searchFrm"
-			class="form-horizontal searchFrm" onkeydown="return event.key != 'Enter';">
-			<label for="type">개설연도</label> <input type="number" id="type"
-				class="form-control inline width-three" name="type"
-				th:value="${year}"> <label for="keyword">개설학기</label> <select
-				id="keyword" class="form-select inline width-three" name="keyword">
-				<option th:selected="${semester} == '1'" value="1">1학기</option>
-				<option th:selected="${semester} == '2'" value="2">2학기</option>
+		<form name="searchFrm" id="searchFrm"
+			onkeydown="return event.key != 'Enter';" method="get">
+			<label for="type">개설연도</label> 
+			<input type="number" id="type"
+				class="form-control inline width-two" name="type"
+				th:value="${pageMaker.cri.type != null} ? ${pageMaker.cri.type} : ${year}"> 
+			<label for="keyword">개설학기</label> <select id="keyword"
+				class="form-select inline width-two" name="keyword">
+				<option
+					th:each="i : ${#numbers.sequence(1, 2)}"
+					th:selected="${pageMaker.cri.keyword != null} ? ${pageMaker.cri.keyword} == ${i} : ${semester} == ${i}" th:value="${i}"
+					th:text="|${i}학기|"></option>
 			</select>
 			<button class="btn rounded-pill btn-primary searchh" type="button"
-			th:onclick="aaa()">검색</button>
-		</form>  -->
-		<form name="searchFrm" id="searchFrm" onkeydown="return event.key != 'Enter';"
-						method="get">
-						<label for="type">개설연도</label> 
-						<input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${pageMaker.cri.type}"> 
-						<input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${year}"> 
-							<label for="keyword">개설학기</label> 
-						<select id="keyword" class="form-select inline width-two"	name="keyword">
-							<option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
-								th:selected="${pageMaker.cri.keyword} == ${i}"
-								th:value="${i}"
-								th:text="|${i}학기|"></option>
-							 <option th:if="${pageMaker.cri.keyword} == null" th:each="i : ${#numbers.sequence(1, 2)}"
-								th:selected="${i} == ${semester}"
-								th:value="${i}"
-								th:text="|${i}학기|"></option>
-						</select>
-						
-						<button class="btn rounded-pill btn-primary searchh" type="button"
-			th:onclick="aaa()">검색</button>
-					</form><br>
-		
+				th:onclick="aaa()">검색</button> 
+			</form>
+		<br>
 		<div>
-		<table class="table">
-			<thead class="thead-primary">
-				<tr>
-					<th>강의코드</th>
-					<th>년도</th>
-					<th>학기</th>
-					<th>이수단위</th>
-					<th>이수구분</th>
-					<th>강의명</th>
-					<th>제출여부</th>
-					<th>승인여부</th>
-					<th>기본정보 담기</th>
-				</tr>
-			</thead>
-			<tbody class="tbody-center">
-				<tr th:each="item:${tempcourseList}">
-					<td th:text="${item.courseCode}"></td>
-					<td th:text="${item.courseYear}"></td>
-					<td th:text="${item.courseSemester}"></td>
-					<td>[[${item.courseCredit}]]학점</td>
-					<td th:text="${item.courseSortationName}"></td>
-					<td th:text="${item.courseName}"></td>
-					<td th:text="${item.submitYesName}" id="submitYes"
-						th:data-codee="${item.submitYes}"></td>
-					<td th:text="${item.okayYesName}" id="okayYes"
-						th:data-back="${item.okayYes}"></td>
-						
-					<td><button th:text="기본정보담기"
-							th:data-coursecode="${item.courseCode}"
-							th:data-coursename="${item.courseName}"
-							th:data-coursesortation="${item.courseSortation}"
-							th:data-coursecredit="${item.courseCredit}"
-							th:data-reportassignedscore="${item.reportAssignedScore}"
-							th:data-attassignedscore="${item.attAssignedScore}"
-							th:data-finalassignedscore="${item.finalAssignedScore}"
-							th:data-midtermassignedscore="${item.midtermAssignedScore}"
-							th:data-courselimit="${item.courseLimit}"
-							th:data-textbookreference="${item.textbookReference}"
-							th:data-coursesummary="${item.courseSummary}"
-							th:data-coursenotes="${item.courseNotes}"
-							class="btn btn-primary passtext" th:onclick="passtext(event)"></button></td>
-				</tr>
-			</tbody>
-		</table>
-		
-		   <div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
-			<ul class="pagination justify-content-center">
-				<th:block th:if="${pageMaker.prev}">
-					<li class="page-item prev"><a class="page-link"
-						href="javascript:void(0)"
-						th:onclick="moving([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
-					</li>
-				</th:block>
-				<th:block th:with="pageMaker = ${pageMaker}">
-					<th:block
-						th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-						<li class="page-item"
-							th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-							<a class="page-link" href="javascript:void(0)" th:text="${num}"
-							th:onclick="moving([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
-						</li>
-					</th:block>
-					<th:block th:if="${pageMaker.next}">
-						<li class="page-item next"><a class="page-link"
+			<table class="table">
+				<thead class="thead-primary">
+					<tr>
+						<th>강의코드</th>
+						<th>년도</th>
+						<th>학기</th>
+						<th>이수단위</th>
+						<th>이수구분</th>
+						<th>강의명</th>
+						<th>제출여부</th>
+						<th>승인여부</th>
+						<th>기본정보 담기</th>
+					</tr>
+				</thead>
+				<tbody class="tbody-center">
+					<tr th:each="item:${tempcourseList}">
+						<td th:text="${item.courseCode}"></td>
+						<td th:text="${item.courseYear}"></td>
+						<td th:text="${item.courseSemester}"></td>
+						<td>[[${item.courseCredit}]]학점</td>
+						<td th:text="${item.courseSortationName}"></td>
+						<td th:text="${item.courseName}"></td>
+						<td th:text="${item.submitYesName}" id="submitYes"
+							th:data-codee="${item.submitYes}"></td>
+						<td th:text="${item.okayYesName}" id="okayYes"
+							th:data-back="${item.okayYes}"></td>
+						<td><button th:text="기본정보담기"
+								th:data-coursecode="${item.courseCode}"
+								th:data-coursename="${item.courseName}"
+								th:data-coursesortation="${item.courseSortation}"
+								th:data-coursecredit="${item.courseCredit}"
+								th:data-reportassignedscore="${item.reportAssignedScore}"
+								th:data-attassignedscore="${item.attAssignedScore}"
+								th:data-finalassignedscore="${item.finalAssignedScore}"
+								th:data-midtermassignedscore="${item.midtermAssignedScore}"
+								th:data-courselimit="${item.courseLimit}"
+								th:data-textbookreference="${item.textbookReference}"
+								th:data-coursesummary="${item.courseSummary}"
+								th:data-coursenotes="${item.courseNotes}"
+								class="btn btn-primary passtext" th:onclick="passtext(event)"></button></td>
+					</tr>
+				</tbody>
+			</table>
+			<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+				<ul class="pagination justify-content-center">
+					<th:block th:if="${pageMaker.prev}">
+						<li class="page-item prev"><a class="page-link"
 							href="javascript:void(0)"
-							th:onclick="moving([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+							th:onclick="moving([[${pageMaker.startPage - 1}]], [[${cri.amount}]], [[${cri.type}]], [[${cri.keyword}]])">이전</a>
 						</li>
 					</th:block>
-				</th:block>
-			</ul>
-		</div> 
-		
-		<div class="input-container modal-footer">
-			<button id="closeModal" type="button" class="btn btn-secondary"
-				data-dismiss="modal" th:onclick="modalOff()">닫기</button>
+					<th:block th:with="pageMaker = ${pageMaker}">
+						<th:block
+							th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+							<li class="page-item"
+								th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+								<a class="page-link" href="javascript:void(0)" th:text="${num}"
+								th:onclick="moving([[${num}]], [[${cri.amount}]], [[${cri.type}]], [[${cri.keyword}]])"></a>
+							</li>
+						</th:block>
+						<th:block th:if="${pageMaker.next}">
+							<li class="page-item next"><a class="page-link"
+								href="javascript:void(0)"
+								th:onclick="moving([[${pageMaker.endPage + 1}]], [[${cri.amount}]], [[${cri.type}]], [[${cri.keyword}]])"
+>다음</a>
+							</li>
+						</th:block>
+					</th:block>
+				</ul>
+			</div>
+			<div class="input-container modal-footer">
+				<button id="closeModal" type="button" class="btn btn-secondary"
+					data-dismiss="modal" th:onclick="modalOff()">닫기</button>
+			</div>
 		</div>
 	</div>
-	
-	
 </body>
 </html>
