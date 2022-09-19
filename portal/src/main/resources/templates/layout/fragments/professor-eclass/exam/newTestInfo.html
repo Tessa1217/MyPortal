@@ -72,16 +72,14 @@
 					</div>
 				</div>
 				<div class="col-sm-12 d-flex justify-content-end">
-					<button type="button" id="saveBtn"
+					<button type="button" th:onclick="saveExamInfo()"
 						class="btn btn-primary me-1 mb-1">저장하기</button>
 					<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
 				</div>
 			</form>
 		</div>
 		<script th:inline="javascript">
-		
 		function saveExamInfo() {
-			$(document).on("click", "#saveBtn", function() {
 				if ($("select[name=examCode]").val() == 'M') {
 					$("#examInfoForm").append($("#middle"));
 				} 
@@ -97,7 +95,6 @@
 						location.href=`/professor/eclass/examInsert/` + result.examCode;
 					}
 				})
-			})
 		}
 		</script>
 	</th:block>

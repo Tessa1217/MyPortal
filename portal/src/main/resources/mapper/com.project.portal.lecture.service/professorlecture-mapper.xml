@@ -73,7 +73,7 @@
 			L.course_code, 
 			V.video_name, 
 			V.video_file_path
-			FROM lecture L JOIN video V
+			FROM lecture L LEFT OUTER JOIN video V
 			ON L.video_code = V.video_code
 			<where>
 			<if test="courseCode != null and courseCode != ''">

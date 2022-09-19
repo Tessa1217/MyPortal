@@ -13,6 +13,7 @@ public class Criteria {
 	private String type; // 검색 타입
 	private String keyword; // 검색 키워드
 	
+	
 	// 초기값 지정
 	public Criteria() {
 		this(1, 10);

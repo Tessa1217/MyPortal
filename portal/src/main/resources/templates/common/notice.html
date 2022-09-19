@@ -48,7 +48,7 @@
 							th:with="command = ${command == 3} ? 'admin' : (${command == 2} ? 'professor' : 'student')">
 								<tr th:object="${notice}" th:onclick="|location.href='@{/{command}/detailNotice/{noticeNo}(command = ${command}, noticeNo = ${notice.noticeNo})}'|">
 									<td th:text="${notice.noticeNo}"></td>
-									<td class="left" th:text="*{noticeTitle}"></td>
+									<td class="left ellipse" th:text="*{noticeTitle}"></td>
 									<td 
 										th:text="${#dates.format(notice.noticePostDate, 'yyyy-MM-dd')}"></td>
 									<td 
