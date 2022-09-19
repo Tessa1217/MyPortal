@@ -495,7 +495,7 @@ text-align : center;
 					const m = parseInt(data.midtermAssignedScore)
 					const f = parseInt(data.finalAssignedScore)
 					
-					if(r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 150 && r != 100 && a != 100 && m != 100 && f != 100){
+					if(r + a + m + f == 100 && data.courseName != "" && data.courseLimit > 0 && data.courseLimit <= 50 && r != 100 && a != 100 && m != 100 && f != 100){
 					
 					$.ajax({
 						url : `/professor/getTemp/${courseCode}/updateTemp`,
@@ -536,8 +536,8 @@ text-align : center;
 					}else if(data.courseName == ""){
 						fireSwal('warning',"강의명을 입력해주세요.")
 					
-					}else if(data.courseLimit > 150){
-						fireSwal('warning',"수강인원은 최대 150명입니다.")
+					}else if(data.courseLimit > 50){
+						fireSwal('warning',"수강인원은 최대 50명입니다.")
 				}else if(data.courseLimit == 0){
 					fireSwal('warning',"수강인원은 0명이 될 수 없습니다.")
 				}else if(r == 100 || a == 100 || m == 100 || f == 100){
