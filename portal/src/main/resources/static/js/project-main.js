@@ -144,6 +144,7 @@ function monthlyCalendar() {
 				end: val.scheduleStartDate != val.scheduleEndDate ? new Date(val.scheduleEndDate).addDay() : val.scheduleStartDate,
 				backgroundColor: getColor(val.detailCode)
 			}
+			event.borderColor = event.backgroundColor;
 			calendar.addEvent(event);
 		})
 	})
