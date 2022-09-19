@@ -65,14 +65,13 @@ public class myCourseController {
 	@Autowired
 	CodeService codeService;
 
-	
 	@ModelAttribute("schedule")
 	public BachelorScheduleVO getSchedule() {
 		BachelorScheduleVO schedule = new BachelorScheduleVO();
 		schedule.setDetailCode("BPLAN00");
 		return scheduleService.getScheduleInfo(schedule);
 	}
-	
+
 	// 학생 학업 정보 조회
 
 	@RequestMapping("/student/studentStudyList")
@@ -93,12 +92,12 @@ public class myCourseController {
 		codeList = codeService.getDetailList("C01");
 		vo.setStudentId((int) session.getAttribute("id"));
 		model.addAttribute("semesterGradeSelect", service.semesterGradeSelect(vo));
-		
-		// 성적 이의 신청 기간 
+
+		// 성적 이의 신청 기간
 		voo.setDetailCode("REG02");
 		model.addAttribute("gradeYearSemester", scheduleService.getScheduleInfo(voo));
-		
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); //  값이 많지않아 페이징 보류
+
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); // 값이 많지않아 페이징 보류
 		return "student/info/semesterGrade";
 	}
 
@@ -109,31 +108,42 @@ public class myCourseController {
 			HttpSession session) {
 		vo.setStudentId((int) session.getAttribute("id"));
 		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
-		course.setCourseYear(schedule.getYear());
-		course.setCourseSemester(schedule.getSemester());
+		course.setCourseYear((int) session.getAttribute("year"));
+		course.setCourseSemester((int) session.getAttribute("semester"));
+
+		int studId = (int) session.getAttribute("id");
+
+		model.addAttribute("year", service.getProfMyCourseYear(studId));
+		System.out.println(service.getProfMyCourseYear(studId));
+		model.addAttribute("semester", service.getProfMyCourseSemester(studId));
+		System.out.println(service.getProfMyCourseSemester(studId));
 		model.addAttribute("mycourseList", service.getstuMyCourse(vo, course));
 		return "student/courseList";
 	}
 
 	// 교수 강의 목록 조회
 	@RequestMapping("professor/courseList")
-	public String getProfMyCourse(myProfCourseVO vo, 
-									CourseVO course, 
-									BachelorScheduleVO schedule, 
-									Model model, 
-									HttpSession session) {
+	public String getProfMyCourse(myProfCourseVO vo, CourseVO course, BachelorScheduleVO schedule, Model model,
+			HttpSession session) {
 		course.setProfessorId((int) session.getAttribute("id"));
 		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
-		course.setCourseYear(schedule.getYear());
-		course.setCourseSemester(schedule.getSemester());
-		int profId = (int)session.getAttribute("id");
+		course.setCourseYear((int) session.getAttribute("year"));
+		course.setCourseSemester((int) session.getAttribute("semester"));
+		int profId = (int) session.getAttribute("id");
 		
-		/*
-		 * model.addAttribute("year", service.getProfMyCourseYear(profId));
-		 * System.out.println(service.getProfMyCourseYear(profId));
-		 * model.addAttribute("semester", service.getProfMyCourseSemester(profId));
-		 * System.out.println(service.getProfMyCourseSemester(profId));
-		 */
+		System.out.println(course.getSearchYear());
+		System.out.println(course.getSearchSemester());
+		model.addAttribute("searchYearVal", course.getSearchYear());
+		model.addAttribute("searchSemesterVal", course.getSearchSemester());
+		
+		model.addAttribute("year", service.getProfMyCourseYear(profId));
+		System.out.println(service.getProfMyCourseYear(profId));
+		model.addAttribute("semester", service.getProfMyCourseSemester(profId));
+		System.out.println(service.getProfMyCourseSemester(profId));
+		
+		
+		
+		
 		model.addAttribute("mycourseList", service.getProfMyCourse(course));
 		return "professor/courseList";
 	}
@@ -142,7 +152,8 @@ public class myCourseController {
 
 	@RequestMapping("/student/eclass/{courseCode}")
 	public String getstuMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
-			MyCourseVO mycourse, StudyNoticeVO svo, StudentVO student, Model model, HttpSession session, BachelorScheduleVO schedule) {
+			MyCourseVO mycourse, StudyNoticeVO svo, StudentVO student, Model model, HttpSession session,
+			BachelorScheduleVO schedule) {
 
 		// 강의 정보
 		course.setCourseCode(courseCode);
@@ -152,7 +163,7 @@ public class myCourseController {
 		// 주차별 과제, 강의, 시험 정보
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
-		
+
 		// 최근 강의 공지사항 정보 조회
 		System.out.println(service.getStudyNoticeList(courseCode));
 		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
@@ -174,7 +185,7 @@ public class myCourseController {
 	// 교수 강좌 강의 lms 메인 페이지 이동
 	@RequestMapping("/professor/eclass/{courseCode}")
 	public String getProfMyCoursePage(@PathVariable String courseCode, CourseVO course, MyCourseMainVO vo,
-			ProfessorVO professor, StudyNoticeVO svo , Model model, HttpSession session, BachelorScheduleVO schedule) {
+			ProfessorVO professor, StudyNoticeVO svo, Model model, HttpSession session, BachelorScheduleVO schedule) {
 
 		// 강의 정보
 		course.setCourseCode(courseCode);
@@ -184,7 +195,7 @@ public class myCourseController {
 		// 주차별 과제, 강의, 시험 정보
 		Map<String, Object> map = service.getWeeklyList(course);
 		model.addAttribute("map", map);
-		
+
 		// 최근 강의 공지사항 정보 조회
 		System.out.println(service.getStudyNoticeList(courseCode));
 		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
@@ -213,16 +224,13 @@ public class myCourseController {
 		return "student/eclass/course/courseDetail";
 	}
 
-	
 	@Autowired
 	DataSource datasource;
-	
-	// 강의 계획서 pdf 
+
+	// 강의 계획서 pdf
 	@RequestMapping("/student/eclass/pdf/{courseCode}")
-	public void pdfReport(HttpServletRequest request,
-							HttpServletResponse response,
-							@PathVariable String courseCode,
-							Model model) throws Exception {
+	public void pdfReport(HttpServletRequest request, HttpServletResponse response, @PathVariable String courseCode,
+			Model model) throws Exception {
 		Connection conn = datasource.getConnection();
 		InputStream stream1 = getClass().getResourceAsStream("/reports/course.jrxml");
 		InputStream stream2 = getClass().getResourceAsStream("/reports/course_weekjrxml.jrxml");
