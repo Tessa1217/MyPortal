@@ -52,8 +52,6 @@
 							<dd>
 								<th:block th:each="list : ${scheduleList}">
 									<ul th:if="${list.month == i}">
-										<!-- <li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li> -->
 										<li>
 											<div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
 												<div
@@ -83,8 +81,6 @@
 											</div>
 
 										</li>
-										<!-- <li th:style="${list.detailCode == 'HOL00'} ? 'color:red'" th:if="${#dates.format(list.scheduleStartDate, 'MM.dd')} != ${#dates.format(list.scheduleEndDate, 'MM.dd')}"
-											th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}&nbsp&nbsp&nbsp&nbsp&nbsp${list.scheduleContent}|"></li> -->
 									</ul>
 								</th:block>
 							</dd>
@@ -288,13 +284,19 @@
 						$(".cal").each((idx, val) => {
 							$(val).toggleClass('hidePage');
 						})
-				// Fullcalendar
+			// Fullcalendar
 			//	document.addEventListener('DOMContentLoaded', function() {
 					
 					var calendarEl = document.getElementById('fullCalendar');
 					var calendar = new FullCalendar.Calendar(calendarEl, {
 						initialView : 'dayGridMonth',
-						displayEventTime : false
+						displayEventTime : false,
+						eventDataTransform: function(event) {                                                                                                                                
+							  if(event.allDay) {                                                                                                                                               
+							    event.end = moment(event.end).add(1, 'days')                                                                                                                 
+							  }
+							  return event;
+							}
 						
 					});
 					

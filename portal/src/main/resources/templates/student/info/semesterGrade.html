@@ -14,10 +14,6 @@
 			</div>
 			<div class="card height-eight">
 				<div class="card-body">
-				<!--  날짜 확인을 위한 임시데이터
-				<h5 th:text="|성적이의신청일 (확인용) ${#dates.format(gradeYearSemester.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(gradeYearSemester.scheduleEndDate, 'yyyy-MM-dd')}|"></h5>
-				<h5 th:text="|현재연도 학기 (확인용) ${gradeYearSemester.year}년도 ${gradeYearSemester.semester}학기|"></h5> 
-				-->
 					<form name="frm_search" action="/student/semesterGradeSelect"
 						method="get">
 						<label for="type">개설연도</label> 
@@ -34,16 +30,6 @@
 								th:value="${i}"
 								th:text="|${i}학기|"></option>
 						</select>
-						<!-- <label for="courseYear">수강연도</label> <input type="number"
-							id="type" name="type" class="form-control inline width-three"
-							th:value="${gradeYearSemester.year}"> <label
-							for="keyword">수강학기</label> <select id="keyword"
-							class="form-select inline width-three" name="keyword">
-							<option th:selected="${gradeYearSemester.semester} == '1'"
-								value="1">1학기</option>
-							<option th:selected="${gradeYearSemester.semester} == '2'"
-								value="2">2학기</option>
-						</select> -->
 						<button class="btn btn-primary">검색</button>
 					</form>
 					<hr>
@@ -66,18 +52,13 @@
 								<td th:text="${list.courseSortationNm}"></td>
 								<td th:text="${list.courseName}"></td>
 								<td th:text="${list.courseCredit}"></td>
-								<!-- 시범기간 끝나면 주석 처리한 걸로 바꿔줘야함 -->
-<!-- 								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${gradeYearSemester.scheduleEndDate} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'"  -->
-								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${#dates.createNow()} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'" 
+ 								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${gradeYearSemester.scheduleEndDate} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'"
 								th:text="${list.courseGradeNm}"></td>
-<!-- 								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${gradeYearSemester.scheduleEndDate} >= ${#dates.createNow()} and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'"  -->
-								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${#dates.createNow()} >= ${#dates.createNow()} and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'" 
+ 								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${gradeYearSemester.scheduleEndDate} >= ${#dates.createNow()} and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'"
 								>수강평 미등록</td>
-<!-- 								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${gradeYearSemester.scheduleEndDate} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'"  -->
-								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${#dates.createNow()} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'" 
+ 								<td th:if="${list.courseYear} != ${gradeYearSemester.year} or ${list.courseSemester} != ${gradeYearSemester.semester} or ${gradeYearSemester.scheduleEndDate} < ${#dates.createNow()} or ${gradeYearSemester.scheduleStartDate} > ${#dates.createNow()} or ${list.courseReviewYn} == 'SUB'"
 								th:text="${list.courseGrade}"></td>
-<!-- 								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${gradeYearSemester.scheduleEndDate} >= ${#dates.createNow()}  and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'"  -->
-								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${#dates.createNow()} >= ${#dates.createNow()}  and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'" 
+ 								<td th:if="${list.courseYear} == ${gradeYearSemester.year} and ${list.courseSemester} == ${gradeYearSemester.semester} and ${gradeYearSemester.scheduleEndDate} >= ${#dates.createNow()}  and ${gradeYearSemester.scheduleStartDate} <= ${#dates.createNow()} and ${list.courseReviewYn} != 'SUB'"
 								>수강평 미등록</td>
 							</tr>
 						</tbody>
