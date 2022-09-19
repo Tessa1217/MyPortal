@@ -55,7 +55,6 @@
 						<tr th:if="${lecture.videoCode != null}">
 							<th>원본 파일 확인하기</th>
 							<td><a th:text="${lecture.lectureFile.videoName}"
-								th:download="${lecture.lectureFile.videoName}"
 								th:href="@{/video/download/{videoCode}(videoCode = ${lecture.videoCode})}">
 							</a> <input type="hidden" th:value="${lecture.videoCode}"
 								name="videoCode"></td>

@@ -211,10 +211,6 @@ public class ProfessorReportController {
 		vo.setReportSubmissionCode(reportSubmissionCode);
 		System.out.println(service.getStudentObjectionDetail(vo));
 		model.addAttribute("reportObjectionDetail", service.getStudentObjectionDetail(vo));
-		
-		
-		
-		
 		return "professor/eclass/report/reportObjectionDetail"; 
 	}
 	

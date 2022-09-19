@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.project.portal.bachelor.service.BachelorNoticeFileVO;
 import com.project.portal.bachelor.service.BachelorNoticeVO;
 import com.project.portal.bachelor.service.impl.BachelorNoticeServiceImpl;
+import com.project.portal.lecture.service.VideoVO;
 import com.project.portal.lecture.service.impl.ProfessorLectureServiceImpl;
+import com.project.portal.report.service.ReportFileVO;
 import com.project.portal.report.service.impl.ProfessorReportServiceImpl;
 import com.project.portal.studynotice.service.StudyNoticeFileVO;
 import com.project.portal.studynotice.service.impl.StudyNoticeServiceImpl;
@@ -41,23 +43,21 @@ public class FileController {
 	
 	@GetMapping("/video/download/{videoCode}")
 	public ResponseEntity<Object> videoDownload(@PathVariable String videoCode) {
-		String path = lectureService.getVideo(videoCode).getVideoFilePath();
-		return setResponseEntity(path);
+		VideoVO video = lectureService.getVideo(videoCode);
+		return setResponseEntity(video.getVideoFilePath(), video.getVideoName());
 	} 
 	
 	@GetMapping("/report/download/{reportFileCode}/{userCode}")
 	public ResponseEntity<Object> fileDownload(@PathVariable String reportFileCode, 
 												@PathVariable String userCode) {
-		String path = reportService.getFile(reportFileCode, userCode).getReportFilePath();
-		return setResponseEntity(path);			
+		ReportFileVO report = reportService.getFile(reportFileCode, userCode);
+		return setResponseEntity(report.getReportFilePath(), report.getReportFileName());			
 	}
 	
 	@GetMapping("/courseNotice/download/{fileName}")
 	public ResponseEntity<Object> courseNoticefileDownload(@PathVariable String fileName) {
 		StudyNoticeFileVO fileVO = noticeService.filedownload(fileName);
-		String fileUrlDetail = fileVO.getFileUrl();
-		System.out.println(fileUrlDetail);
-		return setResponseEntity(fileUrlDetail);
+		return setResponseEntity(fileVO.getFileUrl(), fileVO.getFileName());
 	}
 	
 	@GetMapping("/notice/download/{noticeFileCode}")
@@ -65,11 +65,10 @@ public class FileController {
 		BachelorNoticeVO vo = new BachelorNoticeVO();
 		vo.setNoticeFileCode(noticeFileCode);
 		BachelorNoticeFileVO file = bnoticeService.getFile(vo);
-		String fileUrl = file.getNoticeFilePath();
-		return setResponseEntity(fileUrl);
+		return setResponseEntity(file.getNoticeFilePath(), file.getNoticeFileName());
 	}
 
-	public ResponseEntity<Object> setResponseEntity(String path) {
+	public ResponseEntity<Object> setResponseEntity(String path, String downloadName) {
 		Path filePath = Paths.get(path);
 		Resource resource = null;
 		try {
@@ -79,8 +78,8 @@ public class FileController {
 		}
 		File file = new File(path);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Length", String.valueOf(file.length()));
-		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+		headers.set("Content-Length", String.valueOf(file.length())); 
+		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(downloadName).build());
 		return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 	}
 		

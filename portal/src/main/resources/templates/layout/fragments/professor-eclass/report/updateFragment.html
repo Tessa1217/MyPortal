@@ -52,7 +52,6 @@
 						<tr>
 							<th>원본 파일 확인하기</th>
 							<td><a th:text="${report.reportFile.reportFileName}"
-								th:download="${report.reportFile.reportFileName}"
 								th:href="@{/report/download/{reportFileCode}(reportFileCode = ${report.reportFileCode})}">
 								</a>
 								<input type="hidden" th:value="${report.reportFileCode}" name="reportFileCode"></td>

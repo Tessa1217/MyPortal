@@ -41,8 +41,7 @@
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
 									<td><a
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportObjectionDetail.reportFileCode}, userCode=${reportObjectionDetail.userCode})}"
-									th:text="${reportObjectionDetail.reportFileName}"
-									th:download="${reportObjectionDetail.reportFileName}"></a></td>
+									th:text="${reportObjectionDetail.reportFileName}"></a></td>
 									<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제점수</td>
 									<td th:text="${reportObjectionDetail.reportScore}">

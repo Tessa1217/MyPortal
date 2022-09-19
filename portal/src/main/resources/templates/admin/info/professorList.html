@@ -19,14 +19,14 @@
 						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 						<th:block th:with="cri = ${pageMaker.cri}">
 							<label for="type">학과</label>
-							<input type="text" id="type" name="type" class="form-control inline width-three" th:value="${cri.type}">
+							<input type="text" id="type" name="type" class="form-control inline width-two" th:value="${cri.type}">
 							<label for="keyword">이름</label>
-							<input type="text" id="keyword" name="keyword" class="form-control inline width-three" th:value="${cri.keyword}">
+							<input type="text" id="keyword" name="keyword" class="form-control inline width-two" th:value="${cri.keyword}">
 							<button class="btn btn-primary adminProfessorSearch">검색</button>
 						</th:block>
 					</form>
 					<hr>
-					<table class="table">
+					<table class="table table-hover">
 						<thead class="thead-primary">
 							<tr>
 								<th>교번</th>
@@ -35,11 +35,11 @@
 								<th>생년월일</th>
 								<th>임용일자</th>
 								<th>연락처</th>
-								<th>상세보기</th>
 							</tr>
 						</thead>
 						<tbody class="tbody-center">
-							<tr th:each="list : ${professorList}">
+							<tr th:each="list : ${professorList}"
+							th:onclick="detailProfessor([[${list.professorId}]])">
 								<td th:text=${list.professorId}></td>
 								<td th:text=${list.professorName}></td>
 								<td th:text=${list.departName}></td>
@@ -47,12 +47,6 @@
 									th:text="${#dates.format(list.professorBirth, 'yyyy-MM-dd')}"></td>
 								<td th:text="${#dates.format(list.registerDate, 'yyyy-MM-dd')}"></td>
 								<td th:text=${list.professorPhone}></td>
-								<td>
-
-									<button type="button"
-										class="btn btn-primary btn-sm adminProfessorSelect"
-										th:data-code="${list.professorId}">상세보기</button>
-								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -91,15 +85,10 @@
 			</div>
 		</div>
 		<script th:inline="javascript">
-			$(function() {
-				$(".adminProfessorSelect").on("click", function() {
-					var pId = $(this).data("code")
-					frm_select.professorId.value = pId
-					frm_select.submit()
-				});
-				
-			});
-			
+
+			function detailProfessor(data) {
+				location.href=`/admin/adminProfessorInfoSelect?professorId=` + data;
+			}
 			
 		</script>
 	</th:block>
