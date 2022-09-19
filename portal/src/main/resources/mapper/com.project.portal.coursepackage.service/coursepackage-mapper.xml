@@ -27,7 +27,7 @@
 		  AND a.course_code NOT IN (SELECT course_code 
 		                              FROM course_package 
 		                             WHERE student_id = #{studentId})
-		  ORDER BY course_code ASC
+		  ORDER BY course_name ASC
 	</select>
 
 	<select id="studentInfo" resultType="com.project.portal.coursepackage.service.CoursePackageVO">

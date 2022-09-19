@@ -40,6 +40,7 @@
             AND a.course_code not in (select course_code 
             							from my_course 
             						   where student_id = #{studentId})
+		ORDER BY course_name ASC
 	</select>
 
 	<select id="studentInfo"
@@ -182,8 +183,6 @@
 			JOIN course b
 				ON a.course_code = b.course_code
 		WHERE student_id = #{studentId} 
-			AND course_year = #{courseYear} 
-			AND course_semester = #{courseSemester}
 	</select>
 	
 </mapper>

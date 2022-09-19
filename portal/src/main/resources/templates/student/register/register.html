@@ -37,6 +37,32 @@
 			color: white;
 		}
 
+		.checkCode {
+			margin-bottom: 10px;
+		}
+
+		.checkCode input{
+			border-radius: 8px;
+		}
+
+		#frmchoice {
+			margin-bottom: 10px;
+		}
+
+		#searchBtn {
+			margin-left: 10px;
+		}
+
+		#makeCode {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+
+		#codeCheck {
+			margin-left: 10px;
+		}
+
+		/* 수강꾸러미 실패 테이블 */
 		#pfTable {
 			color: black;
 		}
@@ -46,6 +72,7 @@
 			color: white;
 		}
 
+		/* 수강신청 성공 테이블 */
 		#rsTable {
 			color: black;
 		}
@@ -59,10 +86,6 @@
 			color: black;
 			padding-left: 20px;
 			font-size: large;
-		}
-
-		.checkCode input{
-			border-radius: 8px;
 		}
 	</style>
 </head>
@@ -106,7 +129,7 @@
 			<!-- 학과별 강의 검색 -->
 			<div class="card">
 				<div class="card-body">
-			<form name="frmchoice">
+			<form name="frmchoice" id="frmchoice">
 				<select id="departCode" name="departCode">
 					<option selected>--- 학과선택 ---</option>
 					<option value="">전체 강의</option>
@@ -126,16 +149,16 @@
 						<option value="ELEG">전기공학과</option>
 					</optgroup>
 				</select>
-				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+				<button class="btn rounded-pill btn-primary" type="submit" id="searchBtn">검색</button>
 			</form>
 
 			<!-- 자동입력방지 코드 -->
 			<form name="frm" class="checkCode">
 				<input id="makeBtn" type="text" size="18" name="output" placeholder="자동신청 방지코드">
 				<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
-					class="btn rounded-pill btn-primary">
+					class="btn rounded-pill btn-primary" id="makeCode">
 				<input type="text" size="18" name="che" id="regBtn">
-				<input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary">
+				<input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary" id="codeCheck">
 				<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
 			</form>
 
@@ -236,7 +259,7 @@
 								<td th:text="${item.studentCount}" hidden></td>
 								<td th:text="${item.courseLimit}" hidden></td>
 								<td><button type="button" class="regDeleteButton btn rounded-pill btn-primary"
-										th:data-code="${item.courseCode}">취 소</button></td>
+										th:data-code="${item.courseCode}" disabled>취 소</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -291,9 +314,15 @@
 					var rTable = document.getElementById("rTable");
 					var ableBtn = Array.from(rTable.children[1].children);
 
+					var rsTable = document.getElementById("rsTable");
+					var cancelAbleBtn = Array.from(rsTable.children[1].children);
+
 					ableBtn.forEach(function (findDisabled) {
 						findDisabled.children[7].children[0].disabled = false;
 
+					cancelAbleBtn.forEach(function(findDisabled){
+						findDisabled.children[7].children[0].disabled = false;
+					})	
 					});
 					return fireSwal('success','인증 완료');
 				} else {
@@ -349,7 +378,6 @@
 							+ "<td hidden>" + item.courseLimit + "</td>"
 							+ "<td><button type='button'	class='regDeleteButton btn rounded-pill btn-primary'	data-code= " + item.courseCode + ">취 소</button></td></tr>";
 						$("#rSuccessBody").append(content);
-						setRegisterTotalData();
 						var rTable = document.getElementById("rTable");
 						var ableBtn = Array.from(rTable.children[1].children);
 						ableBtn.forEach(function (findDisabled) {
@@ -357,6 +385,7 @@
 								findDisabled.remove();
 							}
 						});
+						setRegisterTotalData();
 					},
 					error: function () {
 						fireSwal('warning', '이전에 수강하신 강의입니다.');
@@ -389,7 +418,7 @@
 								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
 								+ "<td>" + cancelCourse.children[6].textContent + "</td>"
-								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)' disabled>신 청</button></td></tr>"
+								+ "<td><button type='button' class='regInsertButton btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='registerInsert(this)' >신 청</button></td></tr>"
 							$("#rBody").append(cancel);
 							tr.remove();
 							setRegisterTotalData();

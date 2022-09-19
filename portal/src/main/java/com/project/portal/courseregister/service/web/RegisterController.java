@@ -14,6 +14,7 @@ import com.project.portal.bachelor.service.BachelorScheduleService;
 import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.courseregister.service.RegisterService;
 import com.project.portal.courseregister.service.RegisterVO;
+import com.project.portal.student.service.StudentService;
 
 /*
  * 작성자: 송도언
@@ -29,38 +30,38 @@ public class RegisterController {
 	@Autowired
 	RegisterService service;
 	@Autowired
+	StudentService studentService;
+	@Autowired
 	BachelorScheduleService scheduleService;
 	
 
 	// 학생 정보, 강의 리스트, 신청한 강의 리스트
 	@RequestMapping("/student/courseRegister")
 	public String Register(Model model, RegisterVO vo, HttpSession session, BachelorScheduleVO bvo) {
-
 		vo.setStudentId((int) session.getAttribute("id"));
 		vo.setCourseYear((int) session.getAttribute("year"));
 		vo.setCourseSemester((int) session.getAttribute("semester"));
-		System.out.println(vo);
+		
+		// 학생 정보
 		List<RegisterVO> studentInfo = service.studentInfo(vo);
 		model.addAttribute("studentInfo", studentInfo);
-
+		
+		// 강의 LIST 조회
 		List<RegisterVO> registerList = service.registerList(vo);
 		model.addAttribute("registerList", registerList);
-
+		
+		// 수강꾸러미 실패 LIST
 		List<RegisterVO> packageNList = service.packageNList(vo);
 		model.addAttribute("packageNList", packageNList);
 
+		// 수강신청 성공 LIST
 		List<RegisterVO> successList = service.successList(vo);
 		model.addAttribute("successList", successList);
-
+		
+		// 신청 학점
 		RegisterVO registerAllCredit = service.registerAllCredit(vo);
 		model.addAttribute("registerAllCredit", registerAllCredit);
-		
-//		BachelorScheduleVO packageDate = scheduleService.packageDate(bvo);
-//		model.addAttribute("packageDate", packageDate);
-//		
-//		BachelorScheduleVO registerDate = scheduleService.registerDate(bvo);
-//		model.addAttribute("registerDate", registerDate);
-		
+	
 		return "student/register/register";
 	}
 

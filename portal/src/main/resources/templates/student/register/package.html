@@ -40,6 +40,14 @@
 	#pTable tbody tr {
 		background-color: white;
 	}
+
+	#frmchoice {
+		margin-bottom: 10px;
+	}
+
+	#searchBtn {
+		margin-left: 10px;
+	}
 	/* 신청학점 위치 조정 및 글자크기 */
 	#totalCredit {
 		padding-left: 30px;
@@ -101,7 +109,7 @@
 			<!-- 학과별 강의 검색 -->
 			<div class="card">
 				<div class="card-body">
-			<form name="frmchoice">
+			<form name="frmchoice" id="frmchoice">
 				<select id="departCode" name="departCode">
 						<option value="">전체 강의</option>
 					<option selected>--- 학과선택 ---</option>
@@ -121,7 +129,7 @@
 						<option value="ELEG">전기공학과</option>
 					</optgroup>
 				</select>
-				<button class="btn rounded-pill btn-primary" type="submit">검색</button>
+				<button class="btn rounded-pill btn-primary" type="submit" id="searchBtn">검색</button>
 			</form>
 
 			<!-- 강의 목록 -->

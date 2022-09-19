@@ -57,12 +57,6 @@ public class CoursePackageController {
 		CoursePackageVO coursePackagePoint = service.coursePackagePoint(vo);
 		model.addAttribute("coursePackagePoint", coursePackagePoint);
 		
-//		BachelorScheduleVO packageDate = scheduleService.packageDate(bvo);
-//		model.addAttribute("packageDate", packageDate);
-//		
-//		BachelorScheduleVO registerDate = scheduleService.registerDate(bvo);
-//		model.addAttribute("registerDate", registerDate);
-
 		return "student/register/package";
 	}
 
