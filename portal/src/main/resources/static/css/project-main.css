@@ -320,6 +320,12 @@ input[name="tabs"]+.tabmenu {
 	height: 600px;
 }
 
+.grid-item img {
+	height: 100%; 
+	width: 60%; 
+	float:right;
+}
+
 .grid-container {
 	display: grid;
 	grid-template-columns: auto auto;

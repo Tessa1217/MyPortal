@@ -114,6 +114,13 @@ function updateEditor() {
 	})
 }
 
+// Full Calendar 하루 더하기
+Date.prototype.addDay = function() {
+		let date = new Date(this.valueOf());
+		date.setDate(date.getDate() + 1);
+		return date;
+}
+
 // 캘린더 
 function monthlyCalendar() {
 	var calendarEl = document.getElementById('calendar');
@@ -134,11 +141,29 @@ function monthlyCalendar() {
 			let event = {
 				title: val.scheduleContent,
 				start: val.scheduleStartDate,
-				end: val.scheduleEndDate
+				end: val.scheduleStartDate != val.scheduleEndDate ? new Date(val.scheduleEndDate).addDay() : val.scheduleStartDate,
+				backgroundColor: getColor(val.detailCode)
 			}
 			calendar.addEvent(event);
 		})
 	})
+}
+
+// Full calendar 그룹별 색상 함수
+function getColor(code) {
+	if (code.startsWith('REG')) {
+		return '#000000';
+	} else if (code.startsWith('HOL')) {
+		return 'red';
+	} else if (code.startsWith('PROF')) {
+		return 'blue';
+	} else if (code.startsWith('BPLAN')) {
+		return 'pink';
+	} else if (code.startsWith('STUD')) {
+		return 'yellow';
+	} else if (code.startsWith('SEME')) {
+		return 'skyblue';
+	} 
 }
 
 // 공지사항 목록 
@@ -170,3 +195,4 @@ function cancelUpdate() {
 function changePage(select) {
 	location.href = `/professor/eclass/` + select.value;
 }
+
