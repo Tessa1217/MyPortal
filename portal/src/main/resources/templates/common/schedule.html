@@ -290,13 +290,20 @@
 					var calendarEl = document.getElementById('fullCalendar');
 					var calendar = new FullCalendar.Calendar(calendarEl, {
 						initialView : 'dayGridMonth',
-						displayEventTime : false,
-						eventDataTransform: function(event) {                                                                                                                                
-							  if(event.allDay) {                                                                                                                                               
-							    event.end = moment(event.end).add(1, 'days')                                                                                                                 
-							  }
-							  return event;
-							}
+						eventRender: function(eventObj, $el) {                    
+					        if (eventObj.time == "23-59") {
+					            $($el).css({"overflow":"inherit","height":"50px"});                            
+					        }
+					    },
+					    eventAfterAllRender : function (view) {
+					        if (view.type == 'agendaDay') {                        
+					            $(".fc-agendaDay-view .fc-slats table tbody").append(
+					            '<tr><td class="fc-axis fc-time fc-widget-content" style="height:100px"></td><td class="fc-widget-content">&nbsp;</td></tr>'
+					            );
+					        }                    
+					    },
+						displayEventTime : false
+						
 						
 					});
 					
