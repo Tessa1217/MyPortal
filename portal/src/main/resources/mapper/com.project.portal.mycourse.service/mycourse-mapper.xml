@@ -49,6 +49,13 @@
 		FROM PROFESSOR P JOIN COURSE C
 		ON P.PROFESSOR_ID = C.PROFESSOR_ID
 		WHERE P.PROFESSOR_ID = #{professorId}
+		<if test="searchYear == '' or searchYear == null or searchSemester == '' or searchSemester == null">
+				and course_semester = #{courseSemester}	and course_year = #{courseYear}
+		</if>
+		
+		<if test="searchYear != '' and searchYear != null or searchSemester != '' and searchSemester != null">
+				and course_semester = #{searchSemester}	and course_year = #{searchYear}
+		</if>
 
 	</select>
 	
