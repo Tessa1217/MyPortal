@@ -120,7 +120,7 @@ public class StudyNoticeController {
 
 		String groupNum = service.fileUploadGroupNum();
 		for (MultipartFile file : files) {
-			// 업로드 파일이 없을 때
+			// 업로드 파일이 있을 때
 			if (!file.isEmpty()) {
 				// 원본 파일명 추출
 				String fileOriName = file.getOriginalFilename();
@@ -132,6 +132,10 @@ public class StudyNoticeController {
 				String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
 				// 파일객체생성
 				File uploadfile = new File(fileUrl);
+				
+				uploadfile.getParentFile().mkdir();
+				
+				
 
 				// 파일을 경로에 저장
 				file.transferTo(uploadfile);
@@ -217,6 +221,7 @@ public class StudyNoticeController {
 				String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
 				// 파일객체생성
 				File uploadfile = new File(fileUrl);
+				uploadfile.getParentFile().mkdir();
 				// 파일을 경로에 저장
 				file.transferTo(uploadfile);
 				filevo.setFileName(fileName);
