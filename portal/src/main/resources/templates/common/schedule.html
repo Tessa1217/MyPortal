@@ -1,458 +1,523 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/schedule_layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/schedule_layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-/* span {
-	font-size: 20px
-} */
-</style>
+  <meta charset="UTF-8">
+
+  <title>Insert title here</title>
+  <style>
+
+  </style>
 </head>
 
 
 
 <body>
-	<th:block layout:fragment="scheduleContent">
-		<div id="main">
-			<div class="page-title">
-				<h2>학사 일정</h2>
-			</div>
-			<div class="card">
-				<div class="card-header">
-					<select id="view" class="form-select width-three">
-						<option>일정</option>
-						<option>달력</option>
-					</select>
-				</div>
-				<div class="row hidePage cal">
-					<div class="col-12 padding-ten">
-						<br>
-						<form name="frm_year">
-							<!-- Button trigger modal -->
-							<button th:if="${command == 3}" type="button"
-								class="btn btn-primary" data-bs-toggle="modal"
-								style="margin-right: 15px" data-bs-target="#insertModal">등록</button>
-							<button th:if="${command == 3}" type="button"
-								class="btn btn-primary" data-bs-toggle="modal"
-								style="margin-right: 15px" data-bs-target="#allInsertModal">일괄등록</button>
-							<button type="button" class="btn btn-primary prevButton"
-								th:onclick="prevYear()">◁</button>
-							<input type="number" name="year" id="year" th:value='${year}'
-								readonly style="text-align: center; width: 80px">
-							<button type="button" class="btn btn-primary"
-								th:onclick="nextYear()">▷</button>
-						</form>
-						<br>
-						<h3 id="currentYear"></h3>
-						<dl th:each="i : ${#numbers.sequence(3, 12)}">
-							<dt th:text="|${i}월|"></dt>
-							<dd>
-								<th:block th:each="list : ${scheduleList}">
-									<ul th:if="${list.month == i}">
-										<li>
-											<div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
-												<div
-													th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
-													<div class="row">
-														<div class="col-5">
-															<span
-																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
-														</div>
-														<div class="col-7">
-															<span th:text="|${list.scheduleContent}|"></span>
-														</div>
-													</div>
-												</div>
-												<div
-													th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
-													<div class="row">
-														<div class="col-5">
-															<span
-																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
-														</div>
-														<div class="col-7">
-															<span th:text="|${list.scheduleContent}|"></span>
-														</div>
-													</div>
-												</div>
-											</div>
+  <th:block layout:fragment="scheduleContent">
+    <div id="main">
+      <div class="page-title">
+        <h2>학사 일정</h2>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <select id="view" class="form-select width-three">
+            <option>일정</option>
+            <option>달력</option>
+          </select>
+        </div>
+        <div class="row hidePage cal">
+          <div class="col-12 padding-ten">
+            <br>
+            <form name="frm_year">
+              <!-- Button trigger modal -->
+              <button th:if="${command == 3}" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                style="margin-right: 15px" data-bs-target="#insertModal">등록</button>
+              <button th:if="${command == 3}" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                style="margin-right: 15px" data-bs-target="#allInsertModal">일괄등록</button>
+              <button type="button" class="btn btn-primary prevButton" th:onclick="prevYear()">◁</button>
+              <input type="number" name="year" id="year" th:value='${year}' readonly
+                style="text-align: center; width: 80px">
+              <button type="button" class="btn btn-primary" th:onclick="nextYear()">▷</button>
+            </form>
+            <br>
+            <h3 id="currentYear"></h3>
+            <dl th:each="i : ${#numbers.sequence(3, 12)}">
+              <dt th:text="|${i}월|"></dt>
+              <dd>
+                <th:block th:each="list : ${scheduleList}">
+                  <ul th:if="${list.month == i}">
+                    <li>
+                      <div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
+                        <div th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
+                          <div class="row">
+                            <div class="col-5">
+                              <span th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
+                            </div>
+                            <div class="col-7">
+                              <span th:text="|${list.scheduleContent}|"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
+                          <div class="row">
+                            <div class="col-5">
+                              <span
+                                th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
+                            </div>
+                            <div class="col-7">
+                              <span th:text="|${list.scheduleContent}|"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-										</li>
-									</ul>
-								</th:block>
-							</dd>
-							<hr>
-						</dl>
-						<h3 id="plusYear"></h3>
-						<dl th:each="i : ${#numbers.sequence(1, 2)}">
-							<dt th:text="|${i}월|"></dt>
-							<dd>
-								<th:block th:each="list : ${scheduleList}">
-									<ul th:if="${list.month == i}">
-										<li>
-											<div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
-												<div
-													th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
-													<div class="row">
-														<div class="col-5">
-															<span
-																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
-														</div>
-														<div class="col-7">
-															<span th:text="|${list.scheduleContent}|"></span>
-														</div>
-													</div>
-												</div>
-												<div
-													th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
-													<div class="row">
-														<div class="col-5">
-															<span
-																th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
-														</div>
-														<div class="col-7">
-															<span th:text="|${list.scheduleContent}|"></span>
-														</div>
-													</div>
-												</div>
-											</div>
+                    </li>
+                  </ul>
+                </th:block>
+              </dd>
+              <hr>
+            </dl>
+            <h3 id="plusYear"></h3>
+            <dl th:each="i : ${#numbers.sequence(1, 2)}">
+              <dt th:text="|${i}월|"></dt>
+              <dd>
+                <th:block th:each="list : ${scheduleList}">
+                  <ul th:if="${list.month == i}">
+                    <li>
+                      <div th:style="${list.detailCode == 'HOL00'} ? 'color:red'">
+                        <div th:if="${list.scheduleStartDate} == ${list.scheduleEndDate}">
+                          <div class="row">
+                            <div class="col-5">
+                              <span th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')}|"></span>
+                            </div>
+                            <div class="col-7">
+                              <span th:text="|${list.scheduleContent}|"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div th:if="${list.scheduleStartDate} != ${list.scheduleEndDate}">
+                          <div class="row">
+                            <div class="col-5">
+                              <span
+                                th:text="|${#dates.format(list.scheduleStartDate, 'MM.dd')} ~ ${#dates.format(list.scheduleEndDate, 'MM.dd')}|"></span>
+                            </div>
+                            <div class="col-7">
+                              <span th:text="|${list.scheduleContent}|"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-										</li>
-									</ul>
-								</th:block>
-							</dd>
-							<hr>
-						</dl>
-					</div>
-					<!-- Modal -->
-					<!-- 일정 단건 등록 모달 -->
-					<div class="modal fade modalClean" id="insertModal" tabindex="-1"
-						aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<form name="frm_insert">
-										<label for="scheduleContent">일정</label> <input type="text"
-											class="form-control" name="scheduleContent"
-											id="scheduleContent" required> <label
-											for="scheduleStartDate">시작일</label> <input
-											class="form-control" type="date" id="scheduleStartDate"
-											name="scheduleStartDate" required> <label
-											for="scheduleEndDate">마감일</label> <input class="form-control"
-											type="date" id="scheduleEndDate" name="scheduleEndDate"
-											required>
-										<hr>
-										<label for="year">연도</label> <input type="text"
-											class="form-control" name="year" id="insertyear"
-											style="width: 40%; display: inline" readonly> <label
-											for="semester" style="margin-left: 15px">학기</label> <input
-											type="text" class="form-control" name="semester"
-											id="semester" style="width: 40%; display: inline" readonly>
-										<hr>
-										<label for="detailCode">분류</label> <select name="detailCode"
-											id="detailCode" class="form-control">
-											<th:block th:each="list : ${codeList}">
-												<optgroup th:label="${list.groupName}">
-													<option th:each="detail : ${list.detailList}"
-														th:value="${detail.detailCode}"
-														th:text="${detail.detailName}"></option>
-												</optgroup>
-											</th:block>
-										</select>
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary"
-										th:onclick="Inputdata()">등록</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 일정 단건 등록 모달 end -->
-					<!-- 일괄등록 모달 -->
-					<div class="modal fade modalClean" id="allInsertModal" tabindex="-1"
-						aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<input type="file" id="id_file_upload" onchange="upload(event)" />
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary"
-										th:onclick="allInputdata()" aria-label="Close">일괄 등록</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 일괄등록 모달 end-->
-				</div>
-				<div class="row cal">
-					<div class="col-12">
-						<div id='fullCalendar'></div>
-					</div>
-					<div>
-						<table>
-							<tr>
-						</table>
-					</div>
-				</div>
-			</div>
+                    </li>
+                  </ul>
+                </th:block>
+              </dd>
+              <hr>
+            </dl>
+          </div>
+          <!-- Modal -->
+          <!-- 일정 단건 등록 모달 -->
+          <div class="modal fade modalClean" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form name="frm_insert">
+                    <label for="scheduleContent">일정</label> <input type="text" class="form-control"
+                      name="scheduleContent" id="scheduleContent" required> <label for="scheduleStartDate">시작일</label>
+                    <input class="form-control" type="date" id="scheduleStartDate" name="scheduleStartDate" required>
+                    <label for="scheduleEndDate">마감일</label> <input class="form-control" type="date"
+                      id="scheduleEndDate" name="scheduleEndDate" required>
+                    <hr>
+                    <label for="year">연도</label> <input type="text" class="form-control" name="year" id="insertyear"
+                      style="width: 40%; display: inline" readonly> <label for="semester"
+                      style="margin-left: 15px">학기</label> <input type="text" class="form-control" name="semester"
+                      id="semester" style="width: 40%; display: inline" readonly>
+                    <hr>
+                    <label for="detailCode">분류</label> <select name="detailCode" id="detailCode" class="form-control">
+                      <th:block th:each="list : ${codeList}">
+                        <optgroup th:label="${list.groupName}">
+                          <option th:each="detail : ${list.detailList}" th:value="${detail.detailCode}"
+                            th:text="${detail.detailName}"></option>
+                        </optgroup>
+                      </th:block>
+                    </select>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" th:onclick="Inputdata()">등록</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 일정 단건 등록 모달 end -->
+          <!-- 일괄등록 모달 -->
+          <div class="modal fade modalClean" id="allInsertModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">학사일정 등록</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="file" id="id_file_upload" onchange="upload(event)" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" th:onclick="allInputdata()" aria-label="Close">일괄
+                    등록</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 일괄등록 모달 end-->
+        </div>
+        <div class="row cal">
+          <div class="col-12">
+            <div id='fullCalendar'></div>
+          </div>
+          <div>
+            <table>
+              <tr>
+            </table>
+          </div>
+        </div>
+      </div>
 
 
-			<script
-				src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
 
-			<script th:inline="javascript">
-			$(function() {
-				changeView();
-				$("#view").trigger('change');
-				insertYearSem();
-				banDate();
-				banDate2();
-				ModalClean();
-			})
-			
-			// 시작일 기준 연도, 학기 받아오기
-			function insertYearSem() {
-				$("input[name=scheduleStartDate]").on("change", function(e) {
-					let start = $(e.target).val();
-					$.ajax({
-						method : 'POST',
-						url : "/admin/getYearSemester",
-						data : {scheduleStartDate : start},
-						success : function(result) {
-							$("input[name=year]").eq(1).val(result.year);
-							$("input[name=semester]").val(result.semester);
-						}
-					})
-				})
-			}
-			
-			function banDate() {
-				$("input[name=scheduleEndDate]").on("change", function(e) {
-					let start = $(e.target).val();
-					console.log($("#scheduleStartDate").val());
-					console.log(start);
-				if ($("#scheduleStartDate").val() == '') {
-					fireSwal('info', '시작일 먼저 지정해주세요.')
-					$("#scheduleEndDate").val('')
-				}
-				if (start < $("#scheduleStartDate").val()) {
-					fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
-					$("#scheduleEndDate").val('')
-				}
-				})
-			}
-			function banDate2() {
-				$("input[name=scheduleStartDate]").on("change", function(e) {
-					let start2 = new Date($(e.target).val());
-					let today = new Date();
-				if (start2 < today) {
-					fireSwal('info', '시작일은 금일 이후로 지정해주세요.')
-					$("#scheduleStartDate").val('')
-				}
-				if($("#scheduleEndDate").val() != '') {
-					if ($("#scheduleEndDate").val() < $("#scheduleStartDate").val()) {
-						fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
-						$("#scheduleEndDate").val('')
-					}
-					
-				}
-				})
-			}
-		
-			// id view select태그에서 변경이 있을시 숨어있는 페이지 토글
-				function changeView() {
-					$(document).on('change', '#view', function() {
-						$(".cal").each((idx, val) => {
-							$(val).toggleClass('hidePage');
-						})
-			// Fullcalendar
-			//	document.addEventListener('DOMContentLoaded', function() {
-					
-					var calendarEl = document.getElementById('fullCalendar');
-					var calendar = new FullCalendar.Calendar(calendarEl, {
-						initialView : 'dayGridMonth',
-						displayEventTime : false
-						
-					});
-					
-					calendar.render();
-				 	getData().then((result) => {
-						result.forEach((val) => {
-							let event = {
-									title : val.scheduleContent,
-									start : val.scheduleStartDate,
-									end : val.scheduleStartDate != val.scheduleEndDate ? new Date(val.scheduleEndDate).addDay() : val.scheduleStartDate,
-									backgroundColor : getColor(val.detailCode),
-							}
-							event.borderColor = event.backgroundColor;
-							calendar.addEvent(event);
-						})
-						
-					})
-					$("#currentYear").text($("#year").val() + ' 년도');
-					let aaa = parseInt($('#year').val()) + 1;
-					$('#plusYear').text(aaa + ' 년도');
-					
-			//	});
-				
-				function getData() {
-					return $.ajax({
-						method : 'POST',
-						url : `/getCalendar`
-					})
-				}
-					})
-				}
-			
+      <script th:inline="javascript">
+        $(function () {
+          changeView();
+          $("#view").trigger('change');
+          insertYearSem();
+          banDate();
+          banDate2();
+          ModalClean();
 
-			// ◁ 버튼 클릭시 년도 -1
-				function prevYear() {
-					let year = new Date().getFullYear();
-					if($('#year').val() > 2020) {
-					$('#year').val(parseInt($("#year").val()) - 1);
-					document.frm_year.submit();
-					} else {
-						fireSwal('info', '2020년 이전년도 일정은 존재하지 않습니다.')
-					} 
-				}
-			// ▷ 버튼 클릭시 년도 +1
-				function nextYear() {
-					let year = new Date().getFullYear();
-					if ($('#year').val() < year+1) {
-						$('#year').val(parseInt($("#year").val()) + 1);
-						console.log($("#year").val());
-						document.frm_year.submit()
-					} else {
-						fireSwal('info', year+1 +'년 일정까지 확인할 수 있습니다.')
-					}
-				}
 
-				//엑셀에서 값 받아오기
-				function upload(event) {
-					var input = event.target;
-					var reader = new FileReader();
-					reader.onload = function() {
-						var fdata = reader.result;
-						var read_buffer = XLSX.read(fdata, {
-							type : 'binary'
-						});
-						read_buffer.SheetNames
-								.forEach(function(sheetName) {
-									var rowdata = XLSX.utils
-											.sheet_to_json(read_buffer.Sheets[sheetName]);
-									inputdata = rowdata;
-									console.log(rowdata);
-									
-								})
-					};
-					reader.readAsBinaryString(input.files[0]);
-				}
-				// 일괄 등록 ajax
-				function allInputdata() {
-					$.ajax({
-						url : "/admin/scheduleAllInsert",
-						method : "post",
-						contentType : "application/json",
-						data : JSON.stringify(inputdata),
-						success : function(res) {
-							fireSwal('success', '입력이 완료되었습니다.');
-							$("#allInsertModal").modal("hide");
-							location.reload();
-						},
-						error : function(err) {
-							$("#allInsertModal").modal("hide");
-						}
-					})
+        })
 
-				}
-				
-				function contentCheck() {
-					if ($("input[name=scheduleContent]").val() == '') {
-						return true;
-					}
-					return false;
-				}
-				
-				function startCheck() {
-					if ($("input[name=scheduleEndDate]").val() == '') {
-						return true;
-					} 
-					return false;
-				}
-				
-				function completeCheck() {
-					let check1 = contentCheck();
-					let check2 = startCheck();
-					return (check1 == false && check2 == false) ? true : false;
-				}
-				
-				function Inputdata() {
+        // 시작일 기준 연도, 학기 받아오기
+        function insertYearSem() {
+          $("input[name=scheduleStartDate]").on("change", function (e) {
+            let start = $(e.target).val();
+            $.ajax({
+              method: 'POST',
+              url: "/admin/getYearSemester",
+              data: { scheduleStartDate: start },
+              success: function (result) {
+                $("input[name=year]").eq(1).val(result.year);
+                $("input[name=semester]").val(result.semester);
+              }
+            })
+          })
+        }
 
-					if (!completeCheck()) {
-						fireSwal('warning', '내용을 모두 입력해주세요.');
-						return;
-					} else {
-					let data = {
-							"scheduleContent" : $("#scheduleContent").val(),
-							"scheduleStartDate" : $("#scheduleStartDate").val(),
-							"scheduleEndDate" : $("#scheduleEndDate").val(),
-							"year" : $("#insertyear").val(),
-							"semester" : $("#semester").val(),
-							"detailCode" : $("#detailCode").val(),
-						}
-				
-					 $.ajax({
-						url : "/admin/scheduleInsert",
-						method : "post",
-						data : data,
-						success : function(result) {
-						fireSwal('success', '입력이 완료되었습니다.')
-	                     .then((result) => {
-	                        if (result.isConfirmed) {
-	                           location.reload();
-	                        }
-	                     
-					}) 
-					}
-					})
-				}
-				}
-				
-				//id_file_upload
-				// 단건등록 모달창 닫힐때 인풋창 초기화
-				function ModalClean() {
-					$('.modalClean').on('hidden.bs.modal', function(e){
-						$("input[name=scheduleContent]").val('')
-						$("input[name=scheduleStartDate]").val('')
-						$("input[name=scheduleEndDate]").val('')
-						$("#insertyear").val('')
-						$("#semester").val('')
-						$("#id_file_upload").val('')
-					})
-				}
-				
-			</script>
-		</div>
-	</th:block>
+        function banDate() {
+          $("input[name=scheduleEndDate]").on("change", function (e) {
+            let start = $(e.target).val();
+            console.log($("#scheduleStartDate").val());
+            console.log(start);
+            if ($("#scheduleStartDate").val() == '') {
+              fireSwal('info', '시작일 먼저 지정해주세요.')
+              $("#scheduleEndDate").val('')
+            }
+            if (start < $("#scheduleStartDate").val()) {
+              fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
+              $("#scheduleEndDate").val('')
+            }
+          })
+        }
+        function banDate2() {
+          $("input[name=scheduleStartDate]").on("change", function (e) {
+            let start2 = new Date($(e.target).val());
+            let today = new Date();
+            if (start2 < today) {
+              fireSwal('info', '시작일은 금일 이후로 지정해주세요.')
+              $("#scheduleStartDate").val('')
+            }
+            if ($("#scheduleEndDate").val() != '') {
+              if ($("#scheduleEndDate").val() < $("#scheduleStartDate").val()) {
+                fireSwal('info', '마감일은 시작일 이후로 지정해주세요.')
+                $("#scheduleEndDate").val('')
+              }
+
+            }
+          })
+        }
+
+        function eventGenerate(val) {
+          let event = {
+            title: val.scheduleContent,
+            start: val.scheduleStartDate,
+            end: val.scheduleStartDate != val.scheduleEndDate ? new Date(val.scheduleEndDate).addDay() : val.scheduleStartDate,
+            backgroundColor: getColor(val.detailCode)
+          }
+          event.borderColor = event.backgroundColor;
+          return event;
+        }
+
+        // id view select태그에서 변경이 있을시 숨어있는 페이지 토글
+        function changeView() {
+          $(document).on('change', '#view', function () {
+            $(".cal").each((idx, val) => {
+              $(val).toggleClass('hidePage');
+            })
+            // Fullcalendar
+            //	document.addEventListener('DOMContentLoaded', function() {
+
+            var calendarEl = document.getElementById('fullCalendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'today'
+              },
+              initialView: 'dayGridMonth',
+              displayEventTime: false
+
+            });
+
+            calendar.render();
+
+            getData3().then((result) => {
+              result.forEach((val) => {
+                calendar.addEvent(eventGenerate(val));
+              })
+            })
+            
+              // 캘린더 왼쪽버튼 함수 실행
+              prevButtonEvent()
+
+            $("#currentYear").text($("#year").val() + ' 년도');
+            let plusOneYear = parseInt($('#year').val()) + 1;
+            $('#plusYear').text(plusOneYear + ' 년도');
+
+            nextButtonEvent();
+
+            //달력 왼쪽 버튼클릭할때 2월 지날시 이전년도 일정 불러오기
+            function prevButtonEvent() {
+              $("button.fc-prev-button").unbind("click").click(function () {
+                var date = $("#fullCalendar").fullCalendar("getDate").find('.fc-toolbar-title').text();
+                if (date.slice(0, 8) == 'February') {
+                  var cYear = date.slice(-4) - 1;
+                  var cFebruary = date.slice(0, 8)
+                  //			alert(cYear);
+                  //			alert(cFebruary) 
+                  return $.ajax({
+                    method: 'post',
+                    url: `/getCalendar`,
+                    data: {
+                      year: cYear
+                    },
+                    success: function (res) {
+                    	var eventSources = calendar.getEvents();
+                    	eventSources.forEach((val) => {
+                    		val.remove();
+                    	})
+	                  //  console.log(res);
+	                    res.forEach((val) => {
+                        let event = eventGenerate(val);
+                       // console.log(event);
+                        calendar.addEvent(event);
+                      })
+                    }
+
+                  })
+                }
+              });
+            }
+            //달력 오른쪽 버튼클릭할때 3월 지날시 다음년도 일정 불러오기
+            function nextButtonEvent() {
+              $("button.fc-next-button").unbind("click").click(function () {
+                var date = $("#fullCalendar").fullCalendar("getDate").find('.fc-toolbar-title').text();
+                if (date.slice(0, 5) == 'March') {
+                  var cYear = date.slice(-4);
+                  var cMarch = date.slice(0, 5)
+                 
+             
+                    $.ajax({
+                      method: 'post',
+                      url: `/getCalendar`,
+                      data: {
+                        year: cYear
+                      },
+                      success: function (res) {
+                          console.log(res);
+                          res.forEach((val) => {
+                            let event = eventGenerate(val);
+                            console.log(event);
+                            calendar.addEvent(event);
+                          })
+                        }
+                      
+                    })
+
+                  
+                }
+              });
+            }
+
+
+
+            //	});
+
+
+
+            function getData3() {
+              return $.ajax({
+                method: 'POST',
+                url: `/getCalendar`,
+                success: function (res) {
+                  	console.log(res);
+                }
+
+
+              })
+            }
+          })
+        }
+
+
+        // ◁ 버튼 클릭시 년도 -1
+        function prevYear() {
+          let year = new Date().getFullYear();
+          if ($('#year').val() > 2020) {
+            $('#year').val(parseInt($("#year").val()) - 1);
+            document.frm_year.submit();
+          } else {
+            fireSwal('info', '2020년 이전년도 일정은 존재하지 않습니다.')
+          }
+        }
+        // ▷ 버튼 클릭시 년도 +1
+        function nextYear() {
+          let year = new Date().getFullYear();
+          if ($('#year').val() < year + 1) {
+            $('#year').val(parseInt($("#year").val()) + 1);
+            console.log($("#year").val());
+            document.frm_year.submit()
+          } else {
+            fireSwal('info', year + 1 + '년 일정까지 확인할 수 있습니다.')
+          }
+        }
+
+        //엑셀에서 값 받아오기
+        function upload(event) {
+          var input = event.target;
+          var reader = new FileReader();
+          reader.onload = function () {
+            var fdata = reader.result;
+            var read_buffer = XLSX.read(fdata, {
+              type: 'binary'
+            });
+            read_buffer.SheetNames
+              .forEach(function (sheetName) {
+                var rowdata = XLSX.utils
+                  .sheet_to_json(read_buffer.Sheets[sheetName]);
+                inputdata = rowdata;
+                console.log(rowdata);
+
+              })
+          };
+          reader.readAsBinaryString(input.files[0]);
+        }
+        // 일괄 등록 ajax
+        function allInputdata() {
+          $.ajax({
+            url: "/admin/scheduleAllInsert",
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify(inputdata),
+            success: function (res) {
+              fireSwal('success', '입력이 완료되었습니다.');
+              $("#allInsertModal").modal("hide");
+              location.reload();
+            },
+            error: function (err) {
+              $("#allInsertModal").modal("hide");
+            }
+          })
+
+        }
+
+        function contentCheck() {
+          if ($("input[name=scheduleContent]").val() == '') {
+            return true;
+          }
+          return false;
+        }
+
+        function startCheck() {
+          if ($("input[name=scheduleEndDate]").val() == '') {
+            return true;
+          }
+          return false;
+        }
+
+        function completeCheck() {
+          let check1 = contentCheck();
+          let check2 = startCheck();
+          return (check1 == false && check2 == false) ? true : false;
+        }
+
+        function Inputdata() {
+
+          if (!completeCheck()) {
+            fireSwal('warning', '내용을 모두 입력해주세요.');
+            return;
+          } else {
+            let data = {
+              "scheduleContent": $("#scheduleContent").val(),
+              "scheduleStartDate": $("#scheduleStartDate").val(),
+              "scheduleEndDate": $("#scheduleEndDate").val(),
+              "year": $("#insertyear").val(),
+              "semester": $("#semester").val(),
+              "detailCode": $("#detailCode").val(),
+            }
+
+            $.ajax({
+              url: "/admin/scheduleInsert",
+              method: "post",
+              data: data,
+              success: function (result) {
+                fireSwal('success', '입력이 완료되었습니다.')
+                  .then((result) => {
+                    if (result.isConfirmed) {
+                      location.reload();
+                    }
+
+                  })
+              }
+            })
+          }
+        }
+
+        //id_file_upload
+        // 단건등록 모달창 닫힐때 인풋창 초기화
+        function ModalClean() {
+          $('.modalClean').on('hidden.bs.modal', function (e) {
+            $("input[name=scheduleContent]").val('')
+            $("input[name=scheduleStartDate]").val('')
+            $("input[name=scheduleEndDate]").val('')
+            $("#insertyear").val('')
+            $("#semester").val('')
+            $("#id_file_upload").val('')
+          })
+        }
+
+      </script>
+    </div>
+  </th:block>
 
 </body>
+
 </html>
