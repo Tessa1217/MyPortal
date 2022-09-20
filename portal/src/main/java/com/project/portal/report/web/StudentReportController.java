@@ -139,7 +139,7 @@ public class StudentReportController {
 			// 랜덤 파일명 값 생성
 			String fileName = UUID.randomUUID().toString().replace("-", "") + fileNameExtension;
 			// 파일 URL
-			String fileUrl = filelocation + "/report/" + courseCode + "/" + fileName;
+			String fileUrl = filelocation + "/subreport/" + courseCode + "/" + fileName;
 			// 파일객체생성
 			File uploadfile = new File(fileUrl);
 			uploadfile.getParentFile().mkdirs();
@@ -202,7 +202,7 @@ public class StudentReportController {
 					// 랜덤 파일명 값 생성
 					String fileName = UUID.randomUUID().toString().replace("-", "") + fileNameExtension;
 					// 파일 URL
-					String fileUrl = filelocation + "/report/" + courseCode + "/" + fileName;
+					String fileUrl = filelocation + "/subreport/" + courseCode + "/" + fileName;
 					System.out.println("새로운 파일 경로 생성 : " + fileUrl);
 					// 파일객체생성
 					File uploadfile = new File(fileUrl);
