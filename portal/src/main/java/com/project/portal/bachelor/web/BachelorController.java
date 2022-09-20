@@ -55,8 +55,12 @@ public class BachelorController {
 	@ResponseBody
 	public List<BachelorScheduleVO> getFullCalendar(BachelorScheduleVO vo, 
 													HttpSession session) {
-		vo.setYear((int)session.getAttribute("year"));
-		vo.setSemester((int)session.getAttribute("semester"));
+		
+		 if(vo.getYear() == 0) { 
+			 vo.setYear((int)session.getAttribute("year")); 
+			 }
+		 
+		// vo.setSemester((int)session.getAttribute("semester")); 
 		return service.scheduleList(vo);
 	}
 	
