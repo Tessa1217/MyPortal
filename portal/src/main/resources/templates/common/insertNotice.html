@@ -51,21 +51,8 @@
 		</div>
 		<script th:inline="javascript">
 			$(function() {
-				editor();
+				initiateEditor('noticeContent');
 			})
-
-			function editor() {
-				tinymce.init({
-					selector : '#noticeContent',
-					plugins : ['image', 'table'],
-					submit_patch : false,
-					setup : function(editor) {
-						editor.on('change', function() {
-							editor.save();
-						})
-					}
-				})
-			}
 			
 			function confirm() {
 				fireSwal('info', '공지사항을 등록하시겠습니까?')

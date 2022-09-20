@@ -88,7 +88,7 @@ public class BachelorNoticeController {
 	@PostMapping("/admin/insertNotice")
 	public String insertNotice(@RequestParam("file") MultipartFile file, BachelorNoticeVO vo) {
 		// 파일 테이블에 등록하기
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			BachelorNoticeFileVO newFile = new BachelorNoticeFileVO();
 			newFile.setNoticeFileName(file.getOriginalFilename());
 			newFile.setNoticeFileExtension(file.getContentType());
@@ -120,7 +120,7 @@ public class BachelorNoticeController {
 	@PostMapping("/admin/updateNotice")
 	public String updateNotice(@RequestParam("file") MultipartFile file, BachelorNoticeVO vo) {
 		// 파일 테이블에 등록하기
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			BachelorNoticeFileVO newFile = new BachelorNoticeFileVO();
 			newFile.setNoticeFileName(file.getOriginalFilename());
 			newFile.setNoticeFileExtension(file.getContentType());

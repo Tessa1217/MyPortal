@@ -36,8 +36,8 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	public void insertNotice(BachelorNoticeVO vo) {
 		if (vo.getNoticeFile() != null) {
 			mapper.insertFile(vo.getNoticeFile());
+			vo.setNoticeFileCode(vo.getNoticeFile().getNoticeFileCode());
 		}
-		vo.setNoticeFileCode(vo.getNoticeFile().getNoticeFileCode());
 		mapper.insertNotice(vo);
 	}
 	
@@ -45,13 +45,13 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	@Override
 	@Transactional
 	public void updateNotice(BachelorNoticeVO vo, BachelorNoticeFileVO file) {
-		if (vo.getNoticeFileCode() != null) {
-			mapper.deleteFile(vo);
-		}
 		if (file != null) {
+			if (vo.getNoticeFileCode() != null) {
+				mapper.deleteFile(vo);
+			}
 			mapper.insertFile(file);
+			vo.setNoticeFileCode(file.getNoticeFileCode());
 		}
-		vo.setNoticeFileCode(file.getNoticeFileCode());
 		mapper.updateNotice(vo);
 	}
 
