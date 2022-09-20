@@ -97,7 +97,7 @@ public class myCourseController {
 		voo.setDetailCode("REG02");
 		model.addAttribute("gradeYearSemester", scheduleService.getScheduleInfo(voo));
 
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo)); // 값이 많지않아 페이징 보류
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "student/info/semesterGrade";
 	}
 
