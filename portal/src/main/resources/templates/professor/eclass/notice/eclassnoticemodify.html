@@ -50,11 +50,12 @@
 								<tr>
 									<td class="text-bold-500"
 										style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
-									<div th:each="selectFile : ${selectFile}">
-										<td colspan="3"><a
-											th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
-											th:text="${selectFile.fileOriName}"></a></td>
-									</div>
+									<td colspan="3">
+			<th:block th:each="selectFile : ${selectFile}">
+			<a style="display:block;" th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
+			th:text="${selectFile.fileOriName}"></a>
+			</th:block>
+			</td>
 								</tr>
 								<tr>
 									<td class="text-bold-500"

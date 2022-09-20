@@ -133,7 +133,7 @@ public class StudyNoticeController {
 				// 파일객체생성
 				File uploadfile = new File(fileUrl);
 				
-				uploadfile.getParentFile().mkdir();
+				uploadfile.getParentFile().mkdirs();
 				
 				
 
@@ -221,7 +221,7 @@ public class StudyNoticeController {
 				String fileUrl = filelocation + "/courseNotice/" + vo.getCourseCode() + "/" + fileName;
 				// 파일객체생성
 				File uploadfile = new File(fileUrl);
-				uploadfile.getParentFile().mkdir();
+				uploadfile.getParentFile().mkdirs();
 				// 파일을 경로에 저장
 				file.transferTo(uploadfile);
 				filevo.setFileName(fileName);

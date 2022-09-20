@@ -208,9 +208,11 @@ public class myCourseController {
 		model.addAttribute("professor", profService.adminProfessorInfoSelect(professor));
 
 		// 전체 강의 목록
-		schedule.setDetailCode("BPLAN00");
-		course = cservice.getYearSemester(schedule);
+		
 		course.setProfessorId((int) session.getAttribute("id"));
+		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
+		course.setCourseYear((int) session.getAttribute("year"));
+		course.setCourseSemester((int) session.getAttribute("semester"));
 		session.setAttribute("courseList", service.getProfMyCourse(course));
 		return "professor/eclass/eclassmain";
 
