@@ -10,6 +10,10 @@
 
 	<th:block layout:fragment="professorEclassContent">
 		<style>
+		
+pre {
+	font-size:16px; 
+}		
 .hidden {
 	display: none
 }
@@ -103,6 +107,7 @@
 					</div>
 				</div>
 			</div>
+			</div>
 
 
 			<!-- 모달창 -->
@@ -163,10 +168,7 @@
 																내용</td>
 															<td><textarea class="form-control hidden"
 																	name="lectureAnswerContent" id="Answeredit" required></textarea>
-																<div id="answercontentview" style="word-break:break-all"></div></td>
-															<!-- <td colspan="3">
-			   									    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}"></textarea>
-													<div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div></td> -->
+																<pre id="answercontentview" style="word-break:break-all"></pre></td>
 														</tr>
 
 

@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	pre {
+		font-size:16px;
+	}
+</style>
 </head>
 <body>
 
@@ -36,7 +41,7 @@
 		<br>
 		<br>
 		
-		<table class="table table-hover" style="text-align : center; width:100%;">
+		<table class="table" style="text-align : center; width:100%;">
 			<thead class="thead-primary">
 				<tr>
 					<th width="10%">번호</th>
@@ -55,9 +60,12 @@
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>
 					<td th:text="${courseQuestion.weekNum}"></td>
 					<td th:text="${courseQuestion.lectureQuestionAnswerCheck}"></td>
+					<th:block>
 					<td th:if="${courseQuestion.lectureQuestionAnswerCheck} == 'O'"> 
-					<button type="button" class="btn btn-primary courseQuestion" th:data-code="${courseQuestion.lectureQuestionNum}">상세보기</button>
+					<button type="button" class="btn btn-primary btn-sm courseQuestion" th:data-code="${courseQuestion.lectureQuestionNum}">상세보기</button>
 					</td>
+					<td th:if="${courseQuestion.lectureQuestionAnswerCheck} == 'X'">-</td> 
+					</th:block>
 				</tr>
 			</tbody>
 		</table>
@@ -132,7 +140,10 @@
                                     			<tr>
                                     				<td width="200px" class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">답변 내용</td>
-                                    				<td id="answercontent"></td>
+                                    				<td>
+                                    				<pre id="answercontent" style="height:auto; width:700px; word-break:break-all; , font-size:1.5em" >
+                                    				</pre>
+                                    				</td>
                                     			</tr>
                                     	</table>
                                     </div>
@@ -140,12 +151,10 @@
                             </div>
                         </div>
 
-                        <div class="input-container modal-footer">
+                        <div class="input-container modal-footer" style="text-align:center">
                             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
                                 확인
                             </button>
-                            <!-- <button id="closeModal" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button> -->
                         </div>
                 </div>
             </div>
@@ -174,7 +183,6 @@
 				console.log(lectureQuestionNum);
     			$(console.log(this));
 				console.log($(this).data("code"));
-         		//console.log(lectureQuestionNum)
     			$.ajax({
     	                type : "POST",  // 요청 타입
     	                url : "/student/eclass/courseQuestionDetail",      // 컨트롤러에서 대기중인 URL 주소이다.
@@ -185,12 +193,11 @@
     	                   console.log(data);
     	                	// 태그 제거 및 날짜 포멧 변경
     	                   let answerRegDate = data.lectureAnswerRegDate.substring(0,10)
-    	                   let questionAnswerContent = data.lectureAnswerContent.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "")
     	                   $("#title").text(data.lectureQuestionTitle)
     	                   $("#week").text(data.weekNum)
-    	                   $("#questioncontent").text(data.lectureQuestionTitle)
+    	                   $("#questioncontent").html(data.lectureQuestionTitle)
     	                   $("#answerdate").text(answerRegDate)
-    	                   $("#answercontent").text(questionAnswerContent)
+    	                   $("#answercontent").html(data.lectureAnswerContent)
     	                   $('#courseQuestionDetail').modal('show');
 
     	                },

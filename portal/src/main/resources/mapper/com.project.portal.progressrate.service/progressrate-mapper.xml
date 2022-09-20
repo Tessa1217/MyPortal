@@ -8,7 +8,7 @@
 		       L.LECTURE_TITLE,
                L.LECTURE_CODE,
                SL.STUDENT_ID,
-               (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME * 60 * 60)) * 100 AS LEC_PROGRESS_RATE,
+               (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME)) * 100 AS LEC_PROGRESS_RATE,
 		       L.WEEK_CODE,
                W.week_start_date,
                W.week_end_date

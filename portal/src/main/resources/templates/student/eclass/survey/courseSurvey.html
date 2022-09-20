@@ -1,176 +1,228 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			layout:decorate="~{layout/student-eclass_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/student-eclass_layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 <style>
-	td > input[type=radio] {
-	         font-size : 17px;
-	 		 width : 23px;
-	  		 height : 23px;
-	  		 vertical-align:middle;
-	 }
-		
-	
+td>input[type=radio] {
+	font-size: 17px;
+	width: 23px;
+	height: 23px;
+	vertical-align: middle;
+}
 </style>
 </head>
 <body>
-<th:block layout:fragment="studentEclassContent">
+	<th:block layout:fragment="studentEclassContent">
 
 
-<div id="main">
-	<h2>수강평 설문지</h2>
-	<hr>
-	
-	<div th:if="${surveyState.courseReviewYn} == 'SUB'">
+		<div id="main">
+			<div class="page-title">
+				<h2>수강평 설문지</h2>
+			</div>
+
+
+			<div th:if="${surveyState.courseReviewYn} == 'SUB'">
 				<div class="card">
-					<h3>이미 수강평을 등록하였습니다.</h3>
+					<div class="card-body">
+						<h3 style="text-align: center;">이미 수강평을 등록하였습니다.</h3>
+					</div>
 				</div>
 			</div>
-	
-	<div th:if="${surveyState.courseReviewYn} == 'UNSUB'">
-	<div class="card">
-			<div class="card-body">
-			
-	<h3>설문 유의 사항 </h3>
-	<br>
-	<p>1. 평가등급(배점)</p>
-	<p>매우 그렇다(5점) 그렇다(4점) 보통이다(3점) 아니다(2점) 전혀 아니다(1점)</p>
-	<p>2. 설문 항목에 모두 응답하지 않으면 제출 할 수 없습니다.</p>
-	<p>3. 설문 기간내 응답하지 않으면 해당학기 성적 조회를 할 수 없습니다.</p>
-	<hr>
-	<br>
-	<h3>설문 내용</h3>
-	<br>
-	<form id="formsubmit" action="/student/eclass/courseSurveyAnswer">
-	<table class="table table-bordered mb-0">
-		<thead>
-				<tr style="text-align:center">
-					<td rowspan="2">평가요소</td>
-					<td rowspan="2">평가내용</td>
-					<td colspan="5">평가등급</td>
-				</tr>
-				
-				<tr style="text-align:center">
-					<td>매우 그렇다</td>
-					<td>그렇다</td>
-					<td>보통이다</td>
-					<td>아니다</td>
-					<td>전혀 아니다</td>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<tr>
-					<td rowspan="3" style="text-align:center">강의준비</td>
-					<td th:text="${surveyContent.surveyQ1}"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA1" value="5" ></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA1" value="4" ></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA1" value="3" ></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA1" value="2" ></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA1" value="1" ></td>
-				</tr>
-				
-				<tr>
-					<td th:text="${surveyContent.surveyQ2}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA2" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA2" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA2" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA2" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA2" value="1"></td>
-				</tr>
-				
-				<tr >
-					<td th:text="${surveyContent.surveyQ3}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA3" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA3" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA3" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA3" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA3" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td rowspan="4" style="text-align:center">강의내용</td>
-					<td th:text="${surveyContent.surveyQ4}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA4" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA4" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA4" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA4" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA4" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td th:text="${surveyContent.surveyQ5}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA5" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA5" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA5" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA5" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA5" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td th:text="${surveyContent.surveyQ6}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA6" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA6" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA6" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA6" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA6" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td th:text="${surveyContent.surveyQ7}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA7" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA7" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA7" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA7" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA7" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td rowspan="2" style="text-align:center">교습방법</td>
-					<td th:text="${surveyContent.surveyQ8}"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA8" value="5"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA8" value="4"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA8" value="3"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA8" value="2"></td>
-					<td style="text-align:center"><input type="radio"  class="form-check-input"name="surveyA8" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td th:text="${surveyContent.surveyQ9}"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA9" value="5"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA9" value="4"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA9" value="3"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA9" value="2"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA9" value="1"></td>
-				</tr>
-				
-				<tr>
-					<td style="text-align:center">학습평가</td>
-					<td th:text="${surveyContent.surveyQ10}"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA10" value="5"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA10" value="4"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA10" value="3"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA10" value="2"></td>
-					<td style="text-align:center"><input type="radio" class="form-check-input" name="surveyA10" value="1"></td>
-				</tr>
 
-			</tbody>
-		</table>	
-		<br>
-		<div style=" text-align: center;">
-		<button type="button" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
+			<div th:if="${surveyState.courseReviewYn} == 'UNSUB'">
+				<div class="card">
+					<div class="card-body">
+
+						<h3>설문 유의 사항</h3>
+						<br>
+						<p>1. 평가등급(배점)</p>
+						<p>매우 그렇다(5점) 그렇다(4점) 보통이다(3점) 아니다(2점) 전혀 아니다(1점)</p>
+						<p>2. 설문 항목에 모두 응답하지 않으면 제출 할 수 없습니다.</p>
+						<p>3. 설문 기간내 응답하지 않으면 해당학기 성적 조회를 할 수 없습니다.</p>
+						<hr>
+						<br>
+						<h3>설문 내용</h3>
+						<br>
+						<form id="formsubmit" action="/student/eclass/courseSurveyAnswer">
+							<table class="table table-bordered mb-0">
+								<thead>
+									<tr style="text-align: center">
+										<td rowspan="2">평가요소</td>
+										<td rowspan="2">평가내용</td>
+										<td colspan="5">평가등급</td>
+									</tr>
+
+									<tr style="text-align: center">
+										<td>매우 그렇다</td>
+										<td>그렇다</td>
+										<td>보통이다</td>
+										<td>아니다</td>
+										<td>전혀 아니다</td>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										<td rowspan="3" style="text-align: center">강의준비</td>
+										<td th:text="${surveyContent.surveyQ1}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA1" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA1" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA1" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA1" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA1" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ2}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA2" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA2" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA2" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA2" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA2" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ3}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA3" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA3" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA3" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA3" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA3" value="1"></td>
+									</tr>
+
+									<tr>
+										<td rowspan="4" style="text-align: center">강의내용</td>
+										<td th:text="${surveyContent.surveyQ4}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA4" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA4" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA4" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA4" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA4" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ5}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA5" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA5" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA5" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA5" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA5" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ6}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA6" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA6" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA6" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA6" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA6" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ7}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA7" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA7" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA7" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA7" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA7" value="1"></td>
+									</tr>
+
+									<tr>
+										<td rowspan="2" style="text-align: center">교습방법</td>
+										<td th:text="${surveyContent.surveyQ8}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA8" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA8" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA8" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA8" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA8" value="1"></td>
+									</tr>
+
+									<tr>
+										<td th:text="${surveyContent.surveyQ9}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA9" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA9" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA9" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA9" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA9" value="1"></td>
+									</tr>
+
+									<tr>
+										<td style="text-align: center">학습평가</td>
+										<td th:text="${surveyContent.surveyQ10}"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA10" value="5"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA10" value="4"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA10" value="3"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA10" value="2"></td>
+										<td style="text-align: center"><input type="radio"
+											class="form-check-input" name="surveyA10" value="1"></td>
+									</tr>
+
+								</tbody>
+							</table>
+							<br>
+							<div style="text-align: center;">
+								<button type="button" class="saveBtn btn btn-primary me-1 mb-1">제출하기</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-	</form>
-	</div>
-	</div>
-</div>
-</div>
 
-	<script th:inline="javascript">
+		<script th:inline="javascript">
 	$(function() {
 		submit();
 
@@ -183,7 +235,12 @@
 		  		
 		  		// 버튼을 모두 체크 했을 때 
 		  		if(check == 10) {
-		  			$("#formsubmit").submit();
+		  			fireSwal("info" , '제출 하시겠습니까?')
+		  			.then((result) => {
+						if (result.isConfirmed) {
+		  					$("#formsubmit").submit();
+						}
+		  			})
 		  		}else {
 		  			fireSwal("error",'모든 문항에 답변하지 않았습니다.')
 		  		}
@@ -195,6 +252,6 @@
 	})
 	</script>
 
-</th:block>
+	</th:block>
 </body>
 </html>

@@ -30,7 +30,11 @@
 
 			<!-- 교수 강의 리스트가 없는 경우 -->
 			<div th:if="${mycourseList.isEmpty()}">
-				<h3>수강중인 강의가 없습니다.</h3>
+			<div class="card">
+			<div class="card-body">
+				<h3 style="text-align:center;">강의중인 강의가 없습니다.</h3>
+				</div>
+				</div>
 			</div>
 
 			<!-- 교수 강의 리스트가 있는 경우 -->
