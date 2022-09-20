@@ -144,7 +144,7 @@
 					document.querySelector("input[name=lectureAttTime]").value = '';
 					document.querySelector("input[name=videoPlayTime]").value = 0;
 					if ($("input[type=file]").val()) {
-					$("input[type=lectureYoutubePath]").attr("required", false);
+					$("input[name=lectureYoutubePath]").attr("required", false);
 					// 업로드한 파일 
 					let file = document.querySelector("input[type=file]").files[0];
 					// 비디오 태그 생성
@@ -167,7 +167,7 @@
 						})
 					}	
 					} else {
-						$("input[type=lectureYoutubePath]").attr("required", true);
+						$("input[name=lectureYoutubePath]").attr("required", true);
 					}
 			}
 			

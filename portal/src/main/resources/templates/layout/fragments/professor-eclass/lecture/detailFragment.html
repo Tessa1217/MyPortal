@@ -13,7 +13,7 @@
 		<div class="page-title">
 			<h3>강의 상세보기</h3>
 		</div>
-		<div class="card height-sevenh">
+		<div class="card min-seven">
 			<div class="card-body">
 				<table class="table">
 					<tr>
@@ -40,7 +40,7 @@
 							th:href="${lecture.videoCode != null} ? @{/video/download/{videoCode}(videoCode = ${lecture.videoCode})} : ${lecture.lectureYoutubePath}"></a></td>
 					</tr>
 					<tr>
-						<th>과제 참고사항</th>
+						<th>강의 참고사항</th>
 						<td th:utext="${lecture.lectureContent}"></td>
 					</tr>
 				</table>

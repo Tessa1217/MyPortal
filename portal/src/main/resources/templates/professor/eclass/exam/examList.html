@@ -12,9 +12,16 @@
 			<div class="page-title">
 				<h3>내 강의 시험 관리</h3>
 			</div>
-			<th:block th:unless="${examList.isEmpty()}">
 				<div class="card height-sevenh">
-					<div class="card-body">
+					<div class="card-header">
+						<button type="button" 
+						class="btn btn-danger rounded-pill right-f"
+					th:onclick="|location.href='@{/professor/eclass/insertExam}'|">시험 등록</button>
+					</div>
+					<div th:if="${examList.isEmpty()}" class="card-body  height-four content-no">
+						<h4>현재 등록된 시험이 없습니다.</h4>
+					</div>
+					<div th:unless="${examList.isEmpty()}" class="card-body">
 						<table class="table">
 							<thead class="thead-primary">
 								<tr>
@@ -42,16 +49,14 @@
 											등록 완료</button>
 									</td>
 									<td th:if="${e.examSubmit} == 'UNSUB'">
-										<button type="button" class="btn btn-danger rounded-pill"
-											th:onclick="|location.href='@{/professor/eclass/examInsert/{examCode}(examCode=${e.examCode})}'|">
-											작성 중</button>
+										<button type="button" class="btn btn-outline-danger btn-sm rounded-pill"
+											th:onclick="|location.href='@{/professor/eclass/examInsert/{examCode}(examCode=${e.examCode})}'|">작성 중</button>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
-			</th:block>
 			<th:block th:if="${examList.isEmpty()}">
 				<div class="card  height-sevenh">
 					<div class="card-header center">

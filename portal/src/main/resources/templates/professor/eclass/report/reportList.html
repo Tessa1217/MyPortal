@@ -13,8 +13,20 @@
 				<h3>내 강의 과제 목록</h3>
 			</div>
 			<div class="card">
-				<div class="card-header" align="right">
-					<button type="button" class="btn btn-danger"
+				<div class="card-header">
+					<form class="inline width-seven left-f" th:unless="${reportList.isEmpty()}" th:action="@{/professor/eclass/reportList}">
+						<input type="hidden" value="1" name="pageNum"> <input
+							type="hidden" th:value="${pageMaker.cri.amount}" name="amount">
+						<input type="hidden" value="weekCode" name="type"> <select
+							name="keyword" class="form-select width-three inline">
+							<option value="">주차별</option>
+							<option th:each="week : ${session.courseInfo.weekPlans}"
+								th:value="${week.weekCode}" th:text="|${week.weekNum}주차|"
+								th:selected="${pageMaker.cri.keyword != null && pageMaker.cri.keyword == week.weekCode}"></option>
+						</select>
+						<button class="inline btn btn-primary btn-sm">검색</button>
+					</form>
+					<button type="button" class="btn btn-danger rounded-pill right-f" 
 						th:onclick="|location.href='@{/professor/eclass/insertReport}'|">과제
 						등록</button>
 				</div>
@@ -24,18 +36,6 @@
 				</div>
 				<div th:unless="${reportList.isEmpty()}"
 					class="card-body height-sevenh">
-					<form th:action="@{/professor/eclass/reportList}">
-						<input type="hidden" value="1" name="pageNum"> <input
-							type="hidden" th:value="${pageMaker.cri.amount}" name="amount">
-						<input type="hidden" value="weekCode" name="type"> <select
-							name="keyword" class="form-select width-one inline">
-							<option value="">주차별</option>
-							<option th:each="week : ${session.courseInfo.weekPlans}"
-								th:value="${week.weekCode}" th:text="|${week.weekNum}주차|"
-								th:selected="${pageMaker.cri.keyword != null && pageMaker.cri.keyword == week.weekCode}"></option>
-						</select>
-						<button class="inline btn btn-primary btn-sm">검색</button>
-					</form>
 					<table class="table table-hover table-margin">
 						<thead class="thead-primary">
 							<tr>

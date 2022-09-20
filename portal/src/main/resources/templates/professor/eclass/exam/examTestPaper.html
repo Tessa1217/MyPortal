@@ -12,27 +12,27 @@
 			<input type="hidden" name="examCode" th:value="${courseExamList[0].examCode}">
 			<input type="hidden" name="courseCode" th:value="${session.courseInfo.courseCode}">
 			<div class="page-title">
-				<h2 th:if="${command == 0}">시험지 확인하기</h2>
-				<h3 th:if="${command == 1}" th:text="|${examList[0].courseYear}년 ${examList[0].courseSemester}학기 
-				${examList[0].courseName} 
-				${#strings.startsWith(examList[0].examCode, 'M') ? '중간고사' : '기말고사'}|"></h3>
-				<div class="right">
+				<h3 class="inline">시험지 확인하기</h3>
+				<div class="btn-group inline right-f" role="group">
 				<button type="button" id="testSubmitBtn" class="btn btn-primary btn-md"
 				th:classappend="${command == 1} ? hidePage">
-					시험 제출하기
+					제출
 				</button>
-				<button type="button" id="updateTestBtn" class="btn btn-danger btn-md"
-				th:classappend="${command == 1} ? hidePage">
-					시험 수정하기
+				<button type="button" id="updateTestBtn" class="btn btn-danger btn-md">
+					수정
 				</button>
 				<button type="button" id="cancelBtn" class="btn btn-secondary btn-md">
 					나가기
 				</button>
-			</div>
+				</div>
 			</div>
 			<div class="card">
 				<div class="mainContainer">
-					<div class="row">
+					<div class="card-header center">
+						<h4 th:with="c = ${session.courseInfo}" 
+						th:text="|${c.courseYear}년도 ${c.courseSemester}학기 ${c.courseName} | + (${#strings.startsWith(courseExamList[0].examCode, 'M')} ? '중간고사' : '기말고사')"></h4>
+					</div>
+					<div class="card-body">
 						<div
 							th:each="i : ${#numbers.sequence(0, (#lists.size(courseExamList)/5) - 1)}"
 							th:id="|testPage-${i}|" class="questionContainer hidePage">

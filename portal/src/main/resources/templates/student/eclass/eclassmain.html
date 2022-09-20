@@ -117,7 +117,8 @@
 												<td
 													th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
 												<td><button type="button"
-														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
+														class="btn btn-sm btn-primary rounded-pill"
+														th:onclick="|location.href='@{/student/eclass/detailLecture/{lectureCode}(lectureCode = ${lecture.lectureCode})}'|">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -149,7 +150,8 @@
 												<td
 													th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
 												<td><button type="button"
-														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
+														class="btn btn-sm btn-primary rounded-pill"
+														>바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>

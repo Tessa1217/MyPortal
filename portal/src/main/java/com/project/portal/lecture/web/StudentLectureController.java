@@ -57,7 +57,6 @@ public class StudentLectureController {
 								Map<String, Object> map, 
 								Model model,
 								HttpSession session) {
-		System.out.println(vo);
 		List<LectureVO> lecture = service.getLectureList(null, vo);
 		note.setLectureCode(lecture.get(0).getLectureCode());
 		note.setStudentId((int) session.getAttribute("id"));

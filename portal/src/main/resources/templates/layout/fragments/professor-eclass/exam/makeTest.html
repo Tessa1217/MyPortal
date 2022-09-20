@@ -6,14 +6,22 @@
 </head>
 <body>
 	<th:block th:fragment="makeTestFragment">
-		<div align="right">
-			<button type="button" id="tempBtn" class="btn btn-primary btn-md">임시저장</button>
-			<button type="button" id="submitBtn" class="btn btn-danger btn-md">시험지
-				생성하기</button>
+		<div class="card-header">
+			<h4 class="left-f" th:with="c = ${session.courseInfo}" 
+			th:text="|${c.courseYear}년도 ${c.courseSemester}학기 ${c.courseName} | + (${#strings.startsWith(exam.examCode, 'M')} ? '중간고사' : '기말고사')"></h4>
+			<div class="btn-group mb-3 right-f" role="group">
+			<button type="button" id="tempBtn" class="btn btn-primary btn-md"
+				data-toggle="tooltip"
+				title="작성된 시험 정보를 임시적으로 저장할 수 있습니다.">임시저장</button>
+			<button type="button" id="submitBtn" class="btn btn-danger btn-md"
+				data-toggle="tooltip"
+				title="시험지를 최종적으로 생성합니다.">시험지 생성</button>
 			<button type="button" id="pointBtn" class="btn btn-info btn-md"
-				title="시험 총점에서 시험 문제 수만큼 나누어 자동적으로 배점을 나눕니다.">자동 배점</button>
+				data-toggle="tooltip"
+				title="(문제 수/총 배점)만큼 나누어 자동적으로 배점 처리합니다.">자동 배점</button>
+			</div>
 		</div>
-		<div id="testPaperGenerated" class="card">
+		<div id="testPaperGenerated" class="card-body">
 			<div th:if="${exam.examTotalQuestion} == 0" id="defaultPaper"
 				class="card-body">
 				<p>시험 문항 수를 선택해주세요.</p>
@@ -49,6 +57,9 @@
 															th:text="|${option.questionOptionNum}. ${option.questionOptionContent}|"></span>
 													</p>
 												</th:block>
+											</div>
+											<div class="btn-group inline mb-3 right-align" role="group">
+													<button type="button" th:onclick="deleteQuestion([[${examQuestions[i].questionCode}]])" class="btn btn-sm btn-danger">삭제</button>
 											</div>
 										</div>
 										<button th:if="${#lists.size(examQuestions) <= i}"
@@ -96,7 +107,8 @@
 					<button
 						class="createQuestionBtn btn btn-primary btn-sm rounded-pill"
 						type="button">문제 생성</button>
-					<button class="btn btn-secondary btn-sm rounded-pill" type="button">
+					<button class="cancelQuestionBtn btn btn-secondary btn-sm rounded-pill" 
+					 type="button">
 						취소</button>
 				</div>
 			</div>
@@ -110,8 +122,10 @@
 			movePage();
 			checkAll();
 			createQuestion();
+			cancelQuestion();
 			submitTest();
 			dividePoint();
+			$("[data-toggle=tooltip]").tooltip({placement: "bottom", opacity: '0.2'});
 		})
 
 		// 전체 문제 선택
@@ -162,7 +176,7 @@
 			$(document).on("click", ".createQuestionBtn", function(e) {
 				let id = $(this).parents(".questionBox").attr("id");
 				let div = $(this).parent().siblings();
-				let answer = $("input[name=answer]").index($("input[name=answer]:checked"));
+				let answer = $("div.questionBox#" + id).find("input[name=answer]").index($("input[name=answer]:checked"));
 				if (answer == -1) {
 					fireSwal('warning', '문제의 답을 입력해주세요.');
 					return;
@@ -184,6 +198,13 @@
 			})
 		}
 		
+		function cancelQuestion(e) {
+			$(document).on("click", ".cancelQuestionBtn", function(e) {
+				let parent = $(e.target).parents(".questionBox");
+				$(parent).empty().append(`<button class="card-body btn btn-outline-primary addQuestionBtn" type="button">+</button>`);
+			})
+		}
+		
 		// 문제 생성하는 AJAX 호출
 		function insertExam(id, question) {
 			$.ajax({
@@ -199,11 +220,10 @@
 		}
 		
 		// 문제 삭제하기 
-		function deleteQuestion(e) {
-				let questionBox = $(e).parents(".questionBox");
+		function deleteQuestion(code) {
 				let data = {
-						questionCode : $(e).data("question")
-					};
+						questionCode : code
+				};
 				$.ajax({
 					method : 'DELETE',
 					url : `/professor/eclass/deleteQuestion`,
@@ -212,41 +232,10 @@
 					success : function(result) {
 						if (result == 'success') {
 							fireSwal('success', '문제 삭제가 완료되었습니다.');
-							$(questionBox).empty().append(`<button class="card-body btn btn-outline-primary addQuestionBtn" type="button">+</button>`);
+							$("div#" + code).parent().empty().append(`<button class="card-body btn btn-outline-primary addQuestionBtn" type="button">+</button>`);
 						}
 					}
 				}) 
-		}
-		
-		// 문제 변경하기 
-		function updateQuestion(e) {
-			
-				updateQuestionContent(e);
-				/* $.ajax({
-					method : 'POST',
-					url : `/professor/eclass/updateQuestion`,
-					contentType : 'application/json',
-					data : JSON.stringify(data),
-					success : function(result) {
-						if (result == 'success') {
-							fireSwal('success', '수정이 완료되었습니다.');
-							
-						}
-					}
-				})  */
-
-		}
-		
-		
-		// 문제 변경 AJAX 호출
-		function updateQuestionContent(target) {
-			let data = {
-					questionCode : $(target).data("question")
-			};
-			console.log(target);
-			console.log($(target).parent(".card-header"));
-			console.log($(target).parents(".card"));
-			console.log($(target).parents(".card-body"));
 		}
 		
 		// 문제 자동 배점

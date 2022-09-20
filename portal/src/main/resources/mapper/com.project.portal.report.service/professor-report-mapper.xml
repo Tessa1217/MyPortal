@@ -4,7 +4,8 @@
 	namespace="com.project.portal.report.service.ProfessorReportMapper">
 	<select id="getFile" parameterType="String"
 		resultType="ReportFileVO">
-		SELECT REPORT_FILE_PATH
+		SELECT REPORT_FILE_PATH,
+						REPORT_FILE_NAME
 		FROM REPORT_FILE
 		WHERE
 		REPORT_FILE_CODE = #{reportFileCode}

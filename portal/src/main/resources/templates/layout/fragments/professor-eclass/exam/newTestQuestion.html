@@ -20,9 +20,8 @@
 				</p>
 			</th:block>
 		</div>
-		<div>
-			<button type="button" th:data-question="${question.questionCode}" th:onclick="deleteQuestion(this)" class="btn btn-sm btn-danger">삭제</button>
-			<button type="button" th:data-question="${question.questionCode}" th:onclick="updateQuestion(this)" class="btn btn-sm btn-primary">변경</button>
+		<div class="right-align">
+			<button type="button" th:onclick="deleteQuestion([[${question.questionCode}]])" class="btn btn-sm btn-danger">삭제</button>
 		</div>
 	</div>
 </body>

@@ -21,6 +21,14 @@
 	text-align: center;
 }
 
+.left-f {
+	float: left;
+}
+
+.right-f {
+	float: right;
+}
+
 #headNav i, #headNav a {
 	font-weight: bold;
 	font-size: small;
@@ -162,6 +170,10 @@
 	text-align: right;
 }
 
+.right-align {
+	text-align: right;
+}
+
 .center {
 	text-align: center;
 }
@@ -214,6 +226,15 @@ input[name="tabs"]+.tabmenu {
 
 .paging {
 	height: 700px;
+}
+
+.no-height {
+	height: auto!important;
+}
+
+.addQuestionBtn {
+	margin: 4%;
+	height: 100px;
 }
 
 .prevBtn {
@@ -273,6 +294,24 @@ input[name="tabs"]+.tabmenu {
 
 .offPage {
 	display: none;
+}
+
+.tooltip-inner {
+    background-color: #435ebe;
+    opacity: 1 !important;
+    padding: 5%;
+}
+.tooltip.bs-tooltip-right .tooltip-arrow::before {
+    border-right-color: #435ebe !important;
+}
+.tooltip.bs-tooltip-left .tooltip-arrow::before {
+    border-left-color: #435ebe !important;
+}
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #435ebe !important;
+}
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #435ebe !important;
 }
 
 .notecard {
@@ -433,6 +472,10 @@ input[name="tabs"]+.tabmenu {
 	height: 95vh;
 }
 
+.min-seven {
+	min-height: 75vh;
+}
+
 .testContainer {
 	display: block;
 }
@@ -560,7 +603,7 @@ input[name=examQuestionPoint] {
 #bookmark {
 	position: fixed;
 	top: 10%;
-	left: 80%;
+	left: 87%;
 	border-left: 3px solid #25396f;
 }
 
@@ -570,7 +613,7 @@ input[name=examQuestionPoint] {
 }
 
 #bookmark a {
-	text-decoration: nonte;
+	text-decoration: none;
 	color: #25396f;
 }
 

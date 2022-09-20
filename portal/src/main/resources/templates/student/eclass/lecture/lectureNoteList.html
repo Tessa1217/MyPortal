@@ -10,25 +10,25 @@
 	<th:block layout:fragment="studentEclassContent">
 		<div id="main">
 			<div class="page-title">
-				<h2 th:text="|${session.courseInfo.courseName} 강의 노트|"></h2>
+				<h3>나의 강의 노트</h3>
 			</div>
 			<div class="page-content">
 				<th:block th:if="${map.isEmpty()}">
 					<div class="card">
-						<div class="card-body">
+						<div class="card-body content-no">
 							<h5>현재 강의에 작성된 노트가 없습니다.</h5>
 						</div>
 					</div>
 				</th:block>
 				<th:block th:unless="${map.isEmpty()}">
 					<div class="row">
-						<div class="col-9">
+						<div class="col-10">
 							<th:block th:each="lecture, idx : ${lectureList}"
 								th:if="${map.containsKey(lecture.lectureCode)}">
 								<div th:id="|lecture-${idx.index}|" class="card">
 									<div class="card-header">
-										<i class="fa-solid fa-pencil"></i>
-										<h5 th:text="${lecture.lectureTitle}"></h5>
+										<i class="fa-solid fa-pencil inline"></i>
+										<h5 class="inline" th:text=" ${lecture.lectureTitle}"></h5>
 									</div>
 									<div class="card-body">
 										<th:block th:each="noteList : ${map.get(lecture.lectureCode)}">
@@ -48,7 +48,7 @@
 								</div>
 							</th:block>
 						</div>
-						<div class="col-3" id="bookmark">
+						<div class="col-2" id="bookmark">
 							<h6>
 								<i class="fa-solid fa-bookmark"></i> 강의 노트 목차
 							</h6>
