@@ -30,7 +30,11 @@
 
 			<!-- 교수 강의 리스트가 없는 경우 -->
 			<div th:if="${mycourseList.isEmpty()}">
-				<h3>수강중인 강의가 없습니다.</h3>
+			<div class="card">
+			<div class="card-body">
+				<h3 style="text-align:center;">강의중인 강의가 없습니다.</h3>
+				</div>
+				</div>
 			</div>
 
 			<!-- 교수 강의 리스트가 있는 경우 -->
@@ -61,11 +65,11 @@
 						<!-- 여기 년도 학기 세션값 가져와서 출력 해야함.  -->
 							<th:block>
 								<h5 class="font-bold" th:if="${searchYearVal == null} or ${searchSemesterVal} == null">
-							 	[[${session.year}]]년-[[${session.semester}]]학기 수강과목
+							 	[[${session.year}]]년-[[${session.semester}]]학기 강의과목
 							 	</h5>
 							 	
 							 	<h5 class="font-bold" th:if="${searchYearVal != null} or ${searchSemesterVal != null}">
-								 [[${searchYearVal}]]년-[[${searchSemesterVal}]]학기 수강과목
+								 [[${searchYearVal}]]년-[[${searchSemesterVal}]]학기 강의과목
 								 </h5>
 							 </th:block>
 						</div>

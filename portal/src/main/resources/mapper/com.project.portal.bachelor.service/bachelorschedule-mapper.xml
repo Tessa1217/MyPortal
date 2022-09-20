@@ -13,7 +13,7 @@
 				TO_NUMBER(TO_CHAR(schedule_start_date, 'MM')) as "MONTH",
                 YEAR
 		from bachelor_schedule
-		where YEAR = #{year} and detail_code != 'BPLAN00' and detail_code != 'SEME00' and detail_code != 'SEME01'
+		where YEAR = #{year} and detail_code != 'SEME00' and detail_code != 'SEME01'
 		order by schedule_start_date
 	</select>
 	
@@ -29,6 +29,23 @@
 																FROM bachelor_schedule
 																WHERE detail_code = #{detailCode}
 																AND SYSDATE > schedule_start_date
+																)
+				and	detail_code = #{detailCode}		AND ROWNUM = 1	
+	</select>
+	
+	<select id="getCurrentScheduleInfo" resultType="BachelorScheduleVO">
+			SELECT 
+			year,
+			semester,
+			schedule_start_date,
+			schedule_end_date
+		FROM bachelor_schedule
+		WHERE schedule_start_date = (
+																SELECT MAX(schedule_start_date)
+																FROM bachelor_schedule
+																WHERE detail_code = #{detailCode}
+																AND year = #{year}
+																AND semester = #{semester}
 																)
 				and	detail_code = #{detailCode}		AND ROWNUM = 1	
 	</select>

@@ -8,13 +8,15 @@
 		       L.LECTURE_TITLE,
                L.LECTURE_CODE,
                SL.STUDENT_ID,
-               (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME * 60 * 60)) * 100 AS LEC_PROGRESS_RATE,
-		       L.WEEK_CODE
+               (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME)) * 100 AS LEC_PROGRESS_RATE,
+		       L.WEEK_CODE,
+               W.week_start_date,
+               W.week_end_date
           FROM COURSE_WEEKLY W JOIN LECTURE L
             ON W.WEEK_CODE = L.WEEK_CODE
              LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
              ON L.LECTURE_CODE = SL.LECTURE_CODE
-            WHERE W.COURSE_CODE = #{courseCode} and W.week_end_date > SYSDATE
+           <![CDATA[ WHERE W.COURSE_CODE = #{courseCode} and W.week_start_date < SYSDATE ]]>
          ORDER BY 1 ASC
 	</select>
 	

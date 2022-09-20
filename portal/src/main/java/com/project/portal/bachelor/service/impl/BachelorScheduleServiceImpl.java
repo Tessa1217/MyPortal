@@ -53,4 +53,10 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 		return mapper.getScheduleInfo(vo);
 	}
 
+	@Override
+	public BachelorScheduleVO getCurrentScheduleInfo(BachelorScheduleVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.getCurrentScheduleInfo(vo);
+	}
+
 }

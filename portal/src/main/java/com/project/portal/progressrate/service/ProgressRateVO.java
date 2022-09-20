@@ -33,6 +33,10 @@ public class ProgressRateVO {
 	private String lectureCode; // 강의영상코드
 	private int reportScore;
 	private String reportFileCode; //제출파일코드
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date weekStartDate; // 강의 시작 날짜
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date weekEndDate; // 강의 종료 날짜
 	
 	
 }

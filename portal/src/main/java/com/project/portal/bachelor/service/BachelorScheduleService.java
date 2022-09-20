@@ -5,6 +5,8 @@ import java.util.List;
 public interface BachelorScheduleService {
 	
 	BachelorScheduleVO getScheduleInfo(BachelorScheduleVO vo);
+	// 현학기 계획 날짜 조회
+	BachelorScheduleVO getCurrentScheduleInfo(BachelorScheduleVO vo);
 	
 	List<BachelorScheduleVO> scheduleList(BachelorScheduleVO vo);
 	

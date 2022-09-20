@@ -87,8 +87,10 @@
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${reportList.reportFileCode}, userCode=${reportList.userCode})}"
 									th:text="${reportList.reportFileName}"></a></td>
 									
-								<td th:text="${reportList.reportScore}"></td>
-
+								<th:block>
+									<td th:if="${reportList.reportScore != null}" th:text="${reportList.reportScore}"></td>
+									<td th:if="${reportList.reportScore == null}" >-</td>
+								</th:block>
 								<!-- 이의 신청 -->
 								<td th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} < ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<button

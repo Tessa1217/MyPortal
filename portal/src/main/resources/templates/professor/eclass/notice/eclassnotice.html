@@ -68,8 +68,7 @@
 							</tbody>
 						</table>
 
-						<button type="button" id="write"
-							class="saveBtn btn btn-primary me-1 mb-1">글쓰기</button>
+					
 
 						<div th:object="${pageMaker}">
 							<ul class="pagination justify-content-center">
@@ -105,10 +104,6 @@
 		</div>
 
 		<script th:inline="javascript">
-		//글쓰기 이동
-		$('#write').click(function() {
-			location.href="/professor/eclass/eclassnoticewrite"
-		})
 		
 		
 		// 폼 예외 처리
