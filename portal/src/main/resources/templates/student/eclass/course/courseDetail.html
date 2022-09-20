@@ -65,12 +65,12 @@
 				<div class="card-body">
 					<table class="table" style="width: 80%">
 						<thead>
-							<tr>
-								<th width="20%">주차</th>
+							<tr style="text-align:center">
+								<th width="3%">주차</th>
 								<th width="50%">강의 범위 및 내용</th>
 							</tr>
 
-							<tr th:each="courseWeekDetail : ${courseWeekDetail}">
+							<tr th:each="courseWeekDetail : ${courseWeekDetail}" style="text-align:center">
 								<td th:text="${courseWeekDetail.weekNum}"></td>
 								<td th:text="${courseWeekDetail.weekContent}"></td>
 							</tr>

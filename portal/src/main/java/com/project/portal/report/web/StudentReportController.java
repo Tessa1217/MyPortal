@@ -56,6 +56,7 @@ public class StudentReportController {
 	@RequestMapping("/student/eclass/reportList")
 	public String getReportList(Model model, CourseVO vo, ReportVO rvo, HttpSession session, Criteria cri) {
 		vo.setStudentId((int) session.getAttribute("id"));
+		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		rvo.setStudentId((int) session.getAttribute("id"));
 		List<ReportVO> reportList = service.getReportList(vo, rvo, cri);
 		

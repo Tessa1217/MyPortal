@@ -61,11 +61,11 @@
 						<!-- 여기 년도 학기 세션값 가져와서 출력 해야함.  -->
 							<th:block>
 								<h5 class="font-bold" th:if="${searchYearVal == null} or ${searchSemesterVal} == null">
-							 	[[${session.year}]]년-[[${session.semester}]]학기 수강과목
+							 	[[${session.year}]]년-[[${session.semester}]]학기 강의과목
 							 	</h5>
 							 	
 							 	<h5 class="font-bold" th:if="${searchYearVal != null} or ${searchSemesterVal != null}">
-								 [[${searchYearVal}]]년-[[${searchSemesterVal}]]학기 수강과목
+								 [[${searchYearVal}]]년-[[${searchSemesterVal}]]학기 강의과목
 								 </h5>
 							 </th:block>
 						</div>

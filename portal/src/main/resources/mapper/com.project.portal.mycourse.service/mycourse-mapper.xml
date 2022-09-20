@@ -43,6 +43,7 @@
 		WEEK_CONTENT
 		FROM COURSE_WEEKLY
 		WHERE COURSE_CODE = #{courseCode}
+		ORDER BY 1 ASC
 	</select>
 
 	<select id="getProfMyCourse"

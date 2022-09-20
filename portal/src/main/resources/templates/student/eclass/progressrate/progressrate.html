@@ -84,11 +84,24 @@ caption {
 											th:style="'width:' + ${courseRate.lecProgressRate} + '%'"></div>
 									</div>
 								</td>
+								
+								<th:block>
 								<td>
+									<!-- 강의 기간안에 보러가기 시 바로 강의페이지로 이동 -->
 									<button type="button"
-										class="saveBtn btn btn-primary me-1 mb-1 lectureStudy"
-										th:data-lecturecode="${courseRate.lectureCode}">보러가기</button>
+										class="saveBtn btn btn-primary me-1 mb-1 lectureStudyAttendance"
+										th:data-lecturecode="${courseRate.lectureCode}"
+										th:if="(${#dates.format(courseRate.weekStartDate, 'yyyy-MM-dd')} <
+									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}) AND (${#dates.format(courseRate.weekEndDate, 'yyyy-MM-dd')} >
+									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})">보러가기</button>
+									 
+									 <button type="button"
+										class="saveBtn btn btn-primary me-1 mb-1 lectureStudyNoAttendance"
+										th:data-lecturecode="${courseRate.lectureCode}"
+										th:if="(${#dates.format(courseRate.weekEndDate, 'yyyy-MM-dd')} <
+									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})">미출석</button>
 								</td>
+								</th:block>
 							</tr>
 						</tbody>
 					</table>
@@ -254,16 +267,20 @@ caption {
 				location.href = "/student/eclass/reportModify/" + reportCode
 			})
 
-			// 강의 보러가기 이동 버튼
-			$('.lectureStudy')
-					.on(
-							"click",
-							function() {
+			// 강의 보러가기 이동 버튼 (출결기간 안일 때)
+			$('.lectureStudyAttendance').on("click", function() {
 								let lectureCode = ($(this).data("lecturecode"));
-								console.log(lectureCode)
 								location.href = "/student/eclass/watchLecture?lectureCode="
 										+ lectureCode
 							})
+			// 강의 보러가기 이동 버튼 (출결기간 밖일 때)
+			$('.lectureStudyNoAttendance').on("click", function() {
+				let lectureCode = ($(this).data("lecturecode"));
+				fireSwal('info', '학습 인정 일자가 지나 출결율에 반영되지 않습니다. 그래도 시청하시겠습니까?')
+				.then((result) => {
+					location.href = "/student/eclass/watchLecture?lectureCode=" + lectureCode
+						})
+			})			
 
 			// 중간시험 보러가기 이동 버튼
 			$('.midTest').on("click", function() {
