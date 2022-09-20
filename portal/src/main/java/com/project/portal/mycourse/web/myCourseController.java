@@ -172,10 +172,19 @@ public class myCourseController {
 		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
 
 		// 학생이 수강중인 전체 강의 목록
-		schedule.setDetailCode("BPLAN00");
-		course = cservice.getYearSemester(schedule);
+		/*
+		 * schedule.setDetailCode("BPLAN00"); course =
+		 * cservice.getYearSemester(schedule); mycourse.setStudentId((int)
+		 * session.getAttribute("id"));
+		 */
+		
 		mycourse.setStudentId((int) session.getAttribute("id"));
+		schedule = (BachelorScheduleVO) model.getAttribute("schedule");
+		course.setCourseYear((int) session.getAttribute("year"));
+		course.setCourseSemester((int) session.getAttribute("semester"));
 		session.setAttribute("courseList", service.getstuMyCourse(mycourse, course));
+		
+		
 
 		// 학생 정보
 		student.setStudentId((int) session.getAttribute("id"));
