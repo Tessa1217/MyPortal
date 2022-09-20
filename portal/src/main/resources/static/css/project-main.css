@@ -642,7 +642,9 @@ input[name=examQuestionPoint] {
 	width: 50%;
 	height: 500px;
 	border-radius: 20px;
-	background: white;
+	/* background: white; */
+	background-color: #ffffff;
+  background-color: rgba( 255, 255, 255, 0.9);
 }
 
 #passwordContainer .row {
