@@ -8,13 +8,11 @@
 </head>
 <body>
 	<th:block layout:fragment="bodyContent">
-		<div id="loginContainer" class="container">
+		<div id="loginContainer" class="container wall-paper">
 			<div class="row">
 				<div class="col-12">
 					<div id="loginHeading" class="center">
-						<h2>
-							<i class="fa-solid fa-graduation-cap"></i> My Portal
-						</h2>
+						<img th:src="@{/images/portal_img.png}" height="30%;" width="30%;"/>
 					</div>
 					<form id="loginFrm" th:action="@{/login}" method="post">
 						<div th:if="${param.error}">
@@ -30,8 +28,8 @@
 								class="form-control">
 						</div>
 						<div class="btnContainer">
-							<button type="submit" class="btn btn-danger btn-md">Login</button>
-							<button type="button" class="btn btn-secondary btn-md"
+							<button type="submit" class="btn btn-primary btn-md rounded-pill">Login</button>
+							<button type="button" class="btn btn-danger btn-md rounded-pill"
 							th:onclick="|location.href='@{/findPassword}'|">비밀번호 찾기</button>
 						</div>
 					</form>

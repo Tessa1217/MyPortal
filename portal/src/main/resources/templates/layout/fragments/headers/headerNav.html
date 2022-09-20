@@ -10,16 +10,15 @@
 	<th:block th:fragment="headingFragment">
 		<nav id="headNav" class="navbar navbar-white bg-white">
 			<div>
-				<a class="navbar-bard" href="#">My Portal</a>
+				<a style="font-size: 1.2rem;"class="navbar-brand" href="#">Blue Bear University</a>
 			</div>
 			<ul class="navbar-nav navbar-nav-icons flex-row">
 				<li class="nav-item"
-					th:if="${#strings.contains(#httpServletRequest.requestURI, 'eclass')}">
+					th:classappend="!${#strings.contains(#httpServletRequest.requestURI, 'eclass')} ? visibility-none">
 					<a class="nav-link"
 						th:with="user = ${#strings.contains(#httpServletRequest.requestURI, 'student')} ? 'student' : 'professor'"
 						th:onclick="|location.href='@{/{uri}(uri = ${user})}'|">
-						<i class="fa-solid fa-rotate-left"></i>Main  
-					</a>
+						<i class="fa-solid fa-rotate-left"></i>Main</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link"

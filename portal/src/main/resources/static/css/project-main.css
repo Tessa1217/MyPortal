@@ -228,6 +228,10 @@ input[name="tabs"]+.tabmenu {
 	height: 700px;
 }
 
+.visibility-none {
+	visibility: hidden;
+}
+
 .no-height {
 	height: auto!important;
 }
@@ -464,6 +468,12 @@ input[name="tabs"]+.tabmenu {
 	cursor: pointer;
 }
 
+.wall-paper {
+	background-image: url(/images/school_img.jpg);
+	background-position: center;
+	background-size: cover;
+}
+
 /* .grid-item .card:hover {
 	transform: scale(1.05);
 	transition-duration: 0.5s;
@@ -631,9 +641,8 @@ input[name=examQuestionPoint] {
 #loginContainer .row {
 	width: 50%;
 	height: 500px;
-	background: white;
 	border-radius: 20px;
-	background: #25396f;
+	background: white;
 }
 
 #passwordContainer .row {
@@ -654,7 +663,7 @@ input[name=examQuestionPoint] {
 }
 
 #loginContainer #loginHeading {
-	padding: 5%;
+	padding-top: 5%;
 }
 
 #loginHeading h2, #loginHeading i {
@@ -663,10 +672,26 @@ input[name=examQuestionPoint] {
 
 #loginContainer #loginFrm {
 	width: 100%;
-	padding: 10%;
+	padding: 5% 10%;
 	height: 500px;
 	align-items: center;
-	color: white;
+	color: #25396f;
+	font-weight: bold;
+}
+
+.mainImg {
+	width: 60%; 
+	height: 100px!important;
+}
+
+.mainImg:hover {
+	cursor: pointer;
+}
+
+.logo-size {
+	width: 100%; 
+	height: 100px; 
+	text-align: center;
 }
 
 #loginImg {

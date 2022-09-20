@@ -10,8 +10,9 @@
 			<div class="sidebar-wrapper active">
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
-						<div class="logo">
-							<a th:href="@{/professor/eclass/{courseCode}(courseCode = ${session.courseCode})}"><i class="fa-solid fa-house-user"></i></a>
+						<div class="logo logo-size">
+						<img class="mainImg" th:src="@{/images/portal_img.png}" 
+						th:onclick="|location.href='@{/professor/eclass/{courseCode}(courseCode = ${session.courseCode})}'|"> 
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
