@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.portal.bachelor.service.BachelorScheduleService;
+import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.progressrate.service.ProgressRateService;
 import com.project.portal.progressrate.service.ProgressRateVO;
 
@@ -20,6 +23,7 @@ public class ProgressRateController {
 	
 	@Autowired ProgressRateService Pservice;
 	
+	
 	@RequestMapping("/student/eclass/progressRate")
 	public String stuProgressRate (ProgressRateVO vo ,Model model , HttpSession session) {
 		// 강의 진행도 표시
@@ -29,7 +33,6 @@ public class ProgressRateController {
 		
 		// 과제 진행도 표시
 		model.addAttribute("reportRate", Pservice.selectReportProgress(vo));	
-		//model.addAttribute("reportProgressRate", Pservice.selectReportProgressRate(vo));
 		// 출석률 표시
 		System.out.println(Pservice.selectAttProgress(vo));
 		model.addAttribute("attRate", Pservice.selectReportProgressRate(vo));

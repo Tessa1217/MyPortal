@@ -23,8 +23,11 @@ td>input[type=radio] {
 			<div class="page-title">
 				<h2>수강평 설문지</h2>
 			</div>
-
-
+			<!-- 수강평 기간 안에 있으면 -->
+			<th:block th:if="(${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} <
+			${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})
+			and (${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')} >
+			${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})" >
 			<div th:if="${surveyState.courseReviewYn} == 'SUB'">
 				<div class="card">
 					<div class="card-body">
@@ -220,6 +223,21 @@ td>input[type=radio] {
 					</div>
 				</div>
 			</div>
+			</th:block>
+	 <th:block th:unless="(${#dates.format(yearSemester.scheduleStartDate, 'yyyy-MM-dd')} <
+			${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})
+			AND (${#dates.format(yearSemester.scheduleEndDate, 'yyyy-MM-dd')} >
+			${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})" > 
+			<div class="card">
+					<div class="card-body">
+						<h4>수강평가 기간이 아닙니다.</h4>
+						<h4
+						th:text="|${session.year}년 ${session.semester}학기 수강평가 기간| "></h4>
+						<h4 th:with="y = ${yearSemester}" 
+						th:text="|${#dates.format(y.scheduleStartDate, 'yyyy-MM-dd')} ~ ${#dates.format(y.scheduleEndDate, 'yyyy-MM-dd')}|"></h4>
+					</div>
+				</div>
+			</th:block>
 		</div>
 
 		<script th:inline="javascript">

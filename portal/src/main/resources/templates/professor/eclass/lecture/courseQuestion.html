@@ -138,35 +138,35 @@ pre {
 														</tr>
 														<tr>
 															<td  class="text-bold-500 col-2"
-																style="background-color: rgba(0, 0, 0, 0.05);" >제목</td>
+																style="background-color: rgba(0, 0, 0, 0.05); text-align:center" >제목</td>
 															<td id="title" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
 															<td  class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05); ">주차</td>
+																style="background-color: rgba(0, 0, 0, 0.05); text-align:center">주차</td>
 															<td id="week" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
 															<td  class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05); ">질문
+																style="background-color: rgba(0, 0, 0, 0.05); text-align:center">질문
 																내용</td>
 															<td id="questioncontent" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
 															<td  class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05); ">질문
+																style="background-color: rgba(0, 0, 0, 0.05); text-align:center">질문
 																등록일</td>
 															<td id="answerregdate" style="word-break:break-all"></td>
 														</tr>
 
 														<tr>
 															<td class="text-bold-500"
-																style="background-color: rgba(0, 0, 0, 0.05); word-break:break-all; table-layout:fixed;">답변
+																style="background-color: rgba(0, 0, 0, 0.05); word-break:break-all; table-layout:fixed;text-align:center">답변
 																내용</td>
-															<td><textarea class="form-control hidden"
+															<td><textarea class="form-control hidden" style="height:300px"
 																	name="lectureAnswerContent" id="Answeredit" required></textarea>
 																<pre id="answercontentview" style="word-break:break-all"></pre></td>
 														</tr>
@@ -244,7 +244,7 @@ pre {
                 	 $("#title").text(data.lectureQuestionTitle)
 	                 $("#week").text(data.weekNum)
 	                 $('#answercontentview').html(data.lectureAnswerContent)
-	                 $('#Answeredit').html(data.lectureAnswerContent)
+	                 $('#Answeredit').text(data.lectureAnswerContent)
 	                 $("#questioncontent").html(data.lectureQuestionContent)
 	                 $("#answerregdate").text(questionRegDate)
 	                
@@ -380,7 +380,7 @@ pre {
 		
 		let lectureAnswerContent = $('[name="lectureAnswerContent"]').val() // 답변 내용
  		let lectureQuestionNum = $('#questionnum').text() //
- 		lectureAnswerContent = lectureAnswerContent.replace(/\n/g , '<br>')
+ 		//lectureAnswerContent = lectureAnswerContent.replace(/\n/g , '<br>')
  		  $.ajax({
  				type : "POST",  // 요청 타입
  	            url : "/professor/eclass/courseQuestionUpdate",

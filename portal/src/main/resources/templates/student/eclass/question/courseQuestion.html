@@ -9,6 +9,10 @@
 	pre {
 		font-size:16px;
 	}
+	
+	.td-padding {
+		 height: 50px;
+	}
 </style>
 </head>
 <body>
@@ -44,7 +48,7 @@
 		<table class="table" style="text-align : center; width:100%;">
 			<thead class="thead-primary">
 				<tr>
-					<th width="10%">번호</th>
+					<th width="10%" class="td-padding" >번호</th>
 					<th width="25%">제목</th>
 					<th width="15%">질문 등록일</th>
 					<th width="10%">주차</th>
@@ -54,7 +58,7 @@
 			</thead>
 			
 			<tbody class="tbody-center">
-				<tr th:each="courseQuestion: ${courseQuestion}">
+				<tr th:each="courseQuestion: ${courseQuestion}" class="td-padding">
 					<td th:text="${courseQuestion.questionNo}"></td>
 					<td th:text="${courseQuestion.lectureQuestionTitle}"></td>
 					<td th:text="${#dates.format(courseQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}"></td>

@@ -16,6 +16,9 @@ public interface BachelorScheduleMapper {
 	// 계획 조회하는 조회 쿼리
 	BachelorScheduleVO getScheduleInfo(BachelorScheduleVO vo);
 	
+	// 현학기 계획 날짜 조회
+	BachelorScheduleVO getCurrentScheduleInfo(BachelorScheduleVO vo);
+	
 	// 강의 관련 코드 받아오기
 	List<BachelorGroupVO> getScheduleCode();
 

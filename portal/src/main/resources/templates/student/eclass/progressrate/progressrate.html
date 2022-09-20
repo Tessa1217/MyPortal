@@ -37,15 +37,20 @@ caption {
 						<thead class="thead-primary">
 							<tr>
 								<th width="10%">주차</th>
-								<th width="20%">강의출석률</th>
-								<th width="50%">과제진행률</th>
+								<th width="45%">강의출석률</th>
+								<th width="45%">과제진행률</th>
 							</tr>
 						</thead>
 						<tbody class="tbody-center">
 							<tr th:each="attRate : ${attRate}">
 								<td th:text="${attRate.weekNum}"></td>
 								<th:block>
-									<td th:text="${attRate.attOption} + '%'"></td>
+									<td>
+									<div class="progress">
+										<div class="progress-bar bg-success" role="progressbar"
+											aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
+											th:style="'width:' + ${attRate.attOption} + '%'"></div>
+									</div></td>
 								</th:block>
 								<td>
 									<div class="progress">
