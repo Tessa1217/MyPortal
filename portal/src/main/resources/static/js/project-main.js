@@ -217,8 +217,8 @@ function cancelUpdate() {
 }
 
 // 페이지 이동 (path variable)
-function changePage(select) {
-	location.href = `/professor/eclass/` + select.value;
+function changePage(uri, select) {
+	location.href = uri + '/eclass/' + select.value;
 }
 
 // 모달 창 열기

@@ -22,7 +22,7 @@
 				<div class="sidebar-menu">
 					<ul class="menu">
 						<li class="sidebar-title">
-							<select class="form-control" th:onchange="changePage(this)">
+							<select class="form-control" th:onchange="changePage('/professor', this)">
 							<th:block th:each="c : ${session.courseList}">
 								<option 
 								th:value="${c.courseCode}"
