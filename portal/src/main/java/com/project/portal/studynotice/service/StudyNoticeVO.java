@@ -28,7 +28,7 @@ public class StudyNoticeVO {
 	private String type; // 검색타입
 	private String keyword; // 검색 값
 	private String groupNo; // 파일 그룹번호
-	private int noticeNo; // 강의 공지사항 번호
+	private int noticeNo; // 강의별 강의 공지사항 번호
 	
 	
 	

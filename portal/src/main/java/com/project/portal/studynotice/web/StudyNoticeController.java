@@ -81,7 +81,7 @@ public class StudyNoticeController {
 	@RequestMapping("/professor/eclass/eclassnotice")
 	public String selectProStudyNoticeList(StudyNoticeVO vo, Criteria cri, Model model, HttpSession session) {
 		vo.setCourseCode((String) session.getAttribute("courseCode"));
-
+		System.out.println(service.selectProStudyNoticeList(vo, cri));
 		model.addAttribute("studyNoticeList", service.selectProStudyNoticeList(vo, cri));
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), cri.getAmount(), cri));
 		return "professor/eclass/notice/eclassnotice";
