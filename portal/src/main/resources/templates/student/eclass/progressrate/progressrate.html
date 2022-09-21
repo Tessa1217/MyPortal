@@ -11,6 +11,10 @@ caption {
 	color: black;
 	font-weight: bold;
 }
+
+.td-padding {
+		 height: 50px;
+	}
 </style>
 </head>
 <body>
@@ -120,7 +124,7 @@ caption {
 					<table class="table" style="text-align: center; width: 100%">
 						<thead class="thead-primary">
 							<tr>
-								<th width="20%">주차</th>
+								<th width="20%" class="td-padding">주차</th>
 								<th width="25%">과제명</th>
 								<th width="20%">제출여부</th>
 								<th width="20%">제출</th>
@@ -128,7 +132,7 @@ caption {
 						</thead>
 						<tbody class="tbody-center">
 							<tr th:each="reportRate : ${reportRate}">
-								<td th:text="${reportRate.weekNum}"></td>
+								<td th:text="${reportRate.weekNum}" class="td-padding"></td>
 								<td th:text="${reportRate.reportTitle}"></td>
 								<th:block>
 									<td th:if="${reportRate.reportFileCode == null}">X</td>
@@ -136,7 +140,10 @@ caption {
 								</th:block>
 								<!-- 제출기한 안일 때 -->
 								<th:block
-									th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} 
+									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} 
+									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<td th:if="${reportRate.reportFileCode != null}">
 										<button
 											class="saveBtn btn btn-primary me-1 mb-1 reportModifyPage"
@@ -149,7 +156,10 @@ caption {
 									</td>
 								</th:block>
 								<th:block
-									th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} > ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} 
+									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} 
+									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<td>-</td>
 								</th:block>
 							</tr>
@@ -162,14 +172,14 @@ caption {
 						<table class="table">
 							<thead class="thead-primary">
 								<tr>
-									<th width="100px">시험</th>
+									<th width="100px" class="td-padding">시험</th>
 									<th width="100px">점수</th>
 									<th width="100px">응시하기</th>
 								</tr>
 							</thead>
 							<tbody class="tbody-center">
 								<tr>
-									<th>중간</th>
+									<th class="td-padding">중간</th>
 									<th:block th:if="${examMidRate != null}">
 										<td
 											th:text="${examMidRate.examScore != null} ? ${examMidRate.examScore} : '-'"></td>
@@ -209,7 +219,7 @@ caption {
 									</th:block>
 								</tr>
 								<tr>
-									<th>기말</th>
+									<th class="td-padding">기말</th>
 									<th:block th:if="${examFinalRate != null}">
 										<td
 											th:text="${examFinalRate.examScore != null} ? ${examFinalRate.examScore} : '-'"></td>

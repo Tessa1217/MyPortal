@@ -30,6 +30,9 @@ import com.project.portal.studynotice.service.StudyNoticeService;
 import com.project.portal.studynotice.service.StudyNoticeVO;
 import com.project.portal.tempcourse.web.TempcourseController;
 
+//학생 공지사항(조회) , 교수 공지사항(조회, 등록, 수정, 삭제)
+//작성자 : 박근형
+
 @Controller
 public class StudyNoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(TempcourseController.class);
@@ -39,7 +42,8 @@ public class StudyNoticeController {
 
 	@Autowired
 	CourseServiceImpl courseService;
-
+	
+	// 강의 정보 
 	@ModelAttribute("courseInfo")
 	public CourseVO course(HttpSession session) {
 		CourseVO course = new CourseVO();
@@ -158,7 +162,6 @@ public class StudyNoticeController {
 	// 교수 공지사항 삭제 처리
 	@RequestMapping(value = "/professor/eclass/eclassnoticedelete", method = { RequestMethod.POST })
 	@ResponseBody
-	// @PostMapping("/professor/eclass/eclassnoticedelete")
 	public String deleteStudyNotice(StudyNoticeVO vo) {
 		service.deleteStudyNotice(vo);
 		return "success";
@@ -171,7 +174,6 @@ public class StudyNoticeController {
 		// 해당 공지사항글 번호
 		vo.setCourseCode((String) session.getAttribute("courseCode"));
 		vo.setCourseNoticeNo(courseNoticeNo);
-		System.out.println(service.selectProDetailStudyNotice(vo));
 		model.addAttribute("selectFile", service.selectFile(vo));
 		model.addAttribute("selectProDetailStudyNotice", service.selectProDetailStudyNotice(vo));
 		return "professor/eclass/notice/eclassnoticemodify";
@@ -228,7 +230,6 @@ public class StudyNoticeController {
 				filevo.setFileOriName(fileOriName);
 				filevo.setFileUrl(fileUrl);
 				filevo.setGroupNo(vo.getCourseNoticeAttachedFile());
-				System.out.println(vo.getCourseNoticeAttachedFile());
 				// 제목, 내용 , 파일 업데이트
 				service.modifyProfStudyNotice(vo);
 				service.fileUpload(filevo);

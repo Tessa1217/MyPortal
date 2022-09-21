@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.td-padding {
+		 height: 50px;
+	}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="studentEclassContent">
@@ -12,7 +17,7 @@
 			<div class="page-title">
 				<h2>과제 목록</h2>
 				</div>
-				<div class="card height-eighth">
+				<div class="card height-nineh">
 					<div class="card-body">
 					<form name="searchForm" action="/student/eclass/reportList">
 					
@@ -36,7 +41,7 @@
 						<table class="table table-hover" style="text-align : center; width:100%;">
 							<thead class="thead-primary">
 							<tr>
-								<th>번호</th>
+								<th class="td-padding">번호</th>
 								<th>제목</th>
 								<th>주차</th>
 								<th>과제시작일</th>
@@ -50,7 +55,7 @@
 							</thead>
 							<tbody class="tbody-center">
 							<tr th:each="reportList : ${reportList}">
-								<td th:text="${reportList.reportNo}"></td>
+								<td th:text="${reportList.reportNo}" class="td-padding"></td>
 								<td th:text="${reportList.reportTitle}"></td>
 								<td th:text="${reportList.weekNum}"></td>
 								<td
@@ -58,15 +63,16 @@
 								<td
 									th:text="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')}"></td>
 								<!-- 과제 마감일이 지나지않은경우 제출버튼표시  -->
-								<th:block>
+								<th:block th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
+									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									AND ${#dates.format(reportList.reportStartDate, 'yyyy-MM-dd')} 
+									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 								<td
-									th:if="(${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} >
-						 			${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}) AND (${reportList.reportSubmissionOption == 'UNSUB'})">
+									th:if="(${reportList.reportSubmissionOption == 'UNSUB'})">
 									<button
 										class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
-										th:data-reportcode="${reportList.reportCode}">제출</button>
-										<td th:if="(${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} >
-									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}) AND (${reportList.reportSubmissionOption == 'SUB'})">
+										th:data-reportcode="${reportList.reportCode}">제출</button></td>
+										<td th:if="(${reportList.reportSubmissionOption == 'SUB'})">
 									<button
 										class="saveBtn btn btn-primary me-1 mb-1 reportModPage"
 										th:data-reportcode="${reportList.reportCode}">수정</button> 
@@ -77,10 +83,17 @@
 							
 								<!-- 과제 마감일이 지난경우 제출된 경우 O 아니면 X -->
 								<th:block
-									th:unless="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
+									th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
+									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									OR ${#dates.format(reportList.reportStartDate, 'yyyy-MM-dd')} 
 									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-									<td th:if="${reportList.reportFileCode == null}">X</td>
-									<td th:if="${reportList.reportFileCode != null}">O</td>
+							<!-- 	 <td>
+								 <button
+								 		class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
+										th:data-reportcode="${reportList.reportCode}">제출</button></td>  -->  
+										
+									 <td th:if="${reportList.reportFileCode == null}">-</td>
+									<td th:if="${reportList.reportFileCode != null}">O</td>  
 								</th:block>
 
 								<td><a
