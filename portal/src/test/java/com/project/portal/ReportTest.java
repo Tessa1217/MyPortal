@@ -15,11 +15,11 @@ public class ReportTest {
 	@Autowired
 	ProfessorReportServiceImpl service;
 	
-	public void reportListTest() {
-		CourseVO course = new CourseVO();
-		course.setCourseCode("SSPY0001");
-		List<ReportSubmissionVO> list = service.getStudentReportList(course, null, null);
-		System.out.println(list);
-	}
+//	public void reportListTest() {
+//		CourseVO course = new CourseVO();
+//		course.setCourseCode("SSPY0001");
+//		List<ReportSubmissionVO> list = service.getStudentReportList(course, null, null);
+//		System.out.println(list);
+//	}
 	
 }
