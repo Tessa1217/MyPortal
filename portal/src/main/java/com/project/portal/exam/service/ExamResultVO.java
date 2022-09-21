@@ -16,5 +16,6 @@ public class ExamResultVO {
 	private int studentQuestionAnswer;
 	private int studentRightOption;
 	private int studentId;
+	private String studentName;
 	private List<QuestionOptionVO> optionList;
 }

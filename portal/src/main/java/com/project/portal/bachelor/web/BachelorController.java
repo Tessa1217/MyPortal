@@ -76,7 +76,6 @@ public class BachelorController {
 		@RequestMapping("/admin/scheduleInsert")
 		@ResponseBody
 		public String scheduleInsert(BachelorScheduleVO vo, Model model) {
-			System.out.println(vo);
 			service.scheduleInsert(vo);
 			return "success";
 		}

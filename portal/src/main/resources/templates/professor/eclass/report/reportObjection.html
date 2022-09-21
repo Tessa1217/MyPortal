@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+.td-padding {
+		 height: 50px;
+	}
+</style>
 </head>
 <body>
 <th:block layout:fragment="professorEclassContent">
@@ -13,7 +19,7 @@
 		<h2>과제 이의 신청 목록</h2>
 		</div>
 		<div class="card">
-				<div class="card-body height-sevenh">
+				<div class="card-body height-nineh">
 				<div class="card-body">
 				
 				<form name="frmsearch" action="reportObjection">
@@ -37,7 +43,7 @@
 				
 					<thead class="thead-primary">
 						<tr>
-							<th>학번</th>
+							<th class="td-padding">학번</th>
 							<th>이름</th>
 							<th>과제제목</th>
 							<th>주차</th>
@@ -48,7 +54,7 @@
 					<tbody class="tbody-center">
 					<tr th:each="reportObjection : ${reportObjection}">
 						
-						<td th:text="${reportObjection.studentId}">
+						<td th:text="${reportObjection.studentId}" class="td-padding">
 						</td>
 						
 						<td th:text="${reportObjection.studentName}"></td>
@@ -100,6 +106,12 @@
 		</div>
 		
 		<script th:inline="javascript">
+		// 검색 버튼 처리 
+		$('.search').on("click" , function() {
+			//(검색 처리시 페이지번호 1로 가도록)
+			$('input[name=pageNum]').val('1')
+		}) 
+		
 		// 답변 페이지 이동
 		$('.reportObjectionAnswer').on("click", function() {
 			let reportCode = ($(this).data("reportcode"));

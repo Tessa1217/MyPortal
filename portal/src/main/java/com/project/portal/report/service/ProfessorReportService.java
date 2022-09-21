@@ -40,7 +40,7 @@ public interface ProfessorReportService {
 	ReportFileVO getFile(String reportFileCode, String userCode);
 
 	// 수강생 과제 제출 목록 조회
-	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report, Criteria cri);
+	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, Criteria cri);
 
 	// 과제 수
 	int getReportTotal(List<ReportVO> list, Criteria cri);
@@ -57,5 +57,5 @@ public interface ProfessorReportService {
 	// 과제 점수 update
 	public void updateObjectionScore(ReportObjectionVO vo);
 	// 과제 이의신청 총 개수 조회(페이징 처리)
-	public int getReportObjectionTotal();
+	public int getReportObjectionTotal(ReportObjectionVO vo , Criteria cri );
 }

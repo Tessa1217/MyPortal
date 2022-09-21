@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.td-padding {
+		 height: 50px;
+	}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="studentEclassContent">
@@ -21,39 +26,39 @@
 								th:value="${reportDetail.reportCode}">
 							<table class="table table-bordered mb-0">
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 제목</td>
 									<td th:text="${reportDetail.reportTitle}"></td>
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 주차</td>
 									<td th:text="${reportDetail.weekNum}"></td>
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 시작일</td>
 									<td
 										th:text="${#dates.format(reportDetail.reportStartDate, 'yyyy-MM-dd')}"></td>
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 마감일</td>
 									<td
 										th:text="${#dates.format(reportDetail.reportEndDate, 'yyyy-MM-dd')}"></td>
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 내용</td>
 									<td th:utext="${reportDetail.reportContent}"></td>
 								</tr>
 								
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">과제 첨부파일</td>
 									<td><a
 									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode=${profFile.reportFileCode}, userCode=${profFile.userCode})}"
@@ -61,7 +66,7 @@
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500 td-padding"
 									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
 
 									<td><input type="file" name="rFile"></td>
@@ -71,12 +76,8 @@
 							<br>
 							<div style=" text-align: center;">
 							<button type="submit"
-								class="saveBtn btn btn-primary me-1 mb-1 submitReport" th:if="${reportDetail.reportSubmissionOption == 'UNSUB'}"
-								>제출하기</button>
-							
-							<button type="button" th:if="${reportDetail.reportSubmissionOption == 'SUB'}"
-								class="saveBtn btn btn-primary me-1 mb-1 modifyReport"
-								>수정하기</button>
+								class="saveBtn btn btn-primary me-1 mb-1 submitReport">제출하기</button>
+
 							<button type="button"
 								class="saveBtn btn btn-primary me-1 mb-1 submitClose">취소</button>
 							</div>

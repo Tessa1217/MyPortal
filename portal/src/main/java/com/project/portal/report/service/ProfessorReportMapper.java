@@ -15,7 +15,7 @@ public interface ProfessorReportMapper {
 	// 과제 관련 
 	
 	// 과제 리스트 가져오기
-	List<ReportVO> getReportList(@Param("course") CourseVO vo, 
+	List<ReportVO> getReportList(@Param("course") CourseVO vo,
 								@Param("report") ReportVO report,
 								@Param("cri") Criteria cri);
 	
@@ -61,7 +61,8 @@ public interface ProfessorReportMapper {
 	void insertStudentSubmission(@Param("report") ReportVO vo, @Param("student") StudentVO student);
 
 	// 수강생의 과제 제출 목록
-	List<ReportSubmissionVO> getStudentReportList(@Param("list") List<ReportVO> list, @Param("cri") Criteria cri);
+	List<ReportSubmissionVO> getStudentReportList(@Param("list") List<ReportVO> list, 
+									@Param("cri") Criteria cri);
 	
 	// 과제 제출 수
 	int getReportTotal(@Param("list") List<ReportVO> list, @Param("cri") Criteria cri);
@@ -78,6 +79,6 @@ public interface ProfessorReportMapper {
 	// 과제 점수 update
 	public void updateObjectionScore(ReportObjectionVO vo);
 	// 과제 이의신청 총 개수 조회(페이징 처리)
-	public int getReportObjectionTotal();
+	public int getReportObjectionTotal(@Param("ReportObject") ReportObjectionVO vo ,@Param("cri") Criteria cri );
 
 }

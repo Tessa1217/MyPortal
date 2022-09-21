@@ -84,16 +84,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="card height-sixh">
+					<div class="card min-seven">
 						<div class="card-header">
-							<h4>
-								<i class="fa-solid fa-list-ol"></i> Weekly ToDoList
-							</h4>
+							<h5 class="center">이번 주 예정</h5>
 						</div>
 						<div class="card-body">
 							<div>
 								<div>
-									<h5>강의</h5>
+									<h5><span class="badge bg-light-secondary">강의</span></h5>
 								</div>
 								<div th:if="${#lists.size(map.get('lectureList')) == 0}">
 									<div class="no-content-box">
@@ -102,23 +100,20 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('lectureList')) == 0}">
 									<table class="table">
-										<thead>
+										<thead align="center">
 											<tr>
 												<th>주차</th>
 												<th>강의명</th>
 												<th>강의 기한</th>
-												<th>바로가기</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr th:each="lecture : ${map.get('lectureList')}">
+										<tbody class="tbody-center">
+											<tr th:each="lecture : ${map.get('lectureList')}"
+											th:onclick="|location.href='@{/student/eclass/watchLecture?lectureCode={lectureCode}(lectureCode=${lecture.lectureCode})}'|">
 												<td th:text="${#strings.substring(lecture.weekCode, 8, 10)}"></td>
 												<td th:text="${lecture.lectureTitle}"></td>
 												<td
 													th:text="|${#dates.format(lecture.lectureStartDate, 'yyyy-MM-dd')} - ${#dates.format(lecture.lectureEndDate, 'yyyy-MM-dd')}|"></td>
-												<td><button type="button"
-														class="btn btn-sm btn-primary rounded-pill"
-														th:onclick="|location.href='@{/student/eclass/detailLecture/{lectureCode}(lectureCode = ${lecture.lectureCode})}'|">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -126,7 +121,7 @@
 							</div>
 							<div>
 								<div>
-									<h5>과제</h5>
+									<h5><span class="badge bg-light-secondary">과제</span></h5>
 								</div>
 								<div th:if="${#lists.size(map.get('reportList')) == 0}">
 									<div class="no-content-box">
@@ -135,23 +130,20 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('reportList')) == 0}">
 									<table class="table">
-										<thead>
+										<thead align="center">
 											<tr>
 												<th>주차</th>
 												<th>과제명</th>
 												<th>과제 기한</th>
-												<th>바로가기</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr th:each="report : ${map.get('reportList')}">
+										<tbody class="tbody-center">
+											<tr th:each="report : ${map.get('reportList')}"
+											th:onclick="|location.href='@{/student/eclass/}'|">
 												<td th:text="${#strings.substring(report.weekCode, 8, 10)}"></td>
 												<td th:text="${report.reportTitle}"></td>
 												<td
 													th:text="|${#dates.format(report.reportStartDate, 'yyyy-MM-dd')} - ${#dates.format(report.reportEndDate, 'yyyy-MM-dd')}|"></td>
-												<td><button type="button"
-														class="btn btn-sm btn-primary rounded-pill"
-														>바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -159,7 +151,7 @@
 							</div>
 							<div>
 								<div>
-									<h5>시험</h5>
+									<h5><span class="badge bg-light-secondary">시험</span></h5>
 								</div>
 								<div th:if="${#lists.size(map.get('examList')) == 0}">
 									<div class="no-content-box">
@@ -168,16 +160,15 @@
 								</div>
 								<div th:unless="${#lists.size(map.get('examList')) == 0}">
 									<table class="table">
-										<thead>
+										<thead align="center">
 											<tr>
 												<th>시험</th>
 												<th>시험 기간</th>
 												<th>시험 문항수</th>
 												<th>시험 총점</th>
-												<th>바로가기</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody class="tbody-center">
 											<tr th:each="exam : ${map.get('examList')}">
 												<td
 													th:text="${#strings.startsWith(exam.examCode, 'M')} ? 중간고사 : 기말고사"></td>
@@ -185,8 +176,6 @@
 													th:text="|${#dates.format(exam.examStartDate, 'yyyy-MM-dd')} - ${#dates.format(exam.examEndDate, 'yyyy-MM-dd')}|"></td>
 												<td th:text="|${exam.examTotalQuestion}문항|"></td>
 												<td th:text="|${exam.examTotalScore}점|"></td>
-												<td><button type="button"
-														class="btn btn-sm btn-primary rounded-pill">바로가기</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -197,7 +186,7 @@
 				</div>
 				<div class="col-12 col-lg-3">
 					<div class="card">
-						<div class="card-body py-4 px-3">
+						<div class="card-body py-4-5 px-3">
 							<div class="d-flex align-items-center">
 								<div class="avatar avatar-xl">
 									<img
@@ -210,9 +199,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="card height-sixh">
+					<div class="card min-seven">
 						<div class="card-header">
-							<h5>공지사항</h5>
+							<h5 class="center">공지사항</h5>
 						</div>
 						<div class="card-body" id="noticeFragment">
 							<ul>

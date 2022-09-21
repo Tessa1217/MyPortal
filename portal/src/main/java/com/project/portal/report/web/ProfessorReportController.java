@@ -169,19 +169,14 @@ public class ProfessorReportController {
 	public String studentScoreForm(Model model,
 									CourseVO course,
 									Criteria cri,
-									String reportCode,
 									HttpSession session) {
-		ReportVO report = null;
-		if (reportCode != "" && reportCode != null) {
-			report = new ReportVO();
-			report.setReportCode(reportCode);
-		}
 		course = (CourseVO) session.getAttribute("courseInfo");
-		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, report, cri);
+		List<ReportSubmissionVO> reportList = service.getStudentReportList(course, cri);
 		List<ReportVO> rList = service.getReportList(course, null, null);
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("rList", rList);
-		model.addAttribute("reportCode", reportCode);
+		ReportVO report = new ReportVO();
+		report.setReportCode(cri.getKeyword());
 		model.addAttribute("pageMaker", new PageDTO(service.getReportTotal(service.getReportList(course, report, null), cri), cri.getAmount(), cri));
 		return "professor/eclass/report/studentReportScore";
 	}
@@ -199,7 +194,7 @@ public class ProfessorReportController {
 		
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		model.addAttribute("reportObjection", service.getStudentObjectionList(vo , cri));
-		model.addAttribute("pageMaker", new PageDTO(service.getReportObjectionTotal(), cri.getAmount(), cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getReportObjectionTotal(vo, cri), cri.getAmount(), cri));
 		
 		return "professor/eclass/report/reportObjection";
 	}

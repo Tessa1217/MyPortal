@@ -6,7 +6,7 @@ import lombok.Data;
 public class SurveyVO {
 	
 	private String courseCode;
-	//질문 내용 1~10
+	//질문 내용 1 ~ 10
 	private String surveyQ1;
 	private String surveyQ2;
 	private String surveyQ3;
@@ -18,6 +18,7 @@ public class SurveyVO {
 	private String surveyQ9;
 	private String surveyQ10;
 	
+	//질문 답안 평균값
 	private double A1Avg;
 	private double A2Avg;
 	private double A3Avg;

@@ -41,13 +41,12 @@ public class StudentController {
 	@Autowired CodeServiceImpl codeService;
 	
 	// 파일 다운로드 경로
-		@Value("${spring.servlet.multipart.location}")
-		private String uploadPath;
+	@Value("${spring.servlet.multipart.location}")
+	private String uploadPath;
 	
 	//학생 전체 조회(관리자)
 	@RequestMapping("/admin/studentList")
 	public String StudentList(Model model, StudentVO vo) {
-//		StudentVO vo = new StudentVO();
 		model.addAttribute("studentList", service.studentList(vo));
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), vo.getAmount(), vo));
 		return "admin/info/studentList";
@@ -66,8 +65,6 @@ public class StudentController {
 	@RequestMapping("/admin/studentInfoUpdate")
 	@ResponseBody
 	public StudentVO AdminStudentInfoUpdate(StudentVO vo, Model model) {
-		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
-		
 		return service.adminStudentInfoUpdate(vo);
 	}
 	
@@ -89,7 +86,6 @@ public class StudentController {
 	public StudentVO StudentInfoUpdate(StudentVO vo, 
 										Model model,
 										HttpSession session) {
-		//model.addAttribute("studentInfoUpdate", service.studentInfoUpdate(vo));
 		vo.setStudentId((int) session.getAttribute("id"));
 		return service.studentInfoUpdate(vo);
 	}
@@ -99,8 +95,8 @@ public class StudentController {
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @PathVariable String fileName) throws UnsupportedEncodingException {
-//		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
-		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
+		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
+//		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

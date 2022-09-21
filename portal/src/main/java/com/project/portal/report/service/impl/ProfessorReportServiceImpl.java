@@ -1,13 +1,11 @@
 package com.project.portal.report.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.portal.bachelor.service.BachelorScheduleVO;
 import com.project.portal.common.Criteria;
 import com.project.portal.course.service.CourseVO;
 import com.project.portal.report.service.ProfessorReportMapper;
@@ -63,10 +61,14 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 	}
 
 	@Override
-	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report, Criteria cri) {
+	public List<ReportSubmissionVO> getStudentReportList(CourseVO vo, Criteria cri) {
+		ReportVO report = null;
+		if (cri.getKeyword() != null || cri.getKeyword() != "") {
+			report = new ReportVO();
+			report.setReportCode(cri.getKeyword());
+		}
 		List<ReportVO> list = mapper.getReportList(vo, report, null);
 		List<ReportSubmissionVO> subList = mapper.getStudentReportList(list, cri);
-		report = new ReportVO();
 		report.setCourseCode(vo.getCourseCode());
 		for (ReportSubmissionVO sub : subList) {
 			List<StudentVO> student = mapper.getStudentList(report, sub);
@@ -112,33 +114,29 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 
 	@Override
 	public List<ReportObjectionVO> getStudentObjectionList(ReportObjectionVO vo, Criteria cri) {
-		// TODO Auto-generated method stub
 		return mapper.getStudentObjectionList(vo, cri);
 	}
 
 	@Override
 	public ReportObjectionVO getStudentObjectionDetail(ReportObjectionVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.getStudentObjectionDetail(vo);
 	}
 
 	@Override
 	public void updateObjection(ReportObjectionVO vo) {
-		// TODO Auto-generated method stub
 		mapper.updateObjection(vo);
 	}
 
 	@Override
 	public void updateObjectionScore(ReportObjectionVO vo) {
-		// TODO Auto-generated method stub
 		mapper.updateObjectionScore(vo);
 		
 	}
-
+	
 	@Override
-	public int getReportObjectionTotal() {
+	public int getReportObjectionTotal(ReportObjectionVO vo , Criteria cri ) {
 		// TODO Auto-generated method stub
-		return mapper.getReportObjectionTotal();
+		return mapper.getReportObjectionTotal(vo, cri);
 	}
 
 }

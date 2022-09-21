@@ -205,6 +205,9 @@
 
 
         })
+         $("#currentYear").text($("#year").val() + ' 년도');
+            let plusOneYear = parseInt($('#year').val()) + 1;
+            $('#plusYear').text(plusOneYear + ' 년도');
 
         // 시작일 기준 연도, 학기 받아오기
         function insertYearSem() {
@@ -255,6 +258,17 @@
           })
         }
 
+        // id view select태그에서 변경이 있을시 숨어있는 페이지 토글
+        function changeView() {
+          $(document).on('change', '#view', function () {
+            $(".cal").each((idx, val) => {
+              $(val).toggleClass('hidePage');
+            })
+            
+            
+            
+
+        // Fullcalendar
         function eventGenerate(val) {
           let event = {
             title: val.scheduleContent,
@@ -265,16 +279,6 @@
           event.borderColor = event.backgroundColor;
           return event;
         }
-
-        // id view select태그에서 변경이 있을시 숨어있는 페이지 토글
-        function changeView() {
-          $(document).on('change', '#view', function () {
-            $(".cal").each((idx, val) => {
-              $(val).toggleClass('hidePage');
-            })
-            // Fullcalendar
-            //	document.addEventListener('DOMContentLoaded', function() {
-
             var calendarEl = document.getElementById('fullCalendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
               headerToolbar: {
@@ -286,23 +290,21 @@
               displayEventTime: false
 
             });
-
             calendar.render();
 
-            getData3().then((result) => {
+            getData().then((result) => {
               result.forEach((val) => {
                 calendar.addEvent(eventGenerate(val));
               })
             })
-            
-              // 캘린더 왼쪽버튼 함수 실행
-              prevButtonEvent()
 
-            $("#currentYear").text($("#year").val() + ' 년도');
-            let plusOneYear = parseInt($('#year').val()) + 1;
-            $('#plusYear').text(plusOneYear + ' 년도');
-
+            // 캘린더 왼쪽버튼 함수 실행
+            prevButtonEvent()
+            // 캘린더 오른쪽 버튼 함수 실행
             nextButtonEvent();
+
+           
+
 
             //달력 왼쪽 버튼클릭할때 2월 지날시 이전년도 일정 불러오기
             function prevButtonEvent() {
@@ -311,8 +313,6 @@
                 if (date.slice(0, 8) == 'February') {
                   var cYear = date.slice(-4) - 1;
                   var cFebruary = date.slice(0, 8)
-                  //			alert(cYear);
-                  //			alert(cFebruary) 
                   return $.ajax({
                     method: 'post',
                     url: `/getCalendar`,
@@ -320,14 +320,12 @@
                       year: cYear
                     },
                     success: function (res) {
-                    	var eventSources = calendar.getEvents();
-                    	eventSources.forEach((val) => {
-                    		val.remove();
-                    	})
-	                  //  console.log(res);
-	                    res.forEach((val) => {
+                      var eventSources = calendar.getEvents();
+                      eventSources.forEach((val) => {
+                        val.remove();
+                      })
+                      res.forEach((val) => {
                         let event = eventGenerate(val);
-                       // console.log(event);
                         calendar.addEvent(event);
                       })
                     }
@@ -343,45 +341,36 @@
                 if (date.slice(0, 5) == 'March') {
                   var cYear = date.slice(-4);
                   var cMarch = date.slice(0, 5)
-                 
-             
-                    $.ajax({
-                      method: 'post',
-                      url: `/getCalendar`,
-                      data: {
-                        year: cYear
-                      },
-                      success: function (res) {
-                          console.log(res);
-                          res.forEach((val) => {
-                            let event = eventGenerate(val);
-                            console.log(event);
-                            calendar.addEvent(event);
-                          })
-                        }
-                      
-                    })
 
-                  
+
+                  $.ajax({
+                    method: 'post',
+                    url: `/getCalendar`,
+                    data: {
+                      year: cYear
+                    },
+                    success: function (res) {
+                      console.log(res);
+                      res.forEach((val) => {
+                        let event = eventGenerate(val);
+                        console.log(event);
+                        calendar.addEvent(event);
+                      })
+                    }
+
+                  })
+
+
                 }
               });
             }
-
-
-
-            //	});
-
-
-
-            function getData3() {
+            function getData() {
               return $.ajax({
                 method: 'POST',
                 url: `/getCalendar`,
                 success: function (res) {
-                  	console.log(res);
+                  console.log(res);
                 }
-
-
               })
             }
           })
@@ -470,7 +459,6 @@
         }
 
         function Inputdata() {
-
           if (!completeCheck()) {
             fireSwal('warning', '내용을 모두 입력해주세요.');
             return;
@@ -483,7 +471,6 @@
               "semester": $("#semester").val(),
               "detailCode": $("#detailCode").val(),
             }
-
             $.ajax({
               url: "/admin/scheduleInsert",
               method: "post",
@@ -494,7 +481,6 @@
                     if (result.isConfirmed) {
                       location.reload();
                     }
-
                   })
               }
             })

@@ -22,18 +22,8 @@
 				</div>
 				<div class="sidebar-menu">
 					<ul class="menu">
-						<li class="sidebar-title">
-							<select class="form-control" th:onchange="changePage('/professor', this)">
-							<th:block th:each="c : ${session.courseList}">
-								<option 
-								th:value="${c.courseCode}"
-								th:text="${c.courseName}"
-								th:selected="${c.courseCode == session.courseInfo.courseCode}"
-								></option>
-							</th:block>
-							</select>
+						<li class="sidebar-title lectureTitle center" th:text="|강의명 : ${session.courseInfo.courseName}|">
 						</li>
-						<li class="sidebar-title">내 강의</li>
 						<li class="sidebar-item  has-sub"><a href="table.html"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>강의
 									관리</span>

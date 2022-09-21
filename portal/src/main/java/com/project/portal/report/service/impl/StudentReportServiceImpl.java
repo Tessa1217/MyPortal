@@ -112,6 +112,12 @@ public class StudentReportServiceImpl implements StudentReportService {
 		return mapper.getProfFileInfo(vo);
 	}
 
+	@Override
+	public ReportObjectionVO getReportObjectionDetail(String subCode) {
+		// TODO Auto-generated method stub
+		return mapper.getReportObjectionDetail(subCode);
+	}
+
 
 
 }

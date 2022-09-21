@@ -29,6 +29,8 @@ public class SurveyController {
 	@Autowired SurveyService service;
 	@Autowired BachelorScheduleService schedule;
 	
+	
+	// 현재 학기의 설문평가 기간정보 가져오기
 	@ModelAttribute("yearSemester") 
 	   public BachelorScheduleVO getYearSemester(HttpSession session) {
 	      BachelorScheduleVO s = new BachelorScheduleVO();
@@ -59,7 +61,6 @@ public class SurveyController {
 		vo.setStudentId((int)session.getAttribute("id"));
 		coursevo.setStudentId((int)session.getAttribute("id"));
 		coursevo.setCourseCode(courseCode);
-		System.out.println(vo);
 		service.insertSurveyAnswer(vo);
 		service.updateSurveyState(coursevo);
 		return "redirect:/student/eclass/" + vo.getCourseCode();

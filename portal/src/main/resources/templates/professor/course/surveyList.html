@@ -1,323 +1,308 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/professor_layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/professor_layout}">
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
 </head>
 <style>
 </style>
 
 <body>
-	<th:block layout:fragment="professorContent">
-		<div id="main">
-			<div class="page-title">
-				<h3>강의 수강 후기</h3>
-			</div>
-			<div class="card height-eight">
-				<div class="card-body">
-					<form name="frm_search" action="/professor/surveyList" method="get">
-						<label for="type">개설연도</label> 
-						<input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${pageMaker.cri.type}"> 
-						<input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${year}"> 
-							<label for="keyword">개설학기</label> 
-						<select id="keyword" class="form-select inline width-two"	name="keyword">
-							<option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
-								th:selected="${pageMaker.cri.keyword} == ${i}"
-								th:value="${i}"
-								th:text="|${i}학기|"></option>
-							 <option th:if="${pageMaker.cri.keyword} == null" th:each="i : ${#numbers.sequence(1, 2)}"
-								th:selected="${i} == ${semester}"
-								th:value="${i}"
-								th:text="|${i}학기|"></option>
-						</select>
+  <th:block layout:fragment="professorContent">
+    <div id="main">
+      <div class="page-title">
+        <h3>강의 수강 후기</h3>
+      </div>
+      <div class="card height-eight">
+        <div class="card-body">
+          <form name="frm_search" action="/professor/surveyList" method="get">
+            <label for="type">개설연도</label>
+            <input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two"
+              name="type" th:value="${pageMaker.cri.type}">
+            <input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two"
+              name="type" th:value="${year}">
+            <label for="keyword">개설학기</label>
+            <select id="keyword" class="form-select inline width-two" name="keyword">
+              <option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
+                th:selected="${pageMaker.cri.keyword} == ${i}" th:value="${i}" th:text="|${i}학기|"></option>
+              <option th:if="${pageMaker.cri.keyword} == null" th:each="i : ${#numbers.sequence(1, 2)}"
+                th:selected="${i} == ${semester}" th:value="${i}" th:text="|${i}학기|"></option>
+            </select>
 
-						<button class="btn btn-primary">검색</button>
-					</form>
-					<hr>
-					<table class="table">
-						<thead class="thead-primary">
-							<tr>
-								<th>년도</th>
-								<th>학기</th>
-								<th>강의명</th>
-								<th>강의코드</th>
-								<th>학점</th>
-								<th>참여인원</th>
-								<th>평점</th>
-								<th>상세보기</th>
-							</tr>
-						</thead>
-						<tbody class="tbody-center">
-							<tr th:each="list : ${surveyList}">
-								<td th:text="${list.courseYear}" th:value="${list.courseYear}"
-									class="ck"></td>
-								<td th:text="${list.courseSemester}"></td>
-								<td th:text="${list.courseName}"></td>
-								<td th:text="${list.courseCode}"></td>
-								<td th:text="${list.courseCredit}"></td>
-								<td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
-								<td th:text="|${list.surveyAvg} / 5.0|"></td>
-								<td><button type="button" class="btn btn-primary"
-										data-bs-toggle="modal" data-bs-target=".myModal"
-										th:disabled="${list.surveyAvg} == '0.0'">상세보기</button></td>
+            <button class="btn btn-primary">검색</button>
+          </form>
+          <hr>
+          <table class="table">
+            <thead class="thead-primary">
+              <tr>
+                <th>년도</th>
+                <th>학기</th>
+                <th>강의명</th>
+                <th>강의코드</th>
+                <th>학점</th>
+                <th>참여인원</th>
+                <th>평점</th>
+                <th>상세보기</th>
+              </tr>
+            </thead>
+            <tbody class="tbody-center">
+              <tr th:each="list : ${surveyList}">
+                <td th:text="${list.courseYear}" th:value="${list.courseYear}" class="ck"></td>
+                <td th:text="${list.courseSemester}"></td>
+                <td th:text="${list.courseName}"></td>
+                <td th:text="${list.courseCode}"></td>
+                <td th:text="${list.courseCredit}"></td>
+                <td th:text="|${list.reviewSubCount} / ${list.countAllStudent}|"></td>
+                <td th:text="|${list.surveyAvg} / 5.0|"></td>
+                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".myModal"
+                    th:disabled="${list.surveyAvg} == '0.0'">상세보기</button></td>
 
-							</tr>
-						</tbody>
-					</table>
-					<div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
-						<ul class="pagination justify-content-center">
-							<th:block th:if="${pageMaker.prev}">
-								<li class="page-item prev"><a class="page-link"
-									href="javascript:void(0)"
-									th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
-								</li>
-							</th:block>
-							<th:block th:with="pageMaker = ${pageMaker}">
-								<th:block
-									th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-									<li class="page-item"
-										th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
-										<a class="page-link" href="javascript:void(0)"
-										th:text="${num}"
-										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
-									</li>
-								</th:block>
-								<th:block th:if="${pageMaker.next}">
-									<li class="page-item next"><a class="page-link"
-										href="javascript:void(0)"
-										th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
-									</li>
-								</th:block>
-							</th:block>
-						</ul>
-					</div>
-				</div>
+              </tr>
+            </tbody>
+          </table>
+          <div th:object="${pageMaker}" th:with="cri = ${pageMaker.cri}">
+            <ul class="pagination justify-content-center">
+              <th:block th:if="${pageMaker.prev}">
+                <li class="page-item prev"><a class="page-link" href="javascript:void(0)"
+                    th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.startPage - 1, cri.amount, cri.type, cri.keyword)}]])">이전</a>
+                </li>
+              </th:block>
+              <th:block th:with="pageMaker = ${pageMaker}">
+                <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                  <li class="page-item" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">
+                    <a class="page-link" href="javascript:void(0)" th:text="${num}"
+                      th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(num, cri.amount, cri.type, cri.keyword)}]])"></a>
+                  </li>
+                </th:block>
+                <th:block th:if="${pageMaker.next}">
+                  <li class="page-item next"><a class="page-link" href="javascript:void(0)"
+                      th:onclick="movePagination([[${#httpServletRequest.requestURI}]], [[${cri.getLink(pageMaker.endPage + 1, cri.amount, cri.type, cri.keyword)}]])">다음</a>
+                  </li>
+                </th:block>
+              </th:block>
+            </ul>
+          </div>
+        </div>
 
-			</div>
-			<!-- 모달 1번 영역 -->
-			<div class="modal fade myModal" id="exampleModalToggle"
-				aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-				tabindex="-1">
-				<div class="modal-dialog modal-xl modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalToggleLabel">강의 평점
-								상세조회</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<h2 class="ModalCourseName"></h2>
-							<p class="ModalYear"></p>
-							<table class="table">
-								<thead>
-									<tr>
-										<th>수강평 문항</th>
-										<th>평점</th>
-									</tr>
-								</thead>
-								<tbody id="surveyData">
-								</tbody>
-							</table>
-						</div>
-						<div class="modal-footer">
-							<button class="btn btn-primary"
-								data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-								data-bs-dismiss="modal">도표</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 모달 1번 영역 -->
+      </div>
+      <!-- 모달 1번 영역 -->
+      <div class="modal fade myModal" id="exampleModalToggle" aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalToggleLabel">강의 평점
+                상세조회</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h2 class="ModalCourseName"></h2>
+              <p class="ModalYear"></p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>수강평 문항</th>
+                    <th>평점</th>
+                  </tr>
+                </thead>
+                <tbody id="surveyData">
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                data-bs-dismiss="modal">도표</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 모달 1번 영역 -->
 
-			<!-- 모달 2번 영역 -->
-			<div class="modal fade myModal2" id="exampleModalToggle2"
-				aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-				tabindex="-1">
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalToggleLabel2">수강 후기
-								비교하기</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div id="columnchart"></div>
-							<div id="questionchart"></div>
-						</div>
-						<div class="modal-footer"></div>
-					</div>
-				</div>
-			</div>
-			<!-- 모달 2번 영역 -->
-		</div>
+      <!-- 모달 2번 영역 -->
+      <div class="modal fade myModal2" id="exampleModalToggle2" aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalToggleLabel2">수강 후기
+                비교하기</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div id="columnchart"></div>
+              <div id="questionchart"></div>
+            </div>
+            <div class="modal-footer"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 모달 2번 영역 -->
+    </div>
 
-		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script th:inline="javascript">
-			google.charts.load('current', {
-				'packages' : [ 'bar' ]
-			});
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script th:inline="javascript">
+      google.charts.load('current', {
+        'packages': ['bar']
+      });
 
-			$(function() {
-				surveyReview();
-				rollbackModal();
-				chartDraw();
-			});
+      $(function () {
+        surveyReview();
+        rollbackModal();
+        chartDraw();
+      });
 
-			var responseData;
+      var responseData;
 
-			// 차트 그리는 함수
-			function drawTotalAvgChart(elem1, elem2) {
-				var data = google.visualization.arrayToDataTable([
-						[ '강의', '내 강의', '전체 강의' ], [ '평균평점', elem1, elem2 ] ])
-				var options = {
-					chart : {
-						title : '평균 평점 비교',
-						subtitle : '현재 강의 전체 평균 vs. 전체 강의 전체 평균'
-					}
-				};
-				chart = new google.charts.Bar(document
-						.getElementById('columnchart'));
-				chart.draw(data, google.charts.Bar.convertOptions(options));
-			}
+      // 차트 그리는 함수
+      function drawTotalAvgChart(elem1, elem2) {
+        var data = google.visualization.arrayToDataTable([
+          ['강의', '내 강의', '전체 강의'], ['평균평점', elem1, elem2]])
+        var options = {
+          chart: {
+            title: '평균 평점 비교',
+            subtitle: '현재 강의 전체 평균 vs. 전체 강의 전체 평균'
+          }
+        };
+        chart = new google.charts.Bar(document
+          .getElementById('columnchart'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
 
-			function drawQuestionAvgChart(elem1, elem2) {
-				var data = google.visualization.arrayToDataTable([
-						[ '문항', '내 강의', '전체 강의' ],
-						[ '1번', elem1.a1Avg, elem2.a1Avg ],
-						[ '2번', elem1.a2Avg, elem2.a2Avg ],
-						[ '3번', elem1.a3Avg, elem2.a3Avg ],
-						[ '4번', elem1.a4Avg, elem2.a4Avg ],
-						[ '5번', elem1.a5Avg, elem2.a5Avg ],
-						[ '6번', elem1.a6Avg, elem2.a6Avg ],
-						[ '7번', elem1.a7Avg, elem2.a7Avg ],
-						[ '8번', elem1.a8Avg, elem2.a8Avg ],
-						[ '9번', elem1.a9Avg, elem2.a9Avg ],
-						[ '10번', elem1.a10Avg, elem2.a10Avg ] ])
+      function drawQuestionAvgChart(elem1, elem2) {
+        var data = google.visualization.arrayToDataTable([
+          ['문항', '내 강의', '전체 강의'],
+          ['1번', elem1.a1Avg, elem2.a1Avg],
+          ['2번', elem1.a2Avg, elem2.a2Avg],
+          ['3번', elem1.a3Avg, elem2.a3Avg],
+          ['4번', elem1.a4Avg, elem2.a4Avg],
+          ['5번', elem1.a5Avg, elem2.a5Avg],
+          ['6번', elem1.a6Avg, elem2.a6Avg],
+          ['7번', elem1.a7Avg, elem2.a7Avg],
+          ['8번', elem1.a8Avg, elem2.a8Avg],
+          ['9번', elem1.a9Avg, elem2.a9Avg],
+          ['10번', elem1.a10Avg, elem2.a10Avg]])
 
-				var options = {
-					chart : {
-						title : '문항별 평점 비교',
-						subtitle : '현재 강의 항목별 평균 vs. 전체 강의 항목별 평균',
-					}
-				}
-				chart = new google.charts.Bar(document
-						.getElementById("questionchart"));
-				chart.draw(data, google.charts.Bar.convertOptions(options));
-			}
+        var options = {
+          chart: {
+            title: '문항별 평점 비교',
+            subtitle: '현재 강의 항목별 평균 vs. 전체 강의 항목별 평균',
+          }
+        }
+        chart = new google.charts.Bar(document
+          .getElementById("questionchart"));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
 
-			// 필요 없는 필드 삭제
-			function removeField(elem) {
-				for ( let field in elem) {
-					if (elem[field] == null) {
-						delete elem[field];
-					}
-				}
-				return elem;
-			}
+      // 필요 없는 필드 삭제
+      function removeField(elem) {
+        for (let field in elem) {
+          if (elem[field] == null) {
+            delete elem[field];
+          }
+        }
+        return elem;
+      }
 
-			// 상세보기 첫번째 모달 생성시 에이젝스로 값 불러오고 문항, 평균평점 테이블 생성.
-			function surveyReview() {
-				$(document)
-						.on(
-								'show.bs.modal',
-								'.myModal',
-								function(e) {
-									// 버튼위치 강의 코드
-									tds = $(e.relatedTarget).closest("tr")
-											.find("td");
+      // 상세보기 첫번째 모달 생성시 에이젝스로 값 불러오고 문항, 평균평점 테이블 생성.
+      function surveyReview() {
+        $(document)
+          .on(
+            'show.bs.modal',
+            '.myModal',
+            function (e) {
+              // 버튼위치 강의 코드
+              tds = $(e.relatedTarget).closest("tr")
+                .find("td");
 
-									var year = tds.eq(0).text()
-									var seme = tds.eq(1).text()
-									var courseName = tds.eq(2).text();
-									var courseCode = tds.eq(3).text();
+              var year = tds.eq(0).text()
+              var seme = tds.eq(1).text()
+              var courseName = tds.eq(2).text();
+              var courseCode = tds.eq(3).text();
 
-									// 버튼위치 강의 년도
-									$(".ModalYear").text(
-											`${year} 년도  ${seme} 학기`);
-									// 버튼위치 강의 이름
-									$(".ModalCourseName").text(courseName);
+              // 버튼위치 강의 년도
+              $(".ModalYear").text(
+                `${year} 년도  ${seme} 학기`);
+              // 버튼위치 강의 이름
+              $(".ModalCourseName").text(courseName);
 
-									$
-											.ajax({
-												url : "/professor/surveySelect",
-												method : "post",
-												data : {
-													courseCode : courseCode,
-												},
-												success : function(res) {
+              $
+                .ajax({
+                  url: "/professor/surveySelect",
+                  method: "post",
+                  data: {
+                    courseCode: courseCode,
+                  },
+                  success: function (res) {
 
-													/*  모달이 열리기 전에 도표를 그리는 함수를 사용하면 도표가 깨져서 들어가기때문에 
-													 전역변수 responseData에 res 값을 담아서 모달이 열리고 난 이후에 도표를 진행하는 함수 chartDraw()를 아래에 적어줬음 */
-													responseData = res;
-													var graph = res.survey;
-													console
-															.log(res.chart.courseAvg);
+                    /*  모달이 열리기 전에 도표를 그리는 함수를 사용하면 도표가 깨져서 들어가기때문에 
+                     전역변수 responseData에 res 값을 담아서 모달이 열리고 난 이후에 도표를 진행하는 함수 chartDraw()를 아래에 적어줬음 */
+                    responseData = res;
+                    var graph = res.survey;
+                    console
+                      .log(res.chart.courseAvg);
 
-													for (let i = 1; i <= 10; i++) {
+                    for (let i = 1; i <= 10; i++) {
 
-														let tr = $("<tr/>")
-																.append(
-																		[
-																				$(
-																						"<td>")
-																						.text(
-																								graph["surveyQ"
-																										+ i]),
-																				$(
-																						"<td>")
-																						.text(
-																								graph[`a${i}Avg`]) ]);
+                      let tr = $("<tr/>")
+                        .append(
+                          [
+                            $(
+                              "<td>")
+                              .text(
+                                graph["surveyQ"
+                                + i]),
+                            $(
+                              "<td>")
+                              .text(
+                                graph[`a${i}Avg`])]);
 
-														$("#surveyData")
-																.append(tr);
-													}
+                      $("#surveyData")
+                        .append(tr);
+                    }
 
-												}
-											});
+                  }
+                });
 
-								})
-			}
-			// 두번째 모달 생성시 차트 그려주는 함수
-			function chartDraw() {
-				$(document)
-						.on(
-								'show.bs.modal',
-								'.myModal2',
-								function() {
-									// 모달이 생성되기 전에 차트가 그려지면 차트가 망가지기때문에 딜레이를 준다.
-									window
-											.setTimeout(
-													function() {
-														res = responseData;
-														let totalCourseAvg = res.chart.allMyCourseAvg;
-														let myCourseAvg = res.chart.myCourseAvg;
-														let totalQuestionAvg = removeField(res.chart.courseAvg);
-														let myCourseQuestionAvg = removeField(res.chart.questionAvg);
+            })
+      }
+      // 두번째 모달 생성시 차트 그려주는 함수
+      function chartDraw() {
+        $(document)
+          .on(
+            'show.bs.modal',
+            '.myModal2',
+            function () {
+              // 모달이 생성되기 전에 차트가 그려지면 차트가 망가지기때문에 딜레이를 준다.
+              window
+                .setTimeout(
+                  function () {
+                    res = responseData;
+                    let totalCourseAvg = res.chart.allMyCourseAvg;
+                    let myCourseAvg = res.chart.myCourseAvg;
+                    let totalQuestionAvg = removeField(res.chart.courseAvg);
+                    let myCourseQuestionAvg = removeField(res.chart.questionAvg);
 
-														drawTotalAvgChart(
-																myCourseAvg,
-																totalCourseAvg);
-														drawQuestionAvgChart(
-																myCourseQuestionAvg,
-																totalQuestionAvg);
-													}, 200);
-								})
-			}
+                    drawTotalAvgChart(
+                      myCourseAvg,
+                      totalCourseAvg);
+                    drawQuestionAvgChart(
+                      myCourseQuestionAvg,
+                      totalQuestionAvg);
+                  }, 200);
+            })
+      }
 
-			// 모달 종료 시 첫번째 모달 입력값 초기화
-			function rollbackModal() {
-				$('.myModal').on('hidden.bs.modal', function(e) {
-					$('#surveyData').children().remove();
+      // 모달 종료 시 첫번째 모달 입력값 초기화
+      function rollbackModal() {
+        $('.myModal').on('hidden.bs.modal', function (e) {
+          $('#surveyData').children().remove();
 
-				});
-			}
-		</script>
-	</th:block>
+        });
+      }
+    </script>
+  </th:block>
 </body>
 
 </html>

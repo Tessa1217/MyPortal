@@ -290,6 +290,13 @@ input[name="tabs"]+.tabmenu {
 	margin: 0% 1% 0% 1%;
 }
 
+.lectureTitle {
+	padding: 3%!important;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+}
+
 .horizontal-title a {
 	font-weight: bold;
 	color: white;
