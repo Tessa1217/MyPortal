@@ -117,20 +117,30 @@
 	<select id="getExamScore" resultType="ExamScoreVO">
 		SELECT * FROM (
 			SELECT A.*, ROWNUM R FROM (
-				SELECT student_id,
-								exam_code,
-								exam_score,
-								exam_take
-					FROM exam_score
-					WHERE exam_code IN (SELECT exam_code
+				SELECT e.student_id,
+								e.exam_code,
+								e.exam_score,
+								e.exam_take,
+								sp.student_name
+					FROM exam_score e JOIN student_pri_info sp
+					ON e.student_id = sp.student_id
+					WHERE e.exam_code IN (SELECT exam_code
 															FROM exam
 															WHERE course_code = #{course.courseCode})
-					ORDER BY exam_code, student_id
+					<if test="cri != null and cri != ''">
+						<if test="cri.type == 'student_id'">
+							AND e.${cri.type}  = #{cri.keyword}
+						</if>
+						<if test="cri.type == 'exam_code'">
+							AND e.${cri.type} LIKE #{cri.keyword}||'%'
+						</if>
+					</if>
+					ORDER BY e.exam_code, e.student_id ASC
 				) A
 				<if test="cri != null and cri != ''">
-				<if test="cri.pageNum != null and cri.pageNum != ''">
-					WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
-				</if>
+					<if test="cri.pageNum != null and cri.pageNum != ''">
+						WHERE ROWNUM <![CDATA[<=]]> #{cri.pageNum} * #{cri.amount}
+					</if>
 				</if>
 				)
 			<if test="cri != null and cri != ''">
@@ -149,6 +159,14 @@
 					WHERE exam_code IN (SELECT exam_code
 															FROM exam
 															WHERE course_code = #{course.courseCode})
+				<if test="cri != null and cri != ''">
+						<if test="cri.type == 'student_id'">
+							AND ${cri.type}  = #{cri.keyword}
+						</if>
+						<if test="cri.type == 'exam_code'">
+							AND ${cri.type} LIKE #{cri.keyword}||'%'
+						</if>
+					</if>
 												)
 	</select>
 	<update id="updateExam">

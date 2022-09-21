@@ -6,6 +6,7 @@ import lombok.Data;
 public class ExamScoreVO {
 	private ExamVO studentExam;
 	private int studentId;
+	private String studentName;
 	private String examCode;
 	private int examScore;
 	private String examTake;

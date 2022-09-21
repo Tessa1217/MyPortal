@@ -235,7 +235,7 @@
 			exam_start_date,
 			exam_end_date,
 			exam_total_question,
-			exam_total_score
+			exam_total_score,
 			course_code
 			FROM exam
 			WHERE course_code = #{courseCode}

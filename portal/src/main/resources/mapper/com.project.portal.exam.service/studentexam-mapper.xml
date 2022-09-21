@@ -92,6 +92,7 @@
 		<result property="studentQuestionAnswer" column="student_question_answer"/>
 		<result property="studentRightOption" column="student_right_option"/>
 		<result property="studentId" column="student_id"/>
+		<result property="studentName" column="student_name"/>
 		<collection property="optionList" ofType="QuestionOptionVO">
 			<result property="questionOptionNum" column="question_option_num"/>
 			<result property="questionOptionContent" column="question_option_content"/>
@@ -110,7 +111,8 @@
 					student_question_num,
 					student_question_answer,
 					student_right_option,
-					student_id
+					student_id,
+					student_name
 			FROM result_v
 			WHERE student_id = #{studentId}
 			AND exam_code = #{exam.examCode}

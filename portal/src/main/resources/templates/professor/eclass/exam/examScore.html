@@ -5,34 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	.dataTables_paginate {
-		text-align: center;
-	}
-	.paginate_button {
-		background: #435ebe;
-		padding: 2% 4% 2% 4%;
-		border-radius: 10px;
-		margin-right: 2%;
-		cursor: pointer;
-	}
-	
-	.bg-primary {
-		color: white;
-	}
-	
-	.paginate_button a {
-		text-decoration: none;
-		color: white;	
-	}
-	select[name="scoreTable_length"] {
-		width: 100%;
-	}
-	
-	#scoreTable_wrapper {
-		width: 100%;
-	}
-</style>
 </head>
 <body>
 	<th:block layout:fragment="professorEclassContent">
@@ -44,11 +16,26 @@
 				<div class="card-header">
 					<form th:action="@{/professor/eclass/examScore}" method="GET">
 						<input type="hidden" name="pageNum" value="1">
-						<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-						<select class="inline form-control width-three">
+						<input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+						<select class="inline form-select width-one" name="type" 
+							th:onchange="keywordOpen(this)">
 							<option value=""></option>
+							<option th:selected="${pageMaker.cri.type == 'student_id'}" value="student_id">학번</option>
+							<option th:selected="${pageMaker.cri.type == 'exam_code'}" value="exam_code">시험</option>
 						</select>
+						<select id="k-exam_code" class="hidePage form-select width-two keyword" 
+						th:classappend="${pageMaker.cri.type == 'exam_code'} ? inline : hidePage"
+						th:name="${pageMaker.cri.type == 'exam_code'} ? keyword">
+							<option th:selected="${pageMaker.cri.keyword == 'M'}" value="M">중간</option>
+							<option th:selected="${pageMaker.cri.keyword == 'F'}" value="F">기말</option>
+						</select>
+						<input type="text" id="k-student_id" class="form-control width-two keyword" 
+						th:value="${pageMaker.cri.keyword}"
+						th:classappend="${pageMaker.cri.type == 'student_id'} ? inline : hidePage" 
+						th:name="${pageMaker.cri.type == 'student_id'} ? keyword"
+						placeholder="학번을 입력해주세요.">
 						<button type="submit" class="inline btn-primary btn btn-sm">검색</button>
+						<button type="button" th:onclick="removeVal()" class="inline btn-secondary btn btn-sm">취소</button>
 					</form>
 				</div>
 				<div class="card-body">
@@ -56,6 +43,7 @@
 						<thead class="thead-primary">
 							<tr>
 								<th>학번</th>
+								<th>성명</th>
 								<th>시험</th>
 								<th>응시여부</th>
 								<th>성적</th>
@@ -64,6 +52,7 @@
 						<tbody class="tbody-center">
 							<tr th:each="s : ${scores}">
 								<td th:text="${s.studentId}"></td>
+								<td th:text="${s.studentName}"></td>
 								<td th:text="${#strings.startsWith(s.examCode, 'M')} ? '중간' : '기말'"></td>
 								<td th:text="${s.examTake == 'SUB'} ? '응시' : '미응시'"></td>
 								<td th:text="${s.examScore != NULL} ? ${s.examScore} + '점' : '-'"></td>
@@ -100,6 +89,18 @@
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+			function keywordOpen(select) {
+				$(".keyword").removeClass("inline").addClass("hidePage").removeAttr("name");
+				if (select.value != '') {
+					$("#k-" + select.value).removeClass("hidePage").addClass("inline").attr("name", "keyword");
+				}
+			}
+			
+			function removeVal() {
+				$(".keyword").val('');
+			}
+		</script>
 	</th:block>
 </body>
 </html>
