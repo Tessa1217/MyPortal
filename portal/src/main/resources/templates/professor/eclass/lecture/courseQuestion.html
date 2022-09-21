@@ -32,7 +32,8 @@ pre {
 								th:value="${week.weekNum}" 
 								th:text="|${week.weekNum}주차|"
 								th:selected="${pageMaker.cri.keyword != null && pageMaker.cri.keyword == week.weekCode}"></option>
-							</select> <input type="hidden" name="pageNum"
+							</select> 
+							<input type="hidden" name="pageNum"
 								th:value="${pageMaker.cri.pageNum}"> <input
 								type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.portal.bachelor.service.impl.BachelorNoticeServiceImpl;
@@ -237,6 +237,15 @@ public class StudentReportController {
 		}
 
 		return "redirect:/student/eclass/reportList";
+	}
+	
+	// 과제 이의신청 상세조회
+	@PostMapping("/student/eclass/reportObjectionResult")
+	@ResponseBody
+	public ReportObjectionVO getReportObjectionDetail(ReportObjectionVO vo) {
+		vo = service.getReportObjectionDetail(vo.getReportSubmissionCode());
+		
+		return vo;
 	}
 
 }

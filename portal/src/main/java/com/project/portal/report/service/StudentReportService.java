@@ -26,6 +26,8 @@ public interface StudentReportService {
 	public void reportFileCodeUpdate(ReportSubmissionVO vo);
 	// 교수가 제출한 파일 정보 가져오기
 	public ReportVO getProfFileInfo(ReportVO vo);
+	// 학생 이의 신청결과 상세조회
+	public ReportObjectionVO getReportObjectionDetail(String subCode);
 
 	
 	void uploadFile(ReportFileVO vo);

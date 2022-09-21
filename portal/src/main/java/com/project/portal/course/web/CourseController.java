@@ -76,7 +76,6 @@ public class CourseController {
 		voo.setProfessorId((int) session.getAttribute("id"));
 		svo = service.getSurveyStats(voo, svo);
 		
-		System.out.println(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("survey", vo);
 		map.put("chart", svo);

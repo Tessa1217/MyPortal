@@ -1,223 +1,212 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/student_layout}">
-<head>
-<meta charset="UTF-8">
-<title>내 정보 조회/수정</title>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<style>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/student_layout}">
 
-.card .faceImg {
-	margin-right: 5%;
-	height: 100%
-}
-.table2 th {
-	background-color: #435ebe;
-	color: white;
-	text-align: center;
-	width : 20%;
-}
-.table2 td {
-	text-align: left;
-}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <title>내 정보 조회/수정</title>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <style>
+    .card .faceImg {
+      margin-right: 5%;
+      height: 100%
+    }
+
+    .table2 th {
+      background-color: #435ebe;
+      color: white;
+      text-align: center;
+      width: 20%;
+    }
+
+    .table2 td {
+      text-align: left;
+    }
+  </style>
 
 </head>
+
 <body>
-	<th:block layout:fragment="studentContent">
-		<div id="main">
-			<div class="page-title">
-				<h3>내 정보 조회/수정</h3>
-			</div>
-			<div class="card height-eight">
-				<div class="card-body">
-					<h5>개인 정보</h5>
-					<div class="row">
-						<div class="col-10">
-							<table class="table table2">
-								<tr>
-									<th>전공학과</th>
-									<td th:text="${studentInfoSelect.departName}"></td>
-									<th>학번</th>
-									<td th:text="${studentInfoSelect.studentId}"></td>
-								</tr>
-								<tr>
-									<th>이름</th>
-									<td th:text="${studentInfoSelect.studentName}"></td>
-									<th>성별</th>
-									<td th:text="${studentInfoSelect.studentGenderNm}"></td>
-								</tr>
-								<tr>
-									<th>학년</th>
-									<td th:text="${studentInfoSelect.studentGrade}"></td>
-									<th>생년월일</th>
-									<td
-										th:text="${#dates.format(studentInfoSelect.studentBirth, 'yyyy-MM-dd')}"></td>
-								</tr>
-								<tr>
-									<th>학적상태</th>
-									<td th:text="${studentInfoSelect.studentStatusNm}"></td>
-									<th>입학학부</th>
-									<td th:text="${studentInfoSelect.departName}"></td>
-								</tr>
-								<tr>
-									<th>입학일자</th>
-									<td
-										th:text="${#dates.format(studentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
-									<th>입학구분</th>
-									<td th:text="${studentInfoSelect.studentDivisionNm}"></td>
-								</tr>
-								<tr>
-									<th>주소</th>
-									<td colspan="3"><input type="text" onclick="kakaopost()"
-										class="form-control" name="studentAddrUpdate"
-										id="studentAddrUpdate"
-										th:value="${studentInfoSelect.studentAddr}"></td>
-								</tr>
-								<tr>
-									<th>상세주소</th>
-									<td><input type="text" class="form-control"
-										name="studentDaddrUpdate" id="studentDaddrUpdate"
-										th:value="${studentInfoSelect.studentDaddr}"></td>
-									<th>우편번호</th>
-									<td><input type="text" class="form-control"
-										name="studentPostalCodeUpdate" id="studentPostalCodeUpdate"
-										th:value="${studentInfoSelect.studentPostalCode}"></td>
-								</tr>
-								<tr>
-									<th>연락처</th>
-									<td><input type="text" class="form-control phoneNumber"
-										name="studentPhoneUpdate" id="studentPhoneUpdate"
-										th:value="${studentInfoSelect.studentPhone}"></td>
-									<th>이메일</th>
-									<td><input type="text" class="form-control"
-										name="studentEmailUpdate" id="studentEmailUpdate"
-										th:value="${studentInfoSelect.studentEmail}"></td>
-								</tr>
-							</table>
-						</div>
-						<div class="col-2">
-							<table class="faceImg">
-								<tr>
-									<td><img
-										th:src="|/download/${studentInfoSelect.studentImg}|"
-										style="width: 100%"></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<hr>
-					<h5>보호자 정보</h5>
-					<table class="table table2">
-						<tr>
-							<th>보호자 성명</th>
-							<td><input type="text" class="form-control"
-								name="parentsNameUpdate" id="parentsNameUpdate"
-								th:value="${studentInfoSelect.parentsName}"></td>
-						</tr>
-						<tr>
-							<th>연락처</th>
-							<td><input type="text" class="form-control phoneNumber"
-								name="parentsPhoneUpdate" id="parentsPhoneUpdate"
-								th:value="${studentInfoSelect.parentsPhone}"></td>
-						</tr>
-						<tr>
-							<th>관계</th>
-							<td><select class="form-select" name="parentsRelUpdate"
-								id="parentsRelUpdate" th:value="${studentInfoSelect.parentsRel}">
-									<th:block th:each="code : ${codeList}">
-										<option th:value="${code.detailCode}"
-											th:text="${code.detailName}"
-											th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}"></option>
-									</th:block>
-							</select></td>
-						</tr>
-					</table>
-					<button class="btn btn-primary buttonmod" id="mod">수정</button>
-				</div>
-			</div>
-		</div>
-		<script th:inline="javascript">
-			/*<![CDATA[*/
-			$(function() {
-				$("#mod").on("click", confirmModal)
+  <th:block layout:fragment="studentContent">
+    <div id="main">
+      <div class="page-title">
+        <h3>내 정보 조회/수정</h3>
+      </div>
+      <div class="card height-eight">
+        <div class="card-body">
+          <h5>개인 정보</h5>
+          <div class="row">
+            <div class="col-10">
+              <table class="table table2">
+                <tr>
+                  <th>전공학과</th>
+                  <td th:text="${studentInfoSelect.departName}"></td>
+                  <th>학번</th>
+                  <td th:text="${studentInfoSelect.studentId}"></td>
+                </tr>
+                <tr>
+                  <th>이름</th>
+                  <td th:text="${studentInfoSelect.studentName}"></td>
+                  <th>성별</th>
+                  <td th:text="${studentInfoSelect.studentGenderNm}"></td>
+                </tr>
+                <tr>
+                  <th>학년</th>
+                  <td th:text="${studentInfoSelect.studentGrade}"></td>
+                  <th>생년월일</th>
+                  <td th:text="${#dates.format(studentInfoSelect.studentBirth, 'yyyy-MM-dd')}"></td>
+                </tr>
+                <tr>
+                  <th>학적상태</th>
+                  <td th:text="${studentInfoSelect.studentStatusNm}"></td>
+                  <th>입학학부</th>
+                  <td th:text="${studentInfoSelect.departName}"></td>
+                </tr>
+                <tr>
+                  <th>입학일자</th>
+                  <td th:text="${#dates.format(studentInfoSelect.studentAdmissionDate, 'yyyy-MM-dd')}"></td>
+                  <th>입학구분</th>
+                  <td th:text="${studentInfoSelect.studentDivisionNm}"></td>
+                </tr>
+                <tr>
+                  <th>주소</th>
+                  <td colspan="3"><input type="text" onclick="kakaopost()" class="form-control" name="studentAddrUpdate"
+                      id="studentAddrUpdate" th:value="${studentInfoSelect.studentAddr}"></td>
+                </tr>
+                <tr>
+                  <th>상세주소</th>
+                  <td><input type="text" class="form-control" name="studentDaddrUpdate" id="studentDaddrUpdate"
+                      th:value="${studentInfoSelect.studentDaddr}"></td>
+                  <th>우편번호</th>
+                  <td><input type="text" class="form-control" name="studentPostalCodeUpdate"
+                      id="studentPostalCodeUpdate" th:value="${studentInfoSelect.studentPostalCode}"></td>
+                </tr>
+                <tr>
+                  <th>연락처</th>
+                  <td><input type="text" class="form-control phoneNumber" name="studentPhoneUpdate"
+                      id="studentPhoneUpdate" th:value="${studentInfoSelect.studentPhone}"></td>
+                  <th>이메일</th>
+                  <td><input type="text" class="form-control" name="studentEmailUpdate" id="studentEmailUpdate"
+                      th:value="${studentInfoSelect.studentEmail}"></td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-2">
+              <table class="faceImg">
+                <tr>
+                  <td><img th:src="|/download/${studentInfoSelect.studentImg}|" style="width: 100%"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <h5>보호자 정보</h5>
+          <table class="table table2">
+            <tr>
+              <th>보호자 성명</th>
+              <td><input type="text" class="form-control" name="parentsNameUpdate" id="parentsNameUpdate"
+                  th:value="${studentInfoSelect.parentsName}"></td>
+            </tr>
+            <tr>
+              <th>연락처</th>
+              <td><input type="text" class="form-control phoneNumber" name="parentsPhoneUpdate" id="parentsPhoneUpdate"
+                  th:value="${studentInfoSelect.parentsPhone}"></td>
+            </tr>
+            <tr>
+              <th>관계</th>
+              <td><select class="form-select" name="parentsRelUpdate" id="parentsRelUpdate"
+                  th:value="${studentInfoSelect.parentsRel}">
+                  <th:block th:each="code : ${codeList}">
+                    <option th:value="${code.detailCode}" th:text="${code.detailName}"
+                      th:selected="${studentInfoSelect.parentsRel} == ${code.detailCode}"></option>
+                  </th:block>
+                </select></td>
+            </tr>
+          </table>
+          <button class="btn btn-primary buttonmod" id="mod">수정</button>
+        </div>
+      </div>
+    </div>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      $(function () {
+        $("#mod").on("click", confirmModal)
 
-				function confirmModal() {
-					fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function(result) {
-						if (result.isConfirmed) {
-							studentInfoUpdate();
-						}
-					})
-				}
+        function confirmModal() {
+          fireSwal('info', '변경 내용을 저장하시겠습니까?').then(function (result) {
+            if (result.isConfirmed) {
+              studentInfoUpdate();
+            }
+          })
+        }
 
-				function studentInfoUpdate() {
-					$.ajax({
-						url : "/student/studentInfoUpdate",
-						method : "post",
-						dataType : "json",
-						data : {
-							"studentPhone" : $("#studentPhoneUpdate").val(),
-							"studentEmail" : $("#studentEmailUpdate").val(),
-							"studentAddr" : $("#studentAddrUpdate").val(),
-							"studentDaddr" : $("#studentDaddrUpdate").val(),
-							"studentPostalCode" : $("#studentPostalCodeUpdate")
-									.val(),
-							"parentsName" : $("#parentsNameUpdate").val(),
-							"parentsPhone" : $("#parentsPhoneUpdate").val(),
-							"parentsRel" : $("#parentsRelUpdate").val(),
-						},
-						success : function(result) {
-							fireSwal('success', '수정이 완료되었습니다.')
-		                     .then((result) => {
-		                        if (result.isConfirmed) {
-		                           location.reload();
-		                        }
-		                     
-						}) 
-						
-						}
-					});
-				}
-				// 전화번호 입력시 자동으로 - 입력되는 기능 정규표현식
-				$(document)
-						.on(
-								"keyup",
-								".phoneNumber",
-								function() {
-									$(this)
-											.val(
-													$(this)
-															.val()
-															.replace(/[^0-9]/g,
-																	"")
-															.replace(
-																	/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
-																	"$1-$2-$3")
-															.replace("--", "-"));
-								});
+        function studentInfoUpdate() {
+          $.ajax({
+            url: "/student/studentInfoUpdate",
+            method: "post",
+            dataType: "json",
+            data: {
+              "studentPhone": $("#studentPhoneUpdate").val(),
+              "studentEmail": $("#studentEmailUpdate").val(),
+              "studentAddr": $("#studentAddrUpdate").val(),
+              "studentDaddr": $("#studentDaddrUpdate").val(),
+              "studentPostalCode": $("#studentPostalCodeUpdate")
+                .val(),
+              "parentsName": $("#parentsNameUpdate").val(),
+              "parentsPhone": $("#parentsPhoneUpdate").val(),
+              "parentsRel": $("#parentsRelUpdate").val(),
+            },
+            success: function (result) {
+              fireSwal('success', '수정이 완료되었습니다.')
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    location.reload();
+                  }
 
-			});
-			// 주소 입력창 클릭시 다음 주소검색 api 호출
-			function kakaopost() {
-				new daum.Postcode(
-						{
-							oncomplete : function(data) {
-								// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-								// 예제를 참고하여 다양한 활용법을 확인해 보세요.
-								document
-										.querySelector("#studentPostalCodeUpdate").value = data.zonecode;
-								document.querySelector("#studentAddrUpdate").value = data.address;
-								document.querySelector("#studentDaddrUpdate")
-										.focus();
-							}
-						}).open();
-			}
+                })
 
-			/*]]>*/
-		</script>
-	</th:block>
+            }
+          });
+        }
+        // 전화번호 입력시 자동으로 - 입력되는 기능 정규표현식
+        $(document)
+          .on(
+            "keyup",
+            ".phoneNumber",
+            function () {
+              $(this)
+                .val(
+                  $(this)
+                    .val()
+                    .replace(/[^0-9]/g,
+                      "")
+                    .replace(
+                      /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
+                      "$1-$2-$3")
+                    .replace("--", "-"));
+            });
+
+      });
+      // 주소 입력창 클릭시 카카오 주소검색 api 호출
+      function kakaopost() {
+        new daum.Postcode(
+          {
+            oncomplete: function (data) {
+              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+              document
+              $("input[name=studentAddrUpdate]").val(data.address);
+				$("input[name=studentDaddrUpdate]").val(
+						data.buildingName);
+				$("input[name=studentPostalCodeUpdate]").val(
+						data.zonecode);
+            }
+          }).open();
+      }
+
+      /*]]>*/
+    </script>
+  </th:block>
 
 </body>
+
 </html>

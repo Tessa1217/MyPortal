@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.portal.admin.service.AdminService;
 import com.project.portal.admin.service.AdminVO;
 
+//작성자: 김진형
 @Controller
 public class AdminController {
 	

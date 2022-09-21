@@ -56,15 +56,15 @@ tr td {
 							</thead>
 							<tbody class=" tbody-center">
 								<tr th:each="list : ${studentStudyList}">
-									<td th:text=${list.courseYear}>
-									<td th:text=${list.courseSemester}>
-									<td th:text=${list.semesterCredit1}>
-									<td th:text=${list.semesterCredit2}>
-									<td th:text=${list.gradeAvg}>
-									<td th:if="${list.gradeAvg} == '4.5'">100.00</td>
-									<td th:if="${list.gradeAvg} < '4.5'"
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0" th:text=${list.courseYear}>
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0" th:text=${list.courseSemester}>
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0" th:text=${list.semesterCredit1}>
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0" th:text=${list.semesterCredit2}>
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0" th:text=${list.gradeAvg}>
+									<td th:if="${list.gradeAvg} == '4.5'">
+										100.00</td>
+									<td th:if="${list.gradeAvg} != 0 and ${list.semesterCredit1} != 0 and ${list.gradeAvg} < '4.5'"
 										th:text=${list.semesterPercentage}></td>
-
 								</tr>
 							</tbody>
 						</table>

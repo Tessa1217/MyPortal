@@ -194,7 +194,7 @@ public class ProfessorReportController {
 		
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		model.addAttribute("reportObjection", service.getStudentObjectionList(vo , cri));
-		model.addAttribute("pageMaker", new PageDTO(service.getReportObjectionTotal(), cri.getAmount(), cri));
+		model.addAttribute("pageMaker", new PageDTO(service.getReportObjectionTotal(vo, cri), cri.getAmount(), cri));
 		
 		return "professor/eclass/report/reportObjection";
 	}

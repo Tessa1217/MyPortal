@@ -106,6 +106,12 @@
 		</div>
 		
 		<script th:inline="javascript">
+		// 검색 버튼 처리 
+		$('.search').on("click" , function() {
+			//(검색 처리시 페이지번호 1로 가도록)
+			$('input[name=pageNum]').val('1')
+		}) 
+		
 		// 답변 페이지 이동
 		$('.reportObjectionAnswer').on("click", function() {
 			let reportCode = ($(this).data("reportcode"));

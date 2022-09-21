@@ -132,10 +132,11 @@ public class ProfessorReportServiceImpl implements ProfessorReportService {
 		mapper.updateObjectionScore(vo);
 		
 	}
-
+	
 	@Override
-	public int getReportObjectionTotal() {
-		return mapper.getReportObjectionTotal();
+	public int getReportObjectionTotal(ReportObjectionVO vo , Criteria cri ) {
+		// TODO Auto-generated method stub
+		return mapper.getReportObjectionTotal(vo, cri);
 	}
 
 }
