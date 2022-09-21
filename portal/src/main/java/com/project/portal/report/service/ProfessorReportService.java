@@ -40,7 +40,7 @@ public interface ProfessorReportService {
 	ReportFileVO getFile(String reportFileCode, String userCode);
 
 	// 수강생 과제 제출 목록 조회
-	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, ReportVO report, Criteria cri);
+	List<ReportSubmissionVO> getStudentReportList(CourseVO vo, Criteria cri);
 
 	// 과제 수
 	int getReportTotal(List<ReportVO> list, Criteria cri);
