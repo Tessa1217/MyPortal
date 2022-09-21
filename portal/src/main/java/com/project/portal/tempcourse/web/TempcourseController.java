@@ -83,17 +83,16 @@ public class TempcourseController {
 		vo.setProfessorId((int) session.getAttribute("id"));
 		pvo.setProfessorId((int) session.getAttribute("id"));
 		pvo = service.getInfo(pvo);
-		List<TempcourseVO> list = service.tempcourseList(vo, cri);
-		List<TempcourseVO> list2 = service.bringme(vo, cri);
-		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
-		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
-		
-		model.addAttribute("tempcourseLis", list);
-		model.addAttribute("tempcourseList", list2); // 강의계획서불러오기
-		model.addAttribute("tempcourseweekListList", list4); // SemesterVO에서 가져오기
-		model.addAttribute("tempcourseweekList", list3); // 강의계획서 주차별 정보 가져오기
+		List<TempcourseVO> tlist = service.tempcourseList(vo, cri);
+		List<TempcourseVO> mlist = service.bringme(vo, cri);
+		List<TempcourseweekVO> wlist = service.tempcourseweekList(vo, cri);
+		List<TempcourseweekVO> slist = service.tempcourseweekListList();
 		List<TempcourseVO> tempcourseList = service.tempcourseList(vo, cri);
-		model.addAttribute("tempcourseList", tempcourseList);
+		model.addAttribute("tempcourseLis", tlist);
+		model.addAttribute("tempcourseList", mlist); // 강의계획서불러오기
+		model.addAttribute("tempcourseweekListList", slist); // SemesterVO에서 가져오기
+		model.addAttribute("tempcourseweekList", wlist); // 강의계획서 주차별 정보 가져오기
+		model.addAttribute("tempcourseList", tempcourseList); //강의계획서 리스트
 		model.addAttribute("tempcourse", service.getTemp(vo.getCourseCode()));
 		model.addAttribute("tempcourseweek", service.getTempweek(vo.getCourseCode()));
 		model.addAttribute("professorInfo", proService.professorInfo(pvo));
@@ -132,14 +131,12 @@ public class TempcourseController {
 		pvo = service.getInfo(pvo);
 		vooo.setYear((int) session.getAttribute("year"));
 		vooo.setSemester((int) session.getAttribute("semester"));
-
-		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
-
+	
 		List<TempcourseVO> list = service.tempcourseList(vo, cri);
 		List<TempcourseVO> list2 = service.bringme(vo, cri);
 		List<TempcourseweekVO> list3 = service.tempcourseweekList(vo, cri);
 		List<TempcourseweekVO> list4 = service.tempcourseweekListList();
-		
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo, cri), cri.getAmount(), cri));
 		model.addAttribute("year", vooo.getYear());
 		model.addAttribute("semester", vooo.getSemester());
 		model.addAttribute("tempcourseLis", list);
