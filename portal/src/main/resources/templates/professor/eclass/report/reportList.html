@@ -17,7 +17,7 @@
 					<form class="inline width-seven left-f" th:unless="${reportList.isEmpty()}" th:action="@{/professor/eclass/reportList}">
 						<input type="hidden" value="1" name="pageNum"> <input
 							type="hidden" th:value="${pageMaker.cri.amount}" name="amount">
-						<input type="hidden" value="weekCode" name="type"> <select
+						<input type="hidden" value="week_code" name="type"> <select
 							name="keyword" class="form-select width-three inline">
 							<option value="">주차별</option>
 							<option th:each="week : ${session.courseInfo.weekPlans}"
