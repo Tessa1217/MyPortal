@@ -78,6 +78,6 @@ public interface ProfessorReportMapper {
 	// 과제 점수 update
 	public void updateObjectionScore(ReportObjectionVO vo);
 	// 과제 이의신청 총 개수 조회(페이징 처리)
-	public int getReportObjectionTotal();
+	public int getReportObjectionTotal(@Param("ReportObject") ReportObjectionVO vo ,@Param("cri") Criteria cri );
 
 }
