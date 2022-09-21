@@ -278,5 +278,16 @@
 		'A01',
 		null)
 	</insert>
+	
+	<select id="getReportObjectionDetail" resultType="ReportObjectionVO">
+	  select cw.week_num , rs.report_score, ro.report_score_objection_application_reason, report_score_objection_rejection_reason
+        from report_score_objection ro join report_submission rs
+        on ro.report_submission_code =  rs.report_submission_code
+        join report_info ri
+        on rs.report_code = ri.report_code
+        join course_weekly cw 
+        on ri.week_code = cw.week_code
+        where rs.report_submission_code = #{reportSubmissionCode}
+	</select>
 
 </mapper>

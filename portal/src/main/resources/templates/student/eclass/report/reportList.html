@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+pre {
+		font-size:16px;
+	}
 .td-padding {
 		 height: 50px;
 	}
@@ -51,6 +55,7 @@
 								<th>점수</th>
 								<th>이의신청</th>
 								<th>이의신청여부</th>
+								<th>이의신청결과</th>
 							</tr>
 							</thead>
 							<tbody class="tbody-center">
@@ -122,8 +127,18 @@
 									심사완료</td>
 									<td th:if="${reportList.reportScoreObjectionApprovalOption != 'A01' && reportList.reportScoreObjectionApprovalOption != 'A02'}">-</td>
 								</th:block>
+								
+								<th:block>
+								<td th:if="${reportList.reportScoreObjectionApprovalOption == 'A02'}">
+									<button class="saveBtn btn btn-primary me-1 mb-1 reportObjectionResult"
+									th:data-code="${reportList.reportSubmissionCode}">결과보기</button>
+								</td>
+								<td th:if="${reportList.reportScoreObjectionApprovalOption != 'A02'}">-</td>
+								</th:block>
 
 							</tr>
+							
+							
 
 						</tbody>
 						</table>
@@ -153,10 +168,106 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- 모달창 -->
+	 <div class="modal fade" id="reportObjectionDetail" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <label class="modal-title" id="staticBackdropLabel">이의신청결과</label>
+                </div>
+                <div class="modal-body">
+                        <div class="container my-auto">
+                            <div class="row">
+                                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                                    <div class="card-body">
+                                    	<table class="table table-bordered mb-0">
+                                    			<tr>
+                                    				<td width="200px"  class="text-bold-500 col-2"
+									style="background-color: rgba(0, 0, 0, 0.05);">주차</td>
+                                    				<td id="week"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">과제점수</td>
+                                    				<td id="reportScore"></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">이의신청사유</td>
+                                    				<td>
+                                    				<pre id="reportScoreObjectionApplicationReason"></pre></td>
+                                    			</tr>
+                                    			
+                                    			<tr>
+                                    				<td width="200px" class="text-bold-500"
+									style="background-color: rgba(0, 0, 0, 0.05);">이의신청답변</td>
+                                    				<td>
+                                    				<pre id="reportScoreObjectionRejectionReason" style="height:auto; width:700px; word-break:break-all; , font-size:1.5em" >
+                                    				</pre>
+                                    				</td>
+                                    			</tr>
+                                    	</table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container modal-footer" style="text-align:center">
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+                                확인
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 		<script th:inline="javascript">
-		$(function() {
-		})
+		$(function () {
+			reportObjectionDetail();
+    		modalOff();
+    	})
+    	
+    	// 과제 이의신청결과 상세조회
+    	function reportObjectionDetail() {
+			
+			$(".reportObjectionResult").on("click", function() {
+				let reportSubmissionCode = ($(this).data("code"));
+				$.ajax({
+					type : "POST",
+					url : "/student/eclass/reportObjectionResult",
+					data : 
+						{ reportSubmissionCode : reportSubmissionCode},
+					dataType : "json",
+					success : function(data) {
+						console.log(data)
+						$("#week").text(data.weekNum)
+						$("#reportScore").text(data.reportScore)
+						$("#reportScoreObjectionApplicationReason").html(data.reportScoreObjectionApplicationReason)
+						$("#reportScoreObjectionRejectionReason").html(data.reportScoreObjectionRejectionReason)
+						$('#reportObjectionDetail').modal('show');
+					},
+					error : function(reject) {
+						alert("실패")
+					}
+					
+				})
+				
+			})
+		}
+    	
+    	// 모달창 끄기 버튼
+		function modalOff() {
+			$("#closeModal").on("click", function() {
+				$('#reportObjectionDetail').modal('hide');
+			})
+		}
 			
 			// 검색 버튼 처리 
 			$('.search').on("click" , function() {
