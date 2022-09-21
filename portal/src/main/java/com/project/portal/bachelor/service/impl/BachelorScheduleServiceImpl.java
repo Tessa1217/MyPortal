@@ -14,7 +14,7 @@ import com.project.portal.bachelor.service.BachelorScheduleVO;
 public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 	
 	@Autowired BachelorScheduleMapper mapper;
-
+	// 학사일정 리스트
 	@Override
 	public List<BachelorScheduleVO> scheduleList(BachelorScheduleVO vo) {
 		return mapper.scheduleList(vo);
@@ -55,7 +55,6 @@ public class BachelorScheduleServiceImpl implements BachelorScheduleService{
 
 	@Override
 	public BachelorScheduleVO getCurrentScheduleInfo(BachelorScheduleVO vo) {
-		// TODO Auto-generated method stub
 		return mapper.getCurrentScheduleInfo(vo);
 	}
 

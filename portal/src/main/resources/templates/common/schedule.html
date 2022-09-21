@@ -289,20 +289,21 @@
 
             calendar.render();
 
-            getData3().then((result) => {
+            getData().then((result) => {
               result.forEach((val) => {
                 calendar.addEvent(eventGenerate(val));
               })
             })
             
-              // 캘린더 왼쪽버튼 함수 실행
+            // 캘린더 왼쪽버튼 함수 실행
               prevButtonEvent()
+            // 캘린더 오른쪽 버튼 함수 실행
+            nextButtonEvent();
 
             $("#currentYear").text($("#year").val() + ' 년도');
             let plusOneYear = parseInt($('#year').val()) + 1;
             $('#plusYear').text(plusOneYear + ' 년도');
 
-            nextButtonEvent();
 
             //달력 왼쪽 버튼클릭할때 2월 지날시 이전년도 일정 불러오기
             function prevButtonEvent() {
@@ -324,10 +325,8 @@
                     	eventSources.forEach((val) => {
                     		val.remove();
                     	})
-	                  //  console.log(res);
 	                    res.forEach((val) => {
                         let event = eventGenerate(val);
-                       // console.log(event);
                         calendar.addEvent(event);
                       })
                     }
@@ -373,7 +372,7 @@
 
 
 
-            function getData3() {
+            function getData() {
               return $.ajax({
                 method: 'POST',
                 url: `/getCalendar`,

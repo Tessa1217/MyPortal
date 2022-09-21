@@ -175,15 +175,15 @@ function monthlyCalendar() {
 // Full calendar 그룹별 색상 함수
 function getColor(code) {
 	if (code.startsWith('REG')) {
-		return '#6f7dc0';
+		return '#6666cc';
 	} else if (code.startsWith('HOL')) {
 		return '#ef4d27';
 	} else if (code.startsWith('PROF')) {
-		return '#2a5d8b';
+		return '#9966cc';
 	} else if (code.startsWith('BPLAN')) {
-		return '#5e9bd8';
+		return '#33cc99';
 	} else if (code.startsWith('STUD')) {
-		return '#a634a4';
+		return '#6666ff';
 	} else if (code.startsWith('SEME')) {
 		return '#a634a4';
 	}
