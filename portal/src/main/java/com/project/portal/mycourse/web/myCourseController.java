@@ -134,15 +134,11 @@ public class myCourseController {
 		course.setCourseSemester((int) session.getAttribute("semester"));
 		int profId = (int) session.getAttribute("id");
 		
-		System.out.println(course.getSearchYear());
-		System.out.println(course.getSearchSemester());
 		model.addAttribute("searchYearVal", course.getSearchYear());
 		model.addAttribute("searchSemesterVal", course.getSearchSemester());
 		
 		model.addAttribute("year", service.getProfMyCourseYear(profId));
-		System.out.println(service.getProfMyCourseYear(profId));
 		model.addAttribute("semester", service.getProfMyCourseSemester(profId));
-		System.out.println(service.getProfMyCourseSemester(profId));
 		
 		
 		
@@ -168,7 +164,6 @@ public class myCourseController {
 		model.addAttribute("map", map);
 
 		// 최근 강의 공지사항 정보 조회
-		System.out.println(service.getStudyNoticeList(courseCode));
 		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
 
 		// 학생이 수강중인 전체 강의 목록
@@ -209,7 +204,6 @@ public class myCourseController {
 		model.addAttribute("map", map);
 
 		// 최근 강의 공지사항 정보 조회
-		System.out.println(service.getStudyNoticeList(courseCode));
 		model.addAttribute("courseNotice", service.getStudyNoticeList(courseCode));
 
 		// 교수 정보
