@@ -88,7 +88,7 @@
             </if>
          </if>
       </where>
-			order by course_code desc
+			order by course_code desc, course_year desc
 		)
 		
 		<where>
@@ -403,7 +403,7 @@ select week_num,
          </if>
 	</where>
 		
-		order by course_code desc)
+		order by course_code desc, course_year desc)
 		
 		<where>
 			<if test="cri != null and cri != ''">
@@ -488,7 +488,7 @@ select week_num,
             </if>
          </if> 
       </where>
-			order by course_code desc
+			order by course_code desc, course_year desc
 		)
 		
 		<where>
