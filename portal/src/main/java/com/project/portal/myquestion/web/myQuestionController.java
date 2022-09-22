@@ -67,7 +67,6 @@ public class myQuestionController {
 	@ResponseBody
 	public myQuestionVO getStuMyQuestionDetail(myQuestionVO vo, Model model) {
 		vo = service.getStuMyQuestionDetail(vo.getLectureQuestionNum());
-		System.out.println(vo);
 		return vo;
 	}
 	
@@ -76,7 +75,6 @@ public class myQuestionController {
 	@ResponseBody
 	public myQuestionVO getProfMyQuestionDetail(myQuestionVO vo, Model model) {
 		vo = service.getProfMyQuestionDetail(vo.getLectureQuestionNum());
-		System.out.println(vo);
 		return vo;
 	}
 	

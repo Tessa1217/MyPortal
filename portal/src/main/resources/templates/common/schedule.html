@@ -228,8 +228,6 @@
         function banDate() {
           $("input[name=scheduleEndDate]").on("change", function (e) {
             let start = $(e.target).val();
-            console.log($("#scheduleStartDate").val());
-            console.log(start);
             if ($("#scheduleStartDate").val() == '') {
               fireSwal('info', '시작일 먼저 지정해주세요.')
               $("#scheduleEndDate").val('')
@@ -350,10 +348,8 @@
                       year: cYear
                     },
                     success: function (res) {
-                      console.log(res);
                       res.forEach((val) => {
                         let event = eventGenerate(val);
-                        console.log(event);
                         calendar.addEvent(event);
                       })
                     }
@@ -369,7 +365,6 @@
                 method: 'POST',
                 url: `/getCalendar`,
                 success: function (res) {
-                  console.log(res);
                 }
               })
             }
@@ -392,7 +387,6 @@
           let year = new Date().getFullYear();
           if ($('#year').val() < year + 1) {
             $('#year').val(parseInt($("#year").val()) + 1);
-            console.log($("#year").val());
             document.frm_year.submit()
           } else {
             fireSwal('info', year + 1 + '년 일정까지 확인할 수 있습니다.')
@@ -413,7 +407,6 @@
                 var rowdata = XLSX.utils
                   .sheet_to_json(read_buffer.Sheets[sheetName]);
                 inputdata = rowdata;
-                console.log(rowdata);
 
               })
           };

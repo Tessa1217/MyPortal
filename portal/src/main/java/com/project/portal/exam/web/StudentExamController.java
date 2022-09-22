@@ -45,7 +45,6 @@ public class StudentExamController {
 	
 	@RequestMapping("/student/eclass/examTake")
 	public String studentExamTake(ExamVO vo, Model model, HttpSession session) {
-		System.out.println(session.getAttribute("student"));
 		List<CourseExamVO> studentExam = service.getStudentExam(vo);
 		model.addAttribute("examInfo", vo);
 		model.addAttribute("studentExam", studentExam);
@@ -54,7 +53,6 @@ public class StudentExamController {
 	
 	@PostMapping("/student/eclass/examTake")
 	public String studentExamTaken(@RequestBody ExamTakeVO vo) {
-		System.out.println(vo);
 		service.insertExamResult(vo);
 		return "redirect:/student/eclass/examList";
 	}

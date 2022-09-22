@@ -204,7 +204,6 @@ public class ProfessorReportController {
 	public String getStudentObjectionDetail (@PathVariable String reportSubmissionCode , ReportObjectionVO vo , Model model, HttpSession session) {
 		vo.setCourseCode((String)session.getAttribute("courseCode"));
 		vo.setReportSubmissionCode(reportSubmissionCode);
-		System.out.println(service.getStudentObjectionDetail(vo));
 		model.addAttribute("reportObjectionDetail", service.getStudentObjectionDetail(vo));
 		return "professor/eclass/report/reportObjectionDetail"; 
 	}
