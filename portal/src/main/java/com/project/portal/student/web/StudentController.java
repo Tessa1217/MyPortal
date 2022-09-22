@@ -95,8 +95,8 @@ public class StudentController {
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @PathVariable String fileName) throws UnsupportedEncodingException {
-//		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
-		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
+		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
+//		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
