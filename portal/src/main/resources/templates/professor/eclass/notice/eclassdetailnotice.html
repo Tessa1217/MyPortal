@@ -26,45 +26,32 @@
 		
 	
 		<tr>
-			<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-			<td colspan="3">
+			<td class="text-bold-500" width="10%"
+									style="background-color: rgba(0, 0, 0, 0.05);">
+									<input type="hidden" id="courseNoticeNo" th:value="${selectProDetailStudyNotice.courseNoticeNo}">제목</td>
+			<td width="40%">
 			    <input class="form-control hidden" name="courseNoticeTitle" id="titleeditor" th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 			<div id="titleview" th:text="${selectProDetailStudyNotice.courseNoticeTitle}"></div></td>
-			
-		</tr>
-		
-				<tr>
-		<td class="text-bold-500"
-									style="background-color: rgba(0, 0, 0, 0.05);">
-									<input type="hidden" id="courseNoticeNo" th:value="${selectProDetailStudyNotice.courseNoticeNo}">글번호</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeNo}">
-			
-			</td>
-			
-	
-			
-		
-			
-			<td class="text-bold-500"
+			<td class="text-bold-500" width="25%"
 									style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
-			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
+			<td th:text="${selectProDetailStudyNotice.courseNoticeHit}" width="25%"></td>
 			
 		</tr>
 		
 		<tr>
-			<td class="text-bold-500"
+		
+			
+						<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">작성일자</td>
 			<td th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
-			<td class="text-bold-500"
+					<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">수정일자</td>
 			<td th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeUpdateDate, 'yyyy-MM-dd')}"></td>
+			
 		</tr>
 		
-	
-		
 		<tr>
-			<td class="text-bold-500"
+		<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">첨부파일</td>
 			<td colspan="3">
 			<th:block th:each="selectFile : ${selectFile}">
@@ -72,24 +59,19 @@
 			th:text="${selectFile.fileOriName}"></a>
 			</th:block>
 			</td>
-			
-		</tr>
 
-		<!-- <td>
-			<input type="file" name="courseNoticeAttachedFileName" multiple class="hidden" id="inputfile">
-			</td>
-			<td>
-			<a th:href="@{/courseNotice/download/{fileName}(fileName=${selectFile.fileName})}"
-			th:text="${selectFile.fileOriName}" class="hidden"><button type="button" id="filedelete">x</button></a>
-		</td>  -->
+	
+		</tr>
+		
+	
 
 		
 		<tr>
 			<td class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">내용</td>
-			<td colspan="3"><div id="contentview" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div>
-			          		 
-			    <textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}">
+			<td colspan="3">
+			<div id="contentview" style="margin-top: 2rem; min-height: 40vh;" th:utext="${selectProDetailStudyNotice.courseNoticeContent}"></div>
+			<textarea class="form-control hidden" name="courseNoticeContent" id="contenteditor" th:text="${selectProDetailStudyNotice.courseNoticeContent}">
 			    </textarea>
 			    
             </td>
