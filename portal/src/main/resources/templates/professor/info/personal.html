@@ -89,7 +89,7 @@
 							<table>
 								<tr>
 									<td><img
-										th:src="|/download${professorInfo.professorImg}|"
+										th:src="@{/download/{fileName}(fileName = ${professorInfo.professorImg})}"
 										style="width: 100%; height: 150px" class="faceImg"></td>
 								</tr>
 							</table>

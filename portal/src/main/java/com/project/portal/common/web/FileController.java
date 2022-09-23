@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -77,13 +78,19 @@ public class FileController {
 		return setResponseEntity(file.getNoticeFilePath(), file.getNoticeFileName());
 	}
 	
+	// 파일 다운로드 경로
+	@Value("${spring.servlet.multipart.location}")
+	private String uploadPath;
+	
 	// 사용자 프로필 이미지
 	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> downloadFile(@RequestHeader("User-Agent") String userAgent, 
 												@PathVariable String fileName) 
 												throws UnsupportedEncodingException {
-		return setResponseEntity(fileName, "user_profile");
+		
+		String path = uploadPath + "/images/" + fileName;
+		return setResponseEntity(path, "user_profile");
 	}
 	
 	// ResponseEntity 반환하는 메서드

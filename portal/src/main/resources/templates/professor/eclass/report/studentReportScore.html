@@ -161,8 +161,13 @@
 						fireSwal("warning", '학생의 과제 점수가 총점보다 큽니다.');
 						score = true;
 					} 
+					if (subScore == 0) {
+						fireSwal('warning', '학생의 과제 점수를 입력해주세요.');
+						score = true;
+					}
 					subList.push(makeScore(code, subScore));
 				})
+				
 				if (score == true) {
 					return;
 				}

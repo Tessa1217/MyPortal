@@ -94,7 +94,7 @@
             <div class="col-2">
               <table class="faceImg">
                 <tr>
-                  <td><img th:src="@{/download${studentInfoSelect.studentImg}}" style="width: 100%"></td>
+                  <td><img th:src="@{/download/{fileName}(fileName = ${studentInfoSelect.studentImg})}" style="width: 100%"></td>
                 </tr>
               </table>
             </div>
