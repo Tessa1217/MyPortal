@@ -26,7 +26,7 @@ caption {
 			</div>
 			<div class="right">
 				<input id="tab1" type="radio" name="tabs" checked> <label
-					for="tab1" class="tabmenu active">출석</label> <input id="tab2"
+					for="tab1" class="tabmenu active">출석률/과제진행률</label> <input id="tab2"
 					type="radio" name="tabs"> <label for="tab2" class="tabmenu">강의</label>
 				<input id="tab3" type="radio" name="tabs"><label for="tab3"
 					class="tabmenu">과제/시험</label>
@@ -34,7 +34,7 @@ caption {
 
 			<div class="card paging height-ten">
 				<div class="card-header">
-					<h4 class="center">나의 출석률</h4>
+					<h4 class="center">출석률/과제진행률</h4>
 				</div>
 				<div class="card-body">
 					<table class="table" style="text-align: center; width: 100%">
@@ -301,8 +301,6 @@ caption {
 			$('.midTest').on("click", function() {
 				let midExamCode = $('#midExamCode').val()
 				let midExamDuration = $('#midExamDuration').val()
-				console.log(midExamCode)
-				console.log(midExamDuration)
 				location.href = "/student/eclass/examList/"
 			})
 
@@ -312,14 +310,7 @@ caption {
 					function() {
 						let finalExamCode = $('#finalExamCode').val()
 						let finalExamDuration = $('#finalExamDuration').val()
-						console.log(finalExamCode)
-						console.log(finalExamDuration)
-						alert('기말시험을 시작합니다. \n시험시간은' + (finalExamDuration / 60)
-								+ '분입니다. \n확인을 누르면 시작합니다.')
-
-						location.href = "/student/eclass/examTake?examCode="
-								+ finalExamCode + "&examDuration="
-								+ finalExamDuration
+						location.href = "/student/eclass/examList/"
 					})
 		</script>
 	</th:block>

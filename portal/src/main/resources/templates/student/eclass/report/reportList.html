@@ -97,7 +97,7 @@ pre {
 								 		class="saveBtn btn btn-primary me-1 mb-1 reportSubmitPage"
 										th:data-reportcode="${reportList.reportCode}">제출</button></td>  -->  
 										
-									 <td th:if="${reportList.reportFileCode == null}">-</td>
+									 <td th:if="${reportList.reportFileCode == null}">X</td>
 									<td th:if="${reportList.reportFileCode != null}">O</td>  
 								</th:block>
 
@@ -254,7 +254,7 @@ pre {
 						$('#reportObjectionDetail').modal('show');
 					},
 					error : function(reject) {
-						alert("실패")
+
 					}
 					
 				})

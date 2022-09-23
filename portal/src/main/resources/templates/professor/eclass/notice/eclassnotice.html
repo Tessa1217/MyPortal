@@ -106,10 +106,10 @@
 		<script th:inline="javascript">
 		
 		
-		// 폼 예외 처리
+		// 폼 예외 처리 (키워드 없이 검색시 예외처리)
 		 	$('.search').on("click" , function() {
+		 	
 			if($("#type option:selected").val() == '' ) {
-				
 				
 			} else {
 				if(($('input[name=keyword]').val() == null || $('input[name=keyword]').val() == '')) {
@@ -117,11 +117,10 @@
 					return false;
 				}
 			}
+			// 검색시 페이지 번호 1로 변경
 			$('input[name=pageNum]').val('1')
 			searchForm.submit()
 		}) 
-		
-	
 		</script>
 
 

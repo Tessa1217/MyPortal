@@ -180,22 +180,16 @@
     	})
     	// 질문 상세조회
     	function courseQuestionDetail () {
-     		
-     		
     		$(".courseQuestion").on("click", function() {
     			let lectureQuestionNum = ($(this).data("code"));
-				console.log(lectureQuestionNum);
-    			$(console.log(this));
-				console.log($(this).data("code"));
     			$.ajax({
     	                type : "POST",  // 요청 타입
-    	                url : "/student/eclass/courseQuestionDetail",      // 컨트롤러에서 대기중인 URL 주소이다.
+    	                url : "/student/eclass/courseQuestionDetail",    
     	                data :  
     	                	{lectureQuestionNum : lectureQuestionNum},
     	                dataType : "json",
-    	                success : function(data){ // 비동기통신의 성공일경우 success 콜백
-    	                   console.log(data);
-    	                	// 태그 제거 및 날짜 포멧 변경
+    	                success : function(data){ 
+    	                	// 날짜 포멧 변경
     	                   let answerRegDate = data.lectureAnswerRegDate.substring(0,10)
     	                   $("#title").text(data.lectureQuestionTitle)
     	                   $("#week").text(data.weekNum)
@@ -205,7 +199,7 @@
     	                   $('#courseQuestionDetail').modal('show');
 
     	                },
-    	                error : function(reject){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+    	                error : function(reject){ 
     	                    alert("통신 실패.");
     	                }
     	            }); 
