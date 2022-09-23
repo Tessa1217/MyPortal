@@ -24,7 +24,7 @@
 			       find_code(submit_yes) as submit_yes_name,
 			       find_code(okay_yes) as okay_yes_name
 			from temp_course t
-			 <!-- where course_code =#{courseCode} -->
+			 
 			where professor_id = #{vo.professorId}
 			
 			<if test="cri.type != null and cri.type != ''">
@@ -39,40 +39,39 @@
 
 	<select id="tempcourseList"
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
-		  select * 
+		
+			 select * 
 		from(
-			select
-                    ROWNUM r,
-                    t.course_code,
-                    t.course_year,
-                    t.course_semester,
-                    t.course_name,
-                    t.course_sortation,
-                    t.course_credit,
-                    t.course_limit,
-                    t.professor_id,
-                    t.course_summary,
-                    t.textbook_reference,
-                    t.course_notes,
-                    t.report_assigned_score,
-                    t.midterm_assigned_score,
-                    t.final_assigned_score,
-                    t.att_assigned_score,
-                    t.survey_code,
-                    t.okay_yes,
-                    t.submit_yes,
-                    t.back_reason,
-                    t.depart_code,
-                    find_code(course_sortation) as course_sortation_name,
-                    find_code(submit_yes) as submit_yes_name,
-                    find_code(okay_yes) as okay_yes_name
-			from temp_course t 
-			<!-- where professor_id = #{vo.professorId}
-			
-			<if test="cri.keyword != null and cri.keyword != ''">
-				and ${cri.type} = ${cri.keyword}
-				 
-			</if> -->
+        select rownum r, 
+                     t.*
+            from (select
+                        t.course_code,
+                        t.course_year,
+                        t.course_semester,
+                        t.course_name,
+                        t.course_sortation,
+                        t.course_credit,
+                        t.course_limit,
+                        t.professor_id,
+                        t.course_summary,
+                        t.textbook_reference,
+                        t.course_notes,
+                        t.report_assigned_score,
+                        t.midterm_assigned_score,
+                        t.final_assigned_score,
+                        t.att_assigned_score,
+                        t.survey_code,
+                        t.okay_yes,
+                        t.submit_yes,
+                        t.back_reason,
+                        t.depart_code,
+                        find_code(course_sortation) as course_sortation_name,
+                        find_code(submit_yes) as submit_yes_name,
+                        find_code(okay_yes) as okay_yes_name
+                from temp_course t 
+                order by course_code desc) t
+                
+		
 			
 			  <where>
                professor_id = #{vo.professorId}
@@ -88,7 +87,7 @@
             </if>
          </if>
       </where>
-			order by course_code desc, course_year desc
+			 order by r asc
 		)
 		
 		<where>
@@ -188,67 +187,7 @@
 		#{professorId}
 		)  
 		
-		<!--  merge into temp_course t using dual on (
-		
-		
-		t.course_code = #{courseCode} 
-		
-		
-		) when matched then 
-			update  
-		   set  t.course_name = #{courseName}, 
-				t.course_year = #{courseYear}, 
-				t.course_sortation = #{courseSortation},
-				t.course_semester = #{courseSemester}, 
-				t.course_credit = #{courseCredit},
-				t.report_assigned_score = #{reportAssignedScore}, 
-				t.midterm_assigned_score= #{midtermAssignedScore},
-				t.final_assigned_score = #{finalAssignedScore}, 
-				t.course_limit = #{courseLimit},
-				t.textbook_reference = #{textbookReference}, 
-				t.course_summary = #{courseSummary},
-				t.course_notes = #{courseNotes}
-		 where  t.course_code = #{courseCode} 
-		
-		
-		when not matched then 
-
-		insert (
-		t.course_name,
-		t.course_code,
-		t.course_sortation,
-		t.course_credit,
-		t.report_assigned_score,
-		t.att_assigned_score,
-		t.midterm_assigned_score,
-		t.final_assigned_score,
-		t.course_limit,
-		t.textbook_reference,
-		t.course_summary,
-		t.course_notes,
-		t.depart_code,
-		t.course_year,
-		t.course_semester,
-		t.professor_id
-		
-		)
-		values(
-		#{courseName},
-		FIND_COURSECODE(#{departCode}),
-		#{courseSortation},
-		#{courseCredit},
-		#{reportAssignedScore},
-		#{attAssignedScore},
-		#{midtermAssignedScore},
-		#{finalAssignedScore},
-		#{courseLimit},
-		#{textbookReference},
-		#{courseSummary},
-		#{courseNotes},
-		#{departCode},
-		#{courseYear},
-		#{courseSemester},
-		#{professorId}) -->
+	
 	
 	</insert>
 
@@ -278,24 +217,6 @@ select week_num,
 		
 		
 
-		 
-		
-		<!-- <foreach collection="list" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
-		into temp_course_weekly
-		(
-		week_num,
-		week_content,
-		week_code,
-		course_code
-		values
-		)
-		(
-		#{item.weekNum},
-		#{item.weekContent},
-		#{item.courseCode}||LPAD(TO_CHAR(#{item.weekNum}), 2, '0'),
-		#{item.courseCode}
-		)
-		</foreach> -->
 	</insert>
 	
 	<update id="updateTemp" parameterType="com.project.portal.tempcourse.service.TempcourseVO">
@@ -359,34 +280,36 @@ select week_num,
 	<select id="adminTempList"
 		resultType="com.project.portal.tempcourse.service.TempcourseVO">
 
-		  select * 
+			 select * 
 		from(
-			select
-                    ROWNUM r,
-                    t.course_code,
-                    t.course_year,
-                    t.course_semester,
-                    t.course_name,
-                    t.course_sortation,
-                    t.course_credit,
-                    t.course_limit,
-                    t.professor_id,
-                    t.course_summary,
-                    t.textbook_reference,
-                    t.course_notes,
-                    t.report_assigned_score,
-                    t.midterm_assigned_score,
-                    t.final_assigned_score,
-                    t.att_assigned_score,
-                    t.survey_code,
-                    t.okay_yes,
-                    t.submit_yes,
-                    t.back_reason,
-                    t.depart_code,
-                    find_code(course_sortation) as course_sortation_name,
-                    find_code(submit_yes) as submit_yes_name,
-                    find_code(okay_yes) as okay_yes_name
-			from temp_course t 
+        select rownum r, 
+                     t.*
+            from (select
+                        t.course_code,
+                        t.course_year,
+                        t.course_semester,
+                        t.course_name,
+                        t.course_sortation,
+                        t.course_credit,
+                        t.course_limit,
+                        t.professor_id,
+                        t.course_summary,
+                        t.textbook_reference,
+                        t.course_notes,
+                        t.report_assigned_score,
+                        t.midterm_assigned_score,
+                        t.final_assigned_score,
+                        t.att_assigned_score,
+                        t.survey_code,
+                        t.okay_yes,
+                        t.submit_yes,
+                        t.back_reason,
+                        t.depart_code,
+                        find_code(course_sortation) as course_sortation_name,
+                        find_code(submit_yes) as submit_yes_name,
+                        find_code(okay_yes) as okay_yes_name
+                from temp_course t 
+                order by course_code desc) t
 		
 			<where>
 		 submit_yes = 'SUB' and okay_yes = 'A01'
@@ -403,7 +326,8 @@ select week_num,
          </if>
 	</where>
 		
-		order by course_code desc, course_year desc)
+			 order by r asc
+		)
 		
 		<where>
 			<if test="cri != null and cri != ''">
@@ -433,47 +357,38 @@ select week_num,
 	</update>
 	<select id="bringme" resultType="TempcourseVO">
 		
-	<!-- 	select t.*,
-		       find_code(course_sortation) as course_sortation_name,
-		       find_code(submit_yes) as submit_yes_name,
-		       find_code(okay_yes) as okay_yes_name
-		from temp_course t
-		where professor_id = #{vo.professorId} and okay_yes = 'A00'
-		
-		<if test="cri.keyword != null and cri.keyword != ''">
-			and ${cri.type} = ${cri.keyword}
-			 
-		</if>
-		order by course_code desc -->
-		
-		  select * 
+
+			
+				 select * 
 		from(
-			select
-                    ROWNUM r,
-                    t.course_code,
-                    t.course_year,
-                    t.course_semester,
-                    t.course_name,
-                    t.course_sortation,
-                    t.course_credit,
-                    t.course_limit,
-                    t.professor_id,
-                    t.course_summary,
-                    t.textbook_reference,
-                    t.course_notes,
-                    t.report_assigned_score,
-                    t.midterm_assigned_score,
-                    t.final_assigned_score,
-                    t.att_assigned_score,
-                    t.survey_code,
-                    t.okay_yes,
-                    t.submit_yes,
-                    t.back_reason,
-                    t.depart_code,
-                    find_code(course_sortation) as course_sortation_name,
-                    find_code(submit_yes) as submit_yes_name,
-                    find_code(okay_yes) as okay_yes_name
-			from temp_course t 
+        select rownum r, 
+                     t.*
+            from (select
+                        t.course_code,
+                        t.course_year,
+                        t.course_semester,
+                        t.course_name,
+                        t.course_sortation,
+                        t.course_credit,
+                        t.course_limit,
+                        t.professor_id,
+                        t.course_summary,
+                        t.textbook_reference,
+                        t.course_notes,
+                        t.report_assigned_score,
+                        t.midterm_assigned_score,
+                        t.final_assigned_score,
+                        t.att_assigned_score,
+                        t.survey_code,
+                        t.okay_yes,
+                        t.submit_yes,
+                        t.back_reason,
+                        t.depart_code,
+                        find_code(course_sortation) as course_sortation_name,
+                        find_code(submit_yes) as submit_yes_name,
+                        find_code(okay_yes) as okay_yes_name
+                from temp_course t 
+                order by course_code desc) t
 			  <where>
                professor_id = #{vo.professorId} and okay_yes = 'A00'
         <if test="cri.keyword != '' and cri.keyword != null or cri.type != '' and cri.type != null">
@@ -488,7 +403,7 @@ select week_num,
             </if>
          </if> 
       </where>
-			order by course_code desc, course_year desc
+			order by r asc
 		)
 		
 		<where>
@@ -571,27 +486,6 @@ select week_num,
 		
 	
 	 
-	 <!-- insert into course select
-	 	course_code,
-		course_year,
-		course_semester,
-		course_name,
-		course_sortation,
-		course_credit,
-		course_limit,
-		professor_id,
-		course_summary,
-		textbook_reference,
-		course_notes,
-		report_assigned_score,
-		midterm_assigned_score,
-		final_assigned_score,
-		att_assigned_score,
-		survey_code,
-		depart_code
-		
-		
-	  from temp_course where course_code = #{courseCode} -->
 	
 	</insert>
 	
@@ -634,11 +528,7 @@ select week_num,
 	</insert>
 	
 	<select id="tempcourseweekListList" resultType="com.project.portal.tempcourse.service.TempcourseweekVO">
-		<!-- select a.course_code, b.course_year, b.course_semester,b.week_start_date, b.week_end_date, b.week_num
-		from temp_course a
-		join semester_week b
-		on a.course_year = b.course_year
-		where a.course_code = #{courseCode} AND b.course_semester = #{courseSemester} -->
+	
 		
 		select * from semester_week
 	</select>
