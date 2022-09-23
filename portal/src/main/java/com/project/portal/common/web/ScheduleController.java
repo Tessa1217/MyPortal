@@ -41,4 +41,11 @@ public class ScheduleController {
 		schedule = bservice.getScheduleInfo(schedule);
 		service.updateReportScore(schedule);
 	}
+	
+	@Scheduled(cron = "0 0 0 1 1 ?")
+	public void manageFile() {
+		schedule.setDetailCode("BPLAN00");
+		schedule = bservice.getScheduleInfo(schedule);
+		service.manageFile(schedule);
+	}
 }

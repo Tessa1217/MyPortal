@@ -17,4 +17,7 @@
 			CALL report_score_procedure(#{year}, #{semester})
 		}
 	</update>
+	<update id="manageFile" statementType="CALLABLE">
+	
+	</update>
 </mapper>

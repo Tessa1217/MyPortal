@@ -28,7 +28,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public void updateReportScore(BachelorScheduleVO vo) {
 		mapper.updateReportScore(vo);
 	}
-	
-	
+
+	@Override
+	public void manageFile(BachelorScheduleVO vo) {
+		mapper.manageFile(vo);
+	}
 
 }
