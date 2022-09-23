@@ -45,7 +45,6 @@ public class StudentExamController {
 	
 	@RequestMapping("/student/eclass/examTake")
 	public String studentExamTake(ExamVO vo, Model model, HttpSession session) {
-		System.out.println(session.getAttribute("student"));
 		List<CourseExamVO> studentExam = service.getStudentExam(vo);
 		model.addAttribute("examInfo", vo);
 		model.addAttribute("studentExam", studentExam);
@@ -54,7 +53,6 @@ public class StudentExamController {
 	
 	@PostMapping("/student/eclass/examTake")
 	public String studentExamTaken(@RequestBody ExamTakeVO vo) {
-		System.out.println(vo);
 		service.insertExamResult(vo);
 		return "redirect:/student/eclass/examList";
 	}
@@ -62,6 +60,8 @@ public class StudentExamController {
 	@RequestMapping("/student/eclass/examResult")
 	public String examResult(ExamVO vo, Model model, HttpSession session) {
 		List<ExamResultVO> studentExam = service.getExamResult((int) session.getAttribute("id"), vo);
+		System.out.println("시험 결과");
+		System.out.println(studentExam.get(0));
 		model.addAttribute("studentExam", studentExam);
 		return "student/eclass/exam/studentExamResult";
 	}

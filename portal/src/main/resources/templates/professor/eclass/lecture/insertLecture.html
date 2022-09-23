@@ -145,15 +145,10 @@
 					document.querySelector("input[name=videoPlayTime]").value = 0;
 					if ($("input[type=file]").val()) {
 					$("input[name=lectureYoutubePath]").attr("required", false);
-					// 업로드한 파일 
-					let file = document.querySelector("input[type=file]").files[0];
-					// 비디오 태그 생성
-					let video = document.createElement("video");
-					// 파일 리더기 생성
-					let reader = new FileReader();
-					// 파일은 ArrayBuffer 형식으로 읽음
-					reader.readAsArrayBuffer(file);
-					// onload되면 실행
+					let file = document.querySelector("input[type=file]").files[0]; // 업로드한 파일 
+					let video = document.createElement("video"); // 비디오 태그 생성
+					let reader = new FileReader(); // 파일 리더기 생성
+					reader.readAsArrayBuffer(file); // 파일은 ArrayBuffer 형식으로 읽음
 					reader.onload = (e) => {
 						let buffer = e.target.result;
 						// URL 생성 위해 BLOB 형태로 만들기

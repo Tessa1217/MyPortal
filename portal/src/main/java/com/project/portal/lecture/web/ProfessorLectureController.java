@@ -72,7 +72,7 @@ public class ProfessorLectureController {
 			CourseVO course = (CourseVO) session.getAttribute("courseInfo");
 			video.setVideoName(file.getOriginalFilename());
 			video.setVideoStoredName(UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
-			video.setVideoExtension(file.getContentType().substring(5));
+			video.setVideoExtension(file.getContentType());
 			video.setVideoFilePath(uploadPath + "/video/" + course.getCourseYear() + "/" + course.getCourseSemester()
 					+ "/" + course.getCourseCode() + "/" + video.getVideoStoredName());
 			video.setProfessorId(course.getProfessorId());

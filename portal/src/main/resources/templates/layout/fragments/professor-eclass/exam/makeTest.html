@@ -176,7 +176,8 @@
 			$(document).on("click", ".createQuestionBtn", function(e) {
 				let id = $(this).parents(".questionBox").attr("id");
 				let div = $(this).parent().siblings();
-				let answer = $("div.questionBox#" + id).find("input[name=answer]").index($("input[name=answer]:checked"));
+				let answer = $("div.questionBox#" + id).find("input[name=answer]")
+				.index($("input[name=answer]:checked"));
 				if (answer == -1) {
 					fireSwal('warning', '문제의 답을 입력해주세요.');
 					return;

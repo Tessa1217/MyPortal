@@ -203,18 +203,18 @@
 						<div class="card-header">
 							<h5 class="center">공지사항</h5>
 						</div>
-						<div class="card-body" id="noticeFragment">
+						<!-- <div class="card-body" id="noticeFragment">
 							<ul>
 								<li style="margin:5% 0%;" th:each="courseNotice : ${courseNotice}">
-								<a id="noticeherf"
+									<a id="noticeherf"
 									th:href="@{/student/eclass/eclassnotice/{courseNoticeNo}(courseNoticeNo = ${courseNotice.courseNoticeNo})}">
 									<span th:text="${courseNotice.courseNoticeTitle}"></span>
-									</a>
+									</a> 
 									<span class="date"
 									th:text="${#dates.format(courseNotice.courseNoticeRegDate , 'yyyy-MM-dd')}"></span>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

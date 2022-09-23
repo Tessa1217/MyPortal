@@ -24,13 +24,11 @@
 					$("#lectureVideo").on({
 						play : function() {
 							if ($("#review").val() == 0) {
-							console.log("play");
 							updateRecord();
 							}
 						},
 						pause : function() {
 							if ($("#review").val() == 0) {
-								console.log("stop");
 								stopUpdate();
 							}
 						}

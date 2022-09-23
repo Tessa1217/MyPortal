@@ -27,31 +27,10 @@
 								th:with="r = ${studentExam[num]}">
 									<th th:text="${r.studentQuestionNum}"></th>
 									<th:block th:each="option : ${r.optionList}">
-										<th:block th:if="${r.studentRightOption != 0}">
-											<td
-												th:if="${r.studentQuestionAnswer == option.questionOptionNum}"
-												class="text-primary bold"><i
-												th:class="|fa-solid fa-${option.questionOptionNum}|"></i></td>
-											<td
-												th:unless="${r.studentQuestionAnswer == option.questionOptionNum}">
-												<i th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
-											</td>
-										</th:block>
-										<th:block th:if="${r.studentRightOption == 0}">
-											<td
-												th:if="${r.studentQuestionAnswer == option.questionOptionNum}"
-												class="text-primary"><i
-												th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
-											</td>
-											<td th:if="${r.questionAnswer == option.questionOptionNum}"
-												class="text-danger bold"><i
-												th:class="|fa-solid fa-${option.questionOptionNum}|"></i></td>
-											<td
-												th:if="${r.questionAnswer != option.questionOptionNum &&
-											r.studentQuestionAnswer != option.questionOptionNum}">
-												<i th:class="|fa-regular fa-${option.questionOptionNum}|"></i>
-											</td>
-										</th:block>
+										<td><span th:text="${option.questionOptionNum}"
+										th:classappend="${option.questionOptionNum == r.studentQuestionAnswer} ? marked
+										: (${option.questionOptionNum == r.questionAnswer && r.studentRightOption == 0} ? wrong-marked)"
+										></span></td>
 									</th:block>
 								</tr>
 							</table>
