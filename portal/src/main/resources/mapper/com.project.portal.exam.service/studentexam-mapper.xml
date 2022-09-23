@@ -9,7 +9,7 @@
 		<result column="exam_take" property="examTake"/>
 		<result column="exam_score" property="examScore" />
 		<association property="studentExam" javaType="ExamVO">
-			<id column="exam_code" property="examCode"/>
+			<id column="student_exam_code" property="examCode"/>
 			<result column="week_code" property="weekCode"/>
 			<result column="exam_reg_date" property="examRegDate"/>
 			<result column="exam_start_date" property="examStartDate"/>
@@ -31,7 +31,7 @@
 		e.exam_total_score,
 		e.exam_submit,
 		e.course_code, 
-		s.exam_code, 
+		s.exam_code student_exam_code, 
 		s.exam_score, 
 		s.student_id, 
 		s.exam_take

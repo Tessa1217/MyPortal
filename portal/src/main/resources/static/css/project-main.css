@@ -21,6 +21,21 @@
 	text-align: center;
 }
 
+.omrCard span {
+	border-radius: 100%;
+	padding: 10% 25%;
+}
+
+.marked {
+	background: #435ebe;
+	color: white;
+}
+
+.wrong-marked {
+	background: red;
+	color: white;
+}
+
 .left-f {
 	float: left;
 }

@@ -60,6 +60,8 @@ public class StudentExamController {
 	@RequestMapping("/student/eclass/examResult")
 	public String examResult(ExamVO vo, Model model, HttpSession session) {
 		List<ExamResultVO> studentExam = service.getExamResult((int) session.getAttribute("id"), vo);
+		System.out.println("시험 결과");
+		System.out.println(studentExam.get(0));
 		model.addAttribute("studentExam", studentExam);
 		return "student/eclass/exam/studentExamResult";
 	}
