@@ -145,7 +145,7 @@
 							<th>담 기</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="pBody">
 						<tr th:each="item:${coursePackage}">
 							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseSortation}"></td>
@@ -176,16 +176,18 @@
 							<th>강의 명</th>
 							<th>학 점</th>
 							<th>담당 교수</th>
+							<th hidden>수강 정원</th>
 							<th>취 소</th>
 						</tr>
 					</thead>
-					<tbody id="pBody">
-						<tr th:each="item:${coursePackageList}" id="pTr">
+					<tbody id="psBody">
+						<tr th:each="item:${coursePackageList}">
 							<td th:text="${item.courseCode}"></td>
 							<td th:text="${item.courseSortation}"></td>
 							<td th:text="${item.courseName}"></td>
 							<td th:text="${item.courseCredit}"></td>
 							<td th:text="${item.professorName}"></td>
+							<td th:text="${item.courseLimit}" hidden></td>
 							<td><button type="button"
 									class="buttonDelete btn rounded-pill btn-primary"
 									th:data-code="${item.courseCode}">취 소</button></td>
@@ -203,24 +205,27 @@
 	</div>
 		</div>
 		<script th:inline="javascript">
-
+			
+			// 총 학점 체크
 			function packageCreditTotalSum(){
 				let creditCount = 0;
 
-				Array.from(pBody.children).forEach(function(item) {
+				Array.from(psBody.children).forEach(function(item) {
 						creditCount += parseInt(item.children[3].textContent);
 				});
 				return creditCount;
 			}
-
+			
+			// 전체 학점에서 신청하는 학점 빼기
 			function setPackageTotalData() {
 				const creditCount = packageCreditTotalSum();
 				document.getElementById("total").innerHTML = (20 - creditCount);
 			}
-
+			
+			// 교양과목 체크
 			function lSortationCheck() {
 				let creditCount = 0;
-				Array.from(pBody.children).forEach(function(item) {
+				Array.from(psBody.children).forEach(function(item) {
 						if((item.children[1].textContent).startsWith('L','l') ){
 							creditCount += parseInt(item.children[3].textContent);
 						}
@@ -228,27 +233,29 @@
 				return creditCount;
 			}
 
+			// 담기 버튼 클릭
 			$(function(){
 				$(".buttonInsert").on("click", coursePackageInsert)
-				function coursePackageInsert(){
-					let code = $(this).data("code");
-					let name = $(this).data("name");
-					let allCourseCredit = packageCreditTotalSum();
-					var pTable = document.getElementById("pTable");
-					var moveTr = Array.from(pTable.children[1].children);
-					const selectCode = $(this)[0].parentElement.parentElement;
-					const selectNum = parseInt(selectCode.children[3].textContent);
-					
-					// 담은 학점 계산
-					if( (allCourseCredit + selectNum) > 20 ){
-						return fireSwal('warning','최대 학점을 초과할수없습니다.');
-					}
+			})
 
-					if((selectCode.children[1].textContent).startsWith("L","l")) {
-						let lSortationTotal = lSortationCheck();
+			//
+			function coursePackageInsert(oThis) {
+				let that = oThis instanceof jQuery.Event ? $(this) : oThis;
+				let code = oThis instanceof jQuery.Event ? that.data("code") : that.getAttribute("th:data-code");
+				let name = oThis instanceof jQuery.Event ? that.data("name") : that.getAttribute("th:data-name");
+				let allCourseCredit = packageCreditTotalSum();
+				const selectCode = $(that)[0].parentElement.parentElement;
+				const selectNum = parseInt(selectCode.children[3].textContent);
+			
+			// 담은 학점 계산
+			if( (allCourseCredit + selectNum) > 20 ){
+				return fireSwal('warning','최대 학점을 초과할수없습니다.');
+			}
 
-						if( (lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5 ){
-							return fireSwal('warning','교양학점은 5점을 초과할 수 없습니다.');
+			if((selectCode.children[1].textContent).startsWith("L","l")) {
+				let lSortationTotal = lSortationCheck();
+				if( (lSortationTotal + parseInt(selectCode.children[3].textContent)) > 5 ){
+					return fireSwal('warning','교양학점은 5점을 초과할 수 없습니다.');
 						}
 					}
 				
@@ -268,23 +275,30 @@
 								<td>${item.courseName}</td>
 								<td>${item.courseCredit}</td>
 								<td>${item.professorName}</td>
-								<td><button type="button" class="buttonDelete btn rounded-pill btn-primary" data-code="${item.courseCode}">취소</button></td>
-								</tr>`;
-							$("#pBody").append(content);
-							setPackageTotalData();
-						},
-						error:function(){
-							fireSwal('warning', '이전에 수강하신 강의입니다.');
-						}
-					});
+								<td hidden>${item.courseLimit}</td>
+								<td><button type="button" class="buttonDelete btn rounded-pill btn-primary" data-code="${item.courseCode}">취소</button></td></tr>`;
+								$("#psBody").append(content);
+								var pTable = document.getElementById("pTable");
+								var removeBtn = Array.from(pTable.children[1].children);
+								removeBtn.forEach(function(courseRemove) {
+									if(courseRemove.children[0].textContent === item.courseCode) {
+										courseRemove.remove();
+									}
+								});
+								setPackageTotalData();
+							},
+							error:function() {
+								fireSwal('warning', '이전에 수강하신 강의입니다.');
+							}
+						});
 				}
-			})
-
-			$(function(){
-				$("#pBody").on("click",".buttonDelete",coursePackageDelete)
+					// 취소 버튼
+			$(function() {
+				$("#psBody").on("click",".buttonDelete",coursePackageDelete)
 				function coursePackageDelete(){
 					let code = $(this).data("code")
 					let tr = $(this).closest("tr");
+					let cancelCourse = this.parentElement.parentElement;
 						$.ajax({
 							url:"/student/coursePackageDelete",
 							method:"post",
@@ -295,16 +309,20 @@
 							},
 							dataType:"json",
 							success:function(item){
-									tr.remove();
-
-									setPackageTotalData();
+								let cancel = "<tr><td>" + cancelCourse.children[0].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[1].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[2].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[3].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[4].textContent + "</td>"
+								+ "<td>" + cancelCourse.children[5].textContent + "</td>"
+								+ "<td><button type='button' class='buttonInsert btn rounded-pill btn-primary'	th:data-code= " + cancelCourse.children[0].textContent + " th:data-name= " + cancelCourse.children[2].textContent + " onclick='coursePackageInsert(this)' >담 기</button></td></tr>"
+								$("#pBody").append(cancel);	
+								tr.remove();
+								setPackageTotalData();
 							}
 						});
 				}
 			})
-			
-			
-			
 		</script>
 	</th:block>
 </body>

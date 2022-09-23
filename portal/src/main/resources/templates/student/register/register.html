@@ -170,7 +170,8 @@
 				<input type="button" value="코드 생성" onClick="populateform(this.form.thelength.value)"
 					class="btn rounded-pill btn-primary" id="makeCode">
 				<input type="text" size="18" name="che" id="regBtn">
-				<input type="button" value="확인" onClick="check()" class="btn rounded-pill btn-primary" id="codeCheck">
+				<input type="button" value="확인" onClick="check()" 
+					   class="btn rounded-pill btn-primary" id="codeCheck">
 				<b hidden="">문자 길이:</b><input type="text" name="thelength" size="3" value="5" hidden="">
 			</form>
 
@@ -235,7 +236,7 @@
 								<td th:text="${item.studentCount}"></td>
 								<td th:text="${item.courseLimit}"></td>
 								<td><button type="button" class="regInsertButton btn rounded-pill btn-primary" th:data-code="${item.courseCode}"
-										th:data-name="${item.courseName}">신 청</button></td>
+										th:data-name="${item.courseName}" disabled>신 청</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -327,15 +328,24 @@
 					var ableBtn = Array.from(rTable.children[1].children);
 
 					var rsTable = document.getElementById("rsTable");
-					var cancelAbleBtn = Array.from(rsTable.children[1].children);
+					var rsableBtn = Array.from(rsTable.children[1].children);
+
+					var pfTable = document.getElementById("pfTable");
+					var pfableBtn = Array.from(pfTable.children[1].children);
 
 					ableBtn.forEach(function (findDisabled) {
 						findDisabled.children[7].children[0].disabled = false;
-
-					cancelAbleBtn.forEach(function(findDisabled){
-						findDisabled.children[7].children[0].disabled = false;
-					})	
 					});
+
+					rsableBtn.forEach(function(findDisabled){
+						findDisabled.children[7].children[0].disabled = false;
+					});	
+
+					pfableBtn.forEach(function(findDisabled){
+						findDisabled.children[7].children[0].disabled = false;
+					});
+
+
 					return fireSwal('success','인증 완료');
 				} else {
 					return fireSwal('warning', '다시입력해주세요');
@@ -346,6 +356,7 @@
 				$(".regInsertButton").on("click", registerInsert)
 
 			})
+
 			// 수강 취소 후 다시 신청할 때의 오류 방지코드
 			function registerInsert(oThis) {
 				let that = oThis instanceof jQuery.Event ? $(this) : oThis;
@@ -369,6 +380,7 @@
 				if ((parseInt(selectCode.children[5].textContent)) >= (parseInt(selectCode.children[6].textContent))) {
 					return fireSwal('warning', '수강 정원이 초과했습니다.');
 				}
+
 				// 신청 버튼
 				$.ajax({
 					url: "/student/registerInsert",
@@ -402,7 +414,6 @@
 					error: function () {
 						fireSwal('warning', '이전에 수강하신 강의입니다.');
 					}
-
 				});
 			}
 

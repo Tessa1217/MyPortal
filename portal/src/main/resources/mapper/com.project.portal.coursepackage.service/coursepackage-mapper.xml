@@ -71,6 +71,7 @@
 			   b.course_name, 
 			   b.course_sortation,
 			   b.course_credit,
+			   b.course_limit,
 			   b.course_year, 
 		
 			   c.professor_name
@@ -89,6 +90,7 @@
 			   b.course_name, 
 			   b.course_sortation,
 			   b.course_credit,
+			   b.course_limit,
 			   b.course_year, 
 			   
 			   c.professor_name
@@ -105,13 +107,6 @@
 		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
 		DELETE FROM course_package
 		WHERE course_code =	#{courseCode}
-	</delete>
-
-	<!-- 수강꾸러미 전체 삭제 -->
-	<delete id="coursePackageAllDelete"
-		parameterType="com.project.portal.coursepackage.service.CoursePackageVO">
-		DELETE table course_package
-		WHERE student_id =	#{studentId}
 	</delete>
 	
 	<!-- 신청 학점 -->
