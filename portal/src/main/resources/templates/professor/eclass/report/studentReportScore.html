@@ -78,7 +78,7 @@
 								<td th:text="${re.reportAssignedScore}"></td>
 								<td th:if="${r.reportFileCode == null}">-</td>
 								<td th:if="${r.reportFileCode != null}"><a
-									th:href="@{/report/download/{reportFileCode}(reportFileCode = ${r.reportFileCode})}">과제
+									th:href="@{/report/download/{reportFileCode}/{userCode}(reportFileCode = ${r.reportFileCode}, userCode = '02')}">과제
 										파일</a></td>
 								</th:block>
 							</tr>
@@ -133,6 +133,10 @@
 			function updateScore(score, total) {
 				let subList = [];
 				let subScore = $("#score-" + score).val();
+				if (subScore == '' || !subScore) {
+					fireSwal("warning", "학생의 점수를 입력해주세요.");
+					return;
+				}
 				if (compareScore(subScore, total)) {
 					fireSwal("warning", '학생의 과제 점수가 총점보다 큽니다.');
 					return;
