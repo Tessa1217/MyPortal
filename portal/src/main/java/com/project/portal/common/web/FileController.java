@@ -2,20 +2,25 @@ package com.project.portal.common.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.portal.bachelor.service.BachelorNoticeFileVO;
 import com.project.portal.bachelor.service.BachelorNoticeVO;
@@ -41,12 +46,14 @@ public class FileController {
 	@Autowired
 	BachelorNoticeServiceImpl bnoticeService;
 	
+	// 강의 영상 파일 
 	@GetMapping("/video/download/{videoCode}")
 	public ResponseEntity<Object> videoDownload(@PathVariable String videoCode) {
 		VideoVO video = lectureService.getVideo(videoCode);
 		return setResponseEntity(video.getVideoFilePath(), video.getVideoName());
 	} 
 	
+	// 과제 파일 (교수, 학생)
 	@GetMapping("/report/download/{reportFileCode}/{userCode}")
 	public ResponseEntity<Object> fileDownload(@PathVariable String reportFileCode, 
 												@PathVariable String userCode) {
@@ -54,12 +61,14 @@ public class FileController {
 		return setResponseEntity(report.getReportFilePath(), report.getReportFileName());			
 	}
 	
+	// 강의 공지사항
 	@GetMapping("/courseNotice/download/{fileName}")
 	public ResponseEntity<Object> courseNoticefileDownload(@PathVariable String fileName) {
 		StudyNoticeFileVO fileVO = noticeService.filedownload(fileName);
 		return setResponseEntity(fileVO.getFileUrl(), fileVO.getFileName());
 	}
 	
+	// 학사 공지사항
 	@GetMapping("/notice/download/{noticeFileCode}")
 	public ResponseEntity<Object> noticeFileDownload(@PathVariable String noticeFileCode) {
 		BachelorNoticeVO vo = new BachelorNoticeVO();
@@ -67,7 +76,17 @@ public class FileController {
 		BachelorNoticeFileVO file = bnoticeService.getFile(vo);
 		return setResponseEntity(file.getNoticeFilePath(), file.getNoticeFileName());
 	}
-
+	
+	// 사용자 프로필 이미지
+	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Object> downloadFile(@RequestHeader("User-Agent") String userAgent, 
+												@PathVariable String fileName) 
+												throws UnsupportedEncodingException {
+		return setResponseEntity(fileName, "user_profile");
+	}
+	
+	// ResponseEntity 반환하는 메서드
 	public ResponseEntity<Object> setResponseEntity(String path, String downloadName) {
 		Path filePath = Paths.get(path);
 		Resource resource = null;

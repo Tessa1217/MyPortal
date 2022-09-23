@@ -89,26 +89,5 @@ public class StudentController {
 		vo.setStudentId((int) session.getAttribute("id"));
 		return service.studentInfoUpdate(vo);
 	}
-	
-	
-	//////// 정보조회 외부에서 이미지 가져오기
-	@GetMapping(value = "/download/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	@ResponseBody
-	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, @PathVariable String fileName) throws UnsupportedEncodingException {
-		Resource resource = new FileSystemResource("c:\\faces\\" + fileName); // 윈도우 경로
-//		Resource resource = new FileSystemResource(uploadPath +"/faces/" + fileName);
-		if (resource.exists() == false) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		
-		String downloadName = null;
-		if(userAgent.contains("Trident")) {
-			logger.info("IE browser");
-		}
-		headers.add("Content-Disposition", "attachment; filename=" + downloadName);
-		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-		
-	}
+
 }
