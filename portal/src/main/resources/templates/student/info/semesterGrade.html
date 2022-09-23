@@ -16,10 +16,10 @@
 				<div class="card-body">
 					<form name="frm_search" action="/student/semesterGradeSelect"
 						method="get">
-						<label for="type">개설연도</label> 
+						<label for="type">연도</label> 
 						<input th:if="${pageMaker.cri.type != null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${pageMaker.cri.type}"> 
 						<input th:if="${pageMaker.cri.type == null}" type="number" id="type" class="form-control inline width-two" name="type" th:value="${gradeYearSemester.year}"> 
-							<label for="keyword">개설학기</label> 
+							<label for="keyword">학기</label> 
 						<select id="keyword" class="form-select inline width-two"	name="keyword">
 							<option th:if="${pageMaker.cri.keyword} != null" th:each="i : ${#numbers.sequence(1, 2)}"
 								th:selected="${pageMaker.cri.keyword} == ${i}"
