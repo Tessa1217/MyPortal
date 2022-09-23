@@ -10,13 +10,13 @@
                SL.STUDENT_ID,
                (SL.WATCH_ACCUM_TIME/(L.LECTURE_ATT_TIME)) * 100 AS LEC_PROGRESS_RATE,
 		       L.WEEK_CODE,
-               W.week_start_date,
-               W.week_end_date
+               W.WEEK_START_DATE,
+               W.WEEK_END_DATE
           FROM COURSE_WEEKLY W JOIN LECTURE L
             ON W.WEEK_CODE = L.WEEK_CODE
              LEFT OUTER JOIN ( SELECT * FROM STUDENT_LECTURE SL WHERE SL.STUDENT_ID = #{studentId}) SL
              ON L.LECTURE_CODE = SL.LECTURE_CODE
-           <![CDATA[ WHERE W.COURSE_CODE = #{courseCode} and W.week_start_date < SYSDATE ]]>
+           <![CDATA[ WHERE W.COURSE_CODE = #{courseCode} AND W.WEEK_START_DATE < SYSDATE ]]>
          ORDER BY 1 ASC
 	</select>
 	
@@ -54,11 +54,11 @@
                   SELECT  CW.WEEK_NUM,
                            (SUM(CASE WHEN RS.REPORT_FILE_CODE IS NOT NULL THEN 1  ELSE 0 END) / COUNT(*)) * 100 REPORT_RATE 
                      FROM COURSE_WEEKLY CW LEFT OUTER JOIN REPORT_INFO RI
-                        ON CW.week_CODE = RI.week_CODE
-                        left outer join report_submission rs
-                        on rs.report_code = ri.report_code
-                        where cw.course_code = #{courseCode}
-                        and (rs.student_id is null or rs.student_id = #{studentId})
+                        ON CW.WEEK_CODE = RI.WEEK_CODE
+                        LEFT OUTER JOIN REPORT_SUBMISSION RS
+                        ON RS.REPORT_CODE = RI.REPORT_CODE
+                        WHERE CW.COURSE_CODE = #{courseCode}
+                        AND (RS.STUDENT_ID IS NULL OR RS.STUDENT_ID = #{studentId})
                      GROUP BY CW.WEEK_NUM
                      ORDER BY 1) B
                  WHERE A.WEEK_NUM = B.WEEK_NUM      

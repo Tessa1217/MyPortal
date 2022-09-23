@@ -19,15 +19,15 @@ import com.project.portal.course.service.CourseVO;
 import com.project.portal.course.service.impl.CourseServiceImpl;
 import com.project.portal.mycourse.web.myCourseController;
 import com.project.portal.myquestion.service.myQuestionAnswerVO;
+import com.project.portal.myquestion.service.myQuestionService;
 import com.project.portal.myquestion.service.myQuestionVO;
-import com.project.portal.myquestion.service.impl.myQuestionServiceImpl;
 
 @Controller
 public class myQuestionController {
 	private static final Logger logger = LoggerFactory.getLogger(myCourseController.class);
 	
 	@Autowired
-	myQuestionServiceImpl service;
+	myQuestionService service;
 	@Autowired CourseServiceImpl courseService;
 	@Autowired
 	BachelorNoticeServiceImpl Bservice;

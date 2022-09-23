@@ -138,8 +138,6 @@ public class StudyNoticeController {
 				
 				uploadfile.getParentFile().mkdirs();
 				
-				
-
 				// 파일을 경로에 저장
 				file.transferTo(uploadfile);
 				// 파일 업로드 정보 insert
@@ -149,7 +147,6 @@ public class StudyNoticeController {
 				filevo.setGroupNo(groupNum);
 				service.fileUpload(filevo); // 그룹번호 생성되면
 			}
-
 		}
 		// 그룹넘버 설정 및 게시글 insert
 		vo.setCourseNoticeAttachedFile(groupNum);

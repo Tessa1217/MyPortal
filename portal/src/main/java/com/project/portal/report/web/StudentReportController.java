@@ -221,9 +221,6 @@ public class StudentReportController {
 					// 변경된 파일 코드를 Report_submission 테이블에 업데이트
 					service.reportFileCodeUpdate(vo);
 		}
-
-		
-		
 		//
 		if (file.isEmpty()) {
 			// 파일이 첨부 되지 않았을 때
