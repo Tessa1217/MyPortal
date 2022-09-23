@@ -40,6 +40,7 @@
 							<label>원본 첨부파일</label>
 							<p class="originalFileBox"><a th:href="@{/notice/download/{noticeFileCode}(noticeFileCode = ${notice.noticeFileCode})}" 
 							th:text="${notice.noticeFile.noticeFileName}"></a></p>
+							<input type="hidden" name="noticeFileCode" th:value="${notice.noticeFileCode}">
 						</div>
 						<div>
 							<label>첨부파일</label> <input type="file" name="file" 

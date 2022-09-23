@@ -127,8 +127,6 @@ public class BachelorNoticeController {
 			newFile.setNoticeFileStoredName(
 					UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename());
 			newFile.setNoticeFilePath(uploadPath + "/notice/" + newFile.getNoticeFileStoredName());
-			System.out.println("파일파일파일");
-			System.out.println(vo);
 			service.updateNotice(vo, newFile);
 			// 비디오 실제 파일 업로드
 			File fileUpload = new File(newFile.getNoticeFilePath());

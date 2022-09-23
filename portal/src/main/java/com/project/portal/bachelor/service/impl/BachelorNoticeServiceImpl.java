@@ -47,8 +47,6 @@ public class BachelorNoticeServiceImpl implements BachelorNoticeService {
 	public void updateNotice(BachelorNoticeVO vo, BachelorNoticeFileVO file) {
 		if (file != null) {
 			if (vo.getNoticeFileCode() != null) {
-				System.out.println("파일파일파일파일");
-				System.out.println(vo);
 				mapper.deleteFile(vo);
 			}
 			mapper.insertFile(file);
