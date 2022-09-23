@@ -24,26 +24,24 @@
 								<tr>
 									<td class="text-bold-500"
 										style="background-color: rgba(0, 0, 0, 0.05);">제목</td>
-									<td><input class="form-control hidden"
+									<td colspan="3"><input class="form-control hidden"
 										name="courseNoticeTitle" id="titleeditor"
 										th:value="${selectProDetailStudyNotice.courseNoticeTitle}">
 										<input type="hidden" id="courseNoticeNo" name="courseNoticeNo" th:value="${selectProDetailStudyNotice.courseNoticeNo}">
 										<input type="hidden" id="courseNoticeAttachedFile" name="courseNoticeAttachedFile" th:value="${selectProDetailStudyNotice.courseNoticeAttachedFile}">
 									</td>
 
-									<td class="text-bold-500"
-										style="background-color: rgba(0, 0, 0, 0.05);">글번호</td>
-									<td id="courseNoticeNo"
-										th:text="${selectProDetailStudyNotice.courseNoticeNo}"></td>
 								</tr>
 
 								<tr>
-									<td class="text-bold-500"
+									<td class="text-bold-500" width="15%"
 										style="background-color: rgba(0, 0, 0, 0.05);">조회수</td>
-									<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"></td>
+									<td th:text="${selectProDetailStudyNotice.courseNoticeHit}"
+									width="35%"></td>
 									<td class="text-bold-500"
-										style="background-color: rgba(0, 0, 0, 0.05);">등록일</td>
-									<td
+										style="background-color: rgba(0, 0, 0, 0.05);"
+										width="15%">등록일</td>
+									<td width="35%"
 										th:text="${#dates.format(selectProDetailStudyNotice.courseNoticeRegDate, 'yyyy-MM-dd')}"></td>
 								</tr>
 

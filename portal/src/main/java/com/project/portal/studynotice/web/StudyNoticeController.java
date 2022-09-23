@@ -81,7 +81,6 @@ public class StudyNoticeController {
 	@RequestMapping("/professor/eclass/eclassnotice")
 	public String selectProStudyNoticeList(StudyNoticeVO vo, Criteria cri, Model model, HttpSession session) {
 		vo.setCourseCode((String) session.getAttribute("courseCode"));
-		System.out.println(service.selectProStudyNoticeList(vo, cri));
 		model.addAttribute("studyNoticeList", service.selectProStudyNoticeList(vo, cri));
 		model.addAttribute("pageMaker", new PageDTO(service.getTotal(vo), cri.getAmount(), cri));
 		return "professor/eclass/notice/eclassnotice";
@@ -192,7 +191,6 @@ public class StudyNoticeController {
 			if (!file.isEmpty()) {
 				// 게시물에 등록된 파일을 찾는다. (리스트)
 				String[] storedFilePath = service.getInsertFilePath(vo);
-				System.out.println(storedFilePath);
 				// 리스트의 길이만큼 반복하여 해당 경로를 찾아 존재하면 파일 삭제
 				for(int i = 0; i < storedFilePath.length; i++) {
 					File storedFile = new File(storedFilePath[i]);

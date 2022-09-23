@@ -73,9 +73,9 @@
 	</select>
 	<select id="studentCreditSum"
 		resultType="MyCourseVO">
-		select trunc(sum(semester_credit2),0) AS "credit_sum",
-				trunc(nvl(sum(credit_sum)/decode(sum(semester_credit2),0,null,sum(semester_credit2)),0),2) AS "grade_avg"
-		from s_g_vu
+		select trunc(sum(case when course_grade is null then 0 else semester_credit2 end),0) AS "credit_sum",
+				trunc(nvl(sum(credit_sum)/decode(sum(case when course_grade is null then 0 else semester_credit2 end),0,null,sum(case when course_grade is null then 0 else semester_credit2 end)),0),2) AS "grade_avg"
+		from SEMESTER_CREDITSUM_VU
 		where student_id = #{studentId}
 	</select>
 	<select id="studentSortationCredit"

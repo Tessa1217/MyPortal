@@ -75,7 +75,6 @@ public class StudentLectureController {
 		} 
 		if (vo.getCmd().equals("update")) {
 			service.updateLectureRecord(vo);
-			System.out.println(vo);
 		}
 		return "success";
 	}

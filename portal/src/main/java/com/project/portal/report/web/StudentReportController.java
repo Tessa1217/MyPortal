@@ -105,7 +105,6 @@ public class StudentReportController {
 		vo.setStudentId(studentId);
 		vo.setReportCode(reportCode);
 		cvo = (CourseVO) model.getAttribute("courseInfo");
-		System.out.println(cvo);
 		model.addAttribute("stuobjection", service.selectStuObjection(studentId));
 		model.addAttribute("stureportobjectionscore", service.selectStuReportObjection(vo));
 
@@ -117,7 +116,6 @@ public class StudentReportController {
 	public String insertReportObjection(ReportObjectionVO vo, HttpSession session) {
 		int studentId = (int) session.getAttribute("id");
 		vo.setStudentId(studentId);
-		System.out.println(vo);
 		service.insertReportObjection(vo);
 
 		return "redirect:/student/eclass/reportList";
@@ -182,14 +180,12 @@ public class StudentReportController {
 		if (!file.isEmpty()) {
 			// 등록된 첨부파일 경로 가져옴.
 			String storedFilePath = service.getFile(filevo);
-			System.out.println("등록된 첨부파일 경로: " + storedFilePath);
 			// 파일 객체 생성후 존재 시 경로를 찾아가 파일 삭제
 			File storedFile = new File(storedFilePath);
 			// DB에서 파일 삭제
 			service.deleteReportFile(filevo);
 			if (storedFile.exists()) {
 				storedFile.delete();
-				System.out.println("파일 경로 찾아가 삭제 완료!!");
 			}
 		}
 		
@@ -203,14 +199,12 @@ public class StudentReportController {
 					String fileName = UUID.randomUUID().toString().replace("-", "") + fileNameExtension;
 					// 파일 URL
 					String fileUrl = filelocation + "/subreport/" + courseCode + "/" + fileName;
-					System.out.println("새로운 파일 경로 생성 : " + fileUrl);
 					// 파일객체생성
 					File uploadfile = new File(fileUrl);
 					uploadfile.getParentFile().mkdirs();
 					
 					// 파일을 경로에 저장
 					file.transferTo(uploadfile);
-					System.out.println("새로운 파일 경로 저장 완료!!");
 					
 
 					// 파일 테이블에 insert 하기 위해 필요한 정보 set
