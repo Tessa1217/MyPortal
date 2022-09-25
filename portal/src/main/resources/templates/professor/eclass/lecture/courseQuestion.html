@@ -50,6 +50,7 @@ pre {
 									<th>제목</th>
 									<th>작성자</th>
 									<th>주차</th>
+									<th>질문 등록일</th>
 									<th>답변 여부</th>
 									<th>답변 하기</th>
 								</tr>
@@ -61,6 +62,7 @@ pre {
 									<td th:text="${courseProfQuestion.lectureQuestionTitle}"></td>
 									<td th:text="${courseProfQuestion.studentName}"></td>
 									<td th:text="${courseProfQuestion.weekNum}"></td>
+									<td th:text="${#dates.format(courseProfQuestion.lectureQuestionRegDate, 'yyyy-MM-dd')}">
 									<td th:text="${courseProfQuestion.lectureQuestionAnswerCheck}"></td>
 									<th:block>
 									<td th:if="${courseProfQuestion.lectureQuestionAnswerCheck} == 'X'">

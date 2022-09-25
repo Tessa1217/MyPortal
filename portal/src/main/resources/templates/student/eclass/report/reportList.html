@@ -69,9 +69,9 @@ pre {
 									th:text="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')}"></td>
 								<!-- 과제 마감일이 지나지않은경우 제출버튼표시  -->
 								<th:block th:if="${#dates.format(reportList.reportEndDate, 'yyyy-MM-dd')} 
-									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
 									AND ${#dates.format(reportList.reportStartDate, 'yyyy-MM-dd')} 
-									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 								<td
 									th:if="(${reportList.reportSubmissionOption == 'UNSUB'})">
 									<button
@@ -208,7 +208,7 @@ pre {
                                     				<td width="200px" class="text-bold-500"
 									style="background-color: rgba(0, 0, 0, 0.05);">이의신청답변</td>
                                     				<td>
-                                    				<pre id="reportScoreObjectionRejectionReason" style="height:auto; width:700px; word-break:break-all; , font-size:1.5em" >
+                                    				<pre id="reportScoreObjectionRejectionReason" style="height:auto; width:700px; word-break:break-all;, font-size:1.5em" >
                                     				</pre>
                                     				</td>
                                     			</tr>

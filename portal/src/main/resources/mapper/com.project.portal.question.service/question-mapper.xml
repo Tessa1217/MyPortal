@@ -19,7 +19,7 @@
 		<if test="cri.type != null and cri.type !=''">
 				AND W.WEEK_NUM = #{cri.type} 
 		</if>
-		ORDER BY 4 ASC ) A
+		ORDER BY 3 ASC ) A
 		
 		  where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>
 		  )
@@ -87,7 +87,7 @@
         <if test="cri.type != null and cri.type !=''">
 				AND W.WEEK_NUM = #{cri.type} 
 		</if>
-       ORDER BY 5 ASC) A
+       ORDER BY 7 ASC) A
        
        where <![CDATA[ROWNUM <= #{cri.pageNum} * #{cri.amount}]]>)
        	WHERE question_no > (#{cri.pageNum} - 1) * #{cri.amount}
