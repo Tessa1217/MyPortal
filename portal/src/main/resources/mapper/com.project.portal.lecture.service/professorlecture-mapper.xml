@@ -130,7 +130,7 @@
 																#{weekCode},
 																SYSDATE,
 																#{lectureStartDate},
-																#{lectureEndDate},
+																#{lectureEndDate} + 0.9999,
 																#{lectureAttTime} * 60,
 																#{lectureContent},
 																#{videoCode},
@@ -161,7 +161,7 @@
 				lecture_title = #{lectureTitle},
 				lecture_content = #{lectureContent},
 				lecture_start_date = #{lectureStartDate},
-				lecture_end_date = #{lectureEndDate},
+				lecture_end_date = #{lectureEndDate} + 0.9999,
 				video_code = #{videoCode},
 				<if test="videoCode == null">
 				lecture_youtube_path = #{lectureYoutubePath},

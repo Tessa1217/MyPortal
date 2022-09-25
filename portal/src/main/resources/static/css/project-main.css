@@ -26,6 +26,10 @@
 	padding: 10% 25%;
 }
 
+.no-bottom {
+	margin-bottom: 0!important;
+}
+
 .marked {
 	background: #435ebe;
 	color: white;
@@ -662,7 +666,7 @@ input[name=examQuestionPoint] {
 
 #loginContainer .row {
 	width: 50%;
-	height: 500px;
+	height: 600px;
 	border-radius: 20px;
 	/* background: white; */
 	background-color: #ffffff;

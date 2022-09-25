@@ -106,7 +106,7 @@
 							#{exam.weekCode},
 							SYSDATE,
 							#{exam.examStartDate},
-							#{exam.examEndDate},
+							#{exam.examEndDate} + 0.9999,
 							#{exam.examDuration} * 60,
 							#{exam.examTotalQuestion},
 							#{exam.examTotalScore},
@@ -173,7 +173,7 @@
 		UPDATE exam
 			SET week_code = #{weekCode},
 			exam_start_date = #{examStartDate},
-			exam_end_date = #{examEndDate},
+			exam_end_date = #{examEndDate} + 0.9999,
 			exam_duration = #{examDuration} * 60,
 			exam_total_question = #{examTotalQuestion},
 			exam_total_score = #{examTotalScore}

@@ -194,7 +194,7 @@
 		#{weekCode},
 		SYSDATE,
 		#{reportStartDate},
-		#{reportEndDate},
+		#{reportEndDate} + 0.9999,
 		#{reportTitle},
 		#{reportContent},
 		#{reportAssignedScore},
@@ -239,7 +239,7 @@
 		SET
 		WEEK_CODE = #{weekCode},
 		REPORT_START_DATE = #{reportStartDate},
-		REPORT_END_DATE = #{reportEndDate},
+		REPORT_END_DATE = #{reportEndDate} + 0.9999ß,
 		REPORT_TITLE = #{reportTitle},
 		REPORT_CONTENT = #{reportContent},
 		REPORT_ASSIGNED_SCORE = #{reportAssignedScore},
@@ -415,9 +415,6 @@
         join course_weekly cw
         ON ri.week_code = cw.week_code
         where ri.course_code = #{ReportObject.courseCode}
-        
-		
-		
 			<if test="cri.type != null and cri.type !=''">
 				AND CW.WEEK_NUM = #{cri.type}
 			</if>

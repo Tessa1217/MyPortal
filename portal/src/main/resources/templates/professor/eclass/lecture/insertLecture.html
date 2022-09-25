@@ -36,7 +36,9 @@
 										required>
 										<option value="">주차</option>
 										<th:block th:each="week : ${session.courseInfo.weekPlans}">
-											<option th:value="${week.weekCode}"
+											<option
+												th:if="${week.weekStartDate} gt ${#dates.createNow()}" 
+												th:value="${week.weekCode}"
 												th:data-start="${#dates.format(week.weekStartDate, 'yyyy-MM-dd')}"
 												th:data-end="${#dates.format(week.weekEndDate, 'yyyy-MM-dd')}">[[${week.weekNum}]]</option>
 										</th:block>
