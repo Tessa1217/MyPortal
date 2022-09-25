@@ -15,7 +15,7 @@
 			<div class="page-title">
 				<h3 class="inline">강의 계획서</h3>
 				<button type="button" class="inline btn btn-danger btn-sm"
-				th:onclick="|location.href='@{/student/eclass/pdf/{courseCode}(courseCode = ${courseDetail.courseCode})}'|">PDF 프린트</button>
+				th:onclick="openJasper([[${courseDetail.courseCode}]])">PDF 프린트</button>
 			</div>
 			<div class="card">
 				<div class="card-body">
@@ -81,7 +81,9 @@
 		</div>
 
 		<script th:inline="javascript">
-			
+			function openJasper(courseCode) {
+				window.open("/student/eclass/pdf/" + courseCode, "강의계획서 PDF");
+			}
 		</script>
 
 	</th:block>
