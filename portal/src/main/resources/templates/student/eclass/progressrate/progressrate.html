@@ -100,8 +100,8 @@ caption {
 									<button type="button"
 										class="saveBtn btn btn-primary me-1 mb-1 lectureStudyAttendance"
 										th:data-lecturecode="${courseRate.lectureCode}"
-										th:if="(${#dates.format(courseRate.weekStartDate, 'yyyy-MM-dd')} <
-									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}) AND (${#dates.format(courseRate.weekEndDate, 'yyyy-MM-dd')} >
+										th:if="(${#dates.format(courseRate.weekStartDate, 'yyyy-MM-dd')} <=
+									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}) AND (${#dates.format(courseRate.weekEndDate, 'yyyy-MM-dd')} >=
 									 ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')})">보러가기</button>
 									 
 									 <button type="button"
@@ -141,9 +141,9 @@ caption {
 								<!-- 제출기한 안일 때 -->
 								<th:block
 									th:if="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} 
-									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
 									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} 
-									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<td th:if="${reportRate.reportFileCode != null}">
 										<button
 											class="saveBtn btn btn-primary me-1 mb-1 reportModifyPage"
@@ -157,9 +157,9 @@ caption {
 								</th:block>
 								<th:block
 									th:unless="${#dates.format(reportRate.reportEndDate, 'yyyy-MM-dd')} 
-									> ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
+									>= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}
 									AND ${#dates.format(reportRate.reportStartDate, 'yyyy-MM-dd')} 
-									< ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+									<= ${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
 									<td>-</td>
 								</th:block>
 							</tr>
